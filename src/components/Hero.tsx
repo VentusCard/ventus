@@ -8,7 +8,7 @@ const Hero = () => {
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div className="space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
+            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               Experience the <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">Ventus Card</span> Advantage
             </h1>
             <p className="text-lg md:text-xl opacity-90 max-w-lg">

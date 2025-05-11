@@ -9,7 +9,7 @@ const Footer = () => {
           <div className="md:col-span-1">
             <div className="flex items-center gap-2 mb-4">
               <CreditCard className="h-6 w-6 text-blue-400" />
-              <span className="font-bold text-xl text-white">Ventus Card</span>
+              <span className="font-display font-bold text-xl text-white">Ventus Card</span>
             </div>
             <p className="text-sm">
               Redefining premium credit card experiences with unmatched benefits and rewards.
@@ -17,7 +17,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-medium text-white mb-4">Products</h3>
+            <h3 className="font-display font-medium text-white mb-4">Products</h3>
             <ul className="space-y-2 text-sm">
               <li><a href="#" className="hover:text-white transition-colors">Standard Card</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Premium Card</a></li>
@@ -27,7 +27,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-medium text-white mb-4">Resources</h3>
+            <h3 className="font-display font-medium text-white mb-4">Resources</h3>
             <ul className="space-y-2 text-sm">
               <li><a href="#" className="hover:text-white transition-colors">Help Center</a></li>
               <li><a href="#" className="hover:text-white transition-colors">FAQs</a></li>
@@ -37,7 +37,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h3 className="font-medium text-white mb-4">Legal</h3>
+            <h3 className="font-display font-medium text-white mb-4">Legal</h3>
             <ul className="space-y-2 text-sm">
               <li><a href="#" className="hover:text-white transition-colors">Terms of Service</a></li>
               <li><a href="#" className="hover:text-white transition-colors">Privacy Policy</a></li>

@@ -52,7 +52,7 @@ const Benefits = () => {
     <section id="benefits" className="py-20">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Card Benefits</h2>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">Card Benefits</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Choose the tier that fits your lifestyle and financial goals
           </p>
@@ -72,10 +72,10 @@ const Benefits = () => {
                 </div>
               )}
               <CardHeader className={`pb-8 ${tier.highlighted ? 'pt-8' : 'pt-6'}`}>
-                <CardTitle className="text-xl">{tier.name}</CardTitle>
+                <CardTitle className="font-display text-xl">{tier.name}</CardTitle>
                 <p className="text-muted-foreground mt-2">{tier.description}</p>
                 <div className="mt-4">
-                  <span className="text-3xl font-bold">{tier.price}</span>
+                  <span className="font-display text-3xl font-bold">{tier.price}</span>
                   <span className="text-muted-foreground">{tier.period}</span>
                 </div>
               </CardHeader>
