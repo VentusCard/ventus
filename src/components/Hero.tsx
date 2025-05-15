@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
 
 const Hero = () => {
   return (
@@ -18,8 +19,8 @@ const Hero = () => {
               <Button size="lg" className="bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500">
                 Apply Now
               </Button>
-              <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10">
-                Learn More
+              <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10" asChild>
+                <Link to="/rewards">How it Works</Link>
               </Button>
             </div>
           </div>

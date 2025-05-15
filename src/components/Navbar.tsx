@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils"
 import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 import { Button } from "@/components/ui/button"
 import { CreditCard } from "lucide-react"
+import { Link } from "react-router-dom"
 
 const Navbar = () => {
   return (
@@ -26,8 +27,8 @@ const Navbar = () => {
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink className={navigationMenuTriggerStyle()} href="#rewards">
-                Rewards
+              <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "cursor-pointer")} asChild>
+                <Link to="/rewards">Rewards</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>

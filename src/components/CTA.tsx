@@ -1,5 +1,6 @@
 
 import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
 
 const CTA = () => {
   return (
@@ -13,8 +14,8 @@ const CTA = () => {
           <Button size="lg" className="bg-white text-blue-900 hover:bg-white/90">
             Apply Now
           </Button>
-          <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10">
-            Contact Us
+          <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10" asChild>
+            <Link to="/rewards">How it Works</Link>
           </Button>
         </div>
       </div>
