@@ -1,8 +1,7 @@
-
 #root {
-  max-width: 100%;
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0;
+  padding: 2rem;
   text-align: center;
 }
 
@@ -40,65 +39,4 @@
 
 .read-the-docs {
   color: #888;
-}
-
-/* Mobile optimizations */
-@media (max-width: 640px) {
-  .sm-container {
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
-  
-  .sm-py {
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-  }
-  
-  .sm-text {
-    font-size: 0.875rem;
-  }
-}
-
-/* Gradient effects */
-.gradient-text-blue {
-  background: linear-gradient(to right, #60a5fa, #34d399);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.card-shine {
-  position: relative;
-  overflow: hidden;
-}
-
-.card-shine::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 80%);
-  transform: rotate(30deg);
-  pointer-events: none;
-}
-
-/* Responsive container */
-.container-fluid {
-  width: 100%;
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0 1rem;
-}
-
-@media (min-width: 640px) {
-  .container-fluid {
-    padding: 0 1.5rem;
-  }
-}
-
-@media (min-width: 768px) {
-  .container-fluid {
-    padding: 0 2rem;
-  }
 }
