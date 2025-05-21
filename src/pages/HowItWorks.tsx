@@ -104,34 +104,30 @@ const HowItWorks = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-blue">
+    <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
-      <div className="bg-gradient-to-b from-blue-900 to-blue-950 text-white py-16 relative overflow-hidden">
+      <div className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 text-white py-16 relative overflow-hidden">
         {/* Abstract tech pattern background */}
-        <div className="absolute inset-0">
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_top_right,#3b82f6_0%,transparent_70%)]"></div>
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(ellipse_at_bottom_left,#6366f1_0%,transparent_70%)]"></div>
-          <div className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-30"></div>
-          <div className="absolute bottom-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-indigo-400 to-transparent opacity-20"></div>
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute left-0 right-0 top-0 bottom-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.2),transparent_50%)]"></div>
+          <div className="absolute left-20 top-10 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl opacity-20"></div>
+          <div className="absolute right-20 bottom-10 w-60 h-60 bg-cyan-300 rounded-full filter blur-3xl opacity-20"></div>
         </div>
         
         <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 text-gradient-blue">
+          <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
             How Ventus Card Works
           </h1>
-          <p className="text-lg md:text-xl max-w-3xl text-sky-100">
+          <p className="text-lg md:text-xl max-w-3xl text-blue-100">
             Complete this short questionnaire to discover how Ventus Card can be personalized 
             for your unique lifestyle and spending habits. Get ready to unlock a tailored rewards experience.
           </p>
         </div>
       </div>
       
-      <div className="flex-grow relative">
-        {/* Subtle animated background pattern */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiMyMDRkODEiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yLjItMS44LTQtNC00cy00IDEuOC00IDQgMS44IDQgNCA0IDQtMS44IDQtNHptMC0zMGMwLTIuMi0xLjgtNC00LTRzLTQgMS44LTQgNCAxLjggNCA0IDQgNC0xLjggNC00ek02IDRjMC0yLjItMS44LTQtNC00cy00IDEuOC00IDQgMS44IDQgNCA0IDQtMS44IDQtNHptMCAzMGMwLTIuMi0xLjgtNC00LTRzLTQgMS44LTQgNCAxLjggNCA0IDQgNC0xLjggNC00eiI+PC9wYXRoPjwvZz48L2c+PC9zdmc+')] opacity-70"></div>
-        
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12 relative z-10">
+      <div className="flex-grow">
+        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <div className="mb-8">
             <div className="flex items-center mb-6">
               {[1, 2, 3, 4].map((stepNumber) => (
@@ -139,10 +135,10 @@ const HowItWorks = () => {
                   <div 
                     className={`h-12 w-12 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
                       step > stepNumber 
-                        ? 'bg-gradient-to-r from-emerald-500 to-emerald-400 text-white glow-sm' 
+                        ? 'bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-md' 
                         : step === stepNumber 
-                          ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white glow ring-4 ring-blue-600/20' 
-                          : 'bg-blue-900/50 text-sky-300 border border-blue-800'
+                          ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md ring-4 ring-blue-100' 
+                          : 'bg-slate-200 text-slate-600'
                     }`}
                   >
                     {step > stepNumber ? (
@@ -153,23 +149,23 @@ const HowItWorks = () => {
                   </div>
                   {stepNumber < 4 && (
                     <div className={`h-1 w-16 md:w-24 transition-all duration-300 ${
-                      step > stepNumber ? 'bg-gradient-to-r from-emerald-400 to-emerald-300' : 'bg-blue-800/50'
+                      step > stepNumber ? 'bg-gradient-to-r from-green-400 to-emerald-300' : 'bg-slate-200'
                     }`}></div>
                   )}
                 </div>
               ))}
             </div>
             <div className="flex justify-between items-center">
-              <p className="text-sky-300 font-medium">
+              <p className="text-slate-700 font-medium">
                 Step {step} of 4
               </p>
-              <p className="text-gradient-blue font-semibold">
+              <p className="text-blue-600 font-semibold">
                 {getStepTitle(step)}
               </p>
             </div>
           </div>
           
-          <div className="bg-gradient-card rounded-xl shadow-xl p-6 md:p-8 mb-8 border border-blue-800/50 backdrop-blur-sm hover:border-blue-700/50 transition-colors">
+          <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 mb-8 border border-slate-100">
             {renderStep()}
           </div>
           
@@ -178,7 +174,7 @@ const HowItWorks = () => {
               <Button 
                 variant="outline" 
                 onClick={goToPreviousStep}
-                className="flex items-center gap-2 border-blue-800 hover:bg-blue-900/50 hover:text-sky-200 transition-all duration-200 bg-transparent text-sky-300"
+                className="flex items-center gap-2 border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200"
               >
                 <ArrowLeft size={16} /> Back
               </Button>
@@ -190,12 +186,12 @@ const HowItWorks = () => {
               <Button 
                 onClick={goToNextStep} 
                 disabled={isNextButtonDisabled()}
-                className={`flex items-center gap-2 bg-gradient-glow hover:from-blue-700 hover:to-blue-600 shadow-lg shadow-blue-600/20 transition-all duration-200 text-white ${isNextButtonDisabled() ? 'opacity-50' : ''}`}
+                className={`flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md transition-all duration-200 ${isNextButtonDisabled() ? 'opacity-50' : ''}`}
               >
                 Next <ArrowRight size={16} />
               </Button>
             ) : (
-              <Button className="bg-gradient-glow hover:from-blue-700 hover:to-blue-600 shadow-lg shadow-blue-600/20 transition-all duration-200 text-white">
+              <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md transition-all duration-200">
                 Join the Waitlist
               </Button>
             )}
