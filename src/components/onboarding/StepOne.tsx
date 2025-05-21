@@ -1,7 +1,15 @@
+
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/HowItWorks";
-import { Activity, Star, Wallet } from "lucide-react";
+import { 
+  Dumbbell, 
+  Heartbeat, 
+  Cat, 
+  Gamepad2, 
+  Palette, 
+  Home 
+} from "lucide-react";
 
 interface StepOneProps {
   selectedGoal: LifestyleGoal | null;
@@ -22,7 +30,7 @@ const goalData: GoalData[] = [
   {
     id: "sports",
     name: "Sports",
-    icon: <Activity className="h-8 w-8 text-blue-500" />,
+    icon: <Dumbbell className="h-8 w-8 text-blue-500" />,
     description: "Maximize rewards on sports equipment, apparel, subscriptions, and event tickets.",
     status: "current",
     year: "now",
@@ -56,7 +64,7 @@ const goalData: GoalData[] = [
   {
     id: "wellness",
     name: "Wellness",
-    icon: <Star className="h-8 w-8 text-green-500" />,
+    icon: <Heartbeat className="h-8 w-8 text-emerald-500" />,
     description: "Earn more on fitness programs, mental health services, and wellness products.",
     status: "upcoming",
     year: "one",
@@ -90,7 +98,7 @@ const goalData: GoalData[] = [
   {
     id: "pets",
     name: "Pet Owners",
-    icon: <Star className="h-8 w-8 text-orange-500" />,
+    icon: <Cat className="h-8 w-8 text-amber-500" />,
     description: "Get rewarded on pet supplies, veterinary services, and grooming expenses.",
     status: "upcoming",
     year: "one",
@@ -124,7 +132,7 @@ const goalData: GoalData[] = [
   {
     id: "gamers",
     name: "Gamers",
-    icon: <Star className="h-8 w-8 text-purple-500" />,
+    icon: <Gamepad2 className="h-8 w-8 text-purple-600" />,
     description: "Level up your rewards on gaming platforms, hardware, and subscriptions.",
     status: "future",
     year: "two",
@@ -158,7 +166,7 @@ const goalData: GoalData[] = [
   {
     id: "creatives",
     name: "Creatives",
-    icon: <Star className="h-8 w-8 text-pink-500" />,
+    icon: <Palette className="h-8 w-8 text-pink-500" />,
     description: "Boost rewards on creative software, supplies, and hardware.",
     status: "future",
     year: "two",
@@ -192,7 +200,7 @@ const goalData: GoalData[] = [
   {
     id: "homeowners",
     name: "Homeowners",
-    icon: <Wallet className="h-8 w-8 text-amber-500" />,
+    icon: <Home className="h-8 w-8 text-cyan-600" />,
     description: "Earn more on home improvement, furniture, and home services.",
     status: "future",
     year: "two",
