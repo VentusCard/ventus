@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/HowItWorks";
@@ -10,7 +9,6 @@ import {
   Palette, 
   Home 
 } from "lucide-react";
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 interface StepOneProps {
   selectedGoal: LifestyleGoal | null;
@@ -308,6 +306,7 @@ const StepOne = ({ selectedGoal, onSelectGoal }: StepOneProps) => {
                         </p>
                       </div>
                     ))}
+                    <p className="text-sm font-medium text-slate-700 italic mt-3">And other related purchases!</p>
                   </div>
                 </div>
               )}
