@@ -68,8 +68,8 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
                 </div>
                 
                 <div>
-                  <p className="text-sm opacity-80">Effective Cashback</p>
-                  <p className="font-bold text-3xl">{onboardingData.cashbackPercentage}%</p>
+                  <p className="text-sm opacity-80">Approximate Savings</p>
+                  <p className="font-bold text-3xl">{onboardingData.minCashbackPercentage}% - {onboardingData.maxCashbackPercentage}%</p>
                   <p className="text-sm opacity-80">When redeemed for travel</p>
                 </div>
               </div>

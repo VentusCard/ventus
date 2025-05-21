@@ -26,7 +26,9 @@ export interface OnboardingData {
   spendingAmount: number;
   estimatedAnnualSpend: number;
   estimatedPoints: number;
-  cashbackPercentage: number;
+  minCashbackPercentage: number;
+  maxCashbackPercentage: number;
+  cashbackPercentage?: number; // Keep for backward compatibility
 }
 
 const HowItWorks = () => {
@@ -38,7 +40,9 @@ const HowItWorks = () => {
     spendingAmount: 200,
     estimatedAnnualSpend: 2400,
     estimatedPoints: 12000,
-    cashbackPercentage: 5
+    minCashbackPercentage: 5,
+    maxCashbackPercentage: 11,
+    cashbackPercentage: 5 // Keep for backward compatibility
   });
 
   const goToNextStep = () => {

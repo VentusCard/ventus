@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -30,14 +29,16 @@ const StepTwo = ({ onboardingData, updateOnboardingData }: StepTwoProps) => {
     // Calculate points (5x points on the spending amount)
     const estimatedPoints = annualSpend * 5;
     
-    // Calculate random cashback percentage between 5% and 11%
-    const cashbackPercentage = 5 + Math.floor(Math.random() * 6);
+    // Calculate min and max cashback percentages (5% and 11%)
+    const minCashbackPercentage = 5;
+    const maxCashbackPercentage = 11;
     
     updateOnboardingData({ 
       spendingAmount: amount,
       estimatedAnnualSpend: annualSpend,
       estimatedPoints: estimatedPoints,
-      cashbackPercentage: cashbackPercentage
+      minCashbackPercentage: minCashbackPercentage,
+      maxCashbackPercentage: maxCashbackPercentage
     });
   }, [amount, onboardingData.spendingFrequency, updateOnboardingData]);
 
@@ -189,7 +190,7 @@ const StepTwo = ({ onboardingData, updateOnboardingData }: StepTwoProps) => {
               {onboardingData.estimatedPoints.toLocaleString()} points
             </div>
             <p className="text-slate-600 text-sm">
-              Approximately {onboardingData.cashbackPercentage}% value when redeemed for travel
+              Approximate savings of {onboardingData.minCashbackPercentage}% to {onboardingData.maxCashbackPercentage}% when redeemed for travel
             </p>
           </CardContent>
         </Card>
