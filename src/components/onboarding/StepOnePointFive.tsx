@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LifestyleGoal, Subcategory } from "@/pages/HowItWorks";
@@ -273,7 +274,11 @@ const StepOnePointFive = ({
             <h3 className="font-display text-xl font-bold mb-6">{getGoalName(selectedGoal)} Subcategories</h3>
             <div className="space-y-4">
               {goalSubcategories.map((subcategory) => (
-                <div key={subcategory} className="border border-slate-200 rounded-lg overflow-hidden">
+                <Collapsible 
+                  key={subcategory} 
+                  open={openSubcategories.includes(subcategory) && selectedSubcategories.includes(subcategory)}
+                  className="border border-slate-200 rounded-lg overflow-hidden"
+                >
                   <div 
                     className={`flex items-center justify-between p-4 cursor-pointer ${
                       selectedSubcategories.includes(subcategory) ? 'bg-blue-50 border-b border-blue-100' : 'bg-white hover:bg-slate-50'
@@ -310,26 +315,24 @@ const StepOnePointFive = ({
                     )}
                   </div>
                   
-                  {selectedSubcategories.includes(subcategory) && (
-                    <Collapsible open={openSubcategories.includes(subcategory)}>
-                      <CollapsibleContent>
-                        <div className="bg-slate-50 p-4">
-                          <div className="flex items-center gap-2 mb-3 text-blue-700">
-                            <ShoppingBag className="h-4 w-4" />
-                            <h4 className="font-medium">Example Merchant Deals</h4>
-                          </div>
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                            {getMerchantDealsForSubcategory(subcategory).map((merchant, index) => (
-                              <div key={index} className="bg-white p-3 rounded-md shadow-sm">
-                                <span className="font-medium">{merchant}</span>
-                              </div>
-                            ))}
-                          </div>
+                  <CollapsibleContent>
+                    {selectedSubcategories.includes(subcategory) && (
+                      <div className="bg-slate-50 p-4">
+                        <div className="flex items-center gap-2 mb-3 text-blue-700">
+                          <ShoppingBag className="h-4 w-4" />
+                          <h4 className="font-medium">Example Merchant Deals</h4>
                         </div>
-                      </CollapsibleContent>
-                    </Collapsible>
-                  )}
-                </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                          {getMerchantDealsForSubcategory(subcategory).map((merchant, index) => (
+                            <div key={index} className="bg-white p-3 rounded-md shadow-sm">
+                              <span className="font-medium">{merchant}</span>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </CollapsibleContent>
+                </Collapsible>
               ))}
             </div>
           </CardContent>
