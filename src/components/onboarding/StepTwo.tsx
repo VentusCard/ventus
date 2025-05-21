@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -31,7 +32,7 @@ const StepTwo = ({ onboardingData, updateOnboardingData }: StepTwoProps) => {
     
     // Calculate min and max cashback percentages (5% and 11%)
     const minCashbackPercentage = 5;
-    const maxCashbackPercentage = 11;
+    const maxCashbackPercentage = 15;
     
     updateOnboardingData({ 
       spendingAmount: amount,
@@ -68,6 +69,15 @@ const StepTwo = ({ onboardingData, updateOnboardingData }: StepTwoProps) => {
         return 3000;
     }
   };
+
+  // Calculate the min and max dollar savings based on percentages
+  const calculateSavingsRange = () => {
+    const minSavings = Math.round(onboardingData.estimatedAnnualSpend * (onboardingData.minCashbackPercentage / 100));
+    const maxSavings = Math.round(onboardingData.estimatedAnnualSpend * (onboardingData.maxCashbackPercentage / 100));
+    return { minSavings, maxSavings };
+  };
+  
+  const { minSavings, maxSavings } = calculateSavingsRange();
 
   return (
     <div>
@@ -190,7 +200,7 @@ const StepTwo = ({ onboardingData, updateOnboardingData }: StepTwoProps) => {
               {onboardingData.estimatedPoints.toLocaleString()} points
             </div>
             <p className="text-slate-600 text-sm">
-              Approximate savings of {onboardingData.minCashbackPercentage}% to {onboardingData.maxCashbackPercentage}% when redeemed for travel
+              Approximately {formatCurrency(minSavings)} to {formatCurrency(maxSavings)} in annual savings
             </p>
           </CardContent>
         </Card>

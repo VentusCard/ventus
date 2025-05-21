@@ -17,6 +17,15 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
       maximumFractionDigits: 0
     }).format(value);
   };
+  
+  // Calculate the min and max dollar savings based on percentages
+  const calculateSavingsRange = () => {
+    const minSavings = Math.round(onboardingData.estimatedAnnualSpend * (onboardingData.minCashbackPercentage / 100));
+    const maxSavings = Math.round(onboardingData.estimatedAnnualSpend * (onboardingData.maxCashbackPercentage / 100));
+    return { minSavings, maxSavings };
+  };
+  
+  const { minSavings, maxSavings } = calculateSavingsRange();
 
   return (
     <div>
@@ -69,7 +78,7 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
                 
                 <div>
                   <p className="text-sm opacity-80">Approximate Savings</p>
-                  <p className="font-bold text-3xl">{onboardingData.minCashbackPercentage}% - {onboardingData.maxCashbackPercentage}%</p>
+                  <p className="font-bold text-3xl">{formatCurrency(minSavings)} - {formatCurrency(maxSavings)}</p>
                   <p className="text-sm opacity-80">When redeemed for travel</p>
                 </div>
               </div>
