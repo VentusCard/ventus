@@ -108,7 +108,7 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
                   <p className="font-bold text-3xl bg-gradient-to-r from-cyan-300 to-white bg-clip-text text-transparent">
                     {formatCurrency(minSavings)} - {formatCurrency(maxSavings)}
                   </p>
-                  <p className="text-sm opacity-80">When redeemed for travel</p>
+                  {/* "When redeemed for travel" text has been removed */}
                 </div>
               </div>
             </CardContent>
