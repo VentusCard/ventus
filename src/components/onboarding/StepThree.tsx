@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { OnboardingData } from "@/pages/HowItWorks";
 import { Check, Award, TrendingUp, Target, Shield, User } from "lucide-react";
@@ -178,9 +177,9 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
                     <Check className="h-4 w-4 text-white" />
                   </div>
                   <div>
-                    <p className="font-medium text-emerald-700">Concierge Services</p>
+                    <p className="font-medium text-emerald-700">Multiple Redemption Options</p>
                     <p className="text-slate-600 text-sm">
-                      Access to specialized concierge for your lifestyle needs
+                      Redeem your points for balance, merchants, experiences or transfer to partner organization
                     </p>
                   </div>
                 </div>
