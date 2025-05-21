@@ -1,10 +1,9 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/HowItWorks";
 import { 
   Dumbbell, 
-  Heartbeat, 
+  Heart, 
   Cat, 
   Gamepad2, 
   Palette, 
@@ -64,7 +63,7 @@ const goalData: GoalData[] = [
   {
     id: "wellness",
     name: "Wellness",
-    icon: <Heartbeat className="h-8 w-8 text-emerald-500" />,
+    icon: <Heart className="h-8 w-8 text-emerald-500" />,
     description: "Earn more on fitness programs, mental health services, and wellness products.",
     status: "upcoming",
     year: "one",
