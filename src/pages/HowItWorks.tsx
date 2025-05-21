@@ -104,22 +104,24 @@ const HowItWorks = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-900 to-slate-800">
       <Navbar />
       
-      <div className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 text-white py-16 relative overflow-hidden">
-        {/* Abstract tech pattern background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute left-0 right-0 top-0 bottom-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.2),transparent_50%)]"></div>
-          <div className="absolute left-20 top-10 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl opacity-20"></div>
-          <div className="absolute right-20 bottom-10 w-60 h-60 bg-cyan-300 rounded-full filter blur-3xl opacity-20"></div>
+      {/* Header section with enhanced gradients */}
+      <div className="gradient-primary py-12 sm:py-16 relative overflow-hidden">
+        {/* Enhanced abstract pattern background */}
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute left-0 right-0 top-0 bottom-0 bg-[radial-gradient(ellipse_at_30%_50%,rgba(100,149,237,0.3),transparent_70%)]"></div>
+          <div className="absolute left-10 top-10 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl opacity-30"></div>
+          <div className="absolute right-10 bottom-10 w-60 h-60 bg-cyan-300 rounded-full filter blur-3xl opacity-20"></div>
+          <div className="absolute left-1/2 top-1/2 w-80 h-80 bg-indigo-500 rounded-full filter blur-3xl opacity-10 transform -translate-x-1/2 -translate-y-1/2"></div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold mb-4 sm:mb-6 gradient-text">
             How Ventus Card Works
           </h1>
-          <p className="text-lg md:text-xl max-w-3xl text-blue-100">
+          <p className="text-base sm:text-lg md:text-xl max-w-3xl text-readable-muted">
             Complete this short questionnaire to discover how Ventus Card can be personalized 
             for your unique lifestyle and spending habits. Get ready to unlock a tailored rewards experience.
           </p>
@@ -127,54 +129,57 @@ const HowItWorks = () => {
       </div>
       
       <div className="flex-grow">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-          <div className="mb-8">
-            <div className="flex items-center mb-6">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-8 sm:py-12">
+          {/* Progress stepper - mobile optimized */}
+          <div className="mb-6 sm:mb-8">
+            <div className="flex items-center mb-4 sm:mb-6 overflow-x-auto pb-2 sm:pb-0 scrollbar-none">
               {[1, 2, 3, 4].map((stepNumber) => (
-                <div key={stepNumber} className="flex items-center">
+                <div key={stepNumber} className="flex items-center flex-shrink-0">
                   <div 
-                    className={`h-12 w-12 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
+                    className={`h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 ${
                       step > stepNumber 
                         ? 'bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-md' 
                         : step === stepNumber 
-                          ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md ring-4 ring-blue-100' 
-                          : 'bg-slate-200 text-slate-600'
+                          ? 'gradient-highlight text-white shadow-md ring-4 ring-blue-500/20' 
+                          : 'bg-slate-700 text-slate-300'
                     }`}
                   >
                     {step > stepNumber ? (
-                      <CheckCircle2 className="h-5 w-5" />
+                      <CheckCircle2 className="h-4 w-4 sm:h-5 sm:w-5" />
                     ) : (
                       stepNumber
                     )}
                   </div>
                   {stepNumber < 4 && (
-                    <div className={`h-1 w-16 md:w-24 transition-all duration-300 ${
-                      step > stepNumber ? 'bg-gradient-to-r from-green-400 to-emerald-300' : 'bg-slate-200'
+                    <div className={`h-1 w-10 sm:w-16 md:w-24 transition-all duration-300 ${
+                      step > stepNumber ? 'bg-gradient-to-r from-green-400 to-emerald-300' : 'bg-slate-700'
                     }`}></div>
                   )}
                 </div>
               ))}
             </div>
-            <div className="flex justify-between items-center">
-              <p className="text-slate-700 font-medium">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+              <p className="text-slate-400 text-sm sm:text-base font-medium mb-1 sm:mb-0">
                 Step {step} of 4
               </p>
-              <p className="text-blue-600 font-semibold">
+              <p className="text-blue-400 font-semibold text-base sm:text-lg">
                 {getStepTitle(step)}
               </p>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 mb-8 border border-slate-100">
+          {/* Main content card with enhanced gradients */}
+          <div className="gradient-card rounded-xl shadow-xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 card-glow">
             {renderStep()}
           </div>
           
+          {/* Navigation buttons */}
           <div className="flex justify-between">
             {step > 1 ? (
               <Button 
                 variant="outline" 
                 onClick={goToPreviousStep}
-                className="flex items-center gap-2 border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200"
+                className="flex items-center gap-2 border-slate-600 hover:bg-slate-700 hover:text-slate-200 transition-all duration-200"
               >
                 <ArrowLeft size={16} /> Back
               </Button>
@@ -186,12 +191,12 @@ const HowItWorks = () => {
               <Button 
                 onClick={goToNextStep} 
                 disabled={isNextButtonDisabled()}
-                className={`flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md transition-all duration-200 ${isNextButtonDisabled() ? 'opacity-50' : ''}`}
+                className={`flex items-center gap-2 gradient-button shadow-md ${isNextButtonDisabled() ? 'opacity-50' : ''}`}
               >
                 Next <ArrowRight size={16} />
               </Button>
             ) : (
-              <Button className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md transition-all duration-200">
+              <Button className="gradient-button shadow-md">
                 Join the Waitlist
               </Button>
             )}
