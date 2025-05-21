@@ -12,7 +12,7 @@ const Navbar = () => {
       <div className="flex h-16 items-center px-4 md:px-8 max-w-7xl mx-auto">
         <div className="flex items-center mr-4 gap-2">
           <CreditCard className="h-6 w-6 text-primary" />
-          <span className="font-display font-bold text-xl">Ventus Card</span>
+          <Link to="/" className="font-display font-bold text-xl">Ventus Card</Link>
         </div>
         <NavigationMenu className="mx-4 md:mx-6 hidden md:flex">
           <NavigationMenuList>
@@ -29,6 +29,11 @@ const Navbar = () => {
             <NavigationMenuItem>
               <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "cursor-pointer")} asChild>
                 <Link to="/rewards">Rewards</Link>
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "cursor-pointer")} asChild>
+                <Link to="/how-it-works">How It Works</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>

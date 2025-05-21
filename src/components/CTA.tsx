@@ -15,7 +15,7 @@ const CTA = () => {
             Apply Now
           </Button>
           <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10" asChild>
-            <Link to="/rewards">How it Works</Link>
+            <Link to="/how-it-works">How it Works</Link>
           </Button>
         </div>
       </div>
