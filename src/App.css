@@ -1,8 +1,11 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+
+/* Custom styles for dark blue theme */
+.card {
+  @apply bg-gradient-card;
+}
+
+.read-the-docs {
+  @apply text-blue-300;
 }
 
 .logo {
@@ -12,10 +15,10 @@
   transition: filter 300ms;
 }
 .logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+  filter: drop-shadow(0 0 2em rgba(56, 189, 248, 0.7));
 }
 .logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+  filter: drop-shadow(0 0 2em rgba(56, 189, 248, 0.7));
 }
 
 @keyframes logo-spin {
@@ -33,10 +36,16 @@
   }
 }
 
-.card {
-  padding: 2em;
+/* Animated glow effect for accent elements */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 25px rgba(56, 189, 248, 0.7);
+  }
 }
 
-.read-the-docs {
-  color: #888;
+.pulse-glow {
+  animation: pulse-glow 3s infinite;
 }
