@@ -10,10 +10,21 @@ import {
   Palette, 
   Home 
 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 
 interface StepOneProps {
   selectedGoal: LifestyleGoal | null;
   onSelectGoal: (goal: LifestyleGoal) => void;
+}
+
+interface Merchant {
+  name: string;
+  logo?: string;
+}
+
+interface MerchantCategory {
+  title: string;
+  merchants: Merchant[];
 }
 
 interface GoalData {
@@ -23,7 +34,7 @@ interface GoalData {
   description: string;
   status: "current" | "upcoming" | "future";
   year: "now" | "one" | "two";
-  merchants: { name: string; logo?: string }[][];
+  merchantCategories: MerchantCategory[];
 }
 
 const goalData: GoalData[] = [
@@ -34,31 +45,31 @@ const goalData: GoalData[] = [
     description: "Maximize rewards on sports equipment, apparel, subscriptions, and event tickets.",
     status: "current",
     year: "now",
-    merchants: [
-      [
-        { name: "Nike" },
-        { name: "Adidas" }
-      ],
-      [
-        { name: "Peloton" },
-        { name: "WHOOP" }
-      ],
-      [
-        { name: "ESPN+" },
-        { name: "NFL+" }
-      ],
-      [
-        { name: "Dick's Sporting Goods" },
-        { name: "Foot Locker" }
-      ],
-      [
-        { name: "Huel" },
-        { name: "AG1" }
-      ],
-      [
-        { name: "Ticketmaster" },
-        { name: "SeatGeek" }
-      ]
+    merchantCategories: [
+      {
+        title: "Apparel and Gear",
+        merchants: [{ name: "Nike" }, { name: "Adidas" }]
+      },
+      {
+        title: "Equipment and Subscriptions",
+        merchants: [{ name: "Peloton" }, { name: "WHOOP" }]
+      },
+      {
+        title: "Online Subscriptions",
+        merchants: [{ name: "ESPN+" }, { name: "NFL+" }]
+      },
+      {
+        title: "Retail Stores",
+        merchants: [{ name: "Dick's Sporting Goods" }, { name: "Foot Locker" }]
+      },
+      {
+        title: "Supplements and Nutrition",
+        merchants: [{ name: "Huel" }, { name: "AG1" }]
+      },
+      {
+        title: "Event Tickets and Experiences",
+        merchants: [{ name: "Ticketmaster" }, { name: "SeatGeek" }]
+      }
     ]
   },
   {
@@ -68,31 +79,31 @@ const goalData: GoalData[] = [
     description: "Earn more on fitness programs, mental health services, and wellness products.",
     status: "upcoming",
     year: "one",
-    merchants: [
-      [
-        { name: "ClassPass" },
-        { name: "Orangetheory" }
-      ],
-      [
-        { name: "BetterHelp" },
-        { name: "Talkspace" }
-      ],
-      [
-        { name: "Athletic Greens" },
-        { name: "Thorne" }
-      ],
-      [
-        { name: "Lululemon" },
-        { name: "Alo Yoga" }
-      ],
-      [
-        { name: "Therabody" },
-        { name: "Hyperice" }
-      ],
-      [
-        { name: "Headspace" },
-        { name: "Calm" }
-      ]
+    merchantCategories: [
+      {
+        title: "Fitness Programs",
+        merchants: [{ name: "ClassPass" }, { name: "Orangetheory" }]
+      },
+      {
+        title: "Mental Health Services",
+        merchants: [{ name: "BetterHelp" }, { name: "Talkspace" }]
+      },
+      {
+        title: "Nutrition and Supplements",
+        merchants: [{ name: "Athletic Greens" }, { name: "Thorne" }]
+      },
+      {
+        title: "Wellness Retailers",
+        merchants: [{ name: "Lululemon" }, { name: "Alo Yoga" }]
+      },
+      {
+        title: "Recovery and Devices",
+        merchants: [{ name: "Therabody" }, { name: "Hyperice" }]
+      },
+      {
+        title: "Meditation and Mindfulness Apps",
+        merchants: [{ name: "Headspace" }, { name: "Calm" }]
+      }
     ]
   },
   {
@@ -102,31 +113,31 @@ const goalData: GoalData[] = [
     description: "Get rewarded on pet supplies, veterinary services, and grooming expenses.",
     status: "upcoming",
     year: "one",
-    merchants: [
-      [
-        { name: "Chewy" },
-        { name: "Petco" }
-      ],
-      [
-        { name: "BarkBox" },
-        { name: "Meowbox" }
-      ],
-      [
-        { name: "Banfield" },
-        { name: "Local Vet Clinics" }
-      ],
-      [
-        { name: "Rover" },
-        { name: "Wag" }
-      ],
-      [
-        { name: "The Farmer's Dog" },
-        { name: "Blue Buffalo" }
-      ],
-      [
-        { name: "PetSmart" },
-        { name: "Local Groomers" }
-      ]
+    merchantCategories: [
+      {
+        title: "Pet Supply Retailers",
+        merchants: [{ name: "Chewy" }, { name: "Petco" }]
+      },
+      {
+        title: "Subscription Boxes",
+        merchants: [{ name: "BarkBox" }, { name: "Meowbox" }]
+      },
+      {
+        title: "Veterinary Services",
+        merchants: [{ name: "Banfield" }, { name: "Local Vet Clinics" }]
+      },
+      {
+        title: "Pet Care Services",
+        merchants: [{ name: "Rover" }, { name: "Wag" }]
+      },
+      {
+        title: "Pet Food Brands",
+        merchants: [{ name: "The Farmer's Dog" }, { name: "Blue Buffalo" }]
+      },
+      {
+        title: "Grooming and Accessories",
+        merchants: [{ name: "PetSmart" }, { name: "Local Groomers" }]
+      }
     ]
   },
   {
@@ -136,31 +147,31 @@ const goalData: GoalData[] = [
     description: "Level up your rewards on gaming platforms, hardware, and subscriptions.",
     status: "future",
     year: "two",
-    merchants: [
-      [
-        { name: "Steam" },
-        { name: "Epic Games Store" }
-      ],
-      [
-        { name: "PlayStation Store" },
-        { name: "Xbox Live" }
-      ],
-      [
-        { name: "Razer" },
-        { name: "Logitech" }
-      ],
-      [
-        { name: "Twitch" },
-        { name: "YouTube Gaming" }
-      ],
-      [
-        { name: "GameStop" },
-        { name: "Best Buy" }
-      ],
-      [
-        { name: "Xbox Game Pass" },
-        { name: "PlayStation Plus" }
-      ]
+    merchantCategories: [
+      {
+        title: "Gaming Marketplaces",
+        merchants: [{ name: "Steam" }, { name: "Epic Games Store" }]
+      },
+      {
+        title: "Console Platforms",
+        merchants: [{ name: "PlayStation Store" }, { name: "Xbox Live" }]
+      },
+      {
+        title: "Hardware & Accessories",
+        merchants: [{ name: "Razer" }, { name: "Logitech" }]
+      },
+      {
+        title: "Streaming & Content",
+        merchants: [{ name: "Twitch" }, { name: "YouTube Gaming" }]
+      },
+      {
+        title: "Retailers & Bundles",
+        merchants: [{ name: "GameStop" }, { name: "Best Buy" }]
+      },
+      {
+        title: "Game Subscriptions",
+        merchants: [{ name: "Xbox Game Pass" }, { name: "PlayStation Plus" }]
+      }
     ]
   },
   {
@@ -170,31 +181,31 @@ const goalData: GoalData[] = [
     description: "Boost rewards on creative software, supplies, and hardware.",
     status: "future",
     year: "two",
-    merchants: [
-      [
-        { name: "Adobe" },
-        { name: "Canva" }
-      ],
-      [
-        { name: "Skillshare" },
-        { name: "MasterClass" }
-      ],
-      [
-        { name: "Blick" },
-        { name: "Michaels" }
-      ],
-      [
-        { name: "Wacom" },
-        { name: "ReMarkable" }
-      ],
-      [
-        { name: "Notion" },
-        { name: "Moleskine" }
-      ],
-      [
-        { name: "Lightroom" },
-        { name: "VSCO" }
-      ]
+    merchantCategories: [
+      {
+        title: "Design Software",
+        merchants: [{ name: "Adobe" }, { name: "Canva" }]
+      },
+      {
+        title: "Learning Platforms",
+        merchants: [{ name: "Skillshare" }, { name: "MasterClass" }]
+      },
+      {
+        title: "Art Supplies",
+        merchants: [{ name: "Blick" }, { name: "Michaels" }]
+      },
+      {
+        title: "Creative Hardware",
+        merchants: [{ name: "Wacom" }, { name: "ReMarkable" }]
+      },
+      {
+        title: "Productivity Tools",
+        merchants: [{ name: "Notion" }, { name: "Moleskine" }]
+      },
+      {
+        title: "Photography & Editing Tools",
+        merchants: [{ name: "Lightroom" }, { name: "VSCO" }]
+      }
     ]
   },
   {
@@ -204,31 +215,31 @@ const goalData: GoalData[] = [
     description: "Earn more on home improvement, furniture, and home services.",
     status: "future",
     year: "two",
-    merchants: [
-      [
-        { name: "Home Depot" },
-        { name: "Lowe's" }
-      ],
-      [
-        { name: "Nest" },
-        { name: "Ring" }
-      ],
-      [
-        { name: "Wayfair" },
-        { name: "West Elm" }
-      ],
-      [
-        { name: "TaskRabbit" },
-        { name: "Handy" }
-      ],
-      [
-        { name: "Burpee" },
-        { name: "Local Nurseries" }
-      ],
-      [
-        { name: "Best Buy" },
-        { name: "Target" }
-      ]
+    merchantCategories: [
+      {
+        title: "Home Improvement Stores",
+        merchants: [{ name: "Home Depot" }, { name: "Lowe's" }]
+      },
+      {
+        title: "Smart Home Devices",
+        merchants: [{ name: "Nest" }, { name: "Ring" }]
+      },
+      {
+        title: "Furniture Retailers",
+        merchants: [{ name: "Wayfair" }, { name: "West Elm" }]
+      },
+      {
+        title: "Home Services Platforms",
+        merchants: [{ name: "TaskRabbit" }, { name: "Handy" }]
+      },
+      {
+        title: "Gardening & Outdoors",
+        merchants: [{ name: "Burpee" }, { name: "Local Nurseries" }]
+      },
+      {
+        title: "Appliances & Home Essentials",
+        merchants: [{ name: "Best Buy" }, { name: "Target" }]
+      }
     ]
   }
 ];
@@ -289,10 +300,12 @@ const StepOne = ({ selectedGoal, onSelectGoal }: StepOneProps) => {
                 <div className="mt-4 border-t pt-4">
                   <h4 className="font-medium mb-3">Get 5x Points on Everything {goal.name}</h4>
                   <div className="space-y-2">
-                    {goal.merchants.map((pair, idx) => (
-                      <div key={idx} className="flex justify-between text-sm">
-                        <span>{pair[0].name}</span>
-                        <span>{pair[1].name}</span>
+                    {goal.merchantCategories.map((category, idx) => (
+                      <div key={idx} className="mb-3">
+                        <p className="text-sm font-medium text-slate-700">{category.title}:</p>
+                        <p className="text-sm text-slate-600">
+                          {category.merchants.map(m => m.name).join(", ")}
+                        </p>
                       </div>
                     ))}
                   </div>
