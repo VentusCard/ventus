@@ -1,10 +1,16 @@
-
 import { Card, CardContent } from "@/components/ui/card";
-import { OnboardingData } from "@/pages/HowItWorks";
+import { OnboardingData, LifestyleGoal } from "@/pages/HowItWorks";
 import { Check, Award, TrendingUp, Target, Shield, User } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
+import { 
+  Select, 
+  SelectTrigger, 
+  SelectValue, 
+  SelectContent, 
+  SelectItem 
+} from "@/components/ui/select";
 
 interface StepThreeProps {
   onboardingData: OnboardingData;
@@ -30,6 +36,16 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
 
   // Calculate percentage for progress bar
   const pointsProgress = Math.min(onboardingData.estimatedPoints / 50000 * 100, 100);
+
+  // Define the lifestyle categories for the dropdown
+  const lifestyleCategories: {label: string, value: LifestyleGoal}[] = [
+    { label: "Sports", value: "sports" },
+    { label: "Wellness", value: "wellness" },
+    { label: "Pets", value: "pets" },
+    { label: "Gamers", value: "gamers" },
+    { label: "Creatives", value: "creatives" },
+    { label: "Homeowners", value: "homeowners" }
+  ];
 
   return (
     <div>
@@ -179,7 +195,7 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
                   <div>
                     <p className="font-medium text-emerald-700">Multiple Redemption Options</p>
                     <p className="text-slate-600 text-sm">
-                      Redeem your points for balance, merchants, experiences or transfer to partner organization
+                      Redeem your points for merchandises, experiences, account balance or transfer to partner organization
                     </p>
                   </div>
                 </div>
@@ -197,7 +213,7 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
             <span>Join the Waitlist</span>
           </h3>
           <p className="text-slate-600 mb-6">
-            Be among the first to experience the personalized Ventus Card. We'll notify you when applications open.
+            Be among the first to experience the personalized Ventus Card. We'll notify you when applications open. Ventus is only available in the USA for eligible customers.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
@@ -212,6 +228,22 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
             </div>
             
             <div>
+              <label className="block text-sm font-medium mb-1">Main Category</label>
+              <Select>
+                <SelectTrigger className="bg-white border-slate-200 focus:border-blue-300 transition-all duration-200">
+                  <SelectValue placeholder="Select a category" />
+                </SelectTrigger>
+                <SelectContent>
+                  {lifestyleCategories.map((category) => (
+                    <SelectItem key={category.value} value={category.value}>
+                      {category.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <div className="md:col-span-3">
               <label className="block text-sm font-medium mb-1">Email Address</label>
               <Input placeholder="Email Address" className="bg-white border-slate-200 focus:border-blue-300 transition-all duration-200" />
             </div>
