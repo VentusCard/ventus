@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/HowItWorks";
@@ -281,12 +282,12 @@ const StepOne = ({ selectedGoal, onSelectGoal }: StepOneProps) => {
                   toggleMerchantsExpand(goal.id);
                 }}
               >
-                {expandedMerchants === goal.id ? 'Hide Example Partners' : 'View Example Partners'}
+                {expandedMerchants === goal.id ? 'Hide Example Reward Profile' : 'View Example Reward Profile'}
               </button>
               
               {expandedMerchants === goal.id && (
                 <div className="mt-4 border-t pt-4">
-                  <h4 className="font-medium mb-3">Example Merchant Partners</h4>
+                  <h4 className="font-medium mb-3">Get 5x Points on Everything {goal.name}</h4>
                   <div className="space-y-2">
                     {goal.merchants.map((pair, idx) => (
                       <div key={idx} className="flex justify-between text-sm">
