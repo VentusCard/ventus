@@ -118,7 +118,7 @@
   }
   
   .text-gradient-blue {
-    @apply bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-cyan-400 to-blue-300 bg-clip-text text-transparent;
   }
   
   .glow {
@@ -131,5 +131,36 @@
   
   .hover-lift {
     @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+}
+
+/* Text color utility classes for enhanced readability */
+@layer utilities {
+  .text-primary-bright {
+    @apply text-sky-300;
+  }
+  
+  .text-secondary-bright {
+    @apply text-blue-200;
+  }
+  
+  .text-accent-bright {
+    @apply text-cyan-300;
+  }
+  
+  .text-muted-bright {
+    @apply text-blue-300;
+  }
+  
+  .text-heading {
+    @apply text-white font-medium;
+  }
+  
+  .text-paragraph {
+    @apply text-blue-100;
+  }
+  
+  .text-label {
+    @apply text-sky-200 font-medium;
   }
 }

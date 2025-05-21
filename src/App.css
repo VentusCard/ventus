@@ -5,7 +5,7 @@
 }
 
 .read-the-docs {
-  @apply text-blue-300;
+  @apply text-sky-300;
 }
 
 .logo {
@@ -48,4 +48,28 @@
 
 .pulse-glow {
   animation: pulse-glow 3s infinite;
+}
+
+/* Text color enhancements */
+.high-contrast-text {
+  color: #ffffff;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.enhanced-heading {
+  @apply text-white font-medium tracking-wide;
+}
+
+.enhanced-paragraph {
+  @apply text-sky-100;
+}
+
+.enhanced-label {
+  @apply text-sky-200 font-medium;
+}
+
+/* Input field focus styles for better accessibility */
+input:focus, 
+select:focus {
+  @apply ring-2 ring-sky-400 outline-none;
 }

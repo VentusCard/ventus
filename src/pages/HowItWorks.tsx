@@ -120,7 +120,7 @@ const HowItWorks = () => {
           <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 text-gradient-blue">
             How Ventus Card Works
           </h1>
-          <p className="text-lg md:text-xl max-w-3xl text-blue-100">
+          <p className="text-lg md:text-xl max-w-3xl text-sky-100">
             Complete this short questionnaire to discover how Ventus Card can be personalized 
             for your unique lifestyle and spending habits. Get ready to unlock a tailored rewards experience.
           </p>
@@ -142,7 +142,7 @@ const HowItWorks = () => {
                         ? 'bg-gradient-to-r from-emerald-500 to-emerald-400 text-white glow-sm' 
                         : step === stepNumber 
                           ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white glow ring-4 ring-blue-600/20' 
-                          : 'bg-blue-900/50 text-blue-300 border border-blue-800'
+                          : 'bg-blue-900/50 text-sky-300 border border-blue-800'
                     }`}
                   >
                     {step > stepNumber ? (
@@ -160,7 +160,7 @@ const HowItWorks = () => {
               ))}
             </div>
             <div className="flex justify-between items-center">
-              <p className="text-blue-300 font-medium">
+              <p className="text-sky-300 font-medium">
                 Step {step} of 4
               </p>
               <p className="text-gradient-blue font-semibold">
@@ -178,7 +178,7 @@ const HowItWorks = () => {
               <Button 
                 variant="outline" 
                 onClick={goToPreviousStep}
-                className="flex items-center gap-2 border-blue-800 hover:bg-blue-900/50 hover:text-blue-200 transition-all duration-200 bg-transparent text-blue-300"
+                className="flex items-center gap-2 border-blue-800 hover:bg-blue-900/50 hover:text-sky-200 transition-all duration-200 bg-transparent text-sky-300"
               >
                 <ArrowLeft size={16} /> Back
               </Button>
@@ -190,12 +190,12 @@ const HowItWorks = () => {
               <Button 
                 onClick={goToNextStep} 
                 disabled={isNextButtonDisabled()}
-                className={`flex items-center gap-2 bg-gradient-glow hover:from-blue-700 hover:to-blue-600 shadow-lg shadow-blue-600/20 transition-all duration-200 ${isNextButtonDisabled() ? 'opacity-50' : ''}`}
+                className={`flex items-center gap-2 bg-gradient-glow hover:from-blue-700 hover:to-blue-600 shadow-lg shadow-blue-600/20 transition-all duration-200 text-white ${isNextButtonDisabled() ? 'opacity-50' : ''}`}
               >
                 Next <ArrowRight size={16} />
               </Button>
             ) : (
-              <Button className="bg-gradient-glow hover:from-blue-700 hover:to-blue-600 shadow-lg shadow-blue-600/20 transition-all duration-200">
+              <Button className="bg-gradient-glow hover:from-blue-700 hover:to-blue-600 shadow-lg shadow-blue-600/20 transition-all duration-200 text-white">
                 Join the Waitlist
               </Button>
             )}

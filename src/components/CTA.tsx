@@ -17,14 +17,14 @@ const CTA = () => {
       
       <div className="max-w-7xl mx-auto px-4 md:px-8 text-center relative z-10">
         <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-gradient-blue">Ready to Experience Ventus Card?</h2>
-        <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8 text-blue-200">
+        <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8 text-sky-100">
           Apply today and elevate your financial experience with premium benefits and rewards designed for your lifestyle.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
-          <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 shadow-lg shadow-blue-500/30">
+          <Button size="lg" className="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 shadow-lg shadow-blue-500/30 text-white">
             Apply Now
           </Button>
-          <Button size="lg" variant="outline" className="border-blue-500/30 hover:bg-blue-800/30 text-blue-200" asChild>
+          <Button size="lg" variant="outline" className="border-blue-500/30 hover:bg-blue-800/30 text-sky-100" asChild>
             <Link to="/how-it-works">How it Works</Link>
           </Button>
         </div>

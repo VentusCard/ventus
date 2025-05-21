@@ -20,14 +20,14 @@ const Hero = () => {
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
               Experience the <span className="text-gradient-blue">Ventus Card</span> Advantage
             </h1>
-            <p className="text-lg md:text-xl text-blue-200 max-w-lg">
+            <p className="text-lg md:text-xl text-sky-100 max-w-lg">
               Premium benefits, exceptional rewards, and seamless digital experience designed for modern life.
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
-              <Button size="lg" className="bg-gradient-glow hover:from-blue-600 hover:to-cyan-500 shadow-lg shadow-blue-600/20">
+              <Button size="lg" className="bg-gradient-glow hover:from-blue-600 hover:to-cyan-500 shadow-lg shadow-blue-600/20 text-white">
                 Apply Now
               </Button>
-              <Button size="lg" variant="outline" className="border-blue-500/30 hover:bg-blue-800/30 text-blue-200" asChild>
+              <Button size="lg" variant="outline" className="border-blue-500/30 hover:bg-blue-800/30 text-sky-100" asChild>
                 <Link to="/rewards">How it Works</Link>
               </Button>
             </div>
