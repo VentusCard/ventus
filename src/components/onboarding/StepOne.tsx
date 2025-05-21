@@ -1,8 +1,7 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/HowItWorks";
-import { Sports, Star, Wallet } from "lucide-react";
+import { Activity, Star, Wallet } from "lucide-react";
 
 interface StepOneProps {
   selectedGoal: LifestyleGoal | null;
@@ -23,7 +22,7 @@ const goalData: GoalData[] = [
   {
     id: "sports",
     name: "Sports",
-    icon: <Sports className="h-8 w-8 text-blue-500" />,
+    icon: <Activity className="h-8 w-8 text-blue-500" />,
     description: "Maximize rewards on sports equipment, apparel, subscriptions, and event tickets.",
     status: "current",
     year: "now",
