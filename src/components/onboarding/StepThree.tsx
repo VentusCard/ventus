@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { OnboardingData } from "@/pages/HowItWorks";
 import { Check, Award, TrendingUp, Target, Shield, User } from "lucide-react";
@@ -107,7 +108,6 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
                   <p className="font-bold text-3xl bg-gradient-to-r from-cyan-300 to-white bg-clip-text text-transparent">
                     {formatCurrency(minSavings)} - {formatCurrency(maxSavings)}
                   </p>
-                  {/* "When redeemed for travel" text has been removed */}
                 </div>
               </div>
             </CardContent>
@@ -131,7 +131,7 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
                   <div>
                     <p className="font-medium text-emerald-700">5x Points Categories</p>
                     <p className="text-slate-600 text-sm">
-                      Earn 5x points on all purchases from merchants in your selected interests
+                      Earn 5x points on all purchases from the main category you selected
                     </p>
                   </div>
                 </div>
