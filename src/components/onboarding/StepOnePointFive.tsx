@@ -1,10 +1,10 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LifestyleGoal, Subcategory } from "@/pages/HowItWorks";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
-import { ShoppingBag } from "lucide-react";
+import { ShoppingBag, ChevronDown, ChevronUp } from "lucide-react";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface StepOnePointFiveProps {
   selectedGoal: LifestyleGoal;
@@ -203,33 +203,46 @@ const StepOnePointFive = ({
   onSelectSubcategories
 }: StepOnePointFiveProps) => {
   const goalSubcategories = subcategoriesData.find(item => item.goalId === selectedGoal)?.subcategories || [];
-  const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(
+  const [openSubcategories, setOpenSubcategories] = useState<string[]>([]);
+  const [lastClickedSubcategory, setLastClickedSubcategory] = useState<string | null>(
     selectedSubcategories.length > 0 ? selectedSubcategories[0] : null
   );
-  
+
   const toggleSubcategory = (subcategory: string) => {
-    // If it's being checked, also set it as the selected subcategory to show merchants
-    if (!selectedSubcategories.includes(subcategory)) {
-      setSelectedSubcategory(subcategory);
-    } else if (selectedSubcategories.length === 1 && selectedSubcategories.includes(subcategory)) {
-      setSelectedSubcategory(null);
-    } else if (selectedSubcategory === subcategory) {
-      // If unchecking the current selected subcategory, select the first one in the list
-      const newSelected = selectedSubcategories.filter(s => s !== subcategory)[0];
-      setSelectedSubcategory(newSelected || null);
-    }
+    setLastClickedSubcategory(subcategory);
     
     if (selectedSubcategories.includes(subcategory)) {
+      // Remove from selected subcategories
       onSelectSubcategories(selectedSubcategories.filter(s => s !== subcategory));
+      
+      // Also remove from open subcategories list if it's open
+      if (openSubcategories.includes(subcategory)) {
+        setOpenSubcategories(openSubcategories.filter(s => s !== subcategory));
+      }
     } else {
+      // Add to selected subcategories
       onSelectSubcategories([...selectedSubcategories, subcategory]);
+      
+      // Also auto-open this subcategory to show merchant deals
+      if (!openSubcategories.includes(subcategory)) {
+        setOpenSubcategories([...openSubcategories, subcategory]);
+      }
     }
   };
 
-  // Find the merchant deals for the selected subcategory
-  const merchantDeals = selectedSubcategory 
-    ? merchantDealsData[selectedGoal]?.find(deal => deal.subcategory === selectedSubcategory)?.merchants 
-    : null;
+  const toggleSubcategoryOpen = (subcategory: string) => {
+    setLastClickedSubcategory(subcategory);
+    if (openSubcategories.includes(subcategory)) {
+      setOpenSubcategories(openSubcategories.filter(s => s !== subcategory));
+    } else {
+      setOpenSubcategories([...openSubcategories, subcategory]);
+    }
+  };
+
+  // Get the merchant deals for a subcategory
+  const getMerchantDealsForSubcategory = (subcategory: string) => {
+    return merchantDealsData[selectedGoal]?.find(deal => deal.subcategory === subcategory)?.merchants || [];
+  };
 
   return (
     <div>
@@ -254,70 +267,73 @@ const StepOnePointFive = ({
         Each will unlock a curated set of reward opportunities and merchant deals.
       </p>
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
-        <div className="lg:col-span-2">
-          <Card className="h-full">
-            <CardContent className="p-6">
-              <h3 className="font-display text-xl font-bold mb-6">{getGoalName(selectedGoal)} Subcategories</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-8">
-                {goalSubcategories.map((subcategory) => (
+      <div className="mb-8">
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="font-display text-xl font-bold mb-6">{getGoalName(selectedGoal)} Subcategories</h3>
+            <div className="space-y-4">
+              {goalSubcategories.map((subcategory) => (
+                <div key={subcategory} className="border border-slate-200 rounded-lg overflow-hidden">
                   <div 
-                    key={subcategory} 
-                    className={`flex items-center space-x-2 p-3 rounded-md cursor-pointer transition-colors ${
-                      selectedSubcategory === subcategory ? 'bg-blue-50' : 'hover:bg-slate-50'
+                    className={`flex items-center justify-between p-4 cursor-pointer ${
+                      selectedSubcategories.includes(subcategory) ? 'bg-blue-50 border-b border-blue-100' : 'bg-white hover:bg-slate-50'
                     }`}
-                    onClick={() => setSelectedSubcategory(subcategory)}
                   >
-                    <Checkbox 
-                      id={`subcategory-${subcategory}`}
-                      checked={selectedSubcategories.includes(subcategory)} 
-                      onCheckedChange={() => toggleSubcategory(subcategory)}
-                    />
-                    <Label 
-                      htmlFor={`subcategory-${subcategory}`} 
-                      className="text-base cursor-pointer flex-1"
-                    >
-                      {subcategory}
-                    </Label>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-        
-        <div>
-          <Card className="h-full bg-gradient-to-br from-blue-50 to-slate-50 border-blue-100">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <ShoppingBag className="h-5 w-5 text-blue-600" />
-                <h3 className="font-display text-lg font-bold">Example Merchant Deals</h3>
-              </div>
-              
-              {selectedSubcategory ? (
-                <>
-                  <div className="mb-4">
-                    <span className="inline-block bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                      {selectedSubcategory}
-                    </span>
+                    <div className="flex items-center gap-3">
+                      <Checkbox 
+                        id={`subcategory-${subcategory}`}
+                        checked={selectedSubcategories.includes(subcategory)} 
+                        onCheckedChange={() => toggleSubcategory(subcategory)}
+                      />
+                      <Label 
+                        htmlFor={`subcategory-${subcategory}`} 
+                        className="text-base font-medium cursor-pointer"
+                      >
+                        {subcategory}
+                      </Label>
+                    </div>
+                    
+                    {selectedSubcategories.includes(subcategory) && (
+                      <CollapsibleTrigger
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleSubcategoryOpen(subcategory);
+                        }}
+                        className="flex items-center text-sm text-blue-600 hover:text-blue-800"
+                      >
+                        {openSubcategories.includes(subcategory) ? (
+                          <>Hide Deals <ChevronUp className="ml-1 h-4 w-4" /></>
+                        ) : (
+                          <>Show Deals <ChevronDown className="ml-1 h-4 w-4" /></>
+                        )}
+                      </CollapsibleTrigger>
+                    )}
                   </div>
                   
-                  <ul className="space-y-3">
-                    {merchantDeals?.map((merchant, index) => (
-                      <li key={index} className="bg-white p-3 rounded-md shadow-sm">
-                        <span className="font-medium">{merchant}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </>
-              ) : (
-                <div className="text-center py-8 text-slate-500">
-                  <p>Select a subcategory to see example merchant deals</p>
+                  {selectedSubcategories.includes(subcategory) && (
+                    <Collapsible open={openSubcategories.includes(subcategory)}>
+                      <CollapsibleContent>
+                        <div className="bg-slate-50 p-4">
+                          <div className="flex items-center gap-2 mb-3 text-blue-700">
+                            <ShoppingBag className="h-4 w-4" />
+                            <h4 className="font-medium">Example Merchant Deals</h4>
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {getMerchantDealsForSubcategory(subcategory).map((merchant, index) => (
+                              <div key={index} className="bg-white p-3 rounded-md shadow-sm">
+                                <span className="font-medium">{merchant}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </CollapsibleContent>
+                    </Collapsible>
+                  )}
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
       
       {selectedSubcategories.length > 0 && (
@@ -340,4 +356,3 @@ const StepOnePointFive = ({
 };
 
 export default StepOnePointFive;
-
