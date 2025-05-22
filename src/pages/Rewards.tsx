@@ -58,9 +58,9 @@ const RewardsPage = () => {
       <Navbar />
       <div className="bg-gradient-to-r from-slate-900 to-blue-900 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-6">Rewards, Unleashed</h1>
+          <h1 className="font-display text-4xl md:text-5xl font-bold mb-6">Exceptional Rewards Program</h1>
           <p className="text-lg md:text-xl max-w-2xl">
-            Join the rewards revolution: Ventus Card champions your goal-driven life by rewarding your true passions, not predefined banking categories.
+            Discover how the Ventus Card rewards program works and maximize your benefits with our premium rewards structure.
           </p>
         </div>
       </div>
