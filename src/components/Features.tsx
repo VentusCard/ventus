@@ -30,9 +30,9 @@ const Features = () => {
     <section id="features" className="py-20 bg-slate-50">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-16">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">Powerful Features</h2>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">Rewards, Unleashed</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Designed for those who demand more from their financial tools
+            Ventus Card is revolutionizing rewards: earn based on your unique goals and behaviors, breaking free from the limits of pre-determined card categories
           </p>
         </div>
         
