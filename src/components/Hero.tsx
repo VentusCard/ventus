@@ -43,8 +43,8 @@ const Hero = () => {
   
   return (
     <div className="relative bg-black text-white min-h-screen flex items-center justify-center overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-20 w-full">
-        <div className="flex flex-col items-center justify-center pt-16 md:pt-24 lg:pt-32">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8 relative z-10 text-center py-20 w-full">
+        <div className="flex flex-col items-center justify-center pt-24 md:pt-32 lg:pt-40">
           {/* Headline with refined brushstroke underline */}
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight mb-9 md:mb-12">
             Rewards, <span className="relative font-light italic">
@@ -70,9 +70,9 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with subtle blending */}
-          <div className="relative w-full max-w-4xl mb-14 md:mb-18">
-            <div className="relative aspect-video rounded-2xl overflow-hidden">
+          {/* Video Centerpiece with enlarged width */}
+          <div className="relative w-full max-w-none mb-14 md:mb-18 px-2 md:px-4 lg:px-8">
+            <div className="relative aspect-video rounded-2xl overflow-hidden mx-auto" style={{ width: 'min(90vw, 1400px)' }}>
               {/* Subtle gradient fade for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Feathered edges */}
@@ -98,9 +98,9 @@ const Hero = () => {
               </video>
             </div>
             
-            {/* Subtle feathered shadow */}
-            <div className="absolute -inset-6 bg-gradient-to-r from-black/20 via-transparent to-black/20 opacity-40 blur-2xl -z-10"></div>
-            <div className="absolute -inset-6 bg-gradient-to-t from-black/20 via-transparent to-black/20 opacity-40 blur-2xl -z-10"></div>
+            {/* Enhanced feathered shadow for larger video */}
+            <div className="absolute -inset-8 bg-gradient-to-r from-black/20 via-transparent to-black/20 opacity-40 blur-3xl -z-10"></div>
+            <div className="absolute -inset-8 bg-gradient-to-t from-black/20 via-transparent to-black/20 opacity-40 blur-3xl -z-10"></div>
           </div>
           
           {/* Get Started button with soft glow effect */}
