@@ -44,7 +44,7 @@ const Hero = () => {
   return (
     <div className="relative bg-black text-white min-h-screen flex items-center justify-center overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-20 w-full">
-        <div className="flex flex-col items-center justify-center">
+        <div className="flex flex-col items-center justify-center pt-16 md:pt-24 lg:pt-32">
           {/* Headline with refined brushstroke underline */}
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight mb-9 md:mb-12">
             Rewards, <span className="relative font-light italic">
