@@ -11,7 +11,7 @@ const Hero = () => {
     let offset = 0;
     
     const animateBreeze = () => {
-      offset += 0.2;
+      offset += 0.5; // Increased speed from 0.2 to 0.5
       setBreezeOffset(offset);
       animationFrameId = requestAnimationFrame(animateBreeze);
     };
@@ -25,19 +25,30 @@ const Hero = () => {
   
   return (
     <div className="relative bg-gradient-to-b from-slate-900 to-cyan-900 text-white min-h-[90vh] flex items-center overflow-hidden">
+      {/* First layer - horizontal lines with increased movement */}
       <div 
-        className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[size:20px_20px] opacity-30"
+        className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:20px_20px] opacity-40"
         style={{ 
-          transform: `translateX(${Math.sin(breezeOffset * 0.05) * 10}px)`,
-          transition: "transform 0.5s ease-out"
+          transform: `translateX(${Math.sin(breezeOffset * 0.05) * 25}px)`, // Increased movement range from 10px to 25px
+          transition: "transform 0.4s ease-out" // Faster transition
         }}
       ></div>
       
+      {/* Second layer - vertical lines with increased movement */}
       <div 
-        className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.02)_1px,_transparent_1px)] bg-[size:20px_20px] opacity-20"
+        className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[size:20px_20px] opacity-30"
         style={{ 
-          transform: `translateX(${Math.sin(breezeOffset * 0.03 + 1) * 15}px)`,
-          transition: "transform 0.7s ease-out"
+          transform: `translateX(${Math.sin(breezeOffset * 0.03 + 1) * 35}px)`, // Increased movement range from 15px to 35px
+          transition: "transform 0.6s ease-out"
+        }}
+      ></div>
+      
+      {/* New third layer - diagonal pattern for added depth */}
+      <div 
+        className="absolute inset-0 bg-[linear-gradient(45deg,_transparent_95%,_rgba(255,255,255,0.05)_100%)] bg-[size:30px_30px] opacity-30"
+        style={{ 
+          transform: `translateX(${Math.cos(breezeOffset * 0.04 + 2) * 20}px)`,
+          transition: "transform 0.5s ease-out"
         }}
       ></div>
       
