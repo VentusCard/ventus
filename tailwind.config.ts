@@ -29,11 +29,6 @@ export default {
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
-				'blue-gray': {
-					300: '#94a3b8',
-					400: '#64748b',
-					500: '#475569',
-				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
@@ -94,26 +89,11 @@ export default {
 					to: {
 						height: '0'
 					}
-				},
-				'draw': {
-					'0%': {
-						'stroke-dasharray': '0 100',
-						opacity: '0.4'
-					},
-					'50%': {
-						'stroke-dasharray': '50 50',
-						opacity: '0.8'
-					},
-					'100%': {
-						'stroke-dasharray': '100 0',
-						opacity: '0.6'
-					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out',
-				'draw': 'draw 3s ease-in-out infinite'
+				'accordion-up': 'accordion-up 0.2s ease-out'
 			}
 		}
 	},
