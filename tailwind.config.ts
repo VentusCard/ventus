@@ -98,33 +98,25 @@ export default {
 						height: '0'
 					}
 				},
-				'brushstroke-reveal': {
+				'draw': {
 					'0%': {
-						transform: 'scaleX(1)',
-					},
-					'100%': {
-						transform: 'scaleX(0)',
-					}
-				},
-				'shimmer-sweep': {
-					'0%': {
-						transform: 'translateX(-100%)',
-						opacity: '0'
+						'stroke-dasharray': '0 100',
+						opacity: '0.4'
 					},
 					'50%': {
-						opacity: '1'
+						'stroke-dasharray': '50 50',
+						opacity: '0.8'
 					},
 					'100%': {
-						transform: 'translateX(100%)',
-						opacity: '0'
+						'stroke-dasharray': '100 0',
+						opacity: '0.6'
 					}
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'brushstroke-reveal': 'brushstroke-reveal 1s ease-out',
-				'shimmer-sweep': 'shimmer-sweep 1s ease-in 1s'
+				'draw': 'draw 3s ease-in-out infinite'
 			}
 		}
 	},
