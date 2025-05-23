@@ -45,14 +45,14 @@ const Hero = () => {
             Rewards, <span className="relative font-light italic">
               Unleashed
               <svg 
-                className="absolute -bottom-4 left-0 w-full h-3 opacity-70" 
+                className="absolute -bottom-4 left-0 w-full h-3 opacity-80" 
                 viewBox="0 0 200 12" 
                 preserveAspectRatio="none"
               >
                 <path 
                   d="M5,8 Q50,3 100,6 T195,4" 
-                  stroke="rgba(255,255,255,0.5)" 
-                  strokeWidth="1.5" 
+                  stroke="rgba(255,255,255,0.6)" 
+                  strokeWidth="2.5" 
                   fill="none" 
                   strokeLinecap="round"
                 />
