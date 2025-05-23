@@ -1,45 +1,65 @@
 
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
-import { navigationMenuTriggerStyle } from "@/components/ui/navigation-menu"
 import { Button } from "@/components/ui/button"
-import { Phone } from "lucide-react"
 import { Link } from "react-router-dom"
 
 const Navbar = () => {
   return (
-    <div className="absolute top-0 left-0 right-0 z-50 bg-black/50 backdrop-blur-sm">
-      <div className="flex h-16 items-center px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="flex items-center mr-4 gap-2">
-          <span className="text-3xl font-bold text-white">+</span>
+    <div className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm">
+      <div className="flex h-20 items-center justify-between px-6 md:px-8 max-w-7xl mx-auto">
+        {/* Logo/Brand */}
+        <div className="flex items-center">
+          <span className="text-2xl font-bold text-white tracking-tight">Ventus Card</span>
         </div>
-        <NavigationMenu className="mx-auto hidden md:flex">
-          <NavigationMenuList className="gap-2">
+        
+        {/* Navigation Links */}
+        <NavigationMenu className="hidden md:flex">
+          <NavigationMenuList className="flex items-center space-x-8 lg:space-x-12">
             <NavigationMenuItem>
-              <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-white/10 hover:bg-white/20 text-white border border-white/10")} href="#home">
-                Home
+              <NavigationMenuLink 
+                className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 hover:underline underline-offset-4 decoration-white/60 hover:decoration-white"
+                href="#home"
+              >
+                Overview
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-white/10 hover:bg-white/20 text-white border border-white/10")} href="#features">
-                Our Story
+              <NavigationMenuLink 
+                className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 hover:underline underline-offset-4 decoration-white/60 hover:decoration-white"
+                asChild
+              >
+                <Link to="/rewards">Rewards</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-white/10 hover:bg-white/20 text-white border border-white/10")} href="#benefits">
-                FAQ
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink className={cn(navigationMenuTriggerStyle(), "bg-white/10 hover:bg-white/20 text-white border border-white/10 cursor-pointer")} asChild>
-                <Link to="/rewards">Policies</Link>
+              <NavigationMenuLink 
+                className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 hover:underline underline-offset-4 decoration-white/60 hover:decoration-white"
+                asChild
+              >
+                <Link to="/how-it-works">How It Works</Link>
               </NavigationMenuLink>
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <div className="ml-auto">
-          <Button variant="ghost" size="icon" className="rounded-full text-white hover:bg-white/10">
-            <Phone className="h-5 w-5" />
+        
+        {/* Mobile Navigation */}
+        <div className="md:hidden flex items-center space-x-6">
+          <Link to="/rewards" className="text-white/90 hover:text-white font-medium text-sm transition-colors">
+            Rewards
+          </Link>
+          <Link to="/how-it-works" className="text-white/90 hover:text-white font-medium text-sm transition-colors">
+            How It Works
+          </Link>
+        </div>
+        
+        {/* Join Waitlist CTA */}
+        <div className="flex items-center">
+          <Button 
+            size="default"
+            className="bg-white text-black hover:bg-white/95 rounded-lg px-6 py-2.5 font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105"
+          >
+            Join Waitlist
           </Button>
         </div>
       </div>
