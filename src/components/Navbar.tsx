@@ -13,7 +13,7 @@ const Navbar = () => {
           <img 
             src="/lovable-uploads/e13d8713-7946-4a20-89dc-c60b7ea5d056.png" 
             alt="Ventus Card" 
-            className="h-32 w-auto"
+            className="h-12 w-auto"
           />
         </div>
         
