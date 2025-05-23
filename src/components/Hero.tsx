@@ -70,41 +70,49 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with enlarged width */}
-          <div className="relative w-full max-w-none mb-14 md:mb-18 px-2 md:px-4 lg:px-8">
-            <div className="relative aspect-video rounded-2xl overflow-hidden mx-auto" style={{ width: 'min(90vw, 1400px)' }}>
-              {/* Subtle gradient fade for seamless blending */}
-              <div className="absolute inset-0 z-10 pointer-events-none">
-                {/* Feathered edges */}
-                <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-black/30 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-black/30 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 left-0 w-6 bg-gradient-to-r from-black/30 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 right-0 w-6 bg-gradient-to-l from-black/30 to-transparent"></div>
+          {/* Video Centerpiece - Full bleed on large screens */}
+          <div className="relative w-full mb-14 md:mb-18">
+            {/* Container that breaks out on large screens */}
+            <div className="relative lg:absolute lg:left-1/2 lg:transform lg:-translate-x-1/2 lg:w-screen">
+              <div className="relative aspect-video rounded-2xl overflow-hidden mx-auto lg:rounded-none" 
+                   style={{ 
+                     width: 'min(90vw, 1400px)',
+                     maxWidth: '90vw'
+                   }}
+                   className="lg:!w-full lg:!max-w-none">
+                {/* Subtle gradient fade for seamless blending */}
+                <div className="absolute inset-0 z-10 pointer-events-none">
+                  {/* Feathered edges */}
+                  <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-black/30 to-transparent lg:h-12"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-black/30 to-transparent lg:h-12"></div>
+                  <div className="absolute top-0 bottom-0 left-0 w-6 bg-gradient-to-r from-black/30 to-transparent lg:w-12"></div>
+                  <div className="absolute top-0 bottom-0 right-0 w-6 bg-gradient-to-l from-black/30 to-transparent lg:w-12"></div>
+                </div>
+                
+                {/* Video element */}
+                <video
+                  ref={videoRef}
+                  className="w-full h-full object-cover"
+                  muted
+                  playsInline
+                  preload="metadata"
+                >
+                  <source 
+                    src="https://github.com/rojchen98/ventuscard/raw/refs/heads/main/Gen-4%20A%20premium%20credit%20card%20named%20Ventus%20Card%20is%20displayed%20in%20the%20center%20of%20the%20frame%20against%20a%20smooth%20black%20background%20The%20card%20has%20a%20sleek%20marbled%20design%20in%20deep%20shades%20of%20blue,%20indigo,%20and%20violet,.mp4" 
+                    type="video/mp4" 
+                  />
+                  Your browser does not support the video tag.
+                </video>
               </div>
               
-              {/* Video element */}
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover"
-                muted
-                playsInline
-                preload="metadata"
-              >
-                <source 
-                  src="https://github.com/rojchen98/ventuscard/raw/refs/heads/main/Gen-4%20A%20premium%20credit%20card%20named%20Ventus%20Card%20is%20displayed%20in%20the%20center%20of%20the%20frame%20against%20a%20smooth%20black%20background%20The%20card%20has%20a%20sleek%20marbled%20design%20in%20deep%20shades%20of%20blue,%20indigo,%20and%20violet,.mp4" 
-                  type="video/mp4" 
-                />
-                Your browser does not support the video tag.
-              </video>
+              {/* Enhanced feathered shadow */}
+              <div className="absolute -inset-8 bg-gradient-to-r from-black/20 via-transparent to-black/20 opacity-40 blur-3xl -z-10 lg:-inset-12"></div>
+              <div className="absolute -inset-8 bg-gradient-to-t from-black/20 via-transparent to-black/20 opacity-40 blur-3xl -z-10 lg:-inset-12"></div>
             </div>
-            
-            {/* Enhanced feathered shadow for larger video */}
-            <div className="absolute -inset-8 bg-gradient-to-r from-black/20 via-transparent to-black/20 opacity-40 blur-3xl -z-10"></div>
-            <div className="absolute -inset-8 bg-gradient-to-t from-black/20 via-transparent to-black/20 opacity-40 blur-3xl -z-10"></div>
           </div>
           
           {/* Get Started button with soft glow effect */}
-          <div className="mb-16">
+          <div className="mb-16 relative z-20">
             <Button 
               size="lg" 
               className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
@@ -115,7 +123,7 @@ const Hero = () => {
           </div>
           
           {/* Scroll cue with soft bounce animation */}
-          <div className="animate-bounce">
+          <div className="animate-bounce relative z-20">
             <ChevronDown className="h-6 w-6 text-white/60" />
           </div>
         </div>
