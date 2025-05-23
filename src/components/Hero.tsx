@@ -66,7 +66,7 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with reduced size (75% scale) */}
+          {/* Video Centerpiece with reduced size (75% scale) and better blending */}
           <div className="relative w-full max-w-4xl mx-auto mt-12 md:mt-16 transform scale-75">
             {/* Get Started button positioned at top edge of video */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
@@ -80,19 +80,28 @@ const Hero = () => {
             </div>
             
             <div className="relative aspect-video rounded-2xl overflow-hidden mt-4 md:mt-6">
-              {/* Subtle gradient fade for seamless blending */}
+              {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
-                {/* Feathered edges */}
-                <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-black/30 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-black/30 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 left-0 w-6 bg-gradient-to-r from-black/30 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 right-0 w-6 bg-gradient-to-l from-black/30 to-transparent"></div>
+                {/* Stronger feathered edges that blend into black background */}
+                <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black via-black/60 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                <div className="absolute top-0 bottom-0 left-0 w-12 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
+                <div className="absolute top-0 bottom-0 right-0 w-12 bg-gradient-to-l from-black via-black/60 to-transparent"></div>
+                
+                {/* Corner blending for rounded corners */}
+                <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-radial from-black to-transparent rounded-tl-2xl"></div>
+                <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-radial from-black to-transparent rounded-tr-2xl"></div>
+                <div className="absolute bottom-0 left-0 w-8 h-8 bg-gradient-radial from-black to-transparent rounded-bl-2xl"></div>
+                <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-radial from-black to-transparent rounded-br-2xl"></div>
+                
+                {/* Subtle vignette effect */}
+                <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20 rounded-2xl"></div>
               </div>
               
-              {/* Video element */}
+              {/* Video element with reduced opacity for better blending */}
               <video
                 ref={videoRef}
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover opacity-90"
                 muted
                 playsInline
                 preload="metadata"
@@ -112,9 +121,8 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* Enhanced shadow effects */}
-            <div className="absolute -inset-8 bg-gradient-to-r from-black/30 via-transparent to-black/30 opacity-50 blur-3xl -z-10"></div>
-            <div className="absolute -inset-8 bg-gradient-to-t from-black/30 via-transparent to-black/30 opacity-50 blur-3xl -z-10"></div>
+            {/* Softer shadow effects that blend with background */}
+            <div className="absolute -inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
           </div>
         </div>
       </div>
