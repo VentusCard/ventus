@@ -41,7 +41,7 @@ const Hero = () => {
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-0 w-full">
         <div className="flex flex-col items-center justify-center pt-16 md:pt-20 lg:pt-24 pb-0">
           {/* Headline with refined brushstroke underline */}
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight mb-6 md:mb-8">
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight">
             Rewards, <span className="relative font-light italic">
               Unleashed
               <svg 
@@ -60,13 +60,13 @@ const Hero = () => {
             </span>
           </h1>
           
-          {/* Subheading */}
-          <p className="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed">
+          {/* Subheading with adjusted spacing */}
+          <p className="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto leading-relaxed mt-6 md:mt-8">
             Personalized rewards for high-impact living
           </p>
           
           {/* Video Centerpiece with button positioned at top edge */}
-          <div className="relative w-full max-w-none lg:w-screen m-0 p-0">
+          <div className="relative w-full max-w-none lg:w-screen m-0 p-0 mt-8 md:mt-12">
             {/* Get Started button positioned at top edge of video */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
               <Button 
@@ -78,7 +78,7 @@ const Hero = () => {
               </Button>
             </div>
             
-            <div className="relative aspect-video rounded-2xl overflow-hidden">
+            <div className="relative aspect-video rounded-2xl overflow-hidden mt-4 md:mt-6">
               {/* Subtle gradient fade for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Feathered edges */}
@@ -105,7 +105,7 @@ const Hero = () => {
             </div>
             
             {/* Scroll cue moved up from bottom edge of video */}
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
+            <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
               <div className="animate-bounce">
                 <ChevronDown className="h-6 w-6 text-white/60" />
               </div>
