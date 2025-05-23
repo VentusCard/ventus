@@ -68,18 +68,7 @@ const Hero = () => {
           
           {/* Video Centerpiece with reduced size (75% scale) and better blending */}
           <div className="relative w-full max-w-4xl mx-auto mt-8 md:mt-10 transform scale-75">
-            {/* Get Started button positioned at top edge of video */}
-            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
-              <Button 
-                size="lg" 
-                className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
-                onClick={handleGetStarted}
-              >
-                Get Started
-              </Button>
-            </div>
-            
-            <div className="relative aspect-video rounded-2xl overflow-hidden mt-4 md:mt-6">
+            <div className="relative aspect-video rounded-2xl overflow-hidden">
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Stronger feathered edges that blend into black background */}
@@ -114,15 +103,26 @@ const Hero = () => {
               </video>
             </div>
             
-            {/* Scroll cue */}
-            <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 z-20">
-              <div className="animate-bounce">
-                <ChevronDown className="h-6 w-6 text-white/60" />
-              </div>
-            </div>
-            
             {/* Softer shadow effects that blend with background */}
             <div className="absolute -inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
+          </div>
+          
+          {/* Get Started button moved below video */}
+          <div className="mt-8 md:mt-10">
+            <Button 
+              size="lg" 
+              className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
+              onClick={handleGetStarted}
+            >
+              Get Started
+            </Button>
+          </div>
+          
+          {/* Scroll cue */}
+          <div className="mt-8 md:mt-10">
+            <div className="animate-bounce">
+              <ChevronDown className="h-6 w-6 text-white/60" />
+            </div>
           </div>
         </div>
       </div>
