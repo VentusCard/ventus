@@ -37,7 +37,7 @@ const Hero = () => {
   };
   
   return (
-    <div className="relative bg-black text-white flex items-center justify-center overflow-hidden p-0 pt-32 md:pt-40 lg:pt-48">
+    <div className="relative bg-black text-white flex items-center justify-center overflow-hidden p-0 pt-16 md:pt-20 lg:pt-24">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-0 w-full">
         <div className="flex flex-col items-center justify-center pt-16 md:pt-20 lg:pt-24 pb-0">
           {/* Headline with refined brushstroke underline */}
