@@ -1,27 +1,31 @@
 
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 
 const Hero = () => {
-  const [breezeOffset, setBreezeOffset] = useState(0);
   const [showContent, setShowContent] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
   
   useEffect(() => {
-    let animationFrameId: number;
-    let offset = 0;
-    
-    const animateBreeze = () => {
-      offset += 0.5; // Increased speed from 0.2 to 0.5
-      setBreezeOffset(offset);
-      animationFrameId = requestAnimationFrame(animateBreeze);
-    };
-    
-    animationFrameId = requestAnimationFrame(animateBreeze);
-    
-    return () => {
-      cancelAnimationFrame(animationFrameId);
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && videoRef.current) {
+            videoRef.current.play();
+          } else if (videoRef.current) {
+            videoRef.current.pause();
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    if (videoRef.current) {
+      observer.observe(videoRef.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   const handleGetStarted = () => {
@@ -37,44 +41,54 @@ const Hero = () => {
   };
   
   return (
-    <div className="relative bg-gradient-to-b from-slate-900 to-cyan-900 text-white min-h-[90vh] flex items-center overflow-hidden">
-      {/* First layer - horizontal lines with increased movement */}
-      <div 
-        className="absolute inset-0 bg-[linear-gradient(0deg,_rgba(255,255,255,0.04)_1px,_transparent_1px)] bg-[size:20px_20px] opacity-40"
-        style={{ 
-          transform: `translateX(${Math.sin(breezeOffset * 0.05) * 25}px)`, // Increased movement range from 10px to 25px
-          transition: "transform 0.4s ease-out" // Faster transition
-        }}
-      ></div>
-      
-      {/* Second layer - vertical lines with increased movement */}
-      <div 
-        className="absolute inset-0 bg-[linear-gradient(90deg,_rgba(255,255,255,0.03)_1px,_transparent_1px)] bg-[size:20px_20px] opacity-30"
-        style={{ 
-          transform: `translateX(${Math.sin(breezeOffset * 0.03 + 1) * 35}px)`, // Increased movement range from 15px to 35px
-          transition: "transform 0.6s ease-out"
-        }}
-      ></div>
-      
-      {/* New third layer - diagonal pattern for added depth */}
-      <div 
-        className="absolute inset-0 bg-[linear-gradient(45deg,_transparent_95%,_rgba(255,255,255,0.05)_100%)] bg-[size:30px_30px] opacity-30"
-        style={{ 
-          transform: `translateX(${Math.cos(breezeOffset * 0.04 + 2) * 20}px)`,
-          transition: "transform 0.5s ease-out"
-        }}
-      ></div>
-      
-      <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10 text-center py-24 w-full">
-        <div className="flex flex-col items-center justify-center gap-8 pt-16">
-          <h1 className="font-display text-4xl md:text-5xl lg:text-7xl font-medium leading-tight max-w-4xl mx-auto">
-            Rewards, <span className="italic font-normal">Unleashed</span>
+    <div className="relative bg-black text-white min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="max-w-4xl mx-auto px-6 md:px-8 relative z-10 text-center py-16 w-full">
+        <div className="flex flex-col items-center justify-center gap-12">
+          {/* Headline with elegant brushstroke underline */}
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight">
+            Rewards, <span className="relative font-light italic">
+              Unleashed
+              <svg 
+                className="absolute -bottom-3 left-0 w-full h-4 opacity-80" 
+                viewBox="0 0 200 20" 
+                preserveAspectRatio="none"
+              >
+                <path 
+                  d="M5,15 Q50,5 100,12 T195,8" 
+                  stroke="rgba(255,255,255,0.6)" 
+                  strokeWidth="2" 
+                  fill="none" 
+                  strokeLinecap="round"
+                />
+              </svg>
+            </span>
           </h1>
           
+          {/* Video container with 16:9 aspect ratio */}
+          <div className="w-full max-w-3xl mx-auto">
+            <div className="relative w-full aspect-video rounded-2xl overflow-hidden shadow-2xl">
+              <video
+                ref={videoRef}
+                className="w-full h-full object-cover"
+                muted
+                loop
+                playsInline
+                preload="metadata"
+              >
+                <source 
+                  src="https://github.com/rojchen98/ventuscard/raw/refs/heads/main/Gen-4%20A%20premium%20credit%20card%20named%20Ventus%20Card%20is%20displayed%20in%20the%20center%20of%20the%20frame%20against%20a%20smooth%20black%20background%20The%20card%20has%20a%20sleek%20marbled%20design%20in%20deep%20shades%20of%20blue,%20indigo,%20and%20violet,.mp4" 
+                  type="video/mp4" 
+                />
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+          
+          {/* Get Started button with soft glow effect */}
           <div className="pt-8">
             <Button 
               size="lg" 
-              className="bg-white text-slate-900 hover:bg-white/90 rounded-full px-8"
+              className="bg-white text-black hover:bg-white/90 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-105 border border-white/10"
               onClick={handleGetStarted}
             >
               Get Started
