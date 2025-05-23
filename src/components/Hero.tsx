@@ -67,7 +67,7 @@ const Hero = () => {
           </p>
           
           {/* Video Centerpiece with reduced size (75% scale) and better blending */}
-          <div className="relative w-full max-w-4xl mx-auto mt-12 md:mt-16 transform scale-75">
+          <div className="relative w-full max-w-4xl mx-auto mt-8 md:mt-10 transform scale-75">
             {/* Get Started button positioned at top edge of video */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
               <Button 
