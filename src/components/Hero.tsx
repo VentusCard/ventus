@@ -65,8 +65,19 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with button positioned at bottom edge */}
+          {/* Video Centerpiece with button positioned at top edge */}
           <div className="relative w-full max-w-none lg:w-screen mb-16">
+            {/* Get Started button positioned at top edge of video */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <Button 
+                size="lg" 
+                className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
+                onClick={handleGetStarted}
+              >
+                Get Started
+              </Button>
+            </div>
+            
             <div className="relative aspect-video rounded-2xl overflow-hidden">
               {/* Subtle gradient fade for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
@@ -91,17 +102,6 @@ const Hero = () => {
                 />
                 Your browser does not support the video tag.
               </video>
-            </div>
-            
-            {/* Get Started button positioned at bottom edge of video */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-20">
-              <Button 
-                size="lg" 
-                className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
-                onClick={handleGetStarted}
-              >
-                Get Started
-              </Button>
             </div>
             
             {/* Subtle feathered shadow */}
