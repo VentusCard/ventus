@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useEffect, useState, useRef } from "react"
@@ -6,6 +5,7 @@ import { ChevronDown } from "lucide-react"
 
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [animationStarted, setAnimationStarted] = useState(false);
   
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -25,7 +25,15 @@ const Hero = () => {
       observer.observe(videoRef.current);
     }
 
-    return () => observer.disconnect();
+    // Trigger animation on component mount
+    const timer = setTimeout(() => {
+      setAnimationStarted(true);
+    }, 500);
+
+    return () => {
+      observer.disconnect();
+      clearTimeout(timer);
+    };
   }, []);
 
   const handleGetStarted = () => {
@@ -42,22 +50,12 @@ const Hero = () => {
         <div className="flex flex-col items-center justify-center pt-8 md:pt-12 lg:pt-16 pb-0">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight">
-            <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white">
-              Unleashed
-              <svg 
-                className="absolute -bottom-4 left-0 w-full h-3 opacity-80 animate-pulse" 
-                viewBox="0 0 200 12" 
-                preserveAspectRatio="none"
-              >
-                <path 
-                  d="M5,8 Q50,3 100,6 T195,4" 
-                  stroke="rgba(255,255,255,0.7)" 
-                  strokeWidth="3.5" 
-                  fill="none" 
-                  strokeLinecap="round"
-                  className="animate-[draw_2s_ease-in-out_infinite]"
-                />
-              </svg>
+            <span className="font-bold text-white">Rewards</span>, <span className={`relative font-display font-normal italic text-white overflow-hidden ${animationStarted ? 'animate-unleashed' : ''}`}>
+              <span className="relative z-10">Unleashed</span>
+              {/* Brushstroke reveal mask */}
+              <div className={`absolute inset-0 bg-black transform origin-left ${animationStarted ? 'animate-brushstroke-reveal' : 'scale-x-100'}`}></div>
+              {/* Shimmer effect */}
+              <div className={`absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -translate-x-full ${animationStarted ? 'animate-shimmer-sweep' : ''}`}></div>
             </span>
           </h1>
           
