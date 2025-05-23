@@ -37,14 +37,11 @@ const Hero = () => {
   };
   
   return (
-    <div className="relative bg-black text-white flex items-center justify-center overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center w-full">
-        <div className="flex flex-col items-center justify-center">
-          {/* Spacing between navigation and headline: 48-72px */}
-          <div className="h-12 md:h-16 lg:h-18"></div>
-          
+    <div className="relative bg-black text-white flex items-center justify-center overflow-hidden p-0">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-0 w-full">
+        <div className="flex flex-col items-center justify-center pt-16 md:pt-20 lg:pt-24 pb-0">
           {/* Headline with refined brushstroke underline */}
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight">
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight mb-6 md:mb-8">
             Rewards, <span className="relative font-light italic">
               Unleashed
               <svg 
@@ -63,31 +60,24 @@ const Hero = () => {
             </span>
           </h1>
           
-          {/* Spacing between headline and subheadline: 16-24px */}
-          <div className="h-4 md:h-5 lg:h-6"></div>
-          
           {/* Subheading */}
-          <p className="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed">
             Personalized rewards for high-impact living
           </p>
           
-          {/* Spacing between subheadline and button: 24-32px */}
-          <div className="h-6 md:h-7 lg:h-8"></div>
-          
-          {/* Get Started Button */}
-          <Button 
-            size="lg" 
-            className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
-            onClick={handleGetStarted}
-          >
-            Get Started
-          </Button>
-          
-          {/* Spacing between button and video: 16-24px */}
-          <div className="h-4 md:h-5 lg:h-6"></div>
-          
-          {/* Video Centerpiece */}
-          <div className="relative w-full max-w-none lg:w-screen">
+          {/* Video Centerpiece with button positioned at top edge */}
+          <div className="relative w-full max-w-none lg:w-screen m-0 p-0">
+            {/* Get Started button positioned at top edge of video */}
+            <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
+              <Button 
+                size="lg" 
+                className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
+                onClick={handleGetStarted}
+              >
+                Get Started
+              </Button>
+            </div>
+            
             <div className="relative aspect-video rounded-2xl overflow-hidden">
               {/* Subtle gradient fade for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
