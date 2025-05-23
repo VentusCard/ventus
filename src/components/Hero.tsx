@@ -65,8 +65,8 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with subtle blending */}
-          <div className="relative w-full max-w-none lg:w-screen mb-14 md:mb-18">
+          {/* Video Centerpiece with button positioned at bottom edge */}
+          <div className="relative w-full max-w-none lg:w-screen mb-16">
             <div className="relative aspect-video rounded-2xl overflow-hidden">
               {/* Subtle gradient fade for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
@@ -93,20 +93,20 @@ const Hero = () => {
               </video>
             </div>
             
+            {/* Get Started button positioned at bottom edge of video */}
+            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-20">
+              <Button 
+                size="lg" 
+                className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
+                onClick={handleGetStarted}
+              >
+                Get Started
+              </Button>
+            </div>
+            
             {/* Subtle feathered shadow */}
             <div className="absolute -inset-6 bg-gradient-to-r from-black/20 via-transparent to-black/20 opacity-40 blur-2xl -z-10"></div>
             <div className="absolute -inset-6 bg-gradient-to-t from-black/20 via-transparent to-black/20 opacity-40 blur-2xl -z-10"></div>
-          </div>
-          
-          {/* Get Started button with soft glow effect */}
-          <div className="mb-16">
-            <Button 
-              size="lg" 
-              className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
-              onClick={handleGetStarted}
-            >
-              Get Started
-            </Button>
           </div>
           
           {/* Scroll cue with soft bounce animation */}
