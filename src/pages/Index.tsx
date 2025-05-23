@@ -60,12 +60,12 @@ const Index = () => {
   return (
     <div className="min-h-screen">
       <Navbar />
-      <main>
+      <main className="flex flex-col">
         <Hero />
         <div 
           id="features" 
           ref={featuresRef}
-          className={`transition-all duration-1000 ease-out ${
+          className={`transition-all duration-1000 ease-out mt-0 ${
             visibleSections.features ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >

@@ -37,11 +37,11 @@ const Hero = () => {
   };
   
   return (
-    <div className="relative bg-black text-white flex items-center justify-center overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-20 w-full">
-        <div className="flex flex-col items-center justify-center pt-16 md:pt-24 lg:pt-32">
+    <div className="relative bg-black text-white flex items-center justify-center overflow-hidden p-0">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-0 w-full">
+        <div className="flex flex-col items-center justify-center pt-16 md:pt-20 lg:pt-24 pb-0">
           {/* Headline with refined brushstroke underline */}
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight mb-9 md:mb-12">
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight mb-6 md:mb-8">
             Rewards, <span className="relative font-light italic">
               Unleashed
               <svg 
@@ -61,12 +61,12 @@ const Hero = () => {
           </h1>
           
           {/* Subheading */}
-          <p className="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto mb-12 md:mb-16 leading-relaxed">
+          <p className="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto mb-8 leading-relaxed">
             Personalized rewards for high-impact living
           </p>
           
           {/* Video Centerpiece with button positioned at top edge */}
-          <div className="relative w-full max-w-none lg:w-screen">
+          <div className="relative w-full max-w-none lg:w-screen m-0 p-0">
             {/* Get Started button positioned at top edge of video */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
               <Button 
