@@ -40,43 +40,21 @@ const Hero = () => {
     <div className="relative bg-black text-white flex items-center justify-center overflow-hidden p-0 pt-16 md:pt-20 lg:pt-24">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-0 w-full">
         <div className="flex flex-col items-center justify-center pt-16 md:pt-20 lg:pt-24 pb-0">
-          {/* Headline with enhanced organic brushstroke underline */}
+          {/* Headline with refined brushstroke underline */}
           <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight">
             Rewards, <span className="relative font-light italic">
               Unleashed
               <svg 
-                className="absolute -bottom-6 md:-bottom-8 lg:-bottom-10 left-0 w-full h-6 md:h-8 lg:h-10 opacity-80" 
-                viewBox="0 0 320 24" 
+                className="absolute -bottom-4 left-0 w-full h-3 opacity-70" 
+                viewBox="0 0 200 12" 
                 preserveAspectRatio="none"
-                aria-hidden="true"
               >
-                <defs>
-                  <linearGradient id="brushGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" stopColor="rgba(226, 232, 240, 0.7)" />
-                    <stop offset="30%" stopColor="rgba(248, 250, 252, 0.9)" />
-                    <stop offset="70%" stopColor="rgba(203, 213, 225, 0.8)" />
-                    <stop offset="100%" stopColor="rgba(226, 232, 240, 0.6)" />
-                  </linearGradient>
-                </defs>
                 <path 
-                  d="M8,15 Q25,8 45,12 T85,10 Q120,6 155,11 T215,9 Q250,13 285,8 Q300,6 312,10" 
-                  stroke="url(#brushGradient)" 
-                  strokeWidth="2.5" 
-                  fill="none" 
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  style={{
-                    filter: 'drop-shadow(0 0 8px rgba(248, 250, 252, 0.3))'
-                  }}
-                />
-                <path 
-                  d="M12,18 Q30,11 50,15 T90,13 Q125,9 160,14 T220,12 Q255,16 290,11 Q305,9 315,13" 
-                  stroke="url(#brushGradient)" 
+                  d="M5,8 Q50,3 100,6 T195,4" 
+                  stroke="rgba(255,255,255,0.5)" 
                   strokeWidth="1.5" 
                   fill="none" 
                   strokeLinecap="round"
-                  strokeLinejoin="round"
-                  opacity="0.6"
                 />
               </svg>
             </span>
