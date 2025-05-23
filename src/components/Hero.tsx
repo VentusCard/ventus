@@ -66,7 +66,7 @@ const Hero = () => {
           </p>
           
           {/* Video Centerpiece with button positioned at top edge */}
-          <div className="relative w-full max-w-none lg:w-screen m-0 p-0 mt-8 md:mt-12">
+          <div className="relative w-full max-w-none lg:w-screen m-0 p-0 mt-6 md:mt-8">
             {/* Get Started button positioned at top edge of video */}
             <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-20">
               <Button 
