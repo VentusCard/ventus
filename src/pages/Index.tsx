@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
 import Features from "@/components/Features"
@@ -17,39 +17,41 @@ const Index = () => {
     testimonials: false,
     cta: false
   });
+  
+  const featuresRef = useRef<HTMLDivElement>(null);
+  const benefitsRef = useRef<HTMLDivElement>(null);
+  const rewardsRef = useRef<HTMLDivElement>(null);
+  const testimonialsRef = useRef<HTMLDivElement>(null);
+  const ctaRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight;
+      const scrollPosition = window.scrollY + window.innerHeight * 0.8; // Trigger slightly earlier
       
-      // Get positions of each section
-      const featuresElement = document.getElementById('features');
-      const benefitsElement = document.getElementById('benefits');
-      const rewardsElement = document.getElementById('rewards');
-      const testimonialsElement = document.getElementById('testimonials');
-      const ctaElement = document.getElementById('cta');
-      
-      // Show sections as user scrolls down
-      if (featuresElement && scrollPosition > featuresElement.offsetTop) {
+      // Check each section visibility
+      if (featuresRef.current && scrollPosition > featuresRef.current.offsetTop) {
         setVisibleSections(prev => ({ ...prev, features: true }));
       }
       
-      if (benefitsElement && scrollPosition > benefitsElement.offsetTop) {
+      if (benefitsRef.current && scrollPosition > benefitsRef.current.offsetTop) {
         setVisibleSections(prev => ({ ...prev, benefits: true }));
       }
       
-      if (rewardsElement && scrollPosition > rewardsElement.offsetTop) {
+      if (rewardsRef.current && scrollPosition > rewardsRef.current.offsetTop) {
         setVisibleSections(prev => ({ ...prev, rewards: true }));
       }
       
-      if (testimonialsElement && scrollPosition > testimonialsElement.offsetTop) {
+      if (testimonialsRef.current && scrollPosition > testimonialsRef.current.offsetTop) {
         setVisibleSections(prev => ({ ...prev, testimonials: true }));
       }
       
-      if (ctaElement && scrollPosition > ctaElement.offsetTop) {
+      if (ctaRef.current && scrollPosition > ctaRef.current.offsetTop) {
         setVisibleSections(prev => ({ ...prev, cta: true }));
       }
     };
+    
+    // Call once to check initial visibility
+    handleScroll();
     
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -60,19 +62,49 @@ const Index = () => {
       <Navbar />
       <main>
         <Hero />
-        <div id="features" className={`transition-opacity duration-1000 ${visibleSections.features ? 'opacity-100' : 'opacity-0'}`}>
+        <div 
+          id="features" 
+          ref={featuresRef}
+          className={`transition-all duration-1000 ease-out ${
+            visibleSections.features ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <Features />
         </div>
-        <div id="benefits" className={`transition-opacity duration-1000 ${visibleSections.benefits ? 'opacity-100' : 'opacity-0'}`}>
+        <div 
+          id="benefits" 
+          ref={benefitsRef}
+          className={`transition-all duration-1000 ease-out delay-100 ${
+            visibleSections.benefits ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <Benefits />
         </div>
-        <div id="rewards" className={`transition-opacity duration-1000 ${visibleSections.rewards ? 'opacity-100' : 'opacity-0'}`}>
+        <div 
+          id="rewards" 
+          ref={rewardsRef}
+          className={`transition-all duration-1000 ease-out delay-200 ${
+            visibleSections.rewards ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <Rewards />
         </div>
-        <div id="testimonials" className={`transition-opacity duration-1000 ${visibleSections.testimonials ? 'opacity-100' : 'opacity-0'}`}>
+        <div 
+          id="testimonials" 
+          ref={testimonialsRef}
+          className={`transition-all duration-1000 ease-out delay-300 ${
+            visibleSections.testimonials ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <Testimonials />
         </div>
-        <div id="cta" className={`transition-opacity duration-1000 ${visibleSections.cta ? 'opacity-100' : 'opacity-0'}`}>
+        <div 
+          id="cta" 
+          ref={ctaRef}
+          className={`transition-all duration-1000 ease-out delay-400 ${
+            visibleSections.cta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          }`}
+        >
           <CTA />
         </div>
       </main>

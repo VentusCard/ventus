@@ -5,7 +5,6 @@ import { useEffect, useState, useRef } from "react"
 import { ChevronDown } from "lucide-react"
 
 const Hero = () => {
-  const [showContent, setShowContent] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   useEffect(() => {
@@ -30,15 +29,11 @@ const Hero = () => {
   }, []);
 
   const handleGetStarted = () => {
-    setShowContent(true);
-    
     // Smooth scroll to Features section
-    setTimeout(() => {
-      const featuresSection = document.getElementById('features');
-      if (featuresSection) {
-        featuresSection.scrollIntoView({ behavior: 'smooth' });
-      }
-    }, 100);
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      featuresSection.scrollIntoView({ behavior: 'smooth' });
+    }
   };
   
   return (
@@ -71,7 +66,7 @@ const Hero = () => {
           </p>
           
           {/* Video Centerpiece with subtle blending */}
-          <div className="relative w-full max-w-4xl mb-14 md:mb-18">
+          <div className="relative w-full max-w-none lg:w-screen mb-14 md:mb-18">
             <div className="relative aspect-video rounded-2xl overflow-hidden">
               {/* Subtle gradient fade for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
