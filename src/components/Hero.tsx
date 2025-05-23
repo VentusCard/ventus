@@ -104,8 +104,8 @@ const Hero = () => {
               </video>
             </div>
             
-            {/* Scroll cue anchored to bottom edge of video */}
-            <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 z-20">
+            {/* Scroll cue moved up from bottom edge of video */}
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-20">
               <div className="animate-bounce">
                 <ChevronDown className="h-6 w-6 text-white/60" />
               </div>
