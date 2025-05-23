@@ -52,7 +52,7 @@ const Hero = () => {
                 <path 
                   d="M5,8 Q50,3 100,6 T195,4" 
                   stroke="rgba(255,255,255,0.6)" 
-                  strokeWidth="2.5" 
+                  strokeWidth="3.5" 
                   fill="none" 
                   strokeLinecap="round"
                 />
