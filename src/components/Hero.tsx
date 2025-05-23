@@ -2,6 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useEffect, useState, useRef } from "react"
+import { ChevronDown } from "lucide-react"
 
 const Hero = () => {
   const [showContent, setShowContent] = useState(false);
@@ -43,20 +44,20 @@ const Hero = () => {
   return (
     <div className="relative bg-black text-white min-h-screen flex items-center justify-center overflow-hidden">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-20 w-full">
-        <div className="flex flex-col items-center justify-center gap-16">
-          {/* Headline with elegant brushstroke underline */}
-          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight">
+        <div className="flex flex-col items-center justify-center">
+          {/* Headline with refined brushstroke underline */}
+          <h1 className="font-display text-5xl md:text-6xl lg:text-7xl font-light leading-tight tracking-tight mb-9 md:mb-12">
             Rewards, <span className="relative font-light italic">
               Unleashed
               <svg 
-                className="absolute -bottom-3 left-0 w-full h-4 opacity-80" 
-                viewBox="0 0 200 20" 
+                className="absolute -bottom-4 left-0 w-full h-3 opacity-70" 
+                viewBox="0 0 200 12" 
                 preserveAspectRatio="none"
               >
                 <path 
-                  d="M5,15 Q50,5 100,12 T195,8" 
-                  stroke="rgba(255,255,255,0.6)" 
-                  strokeWidth="2" 
+                  d="M5,8 Q50,3 100,6 T195,4" 
+                  stroke="rgba(255,255,255,0.5)" 
+                  strokeWidth="1.5" 
                   fill="none" 
                   strokeLinecap="round"
                 />
@@ -64,19 +65,21 @@ const Hero = () => {
             </span>
           </h1>
           
-          {/* Video Centerpiece with blending effects */}
-          <div className="relative w-full max-w-4xl">
-            <div className="relative aspect-video rounded-lg overflow-hidden">
-              {/* Gradient mask overlay for blending */}
+          {/* Subheading */}
+          <p className="text-lg md:text-xl font-light text-white/80 max-w-2xl mx-auto mb-12 md:mb-16 leading-relaxed">
+            Personalized rewards for high-impact living
+          </p>
+          
+          {/* Video Centerpiece with subtle blending */}
+          <div className="relative w-full max-w-4xl mb-14 md:mb-18">
+            <div className="relative aspect-video rounded-2xl overflow-hidden">
+              {/* Subtle gradient fade for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
-                {/* Top gradient */}
-                <div className="absolute top-0 left-0 right-0 h-8 bg-gradient-to-b from-black to-transparent"></div>
-                {/* Bottom gradient */}
-                <div className="absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-black to-transparent"></div>
-                {/* Left gradient */}
-                <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-black to-transparent"></div>
-                {/* Right gradient */}
-                <div className="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-black to-transparent"></div>
+                {/* Feathered edges */}
+                <div className="absolute top-0 left-0 right-0 h-6 bg-gradient-to-b from-black/30 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-6 bg-gradient-to-t from-black/30 to-transparent"></div>
+                <div className="absolute top-0 bottom-0 left-0 w-6 bg-gradient-to-r from-black/30 to-transparent"></div>
+                <div className="absolute top-0 bottom-0 right-0 w-6 bg-gradient-to-l from-black/30 to-transparent"></div>
               </div>
               
               {/* Video element */}
@@ -95,20 +98,25 @@ const Hero = () => {
               </video>
             </div>
             
-            {/* Feathered shadow around container */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-black via-transparent to-black opacity-60 blur-xl -z-10"></div>
-            <div className="absolute -inset-4 bg-gradient-to-t from-black via-transparent to-black opacity-60 blur-xl -z-10"></div>
+            {/* Subtle feathered shadow */}
+            <div className="absolute -inset-6 bg-gradient-to-r from-black/20 via-transparent to-black/20 opacity-40 blur-2xl -z-10"></div>
+            <div className="absolute -inset-6 bg-gradient-to-t from-black/20 via-transparent to-black/20 opacity-40 blur-2xl -z-10"></div>
           </div>
           
           {/* Get Started button with soft glow effect */}
-          <div className="pt-8">
+          <div className="mb-16">
             <Button 
               size="lg" 
-              className="bg-white text-black hover:bg-white/90 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] hover:scale-105 border border-white/10"
+              className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
               onClick={handleGetStarted}
             >
               Get Started
             </Button>
+          </div>
+          
+          {/* Scroll cue with soft bounce animation */}
+          <div className="animate-bounce">
+            <ChevronDown className="h-6 w-6 text-white/60" />
           </div>
         </div>
       </div>
