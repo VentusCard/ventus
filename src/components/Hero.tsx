@@ -39,7 +39,7 @@ const Hero = () => {
   return (
     <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden p-0 pt-16 md:pt-20 lg:pt-24">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-0 w-full">
-        <div className="flex flex-col items-center justify-center pt-16 md:pt-20 lg:pt-24 pb-0">
+        <div className="flex flex-col items-center justify-center pt-8 md:pt-12 lg:pt-16 pb-0">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white">
@@ -62,12 +62,12 @@ const Hero = () => {
           </h1>
           
           {/* Enhanced subheading with soft blue-gray tone */}
-          <p className="text-lg md:text-xl font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed mt-8 md:mt-10">
+          <p className="text-lg md:text-xl font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed mt-6 md:mt-8">
             Personalized rewards for high-impact living
           </p>
           
           {/* Video Centerpiece with reduced size (75% scale) and better blending */}
-          <div className="relative w-full max-w-4xl mx-auto mt-8 md:mt-10 transform scale-75">
+          <div className="relative w-full max-w-4xl mx-auto mt-6 md:mt-8 transform scale-75">
             <div className="relative aspect-video rounded-2xl overflow-hidden">
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
@@ -108,7 +108,7 @@ const Hero = () => {
           </div>
           
           {/* Get Started button moved below video */}
-          <div className="mt-8 md:mt-10">
+          <div className="mt-6 md:mt-8">
             <Button 
               size="lg" 
               className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
@@ -119,7 +119,7 @@ const Hero = () => {
           </div>
           
           {/* Scroll cue */}
-          <div className="mt-8 md:mt-10">
+          <div className="mt-6 md:mt-8">
             <div className="animate-bounce">
               <ChevronDown className="h-6 w-6 text-white/60" />
             </div>
