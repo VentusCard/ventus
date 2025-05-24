@@ -72,11 +72,11 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with hover effects */}
+          {/* Video Centerpiece with hover effects - removed border */}
           <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-70 md:scale-75 lg:scale-80 transition-all duration-700 ease-out ${
             isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : 'hover:scale-[0.82] hover:-rotate-1 hover:translate-y-1'
           }`}>
-            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
+            <div className="relative aspect-video overflow-hidden">
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Stronger feathered edges that blend into black background */}
@@ -85,14 +85,8 @@ const Hero = () => {
                 <div className="absolute top-0 bottom-0 left-0 w-8 md:w-12 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
                 <div className="absolute top-0 bottom-0 right-0 w-8 md:w-12 bg-gradient-to-l from-black via-black/60 to-transparent"></div>
                 
-                {/* Corner blending for rounded corners */}
-                <div className="absolute top-0 left-0 w-6 h-6 md:w-8 md:h-8 bg-gradient-radial from-black to-transparent rounded-tl-2xl"></div>
-                <div className="absolute top-0 right-0 w-6 h-6 md:w-8 md:h-8 bg-gradient-radial from-black to-transparent rounded-tr-2xl"></div>
-                <div className="absolute bottom-0 left-0 w-6 h-6 md:w-8 md:h-8 bg-gradient-radial from-black to-transparent rounded-bl-2xl"></div>
-                <div className="absolute bottom-0 right-0 w-6 h-6 md:w-8 md:h-8 bg-gradient-radial from-black to-transparent rounded-br-2xl"></div>
-                
                 {/* Subtle vignette effect */}
-                <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20 rounded-2xl"></div>
+                <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20"></div>
               </div>
               
               {/* Video element with reduced opacity for better blending */}
