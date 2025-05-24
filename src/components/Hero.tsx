@@ -58,12 +58,12 @@ const Hero = () => {
         <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-8 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
-            <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white overflow-hidden">
-              <span className="inline-block animate-[unleashed_2s_ease-out_1]">
+            <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white">
+              <span className="inline-block animate-[unleashed_2s_ease-out_1] relative z-10">
                 Unleashed
               </span>
               {/* Brushstroke reveal overlay */}
-              <div className="absolute inset-0 bg-black animate-[brushstroke_1.5s_ease-out_1] origin-left"></div>
+              <div className="absolute inset-0 bg-black animate-[brushstroke_1.5s_ease-out_1] origin-left z-20"></div>
             </span>
           </h1>
           
