@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -98,18 +97,47 @@ export default {
 						height: '0'
 					}
 				},
-				'draw': {
+				// New "Unleashed" word animation
+				'unleashed': {
 					'0%': {
-						'stroke-dasharray': '0 100',
-						opacity: '0.3'
-					},
-					'50%': {
-						'stroke-dasharray': '50 50',
+						'letter-spacing': '0.2em',
+						filter: 'blur(4px)',
 						opacity: '0.6'
 					},
+					'60%': {
+						'letter-spacing': '0.05em',
+						filter: 'blur(1px)',
+						opacity: '0.9'
+					},
 					'100%': {
-						'stroke-dasharray': '100 0',
-						opacity: '0.4'
+						'letter-spacing': '0',
+						filter: 'blur(0px)',
+						opacity: '1'
+					}
+				},
+				// Brushstroke reveal animation
+				'brushstroke': {
+					'0%': {
+						transform: 'scaleX(1)',
+						'transform-origin': 'left'
+					},
+					'100%': {
+						transform: 'scaleX(0)',
+						'transform-origin': 'right'
+					}
+				},
+				// Shimmer effect animation
+				'shimmer': {
+					'0%': {
+						transform: 'translateX(-100%) skewX(-12deg)',
+						opacity: '0'
+					},
+					'50%': {
+						opacity: '1'
+					},
+					'100%': {
+						transform: 'translateX(100%) skewX(-12deg)',
+						opacity: '0'
 					}
 				},
 				'float': {
@@ -138,7 +166,9 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'draw': 'draw 1.5s ease-in-out infinite',
+				'unleashed': 'unleashed 2s ease-out',
+				'brushstroke': 'brushstroke 1.5s ease-out',
+				'shimmer': 'shimmer 0.8s ease-in',
 				'float': 'float 6s ease-in-out infinite',
 				'bounce': 'bounce 4s ease-in-out infinite'
 			}

@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useEffect, useState, useRef } from "react"
@@ -58,22 +57,14 @@ const Hero = () => {
         <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-8 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
-            <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white">
-              Unleashed
-              <svg 
-                className="absolute -bottom-3 md:-bottom-4 left-0 w-full h-2 md:h-3 opacity-40 animate-pulse" 
-                viewBox="0 0 200 12" 
-                preserveAspectRatio="none"
-              >
-                <path 
-                  d="M5,8 Q50,3 100,6 T195,4" 
-                  stroke="rgba(255,255,255,0.4)" 
-                  strokeWidth="2.5" 
-                  fill="none" 
-                  strokeLinecap="round"
-                  className="animate-[draw_1.8s_ease-in-out_infinite]"
-                />
-              </svg>
+            <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white overflow-hidden">
+              <span className="inline-block animate-[unleashed_2s_ease-out_1]">
+                Unleashed
+              </span>
+              {/* Brushstroke reveal overlay */}
+              <div className="absolute inset-0 bg-black animate-[brushstroke_1.5s_ease-out_1] origin-left"></div>
+              {/* Shimmer effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent w-full h-full animate-[shimmer_0.8s_ease-in_1.2s_1] opacity-0 -skew-x-12"></div>
             </span>
           </h1>
           
