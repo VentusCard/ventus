@@ -52,10 +52,10 @@ const Hero = () => {
   };
   
   return (
-    <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center min-h-screen">
-        {/* Reduced spacing between navbar and hero content */}
-        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-4 md:pt-6">
+    <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
+        {/* Add spacing between navbar and hero content */}
+        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-8 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
@@ -119,14 +119,14 @@ const Hero = () => {
               Get Started
             </Button>
           </div>
-        </div>
-        
-        {/* Scroll cue with bounce animation and label - positioned at bottom */}
-        <div className="mt-auto mb-6 md:mb-8 flex flex-col items-center">
-          <div className="animate-[bounce_4s_ease-in-out_infinite]">
-            <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
+          
+          {/* Scroll cue with bounce animation and label */}
+          <div className="mt-1 md:mt-2 flex flex-col items-center">
+            <div className="animate-[bounce_4s_ease-in-out_infinite]">
+              <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
+            </div>
+            <span className="text-xs text-white/50 mt-1 font-light tracking-wide">Explore More</span>
           </div>
-          <span className="text-xs text-white/50 mt-1 font-light tracking-wide">Explore More</span>
         </div>
       </div>
     </div>
