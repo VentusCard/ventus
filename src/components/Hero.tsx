@@ -54,8 +54,8 @@ const Hero = () => {
   return (
     <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
-        {/* Add spacing between navbar and hero content */}
-        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-8 md:pt-12">
+        {/* Add proper spacing to prevent header cutoff */}
+        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-20 md:pt-24">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
