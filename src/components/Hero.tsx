@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useEffect, useState, useRef } from "react"
@@ -5,8 +6,16 @@ import { ChevronDown } from "lucide-react"
 
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMobile, setIsMobile] = useState(false);
   
   useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -24,7 +33,10 @@ const Hero = () => {
       observer.observe(videoRef.current);
     }
 
-    return () => observer.disconnect();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('resize', checkMobile);
+    };
   }, []);
 
   const handleGetStarted = () => {
@@ -40,51 +52,53 @@ const Hero = () => {
   };
   
   return (
-    <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden min-h-screen">
-      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-4 w-full flex flex-col justify-center min-h-screen">
-        <div className="flex flex-col items-center justify-center space-y-4">
+    <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
+        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3">
           {/* Headline with enhanced typography and brushstroke animation */}
-          <h1 className="font-sans text-5xl md:text-6xl lg:text-7xl leading-tight tracking-tight">
+          <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white">
               Unleashed
               <svg 
-                className="absolute -bottom-4 left-0 w-full h-3 opacity-80 animate-pulse" 
+                className="absolute -bottom-3 md:-bottom-4 left-0 w-full h-2 md:h-3 opacity-60 animate-pulse" 
                 viewBox="0 0 200 12" 
                 preserveAspectRatio="none"
               >
                 <path 
                   d="M5,8 Q50,3 100,6 T195,4" 
-                  stroke="rgba(255,255,255,0.7)" 
-                  strokeWidth="3.5" 
+                  stroke="rgba(255,255,255,0.5)" 
+                  strokeWidth="2.5" 
                   fill="none" 
                   strokeLinecap="round"
-                  className="animate-[draw_2s_ease-in-out_infinite]"
+                  className="animate-[draw_1.5s_ease-in-out_infinite]"
                 />
               </svg>
             </span>
           </h1>
           
           {/* Enhanced subheading with soft blue-gray tone */}
-          <p className="text-lg md:text-xl font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with optimized size for viewport fit */}
-          <div className="relative w-full max-w-3xl mx-auto transform scale-65 md:scale-75">
-            <div className="relative aspect-video rounded-2xl overflow-hidden">
+          {/* Video Centerpiece with hover effects */}
+          <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-70 md:scale-75 lg:scale-80 transition-all duration-700 ease-out ${
+            isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : 'hover:scale-[0.82] hover:-rotate-1 hover:translate-y-1'
+          }`}>
+            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Stronger feathered edges that blend into black background */}
-                <div className="absolute top-0 left-0 right-0 h-12 bg-gradient-to-b from-black via-black/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 left-0 w-12 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 right-0 w-12 bg-gradient-to-l from-black via-black/60 to-transparent"></div>
+                <div className="absolute top-0 left-0 right-0 h-8 md:h-12 bg-gradient-to-b from-black via-black/60 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-12 md:h-16 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
+                <div className="absolute top-0 bottom-0 left-0 w-8 md:w-12 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
+                <div className="absolute top-0 bottom-0 right-0 w-8 md:w-12 bg-gradient-to-l from-black via-black/60 to-transparent"></div>
                 
                 {/* Corner blending for rounded corners */}
-                <div className="absolute top-0 left-0 w-8 h-8 bg-gradient-radial from-black to-transparent rounded-tl-2xl"></div>
-                <div className="absolute top-0 right-0 w-8 h-8 bg-gradient-radial from-black to-transparent rounded-tr-2xl"></div>
-                <div className="absolute bottom-0 left-0 w-8 h-8 bg-gradient-radial from-black to-transparent rounded-bl-2xl"></div>
-                <div className="absolute bottom-0 right-0 w-8 h-8 bg-gradient-radial from-black to-transparent rounded-br-2xl"></div>
+                <div className="absolute top-0 left-0 w-6 h-6 md:w-8 md:h-8 bg-gradient-radial from-black to-transparent rounded-tl-2xl"></div>
+                <div className="absolute top-0 right-0 w-6 h-6 md:w-8 md:h-8 bg-gradient-radial from-black to-transparent rounded-tr-2xl"></div>
+                <div className="absolute bottom-0 left-0 w-6 h-6 md:w-8 md:h-8 bg-gradient-radial from-black to-transparent rounded-bl-2xl"></div>
+                <div className="absolute bottom-0 right-0 w-6 h-6 md:w-8 md:h-8 bg-gradient-radial from-black to-transparent rounded-br-2xl"></div>
                 
                 {/* Subtle vignette effect */}
                 <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20 rounded-2xl"></div>
@@ -107,25 +121,26 @@ const Hero = () => {
             </div>
             
             {/* Softer shadow effects that blend with background */}
-            <div className="absolute -inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
+            <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
           </div>
           
-          {/* Get Started button moved closer to video with reduced spacing */}
-          <div className="mt-2">
+          {/* Get Started button with increased clickable area */}
+          <div className="mt-1 md:mt-2">
             <Button 
               size="lg" 
-              className="bg-white text-black hover:bg-white/95 rounded-full px-12 py-4 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105"
+              className="bg-white text-black hover:bg-white/95 rounded-full px-14 py-5 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105 min-h-[56px] min-w-[180px]"
               onClick={handleGetStarted}
             >
               Get Started
             </Button>
           </div>
           
-          {/* Scroll cue with minimal spacing */}
-          <div className="mt-2">
-            <div className="animate-bounce">
-              <ChevronDown className="h-6 w-6 text-white/60" />
+          {/* Scroll cue with bounce animation and label */}
+          <div className="mt-1 md:mt-2 flex flex-col items-center">
+            <div className="animate-[bounce_4s_ease-in-out_infinite]">
+              <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
             </div>
+            <span className="text-xs text-white/50 mt-1 font-light tracking-wide">Explore More</span>
           </div>
         </div>
       </div>
