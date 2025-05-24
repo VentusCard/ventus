@@ -72,9 +72,9 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with hover effects */}
-          <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-70 md:scale-75 lg:scale-80 transition-all duration-700 ease-out ${
-            isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : 'hover:scale-[0.82] hover:-rotate-1 hover:translate-y-1'
+          {/* Video Centerpiece with hover effects - Enlarged */}
+          <div className={`relative w-full max-w-3xl md:max-w-4xl lg:max-w-5xl mx-auto transform scale-85 md:scale-90 lg:scale-95 transition-all duration-700 ease-out ${
+            isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : 'hover:scale-[0.98] hover:-rotate-1 hover:translate-y-1'
           }`}>
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
               {/* Enhanced gradient overlays for seamless blending */}
