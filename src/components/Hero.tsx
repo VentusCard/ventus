@@ -54,8 +54,8 @@ const Hero = () => {
   return (
     <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
-        {/* Add proper spacing to prevent header cutoff */}
-        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-20 md:pt-24">
+        {/* Add spacing between navbar and hero content */}
+        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-8 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
@@ -72,9 +72,9 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with hover effects - Enlarged */}
-          <div className={`relative w-full max-w-3xl md:max-w-4xl lg:max-w-5xl mx-auto transform scale-85 md:scale-90 lg:scale-95 transition-all duration-700 ease-out ${
-            isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : 'hover:scale-[0.98] hover:-rotate-1 hover:translate-y-1'
+          {/* Video Centerpiece with hover effects */}
+          <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-70 md:scale-75 lg:scale-80 transition-all duration-700 ease-out ${
+            isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : 'hover:scale-[0.82] hover:-rotate-1 hover:translate-y-1'
           }`}>
             <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl">
               {/* Enhanced gradient overlays for seamless blending */}
