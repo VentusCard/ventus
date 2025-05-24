@@ -98,21 +98,14 @@ export default {
 						height: '0'
 					}
 				},
-				// Optimized "Unleashed" word animation with smoother easing and less dramatic letter-spacing
+				// Simplified "Unleashed" animation focusing on transform and opacity only
 				'unleashed': {
 					'0%': {
-						'letter-spacing': '0.1em',
-						filter: 'blur(3px)',
-						opacity: '0.7'
-					},
-					'70%': {
-						'letter-spacing': '0.02em',
-						filter: 'blur(0.5px)',
-						opacity: '0.95'
+						transform: 'scale(0.98) translateY(2px)',
+						opacity: '0'
 					},
 					'100%': {
-						'letter-spacing': '0',
-						filter: 'blur(0px)',
+						transform: 'scale(1) translateY(0)',
 						opacity: '1'
 					}
 				},
@@ -153,7 +146,7 @@ export default {
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'unleashed': 'unleashed 1.8s cubic-bezier(0.4, 0, 0.2, 1)',
+				'unleashed': 'unleashed 1.2s ease-out',
 				'brushstroke': 'brushstroke 1.5s ease-out',
 				'float': 'float 6s ease-in-out infinite',
 				'bounce': 'bounce 4s ease-in-out infinite'
