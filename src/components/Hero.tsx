@@ -54,23 +54,24 @@ const Hero = () => {
   return (
     <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
-        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3">
+        {/* Add spacing between navbar and hero content */}
+        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-8 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white">
               Unleashed
               <svg 
-                className="absolute -bottom-3 md:-bottom-4 left-0 w-full h-2 md:h-3 opacity-60 animate-pulse" 
+                className="absolute -bottom-3 md:-bottom-4 left-0 w-full h-2 md:h-3 opacity-40 animate-pulse" 
                 viewBox="0 0 200 12" 
                 preserveAspectRatio="none"
               >
                 <path 
                   d="M5,8 Q50,3 100,6 T195,4" 
-                  stroke="rgba(255,255,255,0.5)" 
+                  stroke="rgba(255,255,255,0.4)" 
                   strokeWidth="2.5" 
                   fill="none" 
                   strokeLinecap="round"
-                  className="animate-[draw_1.5s_ease-in-out_infinite]"
+                  className="animate-[draw_1.8s_ease-in-out_infinite]"
                 />
               </svg>
             </span>
