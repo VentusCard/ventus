@@ -1,4 +1,3 @@
-
 import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -17,14 +16,8 @@ const Navbar = () => {
       <div className="flex h-16 md:h-20 items-center justify-center px-6 md:px-8 max-w-7xl mx-auto">
         {/* Logo/Brand - Silver laser-etched appearance */}
         <div className="absolute left-6 md:left-8 flex items-center">
-          <h1 className="text-lg tracking-[0.02em] font-sans font-medium bg-gradient-to-br from-gray-200 via-gray-300 to-gray-500 bg-clip-text text-transparent drop-shadow-[0_1px_2px_rgba(255,255,255,0.1)] relative">
-            <span className="relative inline-block">
-              Ventus Card
-              {/* Laser-etched glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-200 via-gray-300 to-gray-500 bg-clip-text text-transparent blur-[0.5px] opacity-60"></div>
-              {/* Subtle highlight line */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gray-300/30 to-transparent"></div>
-            </span>
+          <h1 className="text-lg tracking-[0.02em] font-sans font-medium text-gray-300 hover:text-gray-200 transition-colors duration-300">
+            Ventus Card
           </h1>
         </div>
         
