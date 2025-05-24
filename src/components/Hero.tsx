@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useEffect, useState, useRef } from "react"
@@ -63,8 +64,6 @@ const Hero = () => {
               </span>
               {/* Brushstroke reveal overlay */}
               <div className="absolute inset-0 bg-black animate-[brushstroke_1.5s_ease-out_1] origin-left"></div>
-              {/* Shimmer effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent w-full h-full animate-[shimmer_0.8s_ease-in_1.2s_1] opacity-0 -skew-x-12"></div>
             </span>
           </h1>
           

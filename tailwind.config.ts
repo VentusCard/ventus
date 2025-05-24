@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -126,20 +127,6 @@ export default {
 						'transform-origin': 'right'
 					}
 				},
-				// Shimmer effect animation
-				'shimmer': {
-					'0%': {
-						transform: 'translateX(-100%) skewX(-12deg)',
-						opacity: '0'
-					},
-					'50%': {
-						opacity: '1'
-					},
-					'100%': {
-						transform: 'translateX(100%) skewX(-12deg)',
-						opacity: '0'
-					}
-				},
 				'float': {
 					'0%, 100%': {
 						transform: 'translateY(0px) rotate(0deg)'
@@ -168,7 +155,6 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'unleashed': 'unleashed 2s ease-out',
 				'brushstroke': 'brushstroke 1.5s ease-out',
-				'shimmer': 'shimmer 0.8s ease-in',
 				'float': 'float 6s ease-in-out infinite',
 				'bounce': 'bounce 4s ease-in-out infinite'
 			}
