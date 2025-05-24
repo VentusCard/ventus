@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useEffect, useState, useRef } from "react"
@@ -29,10 +28,14 @@ const Hero = () => {
   }, []);
 
   const handleGetStarted = () => {
-    // Smooth scroll to Features section
+    // Smooth scroll to Features section with proper offset to account for navbar
     const featuresSection = document.getElementById('features');
     if (featuresSection) {
-      featuresSection.scrollIntoView({ behavior: 'smooth' });
+      const offsetTop = featuresSection.offsetTop - 100; // Add 100px offset for navbar and spacing
+      window.scrollTo({ 
+        top: offsetTop, 
+        behavior: 'smooth' 
+      });
     }
   };
   
