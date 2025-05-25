@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react"
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
@@ -63,7 +64,7 @@ const Index = () => {
         <div 
           id="features" 
           ref={featuresRef}
-          className={`transition-all duration-1000 ease-out mt-0 ${
+          className={`transition-all duration-1000 ease-out mt-0 bg-[#F8F9FA] ${
             visibleSections.features ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
@@ -72,7 +73,7 @@ const Index = () => {
         <div 
           id="benefits" 
           ref={benefitsRef}
-          className={`transition-all duration-1000 ease-out delay-100 ${
+          className={`transition-all duration-1000 ease-out delay-100 bg-[#F8F9FA] ${
             visibleSections.benefits ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
@@ -81,7 +82,7 @@ const Index = () => {
         <div 
           id="rewards" 
           ref={rewardsRef}
-          className={`transition-all duration-1000 ease-out delay-200 ${
+          className={`transition-all duration-1000 ease-out delay-200 bg-[#F8F9FA] ${
             visibleSections.rewards ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >
@@ -90,7 +91,7 @@ const Index = () => {
         <div 
           id="testimonials" 
           ref={testimonialsRef}
-          className={`transition-all duration-1000 ease-out delay-300 ${
+          className={`transition-all duration-1000 ease-out delay-300 bg-[#F8F9FA] ${
             visibleSections.testimonials ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
           }`}
         >

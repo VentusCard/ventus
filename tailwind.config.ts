@@ -177,6 +177,19 @@ export default {
 						transform: 'translateY(0)',
 						opacity: '1'
 					}
+				},
+				// New fade-up-blur animation for CTA content
+				'fadeUpBlur': {
+					'0%': {
+						transform: 'translateY(30px)',
+						opacity: '0',
+						filter: 'blur(10px)'
+					},
+					'100%': {
+						transform: 'translateY(0)',
+						opacity: '1',
+						filter: 'blur(0px)'
+					}
 				}
 			},
 			animation: {
@@ -187,7 +200,8 @@ export default {
 				'brushstroke-draw': 'brushstroke-draw 1.5s ease-out',
 				'shimmer': 'shimmer 3s ease-in-out infinite',
 				'float': 'float 6s ease-in-out infinite',
-				'bounce': 'bounce 4s ease-in-out infinite'
+				'bounce': 'bounce 4s ease-in-out infinite',
+				'fadeUpBlur': 'fadeUpBlur 1s ease-out'
 			}
 		}
 	},
