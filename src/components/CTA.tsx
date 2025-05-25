@@ -1,13 +1,12 @@
-
 import { Button } from "@/components/ui/button"
 
 const CTA = () => {
   return (
     <section className="relative bg-black text-white">
-      {/* Top gradient for smooth transition from light sections - more subtle and refined */}
-      <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-[#F8F9FA] to-[#1A1A1A] pointer-events-none"></div>
+      {/* Extended top gradient for smoother transition from light sections */}
+      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-[#F8F9FA] via-[#E5E7EB] via-[#9CA3AF] to-[#1A1A1A] pointer-events-none"></div>
       
-      <div className="relative pt-24 pb-8">
+      <div className="relative pt-40 pb-8">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           {/* Main CTA Content with scroll animations */}
           <div className="text-center mb-16">
