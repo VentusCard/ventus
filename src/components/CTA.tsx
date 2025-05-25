@@ -4,10 +4,10 @@ import { Button } from "@/components/ui/button"
 const CTA = () => {
   return (
     <section className="relative bg-black text-white">
-      {/* Enhanced top gradient ramp for ultra-smooth transition from light sections */}
-      <div className="absolute top-0 left-0 right-0 h-48 bg-gradient-to-b from-[#F8F9FA] via-[#EFEFEF] via-[#E5E5E5] via-[#D0D0D0] via-[#A0A0A0] via-[#707070] via-[#404040] via-[#1A1A1A] to-black pointer-events-none"></div>
+      {/* Top gradient ramp for smooth transition from light sections */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#F8F9FA] via-[#1A1A1A] to-black pointer-events-none"></div>
       
-      <div className="relative pt-48 pb-8">
+      <div className="relative pt-32 pb-8">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           {/* Main CTA Content with scroll animations */}
           <div className="text-center mb-16">
