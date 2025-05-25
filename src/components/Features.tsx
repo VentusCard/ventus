@@ -166,16 +166,16 @@ const AdaptiveRewardsPhone = () => {
   )
 }
 
-// Updated Phone mockup component for Feature 2 - Merchant Offers
+// Updated Phone mockup component for Feature 2 - Merchant Offers (reusing same transaction)
 const MerchantOffersPhone = () => {
   const [currentPhase, setCurrentPhase] = useState(0)
   
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentPhase((prev) => (prev + 1) % 2) // 0 = transaction summary, 1 = bonus offer
-    }, currentPhase === 0 ? 2000 : 3000) // 2s for transaction, 3s for offer
+      setCurrentPhase((prev) => (prev + 1) % 2) // 0 = recent transactions, 1 = bonus offer
+    }, 2500) // Switch every 2.5 seconds for 5 second total loop
     return () => clearInterval(interval)
-  }, [currentPhase])
+  }, [])
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
@@ -190,56 +190,92 @@ const MerchantOffersPhone = () => {
           </div>
         </div>
         
-        {/* Phase 1: Transaction Summary */}
+        {/* Phase 1: Recent Transactions (same as first feature) */}
         {currentPhase === 0 && (
           <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
-            <div className="text-center mb-6 flex-shrink-0">
-              <h4 className="font-bold text-lg mb-1">Recent Transaction</h4>
-              <p className="text-sm text-gray-600">Just now</p>
+            <div className="text-center mb-4 flex-shrink-0">
+              <h4 className="font-bold text-base mb-1">Recent Transactions</h4>
+              <p className="text-sm text-gray-600">This Week</p>
             </div>
             
-            {/* Transaction Card */}
-            <div className="bg-gray-50 p-4 rounded-xl mb-6 flex-shrink-0">
-              <div className="flex items-center space-x-3 mb-3">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <span className="text-xl">🎾</span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-base">Tennis Warehouse</div>
-                  <div className="text-sm text-gray-600">Wilson Pro Staff Racquet</div>
+            {/* Tennis Purchase with 5x - clickable indicator */}
+            <div className="bg-green-50 border-2 border-green-200 p-3 rounded-xl mb-3 flex-shrink-0 cursor-pointer hover:bg-green-100 transition-colors">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <span className="text-lg flex-shrink-0">🎾</span>
+                  <div className="min-w-0">
+                    <div className="font-semibold text-sm">Tennis Warehouse</div>
+                    <div className="text-xs text-gray-600">Sports Equipment</div>
+                  </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <div className="font-bold text-lg">$189.99</div>
+                  <div className="font-bold text-green-600 text-sm">+950 pts</div>
+                  <div className="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded mt-1">5x</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Other purchases */}
+            <div className="space-y-2 mb-4 flex-shrink-0">
+              <div className="bg-gray-50 p-3 rounded-xl">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                    <span className="text-base flex-shrink-0">☕</span>
+                    <div className="min-w-0">
+                      <div className="font-semibold text-sm">Starbucks</div>
+                      <div className="text-xs text-gray-600">Coffee</div>
+                    </div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="font-bold text-gray-600 text-sm">+5 pts</div>
+                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
+                  </div>
                 </div>
               </div>
               
-              {/* Points earned */}
-              <div className="text-center pt-2 border-t border-gray-200">
-                <div className="text-green-600 font-semibold text-base">
-                  You earned 950 points back
+              <div className="bg-gray-50 p-3 rounded-xl">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                    <span className="text-base flex-shrink-0">🛒</span>
+                    <div className="min-w-0">
+                      <div className="font-semibold text-sm">Whole Foods</div>
+                      <div className="text-xs text-gray-600">Groceries</div>
+                    </div>
+                  </div>
+                  <div className="text-right flex-shrink-0">
+                    <div className="font-bold text-gray-600 text-sm">+12 pts</div>
+                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
+                  </div>
                 </div>
+              </div>
+            </div>
+            
+            {/* Click indicator */}
+            <div className="mt-auto text-center flex-shrink-0">
+              <div className="text-xs text-blue-600 font-medium animate-pulse">
+                Tap Tennis Warehouse for offers →
               </div>
             </div>
           </div>
         )}
         
-        {/* Phase 2: Bonus Offer Reveal */}
+        {/* Phase 2: Exclusive Wilson Offer */}
         {currentPhase === 1 && (
           <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
             <div className="text-center mb-4 flex-shrink-0">
-              <h4 className="font-bold text-lg mb-1">Recent Transaction</h4>
-              <p className="text-sm text-gray-600">Just now</p>
+              <h4 className="font-bold text-base mb-1">Exclusive Offer</h4>
+              <p className="text-sm text-gray-600">Based on your purchase</p>
             </div>
             
-            {/* Condensed Transaction */}
+            {/* Condensed Transaction Reference */}
             <div className="bg-gray-50 p-3 rounded-xl mb-4 flex-shrink-0">
               <div className="flex items-center space-x-3">
                 <span className="text-lg flex-shrink-0">🎾</span>
                 <div className="flex-1 min-w-0">
                   <div className="font-semibold text-sm">Tennis Warehouse</div>
-                  <div className="text-xs text-gray-600">Wilson Pro Staff Racquet</div>
+                  <div className="text-xs text-gray-600">+950 pts earned</div>
                 </div>
                 <div className="text-right flex-shrink-0">
                   <div className="font-bold text-sm">$189.99</div>
@@ -247,16 +283,9 @@ const MerchantOffersPhone = () => {
               </div>
             </div>
             
-            {/* Bonus Offer Label */}
-            <div className="text-center mb-3 flex-shrink-0">
-              <p className="text-sm font-medium text-gray-700">
-                Bonus Offer Unlocked From Your Purchase
-              </p>
-            </div>
-            
-            {/* Offer Card with slide-up animation */}
-            <div className="animate-[slideUp_0.5s_ease-out] flex-shrink-0">
-              <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-4 rounded-xl text-white shadow-lg">
+            {/* Offer Card */}
+            <div className="flex-1 flex flex-col justify-center">
+              <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-4 rounded-xl text-white shadow-lg animate-[slideUp_0.5s_ease-out]">
                 <div className="flex items-center mb-3">
                   <Gift className="w-5 h-5 mr-2" />
                   <span className="font-semibold text-base">Exclusive Offer</span>
