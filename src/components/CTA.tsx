@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button"
 
 const CTA = () => {
   return (
-    <section className="py-20 bg-black text-white">
+    <section className="py-20 pb-8 bg-black text-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Main CTA Content */}
         <div className="text-center mb-16">
