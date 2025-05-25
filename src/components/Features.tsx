@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react"
 import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity } from "lucide-react"
 
@@ -24,12 +23,16 @@ const features = [
 ]
 
 // Phone mockup component for Feature 1 - Tennis Purchase Rewards Demo
-const AdaptiveRewardsPhone = () => {
+const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [currentPhase, setCurrentPhase] = useState(0)
   const [hasCompleted, setHasCompleted] = useState(false)
   
   useEffect(() => {
-    if (hasCompleted) return
+    if (!isVisible) return
+    
+    // Reset animation when becoming visible
+    setCurrentPhase(0)
+    setHasCompleted(false)
     
     const interval = setInterval(() => {
       setCurrentPhase((prev) => {
@@ -42,7 +45,7 @@ const AdaptiveRewardsPhone = () => {
     }, 2500) // Switch every 2.5 seconds for 5 second total loop
     
     return () => clearInterval(interval)
-  }, [hasCompleted])
+  }, [isVisible])
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
@@ -178,12 +181,16 @@ const AdaptiveRewardsPhone = () => {
 }
 
 // Updated Phone mockup component for Feature 2 - Merchant Offers (reusing same transaction)
-const MerchantOffersPhone = () => {
+const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [currentPhase, setCurrentPhase] = useState(0)
   const [hasCompleted, setHasCompleted] = useState(false)
   
   useEffect(() => {
-    if (hasCompleted) return
+    if (!isVisible) return
+    
+    // Reset animation when becoming visible
+    setCurrentPhase(0)
+    setHasCompleted(false)
     
     const interval = setInterval(() => {
       setCurrentPhase((prev) => {
@@ -196,7 +203,7 @@ const MerchantOffersPhone = () => {
     }, 2500) // Switch every 2.5 seconds for 5 second total loop
     
     return () => clearInterval(interval)
-  }, [hasCompleted])
+  }, [isVisible])
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
@@ -346,7 +353,7 @@ const MerchantOffersPhone = () => {
 }
 
 // Phone mockup component for Feature 3 - Goals Progress
-const GoalsProgressPhone = () => {
+const GoalsProgressPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [progress, setProgress] = useState(0)
   const [hasCompleted, setHasCompleted] = useState(false)
   
@@ -354,7 +361,11 @@ const GoalsProgressPhone = () => {
   const goal = { title: "Becoming more athletic in sports", target: 2500, current: 0 }
 
   useEffect(() => {
-    if (hasCompleted) return
+    if (!isVisible) return
+    
+    // Reset animation when becoming visible
+    setProgress(0)
+    setHasCompleted(false)
     
     const interval = setInterval(() => {
       setProgress(prev => {
@@ -367,7 +378,7 @@ const GoalsProgressPhone = () => {
     }, 200)
     
     return () => clearInterval(interval)
-  }, [hasCompleted])
+  }, [isVisible])
 
   const currentAmount = Math.floor((goal.target * progress) / 100)
 
@@ -456,11 +467,11 @@ const Features = () => {
   const renderPhoneMockup = (index: number) => {
     switch (index) {
       case 0:
-        return <AdaptiveRewardsPhone />
+        return <AdaptiveRewardsPhone isVisible={visibleFeatures[index]} />
       case 1:
-        return <MerchantOffersPhone />
+        return <MerchantOffersPhone isVisible={visibleFeatures[index]} />
       case 2:
-        return <GoalsProgressPhone />
+        return <GoalsProgressPhone isVisible={visibleFeatures[index]} />
       default:
         return null
     }
