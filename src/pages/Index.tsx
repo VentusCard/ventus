@@ -54,7 +54,7 @@ const Index = () => {
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
           setIsScrolling(false);
-        }, 1000);
+        }, 800);
       }
     };
 
@@ -82,7 +82,7 @@ const Index = () => {
           clearTimeout(scrollTimeout);
           scrollTimeout = setTimeout(() => {
             setIsScrolling(false);
-          }, 1000);
+          }, 800);
         }
       }
     };
@@ -105,8 +105,7 @@ const Index = () => {
   return (
     <div 
       ref={containerRef}
-      className="h-screen overflow-hidden scroll-smooth"
-      style={{ scrollSnapType: 'y mandatory' }}
+      className="snap-container h-screen overflow-y-auto overflow-x-hidden"
     >
       <Navbar />
       
@@ -117,17 +116,7 @@ const Index = () => {
             key={section.id}
             ref={(el) => { sectionsRef.current[index] = el; }}
             id={section.id}
-            className={`h-screen w-full transition-all duration-1000 ease-out ${
-              index === currentSection 
-                ? 'opacity-100 translate-y-0 scale-100' 
-                : index < currentSection
-                ? 'opacity-0 -translate-y-10 scale-95'
-                : 'opacity-0 translate-y-10 scale-95'
-            }`}
-            style={{ 
-              scrollSnapAlign: 'start',
-              scrollSnapStop: 'always'
-            }}
+            className="snap-section h-screen w-full"
           >
             <Component />
           </div>
