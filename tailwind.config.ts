@@ -166,6 +166,17 @@ export default {
 					'60%': {
 						transform: 'translateY(-4px)'
 					}
+				},
+				// New slide up animation for the offer card
+				'slideUp': {
+					'0%': {
+						transform: 'translateY(20px)',
+						opacity: '0'
+					},
+					'100%': {
+						transform: 'translateY(0)',
+						opacity: '1'
+					}
 				}
 			},
 			animation: {
