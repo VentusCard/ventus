@@ -25,24 +25,15 @@ const features = [
 // Phone mockup component for Feature 1 - Tennis Purchase Rewards Demo
 const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [currentPhase, setCurrentPhase] = useState(0)
-  const [paymentCompleted, setPaymentCompleted] = useState(false)
   
   useEffect(() => {
     if (!isVisible) return
     
     // Reset animation when becoming visible
     setCurrentPhase(0)
-    setPaymentCompleted(false)
     
     const interval = setInterval(() => {
-      setCurrentPhase((prev) => {
-        if (prev === 0) {
-          setPaymentCompleted(true)
-          setTimeout(() => setPaymentCompleted(false), 1000) // Show completion for 1 second
-          return 1
-        }
-        return 0
-      })
+      setCurrentPhase((prev) => (prev === 1 ? 0 : prev + 1)) // Loop between 0 and 1
     }, 2500) // Switch every 2.5 seconds
     
     return () => clearInterval(interval)
@@ -86,32 +77,21 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
               </div>
             </div>
             
-            {/* Pending 5x Rewards Banner */}
-            <div className="bg-gradient-to-r from-orange-500 to-amber-500 p-4 rounded-xl text-white mb-4 animate-pulse flex-shrink-0">
+            {/* 5x Rewards Banner */}
+            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl text-white mb-4 animate-pulse flex-shrink-0">
               <div className="flex items-center justify-center mb-2">
-                <Clock className="w-4 h-4 mr-2" />
-                <span className="font-bold text-base">Pending 5x Rewards</span>
+                <Check className="w-4 h-4 mr-2" />
+                <span className="font-bold text-base">5x Rewards</span>
               </div>
               <div className="text-center text-xs opacity-90 leading-relaxed">
                 Becoming more athletic in sports
               </div>
             </div>
             
-            {/* Pay Button with completion state */}
+            {/* Pay Button */}
             <div className="mt-auto flex-shrink-0">
-              <button className={`w-full py-3 rounded-xl font-semibold text-sm transition-all duration-300 ${
-                paymentCompleted 
-                  ? 'bg-green-500 text-white' 
-                  : 'bg-black text-white hover:bg-gray-800'
-              }`}>
-                {paymentCompleted ? (
-                  <div className="flex items-center justify-center">
-                    <Check className="w-4 h-4 mr-2" />
-                    Payment Complete
-                  </div>
-                ) : (
-                  'Pay with Ventus Card'
-                )}
+              <button className="w-full bg-black text-white py-3 rounded-xl font-semibold text-sm">
+                Pay with Ventus Card
               </button>
             </div>
           </div>
@@ -144,7 +124,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
             </div>
             
             {/* Other purchases */}
-            <div className="space-y-2 flex-shrink-0">
+            <div className="space-y-2 mb-4 flex-shrink-0">
               <div className="bg-gray-50 p-3 rounded-xl">
                 <div className="flex justify-between items-center">
                   <div className="flex items-center space-x-3 flex-1 min-w-0">
@@ -175,6 +155,14 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
                     <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
                   </div>
                 </div>
+              </div>
+            </div>
+            
+            {/* Goal Progress */}
+            <div className="mt-auto text-center flex-shrink-0">
+              <div className="text-xs text-blue-600 font-medium mb-2">Athletic Goal Progress</div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-blue-500 h-2 rounded-full w-3/4 transition-all duration-300"></div>
               </div>
             </div>
           </div>
