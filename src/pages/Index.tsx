@@ -64,8 +64,8 @@ const Index = () => {
         <div 
           id="features" 
           ref={featuresRef}
-          className={`transition-all duration-1000 ease-out mt-0 bg-[#F8F9FA] ${
-            visibleSections.features ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          className={`transition-all duration-500 ease-out mt-0 bg-[#F8F9FA] ${
+            visibleSections.features ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}
         >
           <Features />
@@ -73,8 +73,8 @@ const Index = () => {
         <div 
           id="benefits" 
           ref={benefitsRef}
-          className={`transition-all duration-1000 ease-out delay-100 bg-[#F8F9FA] ${
-            visibleSections.benefits ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          className={`transition-all duration-500 ease-out delay-75 bg-[#F8F9FA] ${
+            visibleSections.benefits ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}
         >
           <Benefits />
@@ -82,8 +82,8 @@ const Index = () => {
         <div 
           id="rewards" 
           ref={rewardsRef}
-          className={`transition-all duration-1000 ease-out delay-200 bg-[#F8F9FA] ${
-            visibleSections.rewards ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          className={`transition-all duration-500 ease-out delay-150 bg-[#F8F9FA] ${
+            visibleSections.rewards ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}
         >
           <Rewards />
@@ -91,8 +91,8 @@ const Index = () => {
         <div 
           id="testimonials" 
           ref={testimonialsRef}
-          className={`transition-all duration-1000 ease-out delay-300 bg-[#F8F9FA] ${
-            visibleSections.testimonials ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          className={`transition-all duration-500 ease-out delay-200 bg-[#F8F9FA] ${
+            visibleSections.testimonials ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}
         >
           <Testimonials />
@@ -100,8 +100,8 @@ const Index = () => {
         <div 
           id="cta" 
           ref={ctaRef}
-          className={`transition-all duration-1000 ease-out delay-400 ${
-            visibleSections.cta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
+          className={`transition-all duration-500 ease-out delay-300 ${
+            visibleSections.cta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}
         >
           <CTA />

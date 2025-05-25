@@ -4,20 +4,20 @@ import { Button } from "@/components/ui/button"
 const CTA = () => {
   return (
     <section className="relative bg-black text-white">
-      {/* Top gradient ramp for smooth transition from light sections */}
-      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#F8F9FA] via-[#1A1A1A] to-black pointer-events-none"></div>
+      {/* Top gradient for smooth transition from light sections - more subtle and refined */}
+      <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-[#F8F9FA] to-[#1A1A1A] pointer-events-none"></div>
       
-      <div className="relative pt-32 pb-8">
+      <div className="relative pt-24 pb-8">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           {/* Main CTA Content with scroll animations */}
           <div className="text-center mb-16">
-            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 animate-[fadeUpBlur_1s_ease-out] opacity-0 [animation-delay:0.2s] [animation-fill-mode:forwards]">
+            <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.2s] [animation-fill-mode:forwards]">
               Ready to Experience Ventus Card?
             </h2>
-            <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8 animate-[fadeUpBlur_1s_ease-out] opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">
+            <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">
               Apply today and elevate your financial experience with premium benefits and rewards designed for your lifestyle.
             </p>
-            <div className="flex flex-wrap justify-center gap-4 animate-[fadeUpBlur_1s_ease-out] opacity-0 [animation-delay:0.6s] [animation-fill-mode:forwards]">
+            <div className="flex flex-wrap justify-center gap-4 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.6s] [animation-fill-mode:forwards]">
               <Button size="lg" className="bg-white text-blue-900 hover:bg-white/90 transition-all duration-300 hover:scale-105">
                 Join Waitlist
               </Button>
