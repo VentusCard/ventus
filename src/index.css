@@ -98,6 +98,11 @@
 
   body {
     @apply bg-background text-foreground;
+    overflow: hidden; /* Prevent default scrolling */
+  }
+  
+  html {
+    scroll-behavior: smooth;
   }
 }
 
@@ -121,4 +126,15 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Enhanced scroll snap styles */
+.snap-container {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
