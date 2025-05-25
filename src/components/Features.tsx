@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react"
 import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity, ChevronDown, ChevronRight } from "lucide-react"
 
@@ -193,7 +194,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
           </div>
         )}
         
-        {/* Phase 2: Enhanced Transactions Screen */}
+        {/* Phase 2: Enhanced Transactions Screen with refined spacing */}
         {animationPhase === 2 && (
           <div className={`p-4 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
             animationPhase === 2 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'
@@ -205,7 +206,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
             </div>
             
             {/* Featured Tennis Purchase with 5x */}
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 p-3 rounded-xl mb-3 flex-shrink-0 animate-[fadeIn_0.5s_ease-out] shadow-md">
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 p-3 rounded-xl mb-4 flex-shrink-0 animate-[fadeIn_0.5s_ease-out] shadow-md">
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-3 flex-1 min-w-0">
                   <span className="text-lg flex-shrink-0">🎾</span>
@@ -221,16 +222,19 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
               </div>
             </div>
             
-            {/* Collapsible Other Transactions */}
+            {/* Subtle divider for visual separation */}
+            <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-4 flex-shrink-0"></div>
+            
+            {/* Collapsible Other Transactions with enhanced spacing */}
             <div className="flex-shrink-0">
               <button 
-                className="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl transition-all duration-200 hover:bg-gray-100"
+                className="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl transition-all duration-200 hover:bg-gray-100 mb-3"
                 onClick={() => setShowDropdown(!showDropdown)}
               >
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-3">
                     <span className="text-sm font-medium text-gray-700">Other Transactions – 1x Rewards</span>
-                    <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">2 items</span>
+                    <span className="text-xs bg-gray-200 text-gray-600 px-2.5 py-0.5 rounded-full">2 items</span>
                   </div>
                   <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
                     showDropdown ? 'rotate-180' : ''
@@ -238,11 +242,11 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
                 </div>
               </button>
               
-              {/* Dropdown Content */}
+              {/* Dropdown Content with enhanced background and spacing */}
               <div className={`overflow-hidden transition-all duration-300 ${
-                showDropdown ? 'max-h-32 opacity-100 mt-2' : 'max-h-0 opacity-0'
+                showDropdown ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
               }`}>
-                <div className="space-y-2">
+                <div className="bg-gray-50 rounded-lg p-3 space-y-2">
                   <div className="bg-white border border-gray-200 p-3 rounded-lg">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center space-x-3 flex-1 min-w-0">
