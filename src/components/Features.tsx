@@ -113,7 +113,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
       case 'pressed':
         return `${baseClasses} bg-gray-700 transform scale-95`
       case 'processing':
-        return `${baseClasses} bg-blue-600 animate-pulse`
+        return `${baseClasses} bg-blue-600`
       case 'applied':
         return `${baseClasses} bg-green-600`
       default:
