@@ -76,7 +76,7 @@ const Hero = () => {
           <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-[0.51] md:scale-[0.55] lg:scale-[0.595] translate-y-4 md:translate-y-6 transition-all duration-700 ease-out ${
             isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : ''
           }`}>
-            <div className="relative aspect-video overflow-hidden bg-transparent border-0 outline-none">
+            <div className="relative aspect-video overflow-hidden bg-black border-0 outline-none" style={{ border: 'none', outline: 'none', background: 'transparent' }}>
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Stronger feathered edges that blend into black background */}
@@ -92,7 +92,8 @@ const Hero = () => {
               {/* Video element with reduced opacity for better blending */}
               <video
                 ref={videoRef}
-                className="w-full h-full object-cover opacity-90 bg-transparent border-0 outline-none"
+                className="w-full h-full object-cover opacity-90 bg-black border-0 outline-none"
+                style={{ border: 'none', outline: 'none', background: 'transparent' }}
                 muted
                 playsInline
                 preload="metadata"
