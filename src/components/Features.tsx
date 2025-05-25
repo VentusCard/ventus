@@ -464,7 +464,7 @@ const GoalsProgressPhone = ({ isVisible }: { isVisible: boolean }) => {
       <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden">
         {/* Goals content */}
         <div className="p-3 pt-8">
-          <h4 className="font-bold text-sm mb-4">Reward Summary</h4>
+          <h4 className="font-bold text-sm mb-4 text-center">Reward Summary</h4>
           
           {/* Added top padding (20px = pt-5) above the card */}
           <div className="pt-5">
