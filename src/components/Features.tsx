@@ -22,16 +22,16 @@ const features = [
   }
 ]
 
-// Phone mockup component for Feature 1 - Tennis Purchase Rewards Demo
+// Updated Phone mockup component for Feature 1 - Now shows transaction then offer
 const AdaptiveRewardsPhone = () => {
   const [currentPhase, setCurrentPhase] = useState(0)
   
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentPhase((prev) => (prev + 1) % 2) // 0 = checkout, 1 = recap
-    }, 2500) // Switch every 2.5 seconds for 5 second total loop
+      setCurrentPhase((prev) => (prev + 1) % 2) // 0 = transaction summary, 1 = bonus offer
+    }, currentPhase === 0 ? 2000 : 3000) // 2s for transaction, 3s for offer
     return () => clearInterval(interval)
-  }, [])
+  }, [currentPhase])
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
@@ -46,117 +46,114 @@ const AdaptiveRewardsPhone = () => {
           </div>
         </div>
         
-        {/* Phase 1: Checkout Moment */}
+        {/* Phase 1: Transaction Summary with 5x Rewards */}
         {currentPhase === 0 && (
           <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
-            <div className="text-center mb-4 flex-shrink-0">
-              <h4 className="font-bold text-base mb-1">Tennis Warehouse</h4>
-              <p className="text-sm text-gray-600">Checkout</p>
+            <div className="text-center mb-6 flex-shrink-0">
+              <h4 className="font-bold text-lg mb-1">Recent Transaction</h4>
+              <p className="text-sm text-gray-600">Just now</p>
             </div>
             
-            {/* Product */}
-            <div className="bg-gray-50 p-3 rounded-xl mb-4 flex-shrink-0">
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <span className="text-lg">🎾</span>
+            {/* Transaction Card with 5x Rewards */}
+            <div className="bg-green-50 border-2 border-green-200 p-4 rounded-xl mb-6 flex-shrink-0">
+              <div className="flex items-center space-x-3 mb-3">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-xl">🎾</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-sm">Wilson Pro Staff</div>
-                  <div className="text-xs text-gray-600">Tennis Racquet</div>
+                  <div className="font-semibold text-base">Tennis Warehouse</div>
+                  <div className="text-sm text-gray-600">Wilson Pro Staff Racquet</div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <div className="font-bold text-sm">$189.99</div>
+                  <div className="font-bold text-lg">$189.99</div>
                 </div>
               </div>
-            </div>
-            
-            {/* 5x Rewards Banner */}
-            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl text-white mb-4 animate-pulse flex-shrink-0">
-              <div className="flex items-center justify-center mb-2">
-                <Check className="w-4 h-4 mr-2" />
-                <span className="font-bold text-base">5x Rewards</span>
+              
+              {/* 5x Rewards highlight */}
+              <div className="bg-gradient-to-r from-green-500 to-blue-500 p-3 rounded-lg text-white text-center mb-3">
+                <div className="flex items-center justify-center mb-1">
+                  <Check className="w-4 h-4 mr-2" />
+                  <span className="font-bold text-sm">5x Rewards Applied</span>
+                </div>
+                <div className="text-xs opacity-90">
+                  Athletic goal category
+                </div>
               </div>
-              <div className="text-center text-xs opacity-90 leading-relaxed">
-                Becoming more athletic in sports
+              
+              {/* Points earned */}
+              <div className="text-center pt-2 border-t border-green-200">
+                <div className="text-green-600 font-semibold text-base">
+                  You earned 950 points back
+                </div>
               </div>
-            </div>
-            
-            {/* Pay Button */}
-            <div className="mt-auto flex-shrink-0">
-              <button className="w-full bg-black text-white py-3 rounded-xl font-semibold text-sm">
-                Pay with Ventus Card
-              </button>
             </div>
           </div>
         )}
         
-        {/* Phase 2: Transaction Recap */}
+        {/* Phase 2: Bonus Offer Reveal */}
         {currentPhase === 1 && (
           <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
             <div className="text-center mb-4 flex-shrink-0">
-              <h4 className="font-bold text-base mb-1">Recent Transactions</h4>
-              <p className="text-sm text-gray-600">This Week</p>
+              <h4 className="font-bold text-lg mb-1">Recent Transaction</h4>
+              <p className="text-sm text-gray-600">Just now</p>
             </div>
             
-            {/* Tennis Purchase with 5x */}
-            <div className="bg-green-50 border-2 border-green-200 p-3 rounded-xl mb-3 flex-shrink-0">
-              <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-3 flex-1 min-w-0">
-                  <span className="text-lg flex-shrink-0">🎾</span>
-                  <div className="min-w-0">
-                    <div className="font-semibold text-sm">Tennis Warehouse</div>
-                    <div className="text-xs text-gray-600">Sports Equipment</div>
-                  </div>
+            {/* Condensed Transaction */}
+            <div className="bg-gray-50 p-3 rounded-xl mb-4 flex-shrink-0">
+              <div className="flex items-center space-x-3">
+                <span className="text-lg flex-shrink-0">🎾</span>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-sm">Tennis Warehouse</div>
+                  <div className="text-xs text-gray-600">Wilson Pro Staff Racquet</div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <div className="font-bold text-green-600 text-sm">+950 pts</div>
-                  <div className="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded mt-1">5x</div>
+                  <div className="font-bold text-sm">$189.99</div>
+                  <div className="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded mt-1">+950 pts</div>
                 </div>
               </div>
             </div>
             
-            {/* Other purchases */}
-            <div className="space-y-2 mb-4 flex-shrink-0">
-              <div className="bg-gray-50 p-3 rounded-xl">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-3 flex-1 min-w-0">
-                    <span className="text-base flex-shrink-0">☕</span>
-                    <div className="min-w-0">
-                      <div className="font-semibold text-sm">Starbucks</div>
-                      <div className="text-xs text-gray-600">Coffee</div>
-                    </div>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="font-bold text-gray-600 text-sm">+5 pts</div>
-                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="bg-gray-50 p-3 rounded-xl">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-3 flex-1 min-w-0">
-                    <span className="text-base flex-shrink-0">🛒</span>
-                    <div className="min-w-0">
-                      <div className="font-semibold text-sm">Whole Foods</div>
-                      <div className="text-xs text-gray-600">Groceries</div>
-                    </div>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="font-bold text-gray-600 text-sm">+12 pts</div>
-                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
-                  </div>
-                </div>
-              </div>
+            {/* Bonus Offer Label */}
+            <div className="text-center mb-3 flex-shrink-0">
+              <p className="text-sm font-medium text-gray-700">
+                Bonus Offer Unlocked From Your Purchase
+              </p>
             </div>
             
-            {/* Goal Progress */}
-            <div className="mt-auto text-center flex-shrink-0">
-              <div className="text-xs text-blue-600 font-medium mb-2">Athletic Goal Progress</div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full w-3/4 transition-all duration-300"></div>
+            {/* Offer Card with slide-up animation */}
+            <div className="animate-[slideUp_0.5s_ease-out] flex-shrink-0">
+              <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-4 rounded-xl text-white shadow-lg">
+                <div className="flex items-center mb-3">
+                  <Gift className="w-5 h-5 mr-2" />
+                  <span className="font-semibold text-base">Exclusive Offer</span>
+                </div>
+                
+                <div className="mb-4">
+                  <div className="text-xl font-bold mb-1">$20 off your next Wilson order</div>
+                  <div className="text-sm opacity-90 flex items-center">
+                    <Clock className="w-3 h-3 mr-1" />
+                    Expires in 4 hours
+                  </div>
+                </div>
+                
+                {/* Offer details */}
+                <div className="space-y-2 mb-4 text-xs opacity-90">
+                  <div className="flex items-center">
+                    <Check className="w-3 h-3 mr-2 flex-shrink-0" />
+                    <span>Triggered by your Tennis Warehouse purchase</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Clock className="w-3 h-3 mr-2 flex-shrink-0" />
+                    <span>Limited-time offer</span>
+                  </div>
+                </div>
+                
+                {/* CTA Button */}
+                <button className="w-full bg-white text-indigo-600 py-2.5 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors">
+                  Add Offer
+                </button>
               </div>
             </div>
           </div>
@@ -166,7 +163,7 @@ const AdaptiveRewardsPhone = () => {
   )
 }
 
-// Updated Phone mockup component for Feature 2 - Merchant Offers
+// Phone mockup component for Feature 2 - Merchant Offers
 const MerchantOffersPhone = () => {
   const [currentPhase, setCurrentPhase] = useState(0)
   
@@ -243,6 +240,7 @@ const MerchantOffersPhone = () => {
                 </div>
                 <div className="text-right flex-shrink-0">
                   <div className="font-bold text-sm">$189.99</div>
+                  <div className="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded mt-1">+950 pts</div>
                 </div>
               </div>
             </div>
