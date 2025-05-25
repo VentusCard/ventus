@@ -48,7 +48,7 @@ const Features = () => {
   }, [])
 
   return (
-    <section id="features" className="py-20 bg-white">
+    <section id="features" className="py-16 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {features.map((feature, index) => (
           <div
@@ -56,17 +56,17 @@ const Features = () => {
             ref={el => featureRefs.current[index] = el}
             className={`relative overflow-hidden transition-all duration-1000 ease-out ${
               visibleFeatures[index] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'
-            } ${index > 0 ? 'mt-32' : ''}`}
+            } ${index > 0 ? 'mt-16 md:mt-20 lg:mt-24' : ''}`}
             style={{ transitionDelay: `${index * 200}ms` }}
           >
-            {/* Content container with no background */}
-            <div className="p-12 md:p-16 lg:p-20">
-              <div className={`grid lg:grid-cols-2 gap-12 lg:gap-16 items-center ${
+            {/* Content container with reduced padding */}
+            <div className="py-8 md:py-12 lg:py-16 px-6 md:px-8 lg:px-12">
+              <div className={`grid lg:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center ${
                 feature.reverse ? 'lg:grid-flow-col-dense' : ''
               }`}>
                 
                 {/* Content */}
-                <div className={`space-y-6 ${feature.reverse ? 'lg:col-start-2' : ''}`}>
+                <div className={`space-y-4 md:space-y-6 ${feature.reverse ? 'lg:col-start-2' : ''}`}>
                   <h3 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-black leading-tight">
                     {feature.title}
                   </h3>
@@ -79,17 +79,17 @@ const Features = () => {
                 <div className={`${feature.reverse ? 'lg:col-start-1' : ''}`}>
                   <div className="relative">
                     {/* Main visual container */}
-                    <div className="bg-gray-50 rounded-2xl p-8 md:p-12 border border-gray-100">
-                      <div className="flex items-center justify-center h-48 md:h-64">
+                    <div className="bg-gray-50 rounded-2xl p-6 md:p-8 lg:p-10 border border-gray-100">
+                      <div className="flex items-center justify-center h-40 md:h-48 lg:h-56">
                         <div className="relative">
                           {/* Icon background */}
-                          <div className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200">
-                            <feature.icon className="w-12 h-12 md:w-16 md:h-16 text-gray-600" />
+                          <div className="w-20 h-20 md:w-24 md:h-24 lg:w-28 lg:h-28 rounded-full bg-gray-100 flex items-center justify-center border border-gray-200">
+                            <feature.icon className="w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 text-gray-600" />
                           </div>
                           
                           {/* Decorative elements */}
-                          <div className="absolute -top-4 -right-4 w-8 h-8 rounded-full bg-blue-100 animate-float"></div>
-                          <div className="absolute -bottom-6 -left-6 w-6 h-6 rounded-full bg-purple-100 animate-bounce" style={{animationDelay: '1s'}}></div>
+                          <div className="absolute -top-3 -right-3 md:-top-4 md:-right-4 w-6 h-6 md:w-8 md:h-8 rounded-full bg-blue-100 animate-float"></div>
+                          <div className="absolute -bottom-4 -left-4 md:-bottom-6 md:-left-6 w-5 h-5 md:w-6 md:h-6 rounded-full bg-purple-100 animate-bounce" style={{animationDelay: '1s'}}></div>
                         </div>
                       </div>
                     </div>
