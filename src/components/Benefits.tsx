@@ -5,43 +5,45 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 const benefitTiers = [
   {
     name: "Standard",
-    description: "Perfect for everyday spending",
+    description: "Smart rewards, zero cost",
     price: "$0",
     period: "/month",
     features: [
-      "2% cashback on essential purchases",
-      "No annual fee",
-      "Virtual card access",
-      "Basic travel insurance"
+      "Earn 2x Ventus Points on essential purchases — up to $500 in spend/month",
+      "All other purchases earn 1x",
+      "No annual or monthly fee",
+      "Mobile wallet + virtual card support",
+      "Basic travel & purchase protection"
     ],
     highlighted: false
   },
   {
     name: "Premium",
-    description: "Enhanced benefits for active users",
+    description: "Built for motivated spenders",
     price: "$9.99",
     period: "/month",
     features: [
-      "4% cashback on essentials",
-      "2% on all other purchases",
-      "Airport lounge access (2 visits/year)",
-      "Enhanced travel and purchase insurance",
+      "Earn 4x Ventus Points on your top spending category — up to $500/month",
+      "Earn 2x Ventus Points on all other purchases — up to $1,500/month",
+      "Personalized quarterly goal tracking & reward boosts",
+      "2 airport lounge visits/year",
+      "Enhanced travel & purchase insurance",
       "Priority customer support"
     ],
     highlighted: true
   },
   {
     name: "Elite",
-    description: "Unparalleled privileges",
+    description: "Engineered for high-impact living",
     price: "$29.99",
     period: "/month",
     features: [
-      "5% cashback on essentials",
-      "3% on all other purchases",
+      "Earn 5x Ventus Points on goal-aligned purchases — up to $1,000/month",
+      "Earn 3x Ventus Points on all other purchases — up to $2,500/month",
       "Unlimited airport lounge access",
-      "Comprehensive travel and purchase protection",
-      "24/7 concierge service",
-      "Exclusive event invitations"
+      "Personalized merchant offers & stackable bonuses",
+      "Smart travel perks (trip delay, elite status fast-track)",
+      "24/7 concierge & private event invitations"
     ],
     highlighted: false
   }
@@ -71,7 +73,7 @@ const Benefits = () => {
                   </span>
                 </div>
               )}
-              <CardHeader className={`pb-8 ${tier.highlighted ? 'pt-8' : 'pt-6'}`}>
+              <CardHeader className={`pb-6 ${tier.highlighted ? 'pt-8' : 'pt-6'}`}>
                 <CardTitle className="font-display text-xl">{tier.name}</CardTitle>
                 <p className="text-muted-foreground mt-2">{tier.description}</p>
                 <div className="mt-4">
@@ -79,15 +81,20 @@ const Benefits = () => {
                   <span className="text-muted-foreground">{tier.period}</span>
                 </div>
               </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
+              <CardContent className="pb-4">
+                <ul className="space-y-3 mb-4">
                   {tier.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-2">
-                      <Check className="h-5 w-5 text-primary shrink-0" />
-                      <span>{feature}</span>
+                    <li key={i} className="flex items-start gap-2">
+                      <Check className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <span className="text-sm leading-relaxed">{feature}</span>
                     </li>
                   ))}
                 </ul>
+                <div className="pt-3 border-t border-muted">
+                  <p className="text-xs text-muted-foreground italic">
+                    All spend beyond reward limits earns 1x Ventus Point per dollar.
+                  </p>
+                </div>
               </CardContent>
             </Card>
           ))}
