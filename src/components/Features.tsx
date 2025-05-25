@@ -194,87 +194,87 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
           </div>
         )}
         
-        {/* Phase 2: Enhanced Transactions Screen with refined spacing */}
+        {/* Phase 2: Enhanced Transactions Screen with premium layout */}
         {animationPhase === 2 && (
           <div className={`p-4 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
             animationPhase === 2 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'
           }`}>
             {/* Header */}
-            <div className="text-center mb-4 flex-shrink-0">
+            <div className="text-center mb-6 flex-shrink-0">
               <h4 className="font-bold text-base mb-1">Recent Transactions</h4>
               <p className="text-sm text-gray-600">This Week</p>
             </div>
             
-            {/* Featured Tennis Purchase with 5x */}
-            <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 p-3 rounded-xl mb-4 flex-shrink-0 animate-[fadeIn_0.5s_ease-out] shadow-md">
+            {/* Featured Tennis Purchase with 5x - enhanced spacing */}
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 p-4 rounded-xl mb-6 flex-shrink-0 animate-[fadeIn_0.5s_ease-out] shadow-md">
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-3 flex-1 min-w-0">
                   <span className="text-lg flex-shrink-0">🎾</span>
                   <div className="min-w-0">
-                    <div className="font-semibold text-sm">Tennis Warehouse</div>
-                    <div className="text-xs text-gray-600">Sports Equipment</div>
+                    <div className="font-semibold text-sm leading-tight">Tennis Warehouse</div>
+                    <div className="text-xs text-gray-600 leading-tight">Sports Equipment</div>
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <div className="font-bold text-green-600 text-lg animate-[pulse_1s_ease-in-out_2]">+950 pts</div>
-                  <div className="text-xs bg-gradient-to-r from-green-500 to-blue-500 text-white px-2 py-1 rounded-full mt-1 font-bold">5x</div>
+                  <div className="font-bold text-green-600 text-lg animate-[pulse_1s_ease-in-out_2] leading-tight">+950 pts</div>
+                  <div className="text-xs bg-gradient-to-r from-green-500 to-blue-500 text-white px-2.5 py-1 rounded-full mt-1.5 font-bold">5x</div>
                 </div>
               </div>
             </div>
             
-            {/* Subtle divider for visual separation */}
-            <div className="h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent mb-4 flex-shrink-0"></div>
+            {/* Premium divider for clear separation */}
+            <div className="h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mb-4 flex-shrink-0"></div>
             
-            {/* Collapsible Other Transactions with enhanced spacing */}
+            {/* Collapsible Other Transactions with enhanced layout */}
             <div className="flex-shrink-0">
               <button 
-                className="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl transition-all duration-200 hover:bg-gray-100 mb-3"
+                className="w-full bg-white border border-gray-200 p-4 rounded-xl transition-all duration-200 hover:bg-gray-50 mb-3 shadow-sm"
                 onClick={() => setShowDropdown(!showDropdown)}
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium text-gray-700">Other Transactions – 1x Rewards</span>
-                    <span className="text-xs bg-gray-200 text-gray-600 px-2.5 py-0.5 rounded-full">2 items</span>
+                    <span className="text-sm font-semibold text-gray-800">Other Transactions – 1x Rewards</span>
+                    <span className="text-xs bg-gray-100 text-gray-700 px-3 py-1 rounded-full font-medium">2 items</span>
                   </div>
-                  <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
+                  <ChevronDown className={`w-4 h-4 text-gray-600 transition-transform duration-200 ${
                     showDropdown ? 'rotate-180' : ''
                   }`} />
                 </div>
               </button>
               
-              {/* Dropdown Content with enhanced background and spacing */}
+              {/* Dropdown Content with premium background and spacing */}
               <div className={`overflow-hidden transition-all duration-300 ${
-                showDropdown ? 'max-h-32 opacity-100' : 'max-h-0 opacity-0'
+                showDropdown ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'
               }`}>
-                <div className="bg-gray-50 rounded-lg p-3 space-y-2">
-                  <div className="bg-white border border-gray-200 p-3 rounded-lg">
+                <div className="bg-gray-50 rounded-xl p-4 space-y-3">
+                  <div className="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center space-x-3 flex-1 min-w-0">
                         <span className="text-base flex-shrink-0">☕</span>
-                        <div className="min-w-0">
-                          <div className="font-medium text-sm">Starbucks</div>
-                          <div className="text-xs text-gray-600">Coffee</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-semibold text-sm leading-tight">Starbucks</div>
+                          <div className="text-xs text-gray-600 leading-tight">Coffee</div>
                         </div>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="font-medium text-gray-600 text-sm">+5 pts</div>
-                        <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
+                        <div className="font-semibold text-gray-700 text-sm leading-tight">+5 pts</div>
+                        <div className="text-xs bg-gray-200 text-gray-600 px-2.5 py-1 rounded-full mt-1.5">1x</div>
                       </div>
                     </div>
                   </div>
                   
-                  <div className="bg-white border border-gray-200 p-3 rounded-lg">
+                  <div className="bg-white border border-gray-200 p-4 rounded-lg shadow-sm">
                     <div className="flex justify-between items-center">
                       <div className="flex items-center space-x-3 flex-1 min-w-0">
                         <span className="text-base flex-shrink-0">🛒</span>
-                        <div className="min-w-0">
-                          <div className="font-medium text-sm">Whole Foods</div>
-                          <div className="text-xs text-gray-600">Groceries</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-semibold text-sm leading-tight truncate">Whole Foods</div>
+                          <div className="text-xs text-gray-600 leading-tight">Groceries</div>
                         </div>
                       </div>
                       <div className="text-right flex-shrink-0">
-                        <div className="font-medium text-gray-600 text-sm">+12 pts</div>
-                        <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
+                        <div className="font-semibold text-gray-700 text-sm leading-tight">+12 pts</div>
+                        <div className="text-xs bg-gray-200 text-gray-600 px-2.5 py-1 rounded-full mt-1.5">1x</div>
                       </div>
                     </div>
                   </div>
