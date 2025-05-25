@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react"
 import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity } from "lucide-react"
 
@@ -26,24 +25,16 @@ const features = [
 // Phone mockup component for Feature 1 - Tennis Purchase Rewards Demo
 const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [currentPhase, setCurrentPhase] = useState(0)
-  const [hasCompleted, setHasCompleted] = useState(false)
   
   useEffect(() => {
     if (!isVisible) return
     
     // Reset animation when becoming visible
     setCurrentPhase(0)
-    setHasCompleted(false)
     
     const interval = setInterval(() => {
-      setCurrentPhase((prev) => {
-        if (prev === 1) {
-          setHasCompleted(true)
-          return 1 // Stay on final phase
-        }
-        return prev + 1
-      })
-    }, 2500) // Switch every 2.5 seconds for 5 second total loop
+      setCurrentPhase((prev) => (prev === 1 ? 0 : prev + 1)) // Loop between 0 and 1
+    }, 2500) // Switch every 2.5 seconds
     
     return () => clearInterval(interval)
   }, [isVisible])
@@ -184,24 +175,16 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
 // Updated Phone mockup component for Feature 2 - Merchant Offers (reusing same transaction)
 const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [currentPhase, setCurrentPhase] = useState(0)
-  const [hasCompleted, setHasCompleted] = useState(false)
   
   useEffect(() => {
     if (!isVisible) return
     
     // Reset animation when becoming visible
     setCurrentPhase(0)
-    setHasCompleted(false)
     
     const interval = setInterval(() => {
-      setCurrentPhase((prev) => {
-        if (prev === 1) {
-          setHasCompleted(true)
-          return 1 // Stay on final phase
-        }
-        return prev + 1
-      })
-    }, 2500) // Switch every 2.5 seconds for 5 second total loop
+      setCurrentPhase((prev) => (prev === 1 ? 0 : prev + 1)) // Loop between 0 and 1
+    }, 2500) // Switch every 2.5 seconds
     
     return () => clearInterval(interval)
   }, [isVisible])
@@ -356,7 +339,6 @@ const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
 // Phone mockup component for Feature 3 - Goals Progress
 const GoalsProgressPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [progress, setProgress] = useState(0)
-  const [hasCompleted, setHasCompleted] = useState(false)
   
   // Single goal only
   const goal = { title: "Becoming more athletic in sports", target: 2500, current: 0 }
@@ -366,13 +348,11 @@ const GoalsProgressPhone = ({ isVisible }: { isVisible: boolean }) => {
     
     // Reset animation when becoming visible
     setProgress(0)
-    setHasCompleted(false)
     
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
-          setHasCompleted(true)
-          return 100 // Stay at 100%
+          return 0 // Reset to 0 to loop
         }
         return prev + 10
       })
