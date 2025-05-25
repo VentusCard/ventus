@@ -1,4 +1,3 @@
-
 import { Check } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -9,7 +8,7 @@ const benefitTiers = [
     price: "$0",
     period: "/month",
     features: [
-      "2x points on goal-related purchases",
+      "2x points on goal-related purchases (up to $300/month)",
       "Mobile wallet + virtual card access",
       "Core travel protection"
     ],
@@ -21,9 +20,9 @@ const benefitTiers = [
     price: "$9.99",
     period: "/month",
     features: [
-      "4x points on top category, 2x on others (monthly caps apply)",
-      "Quarterly goal rewards + merchant boosts",
-      "2 lounge visits + enhanced protection"
+      "4x points on goal-related purchases (up to $750/month)",
+      "Personalized goal rewards + merchant offers",
+      "2 lounge visits/year + enhanced protection"
     ],
     highlighted: true
   },
@@ -33,9 +32,9 @@ const benefitTiers = [
     price: "$29.99",
     period: "/month",
     features: [
-      "5x points on goal-aligned spend, 3x on all else (monthly caps apply)",
+      "5x points on goal-related purchases (up to $1,000/month)",
       "Unlimited lounge access + smart travel perks",
-      "Concierge, VIP invites & stackable offers"
+      "Concierge support, VIP invites + stackable offers"
     ],
     highlighted: false
   }
@@ -89,7 +88,7 @@ const Benefits = () => {
         
         <div className="mt-12 text-center">
           <p className="text-sm text-muted-foreground italic max-w-2xl mx-auto">
-            All spend beyond limits earns 1x Ventus Point per dollar. Points redeem at $0.01/point value.
+            All other eligible spend earns 1x point per dollar. Points redeem at $0.01 value.
           </p>
         </div>
       </div>
