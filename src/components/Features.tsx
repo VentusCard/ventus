@@ -1,6 +1,5 @@
-
 import { useState, useEffect, useRef } from "react"
-import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift } from "lucide-react"
+import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check } from "lucide-react"
 
 const features = [
   {
@@ -23,19 +22,14 @@ const features = [
   }
 ]
 
-// Phone mockup component for Feature 1 - Adaptive Rewards
+// Phone mockup component for Feature 1 - Tennis Purchase Rewards Demo
 const AdaptiveRewardsPhone = () => {
-  const [currentReward, setCurrentReward] = useState(0)
-  const rewards = [
-    { category: "Coffee", multiplier: "3x", amount: "+15 pts" },
-    { category: "Gas", multiplier: "2x", amount: "+8 pts" },
-    { category: "Groceries", multiplier: "4x", amount: "+20 pts" }
-  ]
-
+  const [currentPhase, setCurrentPhase] = useState(0)
+  
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentReward((prev) => (prev + 1) % rewards.length)
-    }, 2000)
+      setCurrentPhase((prev) => (prev + 1) % 2) // 0 = checkout, 1 = recap
+    }, 2500) // Switch every 2.5 seconds for 5 second total loop
     return () => clearInterval(interval)
   }, [])
 
@@ -52,52 +46,117 @@ const AdaptiveRewardsPhone = () => {
           </div>
         </div>
         
-        {/* App content */}
-        <div className="p-4 h-full">
-          <div className="text-center mb-6">
-            <h4 className="font-bold text-lg">Ventus Rewards</h4>
-            <p className="text-sm text-gray-600">Live Tracking</p>
+        {/* Phase 1: Checkout Moment */}
+        {currentPhase === 0 && (
+          <div className="p-4 h-full transition-all duration-500">
+            <div className="text-center mb-4">
+              <h4 className="font-bold text-lg">Tennis Warehouse</h4>
+              <p className="text-sm text-gray-600">Checkout</p>
+            </div>
+            
+            {/* Product */}
+            <div className="bg-gray-50 p-4 rounded-xl mb-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                  <span className="text-xl">🎾</span>
+                </div>
+                <div className="flex-1">
+                  <div className="font-semibold text-sm">Wilson Pro Staff</div>
+                  <div className="text-xs text-gray-600">Tennis Racquet</div>
+                </div>
+                <div className="text-right">
+                  <div className="font-bold">$189.99</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* 5x Rewards Banner */}
+            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl text-white mb-4 animate-pulse">
+              <div className="flex items-center justify-center mb-2">
+                <Check className="w-5 h-5 mr-2" />
+                <span className="font-bold text-lg">5x Rewards</span>
+              </div>
+              <div className="text-center text-sm opacity-90">
+                Becoming more athletic in sports
+              </div>
+            </div>
+            
+            {/* Pay Button */}
+            <button className="w-full bg-black text-white py-3 rounded-xl font-semibold">
+              Pay with Ventus Card
+            </button>
           </div>
-          
-          {/* Animated reward cards */}
-          <div className="space-y-3">
-            {rewards.map((reward, index) => (
-              <div 
-                key={index}
-                className={`p-4 rounded-xl border-2 transition-all duration-500 ${
-                  currentReward === index 
-                    ? 'bg-blue-50 border-blue-200 scale-105 shadow-lg' 
-                    : 'bg-gray-50 border-gray-200'
-                }`}
-              >
-                <div className="flex justify-between items-center">
+        )}
+        
+        {/* Phase 2: Transaction Recap */}
+        {currentPhase === 1 && (
+          <div className="p-4 h-full transition-all duration-500">
+            <div className="text-center mb-4">
+              <h4 className="font-bold text-lg">Recent Transactions</h4>
+              <p className="text-sm text-gray-600">This Week</p>
+            </div>
+            
+            {/* Tennis Purchase with 5x */}
+            <div className="bg-green-50 border-2 border-green-200 p-3 rounded-xl mb-3">
+              <div className="flex justify-between items-center">
+                <div className="flex items-center space-x-2">
+                  <span className="text-lg">🎾</span>
                   <div>
-                    <div className="font-semibold text-sm">{reward.category}</div>
-                    <div className="text-xs text-gray-600">{reward.multiplier} points</div>
+                    <div className="font-semibold text-sm">Tennis Warehouse</div>
+                    <div className="text-xs text-gray-600">Sports Equipment</div>
                   </div>
-                  <div className={`font-bold ${currentReward === index ? 'text-blue-600' : 'text-gray-400'}`}>
-                    {reward.amount}
+                </div>
+                <div className="text-right">
+                  <div className="font-bold text-green-600">+950 pts</div>
+                  <div className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded">5x</div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Other purchases with 1x */}
+            <div className="space-y-2">
+              <div className="bg-gray-50 p-3 rounded-xl">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg">☕</span>
+                    <div>
+                      <div className="font-semibold text-sm">Starbucks</div>
+                      <div className="text-xs text-gray-600">Coffee</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold text-gray-600">+5 pts</div>
+                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">1x</div>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-          
-          {/* Progress indicator */}
-          <div className="mt-6 text-center">
-            <div className="text-xs text-gray-500 mb-2">Adapting to your habits...</div>
-            <div className="flex justify-center space-x-1">
-              {rewards.map((_, index) => (
-                <div 
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                    currentReward === index ? 'bg-blue-500' : 'bg-gray-300'
-                  }`}
-                />
-              ))}
+              
+              <div className="bg-gray-50 p-3 rounded-xl">
+                <div className="flex justify-between items-center">
+                  <div className="flex items-center space-x-2">
+                    <span className="text-lg">🛒</span>
+                    <div>
+                      <div className="font-semibold text-sm">Whole Foods</div>
+                      <div className="text-xs text-gray-600">Groceries</div>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="font-bold text-gray-600">+12 pts</div>
+                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded">1x</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Goal Progress */}
+            <div className="mt-4 text-center">
+              <div className="text-xs text-blue-600 font-medium">Athletic Goal Progress</div>
+              <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                <div className="bg-blue-500 h-2 rounded-full w-3/4 transition-all duration-300"></div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
