@@ -52,65 +52,7 @@ const Hero = () => {
   };
   
   return (
-    <div id="hero" className="relative bg-gradient-to-br from-black via-slate-900 to-indigo-950 text-white flex items-center justify-center overflow-hidden h-screen">
-      {/* Abstract flowing shapes background */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {/* Flowing swirl lines */}
-        <svg className="absolute inset-0 w-full h-full opacity-[0.08]" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
-          <defs>
-            <linearGradient id="flow-gradient-1" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.3" />
-              <stop offset="50%" stopColor="#6366f1" stopOpacity="0.6" />
-              <stop offset="100%" stopColor="#8b5cf6" stopOpacity="0.3" />
-            </linearGradient>
-            <linearGradient id="flow-gradient-2" x1="100%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stopColor="#1e40af" stopOpacity="0.2" />
-              <stop offset="50%" stopColor="#3730a3" stopOpacity="0.5" />
-              <stop offset="100%" stopColor="#581c87" stopOpacity="0.2" />
-            </linearGradient>
-          </defs>
-          
-          {/* Main flowing curves */}
-          <path 
-            d="M-200,400 Q400,200 800,350 T1600,250 Q1800,300 2100,200"
-            stroke="url(#flow-gradient-1)"
-            strokeWidth="2"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <path 
-            d="M-100,600 Q600,400 1000,550 T1800,450 Q2000,500 2200,400"
-            stroke="url(#flow-gradient-1)"
-            strokeWidth="1.5"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <path 
-            d="M2100,300 Q1700,500 1300,350 T500,450 Q300,400 0,500"
-            stroke="url(#flow-gradient-2)"
-            strokeWidth="1.5"
-            fill="none"
-            strokeLinecap="round"
-          />
-          <path 
-            d="M2200,700 Q1400,500 1000,650 T200,550 Q100,600 -100,700"
-            stroke="url(#flow-gradient-2)"
-            strokeWidth="1"
-            fill="none"
-            strokeLinecap="round"
-          />
-        </svg>
-        
-        {/* Ambient glow behind video area */}
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-gradient-radial from-indigo-500/10 via-blue-600/5 to-transparent blur-3xl rounded-full"></div>
-        
-        {/* Subtle wind-like particle shapes */}
-        <div className="absolute top-20 left-20 w-32 h-1 bg-gradient-to-r from-transparent via-blue-400/20 to-transparent transform rotate-12 blur-sm"></div>
-        <div className="absolute top-40 right-32 w-24 h-1 bg-gradient-to-r from-transparent via-indigo-400/15 to-transparent transform -rotate-6 blur-sm"></div>
-        <div className="absolute bottom-32 left-40 w-40 h-1 bg-gradient-to-r from-transparent via-purple-400/10 to-transparent transform rotate-8 blur-sm"></div>
-        <div className="absolute bottom-20 right-20 w-28 h-1 bg-gradient-to-r from-transparent via-blue-300/12 to-transparent transform -rotate-12 blur-sm"></div>
-      </div>
-      
+    <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
         {/* Add spacing between navbar and hero content */}
         <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-8 md:pt-12">
