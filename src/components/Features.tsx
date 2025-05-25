@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react"
 import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity, ChevronDown, ChevronRight } from "lucide-react"
 
@@ -142,7 +143,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
                   <span className="text-sm">🎾</span>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-xs truncate">Wilson Pro Staff</div>
+                  <div className="font-semibold text-xs">Wilson Pro Staff</div>
                   <div className="text-xs text-gray-600">Tennis Racquet</div>
                 </div>
                 <div className="text-right flex-shrink-0">
@@ -200,7 +201,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
                 <div className="flex items-center space-x-2 flex-1 min-w-0">
                   <span className="text-sm flex-shrink-0">🎾</span>
                   <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-xs leading-tight truncate">Tennis Warehouse</div>
+                    <div className="font-semibold text-xs leading-tight">Tennis Warehouse</div>
                     <div className="text-xs text-gray-600 leading-tight">Sports Equipment</div>
                   </div>
                 </div>
@@ -222,7 +223,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center space-x-2 flex-1 min-w-0">
-                    <span className="text-xs font-semibold text-gray-800 truncate">Other Transactions – 1x Rewards</span>
+                    <span className="text-xs font-semibold text-gray-800">Other Transactions – 1x Rewards</span>
                     <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-medium flex-shrink-0">2 items</span>
                   </div>
                   <ChevronDown className={`w-3 h-3 text-gray-600 transition-transform duration-200 flex-shrink-0 ml-1 ${
@@ -241,7 +242,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
                       <div className="flex items-center space-x-2 flex-1 min-w-0">
                         <span className="text-sm flex-shrink-0">☕</span>
                         <div className="min-w-0 flex-1">
-                          <div className="font-semibold text-xs leading-tight truncate">Starbucks</div>
+                          <div className="font-semibold text-xs leading-tight">Starbucks</div>
                           <div className="text-xs text-gray-600 leading-tight">Coffee</div>
                         </div>
                       </div>
@@ -257,7 +258,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
                       <div className="flex items-center space-x-2 flex-1 min-w-0">
                         <span className="text-sm flex-shrink-0">🛒</span>
                         <div className="min-w-0 flex-1">
-                          <div className="font-semibold text-xs leading-tight truncate">Whole Foods</div>
+                          <div className="font-semibold text-xs leading-tight">Whole Foods</div>
                           <div className="text-xs text-gray-600 leading-tight">Groceries</div>
                         </div>
                       </div>
@@ -312,7 +313,7 @@ const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
                 <div className="flex items-center space-x-2 flex-1 min-w-0">
                   <span className="text-sm flex-shrink-0">🎾</span>
                   <div className="min-w-0 flex-1">
-                    <div className="font-semibold text-xs truncate">Tennis Warehouse</div>
+                    <div className="font-semibold text-xs">Tennis Warehouse</div>
                     <div className="text-xs text-gray-600">Sports Equipment</div>
                   </div>
                 </div>
@@ -381,7 +382,7 @@ const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
               <div className="flex items-center space-x-2">
                 <span className="text-sm flex-shrink-0">🎾</span>
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-xs truncate">Tennis Warehouse</div>
+                  <div className="font-semibold text-xs">Tennis Warehouse</div>
                   <div className="text-xs text-gray-600">+950 pts earned</div>
                 </div>
                 <div className="text-right flex-shrink-0">
@@ -410,7 +411,7 @@ const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
                 <div className="space-y-1 mb-2 text-xs opacity-90">
                   <div className="flex items-center">
                     <Check className="w-2 h-2 mr-1 flex-shrink-0" />
-                    <span className="text-xs truncate">Triggered by your Tennis purchase</span>
+                    <span className="text-xs">Triggered by your Tennis purchase</span>
                   </div>
                   <div className="flex items-center">
                     <Clock className="w-2 h-2 mr-1 flex-shrink-0" />
@@ -468,7 +469,7 @@ const GoalsProgressPhone = ({ isVisible }: { isVisible: boolean }) => {
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-3 rounded-xl">
             <div className="flex items-center mb-3">
               <Activity className="w-4 h-4 text-blue-600 mr-2" />
-              <span className="font-semibold text-xs truncate">{goal.title}</span>
+              <span className="font-semibold text-xs">Becoming more athletic in sports</span>
             </div>
             
             {/* Progress circle */}
