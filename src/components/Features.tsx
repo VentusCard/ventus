@@ -218,12 +218,12 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
             {/* Collapsible Other Transactions */}
             <div className="flex-shrink-0">
               <button 
-                className="w-full bg-white border border-gray-200 p-3 rounded-xl transition-all duration-200 hover:bg-gray-50 mb-2 shadow-sm"
+                className="w-full bg-white border border-gray-200 p-3 rounded-xl transition-all duration-200 hover:bg-gray-50 mb-2 shadow-sm text-left"
                 onClick={() => setShowDropdown(!showDropdown)}
               >
                 <div className="flex justify-between items-center">
                   <div className="flex items-center space-x-2 flex-1 min-w-0">
-                    <span className="text-xs font-semibold text-gray-800">Other Transactions – 1x Rewards</span>
+                    <span className="text-xs font-semibold text-gray-800">Other Transactions</span>
                     <span className="text-xs bg-gray-100 text-gray-700 px-2 py-0.5 rounded-full font-medium flex-shrink-0">2 items</span>
                   </div>
                   <ChevronDown className={`w-3 h-3 text-gray-600 transition-transform duration-200 flex-shrink-0 ml-1 ${
