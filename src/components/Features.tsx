@@ -251,26 +251,26 @@ const MerchantOffersPhone = () => {
               </div>
             </div>
             
-            {/* Click indicator */}
+            {/* Updated CTA */}
             <div className="mt-auto text-center flex-shrink-0">
               <div className="text-xs text-blue-600 font-medium animate-pulse">
-                Tap Tennis Warehouse for offers →
+                Tap for personalized offers →
               </div>
             </div>
           </div>
         )}
         
-        {/* Phase 2: Exclusive Wilson Offer */}
+        {/* Phase 2: Exclusive Wilson Offer - Fixed layout */}
         {currentPhase === 1 && (
           <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
-            <div className="text-center mb-4 flex-shrink-0">
+            <div className="text-center mb-3 flex-shrink-0">
               <h4 className="font-bold text-base mb-1">Exclusive Offer</h4>
               <p className="text-sm text-gray-600">Based on your purchase</p>
             </div>
             
             {/* Condensed Transaction Reference */}
-            <div className="bg-gray-50 p-3 rounded-xl mb-4 flex-shrink-0">
+            <div className="bg-gray-50 p-3 rounded-xl mb-3 flex-shrink-0">
               <div className="flex items-center space-x-3">
                 <span className="text-lg flex-shrink-0">🎾</span>
                 <div className="flex-1 min-w-0">
@@ -283,24 +283,24 @@ const MerchantOffersPhone = () => {
               </div>
             </div>
             
-            {/* Offer Card */}
-            <div className="flex-1 flex flex-col justify-center">
+            {/* Offer Card - Properly sized */}
+            <div className="flex-1 flex flex-col justify-center min-h-0">
               <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-4 rounded-xl text-white shadow-lg animate-[slideUp_0.5s_ease-out]">
                 <div className="flex items-center mb-3">
-                  <Gift className="w-5 h-5 mr-2" />
-                  <span className="font-semibold text-base">Exclusive Offer</span>
+                  <Gift className="w-4 h-4 mr-2" />
+                  <span className="font-semibold text-sm">Exclusive Offer</span>
                 </div>
                 
-                <div className="mb-4">
-                  <div className="text-xl font-bold mb-1">$20 off your next Wilson order</div>
-                  <div className="text-sm opacity-90 flex items-center">
+                <div className="mb-3">
+                  <div className="text-lg font-bold mb-1">$20 off your next Wilson order</div>
+                  <div className="text-xs opacity-90 flex items-center">
                     <Clock className="w-3 h-3 mr-1" />
                     Expires in 4 hours
                   </div>
                 </div>
                 
                 {/* Offer details */}
-                <div className="space-y-2 mb-4 text-xs opacity-90">
+                <div className="space-y-1.5 mb-3 text-xs opacity-90">
                   <div className="flex items-center">
                     <Check className="w-3 h-3 mr-2 flex-shrink-0" />
                     <span>Triggered by your Tennis Warehouse purchase</span>
@@ -312,7 +312,7 @@ const MerchantOffersPhone = () => {
                 </div>
                 
                 {/* CTA Button */}
-                <button className="w-full bg-white text-indigo-600 py-2.5 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors">
+                <button className="w-full bg-white text-indigo-600 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors">
                   Add Offer
                 </button>
               </div>
