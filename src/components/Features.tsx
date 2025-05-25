@@ -124,16 +124,6 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
       <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden flex flex-col">
-        {/* Status bar */}
-        <div className="h-6 bg-gray-50 flex items-center justify-between px-4 text-xs font-medium flex-shrink-0">
-          <span>9:41</span>
-          <div className="flex space-x-1">
-            <div className="w-1 h-1 bg-black rounded-full"></div>
-            <div className="w-1 h-1 bg-black rounded-full"></div>
-            <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-          </div>
-        </div>
-        
         {/* Phase 0: Checkout Screen */}
         {animationPhase === 0 && (
           <div className={`p-3 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
@@ -307,16 +297,6 @@ const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
       <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden flex flex-col">
-        {/* Status bar */}
-        <div className="h-6 bg-gray-50 flex items-center justify-between px-4 text-xs font-medium flex-shrink-0">
-          <span>9:41</span>
-          <div className="flex space-x-1">
-            <div className="w-1 h-1 bg-black rounded-full"></div>
-            <div className="w-1 h-1 bg-black rounded-full"></div>
-            <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-          </div>
-        </div>
-        
         {/* Phase 1: Recent Transactions */}
         {currentPhase === 0 && (
           <div className="p-3 flex-1 transition-all duration-500 flex flex-col min-h-0">
@@ -481,16 +461,6 @@ const GoalsProgressPhone = ({ isVisible }: { isVisible: boolean }) => {
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
       <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden">
-        {/* Status bar */}
-        <div className="h-6 bg-gray-50 flex items-center justify-between px-4 text-xs font-medium">
-          <span>9:41</span>
-          <div className="flex space-x-1">
-            <div className="w-1 h-1 bg-black rounded-full"></div>
-            <div className="w-1 h-1 bg-black rounded-full"></div>
-            <div className="w-1 h-1 bg-gray-300 rounded-full"></div>
-          </div>
-        </div>
-        
         {/* Goals content */}
         <div className="p-3">
           <h4 className="font-bold text-sm mb-4">Reward Summary</h4>
