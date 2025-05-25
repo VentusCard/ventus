@@ -1,3 +1,4 @@
+
 import { Check } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -8,9 +9,9 @@ const benefitTiers = [
     price: "$0",
     period: "/month",
     features: [
-      "2x points on essentials (up to $500/month)",
-      "Mobile wallet + virtual card",
-      "Basic travel protection"
+      "2x points on goal-related purchases",
+      "Mobile wallet + virtual card access",
+      "Core travel protection"
     ],
     highlighted: false
   },
