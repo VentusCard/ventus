@@ -98,10 +98,10 @@ export default {
 						height: '0'
 					}
 				},
-				// Simplified "Unleashed" animation focusing on transform and opacity only
+				// Enhanced "Unleashed" animation with subtle entrance
 				'unleashed': {
 					'0%': {
-						transform: 'scale(0.98) translateY(2px)',
+						transform: 'scale(0.98) translateY(3px)',
 						opacity: '0'
 					},
 					'100%': {
@@ -109,7 +109,7 @@ export default {
 						opacity: '1'
 					}
 				},
-				// Brushstroke reveal animation
+				// Brushstroke reveal animation (text overlay)
 				'brushstroke': {
 					'0%': {
 						transform: 'scaleX(1)',
@@ -118,6 +118,31 @@ export default {
 					'100%': {
 						transform: 'scaleX(0)',
 						'transform-origin': 'right'
+					}
+				},
+				// New brushstroke drawing animation for the SVG
+				'brushstroke-draw': {
+					'0%': {
+						opacity: '0',
+						transform: 'scaleX(0)',
+						'transform-origin': 'left'
+					},
+					'20%': {
+						opacity: '1'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'scaleX(1)',
+						'transform-origin': 'left'
+					}
+				},
+				// Subtle metallic shimmer effect
+				'shimmer': {
+					'0%, 100%': {
+						filter: 'brightness(1) contrast(1)'
+					},
+					'50%': {
+						filter: 'brightness(1.2) contrast(1.1)'
 					}
 				},
 				'float': {
@@ -148,6 +173,8 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'unleashed': 'unleashed 1.2s ease-out',
 				'brushstroke': 'brushstroke 1.5s ease-out',
+				'brushstroke-draw': 'brushstroke-draw 1.5s ease-out',
+				'shimmer': 'shimmer 3s ease-in-out infinite',
 				'float': 'float 6s ease-in-out infinite',
 				'bounce': 'bounce 4s ease-in-out infinite'
 			}

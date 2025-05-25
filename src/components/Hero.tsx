@@ -59,11 +59,44 @@ const Hero = () => {
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
-              <span className="relative z-20 animate-[unleashed_2s_ease-out_1]">
+              <span className="relative z-20 animate-[unleashed_2s_ease-out_0.5s_both]">
                 Unleashed
               </span>
+              {/* Elegant brushstroke with metallic shimmer */}
+              <svg 
+                className="absolute bottom-0 left-0 w-full h-3 md:h-4 lg:h-5 animate-[brushstroke-draw_1.5s_ease-out_0.5s_both] opacity-90"
+                viewBox="0 0 200 20" 
+                preserveAspectRatio="none"
+                style={{ transform: 'translateY(50%)' }}
+              >
+                <defs>
+                  <linearGradient id="brushstroke-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#64748b" stopOpacity="0.3" />
+                    <stop offset="25%" stopColor="#94a3b8" stopOpacity="0.7" />
+                    <stop offset="50%" stopColor="#cbd5e1" stopOpacity="0.9" />
+                    <stop offset="75%" stopColor="#94a3b8" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#64748b" stopOpacity="0.3" />
+                  </linearGradient>
+                  <filter id="shimmer">
+                    <feGaussianBlur stdDeviation="0.5" result="coloredBlur"/>
+                    <feMerge> 
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+                <path 
+                  d="M5,15 Q25,8 50,12 T100,10 Q125,8 150,11 T190,13"
+                  stroke="url(#brushstroke-gradient)"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                  fill="none"
+                  filter="url(#shimmer)"
+                  className="animate-[shimmer_3s_ease-in-out_infinite]"
+                />
+              </svg>
               {/* Brushstroke reveal overlay */}
-              <div className="absolute inset-0 bg-black animate-[brushstroke_1.5s_ease-out_1] origin-left z-10"></div>
+              <div className="absolute inset-0 bg-black animate-[brushstroke_1.5s_ease-out_0.5s_both] origin-left z-10"></div>
             </span>
           </h1>
           
