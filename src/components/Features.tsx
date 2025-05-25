@@ -35,9 +35,9 @@ const AdaptiveRewardsPhone = () => {
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
-      <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden">
+      <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden flex flex-col">
         {/* Status bar */}
-        <div className="h-8 bg-gray-50 flex items-center justify-between px-6 text-xs font-medium">
+        <div className="h-8 bg-gray-50 flex items-center justify-between px-6 text-xs font-medium flex-shrink-0">
           <span>9:41</span>
           <div className="flex space-x-1">
             <div className="w-1 h-1 bg-black rounded-full"></div>
@@ -48,43 +48,43 @@ const AdaptiveRewardsPhone = () => {
         
         {/* Phase 1: Checkout Moment */}
         {currentPhase === 0 && (
-          <div className="p-5 h-full transition-all duration-500 flex flex-col">
+          <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
-            <div className="text-center mb-6">
-              <h4 className="font-bold text-lg mb-1">Tennis Warehouse</h4>
+            <div className="text-center mb-4 flex-shrink-0">
+              <h4 className="font-bold text-base mb-1">Tennis Warehouse</h4>
               <p className="text-sm text-gray-600">Checkout</p>
             </div>
             
             {/* Product */}
-            <div className="bg-gray-50 p-4 rounded-xl mb-6">
+            <div className="bg-gray-50 p-3 rounded-xl mb-4 flex-shrink-0">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                  <span className="text-xl">🎾</span>
+                <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <span className="text-lg">🎾</span>
                 </div>
-                <div className="flex-1">
+                <div className="flex-1 min-w-0">
                   <div className="font-semibold text-sm">Wilson Pro Staff</div>
                   <div className="text-xs text-gray-600">Tennis Racquet</div>
                 </div>
-                <div className="text-right">
-                  <div className="font-bold">$189.99</div>
+                <div className="text-right flex-shrink-0">
+                  <div className="font-bold text-sm">$189.99</div>
                 </div>
               </div>
             </div>
             
-            {/* 5x Rewards Banner with improved spacing */}
-            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-5 rounded-xl text-white mb-6 animate-pulse">
-              <div className="flex items-center justify-center mb-3">
-                <Check className="w-5 h-5 mr-2" />
-                <span className="font-bold text-lg">5x Rewards</span>
+            {/* 5x Rewards Banner */}
+            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl text-white mb-4 animate-pulse flex-shrink-0">
+              <div className="flex items-center justify-center mb-2">
+                <Check className="w-4 h-4 mr-2" />
+                <span className="font-bold text-base">5x Rewards</span>
               </div>
-              <div className="text-center text-sm opacity-90 leading-relaxed">
+              <div className="text-center text-xs opacity-90 leading-relaxed">
                 Becoming more athletic in sports
               </div>
             </div>
             
-            {/* Pay Button with more spacing */}
-            <div className="mt-auto">
-              <button className="w-full bg-black text-white py-4 rounded-xl font-semibold text-base">
+            {/* Pay Button */}
+            <div className="mt-auto flex-shrink-0">
+              <button className="w-full bg-black text-white py-3 rounded-xl font-semibold text-sm">
                 Pay with Ventus Card
               </button>
             </div>
@@ -93,70 +93,70 @@ const AdaptiveRewardsPhone = () => {
         
         {/* Phase 2: Transaction Recap */}
         {currentPhase === 1 && (
-          <div className="p-5 h-full transition-all duration-500 flex flex-col">
+          <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
-            <div className="text-center mb-6">
-              <h4 className="font-bold text-lg mb-1">Recent Transactions</h4>
+            <div className="text-center mb-4 flex-shrink-0">
+              <h4 className="font-bold text-base mb-1">Recent Transactions</h4>
               <p className="text-sm text-gray-600">This Week</p>
             </div>
             
-            {/* Tennis Purchase with 5x - Enhanced spacing */}
-            <div className="bg-green-50 border-2 border-green-200 p-4 rounded-xl mb-5">
+            {/* Tennis Purchase with 5x */}
+            <div className="bg-green-50 border-2 border-green-200 p-3 rounded-xl mb-3 flex-shrink-0">
               <div className="flex justify-between items-center">
-                <div className="flex items-center space-x-3">
-                  <span className="text-xl">🎾</span>
-                  <div>
+                <div className="flex items-center space-x-3 flex-1 min-w-0">
+                  <span className="text-lg flex-shrink-0">🎾</span>
+                  <div className="min-w-0">
                     <div className="font-semibold text-sm">Tennis Warehouse</div>
                     <div className="text-xs text-gray-600">Sports Equipment</div>
                   </div>
                 </div>
-                <div className="text-right">
+                <div className="text-right flex-shrink-0">
                   <div className="font-bold text-green-600 text-sm">+950 pts</div>
-                  <div className="text-xs bg-green-200 text-green-800 px-2 py-1 rounded mt-1">5x</div>
+                  <div className="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded mt-1">5x</div>
                 </div>
               </div>
             </div>
             
-            {/* Other purchases with better spacing */}
-            <div className="space-y-3 mb-6">
-              <div className="bg-gray-50 p-4 rounded-xl">
+            {/* Other purchases */}
+            <div className="space-y-2 mb-4 flex-shrink-0">
+              <div className="bg-gray-50 p-3 rounded-xl">
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-lg">☕</span>
-                    <div>
+                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                    <span className="text-base flex-shrink-0">☕</span>
+                    <div className="min-w-0">
                       <div className="font-semibold text-sm">Starbucks</div>
                       <div className="text-xs text-gray-600">Coffee</div>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex-shrink-0">
                     <div className="font-bold text-gray-600 text-sm">+5 pts</div>
-                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded mt-1">1x</div>
+                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
                   </div>
                 </div>
               </div>
               
-              <div className="bg-gray-50 p-4 rounded-xl">
+              <div className="bg-gray-50 p-3 rounded-xl">
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-3">
-                    <span className="text-lg">🛒</span>
-                    <div>
+                  <div className="flex items-center space-x-3 flex-1 min-w-0">
+                    <span className="text-base flex-shrink-0">🛒</span>
+                    <div className="min-w-0">
                       <div className="font-semibold text-sm">Whole Foods</div>
                       <div className="text-xs text-gray-600">Groceries</div>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-right flex-shrink-0">
                     <div className="font-bold text-gray-600 text-sm">+12 pts</div>
-                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-1 rounded mt-1">1x</div>
+                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
                   </div>
                 </div>
               </div>
             </div>
             
-            {/* Goal Progress with improved spacing */}
-            <div className="mt-auto text-center">
+            {/* Goal Progress */}
+            <div className="mt-auto text-center flex-shrink-0">
               <div className="text-xs text-blue-600 font-medium mb-2">Athletic Goal Progress</div>
-              <div className="w-full bg-gray-200 rounded-full h-3">
-                <div className="bg-blue-500 h-3 rounded-full w-3/4 transition-all duration-300"></div>
+              <div className="w-full bg-gray-200 rounded-full h-2">
+                <div className="bg-blue-500 h-2 rounded-full w-3/4 transition-all duration-300"></div>
               </div>
             </div>
           </div>
