@@ -31,41 +31,29 @@ const Navbar = () => {
         {/* Centered Navigation Container */}
         <div className="flex items-center justify-center flex-1">
           {/* Navigation Links - Desktop */}
-          <NavigationMenu className="hidden md:flex">
-            <NavigationMenuList className="flex items-center space-x-8 lg:space-x-12">
-              <NavigationMenuItem>
-                <NavigationMenuLink 
-                  className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-4 lg:px-6 cursor-pointer relative group"
-                  onClick={() => scrollToSection('hero')}
-                >
-                  Overview
-                  <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink 
-                  className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-4 lg:px-6 relative group"
-                  asChild
-                >
-                  <Link to="/rewards">
-                    Rewards
-                    <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-              <NavigationMenuItem>
-                <NavigationMenuLink 
-                  className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-4 lg:px-6 relative group"
-                  asChild
-                >
-                  <Link to="/how-it-works">
-                    How It Works
-                    <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-                  </Link>
-                </NavigationMenuLink>
-              </NavigationMenuItem>
-            </NavigationMenuList>
-          </NavigationMenu>
+          <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
+            <button 
+              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-4 lg:px-6 cursor-pointer relative group"
+              onClick={() => scrollToSection('hero')}
+            >
+              Overview
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </button>
+            <Link 
+              to="/rewards"
+              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-4 lg:px-6 relative group"
+            >
+              Rewards
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+            <Link 
+              to="/how-it-works"
+              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-4 lg:px-6 relative group"
+            >
+              How It Works
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+          </div>
           
           {/* Mobile Navigation */}
           <div className="md:hidden flex items-center space-x-6">
