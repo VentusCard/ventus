@@ -466,39 +466,48 @@ const GoalsProgressPhone = ({ isVisible }: { isVisible: boolean }) => {
         <div className="p-3 pt-8">
           <h4 className="font-bold text-sm mb-4">Reward Summary</h4>
           
-          <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-3 rounded-xl">
-            <div className="flex items-center mb-3">
-              <Activity className="w-4 h-4 text-blue-600 mr-2" />
-              <span className="font-semibold text-xs">Becoming more athletic in sports</span>
-            </div>
-            
-            {/* Progress circle */}
-            <div className="relative w-24 h-24 mx-auto mb-3">
-              <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="45" fill="none" stroke="#e5e7eb" strokeWidth="8"/>
-                <circle 
-                  cx="50" 
-                  cy="50" 
-                  r="45" 
-                  fill="none" 
-                  stroke="#3b82f6" 
-                  strokeWidth="8"
-                  strokeDasharray={`${2 * Math.PI * 45}`}
-                  strokeDashoffset={`${2 * Math.PI * 45 * (1 - progress / 100)}`}
-                  className="transition-all duration-200"
-                />
-              </svg>
-              <div className="absolute inset-0 flex items-center justify-center">
-                <div className="text-center">
-                  <div className="text-sm font-bold text-blue-600">{Math.round(progress)}%</div>
+          {/* Added top padding (20px = pt-5) above the card */}
+          <div className="pt-5">
+            <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-4 pb-6 rounded-xl">
+              {/* Q2 Goal label */}
+              <div className="text-xs text-gray-500 font-medium mb-1">Q2 Goal</div>
+              
+              {/* Enhanced goal title with increased font size and weight */}
+              <div className="flex items-center mb-4">
+                <Activity className="w-5 h-5 text-blue-600 mr-2" />
+                <span className="font-bold text-sm leading-tight">Becoming more athletic in sports</span>
+              </div>
+              
+              {/* Progress circle with enhanced styling */}
+              <div className="relative w-24 h-24 mx-auto mb-3">
+                <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
+                  {/* Background circle with lighter grey */}
+                  <circle cx="50" cy="50" r="45" fill="none" stroke="#f3f4f6" strokeWidth="10"/>
+                  {/* Progress circle with thicker stroke */}
+                  <circle 
+                    cx="50" 
+                    cy="50" 
+                    r="45" 
+                    fill="none" 
+                    stroke="#3b82f6" 
+                    strokeWidth="10"
+                    strokeDasharray={`${2 * Math.PI * 45}`}
+                    strokeDashoffset={`${2 * Math.PI * 45 * (1 - progress / 100)}`}
+                    className="transition-all duration-200"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="text-center">
+                    <div className="text-sm font-bold text-blue-600">{Math.round(progress)}%</div>
+                  </div>
                 </div>
               </div>
-            </div>
-            
-            {/* Amount display */}
-            <div className="text-center">
-              <div className="text-lg font-bold">${currentAmount.toLocaleString()}</div>
-              <div className="text-xs text-gray-600">of ${goal.target.toLocaleString()}</div>
+              
+              {/* Amount display */}
+              <div className="text-center">
+                <div className="text-lg font-bold">${currentAmount.toLocaleString()}</div>
+                <div className="text-xs text-gray-600">of ${goal.target.toLocaleString()}</div>
+              </div>
             </div>
           </div>
         </div>
