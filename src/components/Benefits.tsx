@@ -5,45 +5,37 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 const benefitTiers = [
   {
     name: "Standard",
-    description: "Smart rewards, zero cost",
+    description: "Smart rewards. Zero cost.",
     price: "$0",
     period: "/month",
     features: [
-      "Earn 2x Ventus Points on essential purchases — up to $500 in spend/month",
-      "All other purchases earn 1x",
-      "No annual or monthly fee",
-      "Mobile wallet + virtual card support",
-      "Basic travel & purchase protection"
+      "2x points on essentials (up to $500/month)",
+      "Mobile wallet + virtual card",
+      "Basic travel protection"
     ],
     highlighted: false
   },
   {
     name: "Premium",
-    description: "Built for motivated spenders",
+    description: "Built for motivated spenders.",
     price: "$9.99",
     period: "/month",
     features: [
-      "Earn 4x Ventus Points on your top spending category — up to $500/month",
-      "Earn 2x Ventus Points on all other purchases — up to $1,500/month",
-      "Personalized quarterly goal tracking & reward boosts",
-      "2 airport lounge visits/year",
-      "Enhanced travel & purchase insurance",
-      "Priority customer support"
+      "4x points on top category, 2x on others (monthly caps apply)",
+      "Quarterly goal rewards + merchant boosts",
+      "2 lounge visits + enhanced protection"
     ],
     highlighted: true
   },
   {
     name: "Elite",
-    description: "Engineered for high-impact living",
+    description: "Engineered for high-impact living.",
     price: "$29.99",
     period: "/month",
     features: [
-      "Earn 5x Ventus Points on goal-aligned purchases — up to $1,000/month",
-      "Earn 3x Ventus Points on all other purchases — up to $2,500/month",
-      "Unlimited airport lounge access",
-      "Personalized merchant offers & stackable bonuses",
-      "Smart travel perks (trip delay, elite status fast-track)",
-      "24/7 concierge & private event invitations"
+      "5x points on goal-aligned spend, 3x on all else (monthly caps apply)",
+      "Unlimited lounge access + smart travel perks",
+      "Concierge, VIP invites & stackable offers"
     ],
     highlighted: false
   }
@@ -90,14 +82,15 @@ const Benefits = () => {
                     </li>
                   ))}
                 </ul>
-                <div className="pt-3 border-t border-muted">
-                  <p className="text-xs text-muted-foreground italic">
-                    All spend beyond reward limits earns 1x Ventus Point per dollar.
-                  </p>
-                </div>
               </CardContent>
             </Card>
           ))}
+        </div>
+        
+        <div className="mt-12 text-center">
+          <p className="text-sm text-muted-foreground italic max-w-2xl mx-auto">
+            All spend beyond limits earns 1x Ventus Point per dollar. Points redeem at $0.01/point value.
+          </p>
         </div>
       </div>
     </section>
