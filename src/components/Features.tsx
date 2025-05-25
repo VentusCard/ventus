@@ -126,7 +126,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
       <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden flex flex-col">
         {/* Phase 0: Checkout Screen */}
         {animationPhase === 0 && (
-          <div className={`pt-6 p-3 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
+          <div className={`p-3 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
             animationPhase === 0 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
           }`}>
             {/* Header */}
@@ -175,7 +175,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
         
         {/* Phase 1: Transition */}
         {animationPhase === 1 && (
-          <div className="pt-6 p-3 flex-1 flex items-center justify-center">
+          <div className="p-3 flex-1 flex items-center justify-center">
             <div className="text-center">
               <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
               <div className="text-xs text-gray-600">Loading transactions...</div>
@@ -185,7 +185,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
         
         {/* Phase 2: Enhanced Transactions Screen */}
         {animationPhase === 2 && (
-          <div className={`pt-6 p-3 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
+          <div className={`p-3 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
             animationPhase === 2 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'
           }`}>
             {/* Header */}
@@ -280,7 +280,6 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
 // Phone mockup component for Feature 2 - Merchant Offers
 const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [currentPhase, setCurrentPhase] = useState(0)
-  const [isButtonPressed, setIsButtonPressed] = useState(false)
   
   useEffect(() => {
     if (!isVisible) return
@@ -300,7 +299,7 @@ const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
       <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden flex flex-col">
         {/* Phase 1: Recent Transactions */}
         {currentPhase === 0 && (
-          <div className="pt-6 p-3 flex-1 transition-all duration-500 flex flex-col min-h-0">
+          <div className="p-3 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
             <div className="text-center mb-3 flex-shrink-0">
               <h4 className="font-bold text-sm mb-1">Recent Transactions</h4>
@@ -359,24 +358,18 @@ const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
               </div>
             </div>
             
-            {/* Animated CTA Button */}
+            {/* Updated CTA */}
             <div className="mt-auto text-center flex-shrink-0">
-              <button 
-                className={`text-xs text-blue-600 font-medium transition-all duration-150 px-2 py-1 rounded ${
-                  isButtonPressed 
-                    ? 'transform scale-95 bg-blue-50' 
-                    : 'animate-pulse hover:bg-blue-50'
-                }`}
-              >
+              <div className="text-xs text-blue-600 font-medium animate-pulse">
                 Tap for personalized offers →
-              </button>
+              </div>
             </div>
           </div>
         )}
         
-        {/* Phase 2: Exclusive Wilson Offer with fade transition */}
+        {/* Phase 2: Exclusive Wilson Offer */}
         {currentPhase === 1 && (
-          <div className="pt-6 p-3 flex-1 transition-all duration-500 ease-in-out opacity-0 animate-[fade-in_0.5s_ease-out_forwards] flex flex-col min-h-0">
+          <div className="p-3 flex-1 transition-all duration-500 flex flex-col min-h-0">
             {/* Header */}
             <div className="text-center mb-3 flex-shrink-0">
               <h4 className="font-bold text-sm mb-1">Exclusive Offer</h4>
@@ -469,7 +462,7 @@ const GoalsProgressPhone = ({ isVisible }: { isVisible: boolean }) => {
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
       <div className="w-full h-full bg-white rounded-[2rem] overflow-hidden">
         {/* Goals content */}
-        <div className="pt-6 p-3">
+        <div className="p-3">
           <h4 className="font-bold text-sm mb-4">Reward Summary</h4>
           
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-3 rounded-xl">
