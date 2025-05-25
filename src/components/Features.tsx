@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react"
 import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity } from "lucide-react"
 
@@ -25,13 +26,23 @@ const features = [
 // Phone mockup component for Feature 1 - Tennis Purchase Rewards Demo
 const AdaptiveRewardsPhone = () => {
   const [currentPhase, setCurrentPhase] = useState(0)
+  const [hasCompleted, setHasCompleted] = useState(false)
   
   useEffect(() => {
+    if (hasCompleted) return
+    
     const interval = setInterval(() => {
-      setCurrentPhase((prev) => (prev + 1) % 2) // 0 = checkout, 1 = recap
+      setCurrentPhase((prev) => {
+        if (prev === 1) {
+          setHasCompleted(true)
+          return 1 // Stay on final phase
+        }
+        return prev + 1
+      })
     }, 2500) // Switch every 2.5 seconds for 5 second total loop
+    
     return () => clearInterval(interval)
-  }, [])
+  }, [hasCompleted])
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
@@ -169,13 +180,23 @@ const AdaptiveRewardsPhone = () => {
 // Updated Phone mockup component for Feature 2 - Merchant Offers (reusing same transaction)
 const MerchantOffersPhone = () => {
   const [currentPhase, setCurrentPhase] = useState(0)
+  const [hasCompleted, setHasCompleted] = useState(false)
   
   useEffect(() => {
+    if (hasCompleted) return
+    
     const interval = setInterval(() => {
-      setCurrentPhase((prev) => (prev + 1) % 2) // 0 = recent transactions, 1 = bonus offer
+      setCurrentPhase((prev) => {
+        if (prev === 1) {
+          setHasCompleted(true)
+          return 1 // Stay on final phase
+        }
+        return prev + 1
+      })
     }, 2500) // Switch every 2.5 seconds for 5 second total loop
+    
     return () => clearInterval(interval)
-  }, [])
+  }, [hasCompleted])
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
@@ -327,24 +348,26 @@ const MerchantOffersPhone = () => {
 // Phone mockup component for Feature 3 - Goals Progress
 const GoalsProgressPhone = () => {
   const [progress, setProgress] = useState(0)
+  const [hasCompleted, setHasCompleted] = useState(false)
   
   // Single goal only
   const goal = { title: "Becoming more athletic in sports", target: 2500, current: 0 }
 
   useEffect(() => {
+    if (hasCompleted) return
+    
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
-          setTimeout(() => {
-            setProgress(0)
-          }, 500)
-          return 100
+          setHasCompleted(true)
+          return 100 // Stay at 100%
         }
         return prev + 10
       })
     }, 200)
+    
     return () => clearInterval(interval)
-  }, [])
+  }, [hasCompleted])
 
   const currentAmount = Math.floor((goal.target * progress) / 100)
 
