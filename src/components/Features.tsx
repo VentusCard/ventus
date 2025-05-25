@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock } from "lucide-react"
+import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity } from "lucide-react"
 
 const features = [
   {
@@ -329,7 +329,7 @@ const GoalsProgressPhone = () => {
   const [progress, setProgress] = useState(0)
   const [goalIndex, setGoalIndex] = useState(0)
   const goals = [
-    { title: "Europe Trip", target: 2500, current: 0 },
+    { title: "Becoming more athletic in sports", target: 2500, current: 0 },
     { title: "New Laptop", target: 1200, current: 0 },
     { title: "Emergency Fund", target: 5000, current: 0 }
   ]
@@ -368,11 +368,11 @@ const GoalsProgressPhone = () => {
         
         {/* Goals content */}
         <div className="p-4">
-          <h4 className="font-bold text-lg mb-6">Your Goals</h4>
+          <h4 className="font-bold text-lg mb-6">Reward Summary</h4>
           
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-4 rounded-xl">
             <div className="flex items-center mb-3">
-              <Target className="w-5 h-5 text-blue-600 mr-2" />
+              <Activity className="w-5 h-5 text-blue-600 mr-2" />
               <span className="font-semibold">{currentGoal.title}</span>
             </div>
             
@@ -403,18 +403,6 @@ const GoalsProgressPhone = () => {
             <div className="text-center">
               <div className="text-2xl font-bold">${currentAmount.toLocaleString()}</div>
               <div className="text-sm text-gray-600">of ${currentGoal.target.toLocaleString()}</div>
-            </div>
-            
-            {/* Progress indicator */}
-            <div className="mt-4 flex justify-center space-x-1">
-              {goals.map((_, index) => (
-                <div 
-                  key={index}
-                  className={`w-2 h-2 rounded-full transition-colors duration-300 ${
-                    goalIndex === index ? 'bg-blue-500' : 'bg-gray-300'
-                  }`}
-                />
-              ))}
             </div>
           </div>
         </div>
