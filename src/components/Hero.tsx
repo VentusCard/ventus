@@ -67,16 +67,16 @@ const Hero = () => {
             </span>
           </h1>
           
-          {/* Enhanced subheading with increased font size */}
-          <p className="text-lg md:text-xl lg:text-2xl font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
+          {/* Enhanced subheading with soft blue-gray tone */}
+          <p className="text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece - scaled down 15% and nudged downward */}
-          <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-[0.51] md:scale-[0.55] lg:scale-[0.595] translate-y-4 md:translate-y-6 transition-all duration-700 ease-out ${
+          {/* Video Centerpiece - removed hover effects */}
+          <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-60 md:scale-65 lg:scale-70 transition-all duration-700 ease-out ${
             isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : ''
           }`}>
-            <div className="relative aspect-video overflow-hidden bg-black border-0 outline-none" style={{ border: 'none', outline: 'none', background: 'transparent' }}>
+            <div className="relative aspect-video overflow-hidden">
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Stronger feathered edges that blend into black background */}
@@ -92,8 +92,7 @@ const Hero = () => {
               {/* Video element with reduced opacity for better blending */}
               <video
                 ref={videoRef}
-                className="w-full h-full object-cover opacity-90 bg-black border-0 outline-none"
-                style={{ border: 'none', outline: 'none', background: 'transparent' }}
+                className="w-full h-full object-cover opacity-90"
                 muted
                 playsInline
                 preload="metadata"
