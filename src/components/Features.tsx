@@ -270,49 +270,49 @@ const MerchantOffersPhone = () => {
             </div>
             
             {/* Condensed Transaction Reference */}
-            <div className="bg-gray-50 p-3 rounded-xl mb-3 flex-shrink-0">
+            <div className="bg-gray-50 p-2 rounded-xl mb-3 flex-shrink-0">
               <div className="flex items-center space-x-3">
-                <span className="text-lg flex-shrink-0">🎾</span>
+                <span className="text-base flex-shrink-0">🎾</span>
                 <div className="flex-1 min-w-0">
-                  <div className="font-semibold text-sm">Tennis Warehouse</div>
+                  <div className="font-semibold text-xs">Tennis Warehouse</div>
                   <div className="text-xs text-gray-600">+950 pts earned</div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <div className="font-bold text-sm">$189.99</div>
+                  <div className="font-bold text-xs">$189.99</div>
                 </div>
               </div>
             </div>
             
             {/* Offer Card - Properly sized */}
             <div className="flex-1 flex flex-col justify-center min-h-0">
-              <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-4 rounded-xl text-white shadow-lg animate-[slideUp_0.5s_ease-out]">
-                <div className="flex items-center mb-3">
-                  <Gift className="w-4 h-4 mr-2" />
-                  <span className="font-semibold text-sm">Exclusive Offer</span>
+              <div className="bg-gradient-to-br from-indigo-600 to-purple-600 p-3 rounded-xl text-white shadow-lg animate-[slideUp_0.5s_ease-out]">
+                <div className="flex items-center mb-2">
+                  <Gift className="w-3 h-3 mr-2" />
+                  <span className="font-semibold text-xs">Exclusive Offer</span>
                 </div>
                 
-                <div className="mb-3">
-                  <div className="text-lg font-bold mb-1">$20 off your next Wilson order</div>
+                <div className="mb-2">
+                  <div className="text-sm font-bold mb-1">$20 off your next Wilson order</div>
                   <div className="text-xs opacity-90 flex items-center">
-                    <Clock className="w-3 h-3 mr-1" />
+                    <Clock className="w-2 h-2 mr-1" />
                     Expires in 4 hours
                   </div>
                 </div>
                 
                 {/* Offer details */}
-                <div className="space-y-1.5 mb-3 text-xs opacity-90">
+                <div className="space-y-1 mb-2 text-xs opacity-90">
                   <div className="flex items-center">
-                    <Check className="w-3 h-3 mr-2 flex-shrink-0" />
-                    <span>Triggered by your Tennis Warehouse purchase</span>
+                    <Check className="w-2 h-2 mr-1 flex-shrink-0" />
+                    <span className="text-xs">Triggered by your Tennis Warehouse purchase</span>
                   </div>
                   <div className="flex items-center">
-                    <Clock className="w-3 h-3 mr-2 flex-shrink-0" />
-                    <span>Limited-time offer</span>
+                    <Clock className="w-2 h-2 mr-1 flex-shrink-0" />
+                    <span className="text-xs">Limited-time offer</span>
                   </div>
                 </div>
                 
                 {/* CTA Button */}
-                <button className="w-full bg-white text-indigo-600 py-2 rounded-lg font-semibold text-sm hover:bg-gray-50 transition-colors">
+                <button className="w-full bg-white text-indigo-600 py-1.5 rounded-lg font-semibold text-xs hover:bg-gray-50 transition-colors">
                   Add Offer
                 </button>
               </div>
@@ -327,19 +327,15 @@ const MerchantOffersPhone = () => {
 // Phone mockup component for Feature 3 - Goals Progress
 const GoalsProgressPhone = () => {
   const [progress, setProgress] = useState(0)
-  const [goalIndex, setGoalIndex] = useState(0)
-  const goals = [
-    { title: "Becoming more athletic in sports", target: 2500, current: 0 },
-    { title: "New Laptop", target: 1200, current: 0 },
-    { title: "Emergency Fund", target: 5000, current: 0 }
-  ]
+  
+  // Single goal only
+  const goal = { title: "Becoming more athletic in sports", target: 2500, current: 0 }
 
   useEffect(() => {
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
           setTimeout(() => {
-            setGoalIndex((prevIndex) => (prevIndex + 1) % goals.length)
             setProgress(0)
           }, 500)
           return 100
@@ -348,10 +344,9 @@ const GoalsProgressPhone = () => {
       })
     }, 200)
     return () => clearInterval(interval)
-  }, [goalIndex])
+  }, [])
 
-  const currentGoal = goals[goalIndex]
-  const currentAmount = Math.floor((currentGoal.target * progress) / 100)
+  const currentAmount = Math.floor((goal.target * progress) / 100)
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
@@ -373,7 +368,7 @@ const GoalsProgressPhone = () => {
           <div className="bg-gradient-to-br from-blue-50 to-purple-50 p-4 rounded-xl">
             <div className="flex items-center mb-3">
               <Activity className="w-5 h-5 text-blue-600 mr-2" />
-              <span className="font-semibold">{currentGoal.title}</span>
+              <span className="font-semibold">{goal.title}</span>
             </div>
             
             {/* Progress circle */}
@@ -402,7 +397,7 @@ const GoalsProgressPhone = () => {
             {/* Amount display */}
             <div className="text-center">
               <div className="text-2xl font-bold">${currentAmount.toLocaleString()}</div>
-              <div className="text-sm text-gray-600">of ${currentGoal.target.toLocaleString()}</div>
+              <div className="text-sm text-gray-600">of ${goal.target.toLocaleString()}</div>
             </div>
           </div>
         </div>
