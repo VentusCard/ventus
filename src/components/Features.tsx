@@ -1,3 +1,4 @@
+
 import { useState, useEffect, useRef } from "react"
 import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity } from "lucide-react"
 
@@ -446,13 +447,23 @@ const Features = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const scrollPosition = window.scrollY + window.innerHeight * 0.7
+      const windowHeight = window.innerHeight
+      const scrollPosition = window.scrollY
 
       featureRefs.current.forEach((ref, index) => {
-        if (ref && scrollPosition > ref.offsetTop) {
+        if (ref) {
+          const rect = ref.getBoundingClientRect()
+          const elementTop = rect.top + scrollPosition
+          const elementBottom = elementTop + rect.height
+          
+          // Check if the element is in the viewport (with some buffer)
+          const isInViewport = 
+            elementTop < scrollPosition + windowHeight * 0.8 && 
+            elementBottom > scrollPosition + windowHeight * 0.2
+
           setVisibleFeatures(prev => {
             const newState = [...prev]
-            newState[index] = true
+            newState[index] = isInViewport
             return newState
           })
         }
