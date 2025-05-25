@@ -53,8 +53,8 @@ const Hero = () => {
   
   return (
     <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
-      {/* Bottom gradient overlay for smooth transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-black/80 to-[#F8F9FA] z-20 pointer-events-none"></div>
+      {/* Enhanced bottom gradient overlay for ultra-smooth transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-b from-transparent via-black/95 via-black/80 via-black/60 via-black/40 via-black/20 via-[#0A0A0A]/30 via-[#1A1A1A]/50 to-[#F8F9FA] z-20 pointer-events-none"></div>
       
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
         {/* Add spacing between navbar and hero content */}
