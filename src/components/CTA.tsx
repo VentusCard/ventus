@@ -1,6 +1,5 @@
 
 import { Button } from "@/components/ui/button"
-import { Link } from "react-router-dom"
 
 const CTA = () => {
   return (
@@ -12,10 +11,7 @@ const CTA = () => {
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           <Button size="lg" className="bg-white text-blue-900 hover:bg-white/90">
-            Apply Now
-          </Button>
-          <Button size="lg" variant="outline" className="border-white/20 hover:bg-white/10" asChild>
-            <Link to="/how-it-works">How it Works</Link>
+            Join Waitlist
           </Button>
         </div>
       </div>
