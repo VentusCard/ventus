@@ -1,4 +1,3 @@
-
 import { useState, useEffect, useRef } from "react"
 import Navbar from "@/components/Navbar"
 import Hero from "@/components/Hero"
@@ -7,7 +6,6 @@ import Benefits from "@/components/Benefits"
 import Rewards from "@/components/Rewards"
 import Testimonials from "@/components/Testimonials"
 import CTA from "@/components/CTA"
-import Footer from "@/components/Footer"
 
 const Index = () => {
   const [visibleSections, setVisibleSections] = useState({
@@ -108,7 +106,6 @@ const Index = () => {
           <CTA />
         </div>
       </main>
-      <Footer />
     </div>
   );
 };
