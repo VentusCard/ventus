@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity } from "lucide-react"
+import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity, ChevronDown, ChevronRight } from "lucide-react"
 
 const features = [
   {
@@ -22,22 +22,104 @@ const features = [
   }
 ]
 
-// Phone mockup component for Feature 1 - Tennis Purchase Rewards Demo
+// Enhanced Phone mockup component for Feature 1 - 5-second animation sequence
 const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
-  const [currentPhase, setCurrentPhase] = useState(0)
+  const [animationPhase, setAnimationPhase] = useState(0)
+  const [buttonState, setButtonState] = useState<'idle' | 'pressed' | 'processing' | 'applied'>('idle')
+  const [showDropdown, setShowDropdown] = useState(false)
   
   useEffect(() => {
-    if (!isVisible) return
+    if (!isVisible) {
+      setAnimationPhase(0)
+      setButtonState('idle')
+      setShowDropdown(false)
+      return
+    }
     
-    // Reset animation when becoming visible
-    setCurrentPhase(0)
+    // 5-second animation sequence
+    const sequence = [
+      // Phase 0: Checkout screen (0-2s)
+      { phase: 0, duration: 0 },
+      
+      // Button interaction sequence
+      { phase: 0, duration: 500, action: () => setButtonState('pressed') },
+      { phase: 0, duration: 800, action: () => setButtonState('processing') },
+      { phase: 0, duration: 1500, action: () => setButtonState('applied') },
+      
+      // Phase 1: Screen transition (2-2.5s)
+      { phase: 1, duration: 2000 },
+      
+      // Phase 2: Transactions screen (2.5-5s)
+      { phase: 2, duration: 2500 },
+      { phase: 2, duration: 3500, action: () => setShowDropdown(true) },
+      
+      // Loop back
+      { phase: 0, duration: 5000, action: () => {
+        setButtonState('idle')
+        setShowDropdown(false)
+      }}
+    ]
     
-    const interval = setInterval(() => {
-      setCurrentPhase((prev) => (prev === 1 ? 0 : prev + 1)) // Loop between 0 and 1
-    }, 2500) // Switch every 2.5 seconds
+    sequence.forEach(({ phase, duration, action }) => {
+      const timeout = setTimeout(() => {
+        setAnimationPhase(phase)
+        if (action) action()
+      }, duration)
+      
+      return () => clearTimeout(timeout)
+    })
     
-    return () => clearInterval(interval)
+    // Set up looping
+    const loopInterval = setInterval(() => {
+      setAnimationPhase(0)
+      setButtonState('idle')
+      setShowDropdown(false)
+      
+      sequence.forEach(({ phase, duration, action }) => {
+        const timeout = setTimeout(() => {
+          setAnimationPhase(phase)
+          if (action) action()
+        }, duration)
+        
+        return () => clearTimeout(timeout)
+      })
+    }, 5000)
+    
+    return () => clearInterval(loopInterval)
   }, [isVisible])
+
+  const getButtonContent = () => {
+    switch (buttonState) {
+      case 'pressed':
+        return "Pay with Ventus Card"
+      case 'processing':
+        return "Processing..."
+      case 'applied':
+        return (
+          <div className="flex items-center justify-center">
+            <Check className="w-4 h-4 mr-2" />
+            Reward Applied
+          </div>
+        )
+      default:
+        return "Pay with Ventus Card"
+    }
+  }
+
+  const getButtonClasses = () => {
+    const baseClasses = "w-full text-white py-3 rounded-xl font-semibold text-sm transition-all duration-200"
+    
+    switch (buttonState) {
+      case 'pressed':
+        return `${baseClasses} bg-gray-700 transform scale-95`
+      case 'processing':
+        return `${baseClasses} bg-blue-600 animate-pulse`
+      case 'applied':
+        return `${baseClasses} bg-green-600`
+      default:
+        return `${baseClasses} bg-black hover:bg-gray-800`
+    }
+  }
 
   return (
     <div className="relative mx-auto w-64 h-[500px] bg-black rounded-[2.5rem] p-2 shadow-2xl">
@@ -52,9 +134,11 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
           </div>
         </div>
         
-        {/* Phase 1: Checkout Moment */}
-        {currentPhase === 0 && (
-          <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
+        {/* Phase 0: Checkout Screen */}
+        {animationPhase === 0 && (
+          <div className={`p-4 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
+            animationPhase === 0 ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-full'
+          }`}>
             {/* Header */}
             <div className="text-center mb-4 flex-shrink-0">
               <h4 className="font-bold text-base mb-1">Tennis Warehouse</h4>
@@ -78,7 +162,9 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
             </div>
             
             {/* 5x Rewards Banner */}
-            <div className="bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl text-white mb-4 animate-pulse flex-shrink-0">
+            <div className={`bg-gradient-to-r from-green-500 to-blue-500 p-4 rounded-xl text-white mb-4 flex-shrink-0 transition-all duration-300 ${
+              buttonState === 'applied' ? 'ring-4 ring-green-300 shadow-lg shadow-green-200' : ''
+            }`}>
               <div className="flex items-center justify-center mb-2">
                 <Check className="w-4 h-4 mr-2" />
                 <span className="font-bold text-base">5x Rewards</span>
@@ -90,24 +176,36 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
             
             {/* Pay Button */}
             <div className="mt-auto flex-shrink-0">
-              <button className="w-full bg-black text-white py-3 rounded-xl font-semibold text-sm">
-                Pay with Ventus Card
+              <button className={getButtonClasses()}>
+                {getButtonContent()}
               </button>
             </div>
           </div>
         )}
         
-        {/* Phase 2: Transaction Recap */}
-        {currentPhase === 1 && (
-          <div className="p-4 flex-1 transition-all duration-500 flex flex-col min-h-0">
+        {/* Phase 1: Transition */}
+        {animationPhase === 1 && (
+          <div className="p-4 flex-1 flex items-center justify-center">
+            <div className="text-center">
+              <div className="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-2"></div>
+              <div className="text-sm text-gray-600">Loading transactions...</div>
+            </div>
+          </div>
+        )}
+        
+        {/* Phase 2: Enhanced Transactions Screen */}
+        {animationPhase === 2 && (
+          <div className={`p-4 flex-1 transition-all duration-500 flex flex-col min-h-0 ${
+            animationPhase === 2 ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-full'
+          }`}>
             {/* Header */}
             <div className="text-center mb-4 flex-shrink-0">
               <h4 className="font-bold text-base mb-1">Recent Transactions</h4>
               <p className="text-sm text-gray-600">This Week</p>
             </div>
             
-            {/* Tennis Purchase with 5x */}
-            <div className="bg-green-50 border-2 border-green-200 p-3 rounded-xl mb-3 flex-shrink-0">
+            {/* Featured Tennis Purchase with 5x */}
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-200 p-3 rounded-xl mb-3 flex-shrink-0 animate-[fadeIn_0.5s_ease-out] shadow-md">
               <div className="flex justify-between items-center">
                 <div className="flex items-center space-x-3 flex-1 min-w-0">
                   <span className="text-lg flex-shrink-0">🎾</span>
@@ -117,52 +215,66 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
                   </div>
                 </div>
                 <div className="text-right flex-shrink-0">
-                  <div className="font-bold text-green-600 text-sm">+950 pts</div>
-                  <div className="text-xs bg-green-200 text-green-800 px-2 py-0.5 rounded mt-1">5x</div>
+                  <div className="font-bold text-green-600 text-lg animate-[pulse_1s_ease-in-out_2]">+950 pts</div>
+                  <div className="text-xs bg-gradient-to-r from-green-500 to-blue-500 text-white px-2 py-1 rounded-full mt-1 font-bold">5x</div>
                 </div>
               </div>
             </div>
             
-            {/* Other purchases */}
-            <div className="space-y-2 mb-4 flex-shrink-0">
-              <div className="bg-gray-50 p-3 rounded-xl">
+            {/* Collapsible Other Transactions */}
+            <div className="flex-shrink-0">
+              <button 
+                className="w-full bg-gray-50 border border-gray-200 p-3 rounded-xl transition-all duration-200 hover:bg-gray-100"
+                onClick={() => setShowDropdown(!showDropdown)}
+              >
                 <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-3 flex-1 min-w-0">
-                    <span className="text-base flex-shrink-0">☕</span>
-                    <div className="min-w-0">
-                      <div className="font-semibold text-sm">Starbucks</div>
-                      <div className="text-xs text-gray-600">Coffee</div>
-                    </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm font-medium text-gray-700">Other Transactions – 1x Rewards</span>
+                    <span className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded-full">2 items</span>
                   </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="font-bold text-gray-600 text-sm">+5 pts</div>
-                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
-                  </div>
+                  <ChevronDown className={`w-4 h-4 text-gray-500 transition-transform duration-200 ${
+                    showDropdown ? 'rotate-180' : ''
+                  }`} />
                 </div>
-              </div>
+              </button>
               
-              <div className="bg-gray-50 p-3 rounded-xl">
-                <div className="flex justify-between items-center">
-                  <div className="flex items-center space-x-3 flex-1 min-w-0">
-                    <span className="text-base flex-shrink-0">🛒</span>
-                    <div className="min-w-0">
-                      <div className="font-semibold text-sm">Whole Foods</div>
-                      <div className="text-xs text-gray-600">Groceries</div>
+              {/* Dropdown Content */}
+              <div className={`overflow-hidden transition-all duration-300 ${
+                showDropdown ? 'max-h-32 opacity-100 mt-2' : 'max-h-0 opacity-0'
+              }`}>
+                <div className="space-y-2">
+                  <div className="bg-white border border-gray-200 p-3 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center space-x-3 flex-1 min-w-0">
+                        <span className="text-base flex-shrink-0">☕</span>
+                        <div className="min-w-0">
+                          <div className="font-medium text-sm">Starbucks</div>
+                          <div className="text-xs text-gray-600">Coffee</div>
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className="font-medium text-gray-600 text-sm">+5 pts</div>
+                        <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
+                      </div>
                     </div>
                   </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="font-bold text-gray-600 text-sm">+12 pts</div>
-                    <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
+                  
+                  <div className="bg-white border border-gray-200 p-3 rounded-lg">
+                    <div className="flex justify-between items-center">
+                      <div className="flex items-center space-x-3 flex-1 min-w-0">
+                        <span className="text-base flex-shrink-0">🛒</span>
+                        <div className="min-w-0">
+                          <div className="font-medium text-sm">Whole Foods</div>
+                          <div className="text-xs text-gray-600">Groceries</div>
+                        </div>
+                      </div>
+                      <div className="text-right flex-shrink-0">
+                        <div className="font-medium text-gray-600 text-sm">+12 pts</div>
+                        <div className="text-xs bg-gray-200 text-gray-600 px-2 py-0.5 rounded mt-1">1x</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            
-            {/* Goal Progress */}
-            <div className="mt-auto text-center flex-shrink-0">
-              <div className="text-xs text-blue-600 font-medium mb-2">Athletic Goal Progress</div>
-              <div className="w-full bg-gray-200 rounded-full h-2">
-                <div className="bg-blue-500 h-2 rounded-full w-3/4 transition-all duration-300"></div>
               </div>
             </div>
           </div>
@@ -172,7 +284,7 @@ const AdaptiveRewardsPhone = ({ isVisible }: { isVisible: boolean }) => {
   )
 }
 
-// Updated Phone mockup component for Feature 2 - Merchant Offers (reusing same transaction)
+// Phone mockup component for Feature 2 - Merchant Offers (reusing same transaction)
 const MerchantOffersPhone = ({ isVisible }: { isVisible: boolean }) => {
   const [currentPhase, setCurrentPhase] = useState(0)
   
