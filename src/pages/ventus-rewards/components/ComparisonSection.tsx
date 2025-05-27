@@ -1,7 +1,9 @@
+
 import { Button } from "@/components/ui/button";
 import { CreditCard, Zap, Target } from "lucide-react";
 import { LifestyleGoal } from "../types";
 import { getExamplePurchases, cardTypes } from "../data";
+import DealsCard from "@/components/onboarding/step-three/DealsCard";
 
 interface ComparisonSectionProps {
   selectedGoal: LifestyleGoal;
@@ -9,6 +11,18 @@ interface ComparisonSectionProps {
 }
 
 const ComparisonSection = ({ selectedGoal, selectedSubcategories }: ComparisonSectionProps) => {
+  // Create onboardingData object to pass to DealsCard
+  const onboardingData = {
+    mainGoal: selectedGoal,
+    subcategories: selectedSubcategories,
+    spendingFrequency: "monthly" as const,
+    spendingAmount: 500,
+    estimatedAnnualSpend: 6000,
+    estimatedPoints: 30000,
+    minCashbackPercentage: 3,
+    maxCashbackPercentage: 5
+  };
+
   return (
     <section id="comparison-section" className="py-16 bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -128,6 +142,11 @@ const ComparisonSection = ({ selectedGoal, selectedSubcategories }: ComparisonSe
             <h3 className="font-bold text-lg mb-2">AI-Powered Personalization</h3>
             <p className="text-gray-600">Your preferences drive offers and multipliers</p>
           </div>
+        </div>
+
+        {/* Personalized Deals Section */}
+        <div className="mb-8">
+          <DealsCard onboardingData={onboardingData} />
         </div>
 
         <div className="text-center">
