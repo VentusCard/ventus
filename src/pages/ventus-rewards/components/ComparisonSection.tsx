@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { CreditCard, Zap, Target } from "lucide-react";
 import { LifestyleGoal } from "../types";
@@ -26,9 +25,11 @@ const ComparisonSection = ({ selectedGoal, selectedSubcategories }: ComparisonSe
           {/* The Problem */}
           <div className="bg-red-50 border border-red-200 rounded-xl p-8 h-full">
             <div className="text-center mb-6">
-              <h3 className="text-xl font-bold text-red-800">
+              <h3 className="text-xl font-bold text-red-800 mb-2">
                 Without Ventus: Card Juggling Required
               </h3>
+              <div className="text-4xl font-bold text-red-600 mb-2">1-3x</div>
+              <p className="text-red-700">and miss out on savings</p>
             </div>
             
             <div className="space-y-6">
