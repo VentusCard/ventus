@@ -65,28 +65,29 @@ const JoinWaitlist = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-24 pb-12 px-6">
-        <div className="max-w-5xl mx-auto text-center">
-          <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
+      <section className="pt-20 pb-8 px-6">
+        <div className="max-w-6xl mx-auto text-center">
+          <h1 className="font-display text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
             Be First to Experience
             <br />
             <span className="text-blue-600">Ventus Card</span>
           </h1>
           
-          <p className="text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed mb-8">
-            Join thousands of others waiting for the personalized credit card that adapts to your lifestyle. 
+          <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-6">
+            Join thousands of others waiting for the personalized credit card that adapts to your lifestyle.
+            <br />
             Be among the first to access exclusive rewards tailored just for you.
           </p>
         </div>
       </section>
 
       {/* Form Section */}
-      <section className="pb-24 px-6">
-        <div className="max-w-3xl mx-auto">
+      <section className="pb-20 px-6">
+        <div className="max-w-4xl mx-auto">
           <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
             <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600"></div>
             
-            <CardHeader className="text-center pb-6">
+            <CardHeader className="text-center pb-4">
               <CardTitle className="flex items-center justify-center gap-3 text-2xl font-bold">
                 <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow-metallic">
                   <Mail className="text-white" size={24} />
@@ -98,10 +99,10 @@ const JoinWaitlist = () => {
               </p>
             </CardHeader>
 
-            <CardContent className="px-8 pb-8">
+            <CardContent className="px-8 pb-6">
               <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <FormField
                       control={form.control}
                       name="firstName"
@@ -194,7 +195,7 @@ const JoinWaitlist = () => {
                     )}
                   />
 
-                  <div className="pt-4">
+                  <div className="pt-3">
                     <Button 
                       type="submit" 
                       className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
@@ -204,7 +205,7 @@ const JoinWaitlist = () => {
                     </Button>
                   </div>
 
-                  <div className="text-center pt-4">
+                  <div className="text-center pt-3">
                     <p className="text-sm text-slate-500">
                       By joining, you agree to receive updates about Ventus Card availability.
                       <br />
