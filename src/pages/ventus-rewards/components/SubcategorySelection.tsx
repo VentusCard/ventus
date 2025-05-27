@@ -19,13 +19,13 @@ const SubcategorySelection = ({
   if (!selectedOption) return null;
 
   return (
-    <section id="subcategories-section" className="py-16 bg-slate-50">
+    <section id="subcategories-section" className="py-16 bg-gradient-to-br from-slate-50 to-blue-50/30">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-gray-900">
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
             Choose Your Subcategories
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-light">
             Customize your {selectedOption.title} goal by selecting your interests
           </p>
         </div>
@@ -35,10 +35,10 @@ const SubcategorySelection = ({
             <button
               key={subcategory}
               onClick={() => onSubcategoryToggle(subcategory)}
-              className={`p-4 rounded-lg border-2 text-center transition-all duration-200 ${
+              className={`p-4 rounded-xl border-2 text-center transition-all duration-300 backdrop-blur-sm transform hover:scale-105 ${
                 selectedSubcategories.includes(subcategory)
-                  ? 'border-blue-500 bg-blue-50 text-blue-700'
-                  : 'border-gray-200 bg-white text-gray-700 hover:border-blue-300'
+                  ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-premium'
+                  : 'border-slate-200 bg-white/80 text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-metallic hover:shadow-premium'
               }`}
             >
               <div className="font-medium">{subcategory}</div>
@@ -50,7 +50,9 @@ const SubcategorySelection = ({
           <div className="text-center">
             <Button
               onClick={onProceedToComparison}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium flex items-center gap-2 mx-auto"
+              variant="premium"
+              size="lg"
+              className="px-8 py-3 font-semibold flex items-center gap-2 mx-auto"
             >
               See How Ventus Simplifies This <ArrowRight className="h-4 w-4" />
             </Button>

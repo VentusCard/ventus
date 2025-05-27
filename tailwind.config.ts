@@ -20,11 +20,15 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				sans: ['Inter', 'sans-serif'],
-				display: ['Playfair Display', 'serif'],
+				sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'sans-serif'],
+				display: ['SF Pro Display', 'Playfair Display', 'serif'],
+				mono: ['SF Mono', 'Monaco', 'Cascadia Code', 'monospace'],
 			},
 			backgroundImage: {
 				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+				'metallic-gradient': 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 20%, #cbd5e1 40%, #94a3b8 60%, #64748b 80%, #475569 100%)',
+				'blue-metallic': 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 20%, #93c5fd 40%, #60a5fa 60%, #3b82f6 80%, #1d4ed8 100%)',
+				'titanium-surface': 'linear-gradient(135deg, rgba(248, 250, 252, 0.95) 0%, rgba(241, 245, 249, 0.95) 50%, rgba(226, 232, 240, 0.95) 100%)',
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -36,6 +40,12 @@ export default {
 					300: '#94a3b8',
 					400: '#64748b',
 					500: '#475569',
+				},
+				'metallic': {
+					silver: 'hsl(var(--metallic-silver))',
+					platinum: 'hsl(var(--metallic-platinum))',
+					titanium: 'hsl(var(--metallic-titanium))',
+					steel: 'hsl(var(--metallic-steel))',
 				},
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
@@ -81,6 +91,14 @@ export default {
 				md: 'calc(var(--radius) - 2px)',
 				sm: 'calc(var(--radius) - 4px)'
 			},
+			boxShadow: {
+				'metallic': '0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24), inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 -1px 0 rgba(0, 0, 0, 0.05)',
+				'premium': '0 8px 32px rgba(0, 0, 0, 0.08), 0 4px 16px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.1)',
+				'titanium': '0 4px 24px rgba(148, 163, 184, 0.15), 0 2px 8px rgba(148, 163, 184, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.2)',
+			},
+			backdropBlur: {
+				'premium': '20px',
+			},
 			keyframes: {
 				'accordion-down': {
 					from: {
@@ -109,7 +127,6 @@ export default {
 						opacity: '1'
 					}
 				},
-				// Brushstroke reveal animation (text overlay)
 				'brushstroke': {
 					'0%': {
 						transform: 'scaleX(1)',
@@ -120,7 +137,6 @@ export default {
 						'transform-origin': 'right'
 					}
 				},
-				// New brushstroke drawing animation for the SVG
 				'brushstroke-draw': {
 					'0%': {
 						opacity: '0',
@@ -136,7 +152,6 @@ export default {
 						'transform-origin': 'left'
 					}
 				},
-				// Subtle metallic shimmer effect
 				'shimmer': {
 					'0%, 100%': {
 						filter: 'brightness(1) contrast(1)'
@@ -167,7 +182,6 @@ export default {
 						transform: 'translateY(-4px)'
 					}
 				},
-				// New slide up animation for the offer card
 				'slideUp': {
 					'0%': {
 						transform: 'translateY(20px)',
@@ -178,7 +192,6 @@ export default {
 						opacity: '1'
 					}
 				},
-				// New refined fade-up animation for softer transitions
 				'fadeUpSoft': {
 					'0%': {
 						transform: 'translateY(20px)',
@@ -187,6 +200,22 @@ export default {
 					'100%': {
 						transform: 'translateY(0)',
 						opacity: '1'
+					}
+				},
+				'metallic-shimmer': {
+					'0%': {
+						backgroundPosition: '-200% 0'
+					},
+					'100%': {
+						backgroundPosition: '200% 0'
+					}
+				},
+				'premium-glow': {
+					'0%, 100%': {
+						boxShadow: '0 0 20px rgba(59, 130, 246, 0.15)'
+					},
+					'50%': {
+						boxShadow: '0 0 30px rgba(59, 130, 246, 0.25)'
 					}
 				}
 			},
@@ -199,7 +228,9 @@ export default {
 				'shimmer': 'shimmer 3s ease-in-out infinite',
 				'float': 'float 6s ease-in-out infinite',
 				'bounce': 'bounce 4s ease-in-out infinite',
-				'fadeUpSoft': 'fadeUpSoft 0.4s ease-out'
+				'fadeUpSoft': 'fadeUpSoft 0.4s ease-out',
+				'metallic-shimmer': 'metallic-shimmer 2s infinite',
+				'premium-glow': 'premium-glow 3s ease-in-out infinite'
 			}
 		}
 	},

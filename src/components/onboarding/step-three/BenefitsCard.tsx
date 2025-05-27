@@ -28,12 +28,14 @@ const benefits = [
 
 const BenefitsCard = () => {
   return (
-    <Card className="overflow-hidden border-0 shadow-lg h-full">
-      <div className="h-1.5 bg-gradient-to-r from-emerald-400 to-green-300"></div>
+    <Card className="overflow-hidden border-0 shadow-premium h-full bg-gradient-to-br from-white/95 to-emerald-50/95 backdrop-blur-sm">
+      <div className="h-1.5 bg-gradient-to-r from-emerald-400 via-green-400 to-emerald-500"></div>
       <CardContent className="p-6">
         <h3 className="font-display text-xl font-bold mb-4 flex items-center gap-2">
-          <TrendingUp className="text-emerald-500" size={20} />
-          <span>Your Custom Benefits</span>
+          <div className="p-2 bg-gradient-to-br from-emerald-500 to-green-600 rounded-lg shadow-metallic">
+            <TrendingUp className="text-white" size={20} />
+          </div>
+          <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">Your Custom Benefits</span>
         </h3>
         
         <div className="space-y-5">

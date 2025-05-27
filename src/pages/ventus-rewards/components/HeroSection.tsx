@@ -1,21 +1,36 @@
 
 const HeroSection = () => {
   return (
-    <div className="bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-900 text-white py-20 relative overflow-hidden">
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute left-10 top-10 w-32 h-32 bg-blue-400 rounded-full filter blur-3xl"></div>
-        <div className="absolute right-20 bottom-20 w-48 h-48 bg-indigo-400 rounded-full filter blur-3xl"></div>
+    <div className="relative overflow-hidden py-20 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-800">
+      {/* Metallic texture overlay */}
+      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent"></div>
+      
+      {/* Premium glass orbs */}
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute left-10 top-10 w-32 h-32 bg-gradient-to-br from-blue-400/40 to-cyan-300/40 rounded-full filter blur-3xl backdrop-blur-sm"></div>
+        <div className="absolute right-20 bottom-20 w-48 h-48 bg-gradient-to-br from-slate-400/30 to-blue-400/30 rounded-full filter blur-3xl backdrop-blur-sm"></div>
+        <div className="absolute left-1/2 top-1/2 w-24 h-24 bg-gradient-to-br from-white/20 to-blue-200/20 rounded-full filter blur-2xl"></div>
+      </div>
+      
+      {/* Subtle grid pattern */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="w-full h-full" style={{
+          backgroundImage: `radial-gradient(circle at 1px 1px, rgba(255,255,255,0.3) 1px, transparent 0)`,
+          backgroundSize: '40px 40px'
+        }}></div>
       </div>
       
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         <div className="text-center">
-          <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+          <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-slate-200 bg-clip-text text-transparent drop-shadow-sm">
             Ventus Rewards
           </h1>
-          <p className="text-xl md:text-2xl max-w-4xl mx-auto text-blue-100 mb-8">
-            One card. 5x rewards. All your lifestyle spending.
-          </p>
-          <p className="text-lg max-w-3xl mx-auto text-blue-200">
+          <div className="inline-block p-1 bg-gradient-to-r from-blue-500/20 to-slate-400/20 rounded-2xl backdrop-blur-sm border border-white/10 mb-8">
+            <p className="text-xl md:text-2xl max-w-4xl mx-auto text-blue-100 px-6 py-2 bg-black/20 rounded-xl backdrop-blur-sm">
+              One card. 5x rewards. All your lifestyle spending.
+            </p>
+          </div>
+          <p className="text-lg max-w-3xl mx-auto text-slate-300 leading-relaxed font-light">
             Discover how Ventus simplifies and amplifies rewards across all your spending — 
             eliminating the need to juggle multiple cards.
           </p>
