@@ -3,7 +3,6 @@ import { OnboardingData } from "@/pages/HowItWorks";
 import ProfileCard from "./step-three/ProfileCard";
 import RewardsCard from "./step-three/RewardsCard";
 import BenefitsCard from "./step-three/BenefitsCard";
-import DealsCard from "./step-three/DealsCard";
 import WaitlistForm from "./step-three/WaitlistForm";
 
 interface StepThreeProps {
@@ -18,15 +17,14 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
         Based on your selections, here's a summary of your personalized Ventus Card experience.
       </p>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
         <div className="space-y-6">
           <ProfileCard onboardingData={onboardingData} />
           <RewardsCard onboardingData={onboardingData} />
         </div>
         
-        <div className="space-y-6">
+        <div>
           <BenefitsCard />
-          <DealsCard onboardingData={onboardingData} />
         </div>
       </div>
       
