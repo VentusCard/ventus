@@ -77,12 +77,14 @@ const Navbar = () => {
         
         {/* Join Waitlist CTA - Positioned absolutely to right */}
         <div className="absolute right-6 md:right-8 flex items-center">
-          <Button 
-            size="default"
-            className="bg-white text-black hover:bg-white/95 rounded-lg px-6 md:px-8 py-2.5 font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105"
-          >
-            Join Waitlist
-          </Button>
+          <Link to="/join-waitlist">
+            <Button 
+              size="default"
+              className="bg-white text-black hover:bg-white/95 rounded-lg px-6 md:px-8 py-2.5 font-semibold text-sm transition-all duration-300 hover:shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105"
+            >
+              Join Waitlist
+            </Button>
+          </Link>
         </div>
       </div>
     </div>

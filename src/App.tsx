@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import HowItWorks from "./pages/HowItWorks";
 import VentusRewards from "./pages/VentusRewards";
+import JoinWaitlist from "./pages/JoinWaitlist";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/how-ventus-works" element={<VentusRewards />} />
           <Route path="/rewards-calculator" element={<HowItWorks />} />
+          <Route path="/join-waitlist" element={<JoinWaitlist />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
