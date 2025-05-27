@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -335,14 +334,10 @@ const VentusRewards = () => {
         </div>
       </div>
 
-      {/* Step 1: Choose Your Main Lifestyle Goal */}
+      {/* Choose Your Main Lifestyle Goal */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-              <Target className="h-4 w-4" />
-              Step 1
-            </div>
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-gray-900">
               Choose Your Main Lifestyle Goal
             </h2>
@@ -404,15 +399,11 @@ const VentusRewards = () => {
         </div>
       </section>
 
-      {/* Step 1.5: Choose Subcategories */}
+      {/* Choose Subcategories */}
       {selectedGoal && (
         <section id="subcategories-section" className="py-16 bg-slate-50">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                <Zap className="h-4 w-4" />
-                Step 1.5
-              </div>
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-gray-900">
                 Choose Your Subcategories
               </h2>
@@ -451,7 +442,7 @@ const VentusRewards = () => {
         </section>
       )}
 
-      {/* Steps 2 & 3: Side by Side Comparison */}
+      {/* Side by Side Comparison */}
       {currentStep >= 3 && selectedGoal && (
         <section id="comparison-section" className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -464,26 +455,22 @@ const VentusRewards = () => {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Step 2: The Problem */}
-              <div className="bg-red-50 border border-red-200 rounded-xl p-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+              {/* The Problem */}
+              <div className="bg-red-50 border border-red-200 rounded-xl p-8 h-full">
                 <div className="text-center mb-6">
-                  <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                    <CreditCard className="h-4 w-4" />
-                    Step 2: The Problem
-                  </div>
                   <h3 className="text-xl font-bold text-red-800">
                     Without Ventus: Card Juggling Required
                   </h3>
                 </div>
                 
-                <div className="grid gap-6">
+                <div className="space-y-6">
                   {selectedSubcategories.map((subcategory) => {
                     const examplePurchases = getExamplePurchases(selectedGoal, subcategory);
                     return (
                       <div key={subcategory} className="bg-white rounded-lg p-6 border border-red-200">
                         <h4 className="font-bold text-lg text-gray-900 mb-4">{subcategory}</h4>
-                        <div className="grid gap-3">
+                        <div className="space-y-3">
                           {examplePurchases.map((purchase, index) => (
                             <div key={index} className="flex justify-between items-center py-2 border-b border-gray-100 last:border-b-0">
                               <span className="text-gray-700 text-sm">{purchase.category}</span>
@@ -510,13 +497,9 @@ const VentusRewards = () => {
                 </div>
               </div>
 
-              {/* Step 3: The Solution */}
-              <div className="bg-gradient-to-br from-green-50 to-blue-50 border border-green-200 rounded-xl p-8">
+              {/* The Solution */}
+              <div className="bg-gradient-to-br from-green-50 to-blue-50 border border-green-200 rounded-xl p-8 h-full">
                 <div className="text-center mb-6">
-                  <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                    <Zap className="h-4 w-4" />
-                    Step 3: The Solution
-                  </div>
                   <h3 className="text-xl font-bold text-green-800 mb-2">
                     With Ventus: One Card Does It All
                   </h3>
@@ -524,13 +507,13 @@ const VentusRewards = () => {
                   <p className="text-green-700">On All Your Lifestyle Spending</p>
                 </div>
                 
-                <div className="grid gap-6">
+                <div className="space-y-6">
                   {selectedSubcategories.map((subcategory) => {
                     const examplePurchases = getExamplePurchases(selectedGoal!, subcategory);
                     return (
                       <div key={subcategory} className="bg-white rounded-lg p-6 border border-green-200">
                         <h4 className="font-bold text-lg text-gray-900 mb-4">{subcategory}</h4>
-                        <div className="grid gap-3">
+                        <div className="space-y-3">
                           {examplePurchases.map((purchase, index) => (
                             <div key={index} className="flex justify-between items-center py-2 px-3 bg-green-50 rounded-lg border border-green-200">
                               <span className="text-gray-700 text-sm">{purchase.category}</span>
