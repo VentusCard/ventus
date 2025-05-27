@@ -265,145 +265,137 @@ const VentusRewards = () => {
         </section>
       )}
 
-      {/* Step 2: Understand the Value of Ventus */}
+      {/* Steps 2 & 3: Side by Side Comparison */}
       {currentStep >= 3 && (
         <section id="comparison-section" className="py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
             <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                <CreditCard className="h-4 w-4" />
-                Step 2
-              </div>
               <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-                The Problem: Multiple Cards Required
+                The Ventus Advantage
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 See what you'd previously need 3+ specialized cards to accomplish vs. what Ventus does in one
               </p>
             </div>
 
-            <div className="bg-red-50 border border-red-200 rounded-xl p-8 mb-8">
-              <h3 className="text-xl font-bold text-red-800 mb-6 text-center">
-                Without Ventus: Card Juggling Required
-              </h3>
-              
-              <div className="grid gap-6">
-                {selectedSubcategories.map((subcategory) => (
-                  <div key={subcategory} className="bg-white rounded-lg p-6 border border-red-200">
-                    <h4 className="font-bold text-lg text-gray-900 mb-4">{subcategory}</h4>
-                    <div className="grid gap-3">
-                      {/* Sample spending categories for each subcategory */}
-                      <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span className="text-gray-700">Equipment & Gear</span>
-                        <span className="px-3 py-1 bg-blue-500 text-white text-xs rounded-full">
-                          Shopping Cashback Card
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span className="text-gray-700">Services & Memberships</span>
-                        <span className="px-3 py-1 bg-gray-500 text-white text-xs rounded-full">
-                          General Cashback Card
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2 border-b border-gray-100">
-                        <span className="text-gray-700">Food & Dining</span>
-                        <span className="px-3 py-1 bg-red-500 text-white text-xs rounded-full">
-                          Dining Card
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-2">
-                        <span className="text-gray-700">Nutrition & Supplements</span>
-                        <span className="px-3 py-1 bg-green-500 text-white text-xs rounded-full">
-                          Grocery Card
-                        </span>
-                      </div>
-                    </div>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              {/* Step 2: The Problem */}
+              <div className="bg-red-50 border border-red-200 rounded-xl p-8">
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    <CreditCard className="h-4 w-4" />
+                    Step 2: The Problem
                   </div>
-                ))}
-              </div>
-              
-              <div className="mt-6 text-center">
-                <div className="inline-flex gap-2">
-                  {cardTypes.map((card) => (
-                    <div key={card.name} className={`${card.color} text-white px-3 py-2 rounded-lg text-sm`}>
-                      {card.name}
+                  <h3 className="text-xl font-bold text-red-800">
+                    Without Ventus: Card Juggling Required
+                  </h3>
+                </div>
+                
+                <div className="grid gap-6">
+                  {selectedSubcategories.map((subcategory) => (
+                    <div key={subcategory} className="bg-white rounded-lg p-6 border border-red-200">
+                      <h4 className="font-bold text-lg text-gray-900 mb-4">{subcategory}</h4>
+                      <div className="grid gap-3">
+                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                          <span className="text-gray-700 text-sm">Equipment & Gear</span>
+                          <span className="px-2 py-1 bg-blue-500 text-white text-xs rounded-full">
+                            Shopping Card
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                          <span className="text-gray-700 text-sm">Services & Memberships</span>
+                          <span className="px-2 py-1 bg-gray-500 text-white text-xs rounded-full">
+                            General Card
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 border-b border-gray-100">
+                          <span className="text-gray-700 text-sm">Food & Dining</span>
+                          <span className="px-2 py-1 bg-red-500 text-white text-xs rounded-full">
+                            Dining Card
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2">
+                          <span className="text-gray-700 text-sm">Nutrition & Supplements</span>
+                          <span className="px-2 py-1 bg-green-500 text-white text-xs rounded-full">
+                            Grocery Card
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>
-                <p className="text-red-600 font-medium mt-3">4+ Cards Required</p>
+                
+                <div className="mt-6 text-center">
+                  <div className="flex flex-wrap justify-center gap-2 mb-3">
+                    {cardTypes.map((card) => (
+                      <div key={card.name} className={`${card.color} text-white px-2 py-1 rounded text-xs`}>
+                        {card.name}
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-red-600 font-medium">4+ Cards Required</p>
+                </div>
               </div>
-            </div>
-          </div>
-        </section>
-      )}
 
-      {/* Step 3: Simplify with Ventus */}
-      {currentStep >= 3 && (
-        <section className="py-16 bg-gradient-to-br from-green-50 to-blue-50">
-          <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
-                <Zap className="h-4 w-4" />
-                Step 3
-              </div>
-              <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-gray-900">
-                Simplify with Ventus
-              </h2>
-              <div className="text-6xl font-bold text-green-600 mb-4">5x</div>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                On All Your Lifestyle Spending
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg border border-green-200 mb-8">
-              <h3 className="text-xl font-bold text-green-800 mb-6 text-center">
-                With Ventus: One Card Does It All
-              </h3>
-              
-              <div className="grid gap-6">
-                {selectedSubcategories.map((subcategory) => (
-                  <div key={subcategory} className="bg-green-50 rounded-lg p-6 border border-green-200">
-                    <h4 className="font-bold text-lg text-gray-900 mb-4">{subcategory}</h4>
-                    <div className="grid gap-3">
-                      <div className="flex justify-between items-center py-3 px-4 bg-white rounded-lg border-2 border-green-300">
-                        <span className="text-gray-700">Equipment & Gear</span>
-                        <span className="px-4 py-2 bg-green-600 text-white font-bold rounded-lg">
-                          5x Points
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-3 px-4 bg-white rounded-lg border-2 border-green-300">
-                        <span className="text-gray-700">Services & Memberships</span>
-                        <span className="px-4 py-2 bg-green-600 text-white font-bold rounded-lg">
-                          5x Points
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-3 px-4 bg-white rounded-lg border-2 border-green-300">
-                        <span className="text-gray-700">Food & Dining</span>
-                        <span className="px-4 py-2 bg-green-600 text-white font-bold rounded-lg">
-                          5x Points
-                        </span>
-                      </div>
-                      <div className="flex justify-between items-center py-3 px-4 bg-white rounded-lg border-2 border-green-300">
-                        <span className="text-gray-700">Nutrition & Supplements</span>
-                        <span className="px-4 py-2 bg-green-600 text-white font-bold rounded-lg">
-                          5x Points
-                        </span>
+              {/* Step 3: The Solution */}
+              <div className="bg-gradient-to-br from-green-50 to-blue-50 border border-green-200 rounded-xl p-8">
+                <div className="text-center mb-6">
+                  <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-medium mb-4">
+                    <Zap className="h-4 w-4" />
+                    Step 3: The Solution
+                  </div>
+                  <h3 className="text-xl font-bold text-green-800 mb-2">
+                    With Ventus: One Card Does It All
+                  </h3>
+                  <div className="text-4xl font-bold text-green-600 mb-2">5x</div>
+                  <p className="text-green-700">On All Your Lifestyle Spending</p>
+                </div>
+                
+                <div className="grid gap-6">
+                  {selectedSubcategories.map((subcategory) => (
+                    <div key={subcategory} className="bg-white rounded-lg p-6 border border-green-200">
+                      <h4 className="font-bold text-lg text-gray-900 mb-4">{subcategory}</h4>
+                      <div className="grid gap-3">
+                        <div className="flex justify-between items-center py-2 px-3 bg-green-50 rounded-lg border border-green-200">
+                          <span className="text-gray-700 text-sm">Equipment & Gear</span>
+                          <span className="px-3 py-1 bg-green-600 text-white font-bold text-xs rounded-lg">
+                            5x Points
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 px-3 bg-green-50 rounded-lg border border-green-200">
+                          <span className="text-gray-700 text-sm">Services & Memberships</span>
+                          <span className="px-3 py-1 bg-green-600 text-white font-bold text-xs rounded-lg">
+                            5x Points
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 px-3 bg-green-50 rounded-lg border border-green-200">
+                          <span className="text-gray-700 text-sm">Food & Dining</span>
+                          <span className="px-3 py-1 bg-green-600 text-white font-bold text-xs rounded-lg">
+                            5x Points
+                          </span>
+                        </div>
+                        <div className="flex justify-between items-center py-2 px-3 bg-green-50 rounded-lg border border-green-200">
+                          <span className="text-gray-700 text-sm">Nutrition & Supplements</span>
+                          <span className="px-3 py-1 bg-green-600 text-white font-bold text-xs rounded-lg">
+                            5x Points
+                          </span>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className="mt-6 text-center">
-                <div className="inline-block bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-lg text-lg font-bold">
-                  One Ventus Card
+                  ))}
                 </div>
-                <p className="text-green-600 font-bold mt-3 text-lg">1 Card. All Categories. 5x Rewards.</p>
+                
+                <div className="mt-6 text-center">
+                  <div className="inline-block bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-3 rounded-lg text-sm font-bold mb-3">
+                    One Ventus Card
+                  </div>
+                  <p className="text-green-600 font-bold">1 Card. All Categories. 5x Rewards.</p>
+                </div>
               </div>
             </div>
 
             {/* Key Benefits */}
-            <div className="grid md:grid-cols-3 gap-6 mb-8">
+            <div className="grid md:grid-cols-3 gap-6 mt-12 mb-8">
               <div className="text-center p-6 bg-white rounded-lg shadow-md">
                 <div className="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                   <CreditCard className="h-6 w-6 text-blue-600" />
