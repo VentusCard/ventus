@@ -19,8 +19,8 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/how-it-works" element={<HowItWorks />} />
           <Route path="/ventus-rewards" element={<VentusRewards />} />
+          <Route path="/Ventus-Dynamic-Rewards" element={<HowItWorks />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
