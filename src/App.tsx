@@ -20,7 +20,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/ventus-rewards" element={<VentusRewards />} />
-          <Route path="/Ventus-Dynamic-Rewards" element={<HowItWorks />} />
+          <Route path="/rewards-calculator" element={<HowItWorks />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

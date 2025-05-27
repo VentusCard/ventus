@@ -47,7 +47,7 @@ const Navbar = () => {
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
             <Link 
-              to="/Ventus-Dynamic-Rewards"
+              to="/rewards-calculator"
               className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
             >
               Rewards Calculator
@@ -68,7 +68,7 @@ const Navbar = () => {
               How It Works
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
-            <Link to="/Ventus-Dynamic-Rewards" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
+            <Link to="/rewards-calculator" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
               Calculator
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
