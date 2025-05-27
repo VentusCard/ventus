@@ -3,7 +3,6 @@ import { OnboardingData } from "@/pages/HowItWorks";
 import ProfileCard from "./step-three/ProfileCard";
 import RewardsCard from "./step-three/RewardsCard";
 import BenefitsCard from "./step-three/BenefitsCard";
-import DealsCard from "./step-three/DealsCard";
 import WaitlistForm from "./step-three/WaitlistForm";
 
 interface StepThreeProps {
@@ -24,9 +23,8 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
           <RewardsCard onboardingData={onboardingData} />
         </div>
         
-        <div className="space-y-6">
+        <div>
           <BenefitsCard />
-          <DealsCard onboardingData={onboardingData} />
         </div>
       </div>
       
