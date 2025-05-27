@@ -108,62 +108,11 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece with dark blue titanium texture overlay */}
+          {/* Video Centerpiece - removed hover effects */}
           <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-60 md:scale-65 lg:scale-70 transition-all duration-700 ease-out ${
             isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : ''
           }`}>
-            <div className="relative aspect-video overflow-hidden rounded-2xl">
-              {/* Dark Blue Titanium Texture Overlay */}
-              <div className="absolute inset-0 z-20 pointer-events-none">
-                {/* Base titanium texture with dark blue tint */}
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-800 via-blue-900 to-slate-900 opacity-85"></div>
-                
-                {/* Metallic surface patterns */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600/20 via-transparent to-blue-800/30"></div>
-                
-                {/* Titanium brushed metal effect */}
-                <div className="absolute inset-0 opacity-30" style={{
-                  backgroundImage: `linear-gradient(90deg, transparent 0%, rgba(148, 163, 184, 0.1) 50%, transparent 100%)`,
-                  backgroundSize: '4px 100%'
-                }}></div>
-                
-                {/* Subtle metallic highlights */}
-                <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-transparent"></div>
-                
-                {/* Laser Etched "Ventus Card" Text */}
-                <div className="absolute right-6 top-1/2 transform -translate-y-1/2 z-30">
-                  <div className="text-right">
-                    <div className="text-xl md:text-2xl lg:text-3xl font-light tracking-wider text-slate-300/80 font-mono">
-                      <div className="relative">
-                        {/* Laser etched effect with inner shadow */}
-                        <span className="relative inline-block" style={{
-                          textShadow: `
-                            inset 0 1px 2px rgba(0, 0, 0, 0.8),
-                            0 0 1px rgba(148, 163, 184, 0.3),
-                            0 0 2px rgba(148, 163, 184, 0.2)
-                          `,
-                          filter: 'drop-shadow(0 0 1px rgba(148, 163, 184, 0.3))'
-                        }}>
-                          VENTUS
-                        </span>
-                      </div>
-                      <div className="relative mt-1">
-                        <span className="relative inline-block text-lg md:text-xl lg:text-2xl" style={{
-                          textShadow: `
-                            inset 0 1px 2px rgba(0, 0, 0, 0.8),
-                            0 0 1px rgba(148, 163, 184, 0.3),
-                            0 0 2px rgba(148, 163, 184, 0.2)
-                          `,
-                          filter: 'drop-shadow(0 0 1px rgba(148, 163, 184, 0.3))'
-                        }}>
-                          CARD
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
+            <div className="relative aspect-video overflow-hidden">
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Stronger feathered edges that blend into black background */}
@@ -179,7 +128,7 @@ const Hero = () => {
               {/* Video element with reduced opacity for better blending */}
               <video
                 ref={videoRef}
-                className="w-full h-full object-cover opacity-60"
+                className="w-full h-full object-cover opacity-90"
                 muted
                 playsInline
                 preload="metadata"
@@ -192,8 +141,8 @@ const Hero = () => {
               </video>
             </div>
             
-            {/* Enhanced shadow effects for the new titanium card */}
-            <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-blue-900/20 via-slate-900/40 to-black opacity-80 blur-3xl -z-10"></div>
+            {/* Softer shadow effects that blend with background */}
+            <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
           </div>
           
           {/* Get Started button with increased clickable area */}
