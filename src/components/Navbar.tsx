@@ -31,9 +31,9 @@ const Navbar = () => {
         {/* Centered Navigation Container */}
         <div className="flex items-center justify-center flex-1">
           {/* Navigation Links - Desktop */}
-          <div className="hidden md:flex items-center space-x-8 lg:space-x-12">
+          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
             <button 
-              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-4 lg:px-6 cursor-pointer relative group"
+              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 cursor-pointer relative group"
               onClick={() => scrollToSection('hero')}
             >
               Overview
@@ -41,15 +41,22 @@ const Navbar = () => {
             </button>
             <Link 
               to="/how-it-works"
-              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-4 lg:px-6 relative group"
+              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
             >
               How It Works
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+            <Link 
+              to="/ventus-rewards"
+              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+            >
+              Ventus Rewards
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
           </div>
           
           {/* Mobile Navigation */}
-          <div className="md:hidden flex items-center space-x-6">
+          <div className="md:hidden flex items-center space-x-4">
             <button 
               onClick={() => scrollToSection('hero')}
               className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group"
@@ -59,6 +66,10 @@ const Navbar = () => {
             </button>
             <Link to="/how-it-works" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
               How It Works
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+            <Link to="/ventus-rewards" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
+              Rewards
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
           </div>
