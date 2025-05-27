@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Mail, User } from "lucide-react";
+import { Mail, User, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -89,8 +89,14 @@ const JoinWaitlist = () => {
             
             <CardHeader className="text-center pb-4">
               <CardTitle className="flex items-center justify-center gap-3 text-2xl font-bold">
-                <div className="p-2 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg shadow-metallic">
-                  <Mail className="text-white" size={24} />
+                <div className="relative p-3 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-xl shadow-lg">
+                  {/* Futuristic metallic overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/10 rounded-xl"></div>
+                  {/* Inner metallic rim */}
+                  <div className="absolute inset-1 border border-white/30 rounded-lg"></div>
+                  {/* Holographic shine effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-500 animate-shimmer"></div>
+                  <Mail className="text-white relative z-10" size={26} strokeWidth={1.5} />
                 </div>
                 Join the Waitlist
               </CardTitle>
@@ -108,8 +114,14 @@ const JoinWaitlist = () => {
                       name="firstName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-slate-700 font-medium flex items-center gap-2">
-                            <User size={16} />
+                          <FormLabel className="text-slate-700 font-medium flex items-center gap-3">
+                            <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                              {/* Precious metal texture */}
+                              <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                              {/* Metallic border */}
+                              <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                              <User size={14} className="text-white relative z-10" strokeWidth={2} />
+                            </div>
                             First Name
                           </FormLabel>
                           <FormControl>
@@ -129,8 +141,14 @@ const JoinWaitlist = () => {
                       name="lastName"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel className="text-slate-700 font-medium flex items-center gap-2">
-                            <User size={16} />
+                          <FormLabel className="text-slate-700 font-medium flex items-center gap-3">
+                            <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                              {/* Precious metal texture */}
+                              <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                              {/* Metallic border */}
+                              <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                              <User size={14} className="text-white relative z-10" strokeWidth={2} />
+                            </div>
                             Last Name
                           </FormLabel>
                           <FormControl>
@@ -151,7 +169,14 @@ const JoinWaitlist = () => {
                     name="mainCategory"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-slate-700 font-medium">
+                        <FormLabel className="text-slate-700 font-medium flex items-center gap-3">
+                          <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                            {/* Precious metal texture */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                            {/* Metallic border */}
+                            <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                            <Target size={14} className="text-white relative z-10" strokeWidth={2} />
+                          </div>
                           Main Interest Category
                         </FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
@@ -178,8 +203,14 @@ const JoinWaitlist = () => {
                     name="email"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="text-slate-700 font-medium flex items-center gap-2">
-                          <Mail size={16} />
+                        <FormLabel className="text-slate-700 font-medium flex items-center gap-3">
+                          <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                            {/* Precious metal texture */}
+                            <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                            {/* Metallic border */}
+                            <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                            <Mail size={14} className="text-white relative z-10" strokeWidth={2} />
+                          </div>
                           Email Address
                         </FormLabel>
                         <FormControl>

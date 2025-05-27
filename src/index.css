@@ -220,6 +220,15 @@
   }
 }
 
+@keyframes futuristic-shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .shimmer-effect {
   background: linear-gradient(
     90deg,
@@ -229,4 +238,8 @@
   );
   background-size: 200% 100%;
   animation: metallic-shimmer 2s infinite;
+}
+
+.animate-shimmer {
+  animation: futuristic-shimmer 3s ease-in-out infinite;
 }
