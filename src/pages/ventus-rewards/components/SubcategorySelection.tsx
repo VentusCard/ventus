@@ -1,0 +1,64 @@
+
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { LifestyleOption } from "../types";
+
+interface SubcategorySelectionProps {
+  selectedOption: LifestyleOption | undefined;
+  selectedSubcategories: string[];
+  onSubcategoryToggle: (subcategory: string) => void;
+  onProceedToComparison: () => void;
+}
+
+const SubcategorySelection = ({ 
+  selectedOption, 
+  selectedSubcategories, 
+  onSubcategoryToggle, 
+  onProceedToComparison 
+}: SubcategorySelectionProps) => {
+  if (!selectedOption) return null;
+
+  return (
+    <section id="subcategories-section" className="py-16 bg-slate-50">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        <div className="text-center mb-12">
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-gray-900">
+            Choose Your Subcategories
+          </h2>
+          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            Customize your {selectedOption.title} goal by selecting your interests
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+          {selectedOption.subcategories.map((subcategory) => (
+            <button
+              key={subcategory}
+              onClick={() => onSubcategoryToggle(subcategory)}
+              className={`p-4 rounded-lg border-2 text-center transition-all duration-200 ${
+                selectedSubcategories.includes(subcategory)
+                  ? 'border-blue-500 bg-blue-50 text-blue-700'
+                  : 'border-gray-200 bg-white text-gray-700 hover:border-blue-300'
+              }`}
+            >
+              <div className="font-medium">{subcategory}</div>
+            </button>
+          ))}
+        </div>
+
+        {selectedSubcategories.length > 0 && (
+          <div className="text-center">
+            <Button
+              onClick={onProceedToComparison}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium flex items-center gap-2 mx-auto"
+            >
+              See How Ventus Simplifies This <ArrowRight className="h-4 w-4" />
+            </Button>
+          </div>
+        )}
+      </div>
+    </section>
+  );
+};
+
+export default SubcategorySelection;
