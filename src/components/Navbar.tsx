@@ -77,31 +77,25 @@ const Navbar = () => {
           </div>
         </div>
         
-        {/* Join Waitlist CTA - Metallic Gradient Design */}
+        {/* Join Waitlist CTA - Dark Blue Metal */}
         <div className="absolute right-6 md:right-8 flex items-center">
           <Link to="/join-waitlist">
             <div className="relative group">
-              {/* Outer glow effect */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400/40 via-slate-400/30 to-blue-600/40 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              {/* Subtle outer glow */}
+              <div className="absolute inset-0 bg-blue-600/20 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
               
-              {/* Main metallic button */}
-              <div className="relative bg-gradient-to-br from-slate-400 via-blue-500 to-slate-600 p-[1px] rounded-lg shadow-lg group-hover:shadow-xl transition-all duration-300">
-                {/* Inner metallic surface */}
-                <div className="bg-gradient-to-br from-slate-300 via-blue-400 to-slate-500 rounded-lg px-6 md:px-8 py-2.5 relative overflow-hidden">
-                  {/* Metallic highlights */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/10 rounded-lg"></div>
-                  
-                  {/* Subtle metallic texture */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent opacity-50"></div>
-                  
-                  {/* Animated shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer"></div>
-                  
-                  {/* Button text */}
-                  <span className="relative text-slate-800 font-semibold text-sm tracking-wide drop-shadow-sm">
-                    Join Waitlist
-                  </span>
-                </div>
+              {/* Main button container */}
+              <div className="relative bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 md:px-8 py-2.5 shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-700/30">
+                {/* Metallic highlight overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-white/4 to-transparent rounded-lg"></div>
+                
+                {/* Subtle metallic texture */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-lg"></div>
+                
+                {/* Button text */}
+                <span className="relative text-white font-semibold text-sm tracking-wide">
+                  Join Waitlist
+                </span>
               </div>
             </div>
           </Link>
