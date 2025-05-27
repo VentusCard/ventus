@@ -17,28 +17,30 @@ const Navbar = () => {
       <div className="flex h-16 md:h-20 items-center justify-center px-6 md:px-8 max-w-7xl mx-auto">
         {/* Logo/Brand - Matching card design */}
         <div className="absolute left-6 md:left-8 flex items-center">
-          <h1 className="text-lg tracking-[0.15em] font-sans font-light text-white/95 relative">
-            <span className="relative inline-block">
-              VENTUS CARD
-              {/* Subtle metallic sheen effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-40 blur-[1px]"></div>
-              {/* Fine underline accent */}
-              <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-            </span>
-          </h1>
+          <Link to="/">
+            <h1 className="text-lg tracking-[0.15em] font-sans font-light text-white/95 relative cursor-pointer hover:text-white transition-colors duration-300">
+              <span className="relative inline-block">
+                VENTUS CARD
+                {/* Subtle metallic sheen effect */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-40 blur-[1px]"></div>
+                {/* Fine underline accent */}
+                <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
+              </span>
+            </h1>
+          </Link>
         </div>
         
         {/* Centered Navigation Container */}
         <div className="flex items-center justify-center flex-1">
           {/* Navigation Links - Desktop */}
           <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            <button 
-              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 cursor-pointer relative group"
-              onClick={() => scrollToSection('hero')}
+            <Link 
+              to="/"
+              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
             >
               Overview
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </button>
+            </Link>
             <Link 
               to="/how-ventus-works"
               className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
@@ -57,13 +59,13 @@ const Navbar = () => {
           
           {/* Mobile Navigation */}
           <div className="md:hidden flex items-center space-x-4">
-            <button 
-              onClick={() => scrollToSection('hero')}
+            <Link 
+              to="/"
               className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group"
             >
               Overview
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </button>
+            </Link>
             <Link to="/how-ventus-works" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
               How It Works
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
