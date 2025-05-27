@@ -77,43 +77,20 @@ const Navbar = () => {
           </div>
         </div>
         
-        {/* Join Waitlist CTA - Futuristic Precious Metal Design */}
+        {/* Join Waitlist CTA - Simple Dark Blue Metal */}
         <div className="absolute right-6 md:right-8 flex items-center">
           <Link to="/join-waitlist">
             <div className="relative group">
-              {/* Outer metallic frame */}
-              <div className="absolute inset-0 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-700 rounded-lg blur-sm opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
-              
-              {/* Main button container */}
-              <div className="relative bg-gradient-to-br from-blue-500 via-blue-600 to-blue-800 rounded-lg p-[1px] shadow-lg group-hover:shadow-xl transition-all duration-300">
-                {/* Inner metallic surface */}
-                <div className="relative bg-gradient-to-br from-blue-400/90 via-blue-500/90 to-blue-600/90 rounded-lg overflow-hidden">
-                  {/* Precious metal texture overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/10"></div>
-                  
-                  {/* Metallic border accent */}
-                  <div className="absolute inset-1 border border-white/20 rounded-md"></div>
-                  
-                  {/* Holographic shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 animate-shimmer"></div>
-                  
-                  {/* Button content */}
-                  <div className="relative px-6 md:px-8 py-2.5 text-white font-semibold text-sm tracking-wide">
-                    <span className="relative z-10 drop-shadow-sm">Join Waitlist</span>
-                    
-                    {/* Text enhancement glow */}
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <span className="text-white/40 font-semibold text-sm tracking-wide blur-sm">Join Waitlist</span>
-                    </div>
-                  </div>
-                </div>
+              {/* Dark blue metal background */}
+              <div className="bg-gradient-to-br from-blue-800 to-blue-900 rounded-lg px-6 md:px-8 py-2.5 shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-700/50">
+                {/* Subtle metallic highlight */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent rounded-lg"></div>
+                
+                {/* Button text */}
+                <span className="relative text-white font-semibold text-sm tracking-wide">
+                  Join Waitlist
+                </span>
               </div>
-              
-              {/* Futuristic corner accents */}
-              <div className="absolute -top-1 -left-1 w-3 h-3 border-l-2 border-t-2 border-blue-300/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="absolute -top-1 -right-1 w-3 h-3 border-r-2 border-t-2 border-blue-300/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="absolute -bottom-1 -left-1 w-3 h-3 border-l-2 border-b-2 border-blue-300/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <div className="absolute -bottom-1 -right-1 w-3 h-3 border-r-2 border-b-2 border-blue-300/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </div>
           </Link>
         </div>
