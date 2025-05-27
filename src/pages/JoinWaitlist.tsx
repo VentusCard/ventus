@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Mail, User, Heart } from "lucide-react";
+import { Mail, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const formSchema = z.object({
@@ -66,12 +66,7 @@ const JoinWaitlist = () => {
       
       {/* Hero Section */}
       <section className="pt-24 pb-12 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500/10 to-purple-500/10 backdrop-blur-sm border border-blue-200/50 rounded-full px-6 py-3 mb-8">
-            <Heart className="text-blue-500" size={18} />
-            <span className="text-sm font-medium text-slate-700">Join the Exclusive Waitlist</span>
-          </div>
-          
+        <div className="max-w-5xl mx-auto text-center">
           <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
             Be First to Experience
             <br />
@@ -87,7 +82,7 @@ const JoinWaitlist = () => {
 
       {/* Form Section */}
       <section className="pb-24 px-6">
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-3xl mx-auto">
           <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
             <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600"></div>
             
