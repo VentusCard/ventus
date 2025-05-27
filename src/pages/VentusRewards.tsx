@@ -24,6 +24,15 @@ const VentusRewards = () => {
     );
   };
 
+  const handleProceedToComparison = () => {
+    // Scroll to comparison section or handle navigation
+    setTimeout(() => {
+      document.getElementById('comparison-section')?.scrollIntoView({ 
+        behavior: 'smooth' 
+      });
+    }, 100);
+  };
+
   // Create onboardingData object for DealsCard
   const onboardingData = {
     mainGoal: selectedGoal,
@@ -45,8 +54,9 @@ const VentusRewards = () => {
         <HeroSection />
         
         <GoalSelection
+          lifestyleOptions={lifestyleOptions}
           selectedGoal={selectedGoal}
-          onSelectGoal={setSelectedGoal}
+          onGoalSelect={setSelectedGoal}
         />
         
         {selectedOption && (
@@ -55,6 +65,7 @@ const VentusRewards = () => {
               selectedOption={selectedOption}
               selectedSubcategories={selectedSubcategories}
               onSubcategoryToggle={handleSubcategoryToggle}
+              onProceedToComparison={handleProceedToComparison}
             />
             
             {selectedSubcategories.length > 0 && (
@@ -75,7 +86,14 @@ const VentusRewards = () => {
           </>
         )}
         
-        <ComparisonSection />
+        {selectedGoal && (
+          <div id="comparison-section">
+            <ComparisonSection 
+              selectedGoal={selectedGoal}
+              selectedSubcategories={selectedSubcategories}
+            />
+          </div>
+        )}
       </div>
       
       <Footer />
