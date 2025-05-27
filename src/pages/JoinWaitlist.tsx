@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -22,11 +21,11 @@ const formSchema = z.object({
 
 const categories = [
   { value: "sports", label: "Sports" },
-  { value: "wellness", label: "Wellness (Year One)" },
-  { value: "pets", label: "Pet Owners (Year One)" },
-  { value: "gamers", label: "Gamers (Year Two)" },
-  { value: "creatives", label: "Creatives (Year Two)" },
-  { value: "homeowners", label: "Homeowners (Year Two)" },
+  { value: "wellness", label: "Wellness" },
+  { value: "pets", label: "Pet Owners" },
+  { value: "gamers", label: "Gamers" },
+  { value: "creatives", label: "Creatives" },
+  { value: "homeowners", label: "Homeowners" },
 ];
 
 const JoinWaitlist = () => {
@@ -89,15 +88,6 @@ const JoinWaitlist = () => {
             
             <CardHeader className="text-center pb-4">
               <CardTitle className="flex items-center justify-center gap-3 text-2xl font-bold">
-                <div className="relative p-3 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-700 rounded-xl shadow-lg">
-                  {/* Futuristic metallic overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-transparent to-black/10 rounded-xl"></div>
-                  {/* Inner metallic rim */}
-                  <div className="absolute inset-1 border border-white/30 rounded-lg"></div>
-                  {/* Holographic shine effect */}
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent rounded-xl opacity-0 hover:opacity-100 transition-opacity duration-500 animate-shimmer"></div>
-                  <Mail className="text-white relative z-10" size={26} strokeWidth={1.5} />
-                </div>
                 Join the Waitlist
               </CardTitle>
               <p className="text-slate-600 mt-2">
