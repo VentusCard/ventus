@@ -1,4 +1,3 @@
-
 import { LifestyleOption, LifestyleGoal, ExamplePurchase } from "./types";
 
 export const lifestyleOptions: LifestyleOption[] = [
@@ -26,7 +25,7 @@ export const lifestyleOptions: LifestyleOption[] = [
     description: "Dog & Cat Care, Grooming, Food & Services",
     year: "Year One",
     icon: "🐕",
-    subcategories: ["Dog Essentials", "Grooming", "Food", "Vet Services"],
+    subcategories: ["Dog and Cat Essentials", "Grooming", "Food", "Vet Services"],
     merchants: ["Petco", "Chewy", "VCA Animal Hospitals", "Rover"]
   },
   {
@@ -125,7 +124,7 @@ export const getExamplePurchases = (goal: LifestyleGoal, subcategory: string): E
       ]
     },
     pets: {
-      "Dog Essentials": [
+      "Dog and Cat Essentials": [
         { category: "Dog Toys & Accessories", cardType: "Shopping Card", cardColor: "bg-blue-500" },
         { category: "Dog Walking Services", cardType: "General Card", cardColor: "bg-gray-500" },
         { category: "Pet-Friendly Restaurants", cardType: "Dining Card", cardColor: "bg-red-500" },

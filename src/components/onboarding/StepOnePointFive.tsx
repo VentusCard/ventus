@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { LifestyleGoal, Subcategory } from "@/pages/HowItWorks";
@@ -34,7 +33,7 @@ const subcategoriesData: SubcategoryData[] = [
   },
   {
     goalId: "pets",
-    subcategories: ["Dog Essentials", "Cat Essentials", "Grooming and Health", "Pet Food and Nutrition", "Pet Activities and Services"]
+    subcategories: ["Dog and Cat Essentials", "Cat Essentials", "Grooming and Health", "Pet Food and Nutrition", "Pet Activities and Services"]
   },
   {
     goalId: "gamers",
@@ -98,7 +97,7 @@ const merchantDealsData: Record<LifestyleGoal, MerchantDeal[]> = {
   ],
   "pets": [
     {
-      subcategory: "Dog Essentials",
+      subcategory: "Dog and Cat Essentials",
       merchants: ["BarkBox", "Chewy", "Kong", "Petco", "Wild One"]
     },
     {
@@ -186,6 +185,7 @@ const merchantDealsData: Record<LifestyleGoal, MerchantDeal[]> = {
   ]
 };
 
+// Get the name of the goal based on the goalId
 const getGoalName = (goalId: LifestyleGoal): string => {
   const nameMap: Record<LifestyleGoal, string> = {
     "sports": "Sports",
