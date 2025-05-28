@@ -1,3 +1,4 @@
+
 import { Check } from "lucide-react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
@@ -8,33 +9,35 @@ const benefitTiers = [
     price: "$0",
     period: "/month",
     features: [
-      "2x points on goal-related purchases (up to $300/month)",
-      "Mobile wallet + virtual card access",
-      "Core travel protection"
+      "3x points on goal-related purchases (up to $1,000/month)",
+      "Access to a virtual card with full analytics dashboard",
+      "Select a main category goal every year"
     ],
     highlighted: false
   },
   {
     name: "Premium",
-    description: "Built for motivated spenders.",
+    description: "Tailored rewards for everyday achievers.",
     price: "$9.99",
     period: "/month",
     features: [
-      "4x points on goal-related purchases (up to $750/month)",
-      "Personalized goal rewards + merchant offers",
-      "2 lounge visits/year + enhanced protection"
+      "Includes everything in Standard, plus:",
+      "5x points on goal-related purchases in one main category (up to $2,000/month)",
+      "Enjoy personalized cross rewards with aligned merchant offers",
+      "Update your main category goal every 6 months"
     ],
     highlighted: true
   },
   {
     name: "Elite",
-    description: "Engineered for high-impact living.",
-    price: "$29.99",
+    description: "Comprehensive reward for high-impact living.",
+    price: "$19.99",
     period: "/month",
     features: [
-      "5x points on goal-related purchases (up to $1,000/month)",
-      "Unlimited lounge access + smart travel perks",
-      "Concierge support, VIP invites + stackable offers"
+      "Includes everything in Premium, plus:",
+      "5x points on purchases in up to 3 main categories (up to $2,500/month per category)",
+      "Access to exclusive events, stackable offers, and VIP perks",
+      "Personalized concierge support and AI powered shopping experience"
     ],
     highlighted: false
   }
@@ -47,7 +50,7 @@ const Benefits = () => {
         <div className="text-center mb-16">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">Card Benefits</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Choose the tier that fits your lifestyle and financial goals
+            One card, three tiers—designed to grow with your lifestyle
           </p>
         </div>
         
@@ -88,7 +91,7 @@ const Benefits = () => {
         
         <div className="mt-12 text-center">
           <p className="text-sm text-muted-foreground italic max-w-2xl mx-auto">
-            All other eligible spend earns 1x point per dollar. Points redeem at $0.01 value.
+            All other eligible spend earns 1x point per dollar. Points redeem at $0.01 value. Terms and conditions apply.
           </p>
         </div>
       </div>
