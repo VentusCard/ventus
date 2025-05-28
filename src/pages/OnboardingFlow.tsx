@@ -8,7 +8,9 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
+
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
+
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
   subcategories: string[];
@@ -19,6 +21,7 @@ export interface OnboardingFlowData {
   minCashbackPercentage: number;
   maxCashbackPercentage: number;
 }
+
 const OnboardingFlow = () => {
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
@@ -31,21 +34,26 @@ const OnboardingFlow = () => {
     minCashbackPercentage: 5,
     maxCashbackPercentage: 15
   });
+
   const totalSteps = 5;
+
   const goToNextStep = () => {
     setStep(prev => prev + 1);
     window.scrollTo(0, 0);
   };
+
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
     window.scrollTo(0, 0);
   };
+
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
       ...prev,
       ...data
     }));
   };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -68,11 +76,13 @@ const OnboardingFlow = () => {
         })} />;
     }
   };
+
   const isNextButtonDisabled = () => {
     if (step === 1 && !onboardingData.mainGoal) return true;
     if (step === 2 && onboardingData.subcategories.length === 0) return true;
     return false;
   };
+
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
@@ -89,38 +99,33 @@ const OnboardingFlow = () => {
         return '';
     }
   };
+
   return <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
-      {/* Hero Section */}
+      {/* Hero Section - Reduced Size */}
       <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
         
         {/* Abstract geometric patterns */}
         <div className="absolute inset-0 opacity-20">
-          <div className="absolute left-10 top-20 w-32 h-32 bg-cyan-400 rounded-full filter blur-3xl"></div>
-          <div className="absolute right-20 bottom-20 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl"></div>
-          <div className="absolute left-1/2 top-1/2 w-24 h-24 bg-white rounded-full filter blur-2xl"></div>
+          <div className="absolute left-10 top-10 w-24 h-24 bg-cyan-400 rounded-full filter blur-3xl"></div>
+          <div className="absolute right-20 bottom-10 w-32 h-32 bg-blue-400 rounded-full filter blur-3xl"></div>
+          <div className="absolute left-1/2 top-1/2 w-20 h-20 bg-white rounded-full filter blur-2xl"></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-20 md:py-28">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-12 md:py-16">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+            <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
               <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">Discover Your</span>
               <br />
               <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">Ventus Rewards</span>
             </h1>
             
-            <p className="text-md md:text-xl lg:text-2xl text-blue-100 mb-12 leading-relaxed max-w-3xl mx-auto">
-              Choose your lifestyle goal and explore how Ventus Card personalizes rewards 
-              to match your unique spending patterns and interests.
+            <p className="text-sm md:text-lg lg:text-xl text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto">
+              Choose your lifestyle goal and explore how Ventus Card<br />
+              personalizes rewards to match your unique spending patterns and interests.
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              
-              
-              
-            </div>
           </div>
         </div>
 
@@ -170,4 +175,5 @@ const OnboardingFlow = () => {
       <Footer />
     </div>;
 };
+
 export default OnboardingFlow;
