@@ -1,6 +1,38 @@
 
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
+import { 
+  CreditCard, 
+  Trophy, 
+  Gift, 
+  MapPin, 
+  Package,
+  Dumbbell,
+  Brain,
+  Pill,
+  Sparkles,
+  Heart,
+  Dog,
+  Cat,
+  Scissors,
+  ShoppingCart,
+  Calendar,
+  Gamepad2,
+  Monitor,
+  Smartphone,
+  Mic,
+  Headphones,
+  Camera,
+  Music,
+  Palette,
+  PenTool,
+  BookOpen,
+  Hammer,
+  Home,
+  Sofa,
+  Sprout,
+  Wrench
+} from "lucide-react";
 
 interface StepThreePointFiveExampleDealsProps {
   selectedGoal: LifestyleGoal;
@@ -15,6 +47,67 @@ const StepThreePointFiveExampleDeals = ({ selectedGoal, selectedSubcategories }:
     gamers: "Gamers",
     creatives: "Creatives",
     homeowners: "Homeowners"
+  };
+
+  const dealIcons = {
+    // Sports icons
+    "Golf": Trophy,
+    "Tennis": Trophy,
+    "Running": Dumbbell,
+    "Team Sports": Trophy,
+    "Outdoor Adventure": MapPin,
+    
+    // Wellness icons
+    "Fitness and Exercise": Dumbbell,
+    "Mental Health and Therapy": Brain,
+    "Nutrition and Supplements": Pill,
+    "Spa and Recovery": Sparkles,
+    "Meditation and Mindfulness": Heart,
+    
+    // Pet icons
+    "Dog Essentials": Dog,
+    "Cat Essentials": Cat,
+    "Grooming and Health": Scissors,
+    "Pet Food and Nutrition": ShoppingCart,
+    "Pet Activities and Services": Calendar,
+    
+    // Gaming icons
+    "PC Gaming": Monitor,
+    "Console Gaming": Gamepad2,
+    "Mobile Gaming": Smartphone,
+    "Esports and Streaming": Mic,
+    "Gaming Accessories": Headphones,
+    
+    // Creative icons
+    "Photography": Camera,
+    "Music Production": Music,
+    "Art Supplies": Palette,
+    "Writing Tools": PenTool,
+    "Online Creative Classes": BookOpen,
+    
+    // Homeowner icons
+    "Home Improvement": Hammer,
+    "Smart Home Tech": Home,
+    "Furniture and Decor": Sofa,
+    "Gardening and Outdoors": Sprout,
+    "Home Services": Wrench
+  };
+
+  const dealTypeIcons = {
+    cashback: CreditCard,
+    points: Trophy,
+    gift: Gift,
+    local: MapPin,
+    bundle: Package
+  };
+
+  const getDealIcon = (deal: string) => {
+    if (deal.includes("Extra cashback")) return dealTypeIcons.cashback;
+    if (deal.includes("Extra points")) return dealTypeIcons.points;
+    if (deal.includes("Free")) return dealTypeIcons.gift;
+    if (deal.includes("Local")) return dealTypeIcons.local;
+    if (deal.includes("Bundle")) return dealTypeIcons.bundle;
+    return dealTypeIcons.cashback; // default
   };
 
   const exampleDeals = {
@@ -255,24 +348,36 @@ const StepThreePointFiveExampleDeals = ({ selectedGoal, selectedSubcategories }:
       </p>
 
       <div className="space-y-6 mb-8">
-        {relevantCategories.map((category) => (
-          <div key={category} className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
-            <h3 className="font-bold text-xl text-blue-800 mb-4">{category}</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-              {selectedDeals[category]?.map((deal, index) => (
-                <Card key={index} className="bg-white/80 border-blue-100 hover:shadow-lg transition-all duration-300">
-                  <CardContent className="p-4">
-                    <div className="text-center">
-                      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-3 py-2 rounded-full text-sm font-medium">
-                        {deal}
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              ))}
+        {relevantCategories.map((category) => {
+          const CategoryIcon = dealIcons[category as keyof typeof dealIcons];
+          return (
+            <div key={category} className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+              <div className="flex items-center gap-3 mb-4">
+                {CategoryIcon && <CategoryIcon className="h-6 w-6 text-blue-600" />}
+                <h3 className="font-bold text-xl text-blue-800">{category}</h3>
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+                {selectedDeals[category]?.map((deal, index) => {
+                  const DealIcon = getDealIcon(deal);
+                  return (
+                    <Card key={index} className="bg-white/80 border-blue-100 hover:shadow-lg transition-all duration-300">
+                      <CardContent className="p-4">
+                        <div className="flex items-center gap-3">
+                          <div className="flex-shrink-0">
+                            <DealIcon className="h-5 w-5 text-blue-600" />
+                          </div>
+                          <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-3 py-2 rounded-full text-sm font-medium flex-1 text-center">
+                            {deal}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-200">
@@ -283,11 +388,15 @@ const StepThreePointFiveExampleDeals = ({ selectedGoal, selectedSubcategories }:
           <div>
             <h4 className="font-semibold text-blue-700 mb-2">Selected Categories:</h4>
             <div className="flex flex-wrap gap-2">
-              {selectedSubcategories.map((sub) => (
-                <span key={sub} className="px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
-                  {sub}
-                </span>
-              ))}
+              {selectedSubcategories.map((sub) => {
+                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
+                return (
+                  <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
+                    {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
+                    {sub}
+                  </span>
+                );
+              })}
             </div>
           </div>
           <div>
