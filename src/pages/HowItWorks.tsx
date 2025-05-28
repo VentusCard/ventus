@@ -107,25 +107,6 @@ const HowItWorks = () => {
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
-      <div className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 text-white py-16 relative overflow-hidden">
-        {/* Abstract tech pattern background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute left-0 right-0 top-0 bottom-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.2),transparent_50%)]"></div>
-          <div className="absolute left-20 top-10 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl opacity-20"></div>
-          <div className="absolute right-20 bottom-10 w-60 h-60 bg-cyan-300 rounded-full filter blur-3xl opacity-20"></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-            How Ventus Card Works
-          </h1>
-          <p className="text-lg md:text-xl max-w-3xl text-blue-100">
-            Complete this short questionnaire to discover how Ventus Card can be personalized 
-            for your unique lifestyle and spending habits. Get ready to unlock a tailored rewards experience.
-          </p>
-        </div>
-      </div>
-      
       <div className="flex-grow">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
           <div className="mb-8">
