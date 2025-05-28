@@ -1,3 +1,4 @@
+
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
@@ -346,7 +347,7 @@ const StepThreePointFiveExampleDeals = ({ selectedGoal, selectedSubcategories }:
         Here are some example deals and offers you'd have access to with Ventus Card based on your selected categories.
       </p>
 
-      <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-200 mb-8">
+      <div className="bg-blue-50 p-6 rounded-xl border border-blue-200 mb-8">
         <h3 className="font-display text-xl font-bold mb-4 text-blue-800">
           Your Personalized Deal Pipeline
         </h3>
@@ -379,22 +380,22 @@ const StepThreePointFiveExampleDeals = ({ selectedGoal, selectedSubcategories }:
         {relevantCategories.map((category) => {
           const CategoryIcon = dealIcons[category as keyof typeof dealIcons];
           return (
-            <div key={category} className="bg-gradient-to-br from-blue-50 to-cyan-50 border border-blue-200 rounded-xl p-6">
+            <div key={category} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
               <div className="flex items-center gap-3 mb-4">
                 {CategoryIcon && <CategoryIcon className="h-6 w-6 text-blue-600" />}
-                <h3 className="font-bold text-xl text-blue-800">{category}</h3>
+                <h3 className="font-bold text-xl text-slate-800">{category}</h3>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {selectedDeals[category]?.map((deal, index) => {
                   const DealIcon = getDealIcon(deal);
                   return (
-                    <Card key={index} className="bg-white/80 border-blue-100 hover:shadow-lg transition-all duration-300">
+                    <Card key={index} className="bg-white border-slate-200 hover:shadow-md transition-all duration-300">
                       <CardContent className="p-4">
                         <div className="flex items-center gap-3">
-                          <div className="flex-shrink-0">
-                            <DealIcon className="h-5 w-5 text-blue-600" />
+                          <div className="flex-shrink-0 p-2 bg-blue-50 rounded-full">
+                            <DealIcon className="h-4 w-4 text-blue-600" />
                           </div>
-                          <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white px-3 py-2 rounded-full text-sm font-medium flex-1 text-center">
+                          <div className="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium flex-1 text-center">
                             {deal}
                           </div>
                         </div>
