@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useEffect, useState, useRef } from "react"
@@ -107,27 +108,27 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Card Centerpiece - Three cards with different textures */}
-          <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-60 md:scale-65 lg:scale-70 transition-all duration-700 ease-out ${
+          {/* Card Centerpiece - Three cards in parallel arrangement */}
+          <div className={`relative w-full max-w-4xl md:max-w-5xl mx-auto transform scale-60 md:scale-65 lg:scale-70 transition-all duration-700 ease-out ${
             isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : ''
           }`}>
-            <div className="relative h-64 md:h-80 flex items-center justify-center perspective-1000">
+            <div className="relative h-64 md:h-80 flex items-center justify-center gap-4 md:gap-6">
               {/* Metal Card (Standard - Silver) */}
-              <div className="absolute w-48 h-72 md:w-56 md:h-80 transform -rotate-12 translate-x-8 md:translate-x-12 z-10 hover:scale-105 transition-all duration-500">
+              <div className="w-40 h-60 md:w-48 md:h-72 hover:scale-105 transition-all duration-500">
                 <div className="w-full h-full rounded-2xl bg-gradient-to-br from-slate-300 via-slate-400 to-slate-500 shadow-2xl border border-slate-300/50 relative overflow-hidden">
                   {/* Metallic texture overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/20 rounded-2xl"></div>
                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent rounded-2xl"></div>
                   
                   {/* Card content */}
-                  <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                  <div className="relative z-10 p-4 md:p-6 h-full flex flex-col justify-between text-white">
                     <div className="flex justify-between items-start">
-                      <div className="w-8 h-6 bg-gradient-to-br from-white/80 to-white/60 rounded"></div>
+                      <div className="w-6 h-4 md:w-8 md:h-6 bg-gradient-to-br from-white/80 to-white/60 rounded"></div>
                       <span className="text-xs font-medium opacity-80">STANDARD</span>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl md:text-3xl font-bold mb-2">VENTUS</div>
-                      <div className="text-sm opacity-80">Rewards Card</div>
+                      <div className="text-xl md:text-2xl font-bold mb-2">VENTUS</div>
+                      <div className="text-xs md:text-sm opacity-80">Rewards Card</div>
                     </div>
                     <div className="flex justify-between items-end">
                       <span className="text-xs opacity-70">•••• 1234</span>
@@ -137,8 +138,8 @@ const Hero = () => {
                 </div>
               </div>
 
-              {/* Existing Marbled Card (Premium) - Center */}
-              <div className="absolute w-48 h-72 md:w-56 md:h-80 transform z-20 hover:scale-105 transition-all duration-500">
+              {/* Marbled Card (Premium) - Center */}
+              <div className="w-40 h-60 md:w-48 md:h-72 hover:scale-105 transition-all duration-500">
                 <div className="w-full h-full rounded-2xl bg-gradient-to-br from-blue-900 via-indigo-800 to-violet-900 shadow-2xl border border-blue-400/30 relative overflow-hidden">
                   {/* Marbled texture overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-indigo-500/10 to-violet-600/20 rounded-2xl"></div>
@@ -148,14 +149,14 @@ const Hero = () => {
                   </div>
                   
                   {/* Card content */}
-                  <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                  <div className="relative z-10 p-4 md:p-6 h-full flex flex-col justify-between text-white">
                     <div className="flex justify-between items-start">
-                      <div className="w-8 h-6 bg-gradient-to-br from-gold-400 to-yellow-500 rounded"></div>
+                      <div className="w-6 h-4 md:w-8 md:h-6 bg-gradient-to-br from-gold-400 to-yellow-500 rounded"></div>
                       <span className="text-xs font-medium opacity-80">PREMIUM</span>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl md:text-3xl font-bold mb-2">VENTUS</div>
-                      <div className="text-sm opacity-80">Rewards Card</div>
+                      <div className="text-xl md:text-2xl font-bold mb-2">VENTUS</div>
+                      <div className="text-xs md:text-sm opacity-80">Rewards Card</div>
                     </div>
                     <div className="flex justify-between items-end">
                       <span className="text-xs opacity-70">•••• 5678</span>
@@ -166,7 +167,7 @@ const Hero = () => {
               </div>
 
               {/* Glossy Card (Elite - Rose Gold) */}
-              <div className="absolute w-48 h-72 md:w-56 md:h-80 transform rotate-12 -translate-x-8 md:-translate-x-12 z-10 hover:scale-105 transition-all duration-500">
+              <div className="w-40 h-60 md:w-48 md:h-72 hover:scale-105 transition-all duration-500">
                 <div className="w-full h-full rounded-2xl bg-gradient-to-br from-rose-300 via-pink-400 to-rose-500 shadow-2xl border border-rose-300/50 relative overflow-hidden">
                   {/* Glossy texture overlay */}
                   <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-black/10 rounded-2xl"></div>
@@ -174,14 +175,14 @@ const Hero = () => {
                   <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/20 to-transparent rounded-t-2xl"></div>
                   
                   {/* Card content */}
-                  <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                  <div className="relative z-10 p-4 md:p-6 h-full flex flex-col justify-between text-white">
                     <div className="flex justify-between items-start">
-                      <div className="w-8 h-6 bg-gradient-to-br from-white/90 to-rose-200/80 rounded"></div>
+                      <div className="w-6 h-4 md:w-8 md:h-6 bg-gradient-to-br from-white/90 to-rose-200/80 rounded"></div>
                       <span className="text-xs font-medium opacity-80">ELITE</span>
                     </div>
                     <div className="text-center">
-                      <div className="text-2xl md:text-3xl font-bold mb-2">VENTUS</div>
-                      <div className="text-sm opacity-80">Rewards Card</div>
+                      <div className="text-xl md:text-2xl font-bold mb-2">VENTUS</div>
+                      <div className="text-xs md:text-sm opacity-80">Rewards Card</div>
                     </div>
                     <div className="flex justify-between items-end">
                       <span className="text-xs opacity-70">•••• 9012</span>
