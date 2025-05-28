@@ -179,9 +179,7 @@ const StepOneLifestyleGoal = ({
   onSelectGoal
 }: StepOneLifestyleGoalProps) => {
   return <div>
-      <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
-        Choose Your Main Lifestyle Goal
-      </h2>
+      <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">What would like to be rewarded on?</h2>
       <p className="text-lg text-slate-600 mb-8">
         What's the primary lifestyle goal you want Ventus to support? Select one category that best represents 
         where you'd like to earn enhanced rewards.
