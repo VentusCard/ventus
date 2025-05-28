@@ -192,8 +192,7 @@ const StepFourSpendingInput = ({
 
       <div className="text-center mt-8">
         <p className="text-sm text-slate-500">
-          🎉 Congratulations! You've completed your Ventus onboarding experience.
-        </p>
+      </p>
       </div>
     </div>;
 };
