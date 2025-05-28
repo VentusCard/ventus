@@ -11,7 +11,8 @@ const benefitTiers = [
     features: [
       "3x points on goal-related purchases (up to $1,000/month)",
       "Access to a virtual card with full analytics dashboard",
-      "Select a main category goal every year"
+      "Select a main category goal every year",
+      "Various point redemption methods"
     ],
     highlighted: false
   },
