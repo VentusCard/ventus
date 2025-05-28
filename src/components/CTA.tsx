@@ -1,9 +1,6 @@
-
-import { Button } from "@/components/ui/button"
-
+import { Button } from "@/components/ui/button";
 const CTA = () => {
-  return (
-    <section className="relative bg-black text-white">
+  return <section className="relative bg-black text-white">
       {/* Refined shorter gradient for seamless transition from light sections */}
       <div className="absolute top-0 left-0 right-0 h-20 bg-gradient-to-b from-[#F8F9FA] via-[#2A2A2A] to-[#000000] pointer-events-none"></div>
       
@@ -18,7 +15,7 @@ const CTA = () => {
               Apply today and elevate your financial experience with premium benefits and rewards designed for your lifestyle.
             </p>
             <div className="flex flex-wrap justify-center gap-4 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.6s] [animation-fill-mode:forwards]">
-              <Button size="lg" className="bg-white text-blue-900 hover:bg-white/90 transition-all duration-300 hover:scale-105">
+              <Button size="lg" className="bg-white hover:bg-white/90 transition-all duration-300 hover:scale-105 text-[#00071a]">
                 Join Waitlist
               </Button>
             </div>
@@ -43,8 +40,6 @@ const CTA = () => {
           </div>
         </div>
       </div>
-    </section>
-  )
-}
-
-export default CTA
+    </section>;
+};
+export default CTA;
