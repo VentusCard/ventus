@@ -206,7 +206,7 @@ const StepOneLifestyleGoal = ({
                 </div>}
 
               {selectedGoal === option.id && <div className="mt-6 pt-6 border-t border-blue-200">
-                  <p className="text-sm font-medium text-blue-700 mb-3">Get Ventus Rewarded at:</p>
+                  <p className="text-sm font-medium text-blue-700 mb-3">Get Ventus Rewards at:</p>
                   <div className="space-y-2">
                     {option.merchants.slice(0, 3).map((merchant, idx) => <div key={idx}>
                         <p className="text-xs font-medium text-slate-700">{merchant.category}:</p>
