@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
 import { useEffect, useState, useRef } from "react"
@@ -108,41 +107,93 @@ const Hero = () => {
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece - removed hover effects */}
+          {/* Card Centerpiece - Three cards with different textures */}
           <div className={`relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-60 md:scale-65 lg:scale-70 transition-all duration-700 ease-out ${
             isMobile ? 'animate-[float_6s_ease-in-out_infinite]' : ''
           }`}>
-            <div className="relative aspect-video overflow-hidden">
-              {/* Enhanced gradient overlays for seamless blending */}
-              <div className="absolute inset-0 z-10 pointer-events-none">
-                {/* Stronger feathered edges that blend into black background */}
-                <div className="absolute top-0 left-0 right-0 h-8 md:h-12 bg-gradient-to-b from-black via-black/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-12 md:h-16 bg-gradient-to-t from-black via-black/80 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 left-0 w-8 md:w-12 bg-gradient-to-r from-black via-black/60 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 right-0 w-8 md:w-12 bg-gradient-to-l from-black via-black/60 to-transparent"></div>
-                
-                {/* Subtle vignette effect */}
-                <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-black/20"></div>
+            <div className="relative h-64 md:h-80 flex items-center justify-center perspective-1000">
+              {/* Metal Card (Standard - Silver) */}
+              <div className="absolute w-48 h-72 md:w-56 md:h-80 transform -rotate-12 translate-x-8 md:translate-x-12 z-10 hover:scale-105 transition-all duration-500">
+                <div className="w-full h-full rounded-2xl bg-gradient-to-br from-slate-300 via-slate-400 to-slate-500 shadow-2xl border border-slate-300/50 relative overflow-hidden">
+                  {/* Metallic texture overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/30 via-transparent to-black/20 rounded-2xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent rounded-2xl"></div>
+                  
+                  {/* Card content */}
+                  <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                    <div className="flex justify-between items-start">
+                      <div className="w-8 h-6 bg-gradient-to-br from-white/80 to-white/60 rounded"></div>
+                      <span className="text-xs font-medium opacity-80">STANDARD</span>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl md:text-3xl font-bold mb-2">VENTUS</div>
+                      <div className="text-sm opacity-80">Rewards Card</div>
+                    </div>
+                    <div className="flex justify-between items-end">
+                      <span className="text-xs opacity-70">•••• 1234</span>
+                      <div className="text-xs opacity-70">VISA</div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              
-              {/* Video element with reduced opacity for better blending */}
-              <video
-                ref={videoRef}
-                className="w-full h-full object-cover opacity-90"
-                muted
-                playsInline
-                preload="metadata"
-              >
-                <source 
-                  src="https://github.com/rojchen98/ventuscard/raw/refs/heads/main/Gen-4%20A%20premium%20credit%20card%20named%20Ventus%20Card%20is%20displayed%20in%20the%20center%20of%20the%20frame%20against%20a%20smooth%20black%20background%20The%20card%20has%20a%20sleek%20marbled%20design%20in%20deep%20shades%20of%20blue,%20indigo,%20and%20violet,%20(6).mp4" 
-                  type="video/mp4" 
-                />
-                Your browser does not support the video tag.
-              </video>
+
+              {/* Existing Marbled Card (Premium) - Center */}
+              <div className="absolute w-48 h-72 md:w-56 md:h-80 transform z-20 hover:scale-105 transition-all duration-500">
+                <div className="w-full h-full rounded-2xl bg-gradient-to-br from-blue-900 via-indigo-800 to-violet-900 shadow-2xl border border-blue-400/30 relative overflow-hidden">
+                  {/* Marbled texture overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-blue-400/20 via-indigo-500/10 to-violet-600/20 rounded-2xl"></div>
+                  <div className="absolute inset-0 opacity-30">
+                    <div className="absolute top-1/4 left-1/4 w-16 h-16 bg-gradient-to-br from-cyan-400/40 to-blue-600/40 rounded-full filter blur-xl"></div>
+                    <div className="absolute bottom-1/3 right-1/4 w-20 h-20 bg-gradient-to-br from-violet-400/30 to-purple-600/30 rounded-full filter blur-xl"></div>
+                  </div>
+                  
+                  {/* Card content */}
+                  <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                    <div className="flex justify-between items-start">
+                      <div className="w-8 h-6 bg-gradient-to-br from-gold-400 to-yellow-500 rounded"></div>
+                      <span className="text-xs font-medium opacity-80">PREMIUM</span>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl md:text-3xl font-bold mb-2">VENTUS</div>
+                      <div className="text-sm opacity-80">Rewards Card</div>
+                    </div>
+                    <div className="flex justify-between items-end">
+                      <span className="text-xs opacity-70">•••• 5678</span>
+                      <div className="text-xs opacity-70">VISA</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Glossy Card (Elite - Rose Gold) */}
+              <div className="absolute w-48 h-72 md:w-56 md:h-80 transform rotate-12 -translate-x-8 md:-translate-x-12 z-10 hover:scale-105 transition-all duration-500">
+                <div className="w-full h-full rounded-2xl bg-gradient-to-br from-rose-300 via-pink-400 to-rose-500 shadow-2xl border border-rose-300/50 relative overflow-hidden">
+                  {/* Glossy texture overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/40 via-transparent to-black/10 rounded-2xl"></div>
+                  <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-white/10 rounded-2xl"></div>
+                  <div className="absolute top-0 left-0 w-full h-1/2 bg-gradient-to-b from-white/20 to-transparent rounded-t-2xl"></div>
+                  
+                  {/* Card content */}
+                  <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                    <div className="flex justify-between items-start">
+                      <div className="w-8 h-6 bg-gradient-to-br from-white/90 to-rose-200/80 rounded"></div>
+                      <span className="text-xs font-medium opacity-80">ELITE</span>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-2xl md:text-3xl font-bold mb-2">VENTUS</div>
+                      <div className="text-sm opacity-80">Rewards Card</div>
+                    </div>
+                    <div className="flex justify-between items-end">
+                      <span className="text-xs opacity-70">•••• 9012</span>
+                      <div className="text-xs opacity-70">VISA</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             
-            {/* Softer shadow effects that blend with background */}
-            <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
+            {/* Ambient lighting effects */}
+            <div className="absolute -inset-12 bg-gradient-radial from-blue-500/10 via-purple-500/5 to-transparent opacity-60 blur-3xl -z-10"></div>
           </div>
           
           {/* Get Started button with increased clickable area */}
