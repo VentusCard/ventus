@@ -4,76 +4,100 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import WaitlistForm from "@/components/onboarding/step-three/WaitlistForm";
-
 interface StepFourSpendingInputProps {
   onboardingData: OnboardingFlowData;
   updateOnboardingData: (data: Partial<OnboardingFlowData>) => void;
 }
-
-const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFourSpendingInputProps) => {
-  const [selectedFrequency, setSelectedFrequency] = useState<"weekly" | "monthly" | "quarterly" | "annually">(
-    onboardingData.spendingFrequency
-  );
+const StepFourSpendingInput = ({
+  onboardingData,
+  updateOnboardingData
+}: StepFourSpendingInputProps) => {
+  const [selectedFrequency, setSelectedFrequency] = useState<"weekly" | "monthly" | "quarterly" | "annually">(onboardingData.spendingFrequency);
   const [spendingAmount, setSpendingAmount] = useState<number>(onboardingData.spendingAmount);
-
-  const frequencyOptions = [
-    { value: "weekly" as const, label: "Weekly", multiplier: 52 },
-    { value: "monthly" as const, label: "Monthly", multiplier: 12 },
-    { value: "quarterly" as const, label: "Quarterly", multiplier: 4 },
-    { value: "annually" as const, label: "Annually", multiplier: 1 },
-  ];
-
+  const frequencyOptions = [{
+    value: "weekly" as const,
+    label: "Weekly",
+    multiplier: 52
+  }, {
+    value: "monthly" as const,
+    label: "Monthly",
+    multiplier: 12
+  }, {
+    value: "quarterly" as const,
+    label: "Quarterly",
+    multiplier: 4
+  }, {
+    value: "annually" as const,
+    label: "Annually",
+    multiplier: 1
+  }];
   const getSliderConfig = (frequency: typeof selectedFrequency) => {
     switch (frequency) {
       case "weekly":
-        return { min: 50, max: 1000, step: 25, defaultValue: 200 };
+        return {
+          min: 50,
+          max: 1000,
+          step: 25,
+          defaultValue: 200
+        };
       case "monthly":
-        return { min: 200, max: 4000, step: 100, defaultValue: 800 };
+        return {
+          min: 200,
+          max: 4000,
+          step: 100,
+          defaultValue: 800
+        };
       case "quarterly":
-        return { min: 600, max: 12000, step: 300, defaultValue: 2400 };
+        return {
+          min: 600,
+          max: 12000,
+          step: 300,
+          defaultValue: 2400
+        };
       case "annually":
-        return { min: 2000, max: 50000, step: 1000, defaultValue: 10000 };
+        return {
+          min: 2000,
+          max: 50000,
+          step: 1000,
+          defaultValue: 10000
+        };
       default:
-        return { min: 200, max: 4000, step: 100, defaultValue: 800 };
+        return {
+          min: 200,
+          max: 4000,
+          step: 100,
+          defaultValue: 800
+        };
     }
   };
-
   const handleFrequencyChange = (frequency: typeof selectedFrequency) => {
     setSelectedFrequency(frequency);
     const config = getSliderConfig(frequency);
     setSpendingAmount(config.defaultValue);
-    
     const multiplier = frequencyOptions.find(opt => opt.value === frequency)?.multiplier || 12;
     const estimatedAnnualSpend = config.defaultValue * multiplier;
     const estimatedPoints = estimatedAnnualSpend * 5;
-    
     updateOnboardingData({
       spendingFrequency: frequency,
       spendingAmount: config.defaultValue,
       estimatedAnnualSpend,
-      estimatedPoints,
+      estimatedPoints
     });
   };
-
   const handleSpendingAmountChange = (value: number[]) => {
     const newAmount = value[0];
     setSpendingAmount(newAmount);
-    
     const multiplier = frequencyOptions.find(opt => opt.value === selectedFrequency)?.multiplier || 12;
     const estimatedAnnualSpend = newAmount * multiplier;
     const estimatedPoints = estimatedAnnualSpend * 5;
-    
     updateOnboardingData({
       spendingAmount: newAmount,
       estimatedAnnualSpend,
-      estimatedPoints,
+      estimatedPoints
     });
   };
-
   const sliderConfig = getSliderConfig(selectedFrequency);
-
-  return (
-    <div>
+  return <div>
       <div className="text-center mb-8">
         <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
           Tell Us About Your Spending
@@ -92,16 +116,9 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
             </h3>
             
             <div className="grid grid-cols-2 gap-3">
-              {frequencyOptions.map((option) => (
-                <Button
-                  key={option.value}
-                  variant={selectedFrequency === option.value ? "default" : "outline"}
-                  onClick={() => handleFrequencyChange(option.value)}
-                  className="h-12"
-                >
+              {frequencyOptions.map(option => <Button key={option.value} variant={selectedFrequency === option.value ? "default" : "outline"} onClick={() => handleFrequencyChange(option.value)} className="h-12">
                   {option.label}
-                </Button>
-              ))}
+                </Button>)}
             </div>
           </CardContent>
         </Card>
@@ -124,14 +141,7 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
               </div>
               
               <div className="px-4">
-                <Slider
-                  value={[spendingAmount]}
-                  onValueChange={handleSpendingAmountChange}
-                  min={sliderConfig.min}
-                  max={sliderConfig.max}
-                  step={sliderConfig.step}
-                  className="w-full"
-                />
+                <Slider value={[spendingAmount]} onValueChange={handleSpendingAmountChange} min={sliderConfig.min} max={sliderConfig.max} step={sliderConfig.step} className="w-full" />
                 <div className="flex justify-between text-xs text-slate-500 mt-2">
                   <span>${sliderConfig.min.toLocaleString()}</span>
                   <span>${sliderConfig.max.toLocaleString()}</span>
@@ -166,8 +176,8 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
             </div>
             
             <div className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-4 rounded-lg text-center">
-              <div className="text-sm opacity-90">Estimated Rewards</div>
-              <div className="text-2xl font-bold">
+              <div className="text-md opacity-90">Estimated Rewards</div>
+              <div className="text-3xl font-bold">
                 ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.14)}
               </div>
             </div>
@@ -185,8 +195,6 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
           🎉 Congratulations! You've completed your Ventus onboarding experience.
         </p>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default StepFourSpendingInput;
