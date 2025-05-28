@@ -1,48 +1,56 @@
-
 import { OnboardingFlowData } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-
 interface StepFourSpendingInputProps {
   onboardingData: OnboardingFlowData;
   updateOnboardingData: (data: Partial<OnboardingFlowData>) => void;
 }
-
-const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFourSpendingInputProps) => {
-  const frequencies = [
-    { value: "weekly" as const, label: "Weekly" },
-    { value: "monthly" as const, label: "Monthly" },
-    { value: "quarterly" as const, label: "Quarterly" },
-    { value: "annually" as const, label: "Annually" }
-  ];
-
+const StepFourSpendingInput = ({
+  onboardingData,
+  updateOnboardingData
+}: StepFourSpendingInputProps) => {
+  const frequencies = [{
+    value: "weekly" as const,
+    label: "Weekly"
+  }, {
+    value: "monthly" as const,
+    label: "Monthly"
+  }, {
+    value: "quarterly" as const,
+    label: "Quarterly"
+  }, {
+    value: "annually" as const,
+    label: "Annually"
+  }];
   const calculateAnnualSpend = (amount: number, frequency: string) => {
     switch (frequency) {
-      case "weekly": return amount * 52;
-      case "monthly": return amount * 12;
-      case "quarterly": return amount * 4;
-      case "annually": return amount;
-      default: return amount * 12;
+      case "weekly":
+        return amount * 52;
+      case "monthly":
+        return amount * 12;
+      case "quarterly":
+        return amount * 4;
+      case "annually":
+        return amount;
+      default:
+        return amount * 12;
     }
   };
-
   const calculateRewards = (annualSpend: number) => {
     // Base calculation: 5x points (assuming 1 point per dollar spent)
     const basePoints = annualSpend * 5;
     const minCashback = annualSpend * 0.05; // 5% minimum
     const maxCashback = annualSpend * 0.15; // 15% maximum with bonuses
-    
+
     return {
       points: basePoints,
       minCashback: Math.round(minCashback),
       maxCashback: Math.round(maxCashback)
     };
   };
-
   const handleAmountChange = (amount: number) => {
     const annualSpend = calculateAnnualSpend(amount, onboardingData.spendingFrequency);
     const rewards = calculateRewards(annualSpend);
-    
     updateOnboardingData({
       spendingAmount: amount,
       estimatedAnnualSpend: annualSpend,
@@ -51,22 +59,17 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
       maxCashbackPercentage: 15
     });
   };
-
   const handleFrequencyChange = (frequency: "weekly" | "monthly" | "quarterly" | "annually") => {
     const annualSpend = calculateAnnualSpend(onboardingData.spendingAmount, frequency);
     const rewards = calculateRewards(annualSpend);
-    
     updateOnboardingData({
       spendingFrequency: frequency,
       estimatedAnnualSpend: annualSpend,
       estimatedPoints: rewards.points
     });
   };
-
   const presetAmounts = [100, 200, 500, 1000, 2000];
-
-  return (
-    <div>
+  return <div>
       <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
         Tell Us About Your Spending
       </h2>
@@ -79,20 +82,9 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
         <div>
           <h3 className="font-display text-xl font-bold mb-4">Spending Frequency</h3>
           <div className="grid grid-cols-2 gap-3 mb-6">
-            {frequencies.map((freq) => (
-              <Button
-                key={freq.value}
-                variant={onboardingData.spendingFrequency === freq.value ? "default" : "outline"}
-                onClick={() => handleFrequencyChange(freq.value)}
-                className={`h-12 ${
-                  onboardingData.spendingFrequency === freq.value
-                    ? "bg-gradient-to-r from-blue-600 to-blue-700"
-                    : ""
-                }`}
-              >
+            {frequencies.map(freq => <Button key={freq.value} variant={onboardingData.spendingFrequency === freq.value ? "default" : "outline"} onClick={() => handleFrequencyChange(freq.value)} className={`h-12 ${onboardingData.spendingFrequency === freq.value ? "bg-gradient-to-r from-blue-600 to-blue-700" : ""}`}>
                 {freq.label}
-              </Button>
-            ))}
+              </Button>)}
           </div>
 
           <h3 className="font-display text-xl font-bold mb-4">
@@ -100,30 +92,13 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
           </h3>
           
           <div className="grid grid-cols-3 gap-3 mb-4">
-            {presetAmounts.map((amount) => (
-              <Button
-                key={amount}
-                variant={onboardingData.spendingAmount === amount ? "default" : "outline"}
-                onClick={() => handleAmountChange(amount)}
-                className={`h-12 text-sm ${
-                  onboardingData.spendingAmount === amount
-                    ? "bg-gradient-to-r from-blue-600 to-blue-700"
-                    : ""
-                }`}
-              >
+            {presetAmounts.map(amount => <Button key={amount} variant={onboardingData.spendingAmount === amount ? "default" : "outline"} onClick={() => handleAmountChange(amount)} className={`h-12 text-sm ${onboardingData.spendingAmount === amount ? "bg-gradient-to-r from-blue-600 to-blue-700" : ""}`}>
                 ${amount}
-              </Button>
-            ))}
+              </Button>)}
           </div>
 
           <div className="relative">
-            <input
-              type="number"
-              value={onboardingData.spendingAmount}
-              onChange={(e) => handleAmountChange(Number(e.target.value))}
-              className="w-full p-4 border border-slate-300 rounded-lg text-lg font-medium"
-              placeholder="Enter custom amount"
-            />
+            <input type="number" value={onboardingData.spendingAmount} onChange={e => handleAmountChange(Number(e.target.value))} className="w-full p-4 border border-slate-300 rounded-lg text-lg font-medium" placeholder="Enter custom amount" />
             <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 text-lg">
               $
             </span>
@@ -153,11 +128,11 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
               </div>
               
               <div className="bg-gradient-to-r from-green-500 to-emerald-400 text-white p-4 rounded-lg">
-                <div className="text-sm opacity-90">Estimated Annual Value</div>
+                <div className="text-sm opacity-90">Estimated Annual Rewards</div>
                 <div className="text-2xl font-bold">
                   ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.15)}
                 </div>
-                <div className="text-xs opacity-90">5% - 15% effective return</div>
+                
               </div>
             </div>
 
@@ -170,8 +145,6 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
           </CardContent>
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default StepFourSpendingInput;
