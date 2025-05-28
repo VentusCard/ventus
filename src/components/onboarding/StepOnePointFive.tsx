@@ -8,8 +8,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 
 interface StepOnePointFiveProps {
   selectedGoal: LifestyleGoal;
-  selectedSubcategories: Subcategory[];
-  onSelectSubcategories: (subcategories: Subcategory[]) => void;
+  selectedSubcategories: string[];
+  onSelectSubcategories: (subcategories: string[]) => void;
 }
 
 interface SubcategoryData {
