@@ -1,7 +1,5 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-
 const CTA = () => {
   return <section className="relative bg-black text-white">
       {/* Refined shorter gradient for seamless transition from light sections */}
@@ -14,9 +12,7 @@ const CTA = () => {
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.2s] [animation-fill-mode:forwards]">
               Ready to Experience Ventus Card?
             </h2>
-            <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">
-              Apply today and elevate your financial experience with premium benefits and rewards designed for your lifestyle.
-            </p>
+            <p className="text-lg opacity-90 max-w-2xl mx-auto mb-8 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.4s] [animation-fill-mode:forwards]">Join the waitlist today and elevate your financial experience with premium benefits and rewards designed for your lifestyle.</p>
             <div className="flex flex-wrap justify-center gap-4 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.6s] [animation-fill-mode:forwards]">
               <Link to="/join-waitlist">
                 <Button size="lg" className="bg-white hover:bg-white/90 transition-all duration-300 hover:scale-105 text-[#00071a]">
@@ -47,5 +43,4 @@ const CTA = () => {
       </div>
     </section>;
 };
-
 export default CTA;
