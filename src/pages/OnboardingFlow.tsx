@@ -115,24 +115,66 @@ const OnboardingFlow = () => {
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
-      <div className="bg-gradient-to-r from-blue-800 via-blue-700 to-blue-900 text-white py-16 relative overflow-hidden">
-        {/* Abstract tech pattern background */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute left-0 right-0 top-0 bottom-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.2),transparent_50%)]"></div>
-          <div className="absolute left-20 top-10 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl opacity-20"></div>
-          <div className="absolute right-20 bottom-10 w-60 h-60 bg-cyan-300 rounded-full filter blur-3xl opacity-20"></div>
+      {/* Hero Section */}
+      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 text-white relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
+        
+        {/* Abstract geometric patterns */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute left-10 top-20 w-32 h-32 bg-cyan-400 rounded-full filter blur-3xl"></div>
+          <div className="absolute right-20 bottom-20 w-40 h-40 bg-blue-400 rounded-full filter blur-3xl"></div>
+          <div className="absolute left-1/2 top-1/2 w-24 h-24 bg-white rounded-full filter blur-2xl"></div>
         </div>
         
-        <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-          <h1 className="font-display text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
-            How Ventus Card Works
-          </h1>
-          <p className="text-lg md:text-xl max-w-3xl text-blue-100">
-            Complete this short questionnaire to discover how Ventus Card can be personalized 
-            for your unique lifestyle and spending habits. Get ready to unlock a tailored rewards experience.
-          </p>
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-20 md:py-28">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
+                Discover Your
+              </span>
+              <br />
+              <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">
+                Perfect Rewards
+              </span>
+            </h1>
+            
+            <p className="text-lg md:text-xl lg:text-2xl text-blue-100 mb-12 leading-relaxed max-w-3xl mx-auto">
+              Choose your lifestyle goal and explore how Ventus Card personalizes rewards 
+              to match your unique spending patterns and interests.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white font-semibold px-8 py-4 text-lg shadow-2xl hover:shadow-cyan-500/25 transition-all duration-300 transform hover:scale-105"
+                onClick={() => {
+                  document.getElementById('lifestyle-goals')?.scrollIntoView({ 
+                    behavior: 'smooth' 
+                  });
+                }}
+              >
+                Start Your Journey
+              </Button>
+              
+              <Button 
+                variant="outline" 
+                size="lg"
+                className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm px-8 py-4 text-lg font-semibold transition-all duration-300"
+                onClick={() => {
+                  document.getElementById('how-it-works')?.scrollIntoView({ 
+                    behavior: 'smooth' 
+                  });
+                }}
+              >
+                How It Works
+              </Button>
+            </div>
+          </div>
         </div>
-      </div>
+
+        {/* Subtle bottom border */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent"></div>
+      </section>
       
       <div className="flex-grow">
         <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
@@ -173,7 +215,7 @@ const OnboardingFlow = () => {
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 mb-8 border border-slate-100">
+          <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 mb-8 border border-slate-100" id="lifestyle-goals">
             {renderStep()}
           </div>
           
