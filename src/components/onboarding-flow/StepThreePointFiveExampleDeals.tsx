@@ -1,10 +1,12 @@
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { CreditCard, Trophy, Gift, MapPin, Package, Dumbbell, Brain, Pill, Sparkles, Heart, Dog, Cat, Scissors, ShoppingCart, Calendar, Gamepad2, Monitor, Smartphone, Mic, Headphones, Camera, Music, Palette, PenTool, BookOpen, Hammer, Home, Sofa, Sprout, Wrench } from "lucide-react";
+
 interface StepThreePointFiveExampleDealsProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
 }
+
 const StepThreePointFiveExampleDeals = ({
   selectedGoal,
   selectedSubcategories
@@ -116,6 +118,7 @@ const StepThreePointFiveExampleDeals = ({
   };
   const selectedDeals = exampleDeals[selectedGoal] || {};
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
+
   return <div>
       <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
         Exclusive Deals for {goalTitles[selectedGoal]} Enthusiasts
@@ -165,8 +168,8 @@ const StepThreePointFiveExampleDeals = ({
                           <div className="flex-shrink-0 p-2 bg-blue-50 rounded-full">
                             <DealIcon className="h-4 w-4 text-blue-600" />
                           </div>
-                          <div className="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium flex-1 text-center">
-                            {deal}
+                          <div className="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium flex-1 min-h-[40px] flex items-center">
+                            <span className="text-left w-full">{deal}</span>
                           </div>
                         </div>
                       </CardContent>
@@ -184,4 +187,5 @@ const StepThreePointFiveExampleDeals = ({
       </div>
     </div>;
 };
+
 export default StepThreePointFiveExampleDeals;
