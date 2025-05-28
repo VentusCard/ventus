@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import StepOneLifestyleGoal from "@/components/onboarding-flow/StepOneLifestyleGoal";
 import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOnePointFiveSubcategories";
-import StepTwoValueComparison from "@/components/onboarding-flow/StepTwoValueComparison";
-import StepThreeVentusSimplification from "@/components/onboarding-flow/StepThreeVentusSimplification";
+import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
 import StepFiveSummary from "@/components/onboarding-flow/StepFiveSummary";
@@ -44,7 +43,7 @@ const OnboardingFlow = () => {
     maxCashbackPercentage: 15,
   });
 
-  const totalSteps = 7;
+  const totalSteps = 6;
 
   const goToNextStep = () => {
     setStep(prev => prev + 1);
@@ -74,26 +73,21 @@ const OnboardingFlow = () => {
           onSelectSubcategories={(subcategories) => updateOnboardingData({ subcategories })}
         />;
       case 3:
-        return <StepTwoValueComparison
+        return <StepTwoValueComparisonAndSimplification
           selectedGoal={onboardingData.mainGoal as LifestyleGoal}
           selectedSubcategories={onboardingData.subcategories}
         />;
       case 4:
-        return <StepThreeVentusSimplification
-          selectedGoal={onboardingData.mainGoal as LifestyleGoal}
-          selectedSubcategories={onboardingData.subcategories}
-        />;
-      case 5:
         return <StepThreePointFiveExampleDeals
           selectedGoal={onboardingData.mainGoal as LifestyleGoal}
           selectedSubcategories={onboardingData.subcategories}
         />;
-      case 6:
+      case 5:
         return <StepFourSpendingInput
           onboardingData={onboardingData}
           updateOnboardingData={updateOnboardingData}
         />;
-      case 7:
+      case 6:
         return <StepFiveSummary onboardingData={onboardingData} />;
       default:
         return <StepOneLifestyleGoal 
@@ -113,11 +107,10 @@ const OnboardingFlow = () => {
     switch(stepNum) {
       case 1: return 'Choose Your Main Lifestyle Goal';
       case 2: return 'Select Your Subcategories';
-      case 3: return 'Understand the Value of Ventus';
-      case 4: return 'Simplify with Ventus';
-      case 5: return 'Explore Example Deals';
-      case 6: return 'Input Your Spending';
-      case 7: return 'Your Personalized Summary';
+      case 3: return 'Understand the Value & Simplicity of Ventus';
+      case 4: return 'Explore Example Deals';
+      case 5: return 'Input Your Spending';
+      case 6: return 'Your Personalized Summary';
       default: return '';
     }
   };
