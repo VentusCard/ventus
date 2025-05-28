@@ -1,6 +1,7 @@
-
 import { useState, useEffect, useRef } from "react"
 import { Smartphone, Target, Zap, CreditCard, TrendingUp, Gift, Check, Clock, Activity, ChevronDown, ChevronRight } from "lucide-react"
+import { Link } from "react-router-dom"
+import { Button } from "@/components/ui/button"
 
 const features = [
   {
@@ -589,6 +590,20 @@ const Features = () => {
                   <p className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-lg">
                     {feature.description}
                   </p>
+                  
+                  {/* Add "See How It Works" button only for the first feature */}
+                  {index === 0 && (
+                    <div className="pt-2">
+                      <Link to="/onboarding">
+                        <Button
+                          variant="outline"
+                          className="bg-white border-[#D0D5DD] text-slate-900 hover:bg-slate-900 hover:text-white hover:border-slate-900 px-6 py-3 rounded-lg text-base font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+                        >
+                          See How It Works
+                        </Button>
+                      </Link>
+                    </div>
+                  )}
                 </div>
 
                 {/* Phone mockup visual */}
