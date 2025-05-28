@@ -1,10 +1,13 @@
+
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
-import { Check, X, Zap, Target, Trophy, Shield } from "lucide-react";
+import { Check, X, Zap, Target, Trophy, Shield, CreditCard } from "lucide-react";
+
 interface StepTwoValueComparisonProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
 }
+
 const StepTwoValueComparison = ({
   selectedGoal,
   selectedSubcategories
@@ -17,9 +20,253 @@ const StepTwoValueComparison = ({
     creatives: "Creatives",
     homeowners: "Homeowners"
   };
+
+  // Define the category data structure
+  const categoryData: Record<LifestyleGoal, Record<string, Array<{ item: string; card: string; color: string }>>> = {
+    sports: {
+      "Skiing": [
+        { item: "Gear & apparel", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Lift tickets & passes", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Rentals", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Lessons/coaching", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Resort food/drinks", card: "Dining Card", color: "bg-red-500" }
+      ],
+      "Tennis": [
+        { item: "Racquets, shoes", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Club fees", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Lessons/apps", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Tickets", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Services/accessories", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ],
+      "Golf": [
+        { item: "Clubs & bags", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Green fees", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Coaching/fittings", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Apparel/accessories", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "On-course food", card: "Dining Card", color: "bg-red-500" }
+      ],
+      "Running": [
+        { item: "Shoes, apparel", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Race fees", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Apps", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Trackers", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Nutrition", card: "Grocery Card", color: "bg-green-500" }
+      ],
+      "Team Sports": [
+        { item: "Equipment", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "League registration", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Training", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Game tickets", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Post-game food", card: "Dining Card", color: "bg-red-500" }
+      ],
+      "Outdoor Adventure": [
+        { item: "Gear & equipment", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Park fees", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Guides/tours", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Trail food", card: "Grocery Card", color: "bg-green-500" }
+      ]
+    },
+    wellness: {
+      "Fitness and Exercise": [
+        { item: "Gym/class memberships", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Equipment", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Apparel", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Fitness apps", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Supplements", card: "Grocery Card", color: "bg-green-500" }
+      ],
+      "Mental Health and Therapy": [
+        { item: "Therapy sessions", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Online subscriptions", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Journaling supplies", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Wellness products", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Retreats", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Nutrition and Supplements": [
+        { item: "Meal kits", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Vitamins/proteins", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Nutritionist visits", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Health groceries", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Gut health products", card: "Grocery Card", color: "bg-green-500" }
+      ],
+      "Spa and Recovery": [
+        { item: "Massages", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Sauna/cryotherapy", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Recovery devices", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Spa packages", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Skincare products", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ],
+      "Meditation and Mindfulness": [
+        { item: "Apps", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Classes", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Meditation gear", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Retreats", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Books/journals", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ]
+    },
+    pets: {
+      "Dog Essentials": [
+        { item: "Food/treats", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Collars/beds", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Vet visits", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Grooming/daycare", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Walking apps", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Cat Essentials": [
+        { item: "Food/litter", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Subscriptions", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Grooming", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Vet care", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Toys/carriers", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ],
+      "Grooming and Health": [
+        { item: "Vet clinics", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Grooming sessions", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Medications", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Insurance", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Shampoo/dental care", card: "Grocery Card", color: "bg-green-500" }
+      ],
+      "Pet Food and Nutrition": [
+        { item: "Subscriptions", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Treats/supplements", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Breed-specific food", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Retail purchases", card: "Grocery Card", color: "bg-green-500" },
+        { item: "Autoship", card: "Grocery Card", color: "bg-green-500" }
+      ],
+      "Pet Activities and Services": [
+        { item: "Boarding", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Pet-friendly hotels", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Daycare", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Training", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Adoption events", card: "General Cashback Card", color: "bg-gray-500" }
+      ]
+    },
+    gamers: {
+      "PC Gaming": [
+        { item: "Games", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Hardware", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Bundles", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Software", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Subscriptions", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Console Gaming": [
+        { item: "Consoles/accessories", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Digital store purchases", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Game passes", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "In-game currencies", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Bundle deals", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ],
+      "Mobile Gaming": [
+        { item: "In-app purchases", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Game passes", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Accessories", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Cloud gaming", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "App Store credits", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Esports and Streaming": [
+        { item: "Subscriptions", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Merch", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Event tickets", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Coaching", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Streaming equipment", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ],
+      "Gaming Accessories": [
+        { item: "Keyboards, mice, headsets", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Chairs, mounts", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "RGB lighting", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Desk setups", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Custom gear", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ]
+    },
+    creatives: {
+      "Photography": [
+        { item: "Cameras/lenses", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Software subscriptions", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Storage/media", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Studio gear", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Courses", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Music Production": [
+        { item: "Software", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Instruments", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Plugins", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Audio gear", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Licensing", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Art Supplies": [
+        { item: "Supplies/tools", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Digital tablets", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Art store purchases", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Subscription boxes", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Printing", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Writing Tools": [
+        { item: "Writing software", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Journals/notebooks", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Writing courses", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Publishing tools", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Retreats", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Online Creative Classes": [
+        { item: "Subscriptions", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Workshops", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Certifications", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Course bundles", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Platforms", card: "General Cashback Card", color: "bg-gray-500" }
+      ]
+    },
+    homeowners: {
+      "Home Improvement": [
+        { item: "Tools/hardware", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Contractor services", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Paint/flooring", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "In-store purchases", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Permits/inspections", card: "General Cashback Card", color: "bg-gray-500" }
+      ],
+      "Smart Home Tech": [
+        { item: "Devices", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Subscriptions", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Installations", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Sensors", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Bundles", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ],
+      "Furniture and Decor": [
+        { item: "Furniture", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Lighting/decor", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Mattresses", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Delivery/assembly", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Local decor", card: "Shopping Cashback Card", color: "bg-blue-500" }
+      ],
+      "Gardening and Outdoors": [
+        { item: "Tools/seeds", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Compost/irrigation", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Outdoor furniture", card: "Shopping Cashback Card", color: "bg-blue-500" },
+        { item: "Landscaping", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Seasonal plants", card: "Grocery Card", color: "bg-green-500" }
+      ],
+      "Home Services": [
+        { item: "Cleaning", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "HVAC maintenance", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Pest control", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Handyman", card: "General Cashback Card", color: "bg-gray-500" },
+        { item: "Warranties", card: "General Cashback Card", color: "bg-gray-500" }
+      ]
+    }
+  };
+
   const traditionalApproachItems = ["Multiple credit cards to manage", "Complex rewards structures", "Limited category coverage", "Manual optimization required", "Missed opportunities"];
   const ventusApproachItems = ["One intelligent card for everything", "AI-powered reward optimization", "Complete lifestyle coverage", "Automatic deal discovery", "Maximum value extraction"];
-  return <div>
+
+  // Get the relevant categories for selected subcategories
+  const getSelectedCategoryData = () => {
+    const goalData = categoryData[selectedGoal] || {};
+    return selectedSubcategories.map(subcategory => ({
+      subcategory,
+      items: goalData[subcategory] || []
+    })).filter(cat => cat.items.length > 0);
+  };
+
+  return (
+    <div>
       <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
         The Value of Choosing Ventus
       </h2>
@@ -39,12 +286,14 @@ const StepTwoValueComparison = ({
             </div>
             
             <div className="space-y-4">
-              {traditionalApproachItems.map((item, index) => <div key={index} className="flex items-start gap-3">
+              {traditionalApproachItems.map((item, index) => (
+                <div key={index} className="flex items-start gap-3">
                   <div className="bg-red-100 p-1 rounded-full mt-1">
                     <X className="h-4 w-4 text-red-600" />
                   </div>
                   <p className="text-slate-700">{item}</p>
-                </div>)}
+                </div>
+              ))}
             </div>
 
             <div className="mt-6 p-4 bg-slate-200 rounded-lg">
@@ -69,12 +318,14 @@ const StepTwoValueComparison = ({
             </div>
             
             <div className="space-y-4">
-              {ventusApproachItems.map((item, index) => <div key={index} className="flex items-start gap-3">
+              {ventusApproachItems.map((item, index) => (
+                <div key={index} className="flex items-start gap-3">
                   <div className="bg-green-100 p-1 rounded-full mt-1">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
                   <p className="text-slate-700">{item}</p>
-                </div>)}
+                </div>
+              ))}
             </div>
 
             <div className="mt-6 p-4 bg-gradient-to-r from-green-500 to-emerald-400 text-white rounded-lg">
@@ -88,8 +339,55 @@ const StepTwoValueComparison = ({
 
       {/* Selected Categories Impact */}
       <Card className="bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-200">
-        
+        <CardContent className="p-6">
+          <div className="flex items-center gap-3 mb-6">
+            <div className="p-2 bg-gradient-to-r from-emerald-500 to-green-400 rounded-lg">
+              <CreditCard className="h-6 w-6 text-white" />
+            </div>
+            <h3 className="font-display text-xl font-bold text-emerald-800">
+              How Ventus Covers Your Selected Categories
+            </h3>
+          </div>
+          
+          <p className="text-slate-600 mb-6">
+            Instead of juggling multiple cards, Ventus automatically gives you 5x rewards on ALL these purchases:
+          </p>
+
+          <div className="space-y-6">
+            {getSelectedCategoryData().map(({ subcategory, items }) => (
+              <div key={subcategory} className="bg-white p-5 rounded-lg border border-emerald-200">
+                <h4 className="font-semibold text-emerald-700 mb-4 text-lg">{subcategory}</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {items.map((item, index) => (
+                    <div key={index} className="flex items-center justify-between p-3 bg-emerald-50 rounded-lg">
+                      <span className="text-slate-700 font-medium">{item.item}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs text-slate-500">was</span>
+                        <div className={`px-2 py-1 ${item.color} text-white text-xs rounded opacity-60 line-through`}>
+                          {item.card}
+                        </div>
+                        <span className="text-xs text-emerald-600">→</span>
+                        <div className="px-3 py-1 bg-gradient-to-r from-emerald-500 to-green-400 text-white text-xs rounded font-bold">
+                          5X VENTUS
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-6 p-4 bg-gradient-to-r from-emerald-500 to-green-400 text-white rounded-lg text-center">
+            <p className="font-bold text-lg mb-1">🎉 The Ventus Advantage</p>
+            <p className="text-sm opacity-90">
+              One card automatically optimizes ALL your {goalTitles[selectedGoal]} purchases for maximum rewards
+            </p>
+          </div>
+        </CardContent>
       </Card>
-    </div>;
+    </div>
+  );
 };
+
 export default StepTwoValueComparison;
