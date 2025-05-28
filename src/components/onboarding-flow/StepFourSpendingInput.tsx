@@ -169,9 +169,9 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
             <div className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-4 rounded-lg text-center">
               <div className="text-sm opacity-90">Cash Value</div>
               <div className="text-2xl font-bold">
-                ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.15)}
+                ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.14)}
               </div>
-              <div className="text-xs opacity-90">5% - 15% return</div>
+              <div className="text-xs opacity-90">5% - 14% return</div>
             </div>
           </div>
         </CardContent>
