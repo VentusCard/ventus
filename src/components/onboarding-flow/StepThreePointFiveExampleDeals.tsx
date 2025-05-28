@@ -1,4 +1,3 @@
-
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { 
@@ -138,7 +137,7 @@ const StepThreePointFiveExampleDeals = ({ selectedGoal, selectedSubcategories }:
         "Extra points on league signups and coaching services",
         "Free gift with team purchases over a certain amount",
         "Local deals at sporting goods stores or event tickets",
-        "Bundle discounts for team packs and equipment"
+        "Bundle discounts on team packs and equipment"
       ],
       "Outdoor Adventure": [
         "Extra cashback on hiking and camping gear",
@@ -347,6 +346,35 @@ const StepThreePointFiveExampleDeals = ({ selectedGoal, selectedSubcategories }:
         Here are some example deals and offers you'd have access to with Ventus Card based on your selected categories.
       </p>
 
+      <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-200 mb-8">
+        <h3 className="font-display text-xl font-bold mb-4 text-blue-800">
+          Your Personalized Deal Pipeline
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <h4 className="font-semibold text-blue-700 mb-2">Selected Categories:</h4>
+            <div className="flex flex-wrap gap-2">
+              {selectedSubcategories.map((sub) => {
+                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
+                return (
+                  <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
+                    {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
+                    {sub}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+          <div>
+            <h4 className="font-semibold text-blue-700 mb-2">What This Means:</h4>
+            <p className="text-sm text-blue-600">
+              Ventus AI will continuously find and negotiate exclusive deals with merchants 
+              in your selected categories, ensuring you always get the best rewards.
+            </p>
+          </div>
+        </div>
+      </div>
+
       <div className="space-y-6 mb-8">
         {relevantCategories.map((category) => {
           const CategoryIcon = dealIcons[category as keyof typeof dealIcons];
@@ -378,35 +406,6 @@ const StepThreePointFiveExampleDeals = ({ selectedGoal, selectedSubcategories }:
             </div>
           );
         })}
-      </div>
-
-      <div className="bg-gradient-to-r from-blue-50 to-cyan-50 p-6 rounded-xl border border-blue-200">
-        <h3 className="font-display text-xl font-bold mb-4 text-blue-800">
-          Your Personalized Deal Pipeline
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <h4 className="font-semibold text-blue-700 mb-2">Selected Categories:</h4>
-            <div className="flex flex-wrap gap-2">
-              {selectedSubcategories.map((sub) => {
-                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
-                return (
-                  <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
-                    {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
-                    {sub}
-                  </span>
-                );
-              })}
-            </div>
-          </div>
-          <div>
-            <h4 className="font-semibold text-blue-700 mb-2">What This Means:</h4>
-            <p className="text-sm text-blue-600">
-              Ventus AI will continuously find and negotiate exclusive deals with merchants 
-              in your selected categories, ensuring you always get the best rewards.
-            </p>
-          </div>
-        </div>
       </div>
 
       <div className="text-center mt-8">
