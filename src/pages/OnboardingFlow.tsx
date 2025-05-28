@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -9,7 +8,6 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
-import StepFiveSummary from "@/components/onboarding-flow/StepFiveSummary";
 
 export type LifestyleGoal = 
   | "sports" 
@@ -43,7 +41,7 @@ const OnboardingFlow = () => {
     maxCashbackPercentage: 15,
   });
 
-  const totalSteps = 6;
+  const totalSteps = 5;
 
   const goToNextStep = () => {
     setStep(prev => prev + 1);
@@ -87,8 +85,6 @@ const OnboardingFlow = () => {
           onboardingData={onboardingData}
           updateOnboardingData={updateOnboardingData}
         />;
-      case 6:
-        return <StepFiveSummary onboardingData={onboardingData} />;
       default:
         return <StepOneLifestyleGoal 
           selectedGoal={onboardingData.mainGoal} 
@@ -109,8 +105,7 @@ const OnboardingFlow = () => {
       case 2: return 'Select Your Subcategories';
       case 3: return 'Understand the Value & Simplicity of Ventus';
       case 4: return 'Explore Example Deals';
-      case 5: return 'Input Your Spending';
-      case 6: return 'Your Personalized Summary';
+      case 5: return 'Input Your Spending & Join Waitlist';
       default: return '';
     }
   };

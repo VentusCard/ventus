@@ -4,6 +4,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
+import WaitlistForm from "@/components/onboarding/step-three/WaitlistForm";
 
 interface StepFourSpendingInputProps {
   onboardingData: OnboardingFlowData;
@@ -175,6 +176,17 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
           </div>
         </CardContent>
       </Card>
+
+      {/* Join Waitlist Section */}
+      <div className="mt-8">
+        <WaitlistForm />
+      </div>
+
+      <div className="text-center mt-8">
+        <p className="text-sm text-slate-500">
+          🎉 Congratulations! You've completed your Ventus onboarding experience.
+        </p>
+      </div>
     </div>
   );
 };
