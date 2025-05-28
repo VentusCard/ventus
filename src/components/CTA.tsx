@@ -1,4 +1,7 @@
+
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+
 const CTA = () => {
   return <section className="relative bg-black text-white">
       {/* Refined shorter gradient for seamless transition from light sections */}
@@ -15,9 +18,11 @@ const CTA = () => {
               Apply today and elevate your financial experience with premium benefits and rewards designed for your lifestyle.
             </p>
             <div className="flex flex-wrap justify-center gap-4 animate-[fadeUpSoft_1s_ease-out] opacity-0 [animation-delay:0.6s] [animation-fill-mode:forwards]">
-              <Button size="lg" className="bg-white hover:bg-white/90 transition-all duration-300 hover:scale-105 text-[#00071a]">
-                Join Waitlist
-              </Button>
+              <Link to="/join-waitlist">
+                <Button size="lg" className="bg-white hover:bg-white/90 transition-all duration-300 hover:scale-105 text-[#00071a]">
+                  Join Waitlist
+                </Button>
+              </Link>
             </div>
           </div>
           
@@ -42,4 +47,5 @@ const CTA = () => {
       </div>
     </section>;
 };
+
 export default CTA;
