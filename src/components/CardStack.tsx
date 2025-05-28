@@ -5,14 +5,14 @@ const CardStack = () => {
   return (
     <div className="relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-60 md:scale-65 lg:scale-70 transition-all duration-700 ease-out">
       <div className="relative aspect-video">
-        {/* Standard Card - Silver, Top, Most Forward */}
+        {/* Standard Card - Silver, Most Forward, Left, Lowest */}
         <div 
           className="absolute w-64 h-40 md:w-80 md:h-48 rounded-xl shadow-2xl transform"
           style={{
-            left: '50%',
-            top: '10%',
+            left: '10%',
+            top: '60%',
             zIndex: 30,
-            transform: 'translateX(-50%) perspective(1000px) rotateX(-8deg) rotateY(2deg) translateZ(40px)',
+            transform: 'perspective(1000px) rotateY(-8deg) rotateX(2deg) translateZ(40px)',
             background: 'linear-gradient(135deg, #f8fafc 0%, #e2e8f0 20%, #cbd5e1 40%, #94a3b8 60%, #64748b 80%, #475569 100%)',
             boxShadow: '0 25px 50px rgba(0, 0, 0, 0.25), 0 10px 25px rgba(0, 0, 0, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.2)'
           }}
@@ -50,10 +50,10 @@ const CardStack = () => {
         <div 
           className="absolute w-64 h-40 md:w-80 md:h-48 rounded-xl shadow-2xl transform"
           style={{
-            left: '50%',
+            left: '35%',
             top: '40%',
             zIndex: 20,
-            transform: 'translateX(-50%) perspective(1000px) rotateX(-4deg) rotateY(1deg) translateZ(20px)',
+            transform: 'perspective(1000px) rotateY(-4deg) rotateX(1deg) translateZ(20px)',
             background: 'linear-gradient(135deg, #dbeafe 0%, #bfdbfe 20%, #93c5fd 40%, #60a5fa 60%, #3b82f6 80%, #1d4ed8 100%)',
             boxShadow: '0 20px 40px rgba(59, 130, 246, 0.25), 0 8px 20px rgba(59, 130, 246, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.15)'
           }}
@@ -87,14 +87,14 @@ const CardStack = () => {
           </div>
         </div>
 
-        {/* Elite Card - Blue Marble, Background Layer, Bottom */}
+        {/* Elite Card - Blue Marble, Background, Right, Highest */}
         <div 
           className="absolute w-64 h-40 md:w-80 md:h-48 rounded-xl shadow-2xl transform"
           style={{
-            left: '50%',
-            top: '70%',
+            left: '60%',
+            top: '20%',
             zIndex: 10,
-            transform: 'translateX(-50%) perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0px)',
+            transform: 'perspective(1000px) rotateY(0deg) rotateX(0deg) translateZ(0px)',
             background: 'radial-gradient(ellipse at top left, #1e40af 0%, #1e3a8a 25%, #1e293b 50%, #0f172a 75%, #020617 100%)',
             boxShadow: '0 15px 30px rgba(30, 64, 175, 0.2), 0 6px 15px rgba(30, 64, 175, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.1)'
           }}
