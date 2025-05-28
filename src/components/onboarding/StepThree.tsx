@@ -12,15 +12,15 @@ interface StepThreeProps {
 const StepThree = ({ onboardingData }: StepThreeProps) => {
   return (
     <div>
+      {/* Benefits section moved to very top and restructured */}
+      <div className="mb-12 -mt-4">
+        <BenefitsCard />
+      </div>
+      
       <h2 className="font-display text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">Your Personalized Ventus Experience</h2>
       <p className="text-lg text-slate-600 mb-8">
         Based on your selections, here's a summary of your personalized Ventus Card experience.
       </p>
-      
-      {/* Benefits Card displayed first */}
-      <div className="mb-8">
-        <BenefitsCard />
-      </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
         <div className="space-y-6">
