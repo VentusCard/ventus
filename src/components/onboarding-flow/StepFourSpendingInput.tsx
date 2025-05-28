@@ -1,150 +1,182 @@
+
 import { OnboardingFlowData } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { useState } from "react";
+
 interface StepFourSpendingInputProps {
   onboardingData: OnboardingFlowData;
   updateOnboardingData: (data: Partial<OnboardingFlowData>) => void;
 }
-const StepFourSpendingInput = ({
-  onboardingData,
-  updateOnboardingData
-}: StepFourSpendingInputProps) => {
-  const frequencies = [{
-    value: "weekly" as const,
-    label: "Weekly"
-  }, {
-    value: "monthly" as const,
-    label: "Monthly"
-  }, {
-    value: "quarterly" as const,
-    label: "Quarterly"
-  }, {
-    value: "annually" as const,
-    label: "Annually"
-  }];
-  const calculateAnnualSpend = (amount: number, frequency: string) => {
+
+const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFourSpendingInputProps) => {
+  const [selectedFrequency, setSelectedFrequency] = useState<"weekly" | "monthly" | "quarterly" | "annually">(
+    onboardingData.spendingFrequency
+  );
+  const [spendingAmount, setSpendingAmount] = useState<number>(onboardingData.spendingAmount);
+
+  const frequencyOptions = [
+    { value: "weekly" as const, label: "Weekly", multiplier: 52 },
+    { value: "monthly" as const, label: "Monthly", multiplier: 12 },
+    { value: "quarterly" as const, label: "Quarterly", multiplier: 4 },
+    { value: "annually" as const, label: "Annually", multiplier: 1 },
+  ];
+
+  const getSliderConfig = (frequency: typeof selectedFrequency) => {
     switch (frequency) {
       case "weekly":
-        return amount * 52;
+        return { min: 50, max: 1000, step: 25, defaultValue: 200 };
       case "monthly":
-        return amount * 12;
+        return { min: 200, max: 4000, step: 100, defaultValue: 800 };
       case "quarterly":
-        return amount * 4;
+        return { min: 600, max: 12000, step: 300, defaultValue: 2400 };
       case "annually":
-        return amount;
+        return { min: 2000, max: 50000, step: 1000, defaultValue: 10000 };
       default:
-        return amount * 12;
+        return { min: 200, max: 4000, step: 100, defaultValue: 800 };
     }
   };
-  const calculateRewards = (annualSpend: number) => {
-    // Base calculation: 5x points (assuming 1 point per dollar spent)
-    const basePoints = annualSpend * 5;
-    const minCashback = annualSpend * 0.05; // 5% minimum
-    const maxCashback = annualSpend * 0.15; // 15% maximum with bonuses
 
-    return {
-      points: basePoints,
-      minCashback: Math.round(minCashback),
-      maxCashback: Math.round(maxCashback)
-    };
-  };
-  const handleAmountChange = (amount: number) => {
-    const annualSpend = calculateAnnualSpend(amount, onboardingData.spendingFrequency);
-    const rewards = calculateRewards(annualSpend);
-    updateOnboardingData({
-      spendingAmount: amount,
-      estimatedAnnualSpend: annualSpend,
-      estimatedPoints: rewards.points,
-      minCashbackPercentage: 5,
-      maxCashbackPercentage: 15
-    });
-  };
-  const handleFrequencyChange = (frequency: "weekly" | "monthly" | "quarterly" | "annually") => {
-    const annualSpend = calculateAnnualSpend(onboardingData.spendingAmount, frequency);
-    const rewards = calculateRewards(annualSpend);
+  const handleFrequencyChange = (frequency: typeof selectedFrequency) => {
+    setSelectedFrequency(frequency);
+    const config = getSliderConfig(frequency);
+    setSpendingAmount(config.defaultValue);
+    
+    const multiplier = frequencyOptions.find(opt => opt.value === frequency)?.multiplier || 12;
+    const estimatedAnnualSpend = config.defaultValue * multiplier;
+    const estimatedPoints = estimatedAnnualSpend * 5;
+    
     updateOnboardingData({
       spendingFrequency: frequency,
-      estimatedAnnualSpend: annualSpend,
-      estimatedPoints: rewards.points
+      spendingAmount: config.defaultValue,
+      estimatedAnnualSpend,
+      estimatedPoints,
     });
   };
-  const presetAmounts = [100, 200, 500, 1000, 2000];
-  return <div>
-      <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
-        Tell Us About Your Spending
-      </h2>
-      <p className="text-lg text-slate-600 mb-8">
-        Help us estimate your potential rewards by sharing your typical spending habits 
-        in your selected lifestyle categories.
-      </p>
+
+  const handleSpendingAmountChange = (value: number[]) => {
+    const newAmount = value[0];
+    setSpendingAmount(newAmount);
+    
+    const multiplier = frequencyOptions.find(opt => opt.value === selectedFrequency)?.multiplier || 12;
+    const estimatedAnnualSpend = newAmount * multiplier;
+    const estimatedPoints = estimatedAnnualSpend * 5;
+    
+    updateOnboardingData({
+      spendingAmount: newAmount,
+      estimatedAnnualSpend,
+      estimatedPoints,
+    });
+  };
+
+  const sliderConfig = getSliderConfig(selectedFrequency);
+
+  return (
+    <div>
+      <div className="text-center mb-8">
+        <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+          Tell Us About Your Spending
+        </h2>
+        <p className="text-lg text-slate-600">
+          Help us calculate your personalized rewards potential
+        </p>
+      </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div>
-          <h3 className="font-display text-xl font-bold mb-4">Spending Frequency</h3>
-          <div className="grid grid-cols-2 gap-3 mb-6">
-            {frequencies.map(freq => <Button key={freq.value} variant={onboardingData.spendingFrequency === freq.value ? "default" : "outline"} onClick={() => handleFrequencyChange(freq.value)} className={`h-12 ${onboardingData.spendingFrequency === freq.value ? "bg-gradient-to-r from-blue-600 to-blue-700" : ""}`}>
-                {freq.label}
-              </Button>)}
-          </div>
-
-          <h3 className="font-display text-xl font-bold mb-4">
-            How much do you spend {onboardingData.spendingFrequency}?
-          </h3>
-          
-          <div className="grid grid-cols-3 gap-3 mb-4">
-            {presetAmounts.map(amount => <Button key={amount} variant={onboardingData.spendingAmount === amount ? "default" : "outline"} onClick={() => handleAmountChange(amount)} className={`h-12 text-sm ${onboardingData.spendingAmount === amount ? "bg-gradient-to-r from-blue-600 to-blue-700" : ""}`}>
-                ${amount}
-              </Button>)}
-          </div>
-
-          <div className="relative">
-            <input type="number" value={onboardingData.spendingAmount} onChange={e => handleAmountChange(Number(e.target.value))} className="w-full p-4 border border-slate-300 rounded-lg text-lg font-medium" placeholder="Enter custom amount" />
-            <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-500 text-lg">
-              $
-            </span>
-          </div>
-        </div>
-
-        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+        {/* Spending Frequency Selection */}
+        <Card>
           <CardContent className="p-6">
-            <h3 className="font-display text-xl font-bold mb-4 text-blue-800">
-              Your Estimated Rewards
+            <h3 className="font-display text-xl font-bold mb-6">
+              How often do you spend in your selected categories?
             </h3>
             
-            <div className="space-y-4">
-              <div className="bg-white p-4 rounded-lg">
-                <div className="text-sm text-slate-600">Annual Spending</div>
-                <div className="text-2xl font-bold text-slate-800">
-                  ${onboardingData.estimatedAnnualSpend.toLocaleString()}
-                </div>
-              </div>
-              
-              <div className="bg-white p-4 rounded-lg">
-                <div className="text-sm text-slate-600">Points Earned</div>
-                <div className="text-2xl font-bold text-blue-600">
-                  {onboardingData.estimatedPoints.toLocaleString()} pts
-                </div>
-                <div className="text-xs text-slate-500">5x points on all purchases</div>
-              </div>
-              
-              <div className="bg-gradient-to-r from-green-500 to-emerald-400 text-white p-4 rounded-lg">
-                <div className="text-sm opacity-90">Estimated Annual Rewards</div>
-                <div className="text-2xl font-bold">
-                  ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.15)}
-                </div>
-                
-              </div>
+            <div className="grid grid-cols-2 gap-3">
+              {frequencyOptions.map((option) => (
+                <Button
+                  key={option.value}
+                  variant={selectedFrequency === option.value ? "default" : "outline"}
+                  onClick={() => handleFrequencyChange(option.value)}
+                  className="h-12"
+                >
+                  {option.label}
+                </Button>
+              ))}
             </div>
+          </CardContent>
+        </Card>
 
-            <div className="mt-6 p-4 bg-blue-100 rounded-lg">
-              <p className="text-sm text-blue-700">
-                💡 <strong>Smart Tip:</strong> These estimates are based on your selected categories. 
-                Ventus AI continuously optimizes to maximize your rewards potential.
-              </p>
+        {/* Spending Amount Slider */}
+        <Card>
+          <CardContent className="p-6">
+            <h3 className="font-display text-xl font-bold mb-6">
+              How much do you spend {selectedFrequency}?
+            </h3>
+            
+            <div className="space-y-6">
+              <div className="text-center">
+                <div className="text-3xl font-bold text-blue-600">
+                  ${spendingAmount.toLocaleString()}
+                </div>
+                <div className="text-sm text-slate-600">
+                  per {selectedFrequency.replace('ly', '')}
+                </div>
+              </div>
+              
+              <div className="px-4">
+                <Slider
+                  value={[spendingAmount]}
+                  onValueChange={handleSpendingAmountChange}
+                  min={sliderConfig.min}
+                  max={sliderConfig.max}
+                  step={sliderConfig.step}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-slate-500 mt-2">
+                  <span>${sliderConfig.min.toLocaleString()}</span>
+                  <span>${sliderConfig.max.toLocaleString()}</span>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
       </div>
-    </div>;
+
+      {/* Annual Projection */}
+      <Card className="mt-8 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+        <CardContent className="p-6">
+          <h3 className="font-display text-xl font-bold mb-6 text-green-800">
+            Your Annual Rewards Projection
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white p-4 rounded-lg border border-green-200 text-center">
+              <div className="text-sm text-slate-600">Annual Spending</div>
+              <div className="text-2xl font-bold text-slate-800">
+                ${onboardingData.estimatedAnnualSpend.toLocaleString()}
+              </div>
+            </div>
+            
+            <div className="bg-white p-4 rounded-lg border border-green-200 text-center">
+              <div className="text-sm text-slate-600">Points Earned</div>
+              <div className="text-2xl font-bold text-green-600">
+                {onboardingData.estimatedPoints.toLocaleString()}
+              </div>
+              <div className="text-xs text-slate-500">5x multiplier</div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-green-500 to-emerald-400 text-white p-4 rounded-lg text-center">
+              <div className="text-sm opacity-90">Cash Value</div>
+              <div className="text-2xl font-bold">
+                ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.15)}
+              </div>
+              <div className="text-xs opacity-90">5% - 15% return</div>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
+  );
 };
+
 export default StepFourSpendingInput;
