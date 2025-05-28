@@ -8,9 +8,7 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
-
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
-
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
   subcategories: string[];
@@ -21,7 +19,6 @@ export interface OnboardingFlowData {
   minCashbackPercentage: number;
   maxCashbackPercentage: number;
 }
-
 const OnboardingFlow = () => {
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
@@ -34,26 +31,21 @@ const OnboardingFlow = () => {
     minCashbackPercentage: 5,
     maxCashbackPercentage: 15
   });
-
   const totalSteps = 5;
-
   const goToNextStep = () => {
     setStep(prev => prev + 1);
     window.scrollTo(0, 0);
   };
-
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
     window.scrollTo(0, 0);
   };
-
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
       ...prev,
       ...data
     }));
   };
-
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -76,13 +68,11 @@ const OnboardingFlow = () => {
         })} />;
     }
   };
-
   const isNextButtonDisabled = () => {
     if (step === 1 && !onboardingData.mainGoal) return true;
     if (step === 2 && onboardingData.subcategories.length === 0) return true;
     return false;
   };
-
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
@@ -99,7 +89,6 @@ const OnboardingFlow = () => {
         return '';
     }
   };
-
   return <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
@@ -122,7 +111,7 @@ const OnboardingFlow = () => {
               <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">Ventus Rewards</span>
             </h1>
             
-            <p className="text-sm md:text-lg lg:text-xl text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto">
+            <p className="text-sm md:text-lg text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto lg:text-lg">
               Choose your lifestyle goal and explore how Ventus Card<br />
               personalizes rewards to match your unique spending patterns and interests.
             </p>
@@ -175,5 +164,4 @@ const OnboardingFlow = () => {
       <Footer />
     </div>;
 };
-
 export default OnboardingFlow;
