@@ -144,29 +144,29 @@ const StepFourSpendingInput = ({ onboardingData, updateOnboardingData }: StepFou
       </div>
 
       {/* Annual Projection */}
-      <Card className="mt-8 bg-gradient-to-br from-green-50 to-emerald-50 border-green-200">
+      <Card className="mt-8 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
         <CardContent className="p-6">
-          <h3 className="font-display text-xl font-bold mb-6 text-green-800">
+          <h3 className="font-display text-xl font-bold mb-6 text-blue-800">
             Your Annual Rewards Projection
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white p-4 rounded-lg border border-green-200 text-center">
+            <div className="bg-white p-4 rounded-lg border border-blue-200 text-center">
               <div className="text-sm text-slate-600">Annual Spending</div>
               <div className="text-2xl font-bold text-slate-800">
                 ${onboardingData.estimatedAnnualSpend.toLocaleString()}
               </div>
             </div>
             
-            <div className="bg-white p-4 rounded-lg border border-green-200 text-center">
+            <div className="bg-white p-4 rounded-lg border border-blue-200 text-center">
               <div className="text-sm text-slate-600">Points Earned</div>
-              <div className="text-2xl font-bold text-green-600">
+              <div className="text-2xl font-bold text-blue-600">
                 {onboardingData.estimatedPoints.toLocaleString()}
               </div>
               <div className="text-xs text-slate-500">5x multiplier</div>
             </div>
             
-            <div className="bg-gradient-to-r from-green-500 to-emerald-400 text-white p-4 rounded-lg text-center">
+            <div className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-4 rounded-lg text-center">
               <div className="text-sm opacity-90">Cash Value</div>
               <div className="text-2xl font-bold">
                 ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.15)}
