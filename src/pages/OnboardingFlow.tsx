@@ -106,13 +106,9 @@ const OnboardingFlow = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-20 md:py-28">
           <div className="text-center max-w-4xl mx-auto">
             <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
-                Discover Your
-              </span>
+              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">Discover Your</span>
               <br />
-              <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">
-                Perfect Rewards
-              </span>
+              <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">Ventus Rewards</span>
             </h1>
             
             <p className="text-md md:text-xl lg:text-2xl text-blue-100 mb-12 leading-relaxed max-w-3xl mx-auto">
