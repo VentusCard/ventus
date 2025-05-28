@@ -729,9 +729,7 @@ const StepTwoValueComparisonAndSimplification = ({
             <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
               <CreditCard className="h-6 w-6 text-white" />
             </div>
-            <h3 className="font-display text-xl font-bold text-blue-800">
-              How Ventus Covers Your Selected Categories
-            </h3>
+            <h3 className="font-display text-xl font-bold text-blue-800">How Ventus Gives Cross-Category Rewards</h3>
           </div>
           
           <p className="text-slate-600 mb-4">
