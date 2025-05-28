@@ -1,14 +1,14 @@
-
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, X, Zap, Target, Trophy, Shield } from "lucide-react";
-
 interface StepTwoValueComparisonProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
 }
-
-const StepTwoValueComparison = ({ selectedGoal, selectedSubcategories }: StepTwoValueComparisonProps) => {
+const StepTwoValueComparison = ({
+  selectedGoal,
+  selectedSubcategories
+}: StepTwoValueComparisonProps) => {
   const goalTitles: Record<LifestyleGoal, string> = {
     sports: "Sports Enthusiasts",
     wellness: "Wellness Focused",
@@ -17,25 +17,9 @@ const StepTwoValueComparison = ({ selectedGoal, selectedSubcategories }: StepTwo
     creatives: "Creatives",
     homeowners: "Homeowners"
   };
-
-  const traditionalApproachItems = [
-    "Multiple credit cards to manage",
-    "Complex rewards structures",
-    "Limited category coverage",
-    "Manual optimization required",
-    "Missed opportunities"
-  ];
-
-  const ventusApproachItems = [
-    "One intelligent card for everything",
-    "AI-powered reward optimization",
-    "Complete lifestyle coverage",
-    "Automatic deal discovery",
-    "Maximum value extraction"
-  ];
-
-  return (
-    <div>
+  const traditionalApproachItems = ["Multiple credit cards to manage", "Complex rewards structures", "Limited category coverage", "Manual optimization required", "Missed opportunities"];
+  const ventusApproachItems = ["One intelligent card for everything", "AI-powered reward optimization", "Complete lifestyle coverage", "Automatic deal discovery", "Maximum value extraction"];
+  return <div>
       <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
         The Value of Choosing Ventus
       </h2>
@@ -55,14 +39,12 @@ const StepTwoValueComparison = ({ selectedGoal, selectedSubcategories }: StepTwo
             </div>
             
             <div className="space-y-4">
-              {traditionalApproachItems.map((item, index) => (
-                <div key={index} className="flex items-start gap-3">
+              {traditionalApproachItems.map((item, index) => <div key={index} className="flex items-start gap-3">
                   <div className="bg-red-100 p-1 rounded-full mt-1">
                     <X className="h-4 w-4 text-red-600" />
                   </div>
                   <p className="text-slate-700">{item}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
 
             <div className="mt-6 p-4 bg-slate-200 rounded-lg">
@@ -87,14 +69,12 @@ const StepTwoValueComparison = ({ selectedGoal, selectedSubcategories }: StepTwo
             </div>
             
             <div className="space-y-4">
-              {ventusApproachItems.map((item, index) => (
-                <div key={index} className="flex items-start gap-3">
+              {ventusApproachItems.map((item, index) => <div key={index} className="flex items-start gap-3">
                   <div className="bg-green-100 p-1 rounded-full mt-1">
                     <Check className="h-4 w-4 text-green-600" />
                   </div>
                   <p className="text-slate-700">{item}</p>
-                </div>
-              ))}
+                </div>)}
             </div>
 
             <div className="mt-6 p-4 bg-gradient-to-r from-green-500 to-emerald-400 text-white rounded-lg">
@@ -108,46 +88,8 @@ const StepTwoValueComparison = ({ selectedGoal, selectedSubcategories }: StepTwo
 
       {/* Selected Categories Impact */}
       <Card className="bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-200">
-        <CardContent className="p-6">
-          <div className="flex items-center gap-3 mb-4">
-            <Target className="h-6 w-6 text-emerald-600" />
-            <h3 className="font-display text-xl font-bold text-emerald-800">
-              Your Personalized Advantage
-            </h3>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center">
-              <Trophy className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
-              <p className="font-semibold text-emerald-700">5x Points</p>
-              <p className="text-sm text-emerald-600">On {goalTitles[selectedGoal]} purchases</p>
-            </div>
-            <div className="text-center">
-              <Shield className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
-              <p className="font-semibold text-emerald-700">AI Protection</p>
-              <p className="text-sm text-emerald-600">Never miss a better deal</p>
-            </div>
-            <div className="text-center">
-              <Zap className="h-8 w-8 text-emerald-600 mx-auto mb-2" />
-              <p className="font-semibold text-emerald-700">Smart Optimization</p>
-              <p className="text-sm text-emerald-600">Automatic category matching</p>
-            </div>
-          </div>
-
-          <div className="mt-6">
-            <p className="text-sm text-emerald-700 mb-2 font-medium">Your Selected Categories:</p>
-            <div className="flex flex-wrap gap-2">
-              {selectedSubcategories.map((sub) => (
-                <span key={sub} className="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-sm font-medium">
-                  {sub}
-                </span>
-              ))}
-            </div>
-          </div>
-        </CardContent>
+        
       </Card>
-    </div>
-  );
+    </div>;
 };
-
 export default StepTwoValueComparison;
