@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -8,7 +9,9 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
+
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
+
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
   subcategories: string[];
@@ -19,6 +22,7 @@ export interface OnboardingFlowData {
   minCashbackPercentage: number;
   maxCashbackPercentage: number;
 }
+
 const OnboardingFlow = () => {
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
@@ -31,21 +35,26 @@ const OnboardingFlow = () => {
     minCashbackPercentage: 5,
     maxCashbackPercentage: 15
   });
+
   const totalSteps = 5;
+
   const goToNextStep = () => {
     setStep(prev => prev + 1);
     window.scrollTo(0, 0);
   };
+
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
     window.scrollTo(0, 0);
   };
+
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
       ...prev,
       ...data
     }));
   };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -68,11 +77,13 @@ const OnboardingFlow = () => {
         })} />;
     }
   };
+
   const isNextButtonDisabled = () => {
     if (step === 1 && !onboardingData.mainGoal) return true;
     if (step === 2 && onboardingData.subcategories.length === 0) return true;
     return false;
   };
+
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
@@ -89,10 +100,12 @@ const OnboardingFlow = () => {
         return '';
     }
   };
-  return <div className="min-h-screen flex flex-col bg-slate-50">
+
+  return (
+    <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
-      {/* Hero Section - Further Reduced Size */}
+      {/* Optimized Hero Section */}
       <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 text-white relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
         
@@ -103,17 +116,20 @@ const OnboardingFlow = () => {
           <div className="absolute left-1/2 top-1/2 w-20 h-20 bg-white rounded-full filter blur-2xl"></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
-          <div className="text-center max-w-4xl mx-auto pt-12 md:pt-16">
-            <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">Discover Your</span>
+        <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 py-12 md:py-16">
+          <div className="text-center max-w-4xl mx-auto">
+            <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
+                Discover Your
+              </span>
               <br />
-              <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">Ventus Rewards</span>
+              <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">
+                Ventus Rewards
+              </span>
             </h1>
             
-            <p className="text-sm md:text-lg text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto lg:text-lg px-4">
-              Choose your lifestyle goal and explore how Ventus Card<br />
-              personalizes rewards to match your unique spending patterns and interests.
+            <p className="text-lg md:text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto">
+              Choose your lifestyle goal and explore how Ventus Card personalizes rewards to match your unique spending patterns and interests.
             </p>
           </div>
         </div>
@@ -123,45 +139,83 @@ const OnboardingFlow = () => {
       </section>
       
       <div className="flex-grow">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 py-12">
-          <div className="mb-8">
-            <div className="flex items-center mb-6 overflow-x-auto">
-              {Array.from({
-              length: totalSteps
-            }, (_, i) => i + 1).map(stepNumber => <div key={stepNumber} className="flex items-center">
-                  <div className={`h-10 w-10 rounded-full flex items-center justify-center text-sm font-medium transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-md' : step === stepNumber ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-md ring-4 ring-blue-100' : 'bg-slate-200 text-slate-600'}`}>
-                    {step > stepNumber ? <CheckCircle2 className="h-4 w-4" /> : stepNumber}
+        <div className="max-w-7xl mx-auto px-6 md:px-8 py-12">
+          {/* Progress Section */}
+          <div className="mb-12">
+            {/* Step Progress Bar */}
+            <div className="flex items-center justify-center mb-8 overflow-x-auto pb-2">
+              {Array.from({ length: totalSteps }, (_, i) => i + 1).map(stepNumber => (
+                <div key={stepNumber} className="flex items-center">
+                  <div className={`h-12 w-12 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 flex-shrink-0 ${
+                    step > stepNumber 
+                      ? 'bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-lg' 
+                      : step === stepNumber 
+                        ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg ring-4 ring-blue-100' 
+                        : 'bg-slate-200 text-slate-600 border-2 border-slate-300'
+                  }`}>
+                    {step > stepNumber ? <CheckCircle2 className="h-5 w-5" /> : stepNumber}
                   </div>
-                  {stepNumber < totalSteps && <div className={`h-1 w-12 md:w-16 transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-400 to-emerald-300' : 'bg-slate-200'}`}></div>}
-                </div>)}
+                  {stepNumber < totalSteps && (
+                    <div className={`h-1 w-16 md:w-20 transition-all duration-300 flex-shrink-0 ${
+                      step > stepNumber 
+                        ? 'bg-gradient-to-r from-green-400 to-emerald-300' 
+                        : 'bg-slate-200'
+                    }`}></div>
+                  )}
+                </div>
+              ))}
             </div>
-            <div className="flex justify-between items-center">
-              <p className="text-slate-700 font-medium">
+            
+            {/* Step Info */}
+            <div className="text-center space-y-2">
+              <p className="text-slate-600 font-medium text-lg">
                 Step {step} of {totalSteps}
               </p>
-              <p className="text-blue-600 font-semibold">
+              <h2 className="text-2xl md:text-3xl font-display font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
                 {getStepTitle(step)}
-              </p>
+              </h2>
             </div>
           </div>
           
-          <div className="bg-white rounded-xl shadow-xl p-6 md:p-8 mb-8 border border-slate-100" id="lifestyle-goals">
+          {/* Step Content */}
+          <div className="bg-white rounded-2xl shadow-premium p-8 md:p-10 mb-12 border border-slate-100" id="lifestyle-goals">
             {renderStep()}
           </div>
           
-          <div className="flex justify-between">
-            {step > 1 ? <Button variant="outline" onClick={goToPreviousStep} className="flex items-center gap-2 border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200">
-                <ArrowLeft size={16} /> Back
-              </Button> : <div></div>}
+          {/* Navigation */}
+          <div className="flex justify-between items-center max-w-2xl mx-auto">
+            {step > 1 ? (
+              <Button 
+                variant="outline" 
+                onClick={goToPreviousStep} 
+                className="flex items-center gap-2 px-6 py-3 text-base font-medium border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200"
+              >
+                <ArrowLeft size={18} /> Back
+              </Button>
+            ) : (
+              <div></div>
+            )}
             
-            {step < totalSteps ? <Button onClick={goToNextStep} disabled={isNextButtonDisabled()} className={`flex items-center gap-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-md transition-all duration-200 ${isNextButtonDisabled() ? 'opacity-50' : ''}`}>
-                Next <ArrowRight size={16} />
-              </Button> : <div></div>}
+            {step < totalSteps ? (
+              <Button 
+                onClick={goToNextStep} 
+                disabled={isNextButtonDisabled()} 
+                className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 ${
+                  isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'
+                }`}
+              >
+                Next <ArrowRight size={18} />
+              </Button>
+            ) : (
+              <div></div>
+            )}
           </div>
         </div>
       </div>
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default OnboardingFlow;

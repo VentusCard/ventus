@@ -10,32 +10,39 @@ interface ProfileCardProps {
 
 const ProfileCard = ({ onboardingData }: ProfileCardProps) => {
   return (
-    <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-white/95 to-slate-50/95 backdrop-blur-sm">
-      <div className="h-1.5 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600"></div>
-      <CardContent className="p-6">
-        <h3 className="font-display text-xl font-bold mb-4 flex items-center gap-2">
-          <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-metallic">
-            <User className="text-white" size={20} />
+    <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-white via-slate-50/50 to-blue-50/30 backdrop-blur-sm">
+      <div className="h-2 bg-gradient-to-r from-blue-600 via-cyan-400 to-blue-500"></div>
+      <CardContent className="p-8">
+        <h3 className="font-display text-2xl font-bold mb-6 flex items-center gap-3">
+          <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg">
+            <User className="text-white" size={24} />
           </div>
-          <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">Your Profile</span>
+          <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+            Your Profile
+          </span>
         </h3>
         
-        <div className="space-y-5">
+        <div className="space-y-6">
           <div>
-            <p className="text-sm text-slate-500 mb-2 font-medium">Main Goal</p>
-            <div className="flex items-center gap-3 bg-gradient-to-r from-slate-50 to-slate-100 p-3 rounded-lg border border-slate-200/50 shadow-metallic">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-2 rounded-full shadow-sm">
-                <Target className="h-4 w-4 text-white" />
+            <p className="text-sm text-slate-500 mb-3 font-semibold uppercase tracking-wide">Main Goal</p>
+            <div className="flex items-center gap-4 bg-gradient-to-r from-slate-50 to-blue-50/50 p-4 rounded-xl border border-slate-200/50 shadow-sm">
+              <div className="bg-gradient-to-br from-blue-500 to-blue-600 p-2.5 rounded-full shadow-md">
+                <Target className="h-5 w-5 text-white" />
               </div>
-              <p className="font-semibold text-slate-800">{onboardingData.mainGoal?.charAt(0).toUpperCase() + onboardingData.mainGoal?.slice(1)}</p>
+              <p className="font-bold text-lg text-slate-800">
+                {onboardingData.mainGoal?.charAt(0).toUpperCase() + onboardingData.mainGoal?.slice(1)}
+              </p>
             </div>
           </div>
           
           <div>
-            <p className="text-sm text-slate-500 mb-2 font-medium">Selected Interests</p>
-            <div className="flex flex-wrap gap-2 mt-1">
+            <p className="text-sm text-slate-500 mb-3 font-semibold uppercase tracking-wide">Selected Interests</p>
+            <div className="flex flex-wrap gap-2">
               {onboardingData.subcategories.map((sub) => (
-                <span key={sub} className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-3 py-2 rounded-full text-sm shadow-metallic backdrop-blur-sm border border-blue-400/30 font-medium">
+                <span 
+                  key={sub} 
+                  className="bg-gradient-to-r from-blue-500 to-blue-600 text-white px-4 py-2 rounded-full text-sm shadow-md backdrop-blur-sm border border-blue-400/30 font-semibold"
+                >
                   {sub}
                 </span>
               ))}
@@ -43,9 +50,9 @@ const ProfileCard = ({ onboardingData }: ProfileCardProps) => {
           </div>
           
           <div>
-            <p className="text-sm text-slate-500 mb-2 font-medium">Estimated Annual Spend</p>
-            <div className="bg-gradient-to-r from-slate-100 to-slate-200 p-4 rounded-lg border border-slate-300/50 shadow-metallic">
-              <p className="font-bold text-2xl bg-gradient-to-r from-blue-700 to-blue-800 bg-clip-text text-transparent">
+            <p className="text-sm text-slate-500 mb-3 font-semibold uppercase tracking-wide">Estimated Annual Spend</p>
+            <div className="bg-gradient-to-r from-slate-100 to-blue-100/50 p-6 rounded-xl border border-slate-300/50 shadow-sm">
+              <p className="font-bold text-3xl bg-gradient-to-r from-blue-700 to-blue-800 bg-clip-text text-transparent">
                 {formatCurrency(onboardingData.estimatedAnnualSpend)}
               </p>
             </div>

@@ -28,17 +28,19 @@ const benefits = [
 
 const BenefitsCard = () => {
   return (
-    <Card className="overflow-hidden border-0 shadow-premium h-full bg-gradient-to-br from-white/95 to-blue-50/95 backdrop-blur-sm">
-      <div className="h-1.5 bg-gradient-to-r from-blue-400 via-cyan-400 to-blue-500"></div>
-      <CardContent className="p-6">
-        <h3 className="font-display text-xl font-bold mb-4 flex items-center gap-2">
-          <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-lg shadow-metallic">
-            <TrendingUp className="text-white" size={20} />
+    <Card className="overflow-hidden border-0 shadow-premium h-full bg-gradient-to-br from-white via-blue-50/30 to-slate-50 backdrop-blur-sm">
+      <div className="h-2 bg-gradient-to-r from-blue-500 via-cyan-400 to-blue-600"></div>
+      <CardContent className="p-8">
+        <h3 className="font-display text-2xl font-bold mb-6 flex items-center gap-3">
+          <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-600 rounded-xl shadow-lg">
+            <TrendingUp className="text-white" size={24} />
           </div>
-          <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">Your Custom Benefits</span>
+          <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+            Your Custom Benefits
+          </span>
         </h3>
         
-        <div className="space-y-5">
+        <div className="space-y-4">
           {benefits.map((benefit, index) => (
             <BenefitItem 
               key={index} 
