@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
@@ -37,6 +36,18 @@ const Hero = () => {
       window.removeEventListener('resize', checkMobile);
     };
   }, []);
+
+  const handleLearnMore = () => {
+    // Smooth scroll to Features section with proper offset to account for navbar
+    const featuresSection = document.getElementById('features');
+    if (featuresSection) {
+      const offsetTop = featuresSection.offsetTop - 100; // Add 100px offset for navbar and spacing
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   const handleGetStarted = () => {
     // Smooth scroll to Features section with proper offset to account for navbar
@@ -122,16 +133,15 @@ const Hero = () => {
             <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
           </div>
           
-          {/* Learn More button with vibrant blue gradient and glowing shadow */}
+          {/* Enhanced Learn More button with improved styling and scroll functionality */}
           <div className="mt-6 md:mt-8">
-            <Link to="/onboarding">
-              <Button 
-                size="lg" 
-                className="bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] rounded-full px-16 py-6 text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[60px] min-w-[200px] border-0"
-              >
-                Learn More
-              </Button>
-            </Link>
+            <Button 
+              onClick={handleLearnMore}
+              size="lg" 
+              className="bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-20 py-7 text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[64px] min-w-[220px] border-0"
+            >
+              Learn More
+            </Button>
           </div>
           
           {/* Scroll cue with bounce animation */}
