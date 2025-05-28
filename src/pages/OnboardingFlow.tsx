@@ -103,15 +103,15 @@ const OnboardingFlow = () => {
           <div className="absolute left-1/2 top-1/2 w-20 h-20 bg-white rounded-full filter blur-2xl"></div>
         </div>
         
-        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-6 md:py-8">
-          <div className="text-center max-w-4xl mx-auto pt-6 md:pt-8">
-            <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12">
+          <div className="text-center max-w-4xl mx-auto pt-12 md:pt-16">
+            <h1 className="font-display text-3xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
               <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">Discover Your</span>
               <br />
               <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">Ventus Rewards</span>
             </h1>
             
-            <p className="text-sm md:text-lg text-blue-100 mb-6 leading-relaxed max-w-2xl mx-auto lg:text-lg px-4">
+            <p className="text-sm md:text-lg text-blue-100 mb-8 leading-relaxed max-w-2xl mx-auto lg:text-lg px-4">
               Choose your lifestyle goal and explore how Ventus Card<br />
               personalizes rewards to match your unique spending patterns and interests.
             </p>
