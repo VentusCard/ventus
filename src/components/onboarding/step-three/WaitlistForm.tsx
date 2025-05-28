@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -10,7 +9,7 @@ import {
   SelectContent, 
   SelectItem 
 } from "@/components/ui/select";
-import { LifestyleGoal } from "@/pages/HowItWorks";
+import { LifestyleGoal } from "@/pages/OnboardingFlow";
 
 const lifestyleCategories: {label: string, value: LifestyleGoal}[] = [
   { label: "Sports", value: "sports" },

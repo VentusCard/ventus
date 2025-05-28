@@ -1,5 +1,5 @@
 
-import { LifestyleGoal } from "@/pages/HowItWorks";
+import { LifestyleGoal } from "@/pages/OnboardingFlow";
 
 export interface OnboardingData {
   mainGoal: LifestyleGoal | null;

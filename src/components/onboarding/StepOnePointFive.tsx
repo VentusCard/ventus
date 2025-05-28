@@ -1,6 +1,6 @@
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LifestyleGoal, Subcategory } from "@/pages/HowItWorks";
+import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Label } from "@/components/ui/label";
 import { useState } from "react";
 import { ShoppingBag, ChevronDown, ChevronUp } from "lucide-react";
@@ -270,8 +270,10 @@ const StepOnePointFive = ({
       
       <div className="mb-8">
         <Card>
+          <CardHeader>
+            <CardTitle>{getGoalName(selectedGoal)} Subcategories</CardTitle>
+          </CardHeader>
           <CardContent className="p-6">
-            <h3 className="font-display text-xl font-bold mb-6">{getGoalName(selectedGoal)} Subcategories</h3>
             <div className="space-y-4">
               {goalSubcategories.map((subcategory) => (
                 <Collapsible 

@@ -1,11 +1,10 @@
-
 import { Card, CardContent } from "@/components/ui/card";
-import { OnboardingData } from "@/pages/HowItWorks";
+import { OnboardingFlowData } from "@/pages/OnboardingFlow";
 import { dealIcons, getDealIcon } from "./DealIcons";
 import { exampleDeals } from "./ExampleDealsData";
 
 interface MerchantDealsSectionProps {
-  onboardingData: OnboardingData;
+  onboardingData: OnboardingFlowData;
 }
 
 const MerchantDealsSection = ({ onboardingData }: MerchantDealsSectionProps) => {

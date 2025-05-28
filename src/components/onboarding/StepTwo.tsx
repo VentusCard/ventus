@@ -4,11 +4,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Slider } from "@/components/ui/slider";
-import { OnboardingData } from "@/pages/HowItWorks";
+import { OnboardingFlowData } from "@/pages/OnboardingFlow";
 
 interface StepTwoProps {
-  onboardingData: OnboardingData;
-  updateOnboardingData: (data: Partial<OnboardingData>) => void;
+  onboardingData: OnboardingFlowData;
+  updateOnboardingData: (data: Partial<OnboardingFlowData>) => void;
 }
 
 const frequencyToMultiplier = {

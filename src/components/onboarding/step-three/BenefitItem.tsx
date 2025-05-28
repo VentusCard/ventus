@@ -10,14 +10,14 @@ interface BenefitItemProps {
 
 const BenefitItem: React.FC<BenefitItemProps> = ({ title, description, icon: IconComponent }) => {
   return (
-    <div className="bg-white/15 backdrop-blur-sm p-6 md:p-8 rounded-2xl border border-white/30 hover:bg-white/20 transition-all duration-300 transform hover:scale-105">
-      <div className="flex gap-4">
-        <div className="bg-white/30 p-3 rounded-full h-12 w-12 flex items-center justify-center flex-shrink-0">
-          <IconComponent className="h-6 w-6 text-white" />
+    <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20 hover:bg-white/15 transition-all duration-300">
+      <div className="flex gap-3">
+        <div className="bg-white/20 p-2 rounded-full h-10 w-10 flex items-center justify-center flex-shrink-0">
+          <IconComponent className="h-5 w-5 text-white" />
         </div>
-        <div className="space-y-2">
-          <p className="font-bold text-white text-lg md:text-xl leading-tight">{title}</p>
-          <p className="text-blue-100 text-base md:text-lg leading-relaxed font-medium">{description}</p>
+        <div className="space-y-1">
+          <p className="font-semibold text-white text-base leading-tight">{title}</p>
+          <p className="text-blue-100 text-sm leading-relaxed">{description}</p>
         </div>
       </div>
     </div>
