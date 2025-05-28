@@ -17,6 +17,11 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
         Based on your selections, here's a summary of your personalized Ventus Card experience.
       </p>
       
+      {/* Benefits Card displayed first */}
+      <div className="mb-8">
+        <BenefitsCard />
+      </div>
+      
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
         <div className="space-y-6">
           <ProfileCard onboardingData={onboardingData} />
@@ -24,7 +29,7 @@ const StepThree = ({ onboardingData }: StepThreeProps) => {
         </div>
         
         <div>
-          <BenefitsCard />
+          {/* Empty div to maintain grid layout */}
         </div>
       </div>
       
