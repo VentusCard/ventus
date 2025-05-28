@@ -564,6 +564,10 @@ const Features = () => {
     }
   }
 
+  const handleSeeHowItWorks = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   return (
     <section id="features" className="py-16 md:py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
@@ -594,14 +598,13 @@ const Features = () => {
                   {/* Add "See How It Works" button only for the first feature */}
                   {index === 0 && (
                     <div className="pt-2">
-                      <Link to="/onboarding">
-                        <Button
-                          variant="outline"
-                          className="bg-white border-[#D0D5DD] text-slate-900 hover:bg-slate-900 hover:text-white hover:border-slate-900 px-6 py-3 rounded-lg text-base font-medium transition-all duration-200 shadow-sm hover:shadow-md"
-                        >
-                          See How It Works
-                        </Button>
-                      </Link>
+                      <Button
+                        variant="outline"
+                        onClick={handleSeeHowItWorks}
+                        className="bg-white border-[#D0D5DD] text-slate-900 hover:bg-slate-900 hover:text-white hover:border-slate-900 px-6 py-3 rounded-lg text-base font-medium transition-all duration-200 shadow-sm hover:shadow-md"
+                      >
+                        See How It Works
+                      </Button>
                     </div>
                   )}
                 </div>
