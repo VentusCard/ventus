@@ -749,7 +749,7 @@ const StepTwoValueComparisonAndSimplification = ({
 
       {/* Selected Categories Impact */}
       <Card className="bg-gradient-to-r from-emerald-50 to-green-50 border-emerald-200">
-        <CardContent className="p-7\n">
+        <CardContent className="p-6">
           <div className="flex items-center gap-3 mb-6">
             <div className="p-2 bg-gradient-to-r from-emerald-500 to-green-400 rounded-lg">
               <CreditCard className="h-6 w-6 text-white" />
