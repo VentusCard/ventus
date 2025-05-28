@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
@@ -6,6 +7,7 @@ import { ChevronDown } from "lucide-react";
 const Hero = () => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [videoEnded, setVideoEnded] = useState(false);
 
   useEffect(() => {
     const checkMobile = () => {
@@ -29,6 +31,22 @@ const Hero = () => {
 
     if (videoRef.current) {
       observer.observe(videoRef.current);
+      
+      // Add event listener for video end
+      const handleVideoEnd = () => {
+        setVideoEnded(true);
+      };
+      
+      videoRef.current.addEventListener('ended', handleVideoEnd);
+      
+      // Cleanup function to remove event listener
+      return () => {
+        observer.disconnect();
+        window.removeEventListener('resize', checkMobile);
+        if (videoRef.current) {
+          videoRef.current.removeEventListener('ended', handleVideoEnd);
+        }
+      };
     }
 
     return () => {
@@ -133,23 +151,27 @@ const Hero = () => {
             <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
           </div>
           
-          {/* Enhanced Learn More button with improved styling and scroll functionality */}
-          <div className="mt-6 md:mt-8">
-            <Button 
-              onClick={handleLearnMore}
-              size="lg" 
-              className="bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-20 py-7 text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[64px] min-w-[220px] border-0"
-            >
-              Learn More
-            </Button>
-          </div>
-          
-          {/* Scroll cue with bounce animation */}
-          <div className="mt-4 md:mt-6 flex flex-col items-center">
-            <div className="animate-[bounce_4s_ease-in-out_infinite]">
-              <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
+          {/* Enhanced Learn More button - only show after video ends */}
+          {videoEnded && (
+            <div className="mt-6 md:mt-8 animate-fade-in">
+              <Button 
+                onClick={handleLearnMore}
+                size="lg" 
+                className="bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-20 py-7 text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[64px] min-w-[220px] border-0"
+              >
+                Learn More
+              </Button>
             </div>
-          </div>
+          )}
+          
+          {/* Scroll cue with bounce animation - only show after video ends */}
+          {videoEnded && (
+            <div className="mt-4 md:mt-6 flex flex-col items-center animate-fade-in">
+              <div className="animate-[bounce_4s_ease-in-out_infinite]">
+                <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
