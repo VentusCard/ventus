@@ -1,6 +1,7 @@
 
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
+import { Brain, Zap, Target, TrendingUp, Shield, Award } from "lucide-react";
 
 interface StepThreeVentusSimplificationProps {
   selectedGoal: LifestyleGoal;
@@ -9,119 +10,171 @@ interface StepThreeVentusSimplificationProps {
 
 const StepThreeVentusSimplification = ({ selectedGoal, selectedSubcategories }: StepThreeVentusSimplificationProps) => {
   const goalTitles: Record<LifestyleGoal, string> = {
-    sports: "Sports",
-    wellness: "Wellness",
+    sports: "Sports Enthusiasts",
+    wellness: "Wellness Focused",
     pets: "Pet Owners",
     gamers: "Gamers",
     creatives: "Creatives",
     homeowners: "Homeowners"
   };
 
+  const aiFeatures = [
+    {
+      icon: Brain,
+      title: "Smart Category Detection",
+      description: "AI automatically identifies the best reward category for each purchase"
+    },
+    {
+      icon: Target,
+      title: "Personalized Optimization",
+      description: "Learns your spending patterns to maximize rewards in your lifestyle areas"
+    },
+    {
+      icon: TrendingUp,
+      title: "Deal Discovery",
+      description: "Continuously finds and negotiates new partnerships for better rewards"
+    }
+  ];
+
+  const simplicityBenefits = [
+    {
+      icon: Shield,
+      title: "Set It & Forget It",
+      description: "No manual category activation or quarterly rotations to manage"
+    },
+    {
+      icon: Award,
+      title: "Always Optimized",
+      description: "AI ensures you're always earning maximum rewards without any effort"
+    },
+    {
+      icon: Zap,
+      title: "Real-Time Adaptation",
+      description: "Automatically adjusts to new merchants and better reward opportunities"
+    }
+  ];
+
   return (
     <div>
-      <h2 className="font-display text-2xl md:text-3xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-        Simplify with Ventus – 5x On All Your Lifestyle Spending
+      <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
+        How Ventus Simplifies Everything
       </h2>
       <p className="text-lg text-slate-600 mb-8">
-        With Ventus, all your relevant purchases earn 5x automatically — no mental math, no card juggling.
+        Experience the power of AI-driven rewards optimization designed specifically for {goalTitles[selectedGoal]}.
       </p>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
-        {/* Before Ventus */}
-        <Card className="bg-gradient-to-br from-red-50 to-orange-50 border-red-200">
+        {/* AI Intelligence Card */}
+        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200 h-full">
           <CardContent className="p-6">
-            <h3 className="font-display text-xl font-bold mb-4 text-red-800">
-              Without Ventus
-            </h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-16 h-10 bg-blue-500 rounded text-white text-xs flex items-center justify-center">Dining</div>
-                <span className="text-sm text-slate-600">Restaurant visits, food delivery</span>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-lg">
+                <Brain className="h-6 w-6 text-white" />
               </div>
-              <div className="flex items-center gap-3">
-                <div className="w-16 h-10 bg-green-500 rounded text-white text-xs flex items-center justify-center">Shop</div>
-                <span className="text-sm text-slate-600">Equipment, gear, accessories</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-16 h-10 bg-orange-500 rounded text-white text-xs flex items-center justify-center">Grocery</div>
-                <span className="text-sm text-slate-600">Food, supplements, pet food</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <div className="w-16 h-10 bg-gray-500 rounded text-white text-xs flex items-center justify-center">General</div>
-                <span className="text-sm text-slate-600">Services, subscriptions, fees</span>
-              </div>
+              <h3 className="font-display text-xl font-bold text-blue-800">AI Intelligence</h3>
             </div>
-            <div className="mt-4 p-3 bg-red-100 rounded-lg">
-              <p className="text-sm text-red-700 font-medium">
-                4 different cards • Complex reward tracking • Missed opportunities
+            
+            <div className="space-y-5">
+              {aiFeatures.map((feature, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <div className="p-2 bg-blue-100 rounded-lg mt-1">
+                    <feature.icon className="h-5 w-5 text-blue-600" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-slate-800 mb-1">{feature.title}</p>
+                    <p className="text-sm text-slate-600">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 p-4 bg-blue-100 rounded-lg">
+              <p className="text-sm text-blue-700 font-medium">💡 Smart Insight:</p>
+              <p className="text-sm text-blue-600">
+                Our AI has processed millions of transactions to understand exactly what {goalTitles[selectedGoal]} spend on most.
               </p>
             </div>
           </CardContent>
         </Card>
 
-        {/* With Ventus */}
-        <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+        {/* Simplicity Card */}
+        <Card className="bg-gradient-to-br from-emerald-50 to-green-50 border-emerald-200 h-full">
           <CardContent className="p-6">
-            <h3 className="font-display text-xl font-bold mb-4 text-blue-800">
-              With Ventus
-            </h3>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <div className="w-16 h-10 bg-gradient-to-r from-blue-600 to-cyan-500 rounded text-white text-xs flex items-center justify-center font-bold">
-                  VENTUS
-                </div>
-                <span className="text-sm text-slate-600">Everything {goalTitles[selectedGoal]} related</span>
+            <div className="flex items-center gap-3 mb-6">
+              <div className="p-3 bg-gradient-to-r from-emerald-500 to-green-400 rounded-lg">
+                <Zap className="h-6 w-6 text-white" />
               </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 gap-2 mt-4">
-                {selectedSubcategories.map((sub) => (
-                  <div key={sub} className="text-center p-2 bg-blue-100 rounded text-xs font-medium text-blue-700">
-                    <div className="font-bold text-blue-600">5x</div>
-                    {sub}
+              <h3 className="font-display text-xl font-bold text-emerald-800">Ultimate Simplicity</h3>
+            </div>
+            
+            <div className="space-y-5">
+              {simplicityBenefits.map((benefit, index) => (
+                <div key={index} className="flex items-start gap-4">
+                  <div className="p-2 bg-emerald-100 rounded-lg mt-1">
+                    <benefit.icon className="h-5 w-5 text-emerald-600" />
                   </div>
+                  <div>
+                    <p className="font-semibold text-slate-800 mb-1">{benefit.title}</p>
+                    <p className="text-sm text-slate-600">{benefit.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-6 p-4 bg-emerald-100 rounded-lg">
+              <p className="text-sm text-emerald-700 font-medium">✨ The Result:</p>
+              <p className="text-sm text-emerald-600">
+                You simply spend as you normally do, and Ventus automatically maximizes your rewards.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Your Categories Impact */}
+      <Card className="bg-gradient-to-r from-slate-900 to-slate-800 text-white">
+        <CardContent className="p-6">
+          <h3 className="font-display text-xl font-bold mb-4 text-center">
+            How This Works for Your Lifestyle
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <h4 className="font-semibold text-cyan-300 mb-3">Your Selected Categories:</h4>
+              <div className="flex flex-wrap gap-2 mb-4">
+                {selectedSubcategories.map((sub) => (
+                  <span key={sub} className="px-3 py-1 bg-white/10 backdrop-blur-sm border border-white/20 text-white rounded-full text-sm">
+                    {sub}
+                  </span>
                 ))}
               </div>
             </div>
-            <div className="mt-4 p-3 bg-blue-100 rounded-lg">
-              <p className="text-sm text-blue-700 font-medium">
-                1 streamlined card • 5x points on everything • AI-powered optimization
-              </p>
+            <div>
+              <h4 className="font-semibold text-emerald-300 mb-3">What Ventus Does:</h4>
+              <ul className="space-y-2 text-sm">
+                <li className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                  Monitors all merchants in these categories
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                  Negotiates exclusive deals and higher rewards
+                </li>
+                <li className="flex items-center gap-2">
+                  <div className="w-2 h-2 bg-emerald-400 rounded-full"></div>
+                  Automatically applies the best rewards at checkout
+                </li>
+              </ul>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
 
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-8 rounded-xl text-center">
-        <h3 className="font-display text-2xl font-bold mb-4">
-          Key Benefits of Ventus
-        </h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          <div>
-            <div className="text-3xl font-bold mb-2">1</div>
-            <p className="text-sm">One card replaces multiple specialized cards</p>
+          <div className="mt-6 text-center">
+            <p className="text-slate-300">
+              The result? You earn 3-5x more rewards than traditional cards, completely automatically.
+            </p>
           </div>
-          <div>
-            <div className="text-3xl font-bold mb-2">5x</div>
-            <p className="text-sm">Points across all selected lifestyle categories</p>
-          </div>
-          <div>
-            <div className="text-3xl font-bold mb-2">∞</div>
-            <p className="text-sm">Covers everything from apps to equipment</p>
-          </div>
-          <div>
-            <div className="text-3xl font-bold mb-2">AI</div>
-            <p className="text-sm">Your preferences drive offers and multipliers</p>
-          </div>
-        </div>
-      </div>
-
-      <div className="text-center mt-8">
-        <h4 className="font-display text-xl font-bold mb-4 text-slate-800">
-          "Why choose between cards — when Ventus rewards everything you care about?"
-        </h4>
-        <p className="text-slate-600">
-          Next, you'll see specific example deals and offers available for your selected categories.
-        </p>
-      </div>
+        </CardContent>
+      </Card>
     </div>
   );
 };
