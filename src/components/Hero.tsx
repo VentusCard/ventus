@@ -57,7 +57,7 @@ const Hero = () => {
       
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
         {/* Add spacing between navbar and hero content */}
-        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-3 pt-8 md:pt-12">
+        <div className="flex flex-col items-center justify-center space-y-6 md:space-y-8 pt-8 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
@@ -122,21 +122,20 @@ const Hero = () => {
             <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
           </div>
           
-          {/* Get Started button with increased clickable area */}
-          <div className="mt-1 md:mt-2">
+          {/* Get Started button with increased clickable area and lighter background */}
+          <div className="mt-4 md:mt-6">
             <Link to="/onboarding">
-              <Button size="lg" className="bg-white text-black hover:bg-white/95 rounded-full px-14 py-5 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(255,255,255,0.25)] hover:scale-105 min-h-[56px] min-w-[180px]">
+              <Button size="lg" className="bg-slate-200 text-black hover:bg-slate-300 rounded-full px-14 py-5 text-lg font-medium transition-all duration-300 hover:shadow-[0_0_40px_rgba(148,163,184,0.25)] hover:scale-105 min-h-[56px] min-w-[180px]">
                 Learn More
               </Button>
             </Link>
           </div>
           
-          {/* Scroll cue with bounce animation and label */}
-          <div className="mt-1 md:mt-2 flex flex-col items-center">
+          {/* Scroll cue with bounce animation - removed label */}
+          <div className="mt-4 md:mt-6 flex flex-col items-center">
             <div className="animate-[bounce_4s_ease-in-out_infinite]">
               <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
             </div>
-            <span className="text-xs text-white/50 mt-1 font-light tracking-wide">Explore More</span>
           </div>
         </div>
       </div>
