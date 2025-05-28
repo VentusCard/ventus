@@ -168,7 +168,7 @@ const StepThreePointFiveExampleDeals = ({
                           <div className="flex-shrink-0 p-2 bg-blue-50 rounded-full">
                             <DealIcon className="h-4 w-4 text-blue-600" />
                           </div>
-                          <div className="bg-blue-600 text-white px-3 py-2 rounded-lg text-sm font-medium flex-1 min-h-[50px] flex items-center">
+                          <div className="text-slate-700 text-sm font-medium flex-1 min-h-[50px] flex items-center">
                             <span className="text-left w-full">{deal}</span>
                           </div>
                         </div>
