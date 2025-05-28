@@ -105,8 +105,8 @@ const OnboardingFlow = () => {
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
-      {/* Optimized Hero Section */}
-      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 text-white relative overflow-hidden">
+      {/* Optimized Hero Section with proper top spacing */}
+      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 text-white relative overflow-hidden pt-8">
         <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
         
         {/* Abstract geometric patterns */}
