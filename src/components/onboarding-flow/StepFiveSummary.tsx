@@ -2,7 +2,7 @@
 import { OnboardingFlowData } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Check, Star, TrendingUp, Shield } from "lucide-react";
+import { Check, Star, TrendingUp, Shield, Sparkles, Users, Clock } from "lucide-react";
 
 interface StepFiveSummaryProps {
   onboardingData: OnboardingFlowData;
@@ -49,7 +49,7 @@ const StepFiveSummary = ({ onboardingData }: StepFiveSummaryProps) => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
         {/* Profile Summary */}
         <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
           <CardContent className="p-6">
@@ -135,7 +135,7 @@ const StepFiveSummary = ({ onboardingData }: StepFiveSummaryProps) => {
       </div>
 
       {/* Key Benefits */}
-      <Card className="mb-8">
+      <Card className="mb-12">
         <CardContent className="p-6">
           <h3 className="font-display text-xl font-bold mb-6 text-center">
             Why Ventus is Perfect for You
@@ -155,34 +155,89 @@ const StepFiveSummary = ({ onboardingData }: StepFiveSummaryProps) => {
         </CardContent>
       </Card>
 
-      {/* Call to Action */}
-      <div className="bg-gradient-to-r from-blue-600 to-cyan-500 text-white p-8 rounded-xl text-center">
-        <h3 className="font-display text-2xl font-bold mb-4">
-          Ready to Start Earning More?
-        </h3>
-        <p className="mb-6 text-blue-100">
-          Join the Ventus waitlist to be among the first to access your personalized rewards experience.
-        </p>
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Button 
-            size="lg" 
-            className="bg-white text-blue-600 hover:bg-blue-50 font-semibold"
-          >
-            Join the Waitlist
-          </Button>
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-white text-white hover:bg-white hover:text-blue-600"
-          >
-            Learn More
-          </Button>
+      {/* Enhanced Call to Action */}
+      <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-cyan-600 text-white p-12 md:p-16 rounded-2xl shadow-2xl">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute left-0 right-0 top-0 bottom-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.3),transparent_50%)]"></div>
+          <div className="absolute left-10 top-10 w-32 h-32 bg-cyan-300 rounded-full filter blur-3xl opacity-30"></div>
+          <div className="absolute right-10 bottom-10 w-40 h-40 bg-blue-300 rounded-full filter blur-3xl opacity-30"></div>
+          <div className="absolute right-20 top-20 w-24 h-24 bg-white rounded-full filter blur-2xl opacity-20"></div>
+        </div>
+        
+        <div className="relative z-10 text-center max-w-4xl mx-auto">
+          <div className="flex items-center justify-center gap-2 mb-6">
+            <Sparkles className="h-8 w-8 text-yellow-300 animate-pulse" />
+            <h3 className="font-display text-3xl md:text-4xl font-bold">
+              Join the Ventus Revolution!
+            </h3>
+            <Sparkles className="h-8 w-8 text-yellow-300 animate-pulse" />
+          </div>
+          
+          <p className="text-xl md:text-2xl mb-8 text-blue-100 leading-relaxed">
+            Be among the <span className="font-bold text-white">first 10,000</span> to experience 
+            the future of personalized credit card rewards
+          </p>
+          
+          {/* Stats Row */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+            <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Users className="h-5 w-5 text-cyan-300" />
+                <span className="text-2xl font-bold">8,247</span>
+              </div>
+              <p className="text-sm text-blue-200">People waiting</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <TrendingUp className="h-5 w-5 text-green-300" />
+                <span className="text-2xl font-bold">5x</span>
+              </div>
+              <p className="text-sm text-blue-200">Rewards multiplier</p>
+            </div>
+            <div className="bg-white/10 backdrop-blur-sm p-4 rounded-xl border border-white/20">
+              <div className="flex items-center justify-center gap-2 mb-2">
+                <Clock className="h-5 w-5 text-yellow-300" />
+                <span className="text-2xl font-bold">Q2</span>
+              </div>
+              <p className="text-sm text-blue-200">2025 Launch</p>
+            </div>
+          </div>
+          
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
+            <Button 
+              size="lg" 
+              className="bg-white text-blue-600 hover:bg-blue-50 font-bold text-lg px-10 py-4 h-auto rounded-xl shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+            >
+              <Sparkles className="h-5 w-5 mr-2" />
+              Secure My Spot Now
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-2 border-white text-white hover:bg-white hover:text-blue-600 font-semibold text-lg px-10 py-4 h-auto rounded-xl backdrop-blur-sm bg-white/10 hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+            >
+              Learn More Features
+            </Button>
+          </div>
+          
+          <div className="mt-8 text-center">
+            <p className="text-blue-200 text-sm mb-2">
+              ✨ <span className="font-semibold">Exclusive Early Access Benefits:</span>
+            </p>
+            <p className="text-blue-100 text-sm">
+              Priority approval • Bonus welcome offer • Beta feature access
+            </p>
+          </div>
         </div>
       </div>
 
       <div className="text-center mt-8">
-        <p className="text-sm text-slate-500">
-          🎉 Congratulations! You've completed your Ventus onboarding experience.
+        <p className="text-lg text-slate-600 font-medium">
+          🎉 Congratulations! You've completed your personalized Ventus experience.
+        </p>
+        <p className="text-sm text-slate-500 mt-2">
+          We'll send you updates about your application status and launch timeline.
         </p>
       </div>
     </div>
