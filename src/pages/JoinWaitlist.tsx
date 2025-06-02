@@ -25,7 +25,8 @@ const JoinWaitlist = () => {
     event.preventDefault();
     setIsSubmitting(true);
     
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     
     // Debug: Log form data
     console.log('Form submission started');
@@ -56,8 +57,8 @@ const JoinWaitlist = () => {
           description: "We'll notify you when Ventus Card becomes available.",
         });
         
-        // Reset form
-        event.currentTarget.reset();
+        // Reset form using the stored reference
+        form.reset();
       } else {
         console.error('Server returned error:', response.status, responseText);
         throw new Error(`Server error: ${response.status}`);
