@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Mail, User, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
@@ -28,11 +27,25 @@ const JoinWaitlist = () => {
     
     const formData = new FormData(event.currentTarget);
     
+    // Debug: Log form data
+    console.log('Form submission started');
+    console.log('Form data entries:');
+    for (const [key, value] of formData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+    
     try {
+      console.log('Sending request to Google Apps Script...');
       const response = await fetch('https://script.google.com/macros/s/AKfycbz5cNxCadlHqNtH1wRP19Oez1d6IfRKCi5sp7He4DWUaK0X2lCty42NHc8cmPRUsuDP/exec', {
         method: 'POST',
         body: formData,
       });
+      
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+      
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
       
       if (response.ok) {
         toast({
@@ -43,13 +56,23 @@ const JoinWaitlist = () => {
         // Reset form
         event.currentTarget.reset();
       } else {
-        throw new Error('Submission failed');
+        console.error('Server returned error:', response.status, responseText);
+        throw new Error(`Server error: ${response.status}`);
       }
     } catch (error) {
       console.error('Form submission error:', error);
+      
+      // More specific error messages
+      let errorMessage = "Please try again later.";
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        errorMessage = "Network error. Please check your internet connection and try again.";
+      } else if (error instanceof Error) {
+        errorMessage = `Submission failed: ${error.message}`;
+      }
+      
       toast({
         title: "Submission failed",
-        description: "Please try again later.",
+        description: errorMessage,
         variant: "destructive",
       });
     } finally {
