@@ -47,9 +47,10 @@ const JoinWaitlist = () => {
       const responseText = await response.text();
       console.log('Response text:', responseText);
       
-      // Google Apps Script often returns 302 (redirect) even for successful submissions
-      // Check for success based on status codes that indicate successful processing
-      if (response.ok || response.status === 302 || response.status === 200) {
+      // Google Apps Script typically returns 302 for successful form submissions
+      // We'll consider 200, 201, 302 as success, and also check if response contains success indicators
+      if (response.status === 200 || response.status === 201 || response.status === 302 || 
+          (responseText && responseText.toLowerCase().includes('success'))) {
         toast({
           title: "Successfully joined the waitlist!",
           description: "We'll notify you when Ventus Card becomes available.",
