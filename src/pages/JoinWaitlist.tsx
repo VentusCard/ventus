@@ -1,62 +1,60 @@
+
 import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Mail, User, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-const formSchema = z.object({
-  firstName: z.string().min(2, "First name must be at least 2 characters"),
-  lastName: z.string().min(2, "Last name must be at least 2 characters"),
-  mainCategory: z.string().min(1, "Please select a main category"),
-  email: z.string().email("Please enter a valid email address"),
-});
-
 const categories = [
-  { value: "sports", label: "Sports" },
-  { value: "wellness", label: "Wellness" },
-  { value: "pets", label: "Pet Owners" },
-  { value: "gamers", label: "Gamers" },
-  { value: "creatives", label: "Creatives" },
-  { value: "homeowners", label: "Homeowners" },
+  { value: "Sports", label: "Sports" },
+  { value: "Wellness", label: "Wellness" },
+  { value: "Pet Owners", label: "Pet Owners" },
+  { value: "Gamers", label: "Gamers" },
+  { value: "Creatives", label: "Creatives" },
+  { value: "Homeowners", label: "Homeowners" },
 ];
 
 const JoinWaitlist = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      firstName: "",
-      lastName: "",
-      mainCategory: "",
-      email: "",
-    },
-  });
-
-  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     setIsSubmitting(true);
     
-    // Simulate form submission
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    const formData = new FormData(event.currentTarget);
     
-    console.log("Waitlist form submission:", values);
-    
-    toast({
-      title: "Successfully joined the waitlist!",
-      description: "We'll notify you when Ventus Card becomes available.",
-    });
-    
-    form.reset();
-    setIsSubmitting(false);
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbz5cNxCadlHqNtH1wRP19Oez1d6IfRKCi5sp7He4DWUaK0X2lCty42NHc8cmPRUsuDP/exec', {
+        method: 'POST',
+        body: formData,
+      });
+      
+      if (response.ok) {
+        toast({
+          title: "Successfully joined the waitlist!",
+          description: "We'll notify you when Ventus Card becomes available.",
+        });
+        
+        // Reset form
+        event.currentTarget.reset();
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+      toast({
+        title: "Submission failed",
+        description: "Please try again later.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -96,145 +94,114 @@ const JoinWaitlist = () => {
             </CardHeader>
 
             <CardContent className="px-8 pb-6">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                    <FormField
-                      control={form.control}
+              <form onSubmit={handleSubmit} className="space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <div>
+                    <label className="text-slate-700 font-medium flex items-center gap-3 mb-2">
+                      <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                        {/* Precious metal texture */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                        {/* Metallic border */}
+                        <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                        <User size={14} className="text-white relative z-10" strokeWidth={2} />
+                      </div>
+                      First Name
+                    </label>
+                    <Input 
                       name="firstName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-slate-700 font-medium flex items-center gap-3">
-                            <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
-                              {/* Precious metal texture */}
-                              <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
-                              {/* Metallic border */}
-                              <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                              <User size={14} className="text-white relative z-10" strokeWidth={2} />
-                            </div>
-                            First Name
-                          </FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="Enter your first name" 
-                              className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      type="text"
+                      placeholder="Enter your first name" 
+                      className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
+                      minLength={2}
+                      required
                     />
+                  </div>
 
-                    <FormField
-                      control={form.control}
+                  <div>
+                    <label className="text-slate-700 font-medium flex items-center gap-3 mb-2">
+                      <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                        {/* Precious metal texture */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                        {/* Metallic border */}
+                        <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                        <User size={14} className="text-white relative z-10" strokeWidth={2} />
+                      </div>
+                      Last Name
+                    </label>
+                    <Input 
                       name="lastName"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="text-slate-700 font-medium flex items-center gap-3">
-                            <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
-                              {/* Precious metal texture */}
-                              <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
-                              {/* Metallic border */}
-                              <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                              <User size={14} className="text-white relative z-10" strokeWidth={2} />
-                            </div>
-                            Last Name
-                          </FormLabel>
-                          <FormControl>
-                            <Input 
-                              placeholder="Enter your last name" 
-                              className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
-                              {...field} 
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
+                      type="text"
+                      placeholder="Enter your last name" 
+                      className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
+                      minLength={2}
+                      required
                     />
                   </div>
+                </div>
 
-                  <FormField
-                    control={form.control}
-                    name="mainCategory"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-slate-700 font-medium flex items-center gap-3">
-                          <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
-                            {/* Precious metal texture */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
-                            {/* Metallic border */}
-                            <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                            <Target size={14} className="text-white relative z-10" strokeWidth={2} />
-                          </div>
-                          Main Interest Category
-                        </FormLabel>
-                        <Select onValueChange={field.onChange} defaultValue={field.value}>
-                          <FormControl>
-                            <SelectTrigger className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200">
-                              <SelectValue placeholder="Select your main interest category" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {categories.map((category) => (
-                              <SelectItem key={category.value} value={category.value}>
-                                {category.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <div>
+                  <label className="text-slate-700 font-medium flex items-center gap-3 mb-2">
+                    <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                      {/* Precious metal texture */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                      {/* Metallic border */}
+                      <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                      <Target size={14} className="text-white relative z-10" strokeWidth={2} />
+                    </div>
+                    Main Interest Category
+                  </label>
+                  <select 
+                    name="interest"
+                    className="flex h-12 w-full rounded-md border border-slate-200 bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+                    required
+                  >
+                    <option value="" disabled>Select your main interest category</option>
+                    {categories.map((category) => (
+                      <option key={category.value} value={category.value}>
+                        {category.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-                  <FormField
-                    control={form.control}
+                <div>
+                  <label className="text-slate-700 font-medium flex items-center gap-3 mb-2">
+                    <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                      {/* Precious metal texture */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                      {/* Metallic border */}
+                      <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                      <Mail size={14} className="text-white relative z-10" strokeWidth={2} />
+                    </div>
+                    Email Address
+                  </label>
+                  <Input 
                     name="email"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-slate-700 font-medium flex items-center gap-3">
-                          <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
-                            {/* Precious metal texture */}
-                            <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
-                            {/* Metallic border */}
-                            <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                            <Mail size={14} className="text-white relative z-10" strokeWidth={2} />
-                          </div>
-                          Email Address
-                        </FormLabel>
-                        <FormControl>
-                          <Input 
-                            type="email"
-                            placeholder="Enter your email address" 
-                            className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
-                            {...field} 
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
+                    type="email"
+                    placeholder="Enter your email address" 
+                    className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
+                    required
                   />
+                </div>
 
-                  <div className="pt-3">
-                    <Button 
-                      type="submit" 
-                      className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
-                      disabled={isSubmitting}
-                    >
-                      {isSubmitting ? "Joining Waitlist..." : "Join the Waitlist"}
-                    </Button>
-                  </div>
+                <div className="pt-3">
+                  <Button 
+                    type="submit" 
+                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Joining Waitlist..." : "Join the Waitlist"}
+                  </Button>
+                </div>
 
-                  <div className="text-center pt-3">
-                    <p className="text-sm text-slate-500">
-                      By joining, you agree to receive updates about Ventus Card availability.
-                      <br />
-                      Available only in the USA for eligible customers.
-                    </p>
-                  </div>
-                </form>
-              </Form>
+                <div className="text-center pt-3">
+                  <p className="text-sm text-slate-500">
+                    By joining, you agree to receive updates about Ventus Card availability.
+                    <br />
+                    Available only in the USA for eligible customers.
+                  </p>
+                </div>
+              </form>
             </CardContent>
           </Card>
         </div>
