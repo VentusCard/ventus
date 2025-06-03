@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -43,8 +44,9 @@ const ContactInformationSection = ({
       };
 
       console.log('Submitting data:', submitData);
+      console.log('Request URL:', 'https://script.google.com/macros/s/AKfycbxr-Tk4YZ6od-m3IBFhakRQFmJcI75S4ZEIkfof7n3DZJRbkqg_hZqpVOVxb464vAV1/exec');
 
-      // Use no-cors mode to avoid CORS issues
+      // Try the submission
       const response = await fetch('https://script.google.com/macros/s/AKfycbxr-Tk4YZ6od-m3IBFhakRQFmJcI75S4ZEIkfof7n3DZJRbkqg_hZqpVOVxb464vAV1/exec', {
         method: 'POST',
         mode: 'no-cors',
@@ -54,18 +56,27 @@ const ContactInformationSection = ({
         body: new URLSearchParams(submitData as any).toString(),
       });
 
-      // With no-cors, we can't check response status, so we assume success
-      console.log('Form submitted successfully');
+      console.log('Response received:', response);
+      console.log('Response type:', response.type);
+      console.log('Response status:', response.status);
+      
+      // With no-cors mode, response.type will be 'opaque' and we can't read the actual response
+      // But if we get here without an error, the request was sent successfully
+      console.log('Form submission completed - request sent successfully');
       
       toast({
         title: "Application Submitted!",
-        description: "Your application has been sent. We'll contact you within 3-5 business days.",
+        description: "Your application has been sent successfully. We'll contact you within 3-5 business days.",
       });
       
+      // Reset the form
       (e.target as HTMLFormElement).reset();
 
     } catch (error) {
-      console.error('Submission error:', error);
+      console.error('Submission error details:', error);
+      console.error('Error name:', error instanceof Error ? error.name : 'Unknown');
+      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
+      
       toast({
         title: "Submission Error",
         description: "There was an error submitting your application. Please try again or contact us directly.",
