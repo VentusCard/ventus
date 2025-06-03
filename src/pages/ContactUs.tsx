@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,7 +57,7 @@ const ContactUs = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <div className="pt-20 pb-12 px-4 md:px-8">
+      <div className="pt-[100px] pb-12 px-4 md:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
             Contact Us
