@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -139,7 +140,16 @@ const ContactInformationSection = ({
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Phone Number</label>
-                <Input name="phoneNumber" type="tel" placeholder="Enter phone number" className="h-11 md:h-12 text-sm md:text-base" required />
+                <Input 
+                  name="phoneNumber" 
+                  type="tel" 
+                  placeholder="(555) 123-4567" 
+                  pattern="^(\+?1[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$"
+                  title="Please enter a valid US phone number (e.g., (555) 123-4567 or 555-123-4567)"
+                  className="h-11 md:h-12 text-sm md:text-base" 
+                  required 
+                />
+                <p className="text-xs text-slate-500 mt-1">US phone numbers only (e.g., (555) 123-4567)</p>
               </div>
             </div>
             
