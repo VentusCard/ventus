@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -44,10 +43,10 @@ const ContactInformationSection = ({
       };
 
       console.log('Submitting data:', submitData);
-      console.log('Request URL:', 'https://script.google.com/macros/s/AKfycbxr-Tk4YZ6od-m3IBFhakRQFmJcI75S4ZEIkfof7n3DZJRbkqg_hZqpVOVxb464vAV1/exec');
+      console.log('Request URL:', 'https://script.google.com/macros/s/AKfycbwf71Skex45RGmI8OCh4-gVL33v6k_a9ZDLA3_oqIZcGMVV7oEzzZ4hQpml9bY0J1sk/exec');
 
       // Try the submission
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxr-Tk4YZ6od-m3IBFhakRQFmJcI75S4ZEIkfof7n3DZJRbkqg_hZqpVOVxb464vAV1/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwf71Skex45RGmI8OCh4-gVL33v6k_a9ZDLA3_oqIZcGMVV7oEzzZ4hQpml9bY0J1sk/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
