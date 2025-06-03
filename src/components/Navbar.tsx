@@ -45,10 +45,10 @@ const Navbar = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
           <Link 
-            to="/"
+            to="/about"
             className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
           >
-            Overview
+            About Us
             <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </Link>
           <Link 
@@ -115,11 +115,11 @@ const Navbar = () => {
         <div className="md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg border-b border-white/10">
           <div className="px-4 py-6 space-y-4">
             <Link 
-              to="/"
+              to="/about"
               onClick={closeMobileMenu}
               className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
             >
-              Overview
+              About Us
             </Link>
             <Link 
               to="/onboarding"
