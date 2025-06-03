@@ -129,9 +129,7 @@ const Partners = () => {
           </h1>
           
           <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-6">
-            Connect with lifestyle-driven customers through smart, ethical targeting.
-            <br />
-            Join our merchant network and grow your business with privacy-first marketing.
+            Deploy precision-matched campaigns that target high-conversion segments based on verified behavioral and goal-based alignment
           </p>
         </div>
       </section>
