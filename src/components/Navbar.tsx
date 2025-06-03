@@ -3,8 +3,12 @@ import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuL
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Menu, X } from "lucide-react"
 
 const Navbar = () => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
@@ -12,13 +16,21 @@ const Navbar = () => {
     }
   };
 
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/5">
-      <div className="flex h-16 md:h-20 items-center justify-center px-6 md:px-8 max-w-7xl mx-auto">
-        {/* Logo/Brand - Matching card design */}
-        <div className="absolute left-6 md:left-8 flex items-center">
-          <Link to="/">
-            <h1 className="text-lg tracking-[0.15em] font-sans font-light text-white/95 relative cursor-pointer hover:text-white transition-colors duration-300">
+      <div className="flex h-16 md:h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+        {/* Logo/Brand */}
+        <div className="flex items-center">
+          <Link to="/" onClick={closeMobileMenu}>
+            <h1 className="text-base md:text-lg tracking-[0.15em] font-sans font-light text-white/95 relative cursor-pointer hover:text-white transition-colors duration-300">
               <span className="relative inline-block">
                 VENTUS CARD
                 {/* Subtle metallic sheen effect */}
@@ -30,55 +42,44 @@ const Navbar = () => {
           </Link>
         </div>
         
-        {/* Centered Navigation Container */}
-        <div className="flex items-center justify-center flex-1">
-          {/* Navigation Links - Desktop */}
-          <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
-            <Link 
-              to="/"
-              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
-            >
-              Overview
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </Link>
-            <Link 
-              to="/onboarding"
-              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
-            >
-              How It Works
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </Link>
-            <Link 
-              to="/partners"
-              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
-            >
-              Partners
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </Link>
-          </div>
-          
-          {/* Mobile Navigation */}
-          <div className="md:hidden flex items-center space-x-4">
-            <Link 
-              to="/"
-              className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group"
-            >
-              Overview
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </Link>
-            <Link to="/onboarding" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
-              How It Works
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </Link>
-            <Link to="/partners" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
-              Partners
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </Link>
-          </div>
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+          <Link 
+            to="/"
+            className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+          >
+            Overview
+            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+          </Link>
+          <Link 
+            to="/onboarding"
+            className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+          >
+            How It Works
+            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+          </Link>
+          <Link 
+            to="/partners"
+            className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+          >
+            Partners
+            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+          </Link>
         </div>
         
-        {/* Join Waitlist CTA - Dark Blue Metal */}
-        <div className="absolute right-6 md:right-8 flex items-center">
+        {/* Mobile Menu Button */}
+        <div className="md:hidden flex items-center space-x-3">
+          <button
+            onClick={toggleMobileMenu}
+            className="text-white/90 hover:text-white p-2 transition-colors duration-300"
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+        
+        {/* Desktop Join Waitlist CTA */}
+        <div className="hidden md:flex items-center">
           <Link to="/join-waitlist">
             <div className="relative group">
               {/* Subtle outer glow */}
@@ -101,6 +102,46 @@ const Navbar = () => {
           </Link>
         </div>
       </div>
+      
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg border-b border-white/10">
+          <div className="px-4 py-6 space-y-4">
+            <Link 
+              to="/"
+              onClick={closeMobileMenu}
+              className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
+            >
+              Overview
+            </Link>
+            <Link 
+              to="/onboarding"
+              onClick={closeMobileMenu}
+              className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
+            >
+              How It Works
+            </Link>
+            <Link 
+              to="/partners"
+              onClick={closeMobileMenu}
+              className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
+            >
+              Partners
+            </Link>
+            
+            {/* Mobile Join Waitlist Button */}
+            <div className="pt-4">
+              <Link to="/join-waitlist" onClick={closeMobileMenu}>
+                <div className="w-full bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 py-4 shadow-lg border border-blue-700/30 text-center">
+                  <span className="text-white font-semibold text-base tracking-wide">
+                    Join Waitlist
+                  </span>
+                </div>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

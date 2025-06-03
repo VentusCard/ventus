@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,6 +10,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Building2, Target, DollarSign, User, ChevronDown, ChevronUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useDeviceType } from "@/hooks/use-mobile";
 
 const businessCategories = [
   { value: "Sports", label: "Sports", available: true },
@@ -61,6 +61,8 @@ const targetingTools = [
 ];
 
 const Partners = () => {
+  const { isMobile, isTablet } = useDeviceType();
+  
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [businessType, setBusinessType] = useState("");
@@ -166,59 +168,59 @@ const Partners = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="pt-20 pb-8 px-6">
+      {/* Hero Section - Mobile Optimized */}
+      <section className="pt-20 pb-6 md:pb-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="font-display text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
             Partner with
             <br />
             <span className="text-blue-600">Ventus Card</span>
           </h1>
           
-          <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-6">
+          <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-4 md:mb-6 px-2">
             Deploy precision-matched campaigns that target high-conversion segments based on verified behavioral and goal-based alignment
           </p>
         </div>
       </section>
 
-      {/* Form Section */}
-      <section className="pb-20 px-6">
+      {/* Form Section - Mobile Optimized */}
+      <section className="pb-16 md:pb-20 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
-          <form onSubmit={handleSubmit} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
             
             {/* Section 1: Business Information */}
             <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
               <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600"></div>
               
               <CardHeader 
-                className="cursor-pointer"
+                className="cursor-pointer p-4 md:p-6"
                 onClick={() => toggleSection(1)}
               >
-                <CardTitle className="flex items-center justify-between text-2xl font-bold">
-                  <div className="flex items-center gap-3">
+                <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
                       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
                       <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                      <Building2 size={18} className="text-white relative z-10" strokeWidth={2} />
+                      <Building2 size={16} className="text-white relative z-10 md:w-[18px] md:h-[18px]" strokeWidth={2} />
                     </div>
-                    Business Information
+                    <span className="text-base md:text-2xl">Business Information</span>
                     {isSection1Complete() && (
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     )}
                   </div>
-                  {expandedSections[1] ? <ChevronUp /> : <ChevronDown />}
+                  {expandedSections[1] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </CardTitle>
-                <p className="text-slate-600 mt-2">
+                <p className="text-slate-600 mt-2 text-sm md:text-base">
                   Tell us about your brand and which lifestyle categories you align with.
                 </p>
               </CardHeader>
 
               {expandedSections[1] && (
-                <CardContent className="px-8 pb-6 space-y-6 animate-accordion-down">
-                  {/* Business Category */}
+                <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-6 animate-accordion-down">
+                  {/* Business Category - Mobile Grid */}
                   <div>
-                    <label className="text-slate-700 font-medium mb-3 block">Business Category</label>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">Business Category</label>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                       {businessCategories.map((category) => (
                         <div key={category.value} className={`relative ${!category.available ? 'opacity-50' : ''}`}>
                           <input
@@ -238,11 +240,11 @@ const Partners = () => {
                           />
                           <label
                             htmlFor={category.value}
-                            className={`block p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 ${
+                            className={`block p-3 md:p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 text-sm md:text-base ${
                               selectedCategory === category.value && category.available
                                 ? 'border-blue-500 bg-blue-50'
                                 : 'border-slate-200 hover:border-slate-300'
-                            } ${!category.available ? 'cursor-not-allowed' : ''}`}
+                            } ${!category.available ? 'cursor-not-allowed' : ''} ${isMobile ? 'min-h-[48px] flex items-center' : ''}`}
                           >
                             {category.label}
                           </label>
@@ -251,15 +253,15 @@ const Partners = () => {
                     </div>
                   </div>
 
-                  {/* Subcategories */}
+                  {/* Subcategories - Mobile Optimized */}
                   {selectedCategory && subcategories[selectedCategory as keyof typeof subcategories] && (
                     <div>
-                      <label className="text-slate-700 font-medium mb-3 block">
+                      <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">
                         Subcategories (select all that apply)
                       </label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {subcategories[selectedCategory as keyof typeof subcategories].map((subcat) => (
-                          <div key={subcat} className="flex items-center space-x-2">
+                          <div key={subcat} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
                             <Checkbox
                               id={subcat}
                               checked={selectedSubcategories.includes(subcat)}
@@ -271,21 +273,21 @@ const Partners = () => {
                                 }
                               }}
                             />
-                            <Label htmlFor={subcat} className="text-sm">{subcat}</Label>
+                            <Label htmlFor={subcat} className="text-xs md:text-sm cursor-pointer flex-1">{subcat}</Label>
                           </div>
                         ))}
                       </div>
                     </div>
                   )}
 
-                  {/* Business Type */}
+                  {/* Business Type - Mobile Optimized */}
                   <div>
-                    <label className="text-slate-700 font-medium mb-3 block">Business Type</label>
-                    <RadioGroup value={businessType} onValueChange={setBusinessType}>
+                    <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">Business Type</label>
+                    <RadioGroup value={businessType} onValueChange={setBusinessType} className="space-y-2">
                       {["Online", "Physical", "Both"].map((type) => (
-                        <div key={type} className="flex items-center space-x-2">
+                        <div key={type} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
                           <RadioGroupItem value={type} id={type} />
-                          <Label htmlFor={type}>{type}</Label>
+                          <Label htmlFor={type} className="cursor-pointer flex-1 text-sm md:text-base">{type}</Label>
                         </div>
                       ))}
                     </RadioGroup>
@@ -297,47 +299,47 @@ const Partners = () => {
             {/* Section 2: Ventus Proprietary Tools */}
             <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
               <CardHeader 
-                className="cursor-pointer"
+                className="cursor-pointer p-4 md:p-6"
                 onClick={() => toggleSection(2)}
               >
-                <CardTitle className="flex items-center justify-between text-2xl font-bold">
-                  <div className="flex items-center gap-3">
+                <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
                       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
                       <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                      <Target size={18} className="text-white relative z-10" strokeWidth={2} />
+                      <Target size={16} className="text-white relative z-10 md:w-[18px] md:h-[18px]" strokeWidth={2} />
                     </div>
-                    Ventus Proprietary Tools
+                    <span className="text-base md:text-2xl">Ventus Proprietary Tools</span>
                     {isSection2Complete() && (
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     )}
                   </div>
-                  {expandedSections[2] ? <ChevronUp /> : <ChevronDown />}
+                  {expandedSections[2] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </CardTitle>
-                <p className="text-slate-600 mt-2">
+                <p className="text-slate-600 mt-2 text-sm md:text-base">
                   Tap into smart, ethical targeting powered by aggregated behavioral data.
                 </p>
               </CardHeader>
 
               {expandedSections[2] && (
-                <CardContent className="px-8 pb-6 animate-accordion-down">
-                  <p className="text-sm text-slate-500 mb-4">
+                <CardContent className="px-4 md:px-8 pb-4 md:pb-6 animate-accordion-down">
+                  <p className="text-xs md:text-sm text-slate-500 mb-4">
                     Select up to 3 additional tools that align with your campaign goals:
                   </p>
-                  <div className="space-y-4">
+                  <div className="space-y-3 md:space-y-4">
                     {targetingTools.map((tool) => {
                       const isGeographic = tool.id === "geographic";
                       const isChecked = selectedTargeting.includes(tool.id);
                       const isDisabled = isGeographic || (!isChecked && nonGeographicSelectedTools.length >= 3);
                       
                       return (
-                        <div key={tool.id} className={`border rounded-lg p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
-                          <div className="flex items-center space-x-2 mb-2">
+                        <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
+                          <div className="flex items-start space-x-2 mb-2">
                             <Checkbox
                               id={tool.id}
                               checked={isChecked}
                               onCheckedChange={(checked) => {
-                                if (isGeographic) return; // Don't allow unchecking geographic
+                                if (isGeographic) return;
                                 
                                 if (checked && nonGeographicSelectedTools.length < 3) {
                                   setSelectedTargeting([...selectedTargeting, tool.id]);
@@ -346,18 +348,21 @@ const Partners = () => {
                                 }
                               }}
                               disabled={isDisabled}
+                              className="mt-1"
                             />
-                            <Label htmlFor={tool.id} className={`font-medium ${isGeographic ? 'text-blue-700' : ''}`}>
-                              {tool.title}
-                              {isGeographic && <span className="text-xs text-blue-600 ml-2">(Always included)</span>}
-                            </Label>
+                            <div className="flex-1">
+                              <Label htmlFor={tool.id} className={`font-medium text-sm md:text-base cursor-pointer ${isGeographic ? 'text-blue-700' : ''}`}>
+                                {tool.title}
+                                {isGeographic && <span className="text-xs text-blue-600 ml-2">(Always included)</span>}
+                              </Label>
+                              <p className={`text-xs md:text-sm mt-1 ${isGeographic ? 'text-blue-600' : 'text-slate-600'}`}>
+                                {tool.description}
+                              </p>
+                              {tool.example && (
+                                <p className="text-xs text-blue-600 mt-1 italic">Example: {tool.example}</p>
+                              )}
+                            </div>
                           </div>
-                          <p className={`text-sm ml-6 ${isGeographic ? 'text-blue-600' : 'text-slate-600'}`}>
-                            {tool.description}
-                          </p>
-                          {tool.example && (
-                            <p className="text-xs text-blue-600 ml-6 mt-1 italic">Example: {tool.example}</p>
-                          )}
                         </div>
                       );
                     })}
@@ -369,75 +374,77 @@ const Partners = () => {
             {/* Section 3: Budget & Timeline */}
             <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
               <CardHeader 
-                className="cursor-pointer"
+                className="cursor-pointer p-4 md:p-6"
                 onClick={() => toggleSection(3)}
               >
-                <CardTitle className="flex items-center justify-between text-2xl font-bold">
-                  <div className="flex items-center gap-3">
+                <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
                       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
                       <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                      <DollarSign size={18} className="text-white relative z-10" strokeWidth={2} />
+                      <DollarSign size={16} className="text-white relative z-10 md:w-[18px] md:h-[18px]" strokeWidth={2} />
                     </div>
-                    Budget & Timeline
+                    <span className="text-base md:text-2xl">Budget & Timeline</span>
                     {isSection3Complete() && (
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     )}
                   </div>
-                  {expandedSections[3] ? <ChevronUp /> : <ChevronDown />}
+                  {expandedSections[3] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </CardTitle>
-                <p className="text-slate-600 mt-2">
+                <p className="text-slate-600 mt-2 text-sm md:text-base">
                   Set your investment level and get a data-driven return estimate.
                 </p>
               </CardHeader>
 
               {expandedSections[3] && (
-                <CardContent className="px-8 pb-6 space-y-6 animate-accordion-down">
-                  {/* Budget Period Selection */}
+                <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-6 animate-accordion-down">
+                  {/* Budget Period Selection - Mobile Optimized */}
                   <div>
-                    <label className="text-slate-700 font-medium mb-3 block">Budget Period</label>
-                    <RadioGroup value={budgetPeriod} onValueChange={setBudgetPeriod}>
+                    <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">Budget Period</label>
+                    <RadioGroup value={budgetPeriod} onValueChange={setBudgetPeriod} className="space-y-2">
                       {Object.keys(budgetRanges).map((period) => (
-                        <div key={period} className="flex items-center space-x-2">
+                        <div key={period} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
                           <RadioGroupItem value={period} id={period} />
-                          <Label htmlFor={period} className="capitalize">{period}</Label>
+                          <Label htmlFor={period} className="capitalize cursor-pointer flex-1 text-sm md:text-base">{period}</Label>
                         </div>
                       ))}
                     </RadioGroup>
                   </div>
 
-                  {/* Budget Slider */}
+                  {/* Budget Slider - Mobile Touch Optimized */}
                   <div>
-                    <label className="text-slate-700 font-medium mb-3 block">
+                    <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">
                       {budgetPeriod.charAt(0).toUpperCase() + budgetPeriod.slice(1)} Budget: ${budgetValue[0].toLocaleString()}
                     </label>
-                    <Slider
-                      value={budgetValue}
-                      onValueChange={setBudgetValue}
-                      max={budgetRanges[budgetPeriod as keyof typeof budgetRanges].max}
-                      min={budgetRanges[budgetPeriod as keyof typeof budgetRanges].min}
-                      step={50}
-                      className="w-full"
-                    />
-                    <div className="flex justify-between text-sm text-slate-500 mt-2">
+                    <div className="px-2">
+                      <Slider
+                        value={budgetValue}
+                        onValueChange={setBudgetValue}
+                        max={budgetRanges[budgetPeriod as keyof typeof budgetRanges].max}
+                        min={budgetRanges[budgetPeriod as keyof typeof budgetRanges].min}
+                        step={50}
+                        className="w-full"
+                      />
+                    </div>
+                    <div className="flex justify-between text-xs md:text-sm text-slate-500 mt-2 px-2">
                       <span>${budgetRanges[budgetPeriod as keyof typeof budgetRanges].min.toLocaleString()}</span>
                       <span>${budgetRanges[budgetPeriod as keyof typeof budgetRanges].max.toLocaleString()}</span>
                     </div>
                   </div>
 
-                  {/* Results Display */}
-                  <div className="bg-slate-50 rounded-lg p-4 space-y-3">
-                    <div className="flex justify-between">
-                      <span className="font-medium">Annual Campaign Budget:</span>
-                      <span className="font-bold text-blue-600">${annualBudget.toLocaleString()}</span>
+                  {/* Results Display - Mobile Optimized */}
+                  <div className="bg-slate-50 rounded-lg p-3 md:p-4 space-y-2 md:space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-sm md:text-base">Annual Campaign Budget:</span>
+                      <span className="font-bold text-blue-600 text-sm md:text-base">${annualBudget.toLocaleString()}</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Expected ROAS:</span>
-                      <span className="font-bold text-green-600">{roas.min}x - {roas.max}x</span>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-sm md:text-base">Expected ROAS:</span>
+                      <span className="font-bold text-green-600 text-sm md:text-base">{roas.min}x - {roas.max}x</span>
                     </div>
-                    <div className="flex justify-between">
-                      <span className="font-medium">Estimated Annual Return:</span>
-                      <span className="font-bold text-purple-600">${expectedReturn.toLocaleString()}</span>
+                    <div className="flex justify-between items-center">
+                      <span className="font-medium text-sm md:text-base">Estimated Annual Return:</span>
+                      <span className="font-bold text-purple-600 text-sm md:text-base">${expectedReturn.toLocaleString()}</span>
                     </div>
                   </div>
                 </CardContent>
@@ -447,83 +454,83 @@ const Partners = () => {
             {/* Section 4: Contact Information */}
             <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
               <CardHeader 
-                className="cursor-pointer"
+                className="cursor-pointer p-4 md:p-6"
                 onClick={() => toggleSection(4)}
               >
-                <CardTitle className="flex items-center justify-between text-2xl font-bold">
-                  <div className="flex items-center gap-3">
+                <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
+                  <div className="flex items-center gap-2 md:gap-3">
                     <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
                       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
                       <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                      <User size={18} className="text-white relative z-10" strokeWidth={2} />
+                      <User size={16} className="text-white relative z-10 md:w-[18px] md:h-[18px]" strokeWidth={2} />
                     </div>
-                    Primary Contact Information
+                    <span className="text-base md:text-2xl">Primary Contact Information</span>
                   </div>
-                  {expandedSections[4] ? <ChevronUp /> : <ChevronDown />}
+                  {expandedSections[4] ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                 </CardTitle>
-                <p className="text-slate-600 mt-2">
+                <p className="text-slate-600 mt-2 text-sm md:text-base">
                   Who should we reach out to with campaign approvals and support?
                 </p>
               </CardHeader>
 
               {expandedSections[4] && (
-                <CardContent className="px-8 pb-6 space-y-5 animate-accordion-down">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-5 animate-accordion-down">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
                     <div>
-                      <label className="text-slate-700 font-medium mb-2 block">Company Name</label>
-                      <Input name="companyName" placeholder="Enter company name" className="h-12" required />
+                      <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Name</label>
+                      <Input name="companyName" placeholder="Enter company name" className="h-11 md:h-12 text-sm md:text-base" required />
                     </div>
                     <div>
-                      <label className="text-slate-700 font-medium mb-2 block">Company Industry</label>
+                      <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Industry</label>
                       <Input 
                         value={selectedCategory} 
                         readOnly 
-                        className="h-12 bg-slate-50" 
+                        className="h-11 md:h-12 bg-slate-50 text-sm md:text-base" 
                         placeholder="Select business category above"
                       />
                     </div>
-                    <div>
-                      <label className="text-slate-700 font-medium mb-2 block">Company Website</label>
-                      <Input name="companyWebsite" type="url" placeholder="https://example.com" className="h-12" required />
+                    <div className="md:col-span-2">
+                      <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Website</label>
+                      <Input name="companyWebsite" type="url" placeholder="https://example.com" className="h-11 md:h-12 text-sm md:text-base" required />
                     </div>
                     <div>
-                      <label className="text-slate-700 font-medium mb-2 block">Full Name</label>
-                      <Input name="fullName" placeholder="Enter full name" className="h-12" required />
+                      <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Full Name</label>
+                      <Input name="fullName" placeholder="Enter full name" className="h-11 md:h-12 text-sm md:text-base" required />
                     </div>
                     <div>
-                      <label className="text-slate-700 font-medium mb-2 block">Role/Title</label>
-                      <Input name="roleTitle" placeholder="Enter role or title" className="h-12" required />
+                      <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Role/Title</label>
+                      <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" required />
                     </div>
                     <div>
-                      <label className="text-slate-700 font-medium mb-2 block">Email Address</label>
-                      <Input name="email" type="email" placeholder="Enter email address" className="h-12" required />
+                      <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Email Address</label>
+                      <Input name="email" type="email" placeholder="Enter email address" className="h-11 md:h-12 text-sm md:text-base" required />
                     </div>
                     <div>
-                      <label className="text-slate-700 font-medium mb-2 block">Phone Number</label>
-                      <Input name="phone" type="tel" placeholder="Enter phone number" className="h-12" required />
+                      <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Phone Number</label>
+                      <Input name="phone" type="tel" placeholder="Enter phone number" className="h-11 md:h-12 text-sm md:text-base" required />
                     </div>
                   </div>
                   
                   <div>
-                    <label className="text-slate-700 font-medium mb-2 block">Annual Budget & ROAS Forecast</label>
+                    <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Annual Budget & ROAS Forecast</label>
                     <Input 
                       value={`$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`}
                       readOnly 
-                      className="h-12 bg-slate-50"
+                      className="h-11 md:h-12 bg-slate-50 text-sm md:text-base"
                     />
                   </div>
 
                   <div className="pt-3">
                     <Button 
                       type="submit" 
-                      className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                      className="w-full h-12 md:h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base"
                     >
                       Submit to Join the Merchant Waitlist
                     </Button>
                   </div>
 
                   <div className="text-center pt-3">
-                    <p className="text-sm text-slate-500">
+                    <p className="text-xs md:text-sm text-slate-500">
                       By submitting, you agree to our merchant partnership terms.
                       <br />
                       We'll review your application and contact you within 3-5 business days.

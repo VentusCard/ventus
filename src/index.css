@@ -106,6 +106,30 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   }
 
+  /* Touch optimization for mobile */
+  @media (max-width: 768px) {
+    input, textarea, select, button {
+      font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Improved touch targets */
+    button, [role="button"], input[type="radio"], input[type="checkbox"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+    
+    /* Better spacing for form elements */
+    .form-field {
+      margin-bottom: 1rem;
+    }
+    
+    /* Optimize card spacing on mobile */
+    .card-mobile {
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
   /* Metallic utility classes */
   .metallic-surface {
     background: linear-gradient(135deg, 
@@ -187,6 +211,13 @@
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
+
+  /* Mobile-optimized shadows */
+  @media (max-width: 768px) {
+    .shadow-premium {
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+  }
 }
 
 @keyframes fadeIn {
@@ -229,17 +260,29 @@
   }
 }
 
-.shimmer-effect {
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.4),
-    transparent
-  );
-  background-size: 200% 100%;
-  animation: metallic-shimmer 2s infinite;
+/* Mobile-optimized animations */
+@media (prefers-reduced-motion: no-preference) {
+  .shimmer-effect {
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: metallic-shimmer 2s infinite;
+  }
+
+  .animate-shimmer {
+    animation: futuristic-shimmer 3s ease-in-out infinite;
+  }
 }
 
-.animate-shimmer {
-  animation: futuristic-shimmer 3s ease-in-out infinite;
+/* Disable animations on mobile for better performance */
+@media (max-width: 768px) and (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }
