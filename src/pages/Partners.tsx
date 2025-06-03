@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -63,7 +64,7 @@ const Partners = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [businessType, setBusinessType] = useState("");
-  const [selectedTargeting, setSelectedTargeting] = useState<string[]>([]);
+  const [selectedTargeting, setSelectedTargeting] = useState<string[]>(["geographic"]);
   const [budgetPeriod, setBudgetPeriod] = useState("monthly");
   const [budgetValue, setBudgetValue] = useState([5000]);
   const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false, 3: false, 4: false });
@@ -113,7 +114,9 @@ const Partners = () => {
   };
 
   const isSection2Complete = () => {
-    return selectedTargeting.length > 0;
+    // Count only non-geographic tools (geographic is always selected and doesn't count)
+    const nonGeographicTools = selectedTargeting.filter(tool => tool !== "geographic");
+    return nonGeographicTools.length > 0;
   };
 
   const isSection3Complete = () => {
@@ -155,6 +158,9 @@ const Partners = () => {
   const roas = calculateROAS();
   const annualBudget = calculateAnnualBudget();
   const expectedReturn = annualBudget * parseFloat(roas.min);
+
+  // Count only non-geographic tools for the limit
+  const nonGeographicSelectedTools = selectedTargeting.filter(tool => tool !== "geographic");
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
@@ -316,32 +322,45 @@ const Partners = () => {
               {expandedSections[2] && (
                 <CardContent className="px-8 pb-6 animate-accordion-down">
                   <p className="text-sm text-slate-500 mb-4">
-                    Select up to 3 tools that align with your campaign goals:
+                    Select up to 3 additional tools that align with your campaign goals:
                   </p>
                   <div className="space-y-4">
-                    {targetingTools.map((tool) => (
-                      <div key={tool.id} className="border rounded-lg p-4">
-                        <div className="flex items-center space-x-2 mb-2">
-                          <Checkbox
-                            id={tool.id}
-                            checked={selectedTargeting.includes(tool.id)}
-                            onCheckedChange={(checked) => {
-                              if (checked && selectedTargeting.length < 3) {
-                                setSelectedTargeting([...selectedTargeting, tool.id]);
-                              } else if (!checked) {
-                                setSelectedTargeting(selectedTargeting.filter(t => t !== tool.id));
-                              }
-                            }}
-                            disabled={!selectedTargeting.includes(tool.id) && selectedTargeting.length >= 3}
-                          />
-                          <Label htmlFor={tool.id} className="font-medium">{tool.title}</Label>
+                    {targetingTools.map((tool) => {
+                      const isGeographic = tool.id === "geographic";
+                      const isChecked = selectedTargeting.includes(tool.id);
+                      const isDisabled = isGeographic || (!isChecked && nonGeographicSelectedTools.length >= 3);
+                      
+                      return (
+                        <div key={tool.id} className={`border rounded-lg p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
+                          <div className="flex items-center space-x-2 mb-2">
+                            <Checkbox
+                              id={tool.id}
+                              checked={isChecked}
+                              onCheckedChange={(checked) => {
+                                if (isGeographic) return; // Don't allow unchecking geographic
+                                
+                                if (checked && nonGeographicSelectedTools.length < 3) {
+                                  setSelectedTargeting([...selectedTargeting, tool.id]);
+                                } else if (!checked) {
+                                  setSelectedTargeting(selectedTargeting.filter(t => t !== tool.id));
+                                }
+                              }}
+                              disabled={isDisabled}
+                            />
+                            <Label htmlFor={tool.id} className={`font-medium ${isGeographic ? 'text-blue-700' : ''}`}>
+                              {tool.title}
+                              {isGeographic && <span className="text-xs text-blue-600 ml-2">(Always included)</span>}
+                            </Label>
+                          </div>
+                          <p className={`text-sm ml-6 ${isGeographic ? 'text-blue-600' : 'text-slate-600'}`}>
+                            {tool.description}
+                          </p>
+                          {tool.example && (
+                            <p className="text-xs text-blue-600 ml-6 mt-1 italic">Example: {tool.example}</p>
+                          )}
                         </div>
-                        <p className="text-sm text-slate-600 ml-6">{tool.description}</p>
-                        {tool.example && (
-                          <p className="text-xs text-blue-600 ml-6 mt-1 italic">Example: {tool.example}</p>
-                        )}
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </CardContent>
               )}
