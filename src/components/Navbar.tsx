@@ -69,7 +69,7 @@ const Navbar = () => {
             to="/contact"
             className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
           >
-            Contact
+            Contact Us
             <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </Link>
         </div>
@@ -140,7 +140,7 @@ const Navbar = () => {
               onClick={closeMobileMenu}
               className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
             >
-              Contact
+              Contact Us
             </Link>
             
             {/* Mobile Join Waitlist Button */}
