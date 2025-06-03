@@ -56,11 +56,6 @@ const targetingTools = [
     id: "seasonal",
     title: "Seasonal & Temporal Targeting",
     description: "Reach users based on time-sensitive signals (e.g., ski pass windows)"
-  },
-  {
-    id: "ai-templates",
-    title: "AI-Generated Deal Templates",
-    description: "Save time with prebuilt, customizable campaigns"
   }
 ];
 
@@ -293,7 +288,7 @@ const Partners = () => {
               )}
             </Card>
 
-            {/* Section 2: Targeting Tools */}
+            {/* Section 2: Ventus Proprietary Tools */}
             <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
               <CardHeader 
                 className="cursor-pointer"
@@ -306,7 +301,7 @@ const Partners = () => {
                       <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
                       <Target size={18} className="text-white relative z-10" strokeWidth={2} />
                     </div>
-                    Targeting Tools
+                    Ventus Proprietary Tools
                     {isSection2Complete() && (
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     )}
