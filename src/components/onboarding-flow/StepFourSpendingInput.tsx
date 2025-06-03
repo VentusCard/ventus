@@ -99,9 +99,7 @@ const StepFourSpendingInput = ({
   const sliderConfig = getSliderConfig(selectedFrequency);
   return <div>
       <div className="text-center mb-8">
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
-          Tell Us About Your Spending
-        </h2>
+        <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">Tell Us About Your Spending Habit</h2>
         <p className="text-lg text-slate-600">
           Help us calculate your personalized rewards potential
         </p>
