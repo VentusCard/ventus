@@ -25,7 +25,6 @@ const budgetRanges = {
 const PartnerForm = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
-  const [businessType, setBusinessType] = useState("");
   const [selectedTargeting, setSelectedTargeting] = useState<string[]>(["geographic"]);
   const [budgetPeriod, setBudgetPeriod] = useState("monthly");
   const [budgetValue, setBudgetValue] = useState([5000]);
@@ -62,7 +61,7 @@ const PartnerForm = () => {
 
   // Section validation functions
   const isSection1Complete = () => {
-    return selectedCategory && businessType && (
+    return selectedCategory && (
       !subcategories[selectedCategory as keyof typeof subcategories] || 
       selectedSubcategories.length > 0
     );
@@ -83,7 +82,7 @@ const PartnerForm = () => {
     if (isSection1Complete() && !expandedSections[2]) {
       setExpandedSections(prev => ({ ...prev, 2: true }));
     }
-  }, [selectedCategory, businessType, selectedSubcategories, expandedSections]);
+  }, [selectedCategory, selectedSubcategories, expandedSections]);
 
   useEffect(() => {
     if (isSection2Complete() && !expandedSections[3]) {
@@ -124,8 +123,6 @@ const PartnerForm = () => {
             setSelectedCategory={setSelectedCategory}
             selectedSubcategories={selectedSubcategories}
             setSelectedSubcategories={setSelectedSubcategories}
-            businessType={businessType}
-            setBusinessType={setBusinessType}
             isExpanded={expandedSections[1]}
             onToggle={() => toggleSection(1)}
             isComplete={isSection1Complete()}

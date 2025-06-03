@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Building2, ChevronDown, ChevronUp } from "lucide-react";
 import { useDeviceType } from "@/hooks/use-mobile";
@@ -29,8 +28,6 @@ interface BusinessInformationSectionProps {
   setSelectedCategory: (category: string) => void;
   selectedSubcategories: string[];
   setSelectedSubcategories: (subcategories: string[]) => void;
-  businessType: string;
-  setBusinessType: (type: string) => void;
   isExpanded: boolean;
   onToggle: () => void;
   isComplete: boolean;
@@ -41,8 +38,6 @@ const BusinessInformationSection = ({
   setSelectedCategory,
   selectedSubcategories,
   setSelectedSubcategories,
-  businessType,
-  setBusinessType,
   isExpanded,
   onToggle,
   isComplete
@@ -140,19 +135,6 @@ const BusinessInformationSection = ({
               </div>
             </div>
           )}
-
-          {/* Business Type - Mobile Optimized */}
-          <div>
-            <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">Business Type</label>
-            <RadioGroup value={businessType} onValueChange={setBusinessType} className="space-y-2">
-              {["Online", "Physical", "Both"].map((type) => (
-                <div key={type} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
-                  <RadioGroupItem value={type} id={type} />
-                  <Label htmlFor={type} className="cursor-pointer flex-1 text-sm md:text-base">{type}</Label>
-                </div>
-              ))}
-            </RadioGroup>
-          </div>
         </CardContent>
       )}
     </Card>
