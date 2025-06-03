@@ -1,10 +1,7 @@
-
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
-
 const Footer = () => {
-  return (
-    <footer className="bg-slate-900 text-white py-12">
+  return <footer className="bg-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -35,23 +32,7 @@ const Footer = () => {
           </div>
 
           {/* Contact Info */}
-          <div>
-            <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
-            <div className="space-y-3">
-              <div className="flex items-center gap-3">
-                <Mail className="h-4 w-4 text-slate-400" />
-                <span className="text-slate-400 text-sm">support@ventuscard.com</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="h-4 w-4 text-slate-400" />
-                <span className="text-slate-400 text-sm">1-800-VENTUS-1</span>
-              </div>
-              <div className="flex items-center gap-3">
-                <MapPin className="h-4 w-4 text-slate-400" />
-                <span className="text-slate-400 text-sm">San Francisco, CA</span>
-              </div>
-            </div>
-          </div>
+          
 
           {/* Get in Touch */}
           <div>
@@ -59,10 +40,7 @@ const Footer = () => {
             <p className="text-slate-400 text-sm mb-4">
               Have questions? We're here to help.
             </p>
-            <Link 
-              to="/contact"
-              className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium"
-            >
+            <Link to="/contact" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium">
               Contact Us
             </Link>
           </div>
@@ -74,8 +52,6 @@ const Footer = () => {
           </p>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
