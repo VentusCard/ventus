@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -60,7 +59,14 @@ const ContactInformationSection = ({
             </div>
             <div className="md:col-span-2">
               <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Website</label>
-              <Input name="companyWebsite" type="url" placeholder="https://example.com" className="h-11 md:h-12 text-sm md:text-base" required />
+              <Input 
+                name="companyWebsite" 
+                type="url" 
+                placeholder="https://www.example.com" 
+                className="h-11 md:h-12 text-sm md:text-base" 
+                required 
+              />
+              <p className="text-xs text-slate-500 mt-1">Please include https:// or http:// at the beginning</p>
             </div>
             <div>
               <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Full Name</label>
