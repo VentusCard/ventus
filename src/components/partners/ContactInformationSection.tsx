@@ -43,10 +43,10 @@ const ContactInformationSection = ({
       };
 
       console.log('Submitting data:', submitData);
-      console.log('Request URL:', 'https://script.google.com/macros/s/AKfycbwf71Skex45RGmI8OCh4-gVL33v6k_a9ZDLA3_oqIZcGMVV7oEzzZ4hQpml9bY0J1sk/exec');
+      console.log('Request URL:', 'https://script.google.com/macros/s/AKfycbxdiLsbUGGQmiJcX0wE8veuiLrZgDgG2ZFRNVlXUr_U8dZSd20yLr2PdzP4dyNJ2Cc/exec');
 
       // Try the submission
-      const response = await fetch('https://script.google.com/macros/s/AKfycbwf71Skex45RGmI8OCh4-gVL33v6k_a9ZDLA3_oqIZcGMVV7oEzzZ4hQpml9bY0J1sk/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxdiLsbUGGQmiJcX0wE8veuiLrZgDgG2ZFRNVlXUr_U8dZSd20yLr2PdzP4dyNJ2Cc/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
