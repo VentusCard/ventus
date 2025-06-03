@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -11,6 +10,15 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Building2, Target, DollarSign, User, ChevronDown, ChevronUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ProgressBar from "@/components/ui/progress-bar";
+import TooltipWrapper from "@/components/ui/tooltip-wrapper";
+import ValidationMessage from "@/components/ui/validation-message";
+import { 
+  validateBusinessInfo, 
+  validateTargetingTools, 
+  validateBudget, 
+  validateContactInfo 
+} from "@/utils/formValidation";
 
 const businessCategories = [
   { value: "Sports", label: "Sports", available: true },
@@ -68,6 +76,8 @@ const Partners = () => {
   const [budgetPeriod, setBudgetPeriod] = useState("monthly");
   const [budgetValue, setBudgetValue] = useState([5000]);
   const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false, 3: false, 4: false });
+  const [validationErrors, setValidationErrors] = useState<Record<number, string[]>>({});
+  const [currentStep, setCurrentStep] = useState(1);
   const { toast } = useToast();
 
   const budgetRanges = {
@@ -105,7 +115,35 @@ const Partners = () => {
     return { min: minROASValue.toFixed(1), max: maxROASValue.toFixed(1) };
   };
 
-  // Section validation functions
+  // Enhanced section validation functions with error tracking
+  const validateSection = (sectionNumber: number) => {
+    let errors: string[] = [];
+
+    switch (sectionNumber) {
+      case 1:
+        const businessValidation = validateBusinessInfo(
+          selectedCategory, 
+          businessType, 
+          selectedSubcategories, 
+          subcategories
+        );
+        errors = businessValidation.errors;
+        break;
+      case 2:
+        const targetingValidation = validateTargetingTools(selectedTargeting);
+        errors = targetingValidation.errors;
+        break;
+      case 3:
+        const budgetValidation = validateBudget(budgetPeriod, budgetValue);
+        errors = budgetValidation.errors;
+        break;
+    }
+
+    setValidationErrors(prev => ({ ...prev, [sectionNumber]: errors }));
+    return errors.length === 0;
+  };
+
+  // Section completion functions
   const isSection1Complete = () => {
     return selectedCategory && businessType && (
       !subcategories[selectedCategory as keyof typeof subcategories] || 
@@ -114,7 +152,6 @@ const Partners = () => {
   };
 
   const isSection2Complete = () => {
-    // Count only non-geographic tools (geographic is always selected and doesn't count)
     const nonGeographicTools = selectedTargeting.filter(tool => tool !== "geographic");
     return nonGeographicTools.length > 0;
   };
@@ -122,6 +159,20 @@ const Partners = () => {
   const isSection3Complete = () => {
     return budgetPeriod && budgetValue.length > 0;
   };
+
+  // Progress tracking
+  const completedSections = [
+    isSection1Complete(),
+    isSection2Complete(),
+    isSection3Complete(),
+    false // Contact section completion will be validated on submit
+  ];
+
+  // Update current step based on progress
+  useEffect(() => {
+    const lastCompletedStep = completedSections.findLastIndex(Boolean) + 1;
+    setCurrentStep(Math.min(lastCompletedStep + 1, 4));
+  }, [completedSections]);
 
   // Auto-expand sections when previous section is complete
   useEffect(() => {
@@ -142,12 +193,42 @@ const Partners = () => {
     }
   }, [budgetPeriod, budgetValue, expandedSections]);
 
+  // Real-time validation
+  useEffect(() => {
+    if (selectedCategory || businessType || selectedSubcategories.length > 0) {
+      validateSection(1);
+    }
+  }, [selectedCategory, businessType, selectedSubcategories]);
+
+  useEffect(() => {
+    if (selectedTargeting.length > 1) { // More than just geographic
+      validateSection(2);
+    }
+  }, [selectedTargeting]);
+
+  useEffect(() => {
+    if (budgetPeriod && budgetValue.length > 0) {
+      validateSection(3);
+    }
+  }, [budgetPeriod, budgetValue]);
+
   const toggleSection = (section: number) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
+    const formData = new FormData(event.currentTarget);
+    const contactValidation = validateContactInfo(formData);
+    
+    if (!contactValidation.isValid) {
+      setValidationErrors(prev => ({ ...prev, 4: contactValidation.errors }));
+      return;
+    }
+
+    // Clear any contact form errors
+    setValidationErrors(prev => ({ ...prev, 4: [] }));
     
     toast({
       title: "Application Submitted!",
@@ -184,6 +265,13 @@ const Partners = () => {
       {/* Form Section */}
       <section className="pb-20 px-6">
         <div className="max-w-4xl mx-auto">
+          {/* Progress Bar */}
+          <ProgressBar 
+            currentStep={currentStep}
+            totalSteps={4}
+            completedSections={completedSections}
+          />
+
           <form onSubmit={handleSubmit} className="space-y-6">
             
             {/* Section 1: Business Information */}
@@ -215,9 +303,17 @@ const Partners = () => {
 
               {expandedSections[1] && (
                 <CardContent className="px-8 pb-6 space-y-6 animate-accordion-down">
+                  {/* Validation Messages */}
+                  {validationErrors[1] && validationErrors[1].length > 0 && (
+                    <ValidationMessage errors={validationErrors[1]} />
+                  )}
+
                   {/* Business Category */}
                   <div>
-                    <label className="text-slate-700 font-medium mb-3 block">Business Category</label>
+                    <label className="text-slate-700 font-medium mb-3 block">
+                      Business Category
+                      <TooltipWrapper content="Select the primary lifestyle category that best represents your target audience and brand positioning." />
+                    </label>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                       {businessCategories.map((category) => (
                         <div key={category.value} className={`relative ${!category.available ? 'opacity-50' : ''}`}>
@@ -256,6 +352,7 @@ const Partners = () => {
                     <div>
                       <label className="text-slate-700 font-medium mb-3 block">
                         Subcategories (select all that apply)
+                        <TooltipWrapper content="Choose specific niches within your category to help us create more targeted campaigns." />
                       </label>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                         {subcategories[selectedCategory as keyof typeof subcategories].map((subcat) => (
@@ -280,7 +377,10 @@ const Partners = () => {
 
                   {/* Business Type */}
                   <div>
-                    <label className="text-slate-700 font-medium mb-3 block">Business Type</label>
+                    <label className="text-slate-700 font-medium mb-3 block">
+                      Business Type
+                      <TooltipWrapper content="This helps us understand your customer interaction model and optimize targeting accordingly." />
+                    </label>
                     <RadioGroup value={businessType} onValueChange={setBusinessType}>
                       {["Online", "Physical", "Both"].map((type) => (
                         <div key={type} className="flex items-center space-x-2">
@@ -308,6 +408,7 @@ const Partners = () => {
                       <Target size={18} className="text-white relative z-10" strokeWidth={2} />
                     </div>
                     Ventus Proprietary Tools
+                    <TooltipWrapper content="Our advanced targeting system uses aggregated, anonymized data to identify high-intent customers without compromising individual privacy." />
                     {isSection2Complete() && (
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     )}
@@ -321,6 +422,11 @@ const Partners = () => {
 
               {expandedSections[2] && (
                 <CardContent className="px-8 pb-6 animate-accordion-down">
+                  {/* Validation Messages */}
+                  {validationErrors[2] && validationErrors[2].length > 0 && (
+                    <ValidationMessage errors={validationErrors[2]} />
+                  )}
+
                   <p className="text-sm text-slate-500 mb-4">
                     Select up to 3 additional tools that align with your campaign goals:
                   </p>
@@ -380,6 +486,7 @@ const Partners = () => {
                       <DollarSign size={18} className="text-white relative z-10" strokeWidth={2} />
                     </div>
                     Budget & Timeline
+                    <TooltipWrapper content="ROAS (Return on Ad Spend) estimates are based on industry benchmarks and our proprietary targeting effectiveness data." />
                     {isSection3Complete() && (
                       <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
                     )}
@@ -393,6 +500,11 @@ const Partners = () => {
 
               {expandedSections[3] && (
                 <CardContent className="px-8 pb-6 space-y-6 animate-accordion-down">
+                  {/* Validation Messages */}
+                  {validationErrors[3] && validationErrors[3].length > 0 && (
+                    <ValidationMessage errors={validationErrors[3]} />
+                  )}
+
                   {/* Budget Period Selection */}
                   <div>
                     <label className="text-slate-700 font-medium mb-3 block">Budget Period</label>
@@ -468,6 +580,11 @@ const Partners = () => {
 
               {expandedSections[4] && (
                 <CardContent className="px-8 pb-6 space-y-5 animate-accordion-down">
+                  {/* Validation Messages */}
+                  {validationErrors[4] && validationErrors[4].length > 0 && (
+                    <ValidationMessage errors={validationErrors[4]} />
+                  )}
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="text-slate-700 font-medium mb-2 block">Company Name</label>
