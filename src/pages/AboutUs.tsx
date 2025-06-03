@@ -1,39 +1,35 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Award, Heart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
 const AboutUs = () => {
-  const values = [{
-    icon: Target,
-    title: "Our Mission",
-    description: "To revolutionize personal finance by creating personalized rewards that align with your values and lifestyle goals."
-  }, {
-    icon: Heart,
-    title: "Our Values",
-    description: "We believe in transparency, sustainability, and empowering individuals to make choices that reflect their personal values."
-  }, {
-    icon: Award,
-    title: "Our Promise",
-    description: "To deliver a premium experience that rewards you for living authentically while making a positive impact."
-  }, {
-    icon: Users,
-    title: "Our Community",
-    description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
-  }];
-  const team = [{
-    name: "Sarah Chen",
-    role: "Founder & CEO",
-    bio: "Former fintech executive with 15+ years experience building consumer financial products."
-  }, {
-    name: "Marcus Rodriguez",
-    role: "Head of Product",
-    bio: "Product leader passionate about creating user-centered experiences that drive meaningful engagement."
-  }, {
-    name: "Dr. Emily Watson",
-    role: "Chief Data Scientist",
-    bio: "AI researcher specializing in personalization algorithms and behavioral analytics."
-  }];
-  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+  const values = [
+    {
+      icon: Target,
+      title: "Our Mission",
+      description: "To revolutionize personal finance by creating personalized rewards that align with your values and lifestyle goals."
+    },
+    {
+      icon: Heart,
+      title: "Our Values", 
+      description: "We believe in transparency, sustainability, and empowering individuals to make choices that reflect their personal values."
+    },
+    {
+      icon: Award,
+      title: "Our Promise",
+      description: "To deliver a premium experience that rewards you for living authentically while making a positive impact."
+    },
+    {
+      icon: Users,
+      title: "Our Community",
+      description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
+    }
+  ];
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar />
       
       {/* Hero Section */}
@@ -57,20 +53,24 @@ const AboutUs = () => {
             </CardHeader>
             <CardContent className="text-slate-600 space-y-4 text-lg leading-relaxed">
               <p>
-                Ventus Card was born from a simple observation: traditional credit cards offer generic rewards that don't reflect who you are or what you care about. Whether you're passionate about sustainability, fitness, travel, or supporting local businesses, your spending should be rewarded in ways that matter to you.
+                Ventus was born out of a simple frustration: juggling multiple credit cards just to optimize rewards—and still missing out. As avid spenders across sports, wellness, travel, and daily essentials, our co-founders, both longtime friends and wallet nerds, kept asking the same question: Why isn't there a single card that adapts to how we actually live?
               </p>
               <p>
-                Founded in 2024, we set out to create the first truly personalized credit card experience. Using advanced AI and behavioral analytics, we learn from your preferences and lifestyle to deliver rewards that feel tailored just for you.
+                Meanwhile, merchants were running endless one-size-fits-all promotions, with little visibility into who they were really reaching or how those offers performed.
               </p>
               <p>
-                Today, we're building a community of conscious consumers who want their financial choices to reflect their values while earning meaningful rewards along the way.
+                Ventus is our answer. We built a card that aligns directly with your lifestyle goals—whether that's golf, mental wellness, or pet care—powered by an AI assistant that tracks your interests and finds the best rewards and deals, automatically. For merchants, we offer targeting tools that connect them to the exact audiences they want—based on real behavior, not assumptions.
+              </p>
+              <p>
+                Ventus bridges the gap between everyday spenders and the merchants who want to reach them—intelligently, transparently, and rewardingly.
               </p>
             </CardContent>
           </Card>
 
           {/* Values Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            {values.map((value, index) => <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+            {values.map((value, index) => (
+              <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardHeader>
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-2 bg-blue-100 rounded-lg">
@@ -82,7 +82,8 @@ const AboutUs = () => {
                 <CardContent>
                   <p className="text-slate-600 leading-relaxed">{value.description}</p>
                 </CardContent>
-              </Card>)}
+              </Card>
+            ))}
           </div>
 
           {/* Team Section */}
@@ -94,6 +95,8 @@ const AboutUs = () => {
       </div>
 
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default AboutUs;
