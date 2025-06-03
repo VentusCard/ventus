@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -136,7 +135,16 @@ const ContactInformationSection = ({
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Email Address</label>
-                <Input name="emailAddress" type="email" placeholder="Enter email address" className="h-11 md:h-12 text-sm md:text-base" required />
+                <Input 
+                  name="emailAddress" 
+                  type="email" 
+                  placeholder="name@company.com" 
+                  pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                  title="Please enter a valid email address (e.g., name@company.com)"
+                  className="h-11 md:h-12 text-sm md:text-base" 
+                  required 
+                />
+                <p className="text-xs text-slate-500 mt-1">Please enter a valid email address</p>
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Phone Number</label>
