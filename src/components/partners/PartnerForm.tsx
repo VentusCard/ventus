@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import BusinessInformationSection from "./BusinessInformationSection";
@@ -157,7 +158,6 @@ const PartnerForm = () => {
             roas={roas}
             isExpanded={expandedSections[4]}
             onToggle={() => toggleSection(4)}
-            businessType={businessType}
           />
         </form>
       </div>
