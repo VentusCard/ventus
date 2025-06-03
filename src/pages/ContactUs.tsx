@@ -23,7 +23,6 @@ const ContactUs = () => {
       const submitData = {
         name: formData.get('name'),
         email: formData.get('email'),
-        phone: formData.get('phone'),
         subject: formData.get('subject'),
         message: formData.get('message')
       };
@@ -70,41 +69,6 @@ const ContactUs = () => {
         </div>
       </div>
 
-      {/* Contact Information Cards */}
-      <div className="px-4 md:px-8 mb-12">
-        <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="text-center border-0 shadow-lg bg-white/90 backdrop-blur-sm">
-            <CardContent className="pt-6">
-              <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Mail className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">Email Us</h3>
-              <p className="text-slate-600">support@ventuscard.com</p>
-            </CardContent>
-          </Card>
-
-          <Card className="text-center border-0 shadow-lg bg-white/90 backdrop-blur-sm">
-            <CardContent className="pt-6">
-              <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <Phone className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">Call Us</h3>
-              <p className="text-slate-600">1-800-VENTUS-1</p>
-            </CardContent>
-          </Card>
-
-          <Card className="text-center border-0 shadow-lg bg-white/90 backdrop-blur-sm">
-            <CardContent className="pt-6">
-              <div className="mx-auto w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                <MapPin className="h-6 w-6 text-blue-600" />
-              </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">Visit Us</h3>
-              <p className="text-slate-600">San Francisco, CA</p>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-
       {/* Contact Form */}
       <div className="px-4 md:px-8 pb-16">
         <div className="max-w-2xl mx-auto">
@@ -137,25 +101,14 @@ const ContactUs = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="text-slate-700 font-medium mb-2 block">Phone Number</label>
-                    <Input 
-                      name="phone" 
-                      type="tel" 
-                      placeholder="(555) 123-4567" 
-                      className="h-12"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-slate-700 font-medium mb-2 block">Subject</label>
-                    <Input 
-                      name="subject" 
-                      placeholder="How can we help?" 
-                      className="h-12" 
-                      required 
-                    />
-                  </div>
+                <div>
+                  <label className="text-slate-700 font-medium mb-2 block">Subject</label>
+                  <Input 
+                    name="subject" 
+                    placeholder="How can we help?" 
+                    className="h-12" 
+                    required 
+                  />
                 </div>
 
                 <div>
