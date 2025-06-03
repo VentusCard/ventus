@@ -48,6 +48,13 @@ const Navbar = () => {
               How It Works
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
+            <Link 
+              to="/partners"
+              className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+            >
+              Partners
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
           </div>
           
           {/* Mobile Navigation */}
@@ -61,6 +68,10 @@ const Navbar = () => {
             </Link>
             <Link to="/onboarding" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
               How It Works
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </Link>
+            <Link to="/partners" className="text-white/90 hover:text-white font-medium text-sm transition-all duration-300 relative group">
+              Partners
               <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </Link>
           </div>
