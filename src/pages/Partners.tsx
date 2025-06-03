@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -16,9 +15,9 @@ const businessCategories = [
   { value: "Sports", label: "Sports", available: true },
   { value: "Wellness", label: "Wellness", available: true },
   { value: "Pet Owners", label: "Pet Owners", available: true },
-  { value: "Gamers", label: "Gamers (Year Two)", available: false },
-  { value: "Creatives", label: "Creatives (Year Two)", available: false },
-  { value: "Homeowners", label: "Homeowners (Year Two)", available: false },
+  { value: "Gamers", label: "Gamers", available: true },
+  { value: "Creatives", label: "Creatives", available: true },
+  { value: "Homeowners", label: "Homeowners", available: true },
 ];
 
 const subcategories = {
