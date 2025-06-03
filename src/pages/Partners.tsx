@@ -483,6 +483,10 @@ const Partners = () => {
                       />
                     </div>
                     <div>
+                      <label className="text-slate-700 font-medium mb-2 block">Company Website</label>
+                      <Input name="companyWebsite" type="url" placeholder="https://example.com" className="h-12" required />
+                    </div>
+                    <div>
                       <label className="text-slate-700 font-medium mb-2 block">Full Name</label>
                       <Input name="fullName" placeholder="Enter full name" className="h-12" required />
                     </div>
