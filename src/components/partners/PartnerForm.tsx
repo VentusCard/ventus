@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import BusinessInformationSection from "./BusinessInformationSection";
 import TargetingToolsSection from "./TargetingToolsSection";
@@ -104,11 +103,7 @@ const PartnerForm = () => {
   return (
     <section className="pb-16 md:pb-20 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <form 
-          action="https://script.google.com/macros/s/AKfycbwqALOfMBG5ANieRNBHKzQvxw-vF2AR6T9B2nbHM-kY9Sw5FDYwLmkIu2hf8xSM7PE/exec"
-          method="POST"
-          className="space-y-4 md:space-y-6"
-        >
+        <div className="space-y-4 md:space-y-6">
           
           {/* Section 1: Business Information */}
           <BusinessInformationSection
@@ -149,7 +144,7 @@ const PartnerForm = () => {
             isExpanded={expandedSections[4]}
             onToggle={() => toggleSection(4)}
           />
-        </form>
+        </div>
       </div>
     </section>
   );

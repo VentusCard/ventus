@@ -1,7 +1,10 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User, ChevronDown, ChevronUp } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
 
 interface ContactInformationSectionProps {
   selectedCategory: string;
@@ -18,6 +21,57 @@ const ContactInformationSection = ({
   isExpanded,
   onToggle
 }: ContactInformationSectionProps) => {
+  const { toast } = useToast();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      companyName: formData.get('companyName'),
+      companyIndustry: formData.get('companyIndustry'),
+      companyWebsite: formData.get('companyWebsite'),
+      fullName: formData.get('fullName'),
+      roleTitle: formData.get('roleTitle'),
+      emailAddress: formData.get('emailAddress'),
+      phoneNumber: formData.get('phoneNumber'),
+      annualBudget: `$${annualBudget.toLocaleString()}`,
+      expectedROAS: `${roas.min}x-${roas.max}x`,
+      timestamp: new Date().toISOString()
+    };
+
+    try {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwqALOfMBG5ANieRNBHKzQvxw-vF2AR6T9B2nbHM-kY9Sw5FDYwLmkIu2hf8xSM7PE/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
+        toast({
+          title: "Application Submitted!",
+          description: "We'll review your application and contact you within 3-5 business days.",
+        });
+        (e.target as HTMLFormElement).reset();
+      } else {
+        throw new Error('Submission failed');
+      }
+    } catch (error) {
+      console.error('Submission error:', error);
+      toast({
+        title: "Submission Error",
+        description: "There was an error submitting your application. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
       <CardHeader 
@@ -42,75 +96,78 @@ const ContactInformationSection = ({
 
       {isExpanded && (
         <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-5 animate-accordion-down">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
-            <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Name</label>
-              <Input name="companyName" placeholder="Enter company name" className="h-11 md:h-12 text-sm md:text-base" required />
+          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+              <div>
+                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Name</label>
+                <Input name="companyName" placeholder="Enter company name" className="h-11 md:h-12 text-sm md:text-base" required />
+              </div>
+              <div>
+                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Industry</label>
+                <Input 
+                  name="companyIndustry"
+                  value={selectedCategory} 
+                  readOnly 
+                  className="h-11 md:h-12 bg-slate-50 text-sm md:text-base" 
+                  placeholder="Select business category above"
+                />
+              </div>
+              <div className="md:col-span-2">
+                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Website</label>
+                <Input 
+                  name="companyWebsite" 
+                  type="url" 
+                  placeholder="https://www.example.com" 
+                  className="h-11 md:h-12 text-sm md:text-base" 
+                  required 
+                />
+                <p className="text-xs text-slate-500 mt-1">Please include https:// or http:// at the beginning</p>
+              </div>
+              <div>
+                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Full Name</label>
+                <Input name="fullName" placeholder="Enter full name" className="h-11 md:h-12 text-sm md:text-base" required />
+              </div>
+              <div>
+                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Role/Title</label>
+                <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" required />
+              </div>
+              <div>
+                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Email Address</label>
+                <Input name="emailAddress" type="email" placeholder="Enter email address" className="h-11 md:h-12 text-sm md:text-base" required />
+              </div>
+              <div>
+                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Phone Number</label>
+                <Input name="phoneNumber" type="tel" placeholder="Enter phone number" className="h-11 md:h-12 text-sm md:text-base" required />
+              </div>
             </div>
+            
             <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Industry</label>
+              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Annual Budget & ROAS Forecast</label>
               <Input 
-                name="companyIndustry"
-                value={selectedCategory} 
+                value={`$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`}
                 readOnly 
-                className="h-11 md:h-12 bg-slate-50 text-sm md:text-base" 
-                placeholder="Select business category above"
+                className="h-11 md:h-12 bg-slate-50 text-sm md:text-base"
               />
             </div>
-            <div className="md:col-span-2">
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Website</label>
-              <Input 
-                name="companyWebsite" 
-                type="url" 
-                placeholder="https://www.example.com" 
-                className="h-11 md:h-12 text-sm md:text-base" 
-                required 
-              />
-              <p className="text-xs text-slate-500 mt-1">Please include https:// or http:// at the beginning</p>
-            </div>
-            <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Full Name</label>
-              <Input name="fullName" placeholder="Enter full name" className="h-11 md:h-12 text-sm md:text-base" required />
-            </div>
-            <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Role/Title</label>
-              <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" required />
-            </div>
-            <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Email Address</label>
-              <Input name="emailAddress" type="email" placeholder="Enter email address" className="h-11 md:h-12 text-sm md:text-base" required />
-            </div>
-            <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Phone Number</label>
-              <Input name="phoneNumber" type="tel" placeholder="Enter phone number" className="h-11 md:h-12 text-sm md:text-base" required />
-            </div>
-          </div>
-          
-          <div>
-            <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Annual Budget & ROAS Forecast</label>
-            <Input 
-              value={`$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`}
-              readOnly 
-              className="h-11 md:h-12 bg-slate-50 text-sm md:text-base"
-            />
-          </div>
 
-          <div className="pt-3">
-            <Button 
-              type="submit" 
-              className="w-full h-12 md:h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base"
-            >
-              Submit to Join the Merchant Waitlist
-            </Button>
-          </div>
+            <div className="pt-3">
+              <Button 
+                type="submit" 
+                disabled={isSubmitting}
+                className="w-full h-12 md:h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {isSubmitting ? "Submitting..." : "Submit to Join the Merchant Waitlist"}
+              </Button>
+            </div>
 
-          <div className="text-center pt-3">
-            <p className="text-xs md:text-sm text-slate-500">
-              By submitting, you agree to our merchant partnership terms.
-              <br />
-              We'll review your application and contact you within 3-5 business days.
-            </p>
-          </div>
+            <div className="text-center pt-3">
+              <p className="text-xs md:text-sm text-slate-500">
+                By submitting, you agree to our merchant partnership terms.
+                <br />
+                We'll review your application and contact you within 3-5 business days.
+              </p>
+            </div>
+          </form>
         </CardContent>
       )}
     </Card>
