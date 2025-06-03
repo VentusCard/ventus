@@ -1,6 +1,5 @@
 
 import { useState, useEffect } from "react";
-import { useToast } from "@/hooks/use-toast";
 import BusinessInformationSection from "./BusinessInformationSection";
 import TargetingToolsSection from "./TargetingToolsSection";
 import BudgetTimelineSection from "./BudgetTimelineSection";
@@ -29,7 +28,6 @@ const PartnerForm = () => {
   const [budgetPeriod, setBudgetPeriod] = useState("monthly");
   const [budgetValue, setBudgetValue] = useState([5000]);
   const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false, 3: false, 4: false });
-  const { toast } = useToast();
 
   const calculateAnnualBudget = () => {
     const multipliers = { daily: 365, weekly: 52, monthly: 12, quarterly: 4 };
@@ -100,22 +98,17 @@ const PartnerForm = () => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    
-    toast({
-      title: "Application Submitted!",
-      description: "We'll review your merchant application and contact you within 3-5 business days.",
-    });
-  };
-
   const roas = calculateROAS();
   const annualBudget = calculateAnnualBudget();
 
   return (
     <section className="pb-16 md:pb-20 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
+        <form 
+          action="https://script.google.com/macros/s/AKfycbwqALOfMBG5ANieRNBHKzQvxw-vF2AR6T9B2nbHM-kY9Sw5FDYwLmkIu2hf8xSM7PE/exec"
+          method="POST"
+          className="space-y-4 md:space-y-6"
+        >
           
           {/* Section 1: Business Information */}
           <BusinessInformationSection

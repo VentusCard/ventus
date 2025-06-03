@@ -51,6 +51,7 @@ const ContactInformationSection = ({
             <div>
               <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Industry</label>
               <Input 
+                name="companyIndustry"
                 value={selectedCategory} 
                 readOnly 
                 className="h-11 md:h-12 bg-slate-50 text-sm md:text-base" 
@@ -71,11 +72,11 @@ const ContactInformationSection = ({
             </div>
             <div>
               <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Email Address</label>
-              <Input name="email" type="email" placeholder="Enter email address" className="h-11 md:h-12 text-sm md:text-base" required />
+              <Input name="emailAddress" type="email" placeholder="Enter email address" className="h-11 md:h-12 text-sm md:text-base" required />
             </div>
             <div>
               <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Phone Number</label>
-              <Input name="phone" type="tel" placeholder="Enter phone number" className="h-11 md:h-12 text-sm md:text-base" required />
+              <Input name="phoneNumber" type="tel" placeholder="Enter phone number" className="h-11 md:h-12 text-sm md:text-base" required />
             </div>
           </div>
           
