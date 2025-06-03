@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -109,6 +109,41 @@ const Partners = () => {
     return { min: minROASValue.toFixed(1), max: maxROASValue.toFixed(1) };
   };
 
+  // Section validation functions
+  const isSection1Complete = () => {
+    return selectedCategory && businessType && (
+      !subcategories[selectedCategory as keyof typeof subcategories] || 
+      selectedSubcategories.length > 0
+    );
+  };
+
+  const isSection2Complete = () => {
+    return selectedTargeting.length > 0;
+  };
+
+  const isSection3Complete = () => {
+    return budgetPeriod && budgetValue.length > 0;
+  };
+
+  // Auto-expand sections when previous section is complete
+  useEffect(() => {
+    if (isSection1Complete() && !expandedSections[2]) {
+      setExpandedSections(prev => ({ ...prev, 2: true }));
+    }
+  }, [selectedCategory, businessType, selectedSubcategories, expandedSections]);
+
+  useEffect(() => {
+    if (isSection2Complete() && !expandedSections[3]) {
+      setExpandedSections(prev => ({ ...prev, 3: true }));
+    }
+  }, [selectedTargeting, expandedSections]);
+
+  useEffect(() => {
+    if (isSection3Complete() && !expandedSections[4]) {
+      setExpandedSections(prev => ({ ...prev, 4: true }));
+    }
+  }, [budgetPeriod, budgetValue, expandedSections]);
+
   const toggleSection = (section: number) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
@@ -166,6 +201,9 @@ const Partners = () => {
                       <Building2 size={18} className="text-white relative z-10" strokeWidth={2} />
                     </div>
                     Business Information
+                    {isSection1Complete() && (
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    )}
                   </div>
                   {expandedSections[1] ? <ChevronUp /> : <ChevronDown />}
                 </CardTitle>
@@ -175,7 +213,7 @@ const Partners = () => {
               </CardHeader>
 
               {expandedSections[1] && (
-                <CardContent className="px-8 pb-6 space-y-6">
+                <CardContent className="px-8 pb-6 space-y-6 animate-accordion-down">
                   {/* Business Category */}
                   <div>
                     <label className="text-slate-700 font-medium mb-3 block">Business Category</label>
@@ -269,6 +307,9 @@ const Partners = () => {
                       <Target size={18} className="text-white relative z-10" strokeWidth={2} />
                     </div>
                     Targeting Tools
+                    {isSection2Complete() && (
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    )}
                   </div>
                   {expandedSections[2] ? <ChevronUp /> : <ChevronDown />}
                 </CardTitle>
@@ -278,7 +319,7 @@ const Partners = () => {
               </CardHeader>
 
               {expandedSections[2] && (
-                <CardContent className="px-8 pb-6">
+                <CardContent className="px-8 pb-6 animate-accordion-down">
                   <p className="text-sm text-slate-500 mb-4">
                     Select up to 3 tools that align with your campaign goals:
                   </p>
@@ -325,6 +366,9 @@ const Partners = () => {
                       <DollarSign size={18} className="text-white relative z-10" strokeWidth={2} />
                     </div>
                     Budget & Timeline
+                    {isSection3Complete() && (
+                      <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    )}
                   </div>
                   {expandedSections[3] ? <ChevronUp /> : <ChevronDown />}
                 </CardTitle>
@@ -334,7 +378,7 @@ const Partners = () => {
               </CardHeader>
 
               {expandedSections[3] && (
-                <CardContent className="px-8 pb-6 space-y-6">
+                <CardContent className="px-8 pb-6 space-y-6 animate-accordion-down">
                   {/* Budget Period Selection */}
                   <div>
                     <label className="text-slate-700 font-medium mb-3 block">Budget Period</label>
@@ -409,7 +453,7 @@ const Partners = () => {
               </CardHeader>
 
               {expandedSections[4] && (
-                <CardContent className="px-8 pb-6 space-y-5">
+                <CardContent className="px-8 pb-6 space-y-5 animate-accordion-down">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                     <div>
                       <label className="text-slate-700 font-medium mb-2 block">Company Name</label>
