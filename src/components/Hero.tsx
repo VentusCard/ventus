@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
@@ -164,9 +163,9 @@ const Hero = () => {
             </Button>
           </div>
           
-          {/* Scroll cue with minimal animation - always reserve space, control visibility */}
+          {/* Scroll cue with very subtle animation - always reserve space, control visibility */}
           <div className="mt-4 md:mt-6 h-6 flex flex-col items-center justify-center">
-            <div className={`animate-[float_12s_ease-in-out_infinite] transition-all duration-300 ${
+            <div className={`animate-[float_20s_ease-in-out_infinite] transition-all duration-300 ${
               videoEnded ? 'opacity-100 visible animate-fade-in' : 'opacity-0 invisible'
             }`} style={{ animationDelay: '0s' }}>
               <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
