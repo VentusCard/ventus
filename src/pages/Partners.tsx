@@ -87,15 +87,26 @@ const Partners = () => {
   };
 
   const calculateROAS = () => {
-    const annualBudget = calculateAnnualBudget();
-    const maxBudget = budgetRanges[budgetPeriod as keyof typeof budgetRanges].max * 
-                     { daily: 365, weekly: 52, monthly: 12, quarterly: 4 }[budgetPeriod as keyof typeof budgetRanges];
+    const currentBudget = budgetValue[0];
+    const maxBudget = budgetRanges[budgetPeriod as keyof typeof budgetRanges].max;
+    const minBudget = budgetRanges[budgetPeriod as keyof typeof budgetRanges].min;
     
-    const ratio = annualBudget / maxBudget;
-    const minROAS = 4.0 + (ratio * 2.0);
-    const maxROAS = Math.min(minROAS + 0.5, 6.0);
+    // Calculate the ratio of current budget within the range (0 to 1)
+    const budgetRatio = (currentBudget - minBudget) / (maxBudget - minBudget);
     
-    return { min: minROAS.toFixed(1), max: maxROAS.toFixed(1) };
+    // Inverse relationship: higher budget = closer to 4.0x
+    // When budget is at minimum, ROAS starts at 6.0x
+    // When budget is at maximum, ROAS approaches 4.0x
+    const maxROAS = 6.0;
+    const minROAS = 4.0;
+    const baseROAS = maxROAS - (budgetRatio * (maxROAS - minROAS));
+    
+    // Add a small range around the base ROAS
+    const rangeSize = 0.3;
+    const minROASValue = Math.max(baseROAS - rangeSize/2, minROAS);
+    const maxROASValue = baseROAS + rangeSize/2;
+    
+    return { min: minROASValue.toFixed(1), max: maxROASValue.toFixed(1) };
   };
 
   const toggleSection = (section: number) => {
