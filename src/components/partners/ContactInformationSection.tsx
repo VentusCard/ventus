@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -29,44 +28,39 @@ const ContactInformationSection = ({
     setIsSubmitting(true);
 
     try {
-      // Create a hidden form and submit it to the Google Apps Script
-      const form = document.createElement('form');
-      form.method = 'POST';
-      form.action = 'https://script.google.com/macros/s/AKfycbxr-Tk4YZ6od-m3IBFhakRQFmJcI75S4ZEIkfof7n3DZJRbkqg_hZqpVOVxb464vAV1/exec';
-      form.target = '_blank';
-
       const formData = new FormData(e.currentTarget);
       
-      // Map form data to the required field names
-      const fieldMapping = {
-        'companyName': formData.get('companyName'),
-        'companyIndustry': selectedCategory,
-        'companyWebsite': formData.get('companyWebsite'),
-        'fullName': formData.get('fullName'),
-        'roleTitle': formData.get('roleTitle'),
-        'emailAddress': formData.get('emailAddress'),
-        'phoneNumber': formData.get('phoneNumber'),
-        'annualBudgetRoas': `$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`
+      // Create JSON data with the exact field names expected by the script
+      const jsonData = {
+        companyName: formData.get('companyName'),
+        companyIndustry: selectedCategory,
+        companyWebsite: formData.get('companyWebsite'),
+        fullName: formData.get('fullName'),
+        roleTitle: formData.get('roleTitle'),
+        emailAddress: formData.get('emailAddress'),
+        phoneNumber: formData.get('phoneNumber'),
+        annualBudgetRoas: `$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`
       };
 
-      // Add each field as a hidden input
-      Object.entries(fieldMapping).forEach(([key, value]) => {
-        const input = document.createElement('input');
-        input.type = 'hidden';
-        input.name = key;
-        input.value = String(value);
-        form.appendChild(input);
+      console.log('Submitting JSON data:', jsonData);
+
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxr-Tk4YZ6od-m3IBFhakRQFmJcI75S4ZEIkfof7n3DZJRbkqg_hZqpVOVxb464vAV1/exec', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(jsonData),
       });
 
-      document.body.appendChild(form);
-      form.submit();
-      document.body.removeChild(form);
-
-      toast({
-        title: "Application Submitted!",
-        description: "Your application has been sent. We'll contact you within 3-5 business days.",
-      });
-      (e.target as HTMLFormElement).reset();
+      if (response.ok) {
+        toast({
+          title: "Application Submitted!",
+          description: "Your application has been sent. We'll contact you within 3-5 business days.",
+        });
+        (e.target as HTMLFormElement).reset();
+      } else {
+        throw new Error('Network response was not ok');
+      }
 
     } catch (error) {
       console.error('Submission error:', error);
