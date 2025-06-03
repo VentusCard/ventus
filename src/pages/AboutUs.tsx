@@ -1,46 +1,33 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Award, Heart } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 const AboutUs = () => {
-  const values = [
-    {
-      icon: Target,
-      title: "Our Mission",
-      description: "To revolutionize personal finance by creating personalized rewards that align with your values and lifestyle goals."
-    },
-    {
-      icon: Heart,
-      title: "Our Values", 
-      description: "We believe in transparency, sustainability, and empowering individuals to make choices that reflect their personal values."
-    },
-    {
-      icon: Award,
-      title: "Our Promise",
-      description: "To deliver a premium experience that rewards you for living authentically while making a positive impact."
-    },
-    {
-      icon: Users,
-      title: "Our Community",
-      description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+  const values = [{
+    icon: Target,
+    title: "Our Mission",
+    description: "To revolutionize personal finance by creating personalized rewards that align with your values and lifestyle goals."
+  }, {
+    icon: Heart,
+    title: "Our Values",
+    description: "We believe in transparency, sustainability, and empowering individuals to make choices that reflect their personal values."
+  }, {
+    icon: Award,
+    title: "Our Promise",
+    description: "To deliver a premium experience that rewards you for living authentically while making a positive impact."
+  }, {
+    icon: Users,
+    title: "Our Community",
+    description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
+  }];
+  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar />
       
       {/* Hero Section */}
       <div className="pt-[100px] pb-16 px-4 md:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            About Ventus Card
-          </h1>
-          <p className="text-lg md:text-xl text-slate-600 max-w-3xl mx-auto mb-8">
-            We're reimagining credit cards for the modern consumer. Ventus Card delivers personalized rewards that align with your lifestyle, values, and aspirations—making every purchase meaningful.
-          </p>
+          
+          
         </div>
       </div>
 
@@ -69,8 +56,7 @@ const AboutUs = () => {
 
           {/* Values Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
-            {values.map((value, index) => (
-              <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+            {values.map((value, index) => <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardHeader>
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-2 bg-blue-100 rounded-lg">
@@ -82,8 +68,7 @@ const AboutUs = () => {
                 <CardContent>
                   <p className="text-slate-600 leading-relaxed">{value.description}</p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
 
           {/* Team Section */}
@@ -95,8 +80,6 @@ const AboutUs = () => {
       </div>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default AboutUs;
