@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -43,10 +44,10 @@ const ContactInformationSection = ({
       };
 
       console.log('Submitting data:', submitData);
-      console.log('Request URL:', 'https://script.google.com/macros/s/AKfycbxdiLsbUGGQmiJcX0wE8veuiLrZgDgG2ZFRNVlXUr_U8dZSd20yLr2PdzP4dyNJ2Cc/exec');
+      console.log('Request URL:', 'https://script.google.com/macros/s/AKfycbz5uXOuRGLn18G_LlDDnQQQ-0JKbOMF6oFix1FXN5WuFYiTBYG2FggDVpr682MfC54o/exec');
 
       // Try the submission
-      const response = await fetch('https://script.google.com/macros/s/AKfycbxdiLsbUGGQmiJcX0wE8veuiLrZgDgG2ZFRNVlXUr_U8dZSd20yLr2PdzP4dyNJ2Cc/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbz5uXOuRGLn18G_LlDDnQQQ-0JKbOMF6oFix1FXN5WuFYiTBYG2FggDVpr682MfC54o/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {
@@ -176,6 +177,7 @@ const ContactInformationSection = ({
             <div>
               <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Annual Budget & ROAS Forecast</label>
               <Input 
+                name="annualBudgetRoas"
                 value={`$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`}
                 readOnly 
                 className="h-11 md:h-12 bg-slate-50 text-sm md:text-base"
