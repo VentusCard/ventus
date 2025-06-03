@@ -1,6 +1,8 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Award, Heart } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -82,6 +84,26 @@ const AboutUs = () => {
             
             
           </Card>
+
+          {/* CTA Section */}
+          <div className="mt-12 text-center">
+            <div className="max-w-2xl mx-auto mb-8">
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">
+                Ready to Experience Ventus?
+              </h3>
+              <p className="text-slate-600 text-lg leading-relaxed">
+                Discover how Ventus Card can transform your spending into personalized rewards that align with your lifestyle.
+              </p>
+            </div>
+            <Link to="/onboarding">
+              <Button 
+                size="lg" 
+                className="w-full max-w-md px-12 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200"
+              >
+                Learn How Ventus Card Works
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
 
