@@ -1,4 +1,3 @@
-
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -57,7 +56,7 @@ const Footer = () => {
             <p className="text-slate-400 text-sm mb-4">
               Have questions? We're here to help.
             </p>
-            <Link to="/contact" className="inline-block bg-blue-600 hover:bg-blue-700 text-slate-200 px-4 py-2 rounded-lg transition-colors text-sm font-medium">
+            <Link to="/contact" className="inline-block bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium">
               Contact Us
             </Link>
           </div>
