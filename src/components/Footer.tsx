@@ -1,8 +1,6 @@
-
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const Footer = () => {
   return <footer className="bg-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
@@ -39,7 +37,7 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Waitlist Access</h4>
             <div className="space-y-2">
               <Link to="/join-waitlist">
-                <Button variant="outline" className="w-full text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
+                <Button variant="outline" className="w-32 text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
                   Card Users
                 </Button>
               </Link>
@@ -71,5 +69,4 @@ const Footer = () => {
       </div>
     </footer>;
 };
-
 export default Footer;
