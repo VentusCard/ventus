@@ -42,7 +42,7 @@ const Footer = () => {
                 </Button>
               </Link>
               <Link to="/partners">
-                <Button variant="outline" className="w-full text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
+                <Button variant="outline" className="w-auto text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
                   Merchant Partners
                 </Button>
               </Link>
