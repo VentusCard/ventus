@@ -37,14 +37,14 @@ const Footer = () => {
           {/* Waitlist Access */}
           <div>
             <h4 className="text-lg font-semibold mb-4">Waitlist Access</h4>
-            <div className="space-y-3">
+            <div className="space-y-2">
               <Link to="/join-waitlist">
-                <Button variant="outline" size="sm" className="w-full text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white">
+                <Button variant="outline" className="w-full text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
                   Card Users
                 </Button>
               </Link>
               <Link to="/partners">
-                <Button variant="outline" size="sm" className="w-full text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white">
+                <Button variant="outline" className="w-full text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
                   Merchant Partners
                 </Button>
               </Link>
