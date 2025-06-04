@@ -37,12 +37,12 @@ const Footer = () => {
             <h4 className="text-lg font-semibold mb-4">Waitlist Access</h4>
             <div className="space-y-2">
               <Link to="/join-waitlist">
-                <Button variant="outline" className="mb-[5px] pw-35 text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
+                <Button variant="outline" className="w-32 text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
                   Card Users
                 </Button>
               </Link>
               <Link to="/partners">
-                <Button variant="outline" className="w-40 text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
+                <Button variant="outline" className="w-auto text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
                   Merchant Partners
                 </Button>
               </Link>
