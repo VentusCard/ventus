@@ -27,7 +27,7 @@ const Footer = () => {
               <Link to="/partners" className="block text-slate-400 hover:text-white transition-colors text-sm">
                 Partners
               </Link>
-              <Link to="/join-waitlist" className="inline-block bg-blue-600 hover:bg-blue-700 !text-white px-4 py-2 rounded-lg transition-colors text-sm font-medium">
+              <Link to="/join-waitlist" className="inline-block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-sm font-medium" style={{ color: 'white' }}>
                 Join Waitlist
               </Link>
             </div>
