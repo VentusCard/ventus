@@ -1,3 +1,4 @@
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -52,15 +53,11 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Waitlist Access</h4>
             <div className="space-y-2">
-              <a href="/join-waitlist" onClick={handleJoinWaitlistClick}>
-                <Button variant="outline" className="mb-[5px] w-48 text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs\n">
-                  Card Users
-                </Button>
+              <a href="/join-waitlist" onClick={handleJoinWaitlistClick} className="block text-slate-400 hover:text-white transition-colors text-sm">
+                Card Users
               </a>
-              <Link to="/partners">
-                <Button variant="outline" className="mb-[5px] w-48 text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs">
-                  Merchant Partners
-                </Button>
+              <Link to="/partners" className="block text-slate-400 hover:text-white transition-colors text-sm">
+                Merchant Partners
               </Link>
             </div>
           </div>
