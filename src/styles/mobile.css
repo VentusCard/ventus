@@ -12,9 +12,9 @@
       min-width: 44px;
     }
     
-    /* Better spacing for form elements */
+    /* Better spacing for form elements - increased for step 3 */
     .form-field {
-      margin-bottom: 1.25rem;
+      margin-bottom: 2rem; /* Increased from 1.25rem */
     }
     
     /* Optimize card spacing on mobile */
@@ -30,7 +30,8 @@
     /* Improved form labels on mobile */
     .form-field label {
       font-size: 0.875rem;
-      margin-bottom: 0.75rem;
+      margin-bottom: 1rem; /* Increased from 0.75rem */
+      line-height: 1.4;
     }
 
     /* Better input field sizing */
@@ -46,6 +47,19 @@
       height: 48px;
       font-size: 16px;
       padding: 0.75rem 1rem;
+    }
+
+    /* Ensure text wraps properly on mobile for example purchases */
+    .text-sm, .text-xs {
+      word-wrap: break-word;
+      hyphens: auto;
+      line-height: 1.5;
+    }
+
+    /* Force line breaks for short words like "Apps", "Classes" */
+    span, p, div {
+      word-break: break-word;
+      overflow-wrap: break-word;
     }
   }
 }
@@ -77,5 +91,15 @@
   /* Prevent horizontal scrolling */
   body {
     overflow-x: hidden;
+  }
+
+  /* Better spacing for deal cards on mobile */
+  .grid {
+    gap: 1rem;
+  }
+
+  /* Ensure proper line height for readability */
+  .text-slate-700, .text-slate-600 {
+    line-height: 1.6;
   }
 }
