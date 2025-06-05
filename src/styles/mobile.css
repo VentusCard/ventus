@@ -14,18 +14,38 @@
     
     /* Better spacing for form elements */
     .form-field {
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
     
     /* Optimize card spacing on mobile */
     .card-mobile {
-      padding: 1rem;
-      margin-bottom: 1rem;
+      margin: 0 0.5rem 1rem 0.5rem;
     }
 
     /* Mobile-optimized shadows */
     .shadow-premium {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Improved form labels on mobile */
+    .form-field label {
+      font-size: 0.875rem;
+      margin-bottom: 0.75rem;
+    }
+
+    /* Better input field sizing */
+    .form-field input,
+    .form-field select {
+      height: 48px;
+      font-size: 16px;
+      padding: 0.75rem;
+    }
+
+    /* Optimize button sizing for mobile */
+    .form-field button {
+      height: 48px;
+      font-size: 16px;
+      padding: 0.75rem 1rem;
     }
   }
 }
@@ -36,5 +56,26 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Mobile-specific improvements for touch interactions */
+@media (max-width: 768px) {
+  /* Better button active states */
+  button:active {
+    transform: scale(0.98);
+  }
+
+  /* Improved focus states for accessibility */
+  input:focus,
+  select:focus,
+  button:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+  }
+
+  /* Prevent horizontal scrolling */
+  body {
+    overflow-x: hidden;
   }
 }

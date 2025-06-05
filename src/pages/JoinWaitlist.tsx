@@ -88,44 +88,44 @@ const JoinWaitlist = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="pt-20 pb-8 px-6">
+      {/* Hero Section - Mobile Optimized */}
+      <section className="pt-16 md:pt-20 pb-4 md:pb-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="font-display text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
+          <h1 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
             Be First to Experience
             <br />
             <span className="text-blue-600">Ventus Card</span>
           </h1>
           
-          <p className="text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-6">
+          <p className="text-lg md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-4 md:mb-6 px-2">
             Join thousands of others waiting for the personalized credit card that adapts to your lifestyle.
-            <br />
-            Be among the first to access exclusive rewards tailored just for you.
+            <br className="hidden sm:block" />
+            <span className="block sm:inline"> Be among the first to access exclusive rewards tailored just for you.</span>
           </p>
         </div>
       </section>
 
-      {/* Form Section */}
-      <section className="pb-20 px-6">
+      {/* Form Section - Mobile Optimized */}
+      <section className="pb-12 md:pb-20 px-4 md:px-6">
         <div className="max-w-4xl mx-auto">
-          <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
+          <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm card-mobile">
             <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600"></div>
             
-            <CardHeader className="text-center pb-4">
-              <CardTitle className="flex items-center justify-center gap-3 text-2xl font-bold">
+            <CardHeader className="text-center pb-3 md:pb-4 px-4 md:px-8 pt-4 md:pt-6">
+              <CardTitle className="flex items-center justify-center gap-3 text-xl md:text-2xl font-bold">
                 Join the Waitlist
               </CardTitle>
-              <p className="text-slate-600 mt-2">
+              <p className="text-slate-600 mt-2 text-sm md:text-base px-2">
                 Get early access and exclusive updates about Ventus Card availability
               </p>
             </CardHeader>
 
-            <CardContent className="px-8 pb-6">
-              <form onSubmit={handleSubmit} className="space-y-5">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div>
-                    <label className="text-slate-700 font-medium flex items-center gap-3 mb-2">
-                      <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+            <CardContent className="px-4 md:px-8 pb-4 md:pb-6">
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+                  <div className="form-field">
+                    <label className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base">
+                      <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
                         {/* Precious metal texture */}
                         <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
                         {/* Metallic border */}
@@ -138,15 +138,15 @@ const JoinWaitlist = () => {
                       name="firstName"
                       type="text"
                       placeholder="Enter your first name" 
-                      className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
+                      className="h-12 md:h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
                       minLength={2}
                       required
                     />
                   </div>
 
-                  <div>
-                    <label className="text-slate-700 font-medium flex items-center gap-3 mb-2">
-                      <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                  <div className="form-field">
+                    <label className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base">
+                      <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
                         {/* Precious metal texture */}
                         <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
                         {/* Metallic border */}
@@ -159,16 +159,16 @@ const JoinWaitlist = () => {
                       name="lastName"
                       type="text"
                       placeholder="Enter your last name" 
-                      className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
+                      className="h-12 md:h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
                       minLength={2}
                       required
                     />
                   </div>
                 </div>
 
-                <div>
-                  <label className="text-slate-700 font-medium flex items-center gap-3 mb-2">
-                    <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                <div className="form-field">
+                  <label className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base">
+                    <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
                       {/* Precious metal texture */}
                       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
                       {/* Metallic border */}
@@ -179,7 +179,7 @@ const JoinWaitlist = () => {
                   </label>
                   <select 
                     name="interest"
-                    className="flex h-12 w-full rounded-md border border-slate-200 bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
+                    className="flex h-12 md:h-12 w-full rounded-md border border-slate-200 bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200"
                     required
                   >
                     <option value="" disabled>Select your main interest category</option>
@@ -191,9 +191,9 @@ const JoinWaitlist = () => {
                   </select>
                 </div>
 
-                <div>
-                  <label className="text-slate-700 font-medium flex items-center gap-3 mb-2">
-                    <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                <div className="form-field">
+                  <label className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base">
+                    <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
                       {/* Precious metal texture */}
                       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
                       {/* Metallic border */}
@@ -206,23 +206,23 @@ const JoinWaitlist = () => {
                     name="email"
                     type="email"
                     placeholder="Enter your email address" 
-                    className="h-12 border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
+                    className="h-12 md:h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200"
                     required
                   />
                 </div>
 
-                <div className="pt-3">
+                <div className="pt-3 md:pt-3">
                   <Button 
                     type="submit" 
-                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
+                    className="w-full h-12 md:h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] active:scale-[0.98] text-base md:text-base"
                     disabled={isSubmitting}
                   >
                     {isSubmitting ? "Joining Waitlist..." : "Join the Waitlist"}
                   </Button>
                 </div>
 
-                <div className="text-center pt-3">
-                  <p className="text-sm text-slate-500">
+                <div className="text-center pt-3 md:pt-3">
+                  <p className="text-xs md:text-sm text-slate-500 px-2 leading-relaxed">
                     By joining, you agree to receive updates about Ventus Card availability.
                     <br />
                     Available only in the USA for eligible customers.
