@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
@@ -10,7 +11,7 @@ interface GoalOption {
   title: string;
   description: string;
   availability: string;
-  year: "Available Now" | "Year One" | "Year Two";
+  year: "Available Now" | "Available Soon" | "Year One";
   icon: string;
   merchants: {
     category: string;
@@ -47,8 +48,8 @@ const goalOptions: GoalOption[] = [{
   id: "wellness",
   title: "Wellness",
   description: "Earn more on fitness programs, mental health services, and wellness products.",
-  availability: "Year One",
-  year: "Year One",
+  availability: "Available Soon",
+  year: "Available Soon",
   icon: "💚",
   merchants: [{
     category: "Fitness Programs",
@@ -73,8 +74,8 @@ const goalOptions: GoalOption[] = [{
   id: "pets",
   title: "Pet Owners",
   description: "Get rewarded on pet supplies, veterinary services, and grooming expenses.",
-  availability: "Year One",
-  year: "Year One",
+  availability: "Available Soon",
+  year: "Available Soon",
   icon: "🐕",
   merchants: [{
     category: "Pet Supply Retailers",
@@ -99,8 +100,8 @@ const goalOptions: GoalOption[] = [{
   id: "gamers",
   title: "Gamers",
   description: "Level up your rewards on gaming platforms, hardware, and subscriptions.",
-  availability: "Year Two",
-  year: "Year Two",
+  availability: "Year One",
+  year: "Year One",
   icon: "🎮",
   merchants: [{
     category: "Gaming Marketplaces",
@@ -125,8 +126,8 @@ const goalOptions: GoalOption[] = [{
   id: "creatives",
   title: "Creatives",
   description: "Boost rewards on creative software, supplies, and hardware.",
-  availability: "Year Two",
-  year: "Year Two",
+  availability: "Year One",
+  year: "Year One",
   icon: "🎨",
   merchants: [{
     category: "Design Software",
@@ -151,8 +152,8 @@ const goalOptions: GoalOption[] = [{
   id: "homeowners",
   title: "Homeowners",
   description: "Earn more on home improvement, furniture, and home services.",
-  availability: "Year Two",
-  year: "Year Two",
+  availability: "Year One",
+  year: "Year One",
   icon: "🏠",
   merchants: [{
     category: "Home Improvement Stores",
@@ -192,7 +193,7 @@ const StepOneLifestyleGoal = ({
                 <div className="text-4xl mb-4">{option.icon}</div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{option.title}</h3>
                 <p className="text-gray-600 mb-3">{option.description}</p>
-                <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${option.year === "Available Now" ? "bg-green-100 text-green-700" : option.year === "Year One" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
+                <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${option.year === "Available Now" ? "bg-green-100 text-green-700" : option.year === "Available Soon" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
                   {option.availability}
                 </span>
               </div>
