@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
@@ -83,17 +84,17 @@ const Hero = () => {
       {/* Refined bottom gradient overlay for smoother transition - reduced height and more subtle */}
       <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent via-[#0A0A0A] to-[#F8F9FA] z-20 pointer-events-none"></div>
       
-      <div className="max-w-6xl mx-auto px-4 md:px-6 lg:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
+      <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
         {/* Add spacing between navbar and hero content */}
         <div className="flex flex-col items-center justify-center space-y-4 md:space-y-6 pt-8 md:pt-12">
-          {/* Headline with enhanced typography and brushstroke animation - improved mobile sizing */}
-          <h1 className="font-sans text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight px-4 max-w-full">
+          {/* Headline with enhanced typography and brushstroke animation */}
+          <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
               <span className="relative z-20 animate-[unleashed_2s_ease-out_0.5s_both]">
                 Unleashed
               </span>
               {/* Elegant brushstroke with metallic shimmer */}
-              <svg className="absolute bottom-0 left-0 w-full h-1.5 xs:h-2 sm:h-3 md:h-4 lg:h-5 animate-[brushstroke-draw_1.5s_ease-out_0.5s_both] opacity-90" viewBox="0 0 200 20" preserveAspectRatio="none" style={{
+              <svg className="absolute bottom-0 left-0 w-full h-3 md:h-4 lg:h-5 animate-[brushstroke-draw_1.5s_ease-out_0.5s_both] opacity-90" viewBox="0 0 200 20" preserveAspectRatio="none" style={{
                 transform: 'translateY(50%)'
               }}>
                 <defs>
@@ -120,7 +121,7 @@ const Hero = () => {
           </h1>
           
           {/* Enhanced subheading with soft blue-gray tone */}
-          <p className="text-sm sm:text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
+          <p className="text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
             Personalized rewards for high-impact living
           </p>
           
@@ -155,7 +156,7 @@ const Hero = () => {
             <Button 
               onClick={handleLearnMore}
               size="lg" 
-              className={`bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-16 sm:px-20 py-6 sm:py-7 text-base sm:text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[56px] sm:min-h-[64px] min-w-[200px] sm:min-w-[220px] border-0 ${
+              className={`bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-20 py-7 text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[64px] min-w-[220px] border-0 ${
                 videoEnded ? 'opacity-100 visible animate-fade-in' : 'opacity-0 invisible'
               }`}
             >
