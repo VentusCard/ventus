@@ -20,6 +20,7 @@ const buttonVariants = cva(
         ghost: "hover:bg-slate-100/80 hover:text-slate-900 backdrop-blur-sm",
         link: "text-blue-600 underline-offset-4 hover:underline font-medium",
         premium: "bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-premium hover:shadow-titanium border border-slate-600/50 backdrop-blur-sm before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700",
+        whiteText: "bg-white hover:bg-white/90 transition-all duration-300 hover:scale-105 text-white",
       },
       size: {
         default: "h-11 px-6 py-2",
