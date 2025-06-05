@@ -1,5 +1,3 @@
-
-
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useEffect, useState, useRef } from "react";
@@ -89,13 +87,13 @@ const Hero = () => {
         {/* Add spacing between navbar and hero content */}
         <div className="flex flex-col items-center justify-center space-y-4 md:space-y-6 pt-8 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation - improved mobile sizing */}
-          <h1 className="font-sans text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight px-2">
+          <h1 className="font-sans text-2xl xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight px-4 max-w-full">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
               <span className="relative z-20 animate-[unleashed_2s_ease-out_0.5s_both]">
                 Unleashed
               </span>
               {/* Elegant brushstroke with metallic shimmer */}
-              <svg className="absolute bottom-0 left-0 w-full h-2 sm:h-3 md:h-4 lg:h-5 animate-[brushstroke-draw_1.5s_ease-out_0.5s_both] opacity-90" viewBox="0 0 200 20" preserveAspectRatio="none" style={{
+              <svg className="absolute bottom-0 left-0 w-full h-1.5 xs:h-2 sm:h-3 md:h-4 lg:h-5 animate-[brushstroke-draw_1.5s_ease-out_0.5s_both] opacity-90" viewBox="0 0 200 20" preserveAspectRatio="none" style={{
                 transform: 'translateY(50%)'
               }}>
                 <defs>
@@ -122,7 +120,7 @@ const Hero = () => {
           </h1>
           
           {/* Enhanced subheading with soft blue-gray tone */}
-          <p className="text-sm sm:text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed px-2">
+          <p className="text-sm sm:text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed px-4">
             Personalized rewards for high-impact living
           </p>
           
@@ -180,4 +178,3 @@ const Hero = () => {
 };
 
 export default Hero;
-
