@@ -724,34 +724,34 @@ const StepTwoValueComparisonAndSimplification = ({
   return <div>
       {/* Selected Categories Impact - Moved to top */}
       <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 mb-6">
-        <CardContent className="p-4">
-          <div className="flex items-center gap-3 mb-4">
+        <CardContent className="p-4 md:p-6">
+          <div className="flex items-center gap-3 mb-4 md:mb-6">
             <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
-              <CreditCard className="h-6 w-6 text-white" />
+              <CreditCard className="h-5 w-5 md:h-6 md:w-6 text-white" />
             </div>
-            <h3 className="font-display text-xl font-bold text-blue-800">How Ventus Gives Cross-Category Rewards</h3>
+            <h3 className="font-display text-lg md:text-xl font-bold text-blue-800 leading-tight">How Ventus Gives Cross-Category Rewards</h3>
           </div>
           
-          <p className="text-slate-600 mb-4">
+          <p className="text-slate-600 mb-4 md:mb-6 text-sm md:text-base leading-relaxed">
             Instead of juggling multiple cards, Ventus automatically gives you 5x rewards on ALL these purchases:
           </p>
 
-          <div className="space-y-4">
+          <div className="space-y-4 md:space-y-6">
             {getSelectedCategoryData().map(({
             subcategory,
             items
-          }) => <div key={subcategory} className="bg-white p-4 rounded-lg border border-blue-200">
-                <h4 className="font-semibold text-blue-700 mb-3 text-lg">{subcategory}</h4>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                  {items.map((item, index) => <div key={index} className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
-                      <span className="text-slate-700 font-medium">{item.item}</span>
-                      <div className="flex items-center gap-2">
-                        <span className="text-xs text-slate-500">was</span>
-                        <div className={`px-2 py-1 ${item.color} text-white text-xs rounded opacity-60 line-through`}>
+          }) => <div key={subcategory} className="bg-white p-3 md:p-4 rounded-lg border border-blue-200">
+                <h4 className="font-semibold text-blue-700 mb-3 md:mb-4 text-base md:text-lg">{subcategory}</h4>
+                <div className="grid grid-cols-1 gap-3 md:gap-4">
+                  {items.map((item, index) => <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 md:p-4 bg-blue-50 rounded-lg gap-3 sm:gap-2">
+                      <span className="text-slate-700 font-medium text-sm md:text-base leading-relaxed">{item.item}</span>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="text-xs text-slate-500 hidden sm:inline">was</span>
+                        <div className={`px-2 py-1 ${item.color} text-white text-xs rounded opacity-60 line-through flex-shrink-0`}>
                           {item.card}
                         </div>
-                        <span className="text-xs text-blue-600">→</span>
-                        <div className="px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs rounded font-bold">
+                        <span className="text-xs text-blue-600 hidden sm:inline">→</span>
+                        <div className="px-2 md:px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs rounded font-bold flex-shrink-0">
                           5X VENTUS
                         </div>
                       </div>
@@ -760,10 +760,10 @@ const StepTwoValueComparisonAndSimplification = ({
               </div>)}
           </div>
 
-          <div className="mt-4 text-center">
-            <div className="p-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg">
-              <p className="font-bold text-lg mb-1">🎉 The Ventus Advantage</p>
-              <p className="text-sm opacity-90">
+          <div className="mt-4 md:mt-6 text-center">
+            <div className="p-3 md:p-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg">
+              <p className="font-bold text-base md:text-lg mb-1">🎉 The Ventus Advantage</p>
+              <p className="text-xs md:text-sm opacity-90 leading-relaxed">
                 One card automatically optimizes ALL your {goalTitles[selectedGoal]} purchases for maximum rewards
               </p>
             </div>
