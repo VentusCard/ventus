@@ -1,3 +1,4 @@
+
 import { Link } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -27,7 +28,7 @@ const Footer = () => {
               <Link to="/partners" className="block text-slate-400 hover:text-white transition-colors text-sm">
                 Partners
               </Link>
-              <Link to="/join-waitlist" className="block text-slate-400 hover:text-white transition-colors text-sm">
+              <Link to="/join-waitlist" className="block text-white hover:text-white transition-colors text-sm">
                 Join Waitlist
               </Link>
             </div>
