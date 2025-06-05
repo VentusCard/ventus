@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import BusinessInformationSection from "./BusinessInformationSection";
 import TargetingToolsSection from "./TargetingToolsSection";
@@ -139,6 +140,7 @@ const PartnerForm = () => {
           {/* Section 4: Contact Information */}
           <ContactInformationSection
             selectedCategory={selectedCategory}
+            selectedSubcategories={selectedSubcategories}
             annualBudget={annualBudget}
             roas={roas}
             isExpanded={expandedSections[4]}

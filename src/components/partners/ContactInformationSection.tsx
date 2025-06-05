@@ -8,6 +8,7 @@ import { useState } from "react";
 
 interface ContactInformationSectionProps {
   selectedCategory: string;
+  selectedSubcategories: string[];
   annualBudget: number;
   roas: { min: string; max: string };
   isExpanded: boolean;
@@ -16,6 +17,7 @@ interface ContactInformationSectionProps {
 
 const ContactInformationSection = ({
   selectedCategory,
+  selectedSubcategories,
   annualBudget,
   roas,
   isExpanded,
@@ -23,6 +25,13 @@ const ContactInformationSection = ({
 }: ContactInformationSectionProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Format the company industry field to include subcategories
+  const formatCompanyIndustry = () => {
+    if (!selectedCategory) return "";
+    if (selectedSubcategories.length === 0) return selectedCategory;
+    return `${selectedCategory} - ${selectedSubcategories.join(", ")}`;
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -34,7 +43,7 @@ const ContactInformationSection = ({
       // Create the data object
       const submitData = {
         companyName: formData.get('companyName'),
-        companyIndustry: selectedCategory,
+        companyIndustry: formatCompanyIndustry(),
         companyWebsite: formData.get('companyWebsite'),
         fullName: formData.get('fullName'),
         roleTitle: formData.get('roleTitle'),
@@ -121,7 +130,7 @@ const ContactInformationSection = ({
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Industry</label>
                 <Input 
                   name="companyIndustry"
-                  value={selectedCategory} 
+                  value={formatCompanyIndustry()} 
                   readOnly 
                   className="h-11 md:h-12 bg-slate-50 text-sm md:text-base" 
                   placeholder="Select business category above"
