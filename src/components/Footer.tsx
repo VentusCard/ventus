@@ -1,11 +1,15 @@
-
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Footer = () => {
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const location = useLocation();
+  
+  const handleJoinWaitlistClick = () => {
+    // Always scroll to top, whether navigating to the page or already on it
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   return <footer className="bg-slate-900 text-white py-12">
@@ -32,7 +36,7 @@ const Footer = () => {
               <Link to="/partners" className="block text-slate-400 hover:text-white transition-colors text-sm">
                 Partners
               </Link>
-              <Link to="/join-waitlist" onClick={scrollToTop} className="inline-block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-sm font-medium" style={{ color: 'white' }}>
+              <Link to="/join-waitlist" onClick={handleJoinWaitlistClick} className="inline-block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-sm font-medium" style={{ color: 'white' }}>
                 Join Waitlist
               </Link>
             </div>
@@ -42,7 +46,7 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Waitlist Access</h4>
             <div className="space-y-2">
-              <Link to="/join-waitlist" onClick={scrollToTop}>
+              <Link to="/join-waitlist" onClick={handleJoinWaitlistClick}>
                 <Button variant="outline" className="mb-[5px] w-48 text-left justify-start bg-white/10 border-slate-600 text-white hover:bg-white/20 hover:text-white h-8 px-3 text-xs\n">
                   Card Users
                 </Button>
