@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -121,7 +122,7 @@ const JoinWaitlist = () => {
                 Join the Waitlist
               </CardTitle>
               <p className="text-slate-600 mt-2 text-sm md:text-base px-2">
-                Get early access and exclusive updates about Ventus Card availability
+                Waitlist members will be notified by order of sign up and get one year of premium membership for free. Ventus will only be available in the USA for eligible customers.
               </p>
             </CardHeader>
 
