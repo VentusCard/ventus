@@ -110,7 +110,7 @@ const OnboardingFlow = () => {
         </div>
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 py-8 md:py-10">
-          <div className="text-center max-w-4xl mx-auto">
+          <div className="text-center max-w-5xl mx-auto">
             <h1 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
               <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
                 Discover Your
@@ -121,7 +121,7 @@ const OnboardingFlow = () => {
               </span>
             </h1>
             
-            <p className="text-lg md:text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto">Ventus aims to provide you with purposeful rewards instead of broad-category rewards. Choose your lifestyle goal and explore how Ventus Card personalizes rewards to match your unique spending patterns and interests.</p>
+            <p className="text-lg md:text-xl text-blue-100 leading-relaxed max-w-4xl mx-auto">Most rewards cards are built for categories, not people. Ventus is here to change that. We start with your personal goals: like getting healthier, training for your next race, or just taking better care of your dog or home, we then build rewards and curate deals around the things you actually care about. Ventus will find the right offers for you, no more switching cards or missing out on rewards.</p>
           </div>
         </div>
 
