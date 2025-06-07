@@ -8,9 +8,7 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
-
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
-
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
   subcategories: string[];
@@ -21,7 +19,6 @@ export interface OnboardingFlowData {
   minCashbackPercentage: number;
   maxCashbackPercentage: number;
 }
-
 const OnboardingFlow = () => {
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
@@ -34,31 +31,26 @@ const OnboardingFlow = () => {
     minCashbackPercentage: 5,
     maxCashbackPercentage: 15
   });
-
   const totalSteps = 5;
 
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-
   const goToNextStep = () => {
     setStep(prev => prev + 1);
     window.scrollTo(0, 0);
   };
-
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
     window.scrollTo(0, 0);
   };
-
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
       ...prev,
       ...data
     }));
   };
-
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -81,13 +73,11 @@ const OnboardingFlow = () => {
         })} />;
     }
   };
-
   const isNextButtonDisabled = () => {
     if (step === 1 && !onboardingData.mainGoal) return true;
     if (step === 2 && onboardingData.subcategories.length === 0) return true;
     return false;
   };
-
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
@@ -104,9 +94,7 @@ const OnboardingFlow = () => {
         return '';
     }
   };
-
-  return (
-    <div className="min-h-screen flex flex-col bg-slate-50">
+  return <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
       {/* Optimized Hero Section with proper top spacing */}
@@ -132,9 +120,7 @@ const OnboardingFlow = () => {
               </span>
             </h1>
             
-            <p className="text-lg md:text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto">
-              Choose your lifestyle goal and explore how Ventus Card personalizes rewards to match your unique spending patterns and interests.
-            </p>
+            <p className="text-lg md:text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto">Ventus aims to provide you with purposeful rewards instead of broad-category rewards. Choose your lifestyle goal and explore how Ventus Card personalizes rewards to match your unique spending patterns and interests.</p>
           </div>
         </div>
 
@@ -148,26 +134,14 @@ const OnboardingFlow = () => {
           <div className="mb-12">
             {/* Step Progress Bar */}
             <div className="flex items-center justify-center mb-8 overflow-x-auto pb-2">
-              {Array.from({ length: totalSteps }, (_, i) => i + 1).map(stepNumber => (
-                <div key={stepNumber} className="flex items-center">
-                  <div className={`h-12 w-12 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 flex-shrink-0 ${
-                    step > stepNumber 
-                      ? 'bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-lg' 
-                      : step === stepNumber 
-                        ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg ring-4 ring-blue-100' 
-                        : 'bg-slate-200 text-slate-600 border-2 border-slate-300'
-                  }`}>
+              {Array.from({
+              length: totalSteps
+            }, (_, i) => i + 1).map(stepNumber => <div key={stepNumber} className="flex items-center">
+                  <div className={`h-12 w-12 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-lg' : step === stepNumber ? 'bg-gradient-to-r from-blue-600 to-blue-500 text-white shadow-lg ring-4 ring-blue-100' : 'bg-slate-200 text-slate-600 border-2 border-slate-300'}`}>
                     {step > stepNumber ? <CheckCircle2 className="h-5 w-5" /> : stepNumber}
                   </div>
-                  {stepNumber < totalSteps && (
-                    <div className={`h-1 w-16 md:w-20 transition-all duration-300 flex-shrink-0 ${
-                      step > stepNumber 
-                        ? 'bg-gradient-to-r from-green-400 to-emerald-300' 
-                        : 'bg-slate-200'
-                    }`}></div>
-                  )}
-                </div>
-              ))}
+                  {stepNumber < totalSteps && <div className={`h-1 w-16 md:w-20 transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-400 to-emerald-300' : 'bg-slate-200'}`}></div>}
+                </div>)}
             </div>
             
             {/* Step Info */}
@@ -188,38 +162,18 @@ const OnboardingFlow = () => {
           
           {/* Navigation */}
           <div className="flex justify-between items-center max-w-2xl mx-auto">
-            {step > 1 ? (
-              <Button 
-                variant="outline" 
-                onClick={goToPreviousStep} 
-                className="flex items-center gap-2 px-6 py-3 text-base font-medium border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200"
-              >
+            {step > 1 ? <Button variant="outline" onClick={goToPreviousStep} className="flex items-center gap-2 px-6 py-3 text-base font-medium border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200">
                 <ArrowLeft size={18} /> Back
-              </Button>
-            ) : (
-              <div></div>
-            )}
+              </Button> : <div></div>}
             
-            {step < totalSteps ? (
-              <Button 
-                onClick={goToNextStep} 
-                disabled={isNextButtonDisabled()} 
-                className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 ${
-                  isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'
-                }`}
-              >
+            {step < totalSteps ? <Button onClick={goToNextStep} disabled={isNextButtonDisabled()} className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 ${isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`}>
                 Next <ArrowRight size={18} />
-              </Button>
-            ) : (
-              <div></div>
-            )}
+              </Button> : <div></div>}
           </div>
         </div>
       </div>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default OnboardingFlow;
