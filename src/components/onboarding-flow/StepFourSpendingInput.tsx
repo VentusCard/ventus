@@ -4,10 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import WaitlistForm from "@/components/onboarding/step-three/WaitlistForm";
+
 interface StepFourSpendingInputProps {
   onboardingData: OnboardingFlowData;
   updateOnboardingData: (data: Partial<OnboardingFlowData>) => void;
 }
+
 const StepFourSpendingInput = ({
   onboardingData,
   updateOnboardingData
@@ -97,40 +99,50 @@ const StepFourSpendingInput = ({
     });
   };
   const sliderConfig = getSliderConfig(selectedFrequency);
-  return <div>
-      <div className="text-center mb-8">
-        <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">Tell Us About Your Spending Habit</h2>
-        <p className="text-lg text-slate-600">
+  return (
+    <div>
+      <div className="text-center mb-6">
+        <h2 className="font-display text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+          Tell Us About Your Spending Habit
+        </h2>
+        <p className="text-base text-slate-600">
           Help us calculate your personalized rewards potential
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Spending Frequency Selection */}
         <Card>
-          <CardContent className="p-6">
-            <h3 className="font-display text-xl font-bold mb-6">
+          <CardContent className="p-5">
+            <h3 className="font-display text-lg font-bold mb-4">
               How often do you spend in your selected categories?
             </h3>
             
             <div className="grid grid-cols-2 gap-3">
-              {frequencyOptions.map(option => <Button key={option.value} variant={selectedFrequency === option.value ? "default" : "outline"} onClick={() => handleFrequencyChange(option.value)} className="h-12">
+              {frequencyOptions.map(option => (
+                <Button
+                  key={option.value}
+                  variant={selectedFrequency === option.value ? "default" : "outline"}
+                  onClick={() => handleFrequencyChange(option.value)}
+                  className="h-10"
+                >
                   {option.label}
-                </Button>)}
+                </Button>
+              ))}
             </div>
           </CardContent>
         </Card>
 
         {/* Spending Amount Slider */}
         <Card>
-          <CardContent className="p-6">
-            <h3 className="font-display text-xl font-bold mb-6">
+          <CardContent className="p-5">
+            <h3 className="font-display text-lg font-bold mb-4">
               How much do you spend {selectedFrequency}?
             </h3>
             
-            <div className="space-y-6">
+            <div className="space-y-4">
               <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600">
+                <div className="text-2xl font-bold text-blue-600">
                   ${spendingAmount.toLocaleString()}
                 </div>
                 <div className="text-sm text-slate-600">
@@ -139,7 +151,14 @@ const StepFourSpendingInput = ({
               </div>
               
               <div className="px-4">
-                <Slider value={[spendingAmount]} onValueChange={handleSpendingAmountChange} min={sliderConfig.min} max={sliderConfig.max} step={sliderConfig.step} className="w-full" />
+                <Slider
+                  value={[spendingAmount]}
+                  onValueChange={handleSpendingAmountChange}
+                  min={sliderConfig.min}
+                  max={sliderConfig.max}
+                  step={sliderConfig.step}
+                  className="w-full"
+                />
                 <div className="flex justify-between text-xs text-slate-500 mt-2">
                   <span>${sliderConfig.min.toLocaleString()}</span>
                   <span>${sliderConfig.max.toLocaleString()}</span>
@@ -150,32 +169,32 @@ const StepFourSpendingInput = ({
         </Card>
       </div>
 
-      {/* Annual Projection */}
-      <Card className="mt-8 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
-        <CardContent className="p-6">
-          <h3 className="font-display text-xl font-bold mb-6 text-blue-800">
+      {/* Annual Projection - reduced spacing */}
+      <Card className="mt-6 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+        <CardContent className="p-5">
+          <h3 className="font-display text-lg font-bold mb-4 text-blue-800">
             Your Annual Rewards Projection
           </h3>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="bg-white p-4 rounded-lg border border-blue-200 text-center">
+            <div className="bg-white p-3 rounded-lg border border-blue-200 text-center">
               <div className="text-sm text-slate-600">Annual Spending</div>
-              <div className="text-2xl font-bold text-slate-800">
+              <div className="text-xl font-bold text-slate-800">
                 ${onboardingData.estimatedAnnualSpend.toLocaleString()}
               </div>
             </div>
             
-            <div className="bg-white p-4 rounded-lg border border-blue-200 text-center">
+            <div className="bg-white p-3 rounded-lg border border-blue-200 text-center">
               <div className="text-sm text-slate-600">Points Earned</div>
-              <div className="text-2xl font-bold text-blue-600">
+              <div className="text-xl font-bold text-blue-600">
                 {onboardingData.estimatedPoints.toLocaleString()}
               </div>
               <div className="text-xs text-slate-500">5x multiplier</div>
             </div>
             
-            <div className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-4 rounded-lg text-center">
-              <div className="text-md opacity-90">Estimated Rewards</div>
-              <div className="text-3xl font-bold">
+            <div className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-3 rounded-lg text-center">
+              <div className="text-sm opacity-90">Estimated Rewards</div>
+              <div className="text-2xl font-bold">
                 ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.14)}
               </div>
             </div>
@@ -184,14 +203,16 @@ const StepFourSpendingInput = ({
       </Card>
 
       {/* Join Waitlist Section */}
-      <div className="mt-8">
+      <div className="mt-6">
         <WaitlistForm />
       </div>
 
-      <div className="text-center mt-8">
+      <div className="text-center mt-4">
         <p className="text-sm text-slate-500">
-      </p>
+        </p>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default StepFourSpendingInput;
