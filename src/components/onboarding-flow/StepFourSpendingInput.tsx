@@ -1,4 +1,3 @@
-
 import { OnboardingFlowData } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -129,7 +128,7 @@ const StepFourSpendingInput = ({
           Help us calculate your personalized rewards potential
         </p>
         {onboardingData.mainGoal && (
-          <p className="text-lg font-bold text-black">
+          <p className="text-lg font-bold text-blue-600">
             Your Personal Spending Categories: {getGoalDisplayName(onboardingData.mainGoal)}
             {onboardingData.subcategories.length > 0 && `: ${onboardingData.subcategories.join(", ")}`}
           </p>
