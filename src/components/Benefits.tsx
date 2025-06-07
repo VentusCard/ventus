@@ -19,7 +19,7 @@ const benefitTiers = [{
   description: "Comprehensive reward for high-impact living.",
   price: "$19.99",
   period: "/month",
-  features: ["Includes everything in Premium, plus:", "5x points on purchases in up to 3 main categories (up to $2,500/month per category)", "Access to exclusive events, stackable offers, and VIP perks", "Personalized concierge support and AI powered shopping experience"],
+  features: ["Includes everything in Premium, plus:", "5x points on purchases in up to 3 main categories (up to $2,500/month per category)", "Access to exclusive events, stackable offers, and VIP perks", "All merchant offers will be automatically applied", "Personalized concierge support and AI powered shopping experience"],
   highlighted: false
 }];
 const Benefits = () => {
