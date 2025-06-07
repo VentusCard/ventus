@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -97,7 +96,7 @@ const JoinWaitlist = () => {
       {/* Hero Section - Mobile Optimized */}
       <section className="pt-16 md:pt-20 pb-4 md:pb-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto text-center">
-          <h1 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
+          <h1 className="font-display text-2xl sm:text-3xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
             Be Among the First to Experience
             <br />
             <span className="text-blue-600">Ventus Card in 2026</span>
