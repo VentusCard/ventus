@@ -1,10 +1,11 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Mail, User, Target, CheckCircle, Users, Share2 } from "lucide-react";
+import { Mail, User, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const categories = [{
@@ -29,8 +30,9 @@ const categories = [{
 
 const JoinWaitlist = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showSuccess, setShowSuccess] = useState(false);
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,19 +60,13 @@ const JoinWaitlist = () => {
       // Google Apps Script typically returns 302 for successful form submissions
       // We'll consider 200, 201, 302 as success, and also check if response contains success indicators
       if (response.status === 200 || response.status === 201 || response.status === 302 || responseText && responseText.toLowerCase().includes('success')) {
-        setShowSuccess(true);
         toast({
-          title: "🎉 Successfully joined the waitlist!",
-          description: "We'll notify you when Ventus Card becomes available. Don't forget to share with friends!"
+          title: "Successfully joined the waitlist!",
+          description: "We'll notify you when Ventus Card becomes available."
         });
 
         // Reset form using the stored reference
         form.reset();
-        
-        // Hide success animation after 5 seconds
-        setTimeout(() => {
-          setShowSuccess(false);
-        }, 5000);
       } else {
         console.error('Server returned error:', response.status, responseText);
         throw new Error(`Server error: ${response.status}`);
@@ -97,35 +93,6 @@ const JoinWaitlist = () => {
 
   return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
       <Navbar />
-      
-      {/* Success Animation Overlay */}
-      {showSuccess && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm animate-fade-in">
-          <Card className="max-w-md mx-4 bg-white shadow-2xl border-0 animate-scale-in">
-            <CardContent className="p-8 text-center">
-              <div className="relative mx-auto w-16 h-16 mb-4">
-                <CheckCircle className="w-16 h-16 text-green-500 animate-pulse" />
-                <div className="absolute inset-0 bg-green-500/20 rounded-full animate-ping"></div>
-              </div>
-              <h3 className="text-2xl font-bold text-slate-900 mb-2">Welcome to the Waitlist!</h3>
-              <p className="text-slate-600 mb-4">You're all set! We'll notify you as soon as Ventus Card becomes available.</p>
-              <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-4 mb-4">
-                <div className="flex items-center justify-center gap-2 mb-2">
-                  <Share2 className="w-5 h-5 text-blue-600" />
-                  <span className="font-semibold text-blue-900">Refer Friends & Get Rewards</span>
-                </div>
-                <p className="text-sm text-blue-700">Share this page with friends who would love personalized rewards. The more people who join, the better Ventus becomes!</p>
-              </div>
-              <Button 
-                onClick={() => setShowSuccess(false)}
-                className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
-              >
-                Continue Exploring
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
-      )}
       
       {/* Hero Section - Mobile Optimized */}
       <section className="pt-16 md:pt-20 pb-4 md:pb-8 px-4 md:px-6">
@@ -157,15 +124,6 @@ const JoinWaitlist = () => {
               <p className="text-slate-600 mt-2 text-sm md:text-base px-2">
                 Waitlist members will be notified by order of sign up and get one year of premium membership (full functionality tier at $9.99 per month) for free. Ventus will only be available in the USA for eligible customers.
               </p>
-              
-              {/* Referral Call-to-Action */}
-              <div className="mt-4 bg-gradient-to-r from-blue-50 to-purple-50 rounded-lg p-3 border border-blue-100">
-                <div className="flex items-center justify-center gap-2 mb-1">
-                  <Users className="w-4 h-4 text-blue-600" />
-                  <span className="text-sm font-semibold text-blue-900">Love what you see?</span>
-                </div>
-                <p className="text-xs text-blue-700">Share this page with friends and family who would benefit from personalized rewards!</p>
-              </div>
             </CardHeader>
 
             <CardContent className="px-4 md:px-8 pb-4 md:pb-6">
