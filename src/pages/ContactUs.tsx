@@ -72,7 +72,7 @@ ${name}
           <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm">
             <CardHeader className="text-center">
               <CardTitle className="text-2xl font-bold text-slate-900">Send us a Message</CardTitle>
-              <p className="text-slate-600">Fill out the form below and we'll get back to you within 24 hours. We can always be reached at hello@ventuscard.com.</p>
+              <p className="text-slate-600">Fill out the form below to conact us at hello@ventuscard.com and we'll get back to you within one business day!</p>
             </CardHeader>
             <CardContent>
               <form className="space-y-6">
