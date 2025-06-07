@@ -8,7 +8,9 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
+
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
+
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
   subcategories: string[];
@@ -19,6 +21,7 @@ export interface OnboardingFlowData {
   minCashbackPercentage: number;
   maxCashbackPercentage: number;
 }
+
 const OnboardingFlow = () => {
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
@@ -37,20 +40,24 @@ const OnboardingFlow = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const goToNextStep = () => {
     setStep(prev => prev + 1);
     window.scrollTo(0, 0);
   };
+
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
     window.scrollTo(0, 0);
   };
+
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
       ...prev,
       ...data
     }));
   };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -73,11 +80,13 @@ const OnboardingFlow = () => {
         })} />;
     }
   };
+
   const isNextButtonDisabled = () => {
     if (step === 1 && !onboardingData.mainGoal) return true;
     if (step === 2 && onboardingData.subcategories.length === 0) return true;
     return false;
   };
+
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
@@ -94,6 +103,7 @@ const OnboardingFlow = () => {
         return '';
     }
   };
+
   return <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
@@ -120,7 +130,7 @@ const OnboardingFlow = () => {
               </span>
             </h1>
             
-            <p className="text-lg md:text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto">Ventus aims to provide you with purposeful rewards instead of broad-category rewards. Choose your lifestyle goal and explore how Ventus Card personalizes rewards to match your unique spending patterns and interests.</p>
+            <p className="text-lg md:text-xl text-blue-100 leading-relaxed max-w-3xl mx-auto">Most rewards cards are built for categories, not people. Ventus is here to change that.<br /><br />We start with your life goals: like getting stronger, training for your next race, or just taking better care of your dog or home, then build rewards and curate deals around it.<br /><br />No more switching cards or missing out on rewards. Ventus finds the right offers for you, and brings them to you when they matter.</p>
           </div>
         </div>
 
@@ -176,4 +186,5 @@ const OnboardingFlow = () => {
       <Footer />
     </div>;
 };
+
 export default OnboardingFlow;
