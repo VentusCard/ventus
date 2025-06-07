@@ -122,6 +122,13 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
     }
   };
 
+  // Find the display label for the selected category
+  const getSelectedCategoryLabel = () => {
+    if (!onboardingData?.mainGoal) return "";
+    const category = lifestyleCategories.find(cat => cat.value === onboardingData.mainGoal);
+    return category ? category.label : "";
+  };
+
   return (
     <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
       <div className="h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
@@ -176,7 +183,7 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
               required
             >
               <SelectTrigger className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-10 text-base">
-                <SelectValue placeholder="Select a category" />
+                <SelectValue placeholder={onboardingData?.mainGoal ? getSelectedCategoryLabel() : "Select a category"} />
               </SelectTrigger>
               <SelectContent>
                 {lifestyleCategories.map((category) => (
