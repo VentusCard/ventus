@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -53,10 +52,14 @@ const ContactUs = () => {
     }
   };
 
-  const handleMailTo = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleMailTo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     
-    const formData = new FormData(e.currentTarget);
+    // Get the form element (parent of the button)
+    const form = e.currentTarget.closest('form');
+    if (!form) return;
+    
+    const formData = new FormData(form);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const subject = formData.get('subject') as string;
