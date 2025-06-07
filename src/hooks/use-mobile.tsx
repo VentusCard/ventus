@@ -46,3 +46,39 @@ export function useDeviceType() {
     isDesktop: !isMobile && !isTablet
   }
 }
+
+export function useTouchDevice() {
+  const [isTouchDevice, setIsTouchDevice] = React.useState(false)
+
+  React.useEffect(() => {
+    const checkTouchSupport = () => {
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0
+    }
+    
+    setIsTouchDevice(checkTouchSupport())
+  }, [])
+
+  return isTouchDevice
+}
+
+export function useViewportHeight() {
+  const [viewportHeight, setViewportHeight] = React.useState(0)
+
+  React.useEffect(() => {
+    const updateHeight = () => {
+      // Use dynamic viewport height for better mobile support
+      setViewportHeight(window.innerHeight)
+    }
+
+    updateHeight()
+    window.addEventListener('resize', updateHeight)
+    window.addEventListener('orientationchange', updateHeight)
+
+    return () => {
+      window.removeEventListener('resize', updateHeight)
+      window.removeEventListener('orientationchange', updateHeight)
+    }
+  }, [])
+
+  return viewportHeight
+}
