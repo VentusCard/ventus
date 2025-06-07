@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -39,15 +38,19 @@ const ContactInformationSection = ({
   const formatVentusToolsInterested = () => {
     if (selectedTargeting.length === 0) return "";
     
+    // Filter out "geographic" tool and only include the advanced tools
+    const advancedTools = selectedTargeting.filter(tool => tool !== "geographic");
+    
+    if (advancedTools.length === 0) return "";
+    
     const toolNames = {
-      "geographic": "Standard Targeting Filters",
       "goal-based": "Smart Goal-Based Targeting",
       "behavioral": "Behavioral Segmentation",
       "persona": "Persona-Led Segment Creation",
       "seasonal": "Seasonal & Temporal Targeting"
     };
 
-    return selectedTargeting.map(tool => toolNames[tool as keyof typeof toolNames] || tool).join(", ");
+    return advancedTools.map(tool => toolNames[tool as keyof typeof toolNames] || tool).join(", ");
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
