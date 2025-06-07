@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -55,7 +56,7 @@ ${name}
 
     toast({
       title: "Email Client Opened",
-      description: "Your default email client should open with the pre-filled message."
+      description: "Your default email client should open with the pre-filled message. It may not open if you do not have a default email client set up, you can always reach out to us directly at hello@ventuscard.com."
     });
   };
 
