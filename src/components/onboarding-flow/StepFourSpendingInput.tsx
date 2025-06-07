@@ -105,15 +105,34 @@ const StepFourSpendingInput = ({
 
   const sliderConfig = getSliderConfig(selectedFrequency);
 
+  // Helper function to get goal display name
+  const getGoalDisplayName = (goal: string) => {
+    const goalMapping: Record<string, string> = {
+      sports: "Sports",
+      wellness: "Wellness", 
+      pets: "Pet Owners",
+      gamers: "Gamers",
+      creatives: "Creatives",
+      homeowners: "Home Owners"
+    };
+    return goalMapping[goal] || goal;
+  };
+
   return (
     <div>
       <div className="text-center mb-6">
         <h2 className="font-display text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
           Tell Us About Your Spending Habit
         </h2>
-        <p className="text-base text-slate-600">
+        <p className="text-base text-slate-600 mb-2">
           Help us calculate your personalized rewards potential
         </p>
+        {onboardingData.mainGoal && (
+          <p className="text-sm text-slate-500">
+            Your Personal Spending Categories: {getGoalDisplayName(onboardingData.mainGoal)}
+            {onboardingData.subcategories.length > 0 && `: ${onboardingData.subcategories.join(", ")}`}
+          </p>
+        )}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
