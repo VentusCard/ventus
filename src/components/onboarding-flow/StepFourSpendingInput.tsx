@@ -121,7 +121,7 @@ const StepFourSpendingInput = ({
   return (
     <div>
       <div className="text-center mb-6">
-        <h2 className="font-display text-2xl md:text-3xl font-bold mb-3 bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+        <h2 className="font-display text-2xl md:text-3xl font-bold mb-3 text-black">
           Let's calculate your personalized rewards potential
         </h2>
         <p className="text-base text-slate-600 mb-2">
