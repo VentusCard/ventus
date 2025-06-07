@@ -52,49 +52,6 @@ const ContactUs = () => {
     }
   };
 
-  const handleMailTo = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    
-    // Get the form element (parent of the button)
-    const form = e.currentTarget.closest('form');
-    if (!form) return;
-    
-    const formData = new FormData(form);
-    const name = formData.get('name') as string;
-    const email = formData.get('email') as string;
-    const subject = formData.get('subject') as string;
-    const message = formData.get('message') as string;
-
-    // Create email summary
-    const emailSubject = `Contact Form: ${subject}`;
-    const emailBody = `
-Hello Ventus Card Team,
-
-I'm reaching out through your contact form with the following information:
-
-Name: ${name}
-Email: ${email}
-Subject: ${subject}
-
-Message:
-${message}
-
-Best regards,
-${name}
-    `.trim();
-
-    // Create mailto link
-    const mailtoLink = `mailto:hello@ventuscard.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
-    
-    // Open email client
-    window.location.href = mailtoLink;
-    
-    toast({
-      title: "Email Client Opened",
-      description: "Your default email client should open with the pre-filled message.",
-    });
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar />
@@ -163,25 +120,13 @@ ${name}
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </Button>
-
-                  <Button 
-                    type="button"
-                    onClick={handleMailTo}
-                    variant="outline"
-                    className="h-12 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02]"
-                  >
-                    <Mail className="mr-2 h-4 w-4" />
-                    Open Email Client
-                  </Button>
-                </div>
+                <Button 
+                  type="submit" 
+                  disabled={isSubmitting}
+                  className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? "Sending..." : "Send Message"}
+                </Button>
               </form>
             </CardContent>
           </Card>
