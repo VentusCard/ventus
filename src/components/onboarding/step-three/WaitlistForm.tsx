@@ -142,7 +142,7 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
           </span>
         </h3>
         <p className="text-slate-600 mb-4 text-sm md:text-base leading-relaxed">
-          Be among the first to experience the personalized Ventus Card. We'll notify you when applications open. Ventus is only available in the USA for eligible customers.
+          Be among the first to experience your personalized Ventus Card in 2026. Waitlist members will be notified by order of sign up and get one year of premium membership for free. Ventus will only be available in the USA for eligible customers.
         </p>
         
         <form onSubmit={handleSubmit} className="space-y-4 mb-4">
