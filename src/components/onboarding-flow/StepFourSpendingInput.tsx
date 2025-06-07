@@ -16,6 +16,7 @@ const StepFourSpendingInput = ({
 }: StepFourSpendingInputProps) => {
   const [selectedFrequency, setSelectedFrequency] = useState<"weekly" | "monthly" | "quarterly" | "annually">(onboardingData.spendingFrequency);
   const [spendingAmount, setSpendingAmount] = useState<number>(onboardingData.spendingAmount);
+
   const frequencyOptions = [{
     value: "weekly" as const,
     label: "Weekly",
@@ -33,6 +34,7 @@ const StepFourSpendingInput = ({
     label: "Annually",
     multiplier: 1
   }];
+
   const getSliderConfig = (frequency: typeof selectedFrequency) => {
     switch (frequency) {
       case "weekly":
@@ -72,6 +74,7 @@ const StepFourSpendingInput = ({
         };
     }
   };
+
   const handleFrequencyChange = (frequency: typeof selectedFrequency) => {
     setSelectedFrequency(frequency);
     const config = getSliderConfig(frequency);
@@ -86,6 +89,7 @@ const StepFourSpendingInput = ({
       estimatedPoints
     });
   };
+
   const handleSpendingAmountChange = (value: number[]) => {
     const newAmount = value[0];
     setSpendingAmount(newAmount);
@@ -98,7 +102,9 @@ const StepFourSpendingInput = ({
       estimatedPoints
     });
   };
+
   const sliderConfig = getSliderConfig(selectedFrequency);
+
   return (
     <div>
       <div className="text-center mb-6">
@@ -204,7 +210,7 @@ const StepFourSpendingInput = ({
 
       {/* Join Waitlist Section */}
       <div className="mt-6">
-        <WaitlistForm />
+        <WaitlistForm onboardingData={onboardingData} />
       </div>
 
       <div className="text-center mt-4">

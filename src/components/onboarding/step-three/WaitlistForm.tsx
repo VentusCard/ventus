@@ -1,4 +1,5 @@
 
+import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield } from "lucide-react";
 import { Input } from "@/components/ui/input";
@@ -10,7 +11,8 @@ import {
   SelectContent, 
   SelectItem 
 } from "@/components/ui/select";
-import { LifestyleGoal } from "@/pages/OnboardingFlow";
+import { useToast } from "@/hooks/use-toast";
+import { LifestyleGoal, OnboardingFlowData } from "@/pages/OnboardingFlow";
 
 const lifestyleCategories: {label: string, value: LifestyleGoal}[] = [
   { label: "Sports", value: "sports" },
@@ -21,7 +23,105 @@ const lifestyleCategories: {label: string, value: LifestyleGoal}[] = [
   { label: "Homeowners", value: "homeowners" }
 ];
 
-const WaitlistForm = () => {
+interface WaitlistFormProps {
+  onboardingData?: OnboardingFlowData;
+}
+
+const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    interest: onboardingData?.mainGoal || ""
+  });
+  const { toast } = useToast();
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }));
+  };
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+
+    const form = event.currentTarget;
+    const submitFormData = new FormData(form);
+
+    // Add onboarding data as hidden fields if available
+    if (onboardingData) {
+      submitFormData.append('mainGoal', onboardingData.mainGoal || '');
+      submitFormData.append('subcategories', onboardingData.subcategories.join(', '));
+      submitFormData.append('spendingFrequency', onboardingData.spendingFrequency);
+      submitFormData.append('spendingAmount', onboardingData.spendingAmount.toString());
+      submitFormData.append('estimatedAnnualSpend', onboardingData.estimatedAnnualSpend.toString());
+      submitFormData.append('estimatedPoints', onboardingData.estimatedPoints.toString());
+    }
+
+    // Debug: Log form data
+    console.log('Form submission started');
+    console.log('Form data entries:');
+    for (const [key, value] of submitFormData.entries()) {
+      console.log(`${key}: ${value}`);
+    }
+
+    try {
+      console.log('Sending request to Google Apps Script...');
+      const response = await fetch('https://script.google.com/macros/s/AKfycbz5cNxCadlHqNtH1wRP19Oez1d6IfRKCi5sp7He4DWUaK0X2lCty42NHc8cmPRUsuDP/exec', {
+        method: 'POST',
+        body: submitFormData
+      });
+
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+      const responseText = await response.text();
+      console.log('Response text:', responseText);
+
+      // Google Apps Script typically returns 302 for successful form submissions
+      // We'll consider 200, 201, 302 as success, and also check if response contains success indicators
+      if (response.status === 200 || response.status === 201 || response.status === 302 || 
+          (responseText && responseText.toLowerCase().includes('success'))) {
+        toast({
+          title: "Successfully joined the waitlist!",
+          description: "We'll notify you when Ventus Card becomes available."
+        });
+
+        // Reset form
+        setFormData({
+          firstName: "",
+          lastName: "",
+          email: "",
+          interest: onboardingData?.mainGoal || ""
+        });
+        form.reset();
+      } else {
+        console.error('Server returned error:', response.status, responseText);
+        throw new Error(`Server error: ${response.status}`);
+      }
+    } catch (error) {
+      console.error('Form submission error:', error);
+
+      // More specific error messages
+      let errorMessage = "Please try again later.";
+      if (error instanceof TypeError && error.message.includes('fetch')) {
+        errorMessage = "Network error. Please check your internet connection and try again.";
+      } else if (error instanceof Error) {
+        errorMessage = `Submission failed: ${error.message}`;
+      }
+
+      toast({
+        title: "Submission failed",
+        description: errorMessage,
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
       <div className="h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
@@ -38,27 +138,44 @@ const WaitlistForm = () => {
           Be among the first to experience the personalized Ventus Card. We'll notify you when applications open. Ventus is only available in the USA for eligible customers.
         </p>
         
-        <div className="space-y-10 md:space-y-8 mb-12 md:mb-10">
+        <form onSubmit={handleSubmit} className="space-y-10 md:space-y-8 mb-12 md:mb-10">
           {/* Mobile: Increased spacing between fields for better touch targets */}
           <div className="form-field">
             <label className="block text-sm font-semibold mb-4 text-slate-700 uppercase tracking-wide">First Name</label>
             <Input 
+              name="firstName"
+              type="text"
               placeholder="First Name" 
+              value={formData.firstName}
+              onChange={(e) => handleInputChange('firstName', e.target.value)}
               className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" 
+              minLength={2}
+              required
             />
           </div>
           
           <div className="form-field">
             <label className="block text-sm font-semibold mb-4 text-slate-700 uppercase tracking-wide">Last Name</label>
             <Input 
+              name="lastName"
+              type="text"
               placeholder="Last Name" 
+              value={formData.lastName}
+              onChange={(e) => handleInputChange('lastName', e.target.value)}
               className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" 
+              minLength={2}
+              required
             />
           </div>
           
           <div className="form-field">
             <label className="block text-sm font-semibold mb-4 text-slate-700 uppercase tracking-wide">Main Category</label>
-            <Select>
+            <Select 
+              name="interest" 
+              value={formData.interest} 
+              onValueChange={(value) => handleInputChange('interest', value)}
+              required
+            >
               <SelectTrigger className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base">
                 <SelectValue placeholder="Select a category" />
               </SelectTrigger>
@@ -70,21 +187,31 @@ const WaitlistForm = () => {
                 ))}
               </SelectContent>
             </Select>
+            {/* Hidden input for form submission */}
+            <input type="hidden" name="interest" value={formData.interest} />
           </div>
           
           <div className="form-field">
             <label className="block text-sm font-semibold mb-4 text-slate-700 uppercase tracking-wide">Email Address</label>
             <Input 
-              placeholder="Email Address" 
+              name="email"
               type="email"
+              placeholder="Email Address" 
+              value={formData.email}
+              onChange={(e) => handleInputChange('email', e.target.value)}
               className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" 
+              required
             />
           </div>
-        </div>
-        
-        <Button className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 h-12 px-8 text-base font-semibold hover:scale-105 active:scale-95">
-          Join the Waitlist
-        </Button>
+          
+          <Button 
+            type="submit" 
+            disabled={isSubmitting}
+            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 h-12 px-8 text-base font-semibold hover:scale-105 active:scale-95"
+          >
+            {isSubmitting ? "Joining Waitlist..." : "Join the Waitlist"}
+          </Button>
+        </form>
       </CardContent>
     </Card>
   );
