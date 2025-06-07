@@ -1,3 +1,4 @@
+
 import { OnboardingFlowData } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -140,7 +141,7 @@ const StepFourSpendingInput = ({
         <Card>
           <CardContent className="p-5">
             <h3 className="font-display text-lg font-bold mb-4">
-              How often do you spend in your selected categories?
+              Select your spending frequency
             </h3>
             
             <div className="grid grid-cols-2 gap-3">
