@@ -11,52 +11,15 @@ import Footer from "@/components/Footer";
 
 const ContactUs = () => {
   const { toast } = useToast();
-  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-
-    try {
-      const formData = new FormData(e.currentTarget);
-      
-      const submitData = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        subject: formData.get('subject'),
-        message: formData.get('message')
-      };
-
-      console.log('Contact form submission:', submitData);
-      
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Message Sent!",
-        description: "Thank you for contacting us. We'll get back to you within 24 hours.",
-      });
-      
-      // Reset the form
-      (e.target as HTMLFormElement).reset();
-
-    } catch (error) {
-      console.error('Contact form error:', error);
-      
-      toast({
-        title: "Submission Error",
-        description: "There was an error sending your message. Please try again or contact us directly.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleMailTo = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleMailTo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     
-    const formData = new FormData(e.currentTarget);
+    // Get the form element
+    const form = e.currentTarget.closest('form') as HTMLFormElement;
+    if (!form) return;
+    
+    const formData = new FormData(form);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
     const subject = formData.get('subject') as string;
@@ -117,7 +80,7 @@ ${name}
               <p className="text-slate-600">Fill out the form below and we'll get back to you within 24 hours.</p>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="text-slate-700 font-medium mb-2 block">Full Name</label>
@@ -160,15 +123,7 @@ ${name}
                   />
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Button 
-                    type="submit" 
-                    disabled={isSubmitting}
-                    className="h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {isSubmitting ? "Sending..." : "Send Message"}
-                  </Button>
-
+                <div className="flex justify-center">
                   <Button 
                     type="button"
                     onClick={handleMailTo}
