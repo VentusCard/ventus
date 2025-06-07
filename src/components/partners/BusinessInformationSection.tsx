@@ -15,7 +15,7 @@ const businessCategories = [
 ];
 
 const subcategories = {
-  Sports: ["Golf", "Tennis", "Running", "Skiing", "Team Sports"],
+  Sports: ["Golf", "Tennis", "Running", "Snowsports", "Team Sports"],
   Wellness: ["Fitness and Exercise", "Mental Health and Therapy", "Nutrition and Supplements", "Spa and Recovery", "Meditation and Mindfulness"],
   "Pet Owners": ["Dog Essentials", "Cat Owners", "Grooming and Health", "Pet Food and Nutrition", "Vet Services", "Pet Activities and Services"],
   Gamers: ["PC Gaming", "Console Gaming", "Mobile Gaming", "Esports and Streaming", "Gaming Accessories"],
