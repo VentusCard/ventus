@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail, User, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+
 const categories = [{
   value: "Sports",
   label: "Sports"
@@ -25,11 +26,13 @@ const categories = [{
   value: "Homeowners",
   label: "Homeowners"
 }];
+
 const JoinWaitlist = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     toast
   } = useToast();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsSubmitting(true);
@@ -86,6 +89,7 @@ const JoinWaitlist = () => {
       setIsSubmitting(false);
     }
   };
+
   return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
       <Navbar />
       
@@ -93,7 +97,7 @@ const JoinWaitlist = () => {
       <section className="pt-16 md:pt-20 pb-4 md:pb-8 px-4 md:px-6">
         <div className="max-w-6xl mx-auto text-center">
           <h1 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
-            Be First to Experience
+            Be Among the First to Experience
             <br />
             <span className="text-blue-600">Ventus Card in 2026</span>
           </h1>
@@ -208,4 +212,5 @@ const JoinWaitlist = () => {
       <Footer />
     </div>;
 };
+
 export default JoinWaitlist;
