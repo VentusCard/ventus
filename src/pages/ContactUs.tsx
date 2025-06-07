@@ -7,16 +7,17 @@ import { useToast } from "@/hooks/use-toast";
 import { Mail, Phone, MapPin } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
 const ContactUs = () => {
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
   const handleMailTo = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     // Get the form element
     const form = e.currentTarget.closest('form') as HTMLFormElement;
     if (!form) return;
+    
     const formData = new FormData(form);
     const name = formData.get('name') as string;
     const email = formData.get('email') as string;
@@ -44,14 +45,22 @@ ${name}
     // Create mailto link
     const mailtoLink = `mailto:hello@ventuscard.com?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
-    // Open email client
-    window.location.href = mailtoLink;
+    // Create a temporary anchor element and click it (more reliable than window.location.href)
+    const link = document.createElement('a');
+    link.href = mailtoLink;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
     toast({
       title: "Email Client Opened",
       description: "Your default email client should open with the pre-filled message."
     });
   };
-  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar />
       
       {/* Hero Section */}
@@ -110,6 +119,8 @@ ${name}
       </div>
 
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default ContactUs;
