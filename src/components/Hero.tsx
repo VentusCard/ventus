@@ -55,18 +55,6 @@ const Hero = () => {
     };
   }, []);
 
-  const handleLearnMore = () => {
-    // Smooth scroll to Features section with proper offset to account for navbar
-    const featuresSection = document.getElementById('features');
-    if (featuresSection) {
-      const offsetTop = featuresSection.offsetTop - 100; // Add 100px offset for navbar and spacing
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
-    }
-  };
-
   const handleGetStarted = () => {
     // Smooth scroll to Features section with proper offset to account for navbar
     const featuresSection = document.getElementById('features');
@@ -151,17 +139,18 @@ const Hero = () => {
             <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
           </div>
           
-          {/* Enhanced Learn More button - always reserve space, control visibility */}
+          {/* Enhanced Learn More button - now links to About Us page */}
           <div className="mt-6 md:mt-8 h-[64px] flex items-center justify-center">
-            <Button 
-              onClick={handleLearnMore}
-              size="lg" 
-              className={`bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-20 py-7 text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[64px] min-w-[220px] border-0 ${
-                videoEnded ? 'opacity-100 visible animate-fade-in' : 'opacity-0 invisible'
-              }`}
-            >
-              Learn More
-            </Button>
+            <Link to="/about">
+              <Button 
+                size="lg" 
+                className={`bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-20 py-7 text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[64px] min-w-[220px] border-0 ${
+                  videoEnded ? 'opacity-100 visible animate-fade-in' : 'opacity-0 invisible'
+                }`}
+              >
+                Learn More
+              </Button>
+            </Link>
           </div>
           
           {/* Scroll cue with extremely subtle animation - always reserve space, control visibility */}
