@@ -9,6 +9,7 @@ import { useState } from "react";
 interface ContactInformationSectionProps {
   selectedCategory: string;
   selectedSubcategories: string[];
+  selectedTargeting: string[];
   annualBudget: number;
   roas: { min: string; max: string };
   isExpanded: boolean;
@@ -18,6 +19,7 @@ interface ContactInformationSectionProps {
 const ContactInformationSection = ({
   selectedCategory,
   selectedSubcategories,
+  selectedTargeting,
   annualBudget,
   roas,
   isExpanded,
@@ -31,6 +33,21 @@ const ContactInformationSection = ({
     if (!selectedCategory) return "";
     if (selectedSubcategories.length === 0) return selectedCategory;
     return `${selectedCategory} - ${selectedSubcategories.join(", ")}`;
+  };
+
+  // Format the Ventus tools interested field
+  const formatVentusToolsInterested = () => {
+    if (selectedTargeting.length === 0) return "";
+    
+    const toolNames = {
+      "geographic": "Standard Targeting Filters",
+      "goal-based": "Smart Goal-Based Targeting",
+      "behavioral": "Behavioral Segmentation",
+      "persona": "Persona-Led Segment Creation",
+      "seasonal": "Seasonal & Temporal Targeting"
+    };
+
+    return selectedTargeting.map(tool => toolNames[tool as keyof typeof toolNames] || tool).join(", ");
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -49,6 +66,7 @@ const ContactInformationSection = ({
         roleTitle: formData.get('roleTitle'),
         emailAddress: formData.get('emailAddress'),
         phoneNumber: formData.get('phoneNumber'),
+        ventusToolsInterested: formatVentusToolsInterested(),
         annualBudgetRoas: `$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`
       };
 
@@ -181,6 +199,17 @@ const ContactInformationSection = ({
                 />
                 <p className="text-xs text-slate-500 mt-1">US phone numbers only (e.g., (555) 123-4567)</p>
               </div>
+            </div>
+            
+            <div>
+              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Ventus Tools Interested</label>
+              <Input 
+                name="ventusToolsInterested"
+                value={formatVentusToolsInterested()}
+                readOnly 
+                className="h-11 md:h-12 bg-slate-50 text-sm md:text-base"
+                placeholder="Select targeting tools above"
+              />
             </div>
             
             <div>

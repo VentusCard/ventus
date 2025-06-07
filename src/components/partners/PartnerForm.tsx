@@ -141,6 +141,7 @@ const PartnerForm = () => {
           <ContactInformationSection
             selectedCategory={selectedCategory}
             selectedSubcategories={selectedSubcategories}
+            selectedTargeting={selectedTargeting}
             annualBudget={annualBudget}
             roas={roas}
             isExpanded={expandedSections[4]}
