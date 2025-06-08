@@ -21,10 +21,12 @@ const Navbar = () => {
   };
 
   const toggleMobileMenu = () => {
+    console.log('Mobile menu toggled:', !isMobileMenuOpen);
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const closeMobileMenu = () => {
+    console.log('Mobile menu closed');
     setIsMobileMenuOpen(false);
   };
 
@@ -79,13 +81,18 @@ const Navbar = () => {
         </div>
         
         {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center space-x-3">
+        <div className="md:hidden flex items-center">
           <button
             onClick={toggleMobileMenu}
-            className="text-white/90 hover:text-white p-2 transition-colors duration-300"
+            className="text-white/90 hover:text-white p-3 transition-colors duration-300 z-50 relative"
             aria-label="Toggle mobile menu"
+            type="button"
           >
-            {isMobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMobileMenuOpen ? (
+              <X size={24} className="h-6 w-6" />
+            ) : (
+              <Menu size={24} className="h-6 w-6" />
+            )}
           </button>
         </div>
         
@@ -115,51 +122,53 @@ const Navbar = () => {
       </div>
       
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg border-b border-white/10">
-          <div className="px-4 py-6 space-y-4">
-            <Link 
-              to="/about"
-              onClick={closeMobileMenu}
-              className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
-            >
-              About Us
+      <div className={`md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg border-b border-white/10 transition-all duration-300 ease-in-out ${
+        isMobileMenuOpen 
+          ? 'opacity-100 visible translate-y-0' 
+          : 'opacity-0 invisible -translate-y-2'
+      }`}>
+        <div className="px-4 py-6 space-y-4">
+          <Link 
+            to="/about"
+            onClick={closeMobileMenu}
+            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
+          >
+            About Us
+          </Link>
+          <Link 
+            to="/onboarding"
+            onClick={closeMobileMenu}
+            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
+          >
+            How It Works
+          </Link>
+          <Link 
+            to="/partners"
+            onClick={closeMobileMenu}
+            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
+          >
+            Partners
+          </Link>
+          <Link 
+            to="/contact"
+            onClick={closeMobileMenu}
+            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
+          >
+            Contact Us
+          </Link>
+          
+          {/* Mobile Join Waitlist Button */}
+          <div className="pt-4">
+            <Link to="/join-waitlist" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
+              <div className="w-full bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 py-4 shadow-lg border border-blue-700/30 text-center hover:bg-gradient-to-br hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 transition-all duration-300">
+                <span className="text-white font-semibold text-base tracking-wide">
+                  Join Waitlist
+                </span>
+              </div>
             </Link>
-            <Link 
-              to="/onboarding"
-              onClick={closeMobileMenu}
-              className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
-            >
-              How It Works
-            </Link>
-            <Link 
-              to="/partners"
-              onClick={closeMobileMenu}
-              className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
-            >
-              Partners
-            </Link>
-            <Link 
-              to="/contact"
-              onClick={closeMobileMenu}
-              className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10"
-            >
-              Contact Us
-            </Link>
-            
-            {/* Mobile Join Waitlist Button */}
-            <div className="pt-4">
-              <Link to="/join-waitlist" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
-                <div className="w-full bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 py-4 shadow-lg border border-blue-700/30 text-center">
-                  <span className="text-white font-semibold text-base tracking-wide">
-                    Join Waitlist
-                  </span>
-                </div>
-              </Link>
-            </div>
           </div>
         </div>
-      )}
+      </div>
     </div>
   )
 }
