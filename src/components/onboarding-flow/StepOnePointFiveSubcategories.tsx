@@ -1,3 +1,4 @@
+
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 
 interface StepOnePointFiveSubcategoriesProps {
@@ -39,7 +40,14 @@ const StepOnePointFiveSubcategories = ({
   };
 
   return (
-    <div>
+    <div 
+      className="touch-manipulation"
+      style={{
+        touchAction: 'manipulation',
+        pointerEvents: 'auto',
+        WebkitTapHighlightColor: 'transparent'
+      }}
+    >
       <h2 className="font-display text-xl md:text-2xl font-bold mb-3">
         Choose Your Subcategories
       </h2>
@@ -63,11 +71,16 @@ const StepOnePointFiveSubcategories = ({
           <button
             key={subcategory}
             onClick={() => toggleSubcategory(subcategory)}
-            className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 ${
+            className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${
               selectedSubcategories.includes(subcategory)
                 ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-lg'
                 : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-md'
             }`}
+            style={{
+              touchAction: 'manipulation',
+              pointerEvents: 'auto',
+              WebkitTapHighlightColor: 'transparent'
+            }}
           >
             <div className="font-medium text-sm">{subcategory}</div>
           </button>

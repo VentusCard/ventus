@@ -2,189 +2,105 @@
 @layer base {
   /* Touch optimization for mobile */
   @media (max-width: 768px) {
+    /* Basic mobile form optimizations */
     input, textarea, select, button {
       font-size: 16px; /* Prevents zoom on iOS */
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
     
     /* Improved touch targets */
     button, [role="button"], input[type="radio"], input[type="checkbox"] {
       min-height: 44px;
       min-width: 44px;
+      touch-action: manipulation;
     }
     
-    /* Reduced spacing for form elements */
-    .form-field {
-      margin-bottom: 1rem;
-    }
-    
-    /* Optimize card spacing on mobile */
+    /* Essential mobile layout fixes */
     .card-mobile {
       margin: 0 0.5rem 0.75rem 0.5rem;
     }
 
-    /* Mobile-optimized shadows */
     .shadow-premium {
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    /* Reduced form label spacing on mobile */
-    .form-field label {
-      font-size: 0.875rem;
-      margin-bottom: 0.5rem;
-      line-height: 1.4;
-      touch-action: manipulation;
-      pointer-events: auto;
-      cursor: pointer;
-      position: relative;
-      z-index: 1;
+    /* Onboarding flow specific fixes */
+    .onboarding-step-card {
+      background: white !important;
+      backdrop-filter: none !important;
+      touch-action: manipulation !important;
+      pointer-events: auto !important;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Better input field sizing */
-    .form-field input,
-    .form-field select {
-      height: 48px;
-      font-size: 16px;
-      padding: 0.75rem;
-      touch-action: manipulation;
-      pointer-events: auto;
-      position: relative;
-      z-index: 2;
-      background: white;
-    }
-
-    /* Mobile-specific input styling */
-    .mobile-input {
+    /* Ensure all interactive elements in onboarding are touchable */
+    .onboarding-step-card *,
+    .onboarding-step-card button,
+    .onboarding-step-card input,
+    .onboarding-step-card select,
+    .onboarding-step-card label {
       touch-action: manipulation;
       pointer-events: auto;
       -webkit-tap-highlight-color: transparent;
-      position: relative;
-      z-index: 2;
-      background: white !important;
     }
 
-    /* Mobile-specific select styling */
-    .mobile-select {
+    /* Fix goal selection cards */
+    .group.relative.overflow-hidden.border-2 {
       touch-action: manipulation;
       pointer-events: auto;
-      -webkit-appearance: menulist;
-      appearance: menulist;
-      position: relative;
-      z-index: 2;
-      background: white !important;
+      min-height: 48px;
       cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Optimize button sizing for mobile */
-    .form-field button {
-      height: 48px;
-      font-size: 16px;
-      padding: 0.75rem 1rem;
+    /* Fix subcategory selection buttons */
+    .grid button {
+      touch-action: manipulation;
+      pointer-events: auto;
+      -webkit-tap-highlight-color: transparent;
+      min-height: 48px;
     }
 
-    /* Ensure text wraps properly on mobile */
-    .text-sm, .text-xs {
-      word-wrap: break-word;
-      hyphens: auto;
-      line-height: 1.4;
+    /* Navigation buttons */
+    .flex.justify-between.items-center button {
+      min-height: 48px;
+      min-width: 120px;
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    /* Force line breaks for better readability */
-    span, p, div {
-      word-break: break-word;
-      overflow-wrap: break-word;
+    /* Progress indicators */
+    .h-10.w-10.rounded-full {
+      touch-action: manipulation;
+      pointer-events: auto;
     }
 
-    /* Optimize cross-category rewards card content on mobile */
-    .bg-gradient-to-r.from-blue-50.to-blue-100 {
-      overflow-x: hidden;
-    }
-
-    /* Reduced spacing for category items on mobile */
-    .bg-blue-50.rounded-lg {
-      min-height: auto;
-      padding: 0.5rem;
-    }
-
-    /* Ensure reward cards stack properly on mobile */
-    .flex.flex-col.sm\:flex-row {
-      gap: 0.5rem;
-    }
-
-    /* Mobile-specific card title optimization */
-    .font-display.text-lg.md\:text-xl {
-      line-height: 1.3;
-      word-wrap: break-word;
-    }
-
-    /* Reduced spacing for subcategory headers */
-    .font-semibold.text-blue-700.mb-3.md\:mb-4 {
-      margin-bottom: 0.75rem;
-      line-height: 1.4;
-    }
-
-    /* Improve navbar mobile responsiveness */
-    .fixed.top-0 {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
-    /* Optimize hero section for mobile */
-    .h-screen {
-      min-height: 100vh;
-      min-height: 100dvh; /* Dynamic viewport height for better mobile support */
-    }
-
-    /* Better mobile typography scaling */
+    /* Better mobile typography */
     .text-4xl.md\:text-5xl.lg\:text-6xl.xl\:text-7xl {
-      font-size: 2.5rem; /* Smaller on mobile */
+      font-size: 2.5rem;
       line-height: 1.1;
     }
 
-    /* Improve mobile video sizing */
-    .aspect-video {
-      aspect-ratio: 16/9;
-      width: 100%;
+    /* Mobile form improvements */
+    .h-12 {
+      height: 48px;
+      font-size: 16px;
+      padding: 0.75rem;
     }
 
-    /* Better mobile button spacing */
-    .px-20.py-7 {
-      padding-left: 2rem;
-      padding-right: 2rem;
-      padding-top: 0.75rem;
-      padding-bottom: 0.75rem;
-    }
-
-    /* Optimize contact form for mobile */
-    .max-w-2xl {
-      max-width: 100%;
-      margin-left: 0.5rem;
-      margin-right: 0.5rem;
-    }
-
-    /* Improve grid layouts on mobile */
-    .grid-cols-1.md\:grid-cols-2 {
+    /* Grid layouts */
+    .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
       grid-template-columns: 1fr;
       gap: 1rem;
     }
 
-    /* Better mobile footer spacing */
-    .grid.grid-cols-1.md\:grid-cols-4 {
-      grid-template-columns: 1fr;
-      gap: 2rem;
-    }
-
-    /* Optimize onboarding steps for mobile */
-    .space-y-6 {
+    .grid.grid-cols-2.md\:grid-cols-4 {
+      grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
 
-    /* Improve mobile card layouts */
-    .grid.grid-cols-2.md\:grid-cols-3.lg\:grid-cols-5 {
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.75rem;
-    }
-
-    /* Better mobile padding for sections */
+    /* Spacing optimizations */
     .py-16 {
       padding-top: 3rem;
       padding-bottom: 3rem;
@@ -195,53 +111,10 @@
       padding-bottom: 4rem;
     }
 
-    /* Optimize rewards card for mobile */
     .p-8 {
       padding: 1.5rem;
     }
 
-    /* Better mobile text sizing for rewards */
-    .text-4xl {
-      font-size: 2rem;
-      line-height: 1.2;
-    }
-
-    /* Improve mobile progress bar visibility */
-    .h-3 {
-      height: 0.5rem;
-    }
-
-    /* Better mobile overlay positioning */
-    .absolute.inset-0 {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: 50;
-    }
-
-    /* Join Waitlist page mobile optimizations */
-    .max-w-4xl {
-      max-width: 100%;
-      margin-left: 0.75rem;
-      margin-right: 0.75rem;
-    }
-
-    /* Better mobile card container */
-    .card-mobile {
-      margin: 0 0.75rem 1rem 0.75rem;
-      border-radius: 0.75rem;
-    }
-
-    /* Optimize form inputs for mobile */
-    .h-12 {
-      height: 48px;
-      font-size: 16px;
-      padding: 0.75rem;
-    }
-
-    /* Better mobile form spacing */
     .space-y-4 > :not([hidden]) ~ :not([hidden]) {
       margin-top: 1rem;
     }
@@ -250,282 +123,43 @@
       margin-top: 1.25rem;
     }
 
-    /* Optimize mobile select elements */
-    select {
-      height: 48px;
-      font-size: 16px;
-      padding: 0.75rem;
-      background-size: 12px;
-      background-position: right 0.75rem center;
+    /* Prevent horizontal scrolling */
+    body {
+      overflow-x: hidden;
     }
 
-    /* Better mobile button styling */
-    .transform.hover\:scale-\[1\.02\] {
-      transform: none;
+    /* Better focus states */
+    input:focus,
+    select:focus,
+    button:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
     }
 
-    .active\:scale-\[0\.98\]:active {
+    /* Button active states */
+    button:active {
       transform: scale(0.98);
     }
 
-    /* Improve mobile card header spacing */
-    .px-4.md\:px-8 {
-      padding-left: 1rem;
-      padding-right: 1rem;
-    }
-
-    .pt-4.md\:pt-6 {
-      padding-top: 1rem;
-    }
-
-    .pb-3.md\:pb-4 {
-      padding-bottom: 0.75rem;
-    }
-
-    /* Better mobile card content spacing */
-    .pb-4.md\:pb-6 {
-      padding-bottom: 1rem;
-    }
-
-    /* Optimize mobile text sizing for join waitlist */
-    .text-2xl.sm\:text-3xl.md\:text-5xl {
-      font-size: 1.75rem;
-      line-height: 1.2;
-    }
-
-    .text-lg.md\:text-xl {
-      font-size: 1rem;
-      line-height: 1.4;
-    }
-
-    .text-xl.md\:text-2xl {
-      font-size: 1.25rem;
-      line-height: 1.3;
-    }
-
-    /* Better mobile form grid layouts */
-    .grid-cols-1.md\:grid-cols-2 {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    /* Optimize mobile form labels */
-    .gap-3 {
-      gap: 0.5rem;
-    }
-
-    /* Better mobile icon sizing in labels */
-    .p-1\.5 {
-      padding: 0.375rem;
-    }
-
-    /* Improve mobile form validation */
-    .focus\:border-blue-400:focus {
-      border-color: #60a5fa;
-      outline: none;
-    }
-
-    .focus\:ring-blue-400\/20:focus {
-      box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
-    }
-
-    /* Fix mobile touch interactions for join waitlist card */
-    .join-waitlist-card {
+    /* Select elements */
+    select {
+      -webkit-appearance: menulist;
+      appearance: menulist;
       touch-action: manipulation;
-      pointer-events: auto;
-      position: relative;
-      z-index: 1;
-      background: white !important;
+      height: 48px;
+      font-size: 16px;
+      padding: 0.75rem;
     }
 
-    /* Ensure all form elements are touchable */
-    .join-waitlist-card input,
-    .join-waitlist-card select,
-    .join-waitlist-card button,
-    .join-waitlist-card label {
-      touch-action: manipulation;
-      pointer-events: auto;
-      position: relative;
-      z-index: 10;
+    /* Image and media optimization */
+    img {
+      max-width: 100%;
+      height: auto;
     }
 
-    /* Fix label icon containers */
-    .join-waitlist-card label span {
-      pointer-events: none;
-      touch-action: none;
-    }
-
-    /* ONBOARDING FLOW MOBILE FIXES */
-    
-    /* Fix onboarding step cards - remove transparency issues */
-    .bg-white.rounded-2xl.shadow-premium {
-      background: white !important;
-      backdrop-filter: none !important;
-      touch-action: manipulation;
-      pointer-events: auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Ensure onboarding card contents are accessible */
-    .bg-white.rounded-2xl.shadow-premium * {
-      touch-action: manipulation;
-      pointer-events: auto;
-    }
-
-    /* Fix lifestyle goal cards in step 1 */
-    .group.relative.overflow-hidden.border-2 {
-      touch-action: manipulation;
-      pointer-events: auto;
-      min-height: 48px;
-      cursor: pointer;
-    }
-
-    /* Ensure goal card content is clickable */
-    .group.relative.overflow-hidden.border-2 .relative.w-full,
-    .group.relative.overflow-hidden.border-2 img,
-    .group.relative.overflow-hidden.border-2 .absolute {
-      pointer-events: none; /* Let clicks go through to parent */
-    }
-
-    /* Fix radio groups and checkboxes in onboarding */
-    input[type="radio"],
-    input[type="checkbox"] {
-      min-height: 44px;
-      min-width: 44px;
-      touch-action: manipulation;
-      cursor: pointer;
-    }
-
-    /* Fix radio group items */
-    .flex.items-center.space-x-2 {
-      min-height: 48px;
-      padding: 0.5rem;
-      touch-action: manipulation;
-      cursor: pointer;
-    }
-
-    /* Fix slider components in step 2 */
-    .slider-root,
-    .slider-track,
-    .slider-range,
-    .slider-thumb {
-      touch-action: manipulation;
-      pointer-events: auto;
-    }
-
-    /* Better touch targets for navigation buttons */
-    .flex.justify-between.items-center button {
-      min-height: 48px;
-      min-width: 120px;
-      padding: 0.75rem 1.5rem;
-      touch-action: manipulation;
-    }
-
-    /* Fix subcategory selection in step 1.5 */
-    .border.border-slate-200.rounded-lg.overflow-hidden {
-      touch-action: manipulation;
-      pointer-events: auto;
-      background: white !important;
-    }
-
-    /* Ensure checkbox labels are clickable */
-    label[for*="subcategory"] {
-      touch-action: manipulation;
-      pointer-events: auto;
-      cursor: pointer;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-    }
-
-    /* Fix collapsible triggers */
-    button[data-state] {
-      touch-action: manipulation;
-      pointer-events: auto;
-      min-height: 44px;
-      min-width: 44px;
-    }
-
-    /* Remove problematic backdrop blur and transparency */
-    .bg-white\/95.backdrop-blur-sm {
-      background: white !important;
-      backdrop-filter: none !important;
-      pointer-events: auto;
-      touch-action: manipulation;
-    }
-
-    /* Ensure proper stacking context */
-    .shadow-premium {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* Mobile-specific button improvements */
-    button[type="submit"],
-    button[type="button"] {
-      -webkit-tap-highlight-color: transparent;
-      touch-action: manipulation;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-
-    /* Fix step progress indicators */
-    .h-10.w-10.rounded-full {
-      touch-action: manipulation;
-      pointer-events: auto;
-    }
-
-    /* Improve mobile card interactions */
-    .cursor-pointer {
-      touch-action: manipulation;
-      pointer-events: auto;
-    }
-
-    /* Fix merchant deal cards */
-    .bg-white.p-3.rounded-md.shadow-sm {
-      touch-action: manipulation;
-      pointer-events: auto;
-      min-height: 44px;
-      display: flex;
-      align-items: center;
-    }
-
-    /* Fix step content areas */
-    #lifestyle-goals {
-      touch-action: manipulation;
-      pointer-events: auto;
-      background: white !important;
-    }
-
-    /* Ensure all interactive elements have proper touch handling */
-    .space-y-4 > * {
-      touch-action: manipulation;
-      pointer-events: auto;
-    }
-
-    /* Fix grid layouts for goal selection */
-    .grid.grid-cols-1.md\:grid-cols-2.lg\:grid-cols-3 {
-      grid-template-columns: 1fr;
-      gap: 1rem;
-    }
-
-    /* Better spacing for onboarding content */
-    .space-y-4.md\:space-y-6 > :not([hidden]) ~ :not([hidden]) {
-      margin-top: 1rem;
-    }
-
-    /* Fix frequency selection radio groups */
-    .grid.grid-cols-2.md\:grid-cols-4 {
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
-    }
-
-    /* Ensure step headers are properly styled */
-    .font-display.text-2xl.md\:text-3xl {
-      font-size: 1.5rem;
-      line-height: 1.3;
-      margin-bottom: 1rem;
+    video {
+      width: 100%;
+      height: auto;
     }
   }
 }
@@ -536,133 +170,5 @@
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-}
-
-/* Mobile-specific improvements for touch interactions */
-@media (max-width: 768px) {
-  /* Better button active states */
-  button:active {
-    transform: scale(0.98);
-  }
-
-  /* Improved focus states for accessibility */
-  input:focus,
-  select:focus,
-  button:focus {
-    outline: 2px solid #3b82f6;
-    outline-offset: 2px;
-  }
-
-  /* Prevent horizontal scrolling */
-  body {
-    overflow-x: hidden;
-  }
-
-  /* Ensure proper line height for readability */
-  .text-slate-700, .text-slate-600 {
-    line-height: 1.5;
-  }
-
-  /* Optimize reward comparison cards on mobile */
-  .px-2.py-1.text-xs {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-    line-height: 1.2;
-  }
-
-  /* Better mobile layout for reward badges */
-  .flex-shrink-0 {
-    white-space: nowrap;
-  }
-
-  /* Improve mobile navbar z-index */
-  .fixed.top-0.left-0.right-0 {
-    z-index: 9999;
-  }
-
-  /* Better mobile form validation */
-  input:invalid {
-    border-color: #ef4444;
-  }
-
-  input:valid {
-    border-color: #10b981;
-  }
-
-  /* Optimize mobile table layouts */
-  table {
-    font-size: 0.875rem;
-  }
-
-  /* Better mobile modal sizing */
-  .max-w-md {
-    max-width: 90vw;
-    margin: 1rem;
-  }
-
-  /* Improve mobile tooltip positioning */
-  [data-tooltip] {
-    position: relative;
-  }
-
-  /* Better mobile dropdown positioning */
-  .dropdown-menu {
-    position: fixed;
-    max-height: 50vh;
-    overflow-y: auto;
-  }
-
-  /* Optimize mobile image loading */
-  img {
-    max-width: 100%;
-    height: auto;
-  }
-
-  /* Better mobile video controls */
-  video {
-    width: 100%;
-    height: auto;
-  }
-
-  /* Improve mobile accessibility */
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-  }
-
-  /* Specific fixes for onboarding flow clickability */
-  .rounded-2xl.border.border-slate-100 {
-    touch-action: manipulation;
-    pointer-events: auto;
-    -webkit-tap-highlight-color: transparent;
-    background: white !important;
-  }
-
-  /* Ensure form labels are properly clickable */
-  label {
-    touch-action: manipulation;
-    pointer-events: auto;
-    cursor: pointer;
-  }
-
-  /* Make sure select dropdowns work on mobile */
-  select {
-    -webkit-appearance: menulist;
-    appearance: menulist;
-    touch-action: manipulation;
-  }
-
-  /* Fix step card content accessibility */
-  .animate-accordion-down {
-    touch-action: manipulation;
-    pointer-events: auto;
   }
 }

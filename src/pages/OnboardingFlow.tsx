@@ -9,7 +9,9 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
+
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
+
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
   subcategories: string[];
@@ -20,6 +22,7 @@ export interface OnboardingFlowData {
   minCashbackPercentage: number;
   maxCashbackPercentage: number;
 }
+
 const OnboardingFlow = () => {
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
@@ -38,20 +41,24 @@ const OnboardingFlow = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
   const goToNextStep = () => {
     setStep(prev => prev + 1);
     window.scrollTo(0, 0);
   };
+
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
     window.scrollTo(0, 0);
   };
+
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
       ...prev,
       ...data
     }));
   };
+
   const renderStep = () => {
     switch (step) {
       case 1:
@@ -74,11 +81,13 @@ const OnboardingFlow = () => {
         })} />;
     }
   };
+
   const isNextButtonDisabled = () => {
     if (step === 1 && !onboardingData.mainGoal) return true;
     if (step === 2 && onboardingData.subcategories.length === 0) return true;
     return false;
   };
+
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
@@ -95,6 +104,7 @@ const OnboardingFlow = () => {
         return '';
     }
   };
+
   return (
     <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
@@ -169,10 +179,15 @@ const OnboardingFlow = () => {
             </div>
           </div>
           
-          {/* Step Content - mobile optimized with proper accessibility */}
+          {/* Step Content - mobile optimized with solid background for better touch interaction */}
           <div 
-            className="onboarding-step-card bg-white rounded-2xl shadow-premium p-6 md:p-8 mb-6 border border-slate-100" 
+            className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6 border border-slate-100 touch-manipulation" 
             id="onboarding-step-content"
+            style={{
+              touchAction: 'manipulation',
+              pointerEvents: 'auto',
+              WebkitTapHighlightColor: 'transparent'
+            }}
           >
             {renderStep()}
           </div>
@@ -184,7 +199,8 @@ const OnboardingFlow = () => {
                 type="button"
                 variant="outline" 
                 onClick={goToPreviousStep} 
-                className="flex items-center gap-2 px-6 py-3 text-base font-medium border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200 min-h-[48px] min-w-[120px]"
+                className="flex items-center gap-2 px-6 py-3 text-base font-medium border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation"
+                style={{ touchAction: 'manipulation' }}
               >
                 <ArrowLeft size={18} /> Back
               </Button>
@@ -197,9 +213,10 @@ const OnboardingFlow = () => {
                 type="button"
                 onClick={goToNextStep} 
                 disabled={isNextButtonDisabled()} 
-                className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 min-h-[48px] min-w-[120px] ${
+                className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation ${
                   isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'
                 }`}
+                style={{ touchAction: 'manipulation' }}
               >
                 Next <ArrowRight size={18} />
               </Button>
@@ -214,4 +231,5 @@ const OnboardingFlow = () => {
     </div>
   );
 };
+
 export default OnboardingFlow;
