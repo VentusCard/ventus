@@ -66,9 +66,9 @@ const Benefits = () => {
 
         {/* Call to Action Section */}
         <div className="mt-16 text-center">
-          <div className="max-w-3xl mx-auto bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-8 border border-blue-100">
+          <div className="max-w-7xl mx-auto bg-gradient-to-br from-blue-50 to-slate-50 rounded-2xl p-8 border border-blue-100">
             <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">Ready to Experience These Benefits?</h3>
-            <p className="text-lg text-muted-foreground mb-6 max-w-xl mx-auto">Join our waitlist today to be among the first to access Ventus Card when it launches in 2026. Waitlist members get one year of premium tier for free.</p>
+            <p className="text-lg text-muted-foreground mb-6 max-w-4xl mx-auto">Join our waitlist today to be among the first to access Ventus Card when it launches in 2026. Waitlist members get one year of premium tier for free.</p>
             <Link to="/join-waitlist">
               <Button size="lg" className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
                 Join Waitlist Now
