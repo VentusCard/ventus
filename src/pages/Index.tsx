@@ -1,6 +1,6 @@
-
 import { useState, useEffect, useRef } from "react"
 import Navbar from "@/components/Navbar"
+import Footer from "@/components/Footer"
 import Hero from "@/components/Hero"
 import Features from "@/components/Features"
 import Benefits from "@/components/Benefits"
@@ -107,6 +107,7 @@ const Index = () => {
           <CTA />
         </div>
       </main>
+      <Footer />
     </div>
   );
 };
