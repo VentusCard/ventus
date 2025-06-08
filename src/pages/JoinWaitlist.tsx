@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -29,12 +30,14 @@ const categories = [{
 
 const JoinWaitlist = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
   const {
     toast
   } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    setHasAttemptedSubmit(true);
     setIsSubmitting(true);
     const form = event.currentTarget;
     const formData = new FormData(form);
@@ -66,6 +69,7 @@ const JoinWaitlist = () => {
 
         // Reset form using the stored reference
         form.reset();
+        setHasAttemptedSubmit(false);
       } else {
         console.error('Server returned error:', response.status, responseText);
         throw new Error(`Server error: ${response.status}`);
@@ -127,7 +131,7 @@ const JoinWaitlist = () => {
             </CardHeader>
 
             <CardContent className="px-4 md:px-8 pb-6 md:pb-8">
-              <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
+              <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6" noValidate>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <div className="form-field">
                     <label htmlFor="firstName" className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base cursor-pointer">
@@ -141,7 +145,11 @@ const JoinWaitlist = () => {
                       name="firstName" 
                       type="text" 
                       placeholder="Enter your first name" 
-                      className="mobile-input h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
+                      className={`mobile-input h-12 text-base transition-all duration-200 ${
+                        hasAttemptedSubmit 
+                          ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" 
+                          : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"
+                      }`}
                       minLength={2} 
                       required 
                     />
@@ -159,7 +167,11 @@ const JoinWaitlist = () => {
                       name="lastName" 
                       type="text" 
                       placeholder="Enter your last name" 
-                      className="mobile-input h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
+                      className={`mobile-input h-12 text-base transition-all duration-200 ${
+                        hasAttemptedSubmit 
+                          ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" 
+                          : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"
+                      }`}
                       minLength={2} 
                       required 
                     />
@@ -176,7 +188,11 @@ const JoinWaitlist = () => {
                   <select 
                     id="interest"
                     name="interest" 
-                    className="mobile-select flex h-12 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200" 
+                    className={`mobile-select flex h-12 w-full rounded-md border bg-white px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${
+                      hasAttemptedSubmit 
+                        ? "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400 invalid:border-red-500 invalid:focus-visible:border-red-500 invalid:focus-visible:ring-red-500" 
+                        : "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400"
+                    }`}
                     required
                   >
                     <option value="" disabled>Select your main interest category</option>
@@ -200,7 +216,11 @@ const JoinWaitlist = () => {
                     name="email" 
                     type="email" 
                     placeholder="Enter your email address" 
-                    className="mobile-input h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
+                    className={`mobile-input h-12 text-base transition-all duration-200 ${
+                      hasAttemptedSubmit 
+                        ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" 
+                        : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"
+                    }`}
                     required 
                   />
                 </div>
