@@ -23,22 +23,7 @@ const CTA = () => {
           </div>
           
           {/* Footer Content */}
-          <div className="border-t border-white/10 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center text-slate-300">
-              <div className="flex items-center mb-4 md:mb-0">
-                <h1 className="text-lg tracking-[0.15em] font-sans font-light text-white/95 relative">
-                  <span className="relative inline-block">
-                    VENTUS CARD
-                    {/* Subtle metallic sheen effect */}
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-40 blur-[1px]"></div>
-                    {/* Fine underline accent */}
-                    <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-                  </span>
-                </h1>
-              </div>
-              <p className="text-sm">© 2025 Ventus Card. All rights reserved.</p>
-            </div>
-          </div>
+          
         </div>
       </div>
     </section>;
