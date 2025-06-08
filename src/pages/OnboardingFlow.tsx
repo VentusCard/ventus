@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -168,8 +169,11 @@ const OnboardingFlow = () => {
             </div>
           </div>
           
-          {/* Step Content - reduced padding and margin */}
-          <div className="bg-white rounded-2xl shadow-premium p-6 md:p-8 mb-6 border border-slate-100" id="lifestyle-goals">
+          {/* Step Content - mobile optimized with proper accessibility */}
+          <div 
+            className="onboarding-step-card bg-white rounded-2xl shadow-premium p-6 md:p-8 mb-6 border border-slate-100" 
+            id="onboarding-step-content"
+          >
             {renderStep()}
           </div>
           
@@ -177,9 +181,10 @@ const OnboardingFlow = () => {
           <div className="flex justify-between items-center max-w-2xl mx-auto">
             {step > 1 ? (
               <Button 
+                type="button"
                 variant="outline" 
                 onClick={goToPreviousStep} 
-                className="flex items-center gap-2 px-6 py-3 text-base font-medium border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200"
+                className="flex items-center gap-2 px-6 py-3 text-base font-medium border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200 min-h-[48px] min-w-[120px]"
               >
                 <ArrowLeft size={18} /> Back
               </Button>
@@ -189,9 +194,10 @@ const OnboardingFlow = () => {
             
             {step < totalSteps ? (
               <Button 
+                type="button"
                 onClick={goToNextStep} 
                 disabled={isNextButtonDisabled()} 
-                className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 ${
+                className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 min-h-[48px] min-w-[120px] ${
                   isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'
                 }`}
               >
