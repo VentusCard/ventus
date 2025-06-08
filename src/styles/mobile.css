@@ -296,6 +296,44 @@
     .focus\:ring-blue-400\/20:focus {
       box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
     }
+
+    /* Fix mobile touch interactions for join waitlist card */
+    .join-waitlist-card {
+      touch-action: manipulation;
+      pointer-events: auto;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Ensure all form elements are touchable */
+    .join-waitlist-card input,
+    .join-waitlist-card select,
+    .join-waitlist-card button {
+      touch-action: manipulation;
+      pointer-events: auto;
+      position: relative;
+      z-index: 20;
+    }
+
+    /* Fix card interaction issues */
+    .bg-white\/95.backdrop-blur-sm {
+      pointer-events: auto;
+      touch-action: manipulation;
+    }
+
+    /* Ensure proper stacking context */
+    .shadow-premium {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Mobile-specific button improvements */
+    button[type="submit"] {
+      -webkit-tap-highlight-color: transparent;
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
+    }
   }
 }
 
@@ -405,5 +443,26 @@
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
+  }
+
+  /* Specific fixes for join waitlist card clickability */
+  .rounded-xl.border-0.shadow-premium {
+    touch-action: manipulation;
+    pointer-events: auto;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Ensure form labels are properly clickable */
+  label {
+    touch-action: manipulation;
+    pointer-events: auto;
+    cursor: pointer;
+  }
+
+  /* Make sure select dropdowns work on mobile */
+  select {
+    -webkit-appearance: menulist;
+    appearance: menulist;
+    touch-action: manipulation;
   }
 }

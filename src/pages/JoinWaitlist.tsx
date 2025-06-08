@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -114,7 +115,7 @@ const JoinWaitlist = () => {
       {/* Form Section - Mobile Optimized */}
       <section className="pb-12 md:pb-20 px-3 md:px-6">
         <div className="max-w-4xl mx-auto">
-          <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm mx-2 md:mx-0 rounded-xl">
+          <Card className="join-waitlist-card overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm mx-2 md:mx-0 rounded-xl">
             <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600"></div>
             
             <CardHeader className="text-center pb-4 md:pb-6 px-4 md:px-8 pt-6 md:pt-8">
@@ -130,7 +131,7 @@ const JoinWaitlist = () => {
               <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <div className="form-field">
-                    <label className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
+                    <label htmlFor="firstName" className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
                       <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
                         {/* Precious metal texture */}
                         <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
@@ -141,6 +142,7 @@ const JoinWaitlist = () => {
                       First Name
                     </label>
                     <Input 
+                      id="firstName"
                       name="firstName" 
                       type="text" 
                       placeholder="Enter your first name" 
@@ -151,7 +153,7 @@ const JoinWaitlist = () => {
                   </div>
 
                   <div className="form-field">
-                    <label className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
+                    <label htmlFor="lastName" className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
                       <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
                         {/* Precious metal texture */}
                         <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
@@ -162,6 +164,7 @@ const JoinWaitlist = () => {
                       Last Name
                     </label>
                     <Input 
+                      id="lastName"
                       name="lastName" 
                       type="text" 
                       placeholder="Enter your last name" 
@@ -173,7 +176,7 @@ const JoinWaitlist = () => {
                 </div>
 
                 <div className="form-field">
-                  <label className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
+                  <label htmlFor="interest" className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
                     <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
                       {/* Precious metal texture */}
                       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
@@ -184,6 +187,7 @@ const JoinWaitlist = () => {
                     Main Interest Category
                   </label>
                   <select 
+                    id="interest"
                     name="interest" 
                     className="flex h-12 w-full rounded-md border border-slate-200 bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200" 
                     required
@@ -198,7 +202,7 @@ const JoinWaitlist = () => {
                 </div>
 
                 <div className="form-field">
-                  <label className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
+                  <label htmlFor="email" className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
                     <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
                       {/* Precious metal texture */}
                       <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
@@ -209,6 +213,7 @@ const JoinWaitlist = () => {
                     Email Address
                   </label>
                   <Input 
+                    id="email"
                     name="email" 
                     type="email" 
                     placeholder="Enter your email address" 
