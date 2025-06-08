@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -131,14 +130,10 @@ const JoinWaitlist = () => {
               <form onSubmit={handleSubmit} className="space-y-5 md:space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
                   <div className="form-field">
-                    <label htmlFor="firstName" className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
-                      <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
-                        {/* Precious metal texture */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
-                        {/* Metallic border */}
-                        <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                        <User size={14} className="text-white relative z-10" strokeWidth={2} />
-                      </div>
+                    <label htmlFor="firstName" className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base cursor-pointer">
+                      <span className="relative p-2 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0 pointer-events-none">
+                        <User size={16} className="text-white relative z-10" strokeWidth={2} />
+                      </span>
                       First Name
                     </label>
                     <Input 
@@ -146,21 +141,17 @@ const JoinWaitlist = () => {
                       name="firstName" 
                       type="text" 
                       placeholder="Enter your first name" 
-                      className="h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
+                      className="mobile-input h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
                       minLength={2} 
                       required 
                     />
                   </div>
 
                   <div className="form-field">
-                    <label htmlFor="lastName" className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
-                      <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
-                        {/* Precious metal texture */}
-                        <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
-                        {/* Metallic border */}
-                        <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                        <User size={14} className="text-white relative z-10" strokeWidth={2} />
-                      </div>
+                    <label htmlFor="lastName" className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base cursor-pointer">
+                      <span className="relative p-2 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0 pointer-events-none">
+                        <User size={16} className="text-white relative z-10" strokeWidth={2} />
+                      </span>
                       Last Name
                     </label>
                     <Input 
@@ -168,7 +159,7 @@ const JoinWaitlist = () => {
                       name="lastName" 
                       type="text" 
                       placeholder="Enter your last name" 
-                      className="h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
+                      className="mobile-input h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
                       minLength={2} 
                       required 
                     />
@@ -176,20 +167,16 @@ const JoinWaitlist = () => {
                 </div>
 
                 <div className="form-field">
-                  <label htmlFor="interest" className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
-                    <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
-                      {/* Precious metal texture */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
-                      {/* Metallic border */}
-                      <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                      <Target size={14} className="text-white relative z-10" strokeWidth={2} />
-                    </div>
+                  <label htmlFor="interest" className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base cursor-pointer">
+                    <span className="relative p-2 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0 pointer-events-none">
+                      <Target size={16} className="text-white relative z-10" strokeWidth={2} />
+                    </span>
                     Main Interest Category
                   </label>
                   <select 
                     id="interest"
                     name="interest" 
-                    className="flex h-12 w-full rounded-md border border-slate-200 bg-background px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200" 
+                    className="mobile-select flex h-12 w-full rounded-md border border-slate-200 bg-white px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200" 
                     required
                   >
                     <option value="" disabled>Select your main interest category</option>
@@ -202,14 +189,10 @@ const JoinWaitlist = () => {
                 </div>
 
                 <div className="form-field">
-                  <label htmlFor="email" className="text-slate-700 font-medium flex items-center gap-2 mb-3 text-sm md:text-base">
-                    <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0">
-                      {/* Precious metal texture */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
-                      {/* Metallic border */}
-                      <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
-                      <Mail size={14} className="text-white relative z-10" strokeWidth={2} />
-                    </div>
+                  <label htmlFor="email" className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base cursor-pointer">
+                    <span className="relative p-2 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0 pointer-events-none">
+                      <Mail size={16} className="text-white relative z-10" strokeWidth={2} />
+                    </span>
                     Email Address
                   </label>
                   <Input 
@@ -217,7 +200,7 @@ const JoinWaitlist = () => {
                     name="email" 
                     type="email" 
                     placeholder="Enter your email address" 
-                    className="h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
+                    className="mobile-input h-12 text-base border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 transition-all duration-200" 
                     required 
                   />
                 </div>
