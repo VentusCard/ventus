@@ -115,7 +115,7 @@ const JoinWaitlist = () => {
       {/* Form Section - Mobile Optimized */}
       <section className="pb-12 md:pb-20 px-3 md:px-6">
         <div className="max-w-4xl mx-auto">
-          <Card className="join-waitlist-card overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm mx-2 md:mx-0 rounded-xl">
+          <Card className="join-waitlist-card overflow-hidden border-0 shadow-premium bg-white mx-2 md:mx-0 rounded-xl">
             <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600"></div>
             
             <CardHeader className="text-center pb-4 md:pb-6 px-4 md:px-8 pt-6 md:pt-8">

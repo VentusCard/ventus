@@ -303,6 +303,7 @@
       pointer-events: auto;
       position: relative;
       z-index: 10;
+      background: white;
     }
 
     /* Ensure all form elements are touchable */
@@ -315,8 +316,10 @@
       z-index: 20;
     }
 
-    /* Fix card interaction issues */
+    /* Remove problematic backdrop blur and transparency */
     .bg-white\/95.backdrop-blur-sm {
+      background: white !important;
+      backdrop-filter: none !important;
       pointer-events: auto;
       touch-action: manipulation;
     }
@@ -450,6 +453,7 @@
     touch-action: manipulation;
     pointer-events: auto;
     -webkit-tap-highlight-color: transparent;
+    background: white !important;
   }
 
   /* Ensure form labels are properly clickable */
