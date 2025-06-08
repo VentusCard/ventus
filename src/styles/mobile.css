@@ -82,6 +82,12 @@
       line-height: 1.1;
     }
 
+    /* Hero paragraph text - make smaller on mobile */
+    .text-base.md\:text-lg.font-light.text-blue-gray-300.max-w-2xl.mx-auto.leading-relaxed {
+      font-size: 0.875rem; /* 14px */
+      line-height: 1.4;
+    }
+
     /* Mobile form improvements */
     .h-12 {
       height: 48px;
