@@ -1,7 +1,5 @@
-
 import { Check } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
 const benefitTiers = [{
   name: "Standard",
   description: "Smart rewards. Zero cost.",
@@ -24,28 +22,23 @@ const benefitTiers = [{
   features: ["Includes everything in Premium, plus:", "5x points on purchases in up to 3 main categories (up to $2,500/month per category)", "Access to exclusive events, stackable offers, and VIP perks", "All merchant offers will be automatically applied", "Personalized concierge support and AI powered shopping experience"],
   highlighted: false
 }];
-
 const Benefits = () => {
-  return (
-    <section id="benefits" className="py-12">
+  return <section id="benefits" className="py-12">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">Card Benefits</h2>
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">Ventus Card Membership Benefits</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             One card, three tiers—designed to grow with your lifestyle
           </p>
         </div>
         
         <div className="grid md:grid-cols-3 gap-6">
-          {benefitTiers.map((tier, index) => (
-            <Card key={index} className={`border ${tier.highlighted ? 'relative border-primary/50 shadow-lg shadow-primary/10' : ''}`}>
-              {tier.highlighted && (
-                <div className="absolute -top-4 left-0 right-0 flex justify-center">
+          {benefitTiers.map((tier, index) => <Card key={index} className={`border ${tier.highlighted ? 'relative border-primary/50 shadow-lg shadow-primary/10' : ''}`}>
+              {tier.highlighted && <div className="absolute -top-4 left-0 right-0 flex justify-center">
                   <span className="bg-primary text-primary-foreground text-sm font-medium py-1 px-3 rounded-full">
                     Most Popular
                   </span>
-                </div>
-              )}
+                </div>}
               <CardHeader className={`pb-4 ${tier.highlighted ? 'pt-8' : 'pt-6'}`}>
                 <CardTitle className="font-display text-xl">{tier.name}</CardTitle>
                 <p className="text-muted-foreground mt-2">{tier.description}</p>
@@ -56,24 +49,19 @@ const Benefits = () => {
               </CardHeader>
               <CardContent className="pb-4">
                 <ul className="space-y-2 mb-4">
-                  {tier.features.map((feature, i) => (
-                    <li key={i} className="flex items-start gap-2">
+                  {tier.features.map((feature, i) => <li key={i} className="flex items-start gap-2">
                       <Check className="h-4 w-4 text-primary shrink-0 mt-0.5" />
                       <span className="text-sm leading-relaxed">{feature}</span>
-                    </li>
-                  ))}
+                    </li>)}
                 </ul>
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
         
         <div className="mt-8 text-center">
           <p className="text-sm text-muted-foreground italic max-w-2xl mx-auto">All other eligible spend earns 1x point per dollar. Terms and conditions apply.</p>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Benefits;
