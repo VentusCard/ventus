@@ -113,7 +113,7 @@ const BudgetTimelineSection = ({
                   <RadioGroupItem 
                     value={period} 
                     id={period} 
-                    className={isMobile ? "h-2.5 w-2.5" : "h-4 w-4"}
+                    className="h-2.5 w-2.5"
                   />
                   <Label htmlFor={period} className="capitalize cursor-pointer flex-1 text-sm md:text-base">{period}</Label>
                 </div>
