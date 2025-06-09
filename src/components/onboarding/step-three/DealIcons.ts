@@ -1,4 +1,5 @@
 
+
 import { 
   CreditCard, 
   Trophy, 
@@ -33,28 +34,28 @@ import {
 } from "lucide-react";
 
 export const dealIcons = {
-  // Sports icons
+  // Sports icons - updated to match standardized names
   "Golf": Trophy,
   "Tennis/Racquet Sports": Trophy,
   "Running/Track": Dumbbell,
   "Basketball": Trophy,
   "Football": Trophy,
   "Soccer": Trophy,
-  "Outdoor": MapPin,
-  "Cycling & Biking": Dumbbell,
+  "Outdoor Activities": MapPin,
+  "Cycling/Biking": Dumbbell,
   "Water Sports": Heart,
   "Snow Sports": Trophy,
-  "Fitness & Gym": Dumbbell,
-  "Yoga & Pilates": Heart,
+  "Fitness/Gym": Dumbbell,
+  "Yoga/Pilates": Heart,
   // Wellness icons
   "Fitness and Exercise": Dumbbell,
   "Mental Health and Therapy": Brain,
   "Nutrition and Supplements": Pill,
   "Spa and Recovery": Sparkles,
   "Meditation and Mindfulness": Heart,
-  // Pet icons
-  "Dog Essentials": Dog,
-  "Cat Essentials": Cat,
+  // Pet icons - updated to match standardized names
+  "Dog Owners": Dog,
+  "Cat Owners": Cat,
   "Grooming and Health": Scissors,
   "Pet Food and Nutrition": ShoppingCart,
   "Pet Activities and Services": Calendar,
@@ -94,3 +95,4 @@ export const getDealIcon = (deal: string) => {
   if (deal.includes("Bundle")) return dealTypeIcons.bundle;
   return dealTypeIcons.cashback;
 };
+

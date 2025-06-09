@@ -1,3 +1,4 @@
+
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 
 interface StepOnePointFiveSubcategoriesProps {
@@ -7,9 +8,9 @@ interface StepOnePointFiveSubcategoriesProps {
 }
 
 const subcategoryData: Record<LifestyleGoal, string[]> = {
-  sports: ["Golf", "Tennis/Racquet Sports", "Running/Track", "Basketball", "Football", "Soccer", "Outdoor", "Cycling & Biking", "Water Sports", "Snow Sports", "Fitness & Gym", "Yoga & Pilates"],
+  sports: ["Golf", "Tennis/Racquet Sports", "Running/Track", "Basketball", "Football", "Soccer", "Outdoor Activities", "Cycling/Biking", "Water Sports", "Snow Sports", "Fitness/Gym", "Yoga/Pilates"],
   wellness: ["Fitness and Exercise", "Mental Health and Therapy", "Nutrition and Supplements", "Spa and Recovery", "Meditation and Mindfulness"],
-  pets: ["Dog Owners", "Cat Essentials", "Grooming and Health", "Pet Food and Nutrition", "Pet Activities and Services"],
+  pets: ["Dog Owners", "Cat Owners", "Grooming and Health", "Pet Food and Nutrition", "Pet Activities and Services"],
   gamers: ["PC Gaming", "Console Gaming", "Mobile Gaming", "Esports and Streaming", "Gaming Accessories"],
   creatives: ["Photography", "Music Production", "Art Supplies", "Writing Tools", "Online Creative Classes"],
   homeowners: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services"]

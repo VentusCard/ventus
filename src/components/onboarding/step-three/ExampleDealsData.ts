@@ -1,4 +1,5 @@
 
+
 export const exampleDeals = {
   sports: {
     "Golf": ["Extra cashback on golf purchases", "Extra points on golf rounds and club services", "Free gift with purchase at golf pro shops"],
@@ -7,12 +8,12 @@ export const exampleDeals = {
     "Basketball": ["Extra cashback on basketball shoes and gear", "Extra points on court rentals and training sessions", "Free basketball or water bottle with qualifying purchase"],
     "Football": ["Extra cashback on football equipment and gear", "Extra points on league fees and coaching sessions", "Free gear bag or accessories with team purchases"],
     "Soccer": ["Extra cashback on soccer cleats and uniforms", "Extra points on field fees and coaching camps", "Free soccer ball or sports bottle with qualifying purchase"],
-    "Outdoor": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases"],
-    "Cycling & Biking": ["Extra cashback on bikes and cycling gear", "Extra points on bike maintenance and rentals", "Free cycling accessories with bike purchase"],
+    "Outdoor Activities": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases"],
+    "Cycling/Biking": ["Extra cashback on bikes and cycling gear", "Extra points on bike maintenance and rentals", "Free cycling accessories with bike purchase"],
     "Water Sports": ["Extra cashback on swimwear and water gear", "Extra points on pool memberships and lessons", "Free water bottle or goggles with purchase"],
     "Snow Sports": ["Extra cashback on ski and snowboard equipment", "Extra points on lift tickets and lessons", "Free gear rental with equipment purchase"],
-    "Fitness & Gym": ["Extra cashback on gym memberships and equipment", "Extra points on personal training sessions", "Free gym bag with membership signup"],
-    "Yoga & Pilates": ["Extra cashback on yoga mats and accessories", "Extra points on class packages and retreats", "Free meditation cushion with studio membership"]
+    "Fitness/Gym": ["Extra cashback on gym memberships and equipment", "Extra points on personal training sessions", "Free gym bag with membership signup"],
+    "Yoga/Pilates": ["Extra cashback on yoga mats and accessories", "Extra points on class packages and retreats", "Free meditation cushion with studio membership"]
   },
   wellness: {
     "Fitness and Exercise": ["Extra cashback on gym memberships and fitness gear", "Extra points on classes and personal training", "Free gym tote with qualifying spend"],
@@ -22,8 +23,8 @@ export const exampleDeals = {
     "Meditation and Mindfulness": ["Extra cashback on meditation tools and subscriptions", "Extra points on mindfulness retreats or apps", "Free incense or eye mask with order"]
   },
   pets: {
-    "Dog Essentials": ["Extra cashback on leashes, collars, and toys", "Extra points on grooming and vet services", "Free toy with purchase of food or treats"],
-    "Cat Essentials": ["Extra cashback on litter boxes, beds, and toys", "Extra points on cat sitting or vet visits", "Free teaser toy or scratching pad with order"],
+    "Dog Owners": ["Extra cashback on leashes, collars, and toys", "Extra points on grooming and vet services", "Free toy with purchase of food or treats"],
+    "Cat Owners": ["Extra cashback on litter boxes, beds, and toys", "Extra points on cat sitting or vet visits", "Free teaser toy or scratching pad with order"],
     "Grooming and Health": ["Extra cashback on pet grooming services", "Extra points on vet plans and health kits", "Free pet shampoo with qualifying purchase"],
     "Pet Food and Nutrition": ["Extra cashback on premium pet food", "Extra points on recurring food delivery", "Free treats with subscription"],
     "Pet Activities and Services": ["Extra cashback on training and pet daycare", "Extra points on pet events or classes", "Free day pass at partner services"]
@@ -50,3 +51,4 @@ export const exampleDeals = {
     "Home Services": ["Extra cashback on cleaning and repair services", "Extra points on home maintenance plans", "Free consultation with service booking"]
   }
 };
+

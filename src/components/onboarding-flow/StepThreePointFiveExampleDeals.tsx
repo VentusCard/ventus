@@ -1,4 +1,5 @@
 
+
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { CreditCard, Trophy, Gift, MapPin, Package, Dumbbell, Brain, Pill, Sparkles, Heart, Dog, Cat, Scissors, ShoppingCart, Calendar, Gamepad2, Monitor, Smartphone, Mic, Headphones, Camera, Music, Palette, PenTool, BookOpen, Hammer, Home, Sofa, Sprout, Wrench } from "lucide-react";
@@ -19,26 +20,28 @@ const StepThreePointFiveExampleDeals = ({
     homeowners: "Homeowners"
   };
   const dealIcons = {
-    // Sports icons
+    // Sports icons - updated to match standardized names
     "Golf": Trophy,
-    "Tennis": Trophy,
-    "Running": Dumbbell,
-    "Team Sports": Trophy,
-    "Outdoor Adventure": MapPin,
-    "Cycling & Biking": Dumbbell,
+    "Tennis/Racquet Sports": Trophy,
+    "Running/Track": Dumbbell,
+    "Basketball": Trophy,
+    "Football": Trophy,
+    "Soccer": Trophy,
+    "Outdoor Activities": MapPin,
+    "Cycling/Biking": Dumbbell,
     "Water Sports": Heart,
     "Snow Sports": Trophy,
-    "Fitness & Gym": Dumbbell,
-    "Yoga & Pilates": Heart,
+    "Fitness/Gym": Dumbbell,
+    "Yoga/Pilates": Heart,
     // Wellness icons
     "Fitness and Exercise": Dumbbell,
     "Mental Health and Therapy": Brain,
     "Nutrition and Supplements": Pill,
     "Spa and Recovery": Sparkles,
     "Meditation and Mindfulness": Heart,
-    // Pet icons
-    "Dog Essentials": Dog,
-    "Cat Essentials": Cat,
+    // Pet icons - updated to match standardized names
+    "Dog Owners": Dog,
+    "Cat Owners": Cat,
     "Grooming and Health": Scissors,
     "Pet Food and Nutrition": ShoppingCart,
     "Pet Activities and Services": Calendar,
@@ -79,15 +82,17 @@ const StepThreePointFiveExampleDeals = ({
   const exampleDeals = {
     sports: {
       "Golf": ["Extra cashback on golf purchases", "Extra points on golf rounds and club services", "Free gift with purchase at golf pro shops", "Local offers like free balls or discounted lessons at nearby clubs", "Bundle discounts on golf gear and accessories"],
-      "Tennis": ["Extra cashback on tennis gear", "Extra points on court fees and lessons", "Free gift with purchase at tennis retailers", "Local offers like demo sessions at neighborhood courts", "Bundle discounts on racquets, shoes, and accessories"],
-      "Running": ["Extra cashback on running shoes and apparel", "Extra points on race entry fees and fitness apps", "Free water bottle or socks with qualifying purchase", "Local offers like free entry to group runs", "Bundle discounts on running gear packages"],
-      "Team Sports": ["Extra cashback on team uniforms and gear", "Extra points on league signups and coaching services", "Free gift with team purchases over a certain amount", "Local deals at sporting goods stores or event tickets", "Bundle discounts on team packs and equipment"],
-      "Outdoor Adventure": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases", "Local offers like park passes or tour discounts", "Bundle discounts on tents, packs, and gear kits"],
-      "Cycling & Biking": ["Extra cashback on bikes and cycling gear", "Extra points on bike maintenance and rentals", "Free cycling accessories with bike purchase", "Local bike shop discounts and tune-up deals", "Bundle discounts on helmet, lights, and safety gear"],
+      "Tennis/Racquet Sports": ["Extra cashback on tennis gear", "Extra points on court fees and lessons", "Free gift with purchase at tennis retailers", "Local offers like demo sessions at neighborhood courts", "Bundle discounts on racquets, shoes, and accessories"],
+      "Running/Track": ["Extra cashback on running shoes and apparel", "Extra points on race entry fees and fitness apps", "Free water bottle or socks with qualifying purchase", "Local offers like free entry to group runs", "Bundle discounts on running gear packages"],
+      "Basketball": ["Extra cashback on team uniforms and gear", "Extra points on league signups and coaching services", "Free gift with team purchases over a certain amount", "Local deals at sporting goods stores or event tickets", "Bundle discounts on team packs and equipment"],
+      "Football": ["Extra cashback on team uniforms and gear", "Extra points on league signups and coaching services", "Free gift with team purchases over a certain amount", "Local deals at sporting goods stores or event tickets", "Bundle discounts on team packs and equipment"],
+      "Soccer": ["Extra cashback on team uniforms and gear", "Extra points on league signups and coaching services", "Free gift with team purchases over a certain amount", "Local deals at sporting goods stores or event tickets", "Bundle discounts on team packs and equipment"],
+      "Outdoor Activities": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases", "Local offers like park passes or tour discounts", "Bundle discounts on tents, packs, and gear kits"],
+      "Cycling/Biking": ["Extra cashback on bikes and cycling gear", "Extra points on bike maintenance and rentals", "Free cycling accessories with bike purchase", "Local bike shop discounts and tune-up deals", "Bundle discounts on helmet, lights, and safety gear"],
       "Water Sports": ["Extra cashback on swimwear and water gear", "Extra points on pool memberships and lessons", "Free water bottle or goggles with purchase", "Local swim club and aquatic center deals", "Bundle discounts on swim gear and accessories"],
       "Snow Sports": ["Extra cashback on ski and snowboard equipment", "Extra points on lift tickets and lessons", "Free gear rental with equipment purchase", "Local mountain resort discounts and packages", "Bundle deals on winter sports gear and apparel"],
-      "Fitness & Gym": ["Extra cashback on gym memberships and equipment", "Extra points on personal training sessions", "Free gym bag with membership signup", "Local fitness studio class passes and deals", "Bundle discounts on workout gear and supplements"],
-      "Yoga & Pilates": ["Extra cashback on yoga mats and accessories", "Extra points on class packages and retreats", "Free meditation cushion with studio membership", "Local yoga studio discounts and workshops", "Bundle deals on yoga props and wellness items"]
+      "Fitness/Gym": ["Extra cashback on gym memberships and equipment", "Extra points on personal training sessions", "Free gym bag with membership signup", "Local fitness studio class passes and deals", "Bundle discounts on workout gear and supplements"],
+      "Yoga/Pilates": ["Extra cashback on yoga mats and accessories", "Extra points on class packages and retreats", "Free meditation cushion with studio membership", "Local yoga studio discounts and workshops", "Bundle deals on yoga props and wellness items"]
     },
     wellness: {
       "Fitness and Exercise": ["Extra cashback on gym memberships and fitness gear", "Extra points on classes and personal training", "Free gym tote with qualifying spend", "Local offers like first-month-free at boutique studios", "Bundle discounts on workout sets and accessories"],
@@ -97,8 +102,8 @@ const StepThreePointFiveExampleDeals = ({
       "Meditation and Mindfulness": ["Extra cashback on meditation tools and subscriptions", "Extra points on mindfulness retreats or apps", "Free incense or eye mask with order", "Local offers for mindfulness classes and meetups", "Bundle discounts on journals, mats, and accessories"]
     },
     pets: {
-      "Dog Essentials": ["Extra cashback on leashes, collars, and toys", "Extra points on grooming and vet services", "Free toy with purchase of food or treats", "Local dog park memberships and spa deals", "Bundle discounts on starter kits for new dog owners"],
-      "Cat Essentials": ["Extra cashback on litter boxes, beds, and toys", "Extra points on cat sitting or vet visits", "Free teaser toy or scratching pad with order", "Local offers for grooming or boarding", "Bundle discounts on cat wellness packs"],
+      "Dog Owners": ["Extra cashback on leashes, collars, and toys", "Extra points on grooming and vet services", "Free toy with purchase of food or treats", "Local dog park memberships and spa deals", "Bundle discounts on starter kits for new dog owners"],
+      "Cat Owners": ["Extra cashback on litter boxes, beds, and toys", "Extra points on cat sitting or vet visits", "Free teaser toy or scratching pad with order", "Local offers for grooming or boarding", "Bundle discounts on cat wellness packs"],
       "Grooming and Health": ["Extra cashback on pet grooming services", "Extra points on vet plans and health kits", "Free pet shampoo with qualifying purchase", "Local vet and grooming discounts", "Bundle offers on grooming tools and health supplements"],
       "Pet Food and Nutrition": ["Extra cashback on premium pet food", "Extra points on recurring food delivery", "Free treats with subscription", "Local shop promotions and sampling days", "Bundle discounts on food and nutrition kits"],
       "Pet Activities and Services": ["Extra cashback on training and pet daycare", "Extra points on pet events or classes", "Free day pass at partner services", "Local doggy yoga or hike meetups", "Bundle deals on activity gear and subscriptions"]
@@ -194,3 +199,4 @@ const StepThreePointFiveExampleDeals = ({
     </div>;
 };
 export default StepThreePointFiveExampleDeals;
+
