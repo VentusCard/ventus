@@ -1,3 +1,4 @@
+
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { CreditCard, Trophy, Gift, MapPin, Package, Dumbbell, Brain, Pill, Sparkles, Heart, Dog, Cat, Scissors, ShoppingCart, Calendar, Gamepad2, Monitor, Smartphone, Mic, Headphones, Camera, Music, Palette, PenTool, BookOpen, Hammer, Home, Sofa, Sprout, Wrench } from "lucide-react";
@@ -24,6 +25,11 @@ const StepThreePointFiveExampleDeals = ({
     "Running": Dumbbell,
     "Team Sports": Trophy,
     "Outdoor Adventure": MapPin,
+    "Cycling & Biking": Dumbbell,
+    "Water Sports": Heart,
+    "Snow Sports": Trophy,
+    "Fitness & Gym": Dumbbell,
+    "Yoga & Pilates": Heart,
     // Wellness icons
     "Fitness and Exercise": Dumbbell,
     "Mental Health and Therapy": Brain,
@@ -76,7 +82,12 @@ const StepThreePointFiveExampleDeals = ({
       "Tennis": ["Extra cashback on tennis gear", "Extra points on court fees and lessons", "Free gift with purchase at tennis retailers", "Local offers like demo sessions at neighborhood courts", "Bundle discounts on racquets, shoes, and accessories"],
       "Running": ["Extra cashback on running shoes and apparel", "Extra points on race entry fees and fitness apps", "Free water bottle or socks with qualifying purchase", "Local offers like free entry to group runs", "Bundle discounts on running gear packages"],
       "Team Sports": ["Extra cashback on team uniforms and gear", "Extra points on league signups and coaching services", "Free gift with team purchases over a certain amount", "Local deals at sporting goods stores or event tickets", "Bundle discounts on team packs and equipment"],
-      "Outdoor Adventure": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases", "Local offers like park passes or tour discounts", "Bundle discounts on tents, packs, and gear kits"]
+      "Outdoor Adventure": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases", "Local offers like park passes or tour discounts", "Bundle discounts on tents, packs, and gear kits"],
+      "Cycling & Biking": ["Extra cashback on bikes and cycling gear", "Extra points on bike maintenance and rentals", "Free cycling accessories with bike purchase", "Local bike shop discounts and tune-up deals", "Bundle discounts on helmet, lights, and safety gear"],
+      "Water Sports": ["Extra cashback on swimwear and water gear", "Extra points on pool memberships and lessons", "Free water bottle or goggles with purchase", "Local swim club and aquatic center deals", "Bundle discounts on swim gear and accessories"],
+      "Snow Sports": ["Extra cashback on ski and snowboard equipment", "Extra points on lift tickets and lessons", "Free gear rental with equipment purchase", "Local mountain resort discounts and packages", "Bundle deals on winter sports gear and apparel"],
+      "Fitness & Gym": ["Extra cashback on gym memberships and equipment", "Extra points on personal training sessions", "Free gym bag with membership signup", "Local fitness studio class passes and deals", "Bundle discounts on workout gear and supplements"],
+      "Yoga & Pilates": ["Extra cashback on yoga mats and accessories", "Extra points on class packages and retreats", "Free meditation cushion with studio membership", "Local yoga studio discounts and workshops", "Bundle deals on yoga props and wellness items"]
     },
     wellness: {
       "Fitness and Exercise": ["Extra cashback on gym memberships and fitness gear", "Extra points on classes and personal training", "Free gym tote with qualifying spend", "Local offers like first-month-free at boutique studios", "Bundle discounts on workout sets and accessories"],

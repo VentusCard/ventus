@@ -39,6 +39,11 @@ export const dealIcons = {
   "Running": Dumbbell,
   "Team Sports": Trophy,
   "Outdoor Adventure": MapPin,
+  "Cycling & Biking": Dumbbell,
+  "Water Sports": Heart,
+  "Snow Sports": Trophy,
+  "Fitness & Gym": Dumbbell,
+  "Yoga & Pilates": Heart,
   // Wellness icons
   "Fitness and Exercise": Dumbbell,
   "Mental Health and Therapy": Brain,
