@@ -18,7 +18,7 @@ const StepTwoValueComparisonAndSimplification = ({
     homeowners: "Homeowners"
   };
 
-  // Define the category data structure
+  // Define the category data structure with corrected keys to match subcategory names
   const categoryData: Record<LifestyleGoal, Record<string, Array<{
     item: string;
     card: string;
@@ -46,7 +46,7 @@ const StepTwoValueComparisonAndSimplification = ({
         card: "Dining Card",
         color: "bg-red-500"
       }],
-      "Tennis": [{
+      "Tennis/Racquet Sports": [{
         item: "Racquets, shoes",
         card: "Shopping Cashback Card",
         color: "bg-blue-500"
@@ -88,7 +88,7 @@ const StepTwoValueComparisonAndSimplification = ({
         card: "Dining Card",
         color: "bg-red-500"
       }],
-      "Running": [{
+      "Running/Track": [{
         item: "Shoes, apparel",
         card: "Shopping Cashback Card",
         color: "bg-blue-500"
@@ -193,7 +193,7 @@ const StepTwoValueComparisonAndSimplification = ({
         card: "Dining Card",
         color: "bg-red-500"
       }],
-      "Outdoor": [{
+      "Outdoor Activities": [{
         item: "Gear & equipment",
         card: "Shopping Cashback Card",
         color: "bg-blue-500"
@@ -210,7 +210,7 @@ const StepTwoValueComparisonAndSimplification = ({
         card: "Grocery Card",
         color: "bg-green-500"
       }],
-      "Cycling & Biking": [{
+      "Cycling/Biking": [{
         item: "Bikes & accessories",
         card: "Shopping Cashback Card",
         color: "bg-blue-500"
@@ -273,7 +273,7 @@ const StepTwoValueComparisonAndSimplification = ({
         card: "Dining Card",
         color: "bg-red-500"
       }],
-      "Fitness & Gym": [{
+      "Fitness/Gym": [{
         item: "Gym memberships and fitness gear",
         card: "General Cashback Card",
         color: "bg-gray-500"
@@ -294,7 +294,7 @@ const StepTwoValueComparisonAndSimplification = ({
         card: "Grocery Card",
         color: "bg-green-500"
       }],
-      "Yoga & Pilates": [{
+      "Yoga/Pilates": [{
         item: "Yoga mats & props",
         card: "Shopping Cashback Card",
         color: "bg-blue-500"
@@ -852,6 +852,7 @@ const StepTwoValueComparisonAndSimplification = ({
       }]
     }
   };
+
   const traditionalApproachItems = ["Multiple credit cards to manage", "Complex rewards structures", "Limited category coverage", "Manual optimization required", "Missed opportunities"];
   const ventusApproachItems = ["One intelligent card for everything", "AI-powered reward optimization", "Complete lifestyle coverage", "Automatic deal discovery", "Maximum value extraction"];
   const aiFeatures = [{
@@ -881,14 +882,22 @@ const StepTwoValueComparisonAndSimplification = ({
     description: "Automatically adjusts to new merchants and better reward opportunities"
   }];
 
-  // Get the relevant categories for selected subcategories
+  // Get the relevant categories for selected subcategories with debugging
   const getSelectedCategoryData = () => {
     const goalData = categoryData[selectedGoal] || {};
-    return selectedSubcategories.map(subcategory => ({
-      subcategory,
-      items: goalData[subcategory] || []
-    })).filter(cat => cat.items.length > 0);
+    console.log("Available categories for goal:", Object.keys(goalData));
+    console.log("Selected subcategories:", selectedSubcategories);
+    
+    return selectedSubcategories.map(subcategory => {
+      const items = goalData[subcategory] || [];
+      console.log(`Category "${subcategory}" has ${items.length} items`);
+      return {
+        subcategory,
+        items
+      };
+    }).filter(cat => cat.items.length > 0);
   };
+
   return <div>
       {/* Selected Categories Impact - Moved to top */}
       <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 mb-6">
@@ -941,22 +950,80 @@ const StepTwoValueComparisonAndSimplification = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Traditional Approach */}
-        
+        <Card className="border border-red-300 bg-red-50">
+          <CardContent className="p-6">
+            <h3 className="font-display text-xl font-bold mb-4 text-red-700">Traditional Approach</h3>
+            <ul className="space-y-3">
+              {traditionalApproachItems.map((item, index) => (
+                <li key={index} className="flex items-center gap-2 text-red-700 font-semibold">
+                  <X className="h-5 w-5" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
 
         {/* Ventus Approach */}
-        
+        <Card className="border border-green-300 bg-green-50">
+          <CardContent className="p-6">
+            <h3 className="font-display text-xl font-bold mb-4 text-green-700">Ventus Approach</h3>
+            <ul className="space-y-3">
+              {ventusApproachItems.map((item, index) => (
+                <li key={index} className="flex items-center gap-2 text-green-700 font-semibold">
+                  <Check className="h-5 w-5" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       </div>
 
       {/* How Ventus Simplifies Everything */}
       <div>
-        
+        <h3 className="font-display text-2xl font-bold mb-6 text-slate-800">How Ventus Simplifies Everything</h3>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* AI Intelligence Card */}
-          
+          <Card className="border border-blue-300 bg-blue-50">
+            <CardContent className="p-6">
+              <h4 className="font-display text-xl font-bold mb-4 text-blue-700">AI Intelligence</h4>
+              <ul className="space-y-4">
+                {aiFeatures.map(({ icon: Icon, title, description }, index) => (
+                  <li key={index} className="flex items-start gap-4">
+                    <div className="p-2 bg-blue-100 rounded-full">
+                      <Icon className="h-6 w-6 text-blue-600" />
+                    </div>
+                    <div>
+                      <h5 className="font-semibold text-blue-800">{title}</h5>
+                      <p className="text-blue-700 text-sm">{description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
 
           {/* Simplicity Card */}
-          
+          <Card className="border border-purple-300 bg-purple-50">
+            <CardContent className="p-6">
+              <h4 className="font-display text-xl font-bold mb-4 text-purple-700">Simplicity</h4>
+              <ul className="space-y-4">
+                {simplicityBenefits.map(({ icon: Icon, title, description }, index) => (
+                  <li key={index} className="flex items-start gap-4">
+                    <div className="p-2 bg-purple-100 rounded-full">
+                      <Icon className="h-6 w-6 text-purple-600" />
+                    </div>
+                    <div>
+                      <h5 className="font-semibold text-purple-800">{title}</h5>
+                      <p className="text-purple-700 text-sm">{description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>;
