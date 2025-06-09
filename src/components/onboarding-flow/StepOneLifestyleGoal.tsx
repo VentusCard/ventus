@@ -1,3 +1,4 @@
+
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
@@ -12,7 +13,7 @@ interface GoalOption {
   title: string;
   description: string;
   availability: string;
-  year: "Available Now" | "Available Soon" | "Year One";
+  year: "Available First" | "Available Soon" | "Year One";
   icon: string;
   merchants: {
     category: string;
@@ -24,8 +25,8 @@ const goalOptions: GoalOption[] = [{
   id: "sports",
   title: "Sports",
   description: "Maximize rewards on sports equipment, apparel, subscriptions, and event tickets.",
-  availability: "Available Now",
-  year: "Available Now",
+  availability: "Available First",
+  year: "Available First",
   icon: "🏃‍♂️",
   merchants: [{
     category: "Apparel and Gear",
@@ -205,7 +206,7 @@ const StepOneLifestyleGoal = ({
                 <h3 className="text-lg font-bold text-gray-900 mb-2">{option.title}</h3>
                 <p className="text-gray-600 mb-3 text-sm">{option.description}</p>
                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                  option.year === "Available Now" 
+                  option.year === "Available First" 
                     ? "bg-green-100 text-green-700" 
                     : option.year === "Available Soon" 
                       ? "bg-blue-100 text-blue-700" 
