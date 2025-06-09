@@ -25,7 +25,7 @@ interface MerchantDeal {
 const subcategoriesData: SubcategoryData[] = [
   {
     goalId: "sports",
-    subcategories: ["Golf", "Tennis", "Running", "Team Sports", "Outdoor Adventure"]
+    subcategories: ["Golf", "Tennis", "Running", "Team Sports", "Outdoor"]
   },
   {
     goalId: "wellness",
@@ -69,7 +69,7 @@ const merchantDealsData: Record<LifestyleGoal, MerchantDeal[]> = {
       merchants: ["Fanatics", "Dick's Sporting Goods", "MLB.com", "NBA Store", "Adidas Team Gear"]
     },
     {
-      subcategory: "Outdoor Adventure",
+      subcategory: "Outdoor",
       merchants: ["REI", "The North Face", "Patagonia", "All Trails Premium", "Yeti"]
     }
   ],

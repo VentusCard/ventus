@@ -1,4 +1,5 @@
 
+
 import { 
   CreditCard, 
   Trophy, 
@@ -38,7 +39,7 @@ export const dealIcons = {
   "Tennis": Trophy,
   "Running": Dumbbell,
   "Team Sports": Trophy,
-  "Outdoor Adventure": MapPin,
+  "Outdoor": MapPin,
   "Cycling & Biking": Dumbbell,
   "Water Sports": Heart,
   "Snow Sports": Trophy,

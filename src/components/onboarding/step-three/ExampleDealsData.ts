@@ -1,11 +1,12 @@
 
+
 export const exampleDeals = {
   sports: {
     "Golf": ["Extra cashback on golf purchases", "Extra points on golf rounds and club services", "Free gift with purchase at golf pro shops"],
     "Tennis": ["Extra cashback on tennis gear", "Extra points on court fees and lessons", "Free gift with purchase at tennis retailers"],
     "Running": ["Extra cashback on running shoes and apparel", "Extra points on race entry fees and fitness apps", "Free water bottle or socks with qualifying purchase"],
     "Team Sports": ["Extra cashback on team uniforms and gear", "Extra points on league signups and coaching services", "Free gift with team purchases over a certain amount"],
-    "Outdoor Adventure": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases"],
+    "Outdoor": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases"],
     "Cycling & Biking": ["Extra cashback on bikes and cycling gear", "Extra points on bike maintenance and rentals", "Free cycling accessories with bike purchase"],
     "Water Sports": ["Extra cashback on swimwear and water gear", "Extra points on pool memberships and lessons", "Free water bottle or goggles with purchase"],
     "Snow Sports": ["Extra cashback on ski and snowboard equipment", "Extra points on lift tickets and lessons", "Free gear rental with equipment purchase"],
