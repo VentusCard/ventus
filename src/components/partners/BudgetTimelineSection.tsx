@@ -3,6 +3,8 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { DollarSign, ChevronDown, ChevronUp } from "lucide-react";
+import { useDeviceType } from "@/hooks/use-mobile";
+
 const budgetRanges = {
   daily: {
     min: 50,
@@ -21,6 +23,7 @@ const budgetRanges = {
     max: 120000
   }
 };
+
 interface BudgetTimelineSectionProps {
   budgetPeriod: string;
   setBudgetPeriod: (period: string) => void;
@@ -30,6 +33,7 @@ interface BudgetTimelineSectionProps {
   onToggle: () => void;
   isComplete: boolean;
 }
+
 const BudgetTimelineSection = ({
   budgetPeriod,
   setBudgetPeriod,
@@ -39,6 +43,8 @@ const BudgetTimelineSection = ({
   onToggle,
   isComplete
 }: BudgetTimelineSectionProps) => {
+  const { isMobile } = useDeviceType();
+  
   const calculateAnnualBudget = () => {
     const multipliers = {
       daily: 365,
@@ -48,6 +54,7 @@ const BudgetTimelineSection = ({
     };
     return budgetValue[0] * multipliers[budgetPeriod as keyof typeof multipliers];
   };
+  
   const calculateROAS = () => {
     const currentBudget = budgetValue[0];
     const maxBudget = budgetRanges[budgetPeriod as keyof typeof budgetRanges].max;
@@ -72,10 +79,13 @@ const BudgetTimelineSection = ({
       max: maxROASValue.toFixed(1)
     };
   };
+  
   const roas = calculateROAS();
   const annualBudget = calculateAnnualBudget();
   const expectedReturn = annualBudget * parseFloat(roas.min);
-  return <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
+  
+  return (
+    <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
       <CardHeader className="cursor-pointer p-4 md:p-6" onClick={onToggle}>
         <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
           <div className="flex items-center gap-2 md:gap-3">
@@ -92,15 +102,22 @@ const BudgetTimelineSection = ({
         <p className="text-slate-600 mt-2 text-sm md:text-base">Set your customer acquisition budget level and get a data-driven return estimate.</p>
       </CardHeader>
 
-      {isExpanded && <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-6 animate-accordion-down">
+      {isExpanded && (
+        <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-6 animate-accordion-down">
           {/* Budget Period Selection - Mobile Optimized */}
           <div>
             <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">Budget Period</label>
             <RadioGroup value={budgetPeriod} onValueChange={setBudgetPeriod} className="space-y-2">
-              {Object.keys(budgetRanges).map(period => <div key={period} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
-                  <RadioGroupItem value={period} id={period} />
+              {Object.keys(budgetRanges).map(period => (
+                <div key={period} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
+                  <RadioGroupItem 
+                    value={period} 
+                    id={period} 
+                    className={isMobile ? "h-2.5 w-2.5" : "h-4 w-4"}
+                  />
                   <Label htmlFor={period} className="capitalize cursor-pointer flex-1 text-sm md:text-base">{period}</Label>
-                </div>)}
+                </div>
+              ))}
             </RadioGroup>
           </div>
 
@@ -133,7 +150,10 @@ const BudgetTimelineSection = ({
               <span className="font-bold text-purple-600 text-sm md:text-base">${expectedReturn.toLocaleString()}</span>
             </div>
           </div>
-        </CardContent>}
-    </Card>;
+        </CardContent>
+      )}
+    </Card>
+  );
 };
+
 export default BudgetTimelineSection;

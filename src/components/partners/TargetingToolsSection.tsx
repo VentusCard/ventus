@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Target, ChevronDown, ChevronUp } from "lucide-react";
+import { useDeviceType } from "@/hooks/use-mobile";
 
 const targetingTools = [{
   id: "geographic",
@@ -39,6 +40,7 @@ interface TargetingToolsSectionProps {
   onToggle: () => void;
   isComplete: boolean;
 }
+
 const TargetingToolsSection = ({
   selectedTargeting,
   setSelectedTargeting,
@@ -46,9 +48,13 @@ const TargetingToolsSection = ({
   onToggle,
   isComplete
 }: TargetingToolsSectionProps) => {
+  const { isMobile } = useDeviceType();
+  
   // Count only non-geographic tools for the limit
   const nonGeographicSelectedTools = selectedTargeting.filter(tool => tool !== "geographic");
-  return <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
+  
+  return (
+    <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
       <CardHeader className="cursor-pointer p-4 md:p-6" onClick={onToggle}>
         <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
           <div className="flex items-center gap-2 md:gap-3">
@@ -65,25 +71,34 @@ const TargetingToolsSection = ({
         <p className="text-slate-600 mt-2 text-sm md:text-base">Unlock precise, effective targeting of strategic customers with AI-powered recommendations driven by aggregated behavioral data.</p>
       </CardHeader>
 
-      {isExpanded && <CardContent className="px-4 md:px-8 pb-4 md:pb-6 animate-accordion-down">
+      {isExpanded && (
+        <CardContent className="px-4 md:px-8 pb-4 md:pb-6 animate-accordion-down">
           <p className="text-xs md:text-sm mb-4 font-bold text-zinc-700">
             Select up to 3 additional tools that align with your campaign goals:
           </p>
           <div className="space-y-3 md:space-y-4">
             {targetingTools.map(tool => {
-          const isGeographic = tool.id === "geographic";
-          const isChecked = selectedTargeting.includes(tool.id);
-          const isDisabled = isGeographic || !isChecked && nonGeographicSelectedTools.length >= 3;
-          return <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
+              const isGeographic = tool.id === "geographic";
+              const isChecked = selectedTargeting.includes(tool.id);
+              const isDisabled = isGeographic || (!isChecked && nonGeographicSelectedTools.length >= 3);
+              
+              return (
+                <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
                   <div className="flex items-start space-x-2 mb-2">
-                    <Checkbox id={tool.id} checked={isChecked} onCheckedChange={checked => {
-                if (isGeographic) return;
-                if (checked && nonGeographicSelectedTools.length < 3) {
-                  setSelectedTargeting([...selectedTargeting, tool.id]);
-                } else if (!checked) {
-                  setSelectedTargeting(selectedTargeting.filter(t => t !== tool.id));
-                }
-              }} disabled={isDisabled} className="mt-1" />
+                    <Checkbox 
+                      id={tool.id} 
+                      checked={isChecked} 
+                      onCheckedChange={(checked) => {
+                        if (isGeographic) return;
+                        if (checked && nonGeographicSelectedTools.length < 3) {
+                          setSelectedTargeting([...selectedTargeting, tool.id]);
+                        } else if (!checked) {
+                          setSelectedTargeting(selectedTargeting.filter(t => t !== tool.id));
+                        }
+                      }} 
+                      disabled={isDisabled} 
+                      className={`mt-1 ${isMobile ? "h-2.5 w-2.5" : "h-4 w-4"}`}
+                    />
                     <div className="flex-1">
                       <Label htmlFor={tool.id} className={`font-medium text-sm md:text-base cursor-pointer ${isGeographic ? 'text-blue-700' : ''}`}>
                         {tool.title}
@@ -92,13 +107,19 @@ const TargetingToolsSection = ({
                       <p className={`text-xs md:text-sm mt-1 ${isGeographic ? 'text-blue-600' : 'text-slate-600'}`}>
                         {tool.description}
                       </p>
-                      {tool.example && <p className="text-xs text-blue-600 mt-1 italic">Example: {tool.example}</p>}
+                      {tool.example && (
+                        <p className="text-xs text-blue-600 mt-1 italic">Example: {tool.example}</p>
+                      )}
                     </div>
                   </div>
-                </div>;
-        })}
+                </div>
+              );
+            })}
           </div>
-        </CardContent>}
-    </Card>;
+        </CardContent>
+      )}
+    </Card>
+  );
 };
+
 export default TargetingToolsSection;
