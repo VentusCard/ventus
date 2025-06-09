@@ -25,7 +25,7 @@ interface MerchantDeal {
 const subcategoriesData: SubcategoryData[] = [
   {
     goalId: "sports",
-    subcategories: ["Golf", "Tennis", "Running", "Team Sports", "Outdoor"]
+    subcategories: ["Golf", "Tennis/Racquet Sports", "Running/Track", "Basketball", "Football", "Soccer", "Outdoor"]
   },
   {
     goalId: "wellness",
@@ -57,16 +57,24 @@ const merchantDealsData: Record<LifestyleGoal, MerchantDeal[]> = {
       merchants: ["PGA Tour Superstore", "Callaway", "TaylorMade", "Golf Galaxy", "GolfNow"]
     },
     {
-      subcategory: "Tennis",
+      subcategory: "Tennis/Racquet Sports",
       merchants: ["Tennis Warehouse", "Wilson", "Head", "Babolat", "Tennis Channel Plus"]
     },
     {
-      subcategory: "Running",
+      subcategory: "Running/Track",
       merchants: ["Brooks", "Hoka", "Strava Premium", "Fleet Feet", "Marathon Training Academy"]
     },
     {
-      subcategory: "Team Sports",
-      merchants: ["Fanatics", "Dick's Sporting Goods", "MLB.com", "NBA Store", "Adidas Team Gear"]
+      subcategory: "Basketball",
+      merchants: ["NBA Store", "Spalding", "Nike Basketball", "Dick's Sporting Goods", "Basketball Reference"]
+    },
+    {
+      subcategory: "Football",
+      merchants: ["NFL Shop", "Wilson Football", "Under Armour Football", "Fanatics", "ESPN+"]
+    },
+    {
+      subcategory: "Soccer",
+      merchants: ["Soccer.com", "Adidas Soccer", "Nike Football", "MLS Store", "ESPN FC"]
     },
     {
       subcategory: "Outdoor",

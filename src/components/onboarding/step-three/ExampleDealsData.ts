@@ -1,12 +1,12 @@
+
 export const exampleDeals = {
   sports: {
     "Golf": ["Extra cashback on golf purchases", "Extra points on golf rounds and club services", "Free gift with purchase at golf pro shops"],
-    "Tennis": ["Extra cashback on tennis gear", "Extra points on court fees and lessons", "Free gift with purchase at tennis retailers"],
-    "Running": ["Extra cashback on running shoes and apparel", "Extra points on race entry fees and fitness apps", "Free water bottle or socks with qualifying purchase"],
+    "Tennis/Racquet Sports": ["Extra cashback on tennis and racquet sport gear", "Extra points on court fees and lessons", "Free gift with purchase at racquet sport retailers"],
+    "Running/Track": ["Extra cashback on running shoes and track apparel", "Extra points on race entry fees and track events", "Free water bottle or socks with qualifying purchase"],
     "Basketball": ["Extra cashback on basketball shoes and gear", "Extra points on court rentals and training sessions", "Free basketball or water bottle with qualifying purchase"],
     "Football": ["Extra cashback on football equipment and gear", "Extra points on league fees and coaching sessions", "Free gear bag or accessories with team purchases"],
     "Soccer": ["Extra cashback on soccer cleats and uniforms", "Extra points on field fees and coaching camps", "Free soccer ball or sports bottle with qualifying purchase"],
-    "Team Sports": ["Extra cashback on team uniforms and gear", "Extra points on league signups and coaching services", "Free gift with team purchases over a certain amount"],
     "Outdoor": ["Extra cashback on hiking and camping gear", "Extra points on guided trips and rentals", "Free gift with outdoor store purchases"],
     "Cycling & Biking": ["Extra cashback on bikes and cycling gear", "Extra points on bike maintenance and rentals", "Free cycling accessories with bike purchase"],
     "Water Sports": ["Extra cashback on swimwear and water gear", "Extra points on pool memberships and lessons", "Free water bottle or goggles with purchase"],
