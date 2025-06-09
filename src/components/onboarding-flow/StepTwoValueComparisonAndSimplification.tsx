@@ -130,7 +130,7 @@ const StepTwoValueComparisonAndSimplification = ({
         card: "Dining Card",
         color: "bg-red-500"
       }],
-      "Outdoor Adventure": [{
+      "Outdoor": [{
         item: "Gear & equipment",
         card: "Shopping Cashback Card",
         color: "bg-blue-500"
@@ -146,11 +146,116 @@ const StepTwoValueComparisonAndSimplification = ({
         item: "Trail food",
         card: "Grocery Card",
         color: "bg-green-500"
+      }],
+      "Cycling & Biking": [{
+        item: "Bikes & accessories",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Maintenance/repairs",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Cycling apparel",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Bike rentals",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Event registration",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }],
+      "Water Sports": [{
+        item: "Swimwear & gear",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Pool memberships",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Swimming lessons",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Water equipment",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Pool/beach snacks",
+        card: "Grocery Card",
+        color: "bg-green-500"
+      }],
+      "Snow Sports": [{
+        item: "Skis/snowboards",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Lift tickets",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Ski lessons",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Winter apparel",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Resort dining",
+        card: "Dining Card",
+        color: "bg-red-500"
+      }],
+      "Fitness & Gym": [{
+        item: "Gym memberships and fitness gear",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Equipment",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Apparel",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Fitness apps",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Protein & supplements",
+        card: "Grocery Card",
+        color: "bg-green-500"
+      }],
+      "Yoga & Pilates": [{
+        item: "Yoga mats & props",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Class packages",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Yoga apparel",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Retreat bookings",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Mindfulness apps",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
       }]
     },
     wellness: {
       "Fitness and Exercise": [{
-        item: "Gym/class memberships",
+        item: "Gym memberships and fitness gear",
         card: "General Cashback Card",
         color: "bg-gray-500"
       }, {
@@ -729,11 +834,11 @@ const StepTwoValueComparisonAndSimplification = ({
             <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
               <CreditCard className="h-5 w-5 md:h-6 md:w-6 text-white" />
             </div>
-            <h3 className="font-display text-lg md:text-xl font-bold text-blue-800 leading-tight">How Ventus Gives Cross-Category Rewards</h3>
+            <h3 className="font-display text-lg md:text-xl font-bold text-blue-800 leading-tight">How Ventus Simplifies Cross-Category Rewards</h3>
           </div>
           
           <p className="text-slate-600 mb-4 md:mb-6 text-sm md:text-base leading-relaxed">
-            Instead of juggling multiple cards, Ventus automatically gives you 5x rewards on ALL these purchases:
+            Traditional credit cards force you to juggle multiple cards for different purchase types. Ventus automatically gives you <strong>5x rewards</strong> on ALL these purchases with one intelligent card:
           </p>
 
           <div className="space-y-4 md:space-y-6">
