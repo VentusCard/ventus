@@ -59,7 +59,7 @@ const TargetingToolsSection = ({
       </CardHeader>
 
       {isExpanded && <CardContent className="px-4 md:px-8 pb-4 md:pb-6 animate-accordion-down">
-          <p className="text-xs md:text-sm text-slate-500 mb-4">
+          <p className="text-xs md:text-sm mb-4 font-bold text-zinc-700">
             Select up to 3 additional tools that align with your campaign goals:
           </p>
           <div className="space-y-3 md:space-y-4">
