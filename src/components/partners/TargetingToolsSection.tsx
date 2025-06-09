@@ -49,7 +49,7 @@ const TargetingToolsSection = ({
   // Count only non-geographic tools for the limit
   const nonGeographicSelectedTools = selectedTargeting.filter(tool => tool !== "geographic");
   return <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
-      <CardHeader className="cursor-pointer p-4 md:p-6" onClick={onToggle}>
+      <CardHeader className="cursor-pointer partner-form-header" onClick={onToggle}>
         <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
@@ -65,17 +65,17 @@ const TargetingToolsSection = ({
         <p className="text-slate-600 mt-2 text-sm md:text-base">Unlock precise, effective targeting of strategic customers with AI-powered recommendations driven by aggregated behavioral data.</p>
       </CardHeader>
 
-      {isExpanded && <CardContent className="px-4 md:px-8 pb-4 md:pb-6 animate-accordion-down">
-          <p className="text-xs md:text-sm mb-4 font-bold text-zinc-700">
+      {isExpanded && <CardContent className="partner-form-content animate-accordion-down">
+          <p className="text-xs md:text-sm mb-3 font-bold text-zinc-700">
             Select up to 3 additional tools that align with your campaign goals:
           </p>
-          <div className="space-y-3 md:space-y-4">
+          <div className="space-y-2 md:space-y-3">
             {targetingTools.map(tool => {
           const isGeographic = tool.id === "geographic";
           const isChecked = selectedTargeting.includes(tool.id);
           const isDisabled = isGeographic || !isChecked && nonGeographicSelectedTools.length >= 3;
-          return <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
-                  <div className="flex items-start space-x-2 mb-2">
+          return <div key={tool.id} className={`border rounded-lg targeting-tool-item ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
+                  <div className="flex items-start space-x-2 mb-1">
                     <Checkbox id={tool.id} checked={isChecked} onCheckedChange={checked => {
                 if (isGeographic) return;
                 if (checked && nonGeographicSelectedTools.length < 3) {

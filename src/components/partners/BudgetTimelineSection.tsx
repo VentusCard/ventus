@@ -76,7 +76,7 @@ const BudgetTimelineSection = ({
   const annualBudget = calculateAnnualBudget();
   const expectedReturn = annualBudget * parseFloat(roas.min);
   return <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
-      <CardHeader className="cursor-pointer p-4 md:p-6" onClick={onToggle}>
+      <CardHeader className="cursor-pointer partner-form-header" onClick={onToggle}>
         <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
@@ -92,11 +92,11 @@ const BudgetTimelineSection = ({
         <p className="text-slate-600 mt-2 text-sm md:text-base">Set your customer acquisition budget level and get a data-driven return estimate.</p>
       </CardHeader>
 
-      {isExpanded && <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-6 animate-accordion-down">
+      {isExpanded && <CardContent className="partner-form-content animate-accordion-down">
           {/* Budget Period Selection - Mobile Optimized */}
           <div>
-            <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">Budget Period</label>
-            <RadioGroup value={budgetPeriod} onValueChange={setBudgetPeriod} className="space-y-2">
+            <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Budget Period</label>
+            <RadioGroup value={budgetPeriod} onValueChange={setBudgetPeriod} className="space-y-1">
               {Object.keys(budgetRanges).map(period => <div key={period} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
                   <RadioGroupItem value={period} id={period} />
                   <Label htmlFor={period} className="capitalize cursor-pointer flex-1 text-sm md:text-base">{period}</Label>
@@ -106,20 +106,20 @@ const BudgetTimelineSection = ({
 
           {/* Budget Slider - Mobile Touch Optimized */}
           <div>
-            <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">
+            <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">
               {budgetPeriod.charAt(0).toUpperCase() + budgetPeriod.slice(1)} Budget: ${budgetValue[0].toLocaleString()}
             </label>
             <div className="px-2">
               <Slider value={budgetValue} onValueChange={setBudgetValue} max={budgetRanges[budgetPeriod as keyof typeof budgetRanges].max} min={budgetRanges[budgetPeriod as keyof typeof budgetRanges].min} step={50} className="w-full" />
             </div>
-            <div className="flex justify-between text-xs md:text-sm text-slate-500 mt-2 px-2">
+            <div className="flex justify-between text-xs md:text-sm text-slate-500 mt-1 px-2">
               <span>${budgetRanges[budgetPeriod as keyof typeof budgetRanges].min.toLocaleString()}</span>
               <span>${budgetRanges[budgetPeriod as keyof typeof budgetRanges].max.toLocaleString()}</span>
             </div>
           </div>
 
           {/* Results Display - Mobile Optimized */}
-          <div className="bg-slate-50 rounded-lg p-3 md:p-4 space-y-2 md:space-y-3">
+          <div className="bg-slate-50 rounded-lg budget-results-display">
             <div className="flex justify-between items-center">
               <span className="font-medium text-sm md:text-base">Annual Campaign Budget:</span>
               <span className="font-bold text-blue-600 text-sm md:text-base">${annualBudget.toLocaleString()}</span>

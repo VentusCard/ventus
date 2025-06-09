@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -120,7 +121,7 @@ const ContactInformationSection = ({
   return (
     <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
       <CardHeader 
-        className="cursor-pointer p-4 md:p-6"
+        className="cursor-pointer partner-form-header"
         onClick={onToggle}
       >
         <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
@@ -140,15 +141,15 @@ const ContactInformationSection = ({
       </CardHeader>
 
       {isExpanded && (
-        <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-5 animate-accordion-down">
-          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
+        <CardContent className="partner-form-content animate-accordion-down">
+          <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 contact-form-grid">
               <div>
-                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Name</label>
+                <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Company Name</label>
                 <Input name="companyName" placeholder="Enter company name" className="h-11 md:h-12 text-sm md:text-base" required />
               </div>
               <div>
-                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Industry</label>
+                <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Company Industry</label>
                 <Input 
                   name="companyIndustry"
                   value={formatCompanyIndustry()} 
@@ -158,7 +159,7 @@ const ContactInformationSection = ({
                 />
               </div>
               <div className="md:col-span-2">
-                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Website</label>
+                <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Company Website</label>
                 <Input 
                   name="companyWebsite" 
                   type="url" 
@@ -169,15 +170,15 @@ const ContactInformationSection = ({
                 <p className="text-xs text-slate-500 mt-1">Please include https:// or http:// at the beginning</p>
               </div>
               <div>
-                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Full Name</label>
+                <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Full Name</label>
                 <Input name="fullName" placeholder="Enter full name" className="h-11 md:h-12 text-sm md:text-base" required />
               </div>
               <div>
-                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Role/Title</label>
+                <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Role/Title</label>
                 <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" required />
               </div>
               <div>
-                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Business Email Address</label>
+                <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Business Email Address</label>
                 <Input 
                   name="emailAddress" 
                   type="email" 
@@ -190,7 +191,7 @@ const ContactInformationSection = ({
                 <p className="text-xs text-slate-500 mt-1">Please enter a valid email address</p>
               </div>
               <div>
-                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Phone Number</label>
+                <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Phone Number</label>
                 <Input 
                   name="phoneNumber" 
                   type="tel" 
@@ -205,7 +206,7 @@ const ContactInformationSection = ({
             </div>
             
             <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Ventus Tools Interested</label>
+              <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Ventus Tools Interested</label>
               <Input 
                 name="ventusToolsInterested"
                 value={formatVentusToolsInterested()}
@@ -216,7 +217,7 @@ const ContactInformationSection = ({
             </div>
             
             <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Annual Budget & ROAS Forecast</label>
+              <label className="text-slate-700 font-medium mb-1 block text-sm md:text-base">Annual Budget & ROAS Forecast</label>
               <Input 
                 name="annualBudgetRoas"
                 value={`$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`}
@@ -225,7 +226,7 @@ const ContactInformationSection = ({
               />
             </div>
 
-            <div className="pt-3">
+            <div className="pt-2">
               <Button 
                 type="submit" 
                 disabled={isSubmitting}
@@ -235,7 +236,7 @@ const ContactInformationSection = ({
               </Button>
             </div>
 
-            <div className="text-center pt-3">
+            <div className="text-center pt-2">
               <p className="text-xs md:text-sm text-slate-500">
                 By submitting, you agree to our merchant partnership terms.
                 <br />
