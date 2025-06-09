@@ -2,6 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Target, ChevronDown, ChevronUp } from "lucide-react";
+
 const targetingTools = [{
   id: "geographic",
   title: "Standard Targeting Filters",
@@ -24,7 +25,13 @@ const targetingTools = [{
   id: "seasonal",
   title: "Seasonal & Temporal Targeting",
   description: "Reach users based on time-sensitive signals (e.g., ski pass windows)"
+}, {
+  id: "lifecycle",
+  title: "Lifecycle Stage Targeting",
+  description: "Target users based on their customer journey stage and engagement patterns",
+  example: "Welcome bonus for new users, loyalty rewards for long-term customers."
 }];
+
 interface TargetingToolsSectionProps {
   selectedTargeting: string[];
   setSelectedTargeting: (targeting: string[]) => void;
