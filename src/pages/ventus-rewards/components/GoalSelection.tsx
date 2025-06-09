@@ -37,7 +37,7 @@ const GoalSelection = ({ lifestyleOptions, selectedGoal, onGoalSelect }: GoalSel
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{option.title}</h3>
                 <p className="text-gray-600 mb-3">{option.description}</p>
                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
-                  option.year === "Available Now" 
+                  option.year === "Launching First" 
                     ? "bg-green-100 text-green-700" 
                     : "bg-orange-100 text-orange-700"
                 }`}>
