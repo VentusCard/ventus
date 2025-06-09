@@ -1,10 +1,12 @@
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, X, Zap, Target, TrendingUp, Shield, Award, Brain, CreditCard } from "lucide-react";
+
 interface StepTwoValueComparisonAndSimplificationProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
 }
+
 const StepTwoValueComparisonAndSimplification = ({
   selectedGoal,
   selectedSubcategories
@@ -852,8 +854,10 @@ const StepTwoValueComparisonAndSimplification = ({
       }]
     }
   };
+
   const traditionalApproachItems = ["Multiple credit cards to manage", "Complex rewards structures", "Limited category coverage", "Manual optimization required", "Missed opportunities"];
   const ventusApproachItems = ["One intelligent card for everything", "AI-powered reward optimization", "Complete lifestyle coverage", "Automatic deal discovery", "Maximum value extraction"];
+
   const aiFeatures = [{
     icon: Brain,
     title: "Smart Category Detection",
@@ -867,6 +871,7 @@ const StepTwoValueComparisonAndSimplification = ({
     title: "Deal Discovery",
     description: "Continuously finds and negotiates new partnerships for better rewards"
   }];
+
   const simplicityBenefits = [{
     icon: Shield,
     title: "Set It & Forget It",
@@ -895,29 +900,33 @@ const StepTwoValueComparisonAndSimplification = ({
       };
     }).filter(cat => cat.items.length > 0);
   };
-  return <div>
+
+  return (
+    <div>
       {/* Selected Categories Impact - Moved to top */}
-      <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 mb-6">
-        <CardContent className="p-4 md:p-6">
-          <div className="flex items-center gap-3 mb-4 md:mb-6">
+      <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 mb-4">
+        <CardContent className="p-3 md:p-4">
+          <div className="flex items-center gap-3 mb-3 md:mb-4">
             <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
               <CreditCard className="h-5 w-5 md:h-6 md:w-6 text-white" />
             </div>
             <h3 className="font-display text-lg md:text-xl font-bold text-blue-800 leading-tight">How Ventus Simplifies Cross-Category Rewards</h3>
           </div>
           
-          <p className="text-slate-600 mb-4 md:mb-6 text-sm md:text-base leading-relaxed">
+          <p className="text-slate-600 mb-3 md:mb-4 text-sm md:text-base leading-relaxed">
             Traditional credit cards force you to juggle multiple cards for different purchase types. Ventus automatically gives you <strong>5x rewards</strong> on ALL these purchases with one intelligent card:
           </p>
 
-          <div className="space-y-4 md:space-y-6">
+          <div className="space-y-3 md:space-y-4">
             {getSelectedCategoryData().map(({
             subcategory,
             items
-          }) => <div key={subcategory} className="bg-white p-3 md:p-4 rounded-lg border border-blue-200">
-                <h4 className="font-semibold text-blue-700 mb-3 md:mb-4 text-base md:text-lg">{subcategory}</h4>
-                <div className="grid grid-cols-1 gap-3 md:gap-4">
-                  {items.map((item, index) => <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 md:p-4 bg-blue-50 rounded-lg gap-3 sm:gap-2">
+          }) => (
+            <div key={subcategory} className="bg-white p-2 md:p-3 rounded-lg border border-blue-200">
+                <h4 className="font-semibold text-blue-700 mb-2 md:mb-3 text-base md:text-lg">{subcategory}</h4>
+                <div className="grid grid-cols-1 gap-2 md:gap-3">
+                  {items.map((item, index) => (
+                    <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 md:p-3 bg-blue-50 rounded-lg gap-2 sm:gap-2">
                       <span className="text-slate-700 font-medium text-sm md:text-base leading-relaxed">{item.item}</span>
                       <div className="flex items-center gap-2 flex-wrap">
                         <span className="text-xs text-slate-500 hidden sm:inline">was</span>
@@ -929,13 +938,15 @@ const StepTwoValueComparisonAndSimplification = ({
                           5X VENTUS
                         </div>
                       </div>
-                    </div>)}
+                    </div>
+                  ))}
                 </div>
-              </div>)}
+              </div>
+            ))}
           </div>
 
-          <div className="mt-4 md:mt-6 text-center">
-            <div className="p-6 md:p-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg">
+          <div className="mt-3 md:mt-4 text-center">
+            <div className="p-3 md:p-4 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg">
               <p className="font-bold text-base md:text-lg mb-1">🎉 The Ventus Advantage</p>
               <p className="text-xs md:text-sm opacity-90 leading-relaxed">
                 One card automatically optimizes ALL your {goalTitles[selectedGoal]} purchases for maximum rewards
@@ -965,6 +976,8 @@ const StepTwoValueComparisonAndSimplification = ({
           
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default StepTwoValueComparisonAndSimplification;
