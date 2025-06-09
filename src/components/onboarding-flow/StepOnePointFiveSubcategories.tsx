@@ -60,7 +60,7 @@ const StepOnePointFiveSubcategories = ({
           Selected Goal: {goalTitles[selectedGoal]}
         </h3>
         <p className="text-slate-600 text-sm">
-          Now customize your experience by selecting specific areas within {goalTitles[selectedGoal]} 
+          Now customize your experience by selecting specific areas within {goalTitles[selectedGoal]} {' '}
           where you want to earn enhanced rewards.
         </p>
       </div>
