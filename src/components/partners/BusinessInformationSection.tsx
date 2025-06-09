@@ -3,7 +3,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Building2, ChevronDown, ChevronUp } from "lucide-react";
 import { useDeviceType } from "@/hooks/use-mobile";
-
 const businessCategories = [{
   value: "Sports",
   label: "Sports",
@@ -61,7 +60,7 @@ const BusinessInformationSection = ({
   return <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
       <div className="h-2 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-600"></div>
       
-      <CardHeader className="cursor-pointer partner-form-header" onClick={onToggle}>
+      <CardHeader className="cursor-pointer p-4 md:p-6" onClick={onToggle}>
         <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
@@ -77,11 +76,11 @@ const BusinessInformationSection = ({
         <p className="text-slate-600 mt-2 text-sm md:text-base">Tell us about your brand and which main categories you align with.</p>
       </CardHeader>
 
-      {isExpanded && <CardContent className="partner-form-content animate-accordion-down">
+      {isExpanded && <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-6 animate-accordion-down">
           {/* Business Category - Mobile Grid */}
           <div>
-            <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Business Category</label>
-            <div className="partner-grid-mobile sm:grid-cols-2 grid">
+            <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">Business Category</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {businessCategories.map(category => <div key={category.value} className={`relative ${!category.available ? 'opacity-50' : ''}`}>
                   <input type="radio" id={category.value} name="businessCategory" value={category.value} checked={selectedCategory === category.value} onChange={e => {
               if (category.available) {
@@ -89,7 +88,7 @@ const BusinessInformationSection = ({
                 setSelectedSubcategories([]);
               }
             }} disabled={!category.available} className="sr-only" />
-                  <label htmlFor={category.value} className={`block p-3 md:p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 text-sm md:text-base ${selectedCategory === category.value && category.available ? 'border-blue-500 bg-blue-50' : 'border-slate-200 hover:border-slate-300'} ${!category.available ? 'cursor-not-allowed' : ''} ${isMobile ? 'min-h-[44px] flex items-center' : ''}`}>
+                  <label htmlFor={category.value} className={`block p-3 md:p-4 border-2 rounded-lg cursor-pointer transition-all duration-200 text-sm md:text-base ${selectedCategory === category.value && category.available ? 'border-blue-500 bg-blue-50' : 'border-slate-200 hover:border-slate-300'} ${!category.available ? 'cursor-not-allowed' : ''} ${isMobile ? 'min-h-[48px] flex items-center' : ''}`}>
                     {category.label}
                   </label>
                 </div>)}
@@ -98,10 +97,10 @@ const BusinessInformationSection = ({
 
           {/* Subcategories - Mobile Optimized */}
           {selectedCategory && subcategories[selectedCategory as keyof typeof subcategories] && <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">
+              <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">
                 Subcategories (select all that apply)
               </label>
-              <div className="partner-grid-mobile sm:grid-cols-2 grid">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 {subcategories[selectedCategory as keyof typeof subcategories].map(subcat => <div key={subcat} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
                     <Checkbox id={subcat} checked={selectedSubcategories.includes(subcat)} onCheckedChange={checked => {
               if (checked) {

@@ -102,9 +102,9 @@ const PartnerForm = () => {
   const annualBudget = calculateAnnualBudget();
 
   return (
-    <section className="pb-12 md:pb-20 px-4 md:px-6">
+    <section className="pb-16 md:pb-20 px-4 md:px-6">
       <div className="max-w-4xl mx-auto">
-        <div className="space-y-3 md:space-y-6 partner-form-section">
+        <div className="space-y-4 md:space-y-6">
           
           {/* Section 1: Business Information */}
           <BusinessInformationSection
