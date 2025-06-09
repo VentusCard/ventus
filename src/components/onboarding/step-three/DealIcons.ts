@@ -1,5 +1,3 @@
-
-
 import { 
   CreditCard, 
   Trophy, 
@@ -38,6 +36,9 @@ export const dealIcons = {
   "Golf": Trophy,
   "Tennis": Trophy,
   "Running": Dumbbell,
+  "Basketball": Trophy,
+  "Football": Trophy,
+  "Soccer": Trophy,
   "Team Sports": Trophy,
   "Outdoor": MapPin,
   "Cycling & Biking": Dumbbell,

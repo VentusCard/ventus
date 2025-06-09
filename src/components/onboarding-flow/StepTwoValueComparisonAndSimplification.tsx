@@ -109,6 +109,69 @@ const StepTwoValueComparisonAndSimplification = ({
         card: "Grocery Card",
         color: "bg-green-500"
       }],
+      "Basketball": [{
+        item: "Shoes & gear",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Court fees",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Training/coaching",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Game tickets",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Arena food/drinks",
+        card: "Dining Card",
+        color: "bg-red-500"
+      }],
+      "Football": [{
+        item: "Equipment & gear",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "League registration",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Training camps",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Game tickets",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Stadium concessions",
+        card: "Dining Card",
+        color: "bg-red-500"
+      }],
+      "Soccer": [{
+        item: "Cleats & uniforms",
+        card: "Shopping Cashback Card",
+        color: "bg-blue-500"
+      }, {
+        item: "Field fees",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Coaching/camps",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Match tickets",
+        card: "General Cashback Card",
+        color: "bg-gray-500"
+      }, {
+        item: "Sports bar meals",
+        card: "Dining Card",
+        color: "bg-red-500"
+      }],
       "Team Sports": [{
         item: "Equipment",
         card: "Shopping Cashback Card",
