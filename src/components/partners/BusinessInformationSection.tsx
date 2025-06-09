@@ -3,6 +3,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Building2, ChevronDown, ChevronUp } from "lucide-react";
 import { useDeviceType } from "@/hooks/use-mobile";
+
 const businessCategories = [{
   value: "Sports",
   label: "Sports",
@@ -95,13 +96,13 @@ const BusinessInformationSection = ({
             </div>
           </div>
 
-          {/* Subcategories - Mobile Optimized */}
+          {/* Subcategories - Mobile Optimized with reduced vertical padding */}
           {selectedCategory && subcategories[selectedCategory as keyof typeof subcategories] && <div>
               <label className="text-slate-700 font-medium mb-3 block text-sm md:text-base">
                 Subcategories (select all that apply)
               </label>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                {subcategories[selectedCategory as keyof typeof subcategories].map(subcat => <div key={subcat} className="flex items-center space-x-2 p-2 border rounded-lg hover:bg-slate-50">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
+                {subcategories[selectedCategory as keyof typeof subcategories].map(subcat => <div key={subcat} className="flex items-center space-x-2 p-1.5 md:p-2 border rounded-lg hover:bg-slate-50">
                     <Checkbox id={subcat} checked={selectedSubcategories.includes(subcat)} onCheckedChange={checked => {
               if (checked) {
                 setSelectedSubcategories([...selectedSubcategories, subcat]);
