@@ -103,13 +103,18 @@ const BusinessInformationSection = ({
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
                 {subcategories[selectedCategory as keyof typeof subcategories].map(subcat => <div key={subcat} className="flex items-center space-x-2 p-1.5 md:p-2 border rounded-lg hover:bg-slate-50">
-                    <Checkbox id={subcat} checked={selectedSubcategories.includes(subcat)} onCheckedChange={checked => {
-              if (checked) {
-                setSelectedSubcategories([...selectedSubcategories, subcat]);
-              } else {
-                setSelectedSubcategories(selectedSubcategories.filter(s => s !== subcat));
-              }
-            }} />
+                    <Checkbox 
+                      id={subcat} 
+                      checked={selectedSubcategories.includes(subcat)} 
+                      onCheckedChange={checked => {
+                        if (checked) {
+                          setSelectedSubcategories([...selectedSubcategories, subcat]);
+                        } else {
+                          setSelectedSubcategories(selectedSubcategories.filter(s => s !== subcat));
+                        }
+                      }}
+                      className={isMobile ? "h-3 w-3" : "h-4 w-4"}
+                    />
                     <Label htmlFor={subcat} className="text-xs md:text-sm cursor-pointer flex-1">{subcat}</Label>
                   </div>)}
               </div>
