@@ -1,4 +1,3 @@
-
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check, X, Zap, Target, TrendingUp, Shield, Award, Brain, CreditCard } from "lucide-react";
@@ -936,7 +935,7 @@ const StepTwoValueComparisonAndSimplification = ({
                         </div>
                         <span className="text-xs text-blue-600 hidden sm:inline">→</span>
                         <div className="px-2 md:px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs rounded font-bold flex-shrink-0">
-                          5X VENTUS
+                          5X with Ventus
                         </div>
                       </div>
                     </div>
@@ -959,22 +958,84 @@ const StepTwoValueComparisonAndSimplification = ({
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Traditional Approach */}
-        
+        <Card className="border border-gray-300 bg-white shadow-sm">
+          <CardContent className="p-4">
+            <h4 className="font-semibold text-lg mb-3 text-gray-800">Traditional Approach</h4>
+            <ul className="space-y-2">
+              {traditionalApproachItems.map((item, index) => (
+                <li key={index} className="flex items-center gap-2 text-gray-700 text-sm md:text-base">
+                  <X className="h-5 w-5 text-red-500" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
 
         {/* Ventus Approach */}
-        
+        <Card className="border border-gray-300 bg-white shadow-sm">
+          <CardContent className="p-4">
+            <h4 className="font-semibold text-lg mb-3 text-gray-800">Ventus Approach</h4>
+            <ul className="space-y-2">
+              {ventusApproachItems.map((item, index) => (
+                <li key={index} className="flex items-center gap-2 text-gray-700 text-sm md:text-base">
+                  <Check className="h-5 w-5 text-green-500" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </CardContent>
+        </Card>
       </div>
 
       {/* How Ventus Simplifies Everything */}
       <div>
-        
+        <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-gray-900">How Ventus Simplifies Everything</h3>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* AI Intelligence Card */}
-          
+          <Card className="border border-gray-300 bg-white shadow-sm">
+            <CardContent className="p-4">
+              <h4 className="font-semibold text-lg mb-3 text-gray-800 flex items-center gap-2">
+                <Brain className="h-6 w-6 text-blue-600" /> AI Intelligence
+              </h4>
+              <ul className="space-y-4">
+                {aiFeatures.map(({ icon: Icon, title, description }, index) => (
+                  <li key={index} className="flex gap-3">
+                    <div className="p-2 bg-blue-100 rounded-md text-blue-600">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">{title}</p>
+                      <p className="text-gray-700 text-sm">{description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
 
           {/* Simplicity Card */}
-          
+          <Card className="border border-gray-300 bg-white shadow-sm">
+            <CardContent className="p-4">
+              <h4 className="font-semibold text-lg mb-3 text-gray-800 flex items-center gap-2">
+                <Shield className="h-6 w-6 text-green-600" /> Simplicity & Automation
+              </h4>
+              <ul className="space-y-4">
+                {simplicityBenefits.map(({ icon: Icon, title, description }, index) => (
+                  <li key={index} className="flex gap-3">
+                    <div className="p-2 bg-green-100 rounded-md text-green-600">
+                      <Icon className="h-5 w-5" />
+                    </div>
+                    <div>
+                      <p className="font-semibold text-gray-900">{title}</p>
+                      <p className="text-gray-700 text-sm">{description}</p>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
