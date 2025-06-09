@@ -113,7 +113,7 @@ const BusinessInformationSection = ({
                           setSelectedSubcategories(selectedSubcategories.filter(s => s !== subcat));
                         }
                       }}
-                      className={isMobile ? "h-3 w-3" : "h-4 w-4"}
+                      className={isMobile ? "h-2.5 w-2.5" : "h-4 w-4"}
                     />
                     <Label htmlFor={subcat} className="text-xs md:text-sm cursor-pointer flex-1">{subcat}</Label>
                   </div>)}
