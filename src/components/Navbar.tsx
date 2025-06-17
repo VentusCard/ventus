@@ -34,7 +34,7 @@ const Navbar = () => {
     <div className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/5">
       <div className="flex h-16 md:h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
         {/* Logo/Brand */}
-        <div className="flex items-center">
+        <div className="flex items-center flex-1 md:flex-initial">
           <Link to="/" onClick={closeMobileMenu}>
             <h1 className="text-base md:text-lg tracking-[0.15em] font-sans font-light text-white/95 relative cursor-pointer hover:text-white transition-colors duration-300">
               <span className="relative inline-block">
@@ -80,8 +80,8 @@ const Navbar = () => {
           </Link>
         </div>
         
-        {/* Mobile Menu Button */}
-        <div className="md:hidden flex items-center">
+        {/* Mobile Menu Button - positioned on the far right */}
+        <div className="md:hidden flex items-center justify-end pr-2">
           <button
             onClick={toggleMobileMenu}
             className="text-white/90 hover:text-white p-3 transition-colors duration-300 z-50 relative"
