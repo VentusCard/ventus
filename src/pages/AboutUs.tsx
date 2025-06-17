@@ -95,12 +95,12 @@ const AboutUs = () => {
                 Discover how Ventus Card can transform your spending into personalized rewards that align with your lifestyle.
               </p>
             </div>
-            <Link to="/onboarding">
+            <Link to="/smartrewards">
               <Button 
                 size="lg" 
                 className="w-full max-w-md px-12 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200"
               >
-                Learn How Ventus Card Works
+                Learn How Ventus Smart Rewards Works
               </Button>
             </Link>
           </div>
