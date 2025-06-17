@@ -1,33 +1,30 @@
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  
   const handleJoinWaitlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
-    
+
     // Navigate to the join-waitlist page
     navigate('/join-waitlist');
-    
+
     // Ensure scroll to top happens after navigation
     setTimeout(() => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     }, 50);
   };
-
   return <footer className="bg-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
           <div className="md:col-span-1">
             <h3 className="text-xl font-bold tracking-wide mb-4">VENTUS CARD</h3>
-            <p className="text-slate-400 text-sm leading-relaxed">
-              Personalized rewards for high-impact living.
-            </p>
+            <p className="text-slate-400 text-sm leading-relaxed">AI Powered Personalized Smart Rewards that Move with You. No Matter the Category</p>
           </div>
 
           {/* Quick Links */}
@@ -43,7 +40,9 @@ const Footer = () => {
               <Link to="/partners" className="block text-slate-400 hover:text-white transition-colors text-sm">
                 Partners
               </Link>
-              <a href="/join-waitlist" onClick={handleJoinWaitlistClick} className="inline-block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-sm font-medium" style={{ color: 'white' }}>
+              <a href="/join-waitlist" onClick={handleJoinWaitlistClick} className="inline-block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-sm font-medium" style={{
+              color: 'white'
+            }}>
                 Join Waitlist
               </a>
             </div>
@@ -82,5 +81,4 @@ const Footer = () => {
       </div>
     </footer>;
 };
-
 export default Footer;
