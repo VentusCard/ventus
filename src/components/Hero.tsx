@@ -73,8 +73,8 @@ const Hero = () => {
       <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent via-[#0A0A0A] to-[#F8F9FA] z-20 pointer-events-none"></div>
       
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
-        {/* Add spacing between navbar and hero content */}
-        <div className="flex flex-col items-center justify-center space-y-4 md:space-y-6 pt-8 md:pt-12">
+        {/* Reduced spacing between navbar and hero content on mobile */}
+        <div className="flex flex-col items-center justify-center space-y-2 md:space-y-6 pt-4 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation */}
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
@@ -108,13 +108,13 @@ const Hero = () => {
             </span>
           </h1>
           
-          {/* Enhanced subheading with soft blue-gray tone */}
-          <p className="text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
+          {/* Enhanced subheading with soft blue-gray tone - reduced margin on mobile */}
+          <p className="text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed mb-2 md:mb-0">
             Personalized rewards for high-impact living
           </p>
           
-          {/* Video Centerpiece - removed hover effects and mobile animations */}
-          <div className="relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-60 md:scale-65 lg:scale-70 transition-all duration-700 ease-out">
+          {/* Video Centerpiece - reduced scale and margin on mobile */}
+          <div className="relative w-full max-w-2xl md:max-w-3xl mx-auto transform scale-50 md:scale-65 lg:scale-70 transition-all duration-700 ease-out -mt-2 md:mt-0">
             <div className="relative aspect-video overflow-hidden">
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
@@ -139,8 +139,8 @@ const Hero = () => {
             <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-black/10 via-black/30 to-black opacity-60 blur-3xl -z-10"></div>
           </div>
           
-          {/* Enhanced Learn More button - now links to About Us page */}
-          <div className="mt-6 md:mt-8 h-[64px] flex items-center justify-center">
+          {/* Enhanced Learn More button - reduced margin on mobile */}
+          <div className="mt-2 md:mt-8 h-[64px] flex items-center justify-center">
             <Link to="/about">
               <Button 
                 size="lg" 
@@ -153,8 +153,8 @@ const Hero = () => {
             </Link>
           </div>
           
-          {/* Scroll cue with extremely subtle animation - always reserve space, control visibility */}
-          <div className="mt-4 md:mt-6 h-6 flex flex-col items-center justify-center">
+          {/* Scroll cue with extremely subtle animation - reduced margin on mobile */}
+          <div className="mt-1 md:mt-6 h-6 flex flex-col items-center justify-center">
             <div className={`animate-[float_30s_ease-in-out_infinite] transition-all duration-300 ${
               videoEnded ? 'opacity-100 visible animate-fade-in' : 'opacity-0 invisible'
             }`} style={{ animationDelay: '0s' }}>
