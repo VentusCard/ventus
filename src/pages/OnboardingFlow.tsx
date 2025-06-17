@@ -8,6 +8,7 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
+
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
@@ -19,6 +20,7 @@ export interface OnboardingFlowData {
   minCashbackPercentage: number;
   maxCashbackPercentage: number;
 }
+
 const OnboardingFlow = () => {
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
@@ -111,7 +113,7 @@ const OnboardingFlow = () => {
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 py-8 md:py-10">
           <div className="text-center max-w-5xl mx-auto">
             <h1 className="font-display text-5xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight mt-5 ">
-              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent text-3xl md:text-5xl">
                 Discover Your
               </span>
               <br />
