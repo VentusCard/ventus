@@ -8,6 +8,8 @@ import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOneP
 import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
 import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
+import StepFiveSummary from "@/components/onboarding-flow/StepFiveSummary";
+import WaitlistForm from "@/components/onboarding/step-three/WaitlistForm";
 
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
 export interface OnboardingFlowData {
@@ -33,7 +35,7 @@ const OnboardingFlow = () => {
     minCashbackPercentage: 5,
     maxCashbackPercentage: 15
   });
-  const totalSteps = 5;
+  const totalSteps = 6;
 
   // Scroll to top when component mounts
   useEffect(() => {
@@ -69,6 +71,15 @@ const OnboardingFlow = () => {
         return <StepThreePointFiveExampleDeals selectedGoal={onboardingData.mainGoal as LifestyleGoal} selectedSubcategories={onboardingData.subcategories} />;
       case 5:
         return <StepFourSpendingInput onboardingData={onboardingData} updateOnboardingData={updateOnboardingData} />;
+      case 6:
+        return (
+          <div className="space-y-8">
+            <StepFiveSummary onboardingData={onboardingData} />
+            <div className="max-w-2xl mx-auto">
+              <WaitlistForm onboardingData={onboardingData} />
+            </div>
+          </div>
+        );
       default:
         return <StepOneLifestyleGoal selectedGoal={onboardingData.mainGoal} onSelectGoal={goal => updateOnboardingData({
           mainGoal: goal
@@ -92,6 +103,8 @@ const OnboardingFlow = () => {
         return 'Explore Example Deals';
       case 5:
         return 'Input Your Spending & Join Waitlist';
+      case 6:
+        return 'Your Personalized Summary & Waitlist';
       default:
         return '';
     }
