@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield } from "lucide-react";
@@ -193,8 +192,6 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
               value={formData.lastName}
               onChange={(e) => handleInputChange('lastName', e.target.value)}
               className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm" 
-              minLength={2}
-              required
             />
           </div>
           
