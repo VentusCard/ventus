@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Shield } from "lucide-react";
@@ -28,6 +29,7 @@ interface WaitlistFormProps {
 
 const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [emailError, setEmailError] = useState("");
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -36,15 +38,33 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
   });
   const { toast } = useToast();
 
+  // Email validation function
+  const validateEmail = (email: string): boolean => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
       [field]: value
     }));
+
+    // Clear email error when user starts typing
+    if (field === 'email' && emailError) {
+      setEmailError("");
+    }
   };
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    
+    // Validate email before submission
+    if (!validateEmail(formData.email)) {
+      setEmailError("Please enter a valid email address");
+      return;
+    }
+
     setIsSubmitting(true);
 
     const form = event.currentTarget;
@@ -209,9 +229,14 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
               placeholder="Email Address" 
               value={formData.email}
               onChange={(e) => handleInputChange('email', e.target.value)}
-              className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm" 
+              className={`bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm ${
+                emailError ? 'border-red-500 focus:border-red-500' : ''
+              }`}
               required
             />
+            {emailError && (
+              <p className="text-red-500 text-xs mt-1">{emailError}</p>
+            )}
           </div>
           
           <Button 
