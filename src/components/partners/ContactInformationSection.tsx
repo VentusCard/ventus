@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -27,6 +26,7 @@ const ContactInformationSection = ({
 }: ContactInformationSectionProps) => {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [websiteValue, setWebsiteValue] = useState("");
 
   // Format the company industry field to include subcategories
   const formatCompanyIndustry = () => {
@@ -54,6 +54,19 @@ const ContactInformationSection = ({
     return advancedTools.map(tool => toolNames[tool as keyof typeof toolNames] || tool).join(", ");
   };
 
+  // Handle website input changes
+  const handleWebsiteChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setWebsiteValue(e.target.value);
+  };
+
+  // Auto-format website URL when user finishes typing
+  const handleWebsiteBlur = () => {
+    if (websiteValue && !websiteValue.startsWith('http://') && !websiteValue.startsWith('https://')) {
+      const formattedUrl = `https://${websiteValue}`;
+      setWebsiteValue(formattedUrl);
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -61,11 +74,11 @@ const ContactInformationSection = ({
     try {
       const formData = new FormData(e.currentTarget);
       
-      // Create the data object (removed phoneNumber)
+      // Create the data object using the formatted website value
       const submitData = {
         companyName: formData.get('companyName'),
         companyIndustry: formatCompanyIndustry(),
-        companyWebsite: formData.get('companyWebsite'),
+        companyWebsite: websiteValue, // Use the formatted website value
         fullName: formData.get('fullName'),
         roleTitle: formData.get('roleTitle'),
         emailAddress: formData.get('emailAddress'),
@@ -99,8 +112,9 @@ const ContactInformationSection = ({
         description: "Your application has been sent successfully. We'll contact you within 3-5 business days.",
       });
       
-      // Reset the form
+      // Reset the form and website state
       (e.target as HTMLFormElement).reset();
+      setWebsiteValue("");
 
     } catch (error) {
       console.error('Submission error details:', error);
@@ -162,11 +176,14 @@ const ContactInformationSection = ({
                 <Input 
                   name="companyWebsite" 
                   type="url" 
-                  placeholder="https://www.example.com" 
+                  value={websiteValue}
+                  onChange={handleWebsiteChange}
+                  onBlur={handleWebsiteBlur}
+                  placeholder="www.example.com (https:// will be added automatically)" 
                   className="h-11 md:h-12 text-sm md:text-base" 
                   required 
                 />
-                <p className="text-xs text-slate-500 mt-1">Please include https:// or http:// at the beginning</p>
+                <p className="text-xs text-slate-500 mt-1">https:// will be automatically added if not provided</p>
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Full Name</label>
