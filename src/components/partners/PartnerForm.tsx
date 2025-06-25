@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import BusinessInformationSection from "./BusinessInformationSection";
 import TargetingToolsSection from "./TargetingToolsSection";
@@ -25,7 +26,7 @@ const PartnerForm = () => {
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [selectedTargeting, setSelectedTargeting] = useState<string[]>(["geographic"]);
   const [budgetPeriod, setBudgetPeriod] = useState("monthly");
-  const [budgetValue, setBudgetValue] = useState([1000]);
+  const [budgetValue, setBudgetValue] = useState([500]);
   const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false, 3: false, 4: false });
 
   const calculateAnnualBudget = () => {
