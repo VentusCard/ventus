@@ -108,8 +108,8 @@ const ContactInformationSection = ({
       console.log('Form submission completed - request sent successfully');
       
       toast({
-        title: "Application Submitted!",
-        description: "Your application has been sent successfully. We'll contact you within 3-5 business days.",
+        title: "Submission Recorded!",
+        description: "Your submission has been recorded successfully. Thank you for you interest in partnering with Ventus! We will notify you when Ventus is ready to launch.",
       });
       
       // Reset the form and website state
