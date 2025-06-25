@@ -7,11 +7,11 @@ import { ExternalLink } from "lucide-react";
 const PgaDemo = () => {
   useEffect(() => {
     // Automatically redirect to the external Lovable project
-    window.open("https://lovable.dev/projects/70425ae6-6585-4b1b-a4c9-9f724b47aeba", "_blank");
+    window.open("https://vita-advertising-dashboard.lovable.app/", "_blank");
   }, []);
 
   const handleManualRedirect = () => {
-    window.open("https://lovable.dev/projects/70425ae6-6585-4b1b-a4c9-9f724b47aeba", "_blank");
+    window.open("https://vita-advertising-dashboard.lovable.app/", "_blank");
   };
 
   return (
