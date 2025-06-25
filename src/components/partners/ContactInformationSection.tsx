@@ -174,7 +174,7 @@ const ContactInformationSection = ({
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Role/Title</label>
-                <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" required />
+                <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" />
               </div>
               <div className="md:col-span-2">
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Business Email Address</label>
