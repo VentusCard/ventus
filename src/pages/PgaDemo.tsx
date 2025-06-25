@@ -7,11 +7,11 @@ import { ExternalLink } from "lucide-react";
 const PgaDemo = () => {
   useEffect(() => {
     // Automatically redirect to the external Lovable project
-    window.open("https://vita-advertising-dashboard.lovable.app/", "_blank");
+    window.open("https://ventus-pga-dashboard.lovable.app/", "_blank");
   }, []);
 
   const handleManualRedirect = () => {
-    window.open("https://vita-advertising-dashboard.lovable.app/", "_blank");
+    window.open("https://ventus-pga-dashboard.lovable.app/", "_blank");
   };
 
   return (
