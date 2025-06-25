@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
@@ -7,19 +8,19 @@ import { useDeviceType } from "@/hooks/use-mobile";
 
 const budgetRanges = {
   daily: {
-    min: 50,
+    min: 10,
     max: 1000
   },
   weekly: {
-    min: 350,
+    min: 70,
     max: 7000
   },
   monthly: {
-    min: 1400,
+    min: 280,
     max: 30000
   },
   quarterly: {
-    min: 5600,
+    min: 1120,
     max: 120000
   }
 };

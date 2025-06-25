@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import BusinessInformationSection from "./BusinessInformationSection";
 import TargetingToolsSection from "./TargetingToolsSection";
@@ -15,10 +14,10 @@ const subcategories = {
 };
 
 const budgetRanges = {
-  daily: { min: 50, max: 1000 },
-  weekly: { min: 350, max: 7000 },
-  monthly: { min: 1400, max: 30000 },
-  quarterly: { min: 5600, max: 120000 }
+  daily: { min: 10, max: 1000 },
+  weekly: { min: 70, max: 7000 },
+  monthly: { min: 280, max: 30000 },
+  quarterly: { min: 1120, max: 120000 }
 };
 
 const PartnerForm = () => {
@@ -26,7 +25,7 @@ const PartnerForm = () => {
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [selectedTargeting, setSelectedTargeting] = useState<string[]>(["geographic"]);
   const [budgetPeriod, setBudgetPeriod] = useState("monthly");
-  const [budgetValue, setBudgetValue] = useState([5000]);
+  const [budgetValue, setBudgetValue] = useState([1000]);
   const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false, 3: false, 4: false });
 
   const calculateAnnualBudget = () => {
