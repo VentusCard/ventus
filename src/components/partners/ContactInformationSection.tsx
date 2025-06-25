@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -60,7 +61,7 @@ const ContactInformationSection = ({
     try {
       const formData = new FormData(e.currentTarget);
       
-      // Create the data object
+      // Create the data object (removed phoneNumber)
       const submitData = {
         companyName: formData.get('companyName'),
         companyIndustry: formatCompanyIndustry(),
@@ -68,7 +69,6 @@ const ContactInformationSection = ({
         fullName: formData.get('fullName'),
         roleTitle: formData.get('roleTitle'),
         emailAddress: formData.get('emailAddress'),
-        phoneNumber: formData.get('phoneNumber'),
         ventusToolsInterested: formatVentusToolsInterested(),
         annualBudgetRoas: `$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`
       };
@@ -176,7 +176,7 @@ const ContactInformationSection = ({
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Role/Title</label>
                 <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" required />
               </div>
-              <div>
+              <div className="md:col-span-2">
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Business Email Address</label>
                 <Input 
                   name="emailAddress" 
@@ -188,19 +188,6 @@ const ContactInformationSection = ({
                   required 
                 />
                 <p className="text-xs text-slate-500 mt-1">Please enter a valid email address</p>
-              </div>
-              <div>
-                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Phone Number</label>
-                <Input 
-                  name="phoneNumber" 
-                  type="tel" 
-                  placeholder="(555) 123-4567" 
-                  pattern="^(\+?1[-.\s]?)?\(?([0-9]{3})\)?[-.\s]?([0-9]{3})[-.\s]?([0-9]{4})$"
-                  title="Please enter a valid US phone number (e.g., (555) 123-4567 or 555-123-4567)"
-                  className="h-11 md:h-12 text-sm md:text-base" 
-                  required 
-                />
-                <p className="text-xs text-slate-500 mt-1">US phone numbers only (e.g., (555) 123-4567)</p>
               </div>
             </div>
             
