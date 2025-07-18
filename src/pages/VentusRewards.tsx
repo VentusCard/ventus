@@ -72,6 +72,15 @@ const VentusRewards = () => {
         />
       )}
 
+      {/* FDIC Disclaimer Section */}
+      <section className="py-8 bg-slate-100">
+        <div className="max-w-4xl mx-auto px-4 md:px-8 text-center">
+          <p className="text-sm text-slate-600 leading-relaxed">
+            Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.
+          </p>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
