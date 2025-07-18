@@ -119,7 +119,7 @@ const JoinWaitlist = () => {
               <CardTitle className="flex items-center justify-center gap-3 text-xl md:text-2xl font-bold">
                 Join the Waitlist
               </CardTitle>
-              <p className="text-slate-600 mt-3 text-sm md:text-base px-2 leading-relaxed">Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans. Ventus has not launched yet. When we do, all accounts will be FDIC-eligible and insured up to $250,000, </p>
+              <p className="text-slate-600 mt-3 text-sm md:text-base px-2 leading-relaxed">Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
             </CardHeader>
 
             <CardContent className="px-4 md:px-8 pb-6 md:pb-8">
