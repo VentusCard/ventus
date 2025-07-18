@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -7,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail, User, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-
 const categories = [{
   value: "Sports",
   label: "Sports"
@@ -27,14 +25,12 @@ const categories = [{
   value: "Homeowners",
   label: "Homeowners"
 }];
-
 const JoinWaitlist = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
   const {
     toast
   } = useToast();
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setHasAttemptedSubmit(true);
@@ -93,9 +89,7 @@ const JoinWaitlist = () => {
       setIsSubmitting(false);
     }
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
+  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
       <Navbar />
       
       {/* Hero Section - Mobile Optimized */}
@@ -125,9 +119,7 @@ const JoinWaitlist = () => {
               <CardTitle className="flex items-center justify-center gap-3 text-xl md:text-2xl font-bold">
                 Join the Waitlist
               </CardTitle>
-              <p className="text-slate-600 mt-3 text-sm md:text-base px-2 leading-relaxed">
-                Waitlist members will be notified by order of sign up and get one year of premium membership (full functionality tier at $9.99 per month) for free. Ventus will only be available in the USA for eligible customers.
-              </p>
+              <p className="text-slate-600 mt-3 text-sm md:text-base px-2 leading-relaxed">Ventus is not live yet. At launch, all eligible accounts will be held with an FDIC-insured partner bank, offering the same deposit protection trusted by millions of Americans.</p>
             </CardHeader>
 
             <CardContent className="px-4 md:px-8 pb-6 md:pb-8">
@@ -140,19 +132,7 @@ const JoinWaitlist = () => {
                       </span>
                       First Name
                     </label>
-                    <Input 
-                      id="firstName"
-                      name="firstName" 
-                      type="text" 
-                      placeholder="Enter your first name" 
-                      className={`mobile-input h-12 text-base transition-all duration-200 ${
-                        hasAttemptedSubmit 
-                          ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" 
-                          : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"
-                      }`}
-                      minLength={2} 
-                      required 
-                    />
+                    <Input id="firstName" name="firstName" type="text" placeholder="Enter your first name" className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`} minLength={2} required />
                   </div>
 
                   <div className="form-field">
@@ -162,19 +142,7 @@ const JoinWaitlist = () => {
                       </span>
                       Last Name
                     </label>
-                    <Input 
-                      id="lastName"
-                      name="lastName" 
-                      type="text" 
-                      placeholder="Enter your last name" 
-                      className={`mobile-input h-12 text-base transition-all duration-200 ${
-                        hasAttemptedSubmit 
-                          ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" 
-                          : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"
-                      }`}
-                      minLength={2} 
-                      required 
-                    />
+                    <Input id="lastName" name="lastName" type="text" placeholder="Enter your last name" className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`} minLength={2} required />
                   </div>
                 </div>
 
@@ -185,22 +153,11 @@ const JoinWaitlist = () => {
                     </span>
                     Main Interest Category
                   </label>
-                  <select 
-                    id="interest"
-                    name="interest" 
-                    className={`mobile-select flex h-12 w-full rounded-md border bg-white px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${
-                      hasAttemptedSubmit 
-                        ? "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400 invalid:border-red-500 invalid:focus-visible:border-red-500 invalid:focus-visible:ring-red-500" 
-                        : "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400"
-                    }`}
-                    required
-                  >
+                  <select id="interest" name="interest" className={`mobile-select flex h-12 w-full rounded-md border bg-white px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400 invalid:border-red-500 invalid:focus-visible:border-red-500 invalid:focus-visible:ring-red-500" : "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400"}`} required>
                     <option value="" disabled>Select your main interest category</option>
-                    {categories.map(category => (
-                      <option key={category.value} value={category.value}>
+                    {categories.map(category => <option key={category.value} value={category.value}>
                         {category.label}
-                      </option>
-                    ))}
+                      </option>)}
                   </select>
                 </div>
 
@@ -211,26 +168,11 @@ const JoinWaitlist = () => {
                     </span>
                     Email Address
                   </label>
-                  <Input 
-                    id="email"
-                    name="email" 
-                    type="email" 
-                    placeholder="Enter your email address" 
-                    className={`mobile-input h-12 text-base transition-all duration-200 ${
-                      hasAttemptedSubmit 
-                        ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" 
-                        : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"
-                    }`}
-                    required 
-                  />
+                  <Input id="email" name="email" type="email" placeholder="Enter your email address" className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`} required />
                 </div>
 
                 <div className="pt-2 md:pt-4">
-                  <Button 
-                    type="submit" 
-                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-base active:scale-95" 
-                    disabled={isSubmitting}
-                  >
+                  <Button type="submit" className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-base active:scale-95" disabled={isSubmitting}>
                     {isSubmitting ? "Joining Waitlist..." : "Join the Waitlist"}
                   </Button>
                 </div>
@@ -249,8 +191,6 @@ const JoinWaitlist = () => {
       </section>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default JoinWaitlist;
