@@ -68,7 +68,8 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-slate-800 mt-8 pt-8 text-center">
-          <p className="text-slate-400 text-sm">© 2025 Ventus Card. All rights reserved. Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
+          <p className="text-slate-400 text-sm">© 2025 Ventus Card. All rights reserved. 
+Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
         </div>
       </div>
     </footer>;
