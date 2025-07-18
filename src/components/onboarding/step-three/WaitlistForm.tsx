@@ -3,30 +3,37 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Shield } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { 
-  Select, 
-  SelectTrigger, 
-  SelectValue, 
-  SelectContent, 
-  SelectItem 
-} from "@/components/ui/select";
+import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { LifestyleGoal, OnboardingFlowData } from "@/pages/OnboardingFlow";
-
-const lifestyleCategories: {label: string, value: LifestyleGoal}[] = [
-  { label: "Sports", value: "sports" },
-  { label: "Wellness", value: "wellness" },
-  { label: "Pets", value: "pets" },
-  { label: "Gamers", value: "gamers" },
-  { label: "Creatives", value: "creatives" },
-  { label: "Homeowners", value: "homeowners" }
-];
-
+const lifestyleCategories: {
+  label: string;
+  value: LifestyleGoal;
+}[] = [{
+  label: "Sports",
+  value: "sports"
+}, {
+  label: "Wellness",
+  value: "wellness"
+}, {
+  label: "Pets",
+  value: "pets"
+}, {
+  label: "Gamers",
+  value: "gamers"
+}, {
+  label: "Creatives",
+  value: "creatives"
+}, {
+  label: "Homeowners",
+  value: "homeowners"
+}];
 interface WaitlistFormProps {
   onboardingData?: OnboardingFlowData;
 }
-
-const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
+const WaitlistForm = ({
+  onboardingData
+}: WaitlistFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailError, setEmailError] = useState("");
   const [formData, setFormData] = useState({
@@ -35,14 +42,15 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
     email: "",
     interest: onboardingData?.mainGoal || ""
   });
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
 
   // Email validation function
   const validateEmail = (email: string): boolean => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -54,18 +62,15 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
       setEmailError("");
     }
   };
-
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    
+
     // Validate email before submission
     if (!validateEmail(formData.email)) {
       setEmailError("Please enter a valid email address");
       return;
     }
-
     setIsSubmitting(true);
-
     const form = event.currentTarget;
     const submitFormData = new FormData(form);
 
@@ -85,14 +90,12 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
     for (const [key, value] of submitFormData.entries()) {
       console.log(`${key}: ${value}`);
     }
-
     try {
       console.log('Sending request to Google Apps Script...');
       const response = await fetch('https://script.google.com/macros/s/AKfycbz5cNxCadlHqNtH1wRP19Oez1d6IfRKCi5sp7He4DWUaK0X2lCty42NHc8cmPRUsuDP/exec', {
         method: 'POST',
         body: submitFormData
       });
-
       console.log('Response status:', response.status);
       console.log('Response headers:', response.headers);
       const responseText = await response.text();
@@ -100,8 +103,7 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
 
       // Google Apps Script typically returns 302 for successful form submissions
       // We'll consider 200, 201, 302 as success, and also check if response contains success indicators
-      if (response.status === 200 || response.status === 201 || response.status === 302 || 
-          (responseText && responseText.toLowerCase().includes('success'))) {
+      if (response.status === 200 || response.status === 201 || response.status === 302 || responseText && responseText.toLowerCase().includes('success')) {
         toast({
           title: "Successfully joined the waitlist!",
           description: "We'll notify you when Ventus Card becomes available."
@@ -129,7 +131,6 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
       } else if (error instanceof Error) {
         errorMessage = `Submission failed: ${error.message}`;
       }
-
       toast({
         title: "Submission failed",
         description: errorMessage,
@@ -146,9 +147,7 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
     const category = lifestyleCategories.find(cat => cat.value === onboardingData.mainGoal);
     return category ? category.label : "";
   };
-
-  return (
-    <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
+  return <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
       <div className="h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
       <CardContent className="p-6 md:p-8">
         <h3 className="font-display text-lg md:text-xl font-bold mb-3 flex items-center gap-2">
@@ -163,55 +162,31 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
           <p className="font-bold mb-2">
             Be among the first to experience your personalized Ventus Card in 2026.
           </p>
-          <p>
-            Waitlist members will be notified by order of sign up and get one year of premium membership for free. Ventus will only be available in the USA for eligible customers.
-          </p>
+          <p>Waitlist members will be notified by order of sign up. Ventus will only be available in the USA for eligible customers. 
+Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4 mb-4">
           <div className="form-field">
             <label className="block text-xs font-semibold mb-1 text-slate-700 uppercase tracking-wide">First Name</label>
-            <Input 
-              name="firstName"
-              type="text"
-              placeholder="First Name" 
-              value={formData.firstName}
-              onChange={(e) => handleInputChange('firstName', e.target.value)}
-              className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm" 
-              minLength={2}
-              required
-            />
+            <Input name="firstName" type="text" placeholder="First Name" value={formData.firstName} onChange={e => handleInputChange('firstName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm" minLength={2} required />
           </div>
           
           <div className="form-field">
             <label className="block text-xs font-semibold mb-1 text-slate-700 uppercase tracking-wide">Last Name</label>
-            <Input 
-              name="lastName"
-              type="text"
-              placeholder="Last Name" 
-              value={formData.lastName}
-              onChange={(e) => handleInputChange('lastName', e.target.value)}
-              className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm" 
-            />
+            <Input name="lastName" type="text" placeholder="Last Name" value={formData.lastName} onChange={e => handleInputChange('lastName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm" />
           </div>
           
           <div className="form-field">
             <label className="block text-xs font-semibold mb-1 text-slate-700 uppercase tracking-wide">Main Category</label>
-            <Select 
-              name="interest" 
-              value={formData.interest} 
-              onValueChange={(value) => handleInputChange('interest', value)}
-              required
-            >
+            <Select name="interest" value={formData.interest} onValueChange={value => handleInputChange('interest', value)} required>
               <SelectTrigger className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm">
                 <SelectValue placeholder={onboardingData?.mainGoal ? getSelectedCategoryLabel() : "Select a category"} />
               </SelectTrigger>
               <SelectContent>
-                {lifestyleCategories.map((category) => (
-                  <SelectItem key={category.value} value={category.value}>
+                {lifestyleCategories.map(category => <SelectItem key={category.value} value={category.value}>
                     {category.label}
-                  </SelectItem>
-                ))}
+                  </SelectItem>)}
               </SelectContent>
             </Select>
             {/* Hidden input for form submission */}
@@ -220,33 +195,15 @@ const WaitlistForm = ({ onboardingData }: WaitlistFormProps) => {
           
           <div className="form-field">
             <label className="block text-xs font-semibold mb-1 text-slate-700 uppercase tracking-wide">Email Address</label>
-            <Input 
-              name="email"
-              type="email"
-              placeholder="Email Address" 
-              value={formData.email}
-              onChange={(e) => handleInputChange('email', e.target.value)}
-              className={`bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm ${
-                emailError ? 'border-red-500 focus:border-red-500' : ''
-              }`}
-              required
-            />
-            {emailError && (
-              <p className="text-red-500 text-xs mt-1">{emailError}</p>
-            )}
+            <Input name="email" type="email" placeholder="Email Address" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} className={`bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm ${emailError ? 'border-red-500 focus:border-red-500' : ''}`} required />
+            {emailError && <p className="text-red-500 text-xs mt-1">{emailError}</p>}
           </div>
           
-          <Button 
-            type="submit" 
-            disabled={isSubmitting}
-            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 h-9 px-6 text-sm font-semibold hover:scale-105 active:scale-95"
-          >
+          <Button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 h-9 px-6 text-sm font-semibold hover:scale-105 active:scale-95">
             {isSubmitting ? "Joining Waitlist..." : "Join the Waitlist"}
           </Button>
         </form>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 };
-
 export default WaitlistForm;
