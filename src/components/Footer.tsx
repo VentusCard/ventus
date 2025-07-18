@@ -37,14 +37,8 @@ const Footer = () => {
               <Link to="/smartrewards" className="block text-slate-400 hover:text-white transition-colors text-sm">
                 How It Works
               </Link>
-              <Link to="/partners" className="block text-slate-400 hover:text-white transition-colors text-sm">
-                Partners
-              </Link>
-              <a href="/join-waitlist" onClick={handleJoinWaitlistClick} className="inline-block bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg transition-colors text-sm font-medium" style={{
-              color: 'white'
-            }}>
-                Join Waitlist
-              </a>
+              
+              
             </div>
           </div>
 
