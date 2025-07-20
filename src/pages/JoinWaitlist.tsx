@@ -38,17 +38,31 @@ const JoinWaitlist = () => {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
+    // Map form fields to required names
+    const mappedData: Record<string, string> = {
+      'First Name': (formData.get('firstName') as string) || '',
+      'Last Name': (formData.get('lastName') as string) || '',
+      'Interest': (formData.get('interest') as string) || '',
+      'Email': (formData.get('email') as string) || '',
+      'Referral Code': (formData.get('referralCode') as string) || ''
+    };
+
+    // Create URL-encoded data
+    const urlEncodedData = new URLSearchParams(mappedData).toString();
+
     // Debug: Log form data
     console.log('Form submission started');
-    console.log('Form data entries:');
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value}`);
-    }
+    console.log('Mapped form data:', mappedData);
+    console.log('URL-encoded data:', urlEncodedData);
+    
     try {
       console.log('Sending request to Google Apps Script...');
-      const response = await fetch('https://script.google.com/macros/s/AKfycbz5cNxCadlHqNtH1wRP19Oez1d6IfRKCi5sp7He4DWUaK0X2lCty42NHc8cmPRUsuDP/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbwliGKzKWBKUeQSdWvhOxM15rRN25RKieS8WOwoqBxjplZr8rVCp8tzh_PNILDkeFV4/exec', {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: urlEncodedData
       });
       console.log('Response status:', response.status);
       console.log('Response headers:', response.headers);
