@@ -1,23 +1,19 @@
-
 import { OnboardingFlowData } from "@/pages/OnboardingFlow";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
 import WaitlistForm from "@/components/onboarding/step-three/WaitlistForm";
-
 interface StepFourSpendingInputProps {
   onboardingData: OnboardingFlowData;
   updateOnboardingData: (data: Partial<OnboardingFlowData>) => void;
 }
-
 const StepFourSpendingInput = ({
   onboardingData,
   updateOnboardingData
 }: StepFourSpendingInputProps) => {
   const [selectedFrequency, setSelectedFrequency] = useState<"weekly" | "monthly" | "quarterly" | "annually">(onboardingData.spendingFrequency);
   const [spendingAmount, setSpendingAmount] = useState<number>(onboardingData.spendingAmount);
-
   const frequencyOptions = [{
     value: "weekly" as const,
     label: "Weekly",
@@ -35,7 +31,6 @@ const StepFourSpendingInput = ({
     label: "Annually",
     multiplier: 1
   }];
-
   const getSliderConfig = (frequency: typeof selectedFrequency) => {
     switch (frequency) {
       case "weekly":
@@ -75,7 +70,6 @@ const StepFourSpendingInput = ({
         };
     }
   };
-
   const handleFrequencyChange = (frequency: typeof selectedFrequency) => {
     setSelectedFrequency(frequency);
     const config = getSliderConfig(frequency);
@@ -90,7 +84,6 @@ const StepFourSpendingInput = ({
       estimatedPoints
     });
   };
-
   const handleSpendingAmountChange = (value: number[]) => {
     const newAmount = value[0];
     setSpendingAmount(newAmount);
@@ -103,14 +96,13 @@ const StepFourSpendingInput = ({
       estimatedPoints
     });
   };
-
   const sliderConfig = getSliderConfig(selectedFrequency);
 
   // Helper function to get goal display name
   const getGoalDisplayName = (goal: string) => {
     const goalMapping: Record<string, string> = {
       sports: "Sports",
-      wellness: "Wellness", 
+      wellness: "Wellness",
       pets: "Pet Owners",
       gamers: "Gamers",
       creatives: "Creatives",
@@ -118,22 +110,16 @@ const StepFourSpendingInput = ({
     };
     return goalMapping[goal] || goal;
   };
-
-  return (
-    <div>
+  return <div>
       <div className="text-center mb-6">
         <h2 className="font-display text-2xl md:text-3xl font-bold mb-3 text-black">
           Let's calculate your personalized rewards potential
         </h2>
-        <p className="text-base text-slate-600 mb-2">
-          Help us calculate your personalized rewards potential
-        </p>
-        {onboardingData.mainGoal && (
-          <p className="text-lg font-bold text-blue-600">
+        
+        {onboardingData.mainGoal && <p className="text-lg font-bold text-blue-600">
             Your Personal Spending Categories: {getGoalDisplayName(onboardingData.mainGoal)}
             {onboardingData.subcategories.length > 0 && `: ${onboardingData.subcategories.join(", ")}`}
-          </p>
-        )}
+          </p>}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -145,16 +131,9 @@ const StepFourSpendingInput = ({
             </h3>
             
             <div className="grid grid-cols-2 gap-3">
-              {frequencyOptions.map(option => (
-                <Button
-                  key={option.value}
-                  variant={selectedFrequency === option.value ? "default" : "outline"}
-                  onClick={() => handleFrequencyChange(option.value)}
-                  className="h-10"
-                >
+              {frequencyOptions.map(option => <Button key={option.value} variant={selectedFrequency === option.value ? "default" : "outline"} onClick={() => handleFrequencyChange(option.value)} className="h-10">
                   {option.label}
-                </Button>
-              ))}
+                </Button>)}
             </div>
           </CardContent>
         </Card>
@@ -177,14 +156,7 @@ const StepFourSpendingInput = ({
               </div>
               
               <div className="px-4">
-                <Slider
-                  value={[spendingAmount]}
-                  onValueChange={handleSpendingAmountChange}
-                  min={sliderConfig.min}
-                  max={sliderConfig.max}
-                  step={sliderConfig.step}
-                  className="w-full"
-                />
+                <Slider value={[spendingAmount]} onValueChange={handleSpendingAmountChange} min={sliderConfig.min} max={sliderConfig.max} step={sliderConfig.step} className="w-full" />
                 <div className="flex justify-between text-xs text-slate-500 mt-2">
                   <span>${sliderConfig.min.toLocaleString()}</span>
                   <span>${sliderConfig.max.toLocaleString()}</span>
@@ -237,8 +209,6 @@ const StepFourSpendingInput = ({
         <p className="text-sm text-slate-500">
         </p>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default StepFourSpendingInput;
