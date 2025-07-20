@@ -1,9 +1,12 @@
+
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+
 const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  
   const handleJoinWaitlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
@@ -18,7 +21,9 @@ const Footer = () => {
       });
     }, 50);
   };
-  return <footer className="bg-slate-900 text-white py-12">
+
+  return (
+    <footer className="bg-slate-900 text-white py-12">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}
@@ -37,8 +42,9 @@ const Footer = () => {
               <Link to="/smartrewards" className="block text-slate-400 hover:text-white transition-colors text-sm">
                 How It Works
               </Link>
-              
-              
+              <Link to="/privacy" className="block text-slate-400 hover:text-white transition-colors text-sm">
+                Privacy Policy
+              </Link>
             </div>
           </div>
 
@@ -72,6 +78,8 @@ const Footer = () => {
           <p className="text-slate-400 text-sm mt-2">Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
         </div>
       </div>
-    </footer>;
+    </footer>
+  );
 };
+
 export default Footer;
