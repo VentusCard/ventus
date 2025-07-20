@@ -89,7 +89,7 @@ const TargetingToolsSection = ({
               return (
                 <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${
                   isGeographic 
-                    ? 'bg-gradient-to-l from-blue-100 via-blue-200 to-blue-300 border-blue-300' 
+                    ? 'bg-blue-50 border-blue-200' 
                     : isRequestDemo 
                     ? 'bg-gradient-to-l from-blue-100 via-blue-200 to-blue-300 border-blue-300' 
                     : ''
