@@ -157,7 +157,7 @@ const WaitlistForm = ({
 
   return <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
       <div className="h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-      <CardContent className="p-8 md:p-12">
+      <CardContent className="p-6 md:p-8">
         <h3 className="font-display text-lg md:text-xl font-bold mb-3 flex items-center gap-2">
           <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg flex-shrink-0">
             <Shield className="text-white" size={18} />
