@@ -57,7 +57,7 @@ const JoinWaitlist = () => {
     
     try {
       console.log('Sending request to Google Apps Script...');
-      const response = await fetch('https://script.google.com/macros/s/AKfycbzhbjla2rA0IzSr-4SqVb7uDDWK636R9V1-Jlam6TAysDaS70V31g1R6KVil8GHhis/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbzUjoWHPD7UPljx7Bc0V8IY-BVv2xcKRAvfeojE6HMvf5hyp2-KRVol42uw4ZBGCxVO/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
