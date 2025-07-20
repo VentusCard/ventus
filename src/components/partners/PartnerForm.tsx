@@ -28,7 +28,7 @@ const PartnerForm = () => {
   };
 
   const isSection2Complete = () => {
-    // Count only non-geographic tools (geographic is always selected and doesn't count)
+    // At least one tool selected beyond geographic (which is always included)
     const nonGeographicTools = selectedTargeting.filter(tool => tool !== "geographic");
     return nonGeographicTools.length > 0;
   };

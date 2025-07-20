@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -53,9 +52,6 @@ const TargetingToolsSection = ({
 }: TargetingToolsSectionProps) => {
   const { isMobile } = useDeviceType();
   
-  // Count only non-geographic tools for the limit
-  const nonGeographicSelectedTools = selectedTargeting.filter(tool => tool !== "geographic");
-  
   return (
     <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
       <CardHeader className="cursor-pointer p-4 md:p-6" onClick={onToggle}>
@@ -77,13 +73,12 @@ const TargetingToolsSection = ({
       {isExpanded && (
         <CardContent className="px-4 md:px-8 pb-4 md:pb-6 animate-accordion-down">
           <p className="text-xs md:text-sm mb-4 font-bold text-zinc-700">
-            Select up to 3 additional tools that align with your campaign goals:
+            Select the tools that align with your campaign goals:
           </p>
           <div className="space-y-3 md:space-y-4">
             {targetingTools.map(tool => {
               const isGeographic = tool.id === "geographic";
               const isChecked = selectedTargeting.includes(tool.id);
-              const isDisabled = isGeographic || (!isChecked && nonGeographicSelectedTools.length >= 3);
               
               return (
                 <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
@@ -93,13 +88,13 @@ const TargetingToolsSection = ({
                       checked={isChecked} 
                       onCheckedChange={(checked) => {
                         if (isGeographic) return;
-                        if (checked && nonGeographicSelectedTools.length < 3) {
+                        if (checked) {
                           setSelectedTargeting([...selectedTargeting, tool.id]);
-                        } else if (!checked) {
+                        } else {
                           setSelectedTargeting(selectedTargeting.filter(t => t !== tool.id));
                         }
                       }} 
-                      disabled={isDisabled} 
+                      disabled={isGeographic} 
                       className={`mt-1 ${isMobile ? "h-2.5 w-2.5" : "h-4 w-4"}`}
                     />
                     <div className="flex-1">
