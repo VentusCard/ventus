@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
-import { Shield } from "lucide-react";
+import { Shield, Target } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { LifestyleGoal, OnboardingFlowData } from "@/pages/OnboardingFlow";
+
 const lifestyleCategories: {
   label: string;
   value: LifestyleGoal;
@@ -13,7 +14,7 @@ const lifestyleCategories: {
   label: "Sports",
   value: "sports"
 }, {
-  label: "Wellness",
+  label: "Wellness", 
   value: "wellness"
 }, {
   label: "Pets",
@@ -28,9 +29,11 @@ const lifestyleCategories: {
   label: "Homeowners",
   value: "homeowners"
 }];
+
 interface WaitlistFormProps {
   onboardingData?: OnboardingFlowData;
 }
+
 const WaitlistForm = ({
   onboardingData
 }: WaitlistFormProps) => {
@@ -40,6 +43,7 @@ const WaitlistForm = ({
     firstName: "",
     lastName: "",
     email: "",
+    referralCode: "",
     interest: onboardingData?.mainGoal || ""
   });
   const {
@@ -51,6 +55,7 @@ const WaitlistForm = ({
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
+
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({
       ...prev,
@@ -62,6 +67,7 @@ const WaitlistForm = ({
       setEmailError("");
     }
   };
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -114,6 +120,7 @@ const WaitlistForm = ({
           firstName: "",
           lastName: "",
           email: "",
+          referralCode: "",
           interest: onboardingData?.mainGoal || ""
         });
         form.reset();
@@ -147,6 +154,7 @@ const WaitlistForm = ({
     const category = lifestyleCategories.find(cat => cat.value === onboardingData.mainGoal);
     return category ? category.label : "";
   };
+
   return <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
       <div className="h-2 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
       <CardContent className="p-6 md:p-8">
@@ -162,8 +170,8 @@ const WaitlistForm = ({
           <p className="font-bold mb-2">
             Be among the first to experience your personalized Ventus Card in 2026.
           </p>
-          <p>Waitlist members will be notified by order of sign up. Ventus will only be available in the USA for eligible customers. 
-Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
+          <p>Waitlist members will be notified by order of sign up. Ventus will only be available in the USA for eligible customers. 
+Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4 mb-4">
@@ -192,6 +200,14 @@ Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giv
             {/* Hidden input for form submission */}
             <input type="hidden" name="interest" value={formData.interest} />
           </div>
+
+          <div className="form-field">
+            <label className="block text-xs font-semibold mb-1 text-slate-700 uppercase tracking-wide flex items-center gap-1">
+              <Target size={12} className="text-slate-500" />
+              Referral Code (Optional)
+            </label>
+            <Input name="referralCode" type="text" placeholder="Enter referral code if you have one" value={formData.referralCode} onChange={e => handleInputChange('referralCode', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-9 text-sm" />
+          </div>
           
           <div className="form-field">
             <label className="block text-xs font-semibold mb-1 text-slate-700 uppercase tracking-wide">Email Address</label>
@@ -206,4 +222,5 @@ Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giv
       </CardContent>
     </Card>;
 };
+
 export default WaitlistForm;
