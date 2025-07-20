@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -82,10 +83,17 @@ const TargetingToolsSection = ({
           <div className="space-y-3 md:space-y-4">
             {targetingTools.map(tool => {
               const isGeographic = tool.id === "geographic";
+              const isRequestDemo = tool.id === "request-demo";
               const isChecked = selectedTargeting.includes(tool.id);
               
               return (
-                <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
+                <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${
+                  isGeographic 
+                    ? 'bg-blue-50 border-blue-200' 
+                    : isRequestDemo 
+                    ? 'bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 border-indigo-200' 
+                    : ''
+                }`}>
                   <div className="flex items-start space-x-2 mb-2">
                     <Checkbox 
                       id={tool.id} 
