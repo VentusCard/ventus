@@ -41,13 +41,28 @@ const ContactInformationSection = ({
     if (advancedTools.length === 0) return "";
     
     const toolNames = {
-      "goal-based": "Smart Goal-Based Targeting",
-      "behavioral": "Behavioral Segmentation",
-      "persona": "Persona-Led Segment Creation",
-      "seasonal": "Seasonal & Temporal Targeting"
+      "goal-based": "Goal-Based Targeting",
+      "behavioral": "Behavioral Segmentation", 
+      "persona": "Persona-Led Segments",
+      "seasonal": "Seasonal Targeting",
+      "lifecycle": "Lifecycle Targeting",
+      "request-demo": "Request Demo"
     };
 
-    return advancedTools.map(tool => toolNames[tool as keyof typeof toolNames] || tool).join(", ");
+    // Check if demo is requested
+    const isDemoRequested = advancedTools.includes("request-demo");
+    const otherTools = advancedTools.filter(tool => tool !== "request-demo");
+
+    if (isDemoRequested) {
+      if (otherTools.length === 0) {
+        return "Demo requested";
+      } else {
+        const otherToolNames = otherTools.map(tool => toolNames[tool as keyof typeof toolNames] || tool);
+        return `Demo requested: ${otherToolNames.join(", ")}`;
+      }
+    } else {
+      return advancedTools.map(tool => toolNames[tool as keyof typeof toolNames] || tool).join(", ");
+    }
   };
 
   // Handle website input changes
