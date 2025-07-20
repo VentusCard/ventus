@@ -59,7 +59,7 @@ const TargetingToolsSection = ({
   
   return (
     <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
-      <CardHeader className="cursor-pointer p-4 md:p-6" onClick={onToggle}>
+      <CardHeader className="cursor-pointer p-3 md:p-4" onClick={onToggle}>
         <CardTitle className="flex items-center justify-between text-xl md:text-2xl font-bold">
           <div className="flex items-center gap-2 md:gap-3">
             <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
@@ -72,29 +72,29 @@ const TargetingToolsSection = ({
           </div>
           {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </CardTitle>
-        <p className="text-slate-600 mt-2 text-sm md:text-base">Unlock precise, effective targeting of strategic customers with AI-powered recommendations driven by aggregated behavioral data.</p>
+        <p className="text-slate-600 mt-1 text-sm md:text-base">Unlock precise, effective targeting of strategic customers with AI-powered recommendations driven by aggregated behavioral data.</p>
       </CardHeader>
 
       {isExpanded && (
-        <CardContent className="px-4 md:px-8 pb-4 md:pb-6 animate-accordion-down">
-          <p className="text-xs md:text-sm mb-4 font-bold text-zinc-700">
+        <CardContent className="px-3 md:px-6 pb-3 md:pb-4 animate-accordion-down">
+          <p className="text-xs md:text-sm mb-2 font-bold text-zinc-700">
             Select the tools that align with your campaign goals:
           </p>
-          <div className="space-y-3 md:space-y-4">
+          <div className="space-y-2">
             {targetingTools.map(tool => {
               const isGeographic = tool.id === "geographic";
               const isRequestDemo = tool.id === "request-demo";
               const isChecked = selectedTargeting.includes(tool.id);
               
               return (
-                <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${
+                <div key={tool.id} className={`border rounded-lg p-2 md:p-3 ${
                   isGeographic 
                     ? 'bg-blue-50 border-blue-200' 
                     : isRequestDemo 
                     ? 'bg-blue-50 border-blue-200' 
                     : ''
                 }`}>
-                  <div className="flex items-start space-x-2 mb-2">
+                  <div className="flex items-start space-x-2 mb-1">
                     <Checkbox 
                       id={tool.id} 
                       checked={isChecked} 
@@ -114,11 +114,11 @@ const TargetingToolsSection = ({
                         {tool.title}
                         {isGeographic && <span className="text-xs text-blue-600 ml-2">(Always included)</span>}
                       </Label>
-                      <p className={`text-xs md:text-sm mt-1 ${isGeographic ? 'text-blue-600' : 'text-slate-600'}`}>
+                      <p className={`text-xs md:text-sm mt-0.5 ${isGeographic ? 'text-blue-600' : 'text-slate-600'}`}>
                         {tool.description}
                       </p>
                       {tool.example && (
-                        <p className="text-xs text-blue-600 mt-1 italic">Example: {tool.example}</p>
+                        <p className="text-xs text-blue-600 mt-0.5 italic">Example: {tool.example}</p>
                       )}
                     </div>
                   </div>
