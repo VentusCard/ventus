@@ -1,12 +1,11 @@
+
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
-import StepOneLifestyleGoal from "@/components/onboarding-flow/StepOneLifestyleGoal";
-import StepOnePointFiveSubcategories from "@/components/onboarding-flow/StepOnePointFiveSubcategories";
-import StepTwoValueComparisonAndSimplification from "@/components/onboarding-flow/StepTwoValueComparisonAndSimplification";
-import StepThreePointFiveExampleDeals from "@/components/onboarding-flow/StepThreePointFiveExampleDeals";
+import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
+import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
 
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
@@ -33,69 +32,74 @@ const OnboardingFlow = () => {
     minCashbackPercentage: 5,
     maxCashbackPercentage: 15
   });
-  const totalSteps = 5;
+  const totalSteps = 3;
 
   // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+  
   const goToNextStep = () => {
     setStep(prev => prev + 1);
     window.scrollTo(0, 0);
   };
+  
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
     window.scrollTo(0, 0);
   };
+  
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
       ...prev,
       ...data
     }));
   };
+  
   const renderStep = () => {
     switch (step) {
       case 1:
-        return <StepOneLifestyleGoal selectedGoal={onboardingData.mainGoal} onSelectGoal={goal => updateOnboardingData({
-          mainGoal: goal
-        })} />;
+        return <StepOneMerged 
+          selectedGoal={onboardingData.mainGoal} 
+          selectedSubcategories={onboardingData.subcategories}
+          onSelectGoal={goal => updateOnboardingData({ mainGoal: goal })} 
+          onSelectSubcategories={subcategories => updateOnboardingData({ subcategories })}
+        />;
       case 2:
-        return <StepOnePointFiveSubcategories selectedGoal={onboardingData.mainGoal as LifestyleGoal} selectedSubcategories={onboardingData.subcategories} onSelectSubcategories={subcategories => updateOnboardingData({
-          subcategories
-        })} />;
+        return <StepTwoMerged 
+          selectedGoal={onboardingData.mainGoal as LifestyleGoal} 
+          selectedSubcategories={onboardingData.subcategories} 
+        />;
       case 3:
-        return <StepTwoValueComparisonAndSimplification selectedGoal={onboardingData.mainGoal as LifestyleGoal} selectedSubcategories={onboardingData.subcategories} />;
-      case 4:
-        return <StepThreePointFiveExampleDeals selectedGoal={onboardingData.mainGoal as LifestyleGoal} selectedSubcategories={onboardingData.subcategories} />;
-      case 5:
         return <StepFourSpendingInput onboardingData={onboardingData} updateOnboardingData={updateOnboardingData} />;
       default:
-        return <StepOneLifestyleGoal selectedGoal={onboardingData.mainGoal} onSelectGoal={goal => updateOnboardingData({
-          mainGoal: goal
-        })} />;
+        return <StepOneMerged 
+          selectedGoal={onboardingData.mainGoal} 
+          selectedSubcategories={onboardingData.subcategories}
+          onSelectGoal={goal => updateOnboardingData({ mainGoal: goal })} 
+          onSelectSubcategories={subcategories => updateOnboardingData({ subcategories })}
+        />;
     }
   };
+  
   const isNextButtonDisabled = () => {
-    if (step === 1 && !onboardingData.mainGoal) return true;
-    if (step === 2 && onboardingData.subcategories.length === 0) return true;
+    if (step === 1 && (!onboardingData.mainGoal || onboardingData.subcategories.length === 0)) return true;
     return false;
   };
+  
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
-        return 'Choose Your Main Lifestyle Goal';
+        return 'Choose Your Lifestyle Goal & Subcategories';
       case 2:
-        return 'Select Your Subcategories';
+        return 'Understand Ventus Value & Explore Deals';
       case 3:
-        return 'Understand the Value & Simplicity of Ventus';
-      case 4:
-        return 'Explore Example Deals';
-      case 5:
         return 'Input Your Spending & Join Waitlist';
       default:
         return '';
     }
   };
+
   return <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
@@ -188,4 +192,5 @@ const OnboardingFlow = () => {
       <Footer />
     </div>;
 };
+
 export default OnboardingFlow;
