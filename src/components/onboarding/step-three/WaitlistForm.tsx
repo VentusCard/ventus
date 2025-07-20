@@ -151,24 +151,24 @@ const WaitlistForm = ({
   };
   return <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
       <div className="h-3 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-      <CardContent className="p-8 md:p-12">
-        <h3 className="font-display text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
-          <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg flex-shrink-0">
-            <Shield className="text-white" size={24} />
+      <CardContent className="p-5 md:p-6">
+        <h3 className="font-display text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
+          <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg flex-shrink-0">
+            <Shield className="text-white" size={20} />
           </div>
           <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent text-xl">
             Join the Waitlist
           </span>
         </h3>
-        <div className="text-slate-600 mb-8 text-base md:text-lg leading-relaxed">
-          <p className="font-bold mb-4 text-lg md:text-lg">
+        <div className="text-slate-600 mb-5 text-base md:text-lg leading-relaxed">
+          <p className="font-bold mb-2 text-lg md:text-lg">
             Be among the first to experience your personalized Ventus Card in 2026.
           </p>
           <p className="text-base md:text-base">Waitlist members will be notified by order of sign up. Ventus will only be available in the USA for eligible customers. 
 Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
         </div>
         
-        <form onSubmit={handleSubmit} className="space-y-6 mb-6">
+        <form onSubmit={handleSubmit} className="space-y-4 mb-4">
           <div className="form-field">
             <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">First Name</label>
             <Input name="firstName" type="text" placeholder="First Name" value={formData.firstName} onChange={e => handleInputChange('firstName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" minLength={2} required />
