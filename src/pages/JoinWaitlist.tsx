@@ -162,6 +162,16 @@ const JoinWaitlist = () => {
                 </div>
 
                 <div className="form-field">
+                  <label htmlFor="referralCode" className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base cursor-pointer">
+                    <span className="relative p-2 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0 pointer-events-none">
+                      <Target size={16} className="text-white relative z-10" strokeWidth={2} />
+                    </span>
+                    Referral Code (Optional)
+                  </label>
+                  <Input id="referralCode" name="referralCode" type="text" placeholder="Enter referral code if you have one" className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`} />
+                </div>
+
+                <div className="form-field">
                   <label htmlFor="email" className="text-slate-700 font-medium flex items-center gap-3 mb-3 text-sm md:text-base cursor-pointer">
                     <span className="relative p-2 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md flex-shrink-0 pointer-events-none">
                       <Mail size={16} className="text-white relative z-10" strokeWidth={2} />
