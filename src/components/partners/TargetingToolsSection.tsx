@@ -91,7 +91,7 @@ const TargetingToolsSection = ({
                   isGeographic 
                     ? 'bg-blue-50 border-blue-200' 
                     : isRequestDemo 
-                    ? 'bg-gradient-to-l from-blue-100 via-blue-200 to-blue-300 border-blue-300' 
+                    ? 'bg-blue-50 border-blue-200' 
                     : ''
                 }`}>
                   <div className="flex items-start space-x-2 mb-2">
