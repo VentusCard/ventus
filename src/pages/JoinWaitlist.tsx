@@ -38,13 +38,13 @@ const JoinWaitlist = () => {
     const form = event.currentTarget;
     const formData = new FormData(form);
 
-    // Map form fields to required names
+    // Map form fields to match script parameter names
     const mappedData: Record<string, string> = {
-      'First Name': (formData.get('firstName') as string) || '',
-      'Last Name': (formData.get('lastName') as string) || '',
-      'Interest': (formData.get('interest') as string) || '',
-      'Email': (formData.get('email') as string) || '',
-      'Referral Code': (formData.get('referralCode') as string) || ''
+      'firstName': (formData.get('firstName') as string) || '',
+      'lastName': (formData.get('lastName') as string) || '',
+      'interest': (formData.get('interest') as string) || '',
+      'email': (formData.get('email') as string) || '',
+      'referralCode': (formData.get('referralCode') as string) || ''
     };
 
     // Create URL-encoded data
