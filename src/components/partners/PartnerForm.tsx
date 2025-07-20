@@ -2,7 +2,6 @@
 import { useState, useEffect } from "react";
 import BusinessInformationSection from "./BusinessInformationSection";
 import TargetingToolsSection from "./TargetingToolsSection";
-import BudgetTimelineSection from "./BudgetTimelineSection";
 import ContactInformationSection from "./ContactInformationSection";
 
 const subcategories = {
@@ -14,48 +13,11 @@ const subcategories = {
   Homeowners: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services"]
 };
 
-const budgetRanges = {
-  daily: { min: 10, max: 1000 },
-  weekly: { min: 70, max: 7000 },
-  monthly: { min: 280, max: 30000 },
-  quarterly: { min: 1120, max: 120000 }
-};
-
 const PartnerForm = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [selectedTargeting, setSelectedTargeting] = useState<string[]>(["geographic"]);
-  const [budgetPeriod, setBudgetPeriod] = useState("monthly");
-  const [budgetValue, setBudgetValue] = useState([500]);
-  const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false, 3: false, 4: false });
-
-  const calculateAnnualBudget = () => {
-    const multipliers = { daily: 365, weekly: 52, monthly: 12, quarterly: 4 };
-    return budgetValue[0] * multipliers[budgetPeriod as keyof typeof multipliers];
-  };
-
-  const calculateROAS = () => {
-    const currentBudget = budgetValue[0];
-    const maxBudget = budgetRanges[budgetPeriod as keyof typeof budgetRanges].max;
-    const minBudget = budgetRanges[budgetPeriod as keyof typeof budgetRanges].min;
-    
-    // Calculate the ratio of current budget within the range (0 to 1)
-    const budgetRatio = (currentBudget - minBudget) / (maxBudget - minBudget);
-    
-    // Inverse relationship: higher budget = closer to 4.0x
-    // When budget is at minimum, ROAS starts at 6.0x
-    // When budget is at maximum, ROAS approaches 4.0x
-    const maxROAS = 6.0;
-    const minROAS = 4.0;
-    const baseROAS = maxROAS - (budgetRatio * (maxROAS - minROAS));
-    
-    // Add a small range around the base ROAS
-    const rangeSize = 0.3;
-    const minROASValue = Math.max(baseROAS - rangeSize/2, minROAS);
-    const maxROASValue = baseROAS + rangeSize/2;
-    
-    return { min: minROASValue.toFixed(1), max: maxROASValue.toFixed(1) };
-  };
+  const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false, 3: false });
 
   // Section validation functions
   const isSection1Complete = () => {
@@ -71,10 +33,6 @@ const PartnerForm = () => {
     return nonGeographicTools.length > 0;
   };
 
-  const isSection3Complete = () => {
-    return budgetPeriod && budgetValue.length > 0;
-  };
-
   // Auto-expand sections when previous section is complete
   useEffect(() => {
     if (isSection1Complete() && !expandedSections[2]) {
@@ -88,18 +46,9 @@ const PartnerForm = () => {
     }
   }, [selectedTargeting, expandedSections]);
 
-  useEffect(() => {
-    if (isSection3Complete() && !expandedSections[4]) {
-      setExpandedSections(prev => ({ ...prev, 4: true }));
-    }
-  }, [budgetPeriod, budgetValue, expandedSections]);
-
   const toggleSection = (section: number) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
   };
-
-  const roas = calculateROAS();
-  const annualBudget = calculateAnnualBudget();
 
   return (
     <section className="pb-16 md:pb-20 px-4 md:px-6">
@@ -126,26 +75,13 @@ const PartnerForm = () => {
             isComplete={isSection2Complete()}
           />
 
-          {/* Section 3: Budget & Timeline */}
-          <BudgetTimelineSection
-            budgetPeriod={budgetPeriod}
-            setBudgetPeriod={setBudgetPeriod}
-            budgetValue={budgetValue}
-            setBudgetValue={setBudgetValue}
-            isExpanded={expandedSections[3]}
-            onToggle={() => toggleSection(3)}
-            isComplete={isSection3Complete()}
-          />
-
-          {/* Section 4: Contact Information */}
+          {/* Section 3: Contact Information */}
           <ContactInformationSection
             selectedCategory={selectedCategory}
             selectedSubcategories={selectedSubcategories}
             selectedTargeting={selectedTargeting}
-            annualBudget={annualBudget}
-            roas={roas}
-            isExpanded={expandedSections[4]}
-            onToggle={() => toggleSection(4)}
+            isExpanded={expandedSections[3]}
+            onToggle={() => toggleSection(3)}
           />
         </div>
       </div>

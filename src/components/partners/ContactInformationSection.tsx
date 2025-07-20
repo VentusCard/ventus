@@ -9,8 +9,6 @@ interface ContactInformationSectionProps {
   selectedCategory: string;
   selectedSubcategories: string[];
   selectedTargeting: string[];
-  annualBudget: number;
-  roas: { min: string; max: string };
   isExpanded: boolean;
   onToggle: () => void;
 }
@@ -19,8 +17,6 @@ const ContactInformationSection = ({
   selectedCategory,
   selectedSubcategories,
   selectedTargeting,
-  annualBudget,
-  roas,
   isExpanded,
   onToggle
 }: ContactInformationSectionProps) => {
@@ -82,8 +78,7 @@ const ContactInformationSection = ({
         fullName: formData.get('fullName'),
         roleTitle: formData.get('roleTitle'),
         emailAddress: formData.get('emailAddress'),
-        ventusToolsInterested: formatVentusToolsInterested(),
-        annualBudgetRoas: `$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`
+        ventusToolsInterested: formatVentusToolsInterested()
       };
 
       console.log('Submitting data:', submitData);
@@ -216,16 +211,6 @@ const ContactInformationSection = ({
                 readOnly 
                 className="h-11 md:h-12 bg-slate-50 text-sm md:text-base"
                 placeholder="Select targeting tools above"
-              />
-            </div>
-            
-            <div>
-              <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Annual Budget & ROAS Forecast</label>
-              <Input 
-                name="annualBudgetRoas"
-                value={`$${annualBudget.toLocaleString()} annual budget | ${roas.min}x-${roas.max}x expected ROAS`}
-                readOnly 
-                className="h-11 md:h-12 bg-slate-50 text-sm md:text-base"
               />
             </div>
 
