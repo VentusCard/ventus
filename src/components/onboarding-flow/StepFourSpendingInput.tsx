@@ -39,15 +39,40 @@ const StepFourSpendingInput = ({
   const getSliderConfig = (frequency: typeof selectedFrequency) => {
     switch (frequency) {
       case "weekly":
-        return { min: 50, max: 1000, step: 25, defaultValue: 200 };
+        return {
+          min: 50,
+          max: 1000,
+          step: 25,
+          defaultValue: 200
+        };
       case "monthly":
-        return { min: 200, max: 4000, step: 100, defaultValue: 800 };
+        return {
+          min: 200,
+          max: 4000,
+          step: 100,
+          defaultValue: 800
+        };
       case "quarterly":
-        return { min: 600, max: 12000, step: 300, defaultValue: 2400 };
+        return {
+          min: 600,
+          max: 12000,
+          step: 300,
+          defaultValue: 2400
+        };
       case "annually":
-        return { min: 2000, max: 50000, step: 1000, defaultValue: 10000 };
+        return {
+          min: 2000,
+          max: 50000,
+          step: 1000,
+          defaultValue: 10000
+        };
       default:
-        return { min: 200, max: 4000, step: 100, defaultValue: 800 };
+        return {
+          min: 200,
+          max: 4000,
+          step: 100,
+          defaultValue: 800
+        };
     }
   };
 
@@ -95,82 +120,74 @@ const StepFourSpendingInput = ({
   };
 
   return (
-    <div className="space-y-8">
-      {/* Header Section */}
-      <div className="text-center space-y-4">
-        <h2 className="text-2xl font-display font-bold text-slate-900">
+    <div>
+      <div className="text-center mb-6">
+        <h2 className="font-display text-2xl md:text-3xl font-bold mb-3 text-black">
           Let's calculate your personalized rewards potential
         </h2>
-        <p className="text-base text-slate-600 leading-relaxed">
+        <p className="text-base text-slate-600 mb-2">
           Help us calculate your personalized rewards potential
         </p>
         {onboardingData.mainGoal && (
-          <div className="p-4 bg-blue-50 rounded-xl border border-blue-200">
-            <p className="text-base font-semibold text-blue-700">
-              Your Personal Spending Categories: {getGoalDisplayName(onboardingData.mainGoal)}
-              {onboardingData.subcategories.length > 0 && `: ${onboardingData.subcategories.join(", ")}`}
-            </p>
-          </div>
+          <p className="text-lg font-bold text-blue-600">
+            Your Personal Spending Categories: {getGoalDisplayName(onboardingData.mainGoal)}
+            {onboardingData.subcategories.length > 0 && `: ${onboardingData.subcategories.join(", ")}`}
+          </p>
         )}
       </div>
 
-      {/* Input Controls */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Spending Frequency Selection */}
-        <Card className="h-full">
-          <CardContent className="p-6">
-            <div className="space-y-6">
-              <h3 className="text-xl font-display font-bold text-slate-900">
-                Select your spending frequency
-              </h3>
-              
-              <div className="grid grid-cols-2 gap-3">
-                {frequencyOptions.map(option => (
-                  <Button
-                    key={option.value}
-                    variant={selectedFrequency === option.value ? "default" : "outline"}
-                    onClick={() => handleFrequencyChange(option.value)}
-                    className="h-12 text-sm font-medium"
-                  >
-                    {option.label}
-                  </Button>
-                ))}
-              </div>
+        <Card>
+          <CardContent className="p-5">
+            <h3 className="font-display text-lg font-bold mb-4">
+              Select your spending frequency
+            </h3>
+            
+            <div className="grid grid-cols-2 gap-3">
+              {frequencyOptions.map(option => (
+                <Button
+                  key={option.value}
+                  variant={selectedFrequency === option.value ? "default" : "outline"}
+                  onClick={() => handleFrequencyChange(option.value)}
+                  className="h-10"
+                >
+                  {option.label}
+                </Button>
+              ))}
             </div>
           </CardContent>
         </Card>
 
         {/* Spending Amount Slider */}
-        <Card className="h-full">
-          <CardContent className="p-6">
-            <div className="space-y-6">
-              <h3 className="text-xl font-display font-bold text-slate-900">
-                How much do you spend {selectedFrequency}?
-              </h3>
-              
-              <div className="space-y-6">
-                <div className="text-center space-y-2">
-                  <div className="text-3xl font-bold text-blue-600">
-                    ${spendingAmount.toLocaleString()}
-                  </div>
-                  <div className="text-sm text-slate-600">
-                    per {selectedFrequency.replace('ly', '')}
-                  </div>
+        <Card>
+          <CardContent className="p-5">
+            <h3 className="font-display text-lg font-bold mb-4">
+              How much do you spend {selectedFrequency}?
+            </h3>
+            
+            <div className="space-y-4">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-blue-600">
+                  ${spendingAmount.toLocaleString()}
                 </div>
-                
-                <div className="px-2">
-                  <Slider
-                    value={[spendingAmount]}
-                    onValueChange={handleSpendingAmountChange}
-                    min={sliderConfig.min}
-                    max={sliderConfig.max}
-                    step={sliderConfig.step}
-                    className="w-full"
-                  />
-                  <div className="flex justify-between text-xs text-slate-500 mt-3">
-                    <span>${sliderConfig.min.toLocaleString()}</span>
-                    <span>${sliderConfig.max.toLocaleString()}</span>
-                  </div>
+                <div className="text-sm text-slate-600">
+                  per {selectedFrequency.replace('ly', '')}
+                </div>
+              </div>
+              
+              <div className="px-4">
+                <Slider
+                  value={[spendingAmount]}
+                  onValueChange={handleSpendingAmountChange}
+                  min={sliderConfig.min}
+                  max={sliderConfig.max}
+                  step={sliderConfig.step}
+                  className="w-full"
+                />
+                <div className="flex justify-between text-xs text-slate-500 mt-2">
+                  <span>${sliderConfig.min.toLocaleString()}</span>
+                  <span>${sliderConfig.max.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -178,35 +195,33 @@ const StepFourSpendingInput = ({
         </Card>
       </div>
 
-      {/* Annual Projection */}
-      <Card className="bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
-        <CardContent className="p-6">
-          <div className="space-y-6">
-            <h3 className="text-xl font-display font-bold text-blue-800 text-center">
-              Your Annual Rewards Projection
-            </h3>
+      {/* Annual Projection - reduced spacing */}
+      <Card className="mt-6 bg-gradient-to-br from-blue-50 to-cyan-50 border-blue-200">
+        <CardContent className="p-5">
+          <h3 className="font-display text-lg font-bold mb-4 text-blue-800">
+            Your Annual Rewards Projection
+          </h3>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white p-3 rounded-lg border border-blue-200 text-center">
+              <div className="text-sm text-slate-600">Annual Spending</div>
+              <div className="text-xl font-bold text-slate-800">
+                ${onboardingData.estimatedAnnualSpend.toLocaleString()}
+              </div>
+            </div>
             
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-white p-4 rounded-xl border border-blue-200 text-center space-y-2">
-                <div className="text-sm text-slate-600">Annual Spending</div>
-                <div className="text-2xl font-bold text-slate-800">
-                  ${onboardingData.estimatedAnnualSpend.toLocaleString()}
-                </div>
+            <div className="bg-white p-3 rounded-lg border border-blue-200 text-center">
+              <div className="text-sm text-slate-600">Points Earned</div>
+              <div className="text-xl font-bold text-blue-600">
+                {onboardingData.estimatedPoints.toLocaleString()}
               </div>
-              
-              <div className="bg-white p-4 rounded-xl border border-blue-200 text-center space-y-2">
-                <div className="text-sm text-slate-600">Points Earned</div>
-                <div className="text-2xl font-bold text-blue-600">
-                  {onboardingData.estimatedPoints.toLocaleString()}
-                </div>
-                <div className="text-xs text-slate-500">5x multiplier</div>
-              </div>
-              
-              <div className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-4 rounded-xl text-center space-y-2">
-                <div className="text-sm opacity-90">Estimated Rewards</div>
-                <div className="text-2xl font-bold">
-                  ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.14)}
-                </div>
+              <div className="text-xs text-slate-500">5x multiplier</div>
+            </div>
+            
+            <div className="bg-gradient-to-r from-blue-500 to-cyan-400 text-white p-3 rounded-lg text-center">
+              <div className="text-sm opacity-90">Estimated Rewards</div>
+              <div className="text-2xl font-bold">
+                ${Math.round(onboardingData.estimatedAnnualSpend * 0.05)} - ${Math.round(onboardingData.estimatedAnnualSpend * 0.14)}
               </div>
             </div>
           </div>
@@ -214,7 +229,14 @@ const StepFourSpendingInput = ({
       </Card>
 
       {/* Join Waitlist Section */}
-      <WaitlistForm onboardingData={onboardingData} />
+      <div className="mt-6">
+        <WaitlistForm onboardingData={onboardingData} />
+      </div>
+
+      <div className="text-center mt-4">
+        <p className="text-sm text-slate-500">
+        </p>
+      </div>
     </div>
   );
 };
