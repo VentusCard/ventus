@@ -1,59 +1,28 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Shield, Eye, Lock, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 const Privacy = () => {
-  const sections = [
-    {
-      icon: Shield,
-      title: "Information We Collect",
-      content: [
-        "Personal Information: Name, email address, phone number, and address when you join our waitlist or contact us.",
-        "Financial Information: When Ventus launches, we will collect payment card information and transaction data to provide our services.",
-        "Usage Information: How you interact with our website and services, including pages visited and features used.",
-        "Device Information: Information about your device, browser, and operating system."
-      ]
-    },
-    {
-      icon: Eye,
-      title: "How We Use Your Information",
-      content: [
-        "To provide and improve our services, including personalized rewards and recommendations.",
-        "To communicate with you about our services, updates, and promotional offers.",
-        "To process transactions and maintain account security.",
-        "To comply with legal obligations and prevent fraud.",
-        "To analyze usage patterns and improve our website and services."
-      ]
-    },
-    {
-      icon: Lock,
-      title: "Information Sharing",
-      content: [
-        "Service Providers: We may share information with trusted third-party service providers who assist in operating our business.",
-        "Merchant Partners: With your consent, we may share relevant information with merchant partners to provide personalized offers.",
-        "Legal Requirements: We may disclose information when required by law or to protect our rights and safety.",
-        "Business Transfers: In the event of a merger or acquisition, your information may be transferred to the new entity."
-      ]
-    },
-    {
-      icon: Users,
-      title: "Your Rights and Choices",
-      content: [
-        "Access: You can request access to the personal information we have about you.",
-        "Correction: You can request that we correct any inaccurate information.",
-        "Deletion: You can request that we delete your personal information, subject to certain exceptions.",
-        "Opt-out: You can opt out of marketing communications at any time.",
-        "Data Portability: You can request a copy of your data in a portable format."
-      ]
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+  const sections = [{
+    icon: Shield,
+    title: "Information We Collect",
+    content: ["Personal Information: Name, email address, phone number, and address when you join our waitlist or contact us.", "Financial Information: When Ventus launches, we will collect payment card information and transaction data to provide our services.", "Usage Information: How you interact with our website and services, including pages visited and features used.", "Device Information: Information about your device, browser, and operating system."]
+  }, {
+    icon: Eye,
+    title: "How We Use Your Information",
+    content: ["To provide and improve our services, including personalized rewards and recommendations.", "To communicate with you about our services, updates, and promotional offers.", "To process transactions and maintain account security.", "To comply with legal obligations and prevent fraud.", "To analyze usage patterns and improve our website and services."]
+  }, {
+    icon: Lock,
+    title: "Information Sharing",
+    content: ["Service Providers: We may share information with trusted third-party service providers who assist in operating our business.", "Merchant Partners: With your consent, we may share relevant information with merchant partners to provide personalized offers.", "Legal Requirements: We may disclose information when required by law or to protect our rights and safety.", "Business Transfers: In the event of a merger or acquisition, your information may be transferred to the new entity."]
+  }, {
+    icon: Users,
+    title: "Your Rights and Choices",
+    content: ["Access: You can request access to the personal information we have about you.", "Correction: You can request that we correct any inaccurate information.", "Deletion: You can request that we delete your personal information, subject to certain exceptions.", "Opt-out: You can opt out of marketing communications at any time.", "Data Portability: You can request a copy of your data in a portable format."]
+  }];
+  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar />
       
       {/* Hero Section */}
@@ -65,9 +34,7 @@ const Privacy = () => {
           <p className="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
             Your privacy is important to us. This policy explains how we collect, use, and protect your information.
           </p>
-          <p className="text-sm text-slate-500 mt-4">
-            Last updated: January 20, 2025
-          </p>
+          <p className="text-sm text-slate-500 mt-4">Last updated: July 20, 2025</p>
         </div>
       </div>
 
@@ -91,8 +58,7 @@ const Privacy = () => {
 
           {/* Privacy Sections */}
           <div className="grid grid-cols-1 gap-6 mb-8">
-            {sections.map((section, index) => (
-              <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+            {sections.map((section, index) => <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-2 bg-blue-100 rounded-lg">
@@ -103,16 +69,13 @@ const Privacy = () => {
                 </CardHeader>
                 <CardContent className="pt-0">
                   <ul className="space-y-2">
-                    {section.content.map((item, itemIndex) => (
-                      <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start">
+                    {section.content.map((item, itemIndex) => <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start">
                         <span className="text-blue-600 mr-2 mt-1">•</span>
                         <span>{item}</span>
-                      </li>
-                    ))}
+                      </li>)}
                   </ul>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
 
           {/* Additional Sections */}
@@ -172,10 +135,7 @@ const Privacy = () => {
                 If you have any questions about this Privacy Policy or our data practices, please contact us.
               </p>
               <Link to="/contact">
-                <Button 
-                  size="lg" 
-                  className="px-8 py-3 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200"
-                >
+                <Button size="lg" className="px-8 py-3 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200">
                   Contact Us
                 </Button>
               </Link>
@@ -185,8 +145,6 @@ const Privacy = () => {
       </div>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Privacy;
