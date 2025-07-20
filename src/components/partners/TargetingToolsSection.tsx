@@ -1,7 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
-import { Target, ChevronDown, ChevronUp } from "lucide-react";
+import { Target, ChevronDown, ChevronUp, Play, Star } from "lucide-react";
 import { useDeviceType } from "@/hooks/use-mobile";
 
 const targetingTools = [{
@@ -82,8 +82,68 @@ const TargetingToolsSection = ({
           <div className="space-y-3 md:space-y-4">
             {targetingTools.map(tool => {
               const isGeographic = tool.id === "geographic";
+              const isDemoRequest = tool.id === "request-demo";
               const isChecked = selectedTargeting.includes(tool.id);
               
+              // Special styling for Request Demo
+              if (isDemoRequest) {
+                return (
+                  <div 
+                    key={tool.id} 
+                    className="relative overflow-hidden rounded-xl p-4 md:p-6 bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 border-2 border-purple-400/50 shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02] group animate-shimmer"
+                  >
+                    {/* Animated background overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></div>
+                    
+                    <div className="flex items-start space-x-3 relative z-10">
+                      <div className="relative">
+                        <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm border border-white/30">
+                          <Play size={isMobile ? 16 : 20} className="text-white" strokeWidth={2.5} />
+                        </div>
+                        <Star size={8} className="absolute -top-1 -right-1 text-yellow-300 animate-pulse" />
+                      </div>
+                      
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2 mb-2">
+                          <Label 
+                            htmlFor={tool.id} 
+                            className="font-bold text-lg md:text-xl text-white cursor-pointer tracking-wide"
+                          >
+                            {tool.title}
+                          </Label>
+                          <span className="px-2 py-1 bg-yellow-400/90 text-yellow-900 text-xs font-bold rounded-full animate-pulse">
+                            PREMIUM
+                          </span>
+                        </div>
+                        
+                        <p className="text-purple-100 text-sm md:text-base mb-3 leading-relaxed">
+                          {tool.description}
+                        </p>
+                        
+                        <div className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={tool.id} 
+                            checked={isChecked} 
+                            onCheckedChange={(checked) => {
+                              if (checked) {
+                                setSelectedTargeting([...selectedTargeting, tool.id]);
+                              } else {
+                                setSelectedTargeting(selectedTargeting.filter(t => t !== tool.id));
+                              }
+                            }}
+                            className={`${isMobile ? "h-3 w-3" : "h-5 w-5"} bg-white/20 border-white/40 data-[state=checked]:bg-yellow-400 data-[state=checked]:border-yellow-400`}
+                          />
+                          <Label htmlFor={tool.id} className="text-purple-100 text-sm cursor-pointer">
+                            Select to request personalized demo
+                          </Label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              }
+              
+              // Standard styling for other tools
               return (
                 <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${isGeographic ? 'bg-blue-50 border-blue-200' : ''}`}>
                   <div className="flex items-start space-x-2 mb-2">
