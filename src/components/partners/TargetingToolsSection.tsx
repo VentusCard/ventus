@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -90,7 +91,7 @@ const TargetingToolsSection = ({
                   isGeographic 
                     ? 'bg-blue-50 border-blue-200' 
                     : isRequestDemo 
-                    ? 'bg-gradient-to-l from-blue-200 via-blue-300 to-blue-400 border-blue-400' 
+                    ? 'bg-gradient-to-l from-blue-100 via-blue-200 to-blue-300 border-blue-300' 
                     : ''
                 }`}>
                   <div className="flex items-start space-x-2 mb-2">
