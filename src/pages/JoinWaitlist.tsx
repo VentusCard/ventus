@@ -52,11 +52,26 @@ const JoinWaitlist = () => {
 
     // Debug: Log form data
     console.log('Form submission started');
+    console.log('Original FormData entries:');
+    for (const [key, value] of formData.entries()) {
+      console.log(`  ${key}: ${value}`);
+    }
     console.log('Mapped form data:', mappedData);
     console.log('URL-encoded data:', urlEncodedData);
+    console.log('Request headers will be:', {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
     
     try {
       console.log('Sending request to Google Apps Script...');
+      console.log('Full request details:', {
+        method: 'POST',
+        url: 'https://script.google.com/macros/s/AKfycbzUjoWHPD7UPljx7Bc0V8IY-BVv2xcKRAvfeojE6HMvf5hyp2-KRVol42uw4ZBGCxVO/exec',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        bodyType: 'URLSearchParams',
+        bodyContent: urlEncodedData
+      });
+      
       const response = await fetch('https://script.google.com/macros/s/AKfycbzUjoWHPD7UPljx7Bc0V8IY-BVv2xcKRAvfeojE6HMvf5hyp2-KRVol42uw4ZBGCxVO/exec', {
         method: 'POST',
         headers: {
@@ -65,9 +80,11 @@ const JoinWaitlist = () => {
         body: urlEncodedData
       });
       console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
+      console.log('Response headers:', Object.fromEntries(response.headers.entries()));
       const responseText = await response.text();
       console.log('Response text:', responseText);
+      console.log('Response text length:', responseText.length);
+      console.log('Response text type:', typeof responseText);
 
       // Google Apps Script typically returns 302 for successful form submissions
       // We'll consider 200, 201, 302 as success, and also check if response contains success indicators
