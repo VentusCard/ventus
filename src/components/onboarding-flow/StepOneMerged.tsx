@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
@@ -215,27 +214,33 @@ const StepOneMerged = ({
   };
 
   return (
-    <div>
-      <h2 className="font-display text-xl md:text-2xl font-bold mb-3">What would like to be rewarded on?</h2>
-      <p className="text-base text-slate-600 mb-6">
-        What's the primary lifestyle goal you want Ventus to support? Select one category that best represents 
-        where you'd like to earn enhanced rewards.
-      </p>
+    <div className="space-y-8">
+      {/* Main Title Section */}
+      <div className="space-y-4">
+        <h2 className="text-2xl font-display font-bold text-slate-900">
+          What would like to be rewarded on?
+        </h2>
+        <p className="text-base text-slate-600 leading-relaxed">
+          What's the primary lifestyle goal you want Ventus to support? Select one category that best represents 
+          where you'd like to earn enhanced rewards.
+        </p>
+      </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      {/* Goal Selection Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {goalOptions.map(option => (
           <Card 
             key={option.id} 
-            className={`cursor-pointer transition-all hover:shadow-lg ${
+            className={`cursor-pointer transition-all duration-300 hover:shadow-lg h-full relative ${
               selectedGoal === option.id ? 'ring-2 ring-blue-500 shadow-lg scale-105' : ''
             }`} 
             onClick={() => onSelectGoal(option.id)}
           >
-            <CardContent className="p-4">
-              <div className="text-center">
-                <div className="text-3xl mb-3">{option.icon}</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{option.title}</h3>
-                <p className="text-gray-600 mb-3 text-sm">{option.description}</p>
+            <CardContent className="p-6 h-full flex flex-col">
+              <div className="text-center flex-1">
+                <div className="text-4xl mb-4">{option.icon}</div>
+                <h3 className="text-xl font-display font-bold text-slate-900 mb-3">{option.title}</h3>
+                <p className="text-slate-600 mb-4 text-sm leading-relaxed">{option.description}</p>
                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                   option.year === "Available First" 
                     ? "bg-green-100 text-green-700" 
@@ -248,66 +253,70 @@ const StepOneMerged = ({
               </div>
               
               {selectedGoal === option.id && (
-                <div className="absolute top-3 right-3">
-                  <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
-                    <Check className="h-3 w-3 text-white" />
+                <>
+                  <div className="absolute top-4 right-4">
+                    <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center">
+                      <Check className="h-4 w-4 text-white" />
+                    </div>
                   </div>
-                </div>
-              )}
 
-              {selectedGoal === option.id && (
-                <div className="mt-4 pt-4 border-t border-blue-200">
-                  <p className="text-xs font-medium text-blue-700 mb-2">Get Ventus Rewards at:</p>
-                  <div className="space-y-1">
-                    {option.merchants.slice(0, 3).map((merchant, idx) => (
-                      <div key={idx}>
-                        <p className="text-xs font-medium text-slate-700">{merchant.category}:</p>
-                        <p className="text-xs text-slate-600">{merchant.brands.join(", ")}</p>
-                      </div>
-                    ))}
-                    <p className="text-xs text-slate-500 italic">And many more...</p>
+                  <div className="mt-6 pt-6 border-t border-blue-200">
+                    <p className="text-xs font-medium text-blue-700 mb-3">Get Ventus Rewards at:</p>
+                    <div className="space-y-2">
+                      {option.merchants.slice(0, 3).map((merchant, idx) => (
+                        <div key={idx}>
+                          <p className="text-xs font-medium text-slate-700">{merchant.category}:</p>
+                          <p className="text-xs text-slate-600">{merchant.brands.join(", ")}</p>
+                        </div>
+                      ))}
+                      <p className="text-xs text-slate-500 italic">And many more...</p>
+                    </div>
                   </div>
-                </div>
+                </>
               )}
             </CardContent>
           </Card>
         ))}
       </div>
 
+      {/* Selected Goal Confirmation */}
       {selectedGoal && (
-        <>
-          <div className="bg-blue-50 p-4 rounded-lg mb-6">
-            <h3 className="font-display text-lg font-bold mb-2">
+        <div className="space-y-8">
+          <div className="bg-blue-50 p-6 rounded-xl border border-blue-200">
+            <h3 className="text-xl font-display font-bold mb-3 text-blue-900">
               {goalTitles[selectedGoal]} Selected
             </h3>
-            <p className="text-slate-600 text-sm">
+            <p className="text-slate-600 leading-relaxed">
               Great choice! Now customize your experience by selecting specific areas within 
               {' '}{goalTitles[selectedGoal]} where you want to earn enhanced rewards.
             </p>
           </div>
 
+          {/* Subcategory Selection */}
           <div 
-            className="touch-manipulation"
+            className="space-y-6 touch-manipulation"
             style={{
               touchAction: 'manipulation',
               pointerEvents: 'auto',
               WebkitTapHighlightColor: 'transparent'
             }}
           >
-            <h3 className="font-display text-lg font-bold mb-3">
-              Choose Your Subcategories
-            </h3>
-            <p className="text-base text-slate-600 mb-6">
-              Select the subcategories that reflect your interests. You may choose more than one. 
-              Each will unlock a curated set of reward opportunities and merchant deals.
-            </p>
+            <div className="space-y-4">
+              <h3 className="text-xl font-display font-bold text-slate-900">
+                Choose Your Subcategories
+              </h3>
+              <p className="text-base text-slate-600 leading-relaxed">
+                Select the subcategories that reflect your interests. You may choose more than one. 
+                Each will unlock a curated set of reward opportunities and merchant deals.
+              </p>
+            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {subcategories.map(subcategory => (
                 <button
                   key={subcategory}
                   onClick={() => toggleSubcategory(subcategory)}
-                  className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${
+                  className={`p-4 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[64px] ${
                     selectedSubcategories.includes(subcategory)
                       ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-lg'
                       : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-md'
@@ -323,25 +332,26 @@ const StepOneMerged = ({
               ))}
             </div>
 
+            {/* Selected Subcategories Summary */}
             {selectedSubcategories.length > 0 && (
-              <div className="bg-blue-50 p-4 rounded-lg">
-                <h3 className="font-display text-lg font-bold mb-3">
+              <div className="bg-blue-50 p-6 rounded-xl border border-blue-200">
+                <h3 className="text-xl font-display font-bold mb-4 text-blue-900">
                   Selected Subcategories ({selectedSubcategories.length})
                 </h3>
-                <div className="flex flex-wrap gap-2">
+                <div className="flex flex-wrap gap-2 mb-4">
                   {selectedSubcategories.map(sub => (
-                    <span key={sub} className="px-3 py-1 bg-blue-100 rounded-full text-sm font-medium text-[#033bbc]">
+                    <span key={sub} className="px-3 py-1 bg-blue-100 rounded-full text-sm font-medium text-blue-700">
                       {sub}
                     </span>
                   ))}
                 </div>
-                <p className="text-slate-600 mt-3 text-sm">
+                <p className="text-slate-600 leading-relaxed">
                   Perfect! You'll see how Ventus simplifies earning rewards across all these categories in the next steps.
                 </p>
               </div>
             )}
           </div>
-        </>
+        </div>
       )}
     </div>
   );
