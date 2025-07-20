@@ -1,12 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
+
 interface StepOneMergedProps {
   selectedGoal: LifestyleGoal | null;
   selectedSubcategories: string[];
   onSelectGoal: (goal: LifestyleGoal) => void;
   onSelectSubcategories: (subcategories: string[]) => void;
 }
+
 interface GoalOption {
   id: LifestyleGoal;
   title: string;
@@ -19,6 +21,7 @@ interface GoalOption {
     brands: string[];
   }[];
 }
+
 const goalOptions: GoalOption[] = [{
   id: "sports",
   title: "Sports",
@@ -176,6 +179,7 @@ const goalOptions: GoalOption[] = [{
     brands: ["Best Buy", "Target"]
   }]
 }];
+
 const subcategoryData: Record<LifestyleGoal, string[]> = {
   sports: ["Golf", "Tennis/Racquet Sports", "Running/Track", "Basketball", "Football", "Soccer", "Outdoor Activities", "Cycling/Biking", "Water Sports", "Snow Sports", "Fitness/Gym", "Yoga/Pilates"],
   wellness: ["Fitness and Exercise", "Mental Health and Therapy", "Nutrition and Supplements", "Spa and Recovery", "Meditation and Mindfulness"],
@@ -184,6 +188,7 @@ const subcategoryData: Record<LifestyleGoal, string[]> = {
   creatives: ["Photography", "Music Production", "Art Supplies", "Writing Tools", "Online Creative Classes"],
   homeowners: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services"]
 };
+
 const goalTitles: Record<LifestyleGoal, string> = {
   sports: "Sports",
   wellness: "Wellness",
@@ -192,6 +197,7 @@ const goalTitles: Record<LifestyleGoal, string> = {
   creatives: "Creatives",
   homeowners: "Homeowners"
 };
+
 const StepOneMerged = ({
   selectedGoal,
   selectedSubcategories,
@@ -199,10 +205,22 @@ const StepOneMerged = ({
   onSelectSubcategories
 }: StepOneMergedProps) => {
   const subcategories = selectedGoal ? subcategoryData[selectedGoal] || [] : [];
+  
   const toggleSubcategory = (subcategory: string) => {
-    const updated = selectedSubcategories.includes(subcategory) ? selectedSubcategories.filter(s => s !== subcategory) : [...selectedSubcategories, subcategory];
-    onSelectSubcategories(updated);
+    if (selectedSubcategories.includes(subcategory)) {
+      // Remove subcategory if already selected
+      const updated = selectedSubcategories.filter(s => s !== subcategory);
+      onSelectSubcategories(updated);
+    } else {
+      // Add subcategory only if under the limit of 3
+      if (selectedSubcategories.length < 3) {
+        const updated = [...selectedSubcategories, subcategory];
+        onSelectSubcategories(updated);
+      }
+      // If at limit, do nothing (no selection will occur)
+    }
   };
+
   return <div>
       <h2 className="font-display text-xl md:text-2xl font-bold mb-3">What would like to be rewarded on?</h2>
       <p className="text-base text-slate-600 mb-6">
@@ -243,8 +261,6 @@ const StepOneMerged = ({
       </div>
 
       {selectedGoal && <>
-          
-
           <div className="touch-manipulation" style={{
         touchAction: 'manipulation',
         pointerEvents: 'auto',
@@ -253,24 +269,37 @@ const StepOneMerged = ({
             <h3 className="font-display text-lg font-bold mb-3">
               Choose Your Subcategories
             </h3>
-            <p className="text-base text-slate-600 mb-6">
-              Select the subcategories that reflect your interests. You may choose more than one. 
+            <p className="text-base text-slate-600 mb-4">
+              Select up to 3 subcategories that reflect your interests. 
               Each will unlock a curated set of reward opportunities and merchant deals.
             </p>
 
+            {selectedSubcategories.length >= 3 && (
+              <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
+                <p className="text-amber-800 text-sm font-medium">
+                  You've selected the maximum of 3 subcategories. To select a different one, first unselect an existing choice.
+                </p>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-lg' : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-md'}`} style={{
-            touchAction: 'manipulation',
-            pointerEvents: 'auto',
-            WebkitTapHighlightColor: 'transparent'
-          }}>
-                  <div className="font-medium text-sm">{subcategory}</div>
-                </button>)}
+              {subcategories.map(subcategory => <button 
+                key={subcategory} 
+                onClick={() => toggleSubcategory(subcategory)} 
+                className="p-3 rounded-xl border-2 border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-md text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px]"
+                style={{
+                  touchAction: 'manipulation',
+                  pointerEvents: 'auto',
+                  WebkitTapHighlightColor: 'transparent'
+                }}
+              >
+                <div className="font-medium text-sm">{subcategory}</div>
+              </button>)}
             </div>
 
             {selectedSubcategories.length > 0 && <div className="bg-blue-50 p-4 rounded-lg">
                 <h3 className="font-display text-lg font-bold mb-3">
-                  Selected Subcategories ({selectedSubcategories.length})
+                  Selected Subcategories ({selectedSubcategories.length}/3)
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedSubcategories.map(sub => <span key={sub} className="px-3 py-1 bg-blue-100 rounded-full text-sm font-medium text-[#033bbc]">
@@ -285,4 +314,5 @@ const StepOneMerged = ({
         </>}
     </div>;
 };
+
 export default StepOneMerged;
