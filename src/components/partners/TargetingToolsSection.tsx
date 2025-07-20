@@ -1,3 +1,4 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -21,11 +22,13 @@ const targetingTools = [{
 }, {
   id: "persona",
   title: "Persona-Led Segment Creation",
-  description: "Build nuanced groups like \"Basketball superfans\" or \"Spa regulars\""
+  description: "Build nuanced groups like \"Basketball superfans\" or \"Spa regulars\"",
+  example: "Target 'Fitness enthusiasts who prefer premium gear' with exclusive pre-launch access to new athletic wear."
 }, {
   id: "seasonal",
   title: "Seasonal & Temporal Targeting",
-  description: "Reach users based on time-sensitive signals (e.g., ski pass windows)"
+  description: "Reach users based on time-sensitive signals (e.g., ski pass windows)",
+  example: "Promote ski resort packages to users who searched winter activities in the past 30 days."
 }, {
   id: "lifecycle",
   title: "Lifecycle Stage Targeting",
