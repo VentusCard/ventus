@@ -3,7 +3,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Building2, ChevronDown, ChevronUp } from "lucide-react";
 import { useDeviceType } from "@/hooks/use-mobile";
-
 const businessCategories = [{
   value: "Sports",
   label: "Sports",
@@ -74,7 +73,7 @@ const BusinessInformationSection = ({
           </div>
           {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
         </CardTitle>
-        <p className="text-slate-600 mt-2 text-sm md:text-base">Tell us about your brand and which main categories you align with.</p>
+        <p className="text-slate-600 mt-2 text-sm md:text-base">Tell us about your organization and which main categories it aligns with.</p>
       </CardHeader>
 
       {isExpanded && <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-6 animate-accordion-down">
@@ -103,18 +102,13 @@ const BusinessInformationSection = ({
               </label>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
                 {subcategories[selectedCategory as keyof typeof subcategories].map(subcat => <div key={subcat} className="flex items-center space-x-2 p-1.5 md:p-2 border rounded-lg hover:bg-slate-50">
-                    <Checkbox 
-                      id={subcat} 
-                      checked={selectedSubcategories.includes(subcat)} 
-                      onCheckedChange={checked => {
-                        if (checked) {
-                          setSelectedSubcategories([...selectedSubcategories, subcat]);
-                        } else {
-                          setSelectedSubcategories(selectedSubcategories.filter(s => s !== subcat));
-                        }
-                      }}
-                      className={isMobile ? "h-2.5 w-2.5" : "h-4 w-4"}
-                    />
+                    <Checkbox id={subcat} checked={selectedSubcategories.includes(subcat)} onCheckedChange={checked => {
+              if (checked) {
+                setSelectedSubcategories([...selectedSubcategories, subcat]);
+              } else {
+                setSelectedSubcategories(selectedSubcategories.filter(s => s !== subcat));
+              }
+            }} className={isMobile ? "h-2.5 w-2.5" : "h-4 w-4"} />
                     <Label htmlFor={subcat} className="text-xs md:text-sm cursor-pointer flex-1">{subcat}</Label>
                   </div>)}
               </div>
