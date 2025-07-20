@@ -33,6 +33,10 @@ const targetingTools = [{
   title: "Lifecycle Stage Targeting",
   description: "Target users based on their customer journey stage and engagement patterns",
   example: "Welcome bonus for new users, loyalty rewards for long-term customers."
+}, {
+  id: "request-demo",
+  title: "Request Demo",
+  description: "Schedule a personalized demo to see these tools in action"
 }];
 
 interface TargetingToolsSectionProps {
