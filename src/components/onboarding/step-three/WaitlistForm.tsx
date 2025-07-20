@@ -158,8 +158,8 @@ const WaitlistForm = ({
 
   return <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
       <div className="h-3 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-      <CardContent className="p-8 md:p-12">
-        <h3 className="font-display text-2xl md:text-3xl font-bold mb-6 flex items-center gap-3">
+      <CardContent className="p-6 md:p-8">
+        <h3 className="font-display text-3xl md:text-4xl font-bold mb-6 flex items-center gap-3">
           <div className="p-3 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg flex-shrink-0">
             <Shield className="text-white" size={24} />
           </div>
@@ -167,29 +167,29 @@ const WaitlistForm = ({
             Join the Waitlist
           </span>
         </h3>
-        <div className="text-slate-600 mb-8 text-base md:text-lg leading-relaxed">
-          <p className="font-bold mb-4 text-lg md:text-xl">
+        <div className="text-slate-600 mb-8 text-lg md:text-xl leading-relaxed">
+          <p className="font-bold mb-4 text-xl md:text-2xl">
             Be among the first to experience your personalized Ventus Card in 2026.
           </p>
-          <p className="text-base md:text-lg">Waitlist members will be notified by order of sign up. Ventus will only be available in the USA for eligible customers. 
+          <p className="text-lg md:text-xl">Waitlist members will be notified by order of sign up. Ventus will only be available in the USA for eligible customers.
 Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-6 mb-6">
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">First Name</label>
-            <Input name="firstName" type="text" placeholder="First Name" value={formData.firstName} onChange={e => handleInputChange('firstName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" minLength={2} required />
+            <label className="block text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide">First Name</label>
+            <Input name="firstName" type="text" placeholder="First Name" value={formData.firstName} onChange={e => handleInputChange('firstName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-lg" minLength={2} required />
           </div>
           
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">Last Name</label>
-            <Input name="lastName" type="text" placeholder="Last Name" value={formData.lastName} onChange={e => handleInputChange('lastName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" />
+            <label className="block text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide">Last Name</label>
+            <Input name="lastName" type="text" placeholder="Last Name" value={formData.lastName} onChange={e => handleInputChange('lastName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-lg" />
           </div>
           
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">Main Category</label>
+            <label className="block text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide">Main Category</label>
             <Select name="interest" value={formData.interest} onValueChange={value => handleInputChange('interest', value)} required>
-              <SelectTrigger className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base">
+              <SelectTrigger className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-lg">
                 <SelectValue placeholder={onboardingData?.mainGoal ? getSelectedCategoryLabel() : "Select a category"} />
               </SelectTrigger>
               <SelectContent>
@@ -207,16 +207,16 @@ Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giv
               <Target size={16} className="text-slate-500" />
               Referral Code (Optional)
             </label>
-            <Input name="referralCode" type="text" placeholder="Enter referral code if you have one" value={formData.referralCode} onChange={e => handleInputChange('referralCode', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" />
+            <Input name="referralCode" type="text" placeholder="Enter referral code if you have one" value={formData.referralCode} onChange={e => handleInputChange('referralCode', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-lg" />
           </div>
           
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">Email Address</label>
-            <Input name="email" type="email" placeholder="Email Address" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} className={`bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base ${emailError ? 'border-red-500 focus:border-red-500' : ''}`} required />
+            <label className="block text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide">Email Address</label>
+            <Input name="email" type="email" placeholder="Email Address" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} className={`bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-lg ${emailError ? 'border-red-500 focus:border-red-500' : ''}`} required />
             {emailError && <p className="text-red-500 text-sm mt-2">{emailError}</p>}
           </div>
           
-          <Button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 h-12 px-8 text-base font-semibold hover:scale-105 active:scale-95">
+          <Button type="submit" disabled={isSubmitting} className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 h-12 px-8 text-lg font-semibold hover:scale-105 active:scale-95">
             {isSubmitting ? "Joining Waitlist..." : "Join the Waitlist"}
           </Button>
         </form>
