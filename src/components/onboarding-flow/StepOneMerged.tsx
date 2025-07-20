@@ -1,12 +1,14 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
+
 interface StepOneMergedProps {
   selectedGoal: LifestyleGoal | null;
   selectedSubcategories: string[];
   onSelectGoal: (goal: LifestyleGoal) => void;
   onSelectSubcategories: (subcategories: string[]) => void;
 }
+
 interface GoalOption {
   id: LifestyleGoal;
   title: string;
@@ -19,6 +21,7 @@ interface GoalOption {
     brands: string[];
   }[];
 }
+
 const goalOptions: GoalOption[] = [{
   id: "sports",
   title: "Sports",
@@ -176,6 +179,7 @@ const goalOptions: GoalOption[] = [{
     brands: ["Best Buy", "Target"]
   }]
 }];
+
 const subcategoryData: Record<LifestyleGoal, string[]> = {
   sports: ["Golf", "Tennis/Racquet Sports", "Running/Track", "Basketball", "Football", "Soccer", "Outdoor Activities", "Cycling/Biking", "Water Sports", "Snow Sports", "Fitness/Gym", "Yoga/Pilates"],
   wellness: ["Fitness and Exercise", "Mental Health and Therapy", "Nutrition and Supplements", "Spa and Recovery", "Meditation and Mindfulness"],
@@ -184,6 +188,7 @@ const subcategoryData: Record<LifestyleGoal, string[]> = {
   creatives: ["Photography", "Music Production", "Art Supplies", "Writing Tools", "Online Creative Classes"],
   homeowners: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services"]
 };
+
 const goalTitles: Record<LifestyleGoal, string> = {
   sports: "Sports",
   wellness: "Wellness",
@@ -192,6 +197,7 @@ const goalTitles: Record<LifestyleGoal, string> = {
   creatives: "Creatives",
   homeowners: "Homeowners"
 };
+
 const StepOneMerged = ({
   selectedGoal,
   selectedSubcategories,
@@ -199,10 +205,21 @@ const StepOneMerged = ({
   onSelectSubcategories
 }: StepOneMergedProps) => {
   const subcategories = selectedGoal ? subcategoryData[selectedGoal] || [] : [];
+  const MAX_SUBCATEGORIES = 3;
+
   const toggleSubcategory = (subcategory: string) => {
-    const updated = selectedSubcategories.includes(subcategory) ? selectedSubcategories.filter(s => s !== subcategory) : [...selectedSubcategories, subcategory];
-    onSelectSubcategories(updated);
+    if (selectedSubcategories.includes(subcategory)) {
+      // Remove subcategory
+      const updated = selectedSubcategories.filter(s => s !== subcategory);
+      onSelectSubcategories(updated);
+    } else if (selectedSubcategories.length < MAX_SUBCATEGORIES) {
+      // Add subcategory only if under limit
+      const updated = [...selectedSubcategories, subcategory];
+      onSelectSubcategories(updated);
+    }
+    // If at limit, do nothing (no action taken)
   };
+
   return <div>
       <h2 className="font-display text-xl md:text-2xl font-bold mb-3">What would like to be rewarded on?</h2>
       <p className="text-base text-slate-600 mb-6">
@@ -243,34 +260,78 @@ const StepOneMerged = ({
       </div>
 
       {selectedGoal && <>
-          
-
           <div className="touch-manipulation" style={{
         touchAction: 'manipulation',
         pointerEvents: 'auto',
         WebkitTapHighlightColor: 'transparent'
       }}>
-            <h3 className="font-display text-lg font-bold mb-3">
+            <h3 className="font-display text-lg font-bold mb-2">
               Choose Your Subcategories
             </h3>
+            
+            <div className="flex items-center gap-3 mb-4">
+              <div className={`px-3 py-1 rounded-full text-sm font-medium ${
+                selectedSubcategories.length === MAX_SUBCATEGORIES 
+                  ? 'bg-amber-100 text-amber-700 border border-amber-200' 
+                  : 'bg-blue-50 text-blue-700'
+              }`}>
+                {selectedSubcategories.length} / {MAX_SUBCATEGORIES} selected
+              </div>
+              {selectedSubcategories.length === MAX_SUBCATEGORIES && (
+                <p className="text-sm text-amber-600 font-medium">
+                  Maximum reached - deselect to choose different ones
+                </p>
+              )}
+            </div>
+            
             <p className="text-base text-slate-600 mb-6">
-              Select the subcategories that reflect your interests. You may choose more than one. 
+              Select up to {MAX_SUBCATEGORIES} subcategories that reflect your interests. 
               Each will unlock a curated set of reward opportunities and merchant deals.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-lg' : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-md'}`} style={{
-            touchAction: 'manipulation',
-            pointerEvents: 'auto',
-            WebkitTapHighlightColor: 'transparent'
-          }}>
-                  <div className="font-medium text-sm">{subcategory}</div>
-                </button>)}
+              {subcategories.map(subcategory => {
+                const isSelected = selectedSubcategories.includes(subcategory);
+                const isDisabled = !isSelected && selectedSubcategories.length >= MAX_SUBCATEGORIES;
+                
+                return (
+                  <button 
+                    key={subcategory} 
+                    onClick={() => toggleSubcategory(subcategory)}
+                    disabled={isDisabled}
+                    aria-pressed={isSelected}
+                    aria-describedby={isDisabled ? "subcategory-limit-reached" : undefined}
+                    className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${
+                      isSelected
+                        ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-lg'
+                        : isDisabled
+                        ? 'border-slate-200 bg-slate-50 text-slate-400 cursor-not-allowed opacity-60'
+                        : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-md cursor-pointer'
+                    }`}
+                    style={{
+                      touchAction: 'manipulation',
+                      pointerEvents: 'auto',
+                      WebkitTapHighlightColor: 'transparent'
+                    }}
+                  >
+                    <div className="font-medium text-sm">{subcategory}</div>
+                    {isSelected && (
+                      <div className="mt-1">
+                        <Check className="h-3 w-3 mx-auto text-blue-600" />
+                      </div>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+            
+            <div id="subcategory-limit-reached" className="sr-only">
+              Maximum of {MAX_SUBCATEGORIES} subcategories can be selected. Please deselect one to choose a different option.
             </div>
 
             {selectedSubcategories.length > 0 && <div className="bg-blue-50 p-4 rounded-lg">
                 <h3 className="font-display text-lg font-bold mb-3">
-                  Selected Subcategories ({selectedSubcategories.length})
+                  Selected Subcategories ({selectedSubcategories.length}/{MAX_SUBCATEGORIES})
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {selectedSubcategories.map(sub => <span key={sub} className="px-3 py-1 bg-blue-100 rounded-full text-sm font-medium text-[#033bbc]">
@@ -285,4 +346,5 @@ const StepOneMerged = ({
         </>}
     </div>;
 };
+
 export default StepOneMerged;
