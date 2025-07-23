@@ -132,19 +132,11 @@ const JoinWaitlist = () => {
             <span className="text-blue-600">Ventus Card in 2026</span>
           </h1>
           
-          <p className="text-base md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-4 md:mb-6 px-4">
+          <p className="text-base md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-6 md:mb-8 px-4">
             Join thousands of others waiting for the personalized credit card that adapts to your lifestyle.
             <br className="hidden sm:block" />
             
           </p>
-          
-          <div className="max-w-2xl mx-auto mb-6 md:mb-8 px-4">
-            <div className="bg-gradient-to-r from-blue-50 to-purple-50 border border-blue-200 rounded-lg p-4 md:p-6">
-              <p className="text-center text-base md:text-lg font-semibold text-blue-800">
-                Waitlist members get one year of Premium Tier for free ($99 Value).
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
