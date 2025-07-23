@@ -40,11 +40,11 @@ const JoinWaitlist = () => {
 
     // Map form fields to match script parameter names
     const mappedData: Record<string, string> = {
-      'firstName': (formData.get('firstName') as string) || '',
-      'lastName': (formData.get('lastName') as string) || '',
-      'interest': (formData.get('interest') as string) || '',
-      'email': (formData.get('email') as string) || '',
-      'referralCode': (formData.get('referralCode') as string) || ''
+      'firstName': formData.get('firstName') as string || '',
+      'lastName': formData.get('lastName') as string || '',
+      'interest': formData.get('interest') as string || '',
+      'email': formData.get('email') as string || '',
+      'referralCode': formData.get('referralCode') as string || ''
     };
 
     // Create URL-encoded data
@@ -61,21 +61,21 @@ const JoinWaitlist = () => {
     console.log('Request headers will be:', {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
-    
     try {
       console.log('Sending request to Google Apps Script...');
       console.log('Full request details:', {
         method: 'POST',
         url: 'https://script.google.com/macros/s/AKfycbzUjoWHPD7UPljx7Bc0V8IY-BVv2xcKRAvfeojE6HMvf5hyp2-KRVol42uw4ZBGCxVO/exec',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
         bodyType: 'URLSearchParams',
         bodyContent: urlEncodedData
       });
-      
       const response = await fetch('https://script.google.com/macros/s/AKfycbzUjoWHPD7UPljx7Bc0V8IY-BVv2xcKRAvfeojE6HMvf5hyp2-KRVol42uw4ZBGCxVO/exec', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
+          'Content-Type': 'application/x-www-form-urlencoded'
         },
         body: urlEncodedData
       });
@@ -135,7 +135,7 @@ const JoinWaitlist = () => {
           <p className="text-base md:text-xl text-slate-600 max-w-4xl mx-auto leading-relaxed mb-6 md:mb-8 px-4">
             Join thousands of others waiting for the personalized credit card that adapts to your lifestyle.
             <br className="hidden sm:block" />
-            <span className="block sm:inline mt-2 sm:mt-0"> Be among the first to access exclusive rewards tailored just for you.</span>
+            
           </p>
         </div>
       </section>
