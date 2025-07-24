@@ -163,7 +163,7 @@ const VentusAI = () => {
 
         <Card className="premium-card max-w-4xl mx-auto">
           <CardContent className="p-8">
-            <div className="bg-slate-800/50 rounded-xl p-6 mb-6 min-h-[400px] border border-white/10">
+            <div className="chat-interface rounded-xl p-6 mb-6 min-h-[400px]">
               <div className="flex items-center mb-4">
                 <Bot className="h-6 w-6 text-blue-400 mr-2" />
                 <span className="text-white font-medium">Ventus AI</span>
@@ -171,19 +171,19 @@ const VentusAI = () => {
               <div className="space-y-4">
                 <div className="flex items-start space-x-3">
                   <Bot className="h-8 w-8 text-blue-400 mt-1" />
-                  <div className="bg-blue-600/20 rounded-lg p-4 text-white/90">
+                  <div className="chat-message-bot rounded-lg p-4">
                     Hello! I'm Ventus AI, your personal credit card rewards assistant. I can help you optimize your spending, find the best cards for your lifestyle, and answer any questions about maximizing your rewards. What would you like to know?
                   </div>
                 </div>
                 <div className="flex items-start space-x-3 justify-end">
-                  <div className="bg-white/10 rounded-lg p-4 text-white/90 max-w-xs">
+                  <div className="chat-message-user rounded-lg p-4 max-w-xs">
                     What's the best credit card for dining rewards?
                   </div>
                   <User className="h-8 w-8 text-white/60 mt-1" />
                 </div>
                 <div className="flex items-start space-x-3">
                   <Bot className="h-8 w-8 text-blue-400 mt-1" />
-                  <div className="bg-blue-600/20 rounded-lg p-4 text-white/90">
+                  <div className="chat-message-bot rounded-lg p-4">
                     Great question! Based on current market analysis, the best dining cards offer 3-4x points per dollar. However, the "best" card depends on your specific spending patterns. Would you like me to analyze your dining habits and recommend the optimal card for your lifestyle?
                   </div>
                 </div>
@@ -195,7 +195,7 @@ const VentusAI = () => {
                 <input 
                   type="text" 
                   placeholder="Ask Ventus AI anything about credit card rewards..."
-                  className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:outline-none focus:ring-2 focus:ring-blue-500/50"
+                  className="chat-input w-full rounded-lg px-4 py-3"
                 />
               </div>
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">

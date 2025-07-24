@@ -66,19 +66,102 @@
       inset 0 -1px 0 rgba(0, 0, 0, 0.05);
   }
 
+  /* Premium card styling for dark backgrounds */
   .premium-card {
     @apply metallic-shadow rounded-xl border-0;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.08) !important;
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.12);
+    border: 1px solid rgba(255, 255, 255, 0.12) !important;
   }
 
-  .premium-card .card-title {
-    color: white;
+  /* Explicit text color overrides for premium cards */
+  .premium-card .card-title,
+  .premium-card [class*="card-title"],
+  .premium-card h1,
+  .premium-card h2,
+  .premium-card h3,
+  .premium-card h4,
+  .premium-card h5,
+  .premium-card h6 {
+    color: white !important;
   }
 
-  .premium-card .card-description {
-    color: rgba(255, 255, 255, 0.7);
+  .premium-card .card-description,
+  .premium-card [class*="card-description"],
+  .premium-card p {
+    color: rgba(255, 255, 255, 0.8) !important;
+  }
+
+  /* Dark mode chat interface styling */
+  .chat-interface {
+    background: rgba(15, 23, 42, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .chat-message-bot {
+    background: rgba(59, 130, 246, 0.2);
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .chat-message-user {
+    background: rgba(255, 255, 255, 0.15);
+    color: rgba(255, 255, 255, 0.95);
+  }
+
+  .chat-input {
+    background: rgba(255, 255, 255, 0.08) !important;
+    border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    color: white !important;
+  }
+
+  .chat-input::placeholder {
+    color: rgba(255, 255, 255, 0.6) !important;
+  }
+
+  .chat-input:focus {
+    outline: none !important;
+    ring: 2px !important;
+    ring-color: rgba(59, 130, 246, 0.5) !important;
+    border-color: rgba(59, 130, 246, 0.7) !important;
+  }
+
+  /* Mobile-specific legibility improvements */
+  @media (max-width: 768px) {
+    .premium-card {
+      background: rgba(255, 255, 255, 0.12) !important;
+      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+    }
+
+    .premium-card .card-title,
+    .premium-card [class*="card-title"] {
+      font-size: 1.1rem !important;
+      font-weight: 600 !important;
+      line-height: 1.4 !important;
+    }
+
+    .premium-card .card-description,
+    .premium-card [class*="card-description"] {
+      font-size: 0.95rem !important;
+      line-height: 1.5 !important;
+      color: rgba(255, 255, 255, 0.85) !important;
+    }
+
+    .chat-interface {
+      background: rgba(15, 23, 42, 0.9) !important;
+      border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    }
+
+    .chat-message-bot,
+    .chat-message-user {
+      font-size: 0.9rem !important;
+      line-height: 1.5 !important;
+    }
+
+    .chat-input {
+      font-size: 1rem !important;
+      background: rgba(255, 255, 255, 0.12) !important;
+      border: 1px solid rgba(255, 255, 255, 0.25) !important;
+    }
   }
 
   .glass-effect {
