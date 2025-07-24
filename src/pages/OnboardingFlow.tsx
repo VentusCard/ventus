@@ -6,7 +6,6 @@ import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
 import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
-
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
@@ -18,9 +17,7 @@ export interface OnboardingFlowData {
   minCashbackPercentage: number;
   maxCashbackPercentage: number;
 }
-
 const OnboardingFlow = () => {
-  
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
     mainGoal: null,
@@ -38,55 +35,44 @@ const OnboardingFlow = () => {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
-  
   const goToNextStep = () => {
     setStep(prev => prev + 1);
     window.scrollTo(0, 0);
   };
-  
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
     window.scrollTo(0, 0);
   };
-  
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
       ...prev,
       ...data
     }));
   };
-  
   const renderStep = () => {
     switch (step) {
       case 1:
-        return <StepOneMerged 
-          selectedGoal={onboardingData.mainGoal} 
-          selectedSubcategories={onboardingData.subcategories}
-          onSelectGoal={goal => updateOnboardingData({ mainGoal: goal })} 
-          onSelectSubcategories={subcategories => updateOnboardingData({ subcategories })}
-        />;
+        return <StepOneMerged selectedGoal={onboardingData.mainGoal} selectedSubcategories={onboardingData.subcategories} onSelectGoal={goal => updateOnboardingData({
+          mainGoal: goal
+        })} onSelectSubcategories={subcategories => updateOnboardingData({
+          subcategories
+        })} />;
       case 2:
-        return <StepTwoMerged 
-          selectedGoal={onboardingData.mainGoal as LifestyleGoal} 
-          selectedSubcategories={onboardingData.subcategories} 
-        />;
+        return <StepTwoMerged selectedGoal={onboardingData.mainGoal as LifestyleGoal} selectedSubcategories={onboardingData.subcategories} />;
       case 3:
         return <StepFourSpendingInput onboardingData={onboardingData} updateOnboardingData={updateOnboardingData} />;
       default:
-        return <StepOneMerged 
-          selectedGoal={onboardingData.mainGoal} 
-          selectedSubcategories={onboardingData.subcategories}
-          onSelectGoal={goal => updateOnboardingData({ mainGoal: goal })} 
-          onSelectSubcategories={subcategories => updateOnboardingData({ subcategories })}
-        />;
+        return <StepOneMerged selectedGoal={onboardingData.mainGoal} selectedSubcategories={onboardingData.subcategories} onSelectGoal={goal => updateOnboardingData({
+          mainGoal: goal
+        })} onSelectSubcategories={subcategories => updateOnboardingData({
+          subcategories
+        })} />;
     }
   };
-  
   const isNextButtonDisabled = () => {
     if (step === 1 && (!onboardingData.mainGoal || onboardingData.subcategories.length === 0)) return true;
     return false;
   };
-  
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
@@ -99,7 +85,6 @@ const OnboardingFlow = () => {
         return '';
     }
   };
-
   return <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
@@ -116,13 +101,13 @@ const OnboardingFlow = () => {
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 py-8 md:py-10">
           <div className="text-center max-w-5xl mx-auto">
-            <h1 className="font-display text-5xl md:text-4xl lg:text-5xl font-bold mb-4 leading-none mt-10 ">
+            <h1 className="font-display text-5xl md:text-4xl lg:text-5xl font-bold mb-4 leading-none mt-5 ">
               <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent text-3xl md:text-5xl">
                 Discover Your
               </span>
               <br />
               <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent text-3xl md:text-5xl">
-                Ventus Smart Rewards
+                Ventus Rewards
               </span>
             </h1>
             
@@ -154,9 +139,7 @@ const OnboardingFlow = () => {
             
             {/* Step Info - reduced spacing */}
             <div className="text-center space-y-1">
-              <p className="text-slate-600 font-medium text-base">
-                Step {step} of {totalSteps}
-              </p>
+              
               <h2 className="text-xl md:text-2xl font-display font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
                 {getStepTitle(step)}
               </h2>
@@ -192,5 +175,4 @@ const OnboardingFlow = () => {
       <Footer />
     </div>;
 };
-
 export default OnboardingFlow;
