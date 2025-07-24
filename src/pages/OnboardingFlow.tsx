@@ -88,9 +88,9 @@ const OnboardingFlow = () => {
   return <div className="min-h-screen flex flex-col bg-slate-50">
       <Navbar />
       
-      {/* Optimized Hero Section with reduced padding */}
-      <section className="bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 text-white relative overflow-hidden pt-6">
-        <div className="absolute inset-0 bg-gradient-to-r from-black/30 to-transparent"></div>
+      {/* Optimized Hero Section with glass transparency effect */}
+      <section className="bg-gradient-to-r from-blue-900/90 via-blue-800/90 to-slate-900/90 text-white relative overflow-hidden pt-6 backdrop-blur-md">
+        <div className="absolute inset-0 bg-gradient-to-r from-black/20 to-transparent backdrop-blur-sm"></div>
         
         {/* Abstract geometric patterns */}
         <div className="absolute inset-0 opacity-20">
@@ -146,8 +146,8 @@ const OnboardingFlow = () => {
             </div>
           </div>
           
-          {/* Step Content - mobile optimized with solid background for better touch interaction */}
-          <div className="bg-white rounded-2xl shadow-lg p-6 md:p-8 mb-6 border border-slate-100 touch-manipulation" id="onboarding-step-content" style={{
+          {/* Step Content - mobile optimized with glass transparency effect */}
+          <div className="bg-white/70 backdrop-blur-lg rounded-2xl shadow-lg border border-white/30 p-6 md:p-8 mb-6 touch-manipulation" id="onboarding-step-content" style={{
           touchAction: 'manipulation',
           pointerEvents: 'auto',
           WebkitTapHighlightColor: 'transparent'
@@ -157,13 +157,13 @@ const OnboardingFlow = () => {
           
           {/* Navigation */}
           <div className="flex justify-between items-center max-w-2xl mx-auto">
-            {step > 1 ? <Button type="button" variant="outline" onClick={goToPreviousStep} className="flex items-center gap-2 px-6 py-3 text-base font-medium border-slate-300 hover:bg-slate-100 hover:text-slate-800 transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation" style={{
+            {step > 1 ? <Button type="button" variant="outline" onClick={goToPreviousStep} className="flex items-center gap-2 px-6 py-3 text-base font-medium border-white/30 bg-white/20 backdrop-blur-sm hover:bg-white/30 hover:text-slate-800 transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation" style={{
             touchAction: 'manipulation'
           }}>
                 <ArrowLeft size={18} /> Back
               </Button> : <div></div>}
             
-            {step < totalSteps ? <Button type="button" onClick={goToNextStep} disabled={isNextButtonDisabled()} className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-lg transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation ${isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`} style={{
+            {step < totalSteps ? <Button type="button" onClick={goToNextStep} disabled={isNextButtonDisabled()} className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-600/80 to-blue-700/80 backdrop-blur-sm hover:from-blue-700/90 hover:to-blue-800/90 shadow-lg transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation ${isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`} style={{
             touchAction: 'manipulation'
           }}>
                 Next <ArrowRight size={18} />
