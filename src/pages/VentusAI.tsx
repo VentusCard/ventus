@@ -154,6 +154,32 @@ const VentusAI = () => {
         </Card>
       </section>
 
+      {/* Live Chatbot Section */}
+      <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Try Ventus AI Live
+          </h2>
+          <p className="text-xl text-white/70 max-w-3xl mx-auto">
+            Experience our AI assistant in real-time. Get instant answers about credit card rewards and personalized optimization strategies.
+          </p>
+        </div>
+
+        <Card className="premium-card max-w-6xl mx-auto">
+          <CardContent className="p-8">
+            <div className="w-full">
+              <iframe
+                src="https://udify.app/chatbot/JdL6WFvmKXjD3NaU"
+                style={{ width: '100%', height: '100%', minHeight: '700px' }}
+                frameBorder="0"
+                allow="microphone"
+                title="Ventus AI Live Chatbot"
+              />
+            </div>
+          </CardContent>
+        </Card>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto text-center">
         <Card className="premium-card max-w-4xl mx-auto">
