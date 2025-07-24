@@ -7,16 +7,56 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const galleryImages = [
-  { url: "/lovable-uploads/308245bb-cfe2-442c-afaa-dbd6e3844dcc.png", alt: "Winter Sports Excellence" },
-  { url: "/lovable-uploads/dfc26975-7c35-4b78-a434-d5d1196d940e.png", alt: "Fitness & Training" },
-  { url: "/lovable-uploads/9e3031ef-4e09-481b-9088-5c8d03bc173e.png", alt: "Mindfulness & Meditation" },
-  { url: "/lovable-uploads/bd88f7d0-9d63-42ae-b399-ca287fe69f2d.png", alt: "Strength Training" },
-  { url: "/lovable-uploads/c36d4997-fcd2-471f-8ad4-1e1e19735d28.png", alt: "Indoor Sports" },
-  { url: "/lovable-uploads/b6d8372c-d707-4e56-9f22-6d0d8e36d81a.png", alt: "Boxing & Combat Sports" },
-  { url: "/lovable-uploads/a8585ce9-7a38-4abb-bfc0-5abe90ea24ae.png", alt: "Creative Wellness" },
-  { url: "/lovable-uploads/573d1a6d-e0db-49ed-9065-124d596cd1ea.png", alt: "Luxury Relaxation" },
-  { url: "/lovable-uploads/48325a89-81c9-4e12-a77e-7618f5dbc09d.png", alt: "Dynamic Movement" },
-  { url: "/lovable-uploads/1dd4830d-149d-44eb-a09f-90cec046e4cd.png", alt: "Modern Lifestyle" },
+  { 
+    url: "/lovable-uploads/308245bb-cfe2-442c-afaa-dbd6e3844dcc.png", 
+    thumbnail: "/lovable-uploads/308245bb-cfe2-442c-afaa-dbd6e3844dcc.png",
+    alt: "Winter Sports Excellence" 
+  },
+  { 
+    url: "/lovable-uploads/dfc26975-7c35-4b78-a434-d5d1196d940e.png", 
+    thumbnail: "/lovable-uploads/dfc26975-7c35-4b78-a434-d5d1196d940e.png",
+    alt: "Fitness & Training" 
+  },
+  { 
+    url: "/lovable-uploads/9e3031ef-4e09-481b-9088-5c8d03bc173e.png", 
+    thumbnail: "/lovable-uploads/9e3031ef-4e09-481b-9088-5c8d03bc173e.png",
+    alt: "Mindfulness & Meditation" 
+  },
+  { 
+    url: "/lovable-uploads/bd88f7d0-9d63-42ae-b399-ca287fe69f2d.png", 
+    thumbnail: "/lovable-uploads/bd88f7d0-9d63-42ae-b399-ca287fe69f2d.png",
+    alt: "Strength Training" 
+  },
+  { 
+    url: "/lovable-uploads/c36d4997-fcd2-471f-8ad4-1e1e19735d28.png", 
+    thumbnail: "/lovable-uploads/c36d4997-fcd2-471f-8ad4-1e1e19735d28.png",
+    alt: "Indoor Sports" 
+  },
+  { 
+    url: "/lovable-uploads/b6d8372c-d707-4e56-9f22-6d0d8e36d81a.png", 
+    thumbnail: "/lovable-uploads/b6d8372c-d707-4e56-9f22-6d0d8e36d81a.png",
+    alt: "Boxing & Combat Sports" 
+  },
+  { 
+    url: "/lovable-uploads/a8585ce9-7a38-4abb-bfc0-5abe90ea24ae.png", 
+    thumbnail: "/lovable-uploads/a8585ce9-7a38-4abb-bfc0-5abe90ea24ae.png",
+    alt: "Creative Wellness" 
+  },
+  { 
+    url: "/lovable-uploads/573d1a6d-e0db-49ed-9065-124d596cd1ea.png", 
+    thumbnail: "/lovable-uploads/573d1a6d-e0db-49ed-9065-124d596cd1ea.png",
+    alt: "Luxury Relaxation" 
+  },
+  { 
+    url: "/lovable-uploads/48325a89-81c9-4e12-a77e-7618f5dbc09d.png", 
+    thumbnail: "/lovable-uploads/48325a89-81c9-4e12-a77e-7618f5dbc09d.png",
+    alt: "Dynamic Movement" 
+  },
+  { 
+    url: "/lovable-uploads/1dd4830d-149d-44eb-a09f-90cec046e4cd.png", 
+    thumbnail: "/lovable-uploads/1dd4830d-149d-44eb-a09f-90cec046e4cd.png",
+    alt: "Modern Lifestyle" 
+  },
 ];
 
 const Gallery = () => {
@@ -109,23 +149,13 @@ const Gallery = () => {
                         <img
                           src={image.url}
                           alt={image.alt}
+                          loading="lazy"
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                           onError={(e) => {
                             console.error(`Failed to load image: ${image.url}`);
                             e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&h=800&fit=crop";
                           }}
                         />
-                        
-                        {/* Gradient Overlay */}
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                        
-                        {/* Image Caption */}
-                        <div className="absolute bottom-6 left-6 right-6 text-white transform translate-y-4 group-hover:translate-y-0 opacity-0 group-hover:opacity-100 transition-all duration-300">
-                          <h3 className="text-xl md:text-2xl font-bold mb-2">{image.alt}</h3>
-                          <p className="text-slate-300 text-sm md:text-base">
-                            Premium lifestyle and technology imagery
-                          </p>
-                        </div>
                       </div>
                     </CardContent>
                   </Card>
@@ -147,18 +177,19 @@ const Gallery = () => {
                   setCurrentIndex(index);
                   api?.scrollTo(index);
                 }}
-                className={`relative flex-shrink-0 w-16 h-16 md:w-20 md:h-20 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
+                className={`relative flex-shrink-0 w-12 h-20 md:w-16 md:h-24 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
                   currentIndex === index 
                     ? "border-white shadow-lg scale-110" 
                     : "border-white/30 hover:border-white/60"
                 }`}
               >
                 <img
-                  src={image.url}
+                  src={image.thumbnail}
                   alt={`Thumbnail ${index + 1}`}
+                  loading="lazy"
                   className="w-full h-full object-cover"
                   onError={(e) => {
-                    e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=400&fit=crop";
+                    e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=600&fit=crop";
                   }}
                 />
                 {currentIndex === index && (
