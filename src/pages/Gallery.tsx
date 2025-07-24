@@ -78,20 +78,6 @@ const Gallery = () => {
       {/* Main Gallery Content */}
       <main className="flex-1 px-4 md:px-8 pb-4">
         <div className="max-w-7xl mx-auto">
-          {/* Gallery Controls */}
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center space-x-4">
-              <span className="text-slate-400 text-sm">
-                {currentIndex + 1} / {optimizedGalleryImages.length}
-              </span>
-              
-            </div>
-            <Button variant="outline" size="sm" onClick={toggleAutoPlay} className="bg-white/10 border-white/20 text-white hover:bg-white/20">
-              {isAutoPlay ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
-              {isAutoPlay ? "Pause" : "Play"}
-            </Button>
-          </div>
-
           {/* Virtual Image Carousel */}
           <VirtualCarousel currentIndex={currentIndex} onIndexChange={handleIndexChange} autoPlay={isAutoPlay} className="mb-4" />
 
@@ -118,6 +104,20 @@ const Gallery = () => {
 
           {/* Virtual Thumbnail Grid */}
           <VirtualThumbnailGrid currentIndex={currentIndex} onThumbnailClick={handleThumbnailClick} className="mt-4" />
+
+          {/* Gallery Controls */}
+          <div className="flex justify-between items-center mt-8 pt-4 border-t border-slate-700">
+            <div className="flex items-center space-x-4">
+              <span className="text-slate-400 text-sm">
+                {currentIndex + 1} / {optimizedGalleryImages.length}
+              </span>
+              
+            </div>
+            <Button variant="outline" size="sm" onClick={toggleAutoPlay} className="bg-white/10 border-white/20 text-white hover:bg-white/20">
+              {isAutoPlay ? <Pause className="w-4 h-4 mr-2" /> : <Play className="w-4 h-4 mr-2" />}
+              {isAutoPlay ? "Pause" : "Play"}
+            </Button>
+          </div>
         </div>
       </main>
       
