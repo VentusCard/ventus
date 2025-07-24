@@ -33,8 +33,8 @@ const VentusAI = () => {
     description: "Your financial data is protected with enterprise-grade security and privacy measures"
   }, {
     icon: Sparkles,
-    title: "Smart Predictions",
-    description: "Anticipate future reward opportunities and optimize your spending strategy"
+    title: "AI Shopping",
+    description: "Secures and completes Wishlist items purchases with your permission"
   }];
   const steps = [{
     step: "1",
