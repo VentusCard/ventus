@@ -129,9 +129,7 @@ const VentusAI = () => {
             }} frameBorder="0" allow="microphone" title="Ventus AI Live Chatbot" />
             </div>
             
-            <p className="text-white/50 text-sm text-center mt-4">
-              Ventus AI is currently in development. Join our waitlist to be the first to experience intelligent reward optimization.
-            </p>
+            <p className="text-white/50 text-sm text-center mt-4">Ventus AI is currently in development. Join our waitlist to be the first to experience the Ventus Smart Rewards Experience.</p>
           </CardContent>
         </Card>
       </section>
