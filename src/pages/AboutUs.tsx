@@ -1,11 +1,9 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, Target, Award, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 const AboutUs = () => {
   const values = [{
     icon: Target,
@@ -24,9 +22,7 @@ const AboutUs = () => {
     title: "Our Community",
     description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
   }];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar />
       
       {/* Hero Section */}
@@ -51,9 +47,7 @@ const AboutUs = () => {
               <p>
                 Meanwhile, merchants were running endless one-size-fits-all promotions, with little visibility into who they were really reaching or how those offers performed.
               </p>
-              <p>
-                Ventus is our answer. We built a card that aligns directly with your lifestyle goals—whether that's golf, mental wellness, or pet care—powered by an AI assistant that tracks your interests and finds the best rewards and deals, automatically. For merchants, we offer targeting tools that connect them to the exact audiences they want—based on real behavior, not assumptions.
-              </p>
+              <p>Ventus is our answer. We built a card that aligns directly with your lifestyle goals—whether that's golf, wellness, gaming, or pet care—powered by an AI assistant that tracks your interests and finds the best rewards and deals, automatically. For merchants, we offer targeting tools that connect them to the exact audiences they want—based on real behavior, not assumptions.</p>
               <p>
                 Ventus bridges the gap between everyday spenders and the merchants who want to reach them—intelligently, transparently, and rewardingly.
               </p>
@@ -62,8 +56,7 @@ const AboutUs = () => {
 
           {/* Values Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {values.map((value, index) => (
-              <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+            {values.map((value, index) => <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-2 bg-blue-100 rounded-lg">
@@ -75,8 +68,7 @@ const AboutUs = () => {
                 <CardContent className="pt-0">
                   <p className="text-slate-600 leading-relaxed">{value.description}</p>
                 </CardContent>
-              </Card>
-            ))}
+              </Card>)}
           </div>
 
           {/* Team Section */}
@@ -96,10 +88,7 @@ const AboutUs = () => {
               </p>
             </div>
             <Link to="/smartrewards">
-              <Button 
-                size="lg" 
-                className="w-full max-w-md px-12 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200"
-              >
+              <Button size="lg" className="w-full max-w-md px-12 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200">
                 Learn How Ventus Smart Rewards Works
               </Button>
             </Link>
@@ -108,8 +97,6 @@ const AboutUs = () => {
       </div>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default AboutUs;
