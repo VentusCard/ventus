@@ -4,6 +4,13 @@ import Navbar from "@/components/Navbar";
 import { Link } from "react-router-dom";
 import { Brain, Target, TrendingUp, Zap, Shield, MessageCircle, ArrowRight, Bot, User, Sparkles } from "lucide-react";
 const VentusAI = () => {
+  const scrollToChat = () => {
+    const chatSection = document.getElementById('live-chat-section');
+    if (chatSection) {
+      chatSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const features = [{
     icon: Brain,
     title: "Intelligent Analysis",
@@ -59,7 +66,7 @@ const VentusAI = () => {
             </h1>
           </div>
           <p className="text-xl md:text-2xl text-white/80 mb-8 max-w-3xl mx-auto leading-relaxed">Your intelligent assistant for maximizing rewards. Get personalized insights, deals, and instant answers to all your reward questions.</p>
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+          <Button onClick={scrollToChat} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
             Start Chatting with Ventus AI
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
@@ -154,7 +161,7 @@ const VentusAI = () => {
       </section>
 
       {/* Live Chatbot Section */}
-      <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <section id="live-chat-section" className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Try Ventus AI Live
