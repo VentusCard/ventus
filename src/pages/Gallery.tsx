@@ -95,11 +95,29 @@ const Gallery = () => {
           {/* Virtual Image Carousel */}
           <VirtualCarousel currentIndex={currentIndex} onIndexChange={handleIndexChange} autoPlay={isAutoPlay} className="mb-4" />
 
+          {/* Enhanced Performance Metrics (Development Only) */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="bg-slate-900/50 border border-slate-700 rounded-lg p-4 mb-4">
+              <h3 className="text-white font-semibold mb-2">Performance Metrics</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+                <div className="text-slate-300">
+                  <span className="text-slate-400">Loaded:</span> {loadedCount}
+                </div>
+                <div className="text-slate-300">
+                  <span className="text-slate-400">Failed:</span> {failedCount}
+                </div>
+                <div className="text-slate-300">
+                  <span className="text-slate-400">Queue:</span> {queueLength}
+                </div>
+                <div className="text-slate-300">
+                  <span className="text-slate-400">Load Time:</span> {metrics.averageLoadTime}ms
+                </div>
+              </div>
+            </div>
+          )}
+
           {/* Virtual Thumbnail Grid */}
           <VirtualThumbnailGrid currentIndex={currentIndex} onThumbnailClick={handleThumbnailClick} className="mt-4" />
-
-          {/* Enhanced Performance Metrics (Development Only) */}
-          {process.env.NODE_ENV === 'development'}
         </div>
       </main>
       
