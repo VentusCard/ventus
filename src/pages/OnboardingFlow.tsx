@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -21,6 +20,7 @@ export interface OnboardingFlowData {
 }
 
 const OnboardingFlow = () => {
+  
   const [step, setStep] = useState(1);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
     mainGoal: null,
@@ -122,7 +122,7 @@ const OnboardingFlow = () => {
               </span>
               <br />
               <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent text-3xl md:text-5xl">
-                Ventus Rewards
+                Ventus Smart Rewards
               </span>
             </h1>
             
