@@ -88,8 +88,14 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     );
   }
 
+  // Extract object-fit and other styling classes from className
+  const extractedClasses = className?.split(' ') || [];
+  const objectFitClasses = extractedClasses.filter(cls => cls.startsWith('object-'));
+  const otherClasses = extractedClasses.filter(cls => !cls.startsWith('object-'));
+  const containerClassName = otherClasses.join(' ');
+
   return (
-    <div className={cn('relative overflow-hidden', className)}>
+    <div className={cn('relative overflow-hidden', containerClassName)}>
       {isLoading && (
         <div className="absolute inset-0 z-10">
           <Skeleton className="w-full h-full" />
@@ -107,8 +113,9 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           alt={alt}
           sizes={sizes}
           className={cn(
-            'w-full h-full object-cover transition-opacity duration-300',
-            isLoading ? 'opacity-0' : 'opacity-100'
+            'w-full h-full transition-opacity duration-300',
+            isLoading ? 'opacity-0' : 'opacity-100',
+            objectFitClasses.length > 0 ? objectFitClasses.join(' ') : 'object-cover'
           )}
           onLoad={handleLoad}
           onError={handleError}

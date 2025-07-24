@@ -209,7 +209,7 @@ const Gallery = () => {
                 <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-4/5 lg:basis-3/4">
                   <Card className="border-0 bg-transparent overflow-hidden group">
                     <CardContent className="p-0 relative">
-                      <div className="relative h-[60vh] md:h-[70vh] overflow-hidden rounded-2xl">
+                      <div className="relative h-[50vh] md:h-[60vh] lg:h-[65vh] overflow-hidden rounded-2xl flex items-center justify-center bg-slate-900/50">
                         {/* Optimized Image */}
                         <OptimizedImage
                           src={image.url}
