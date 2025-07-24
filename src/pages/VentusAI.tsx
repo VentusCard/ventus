@@ -7,10 +7,11 @@ const VentusAI = () => {
   const scrollToChat = () => {
     const chatSection = document.getElementById('live-chat-section');
     if (chatSection) {
-      chatSection.scrollIntoView({ behavior: 'smooth' });
+      chatSection.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
   const features = [{
     icon: Brain,
     title: "Intelligent Analysis",
@@ -105,60 +106,7 @@ const VentusAI = () => {
       
 
       {/* Chatbot Section */}
-      <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Chat with Ventus AI
-          </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Get instant answers to your reward questions and personalized optimization advice
-          </p>
-        </div>
-
-        <Card className="premium-card max-w-4xl mx-auto">
-          <CardContent className="p-6">
-            <div className="chat-interface rounded-xl p-4 mb-4 min-h-[350px]">
-              <div className="flex items-center mb-4">
-                <Bot className="h-6 w-6 text-blue-400 mr-2" />
-                <span className="text-white font-medium">Ventus AI</span>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <Bot className="h-8 w-8 text-blue-400 mt-1" />
-                  <div className="chat-message-bot rounded-lg p-4">
-                    Hello! I'm Ventus AI, your personal credit card rewards assistant. I can help you optimize your spending, find the best cards for your lifestyle, and answer any questions about maximizing your rewards. What would you like to know?
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3 justify-end">
-                  <div className="chat-message-user rounded-lg p-4 max-w-xs">
-                    What's the best credit card for dining rewards?
-                  </div>
-                  <User className="h-8 w-8 text-white/60 mt-1" />
-                </div>
-                <div className="flex items-start space-x-3">
-                  <Bot className="h-8 w-8 text-blue-400 mt-1" />
-                  <div className="chat-message-bot rounded-lg p-4">
-                    Great question! Based on current market analysis, the best dining cards offer 3-4x points per dollar. However, the "best" card depends on your specific spending patterns. Would you like me to analyze your dining habits and recommend the optimal card for your lifestyle?
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="flex-1 relative">
-                <input type="text" placeholder="Ask Ventus AI anything about credit card rewards..." className="chat-input w-full rounded-lg px-4 py-3" />
-              </div>
-              <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
-                <MessageCircle className="h-5 w-5" />
-              </Button>
-            </div>
-            
-            <p className="text-white/50 text-sm text-center mt-3">
-              Ventus AI is currently in development. Join our waitlist to be the first to experience intelligent reward optimization.
-            </p>
-          </CardContent>
-        </Card>
-      </section>
+      
 
       {/* Live Chatbot Section */}
       <section id="live-chat-section" className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
