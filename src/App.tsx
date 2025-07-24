@@ -14,6 +14,7 @@ import BenefitsPage from "./pages/BenefitsPage";
 import GolfDemo from "./pages/GolfDemo";
 import Gallery from "./pages/Gallery";
 import Privacy from "./pages/Privacy";
+import VentusAI from "./pages/VentusAI";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/benefits" element={<BenefitsPage />} />
           <Route path="/gallery" element={<Gallery />} />
           <Route path="/demo/golf" element={<GolfDemo />} />
+          <Route path="/ventus-ai" element={<VentusAI />} />
           <Route path="/privacy" element={<Privacy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
