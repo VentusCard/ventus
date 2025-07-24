@@ -120,13 +120,16 @@ const VentusAI = () => {
         </div>
 
         <Card className="premium-card max-w-6xl mx-auto">
-          <CardContent className="p-6">
-            <div className="w-full">
-              <iframe src="https://udify.app/chatbot/JdL6WFvmKXjD3NaU" style={{
-              width: '100%',
-              height: '100%',
-              minHeight: '700px'
-            }} frameBorder="0" allow="microphone" title="Ventus AI Live Chatbot" />
+          <CardContent className="p-4 md:p-6">
+            <div className="w-full chat-container">
+              <iframe 
+                src="https://udify.app/chatbot/JdL6WFvmKXjD3NaU" 
+                className="responsive-chat-iframe"
+                frameBorder="0" 
+                allow="microphone" 
+                title="Ventus AI Live Chatbot"
+                loading="lazy"
+              />
             </div>
             
             <p className="text-white/50 text-sm text-center mt-4">Ventus AI is currently in development. Join our waitlist to be the first to experience Ventus Smart Rewards.</p>

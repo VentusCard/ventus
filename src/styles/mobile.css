@@ -166,6 +166,34 @@
       width: 100%;
       height: auto;
     }
+
+    /* Chat iframe mobile optimizations */
+    .chat-container {
+      margin: 0 -1rem;
+      border-radius: 0;
+    }
+
+    .responsive-chat-iframe {
+      min-height: calc(100vh - 400px);
+      max-height: 80vh;
+      border-radius: 0;
+    }
+
+    /* Ensure proper touch target areas for chat */
+    .chat-interface button,
+    .chat-interface input,
+    .chat-interface textarea {
+      min-height: 44px;
+      touch-action: manipulation;
+    }
+
+    /* Handle orientation changes */
+    @media (orientation: landscape) {
+      .responsive-chat-iframe {
+        min-height: calc(100vh - 200px);
+        max-height: 90vh;
+      }
+    }
   }
 }
 
