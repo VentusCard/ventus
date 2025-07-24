@@ -35,7 +35,7 @@ const VentusAI = () => {
   }, {
     icon: Sparkles,
     title: "AI Shopping",
-    description: "Secures and completes Wishlist items purchases with your permission"
+    description: "Secures eligible deals and completes wishlist items purchases with your permission"
   }];
   const steps = [{
     step: "1",
