@@ -2,66 +2,50 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import { Brain, Target, TrendingUp, Zap, Shield, MessageCircle, ArrowRight, Bot, User, Sparkles } from "lucide-react";
-
 const VentusAI = () => {
-  const features = [
-    {
-      icon: Brain,
-      title: "Intelligent Analysis",
-      description: "AI analyzes your spending patterns and lifestyle preferences to identify the best reward opportunities"
-    },
-    {
-      icon: Target,
-      title: "Personalized Recommendations",
-      description: "Get tailored suggestions for maximizing rewards based on your unique spending habits"
-    },
-    {
-      icon: TrendingUp,
-      title: "Real-time Optimization",
-      description: "Continuous learning and adaptation to ensure you're always earning maximum rewards"
-    },
-    {
-      icon: Zap,
-      title: "Instant Insights",
-      description: "Quick answers to your reward questions and immediate optimization suggestions"
-    },
-    {
-      icon: Shield,
-      title: "Secure & Private",
-      description: "Your financial data is protected with enterprise-grade security and privacy measures"
-    },
-    {
-      icon: Sparkles,
-      title: "Smart Predictions",
-      description: "Anticipate future reward opportunities and optimize your spending strategy"
-    }
-  ];
-
-  const steps = [
-    {
-      step: "1",
-      title: "Connect Your Data",
-      description: "Securely link your financial accounts to give Ventus AI insight into your spending patterns"
-    },
-    {
-      step: "2", 
-      title: "AI Analysis",
-      description: "Our AI analyzes your transactions, categories, and preferences to understand your lifestyle"
-    },
-    {
-      step: "3",
-      title: "Personalized Strategy",
-      description: "Receive a customized reward optimization strategy tailored specifically to your spending habits"
-    },
-    {
-      step: "4",
-      title: "Continuous Optimization",
-      description: "Ventus AI continuously learns and adapts, ensuring you're always maximizing your rewards"
-    }
-  ];
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+  const features = [{
+    icon: Brain,
+    title: "Intelligent Analysis",
+    description: "AI analyzes your spending patterns and lifestyle preferences to identify the best reward opportunities"
+  }, {
+    icon: Target,
+    title: "Personalized Recommendations",
+    description: "Get tailored suggestions for maximizing rewards based on your unique spending habits"
+  }, {
+    icon: TrendingUp,
+    title: "Real-time Optimization",
+    description: "Continuous learning and adaptation to ensure you're always earning maximum rewards"
+  }, {
+    icon: Zap,
+    title: "Instant Insights",
+    description: "Quick answers to your reward questions and immediate optimization suggestions"
+  }, {
+    icon: Shield,
+    title: "Secure & Private",
+    description: "Your financial data is protected with enterprise-grade security and privacy measures"
+  }, {
+    icon: Sparkles,
+    title: "Smart Predictions",
+    description: "Anticipate future reward opportunities and optimize your spending strategy"
+  }];
+  const steps = [{
+    step: "1",
+    title: "Connect Your Data",
+    description: "Securely link your financial accounts to give Ventus AI insight into your spending patterns"
+  }, {
+    step: "2",
+    title: "AI Analysis",
+    description: "Our AI analyzes your transactions, categories, and preferences to understand your lifestyle"
+  }, {
+    step: "3",
+    title: "Personalized Strategy",
+    description: "Receive a customized reward optimization strategy tailored specifically to your spending habits"
+  }, {
+    step: "4",
+    title: "Continuous Optimization",
+    description: "Ventus AI continuously learns and adapts, ensuring you're always maximizing your rewards"
+  }];
+  return <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Navbar />
       
       {/* Hero Section */}
@@ -95,8 +79,7 @@ const VentusAI = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <Card key={index} className="premium-card hover:border-white/20 transition-all duration-300">
+          {features.map((feature, index) => <Card key={index} className="premium-card hover:border-white/20 transition-all duration-300">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <feature.icon className="h-8 w-8 text-white" />
@@ -108,47 +91,12 @@ const VentusAI = () => {
                   {feature.description}
                 </p>
               </CardContent>
-            </Card>
-          ))}
+            </Card>)}
         </div>
       </section>
 
       {/* How It Works Section */}
-      <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            How Ventus AI Works
-          </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Four simple steps to transform how you earn and maximize credit card rewards
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {steps.map((step, index) => (
-            <div key={index} className="relative">
-              <Card className="premium-card hover:border-white/20 transition-all duration-300 h-full">
-                <CardHeader className="text-center">
-                  <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-lg">
-                    {step.step}
-                  </div>
-                  <CardTitle className="card-title text-lg">{step.title}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="card-description text-center text-sm leading-relaxed">
-                    {step.description}
-                  </p>
-                </CardContent>
-              </Card>
-              {index < steps.length - 1 && (
-                <div className="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                  <ArrowRight className="h-6 w-6 text-white/30" />
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-      </section>
+      
 
       {/* Chatbot Section */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto">
@@ -192,11 +140,7 @@ const VentusAI = () => {
             
             <div className="flex items-center space-x-4">
               <div className="flex-1 relative">
-                <input 
-                  type="text" 
-                  placeholder="Ask Ventus AI anything about credit card rewards..."
-                  className="chat-input w-full rounded-lg px-4 py-3"
-                />
+                <input type="text" placeholder="Ask Ventus AI anything about credit card rewards..." className="chat-input w-full rounded-lg px-4 py-3" />
               </div>
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg">
                 <MessageCircle className="h-5 w-5" />
@@ -227,8 +171,6 @@ const VentusAI = () => {
           </CardContent>
         </Card>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default VentusAI;
