@@ -7,20 +7,16 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const galleryImages = [
-  // Uploaded Ventus lifestyle images
-  { url: "/lovable-uploads/7771bfeb-2c4b-482e-98b0-1a4126e22594.png", alt: "Ventus Lifestyle 1" },
-  { url: "/lovable-uploads/80a2ba06-6ef2-4a52-8b99-1f27b4160a60.png", alt: "Ventus Lifestyle 2" },
-  { url: "/lovable-uploads/e13d8713-7946-4a20-89dc-c60b7ea5d056.png", alt: "Ventus Lifestyle 3" },
-  // Additional curated lifestyle images
-  { url: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=1200&h=800&fit=crop", alt: "Modern Lifestyle" },
-  { url: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=1200&h=800&fit=crop", alt: "Technology" },
-  { url: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=1200&h=800&fit=crop", alt: "Innovation" },
-  { url: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1200&h=800&fit=crop", alt: "Development" },
-  { url: "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&h=800&fit=crop", alt: "Professional" },
-  { url: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=1200&h=800&fit=crop", alt: "Remote Work" },
-  { url: "https://images.unsplash.com/photo-1485833077593-4278bba3f11f?w=1200&h=800&fit=crop", alt: "Nature" },
-  { url: "https://images.unsplash.com/photo-1472396961693-142e6e269027?w=1200&h=800&fit=crop", alt: "Serenity" },
-  { url: "https://images.unsplash.com/photo-1500673922987-e212871fec22?w=1200&h=800&fit=crop", alt: "Ambiance" },
+  { url: "/lovable-uploads/308245bb-cfe2-442c-afaa-dbd6e3844dcc.png", alt: "Winter Sports Excellence" },
+  { url: "/lovable-uploads/dfc26975-7c35-4b78-a434-d5d1196d940e.png", alt: "Fitness & Training" },
+  { url: "/lovable-uploads/9e3031ef-4e09-481b-9088-5c8d03bc173e.png", alt: "Mindfulness & Meditation" },
+  { url: "/lovable-uploads/bd88f7d0-9d63-42ae-b399-ca287fe69f2d.png", alt: "Strength Training" },
+  { url: "/lovable-uploads/c36d4997-fcd2-471f-8ad4-1e1e19735d28.png", alt: "Indoor Sports" },
+  { url: "/lovable-uploads/b6d8372c-d707-4e56-9f22-6d0d8e36d81a.png", alt: "Boxing & Combat Sports" },
+  { url: "/lovable-uploads/a8585ce9-7a38-4abb-bfc0-5abe90ea24ae.png", alt: "Creative Wellness" },
+  { url: "/lovable-uploads/573d1a6d-e0db-49ed-9065-124d596cd1ea.png", alt: "Luxury Relaxation" },
+  { url: "/lovable-uploads/48325a89-81c9-4e12-a77e-7618f5dbc09d.png", alt: "Dynamic Movement" },
+  { url: "/lovable-uploads/1dd4830d-149d-44eb-a09f-90cec046e4cd.png", alt: "Modern Lifestyle" },
 ];
 
 const Gallery = () => {
