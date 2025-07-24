@@ -7,10 +7,11 @@ const VentusAI = () => {
   const scrollToChat = () => {
     const chatSection = document.getElementById('live-chat-section');
     if (chatSection) {
-      chatSection.scrollIntoView({ behavior: 'smooth' });
+      chatSection.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
   const features = [{
     icon: Brain,
     title: "Intelligent Analysis",
@@ -191,7 +192,7 @@ const VentusAI = () => {
       {/* CTA Section */}
       <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto text-center">
         <Card className="premium-card max-w-4xl mx-auto">
-          <CardContent className="p-8">
+          <CardContent className="p-8 px-[24px] py-[24px]">
             <h2 className="text-3xl md:text-4xl font-bold card-title mb-4">
               Ready to Maximize Your Rewards?
             </h2>
