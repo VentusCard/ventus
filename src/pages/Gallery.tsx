@@ -150,7 +150,7 @@ const Gallery = () => {
                           src={image.url}
                           alt={image.alt}
                           loading="lazy"
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
                           onError={(e) => {
                             console.error(`Failed to load image: ${image.url}`);
                             e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&h=800&fit=crop";
