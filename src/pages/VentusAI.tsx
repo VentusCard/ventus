@@ -96,15 +96,15 @@ const VentusAI = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
-            <Card key={index} className="premium-card border-white/10 hover:border-white/20 transition-all duration-300">
+            <Card key={index} className="premium-card hover:border-white/20 transition-all duration-300">
               <CardHeader className="text-center">
                 <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-4">
                   <feature.icon className="h-8 w-8 text-white" />
                 </div>
-                <CardTitle className="text-white text-xl">{feature.title}</CardTitle>
+                <CardTitle className="card-title text-xl">{feature.title}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-white/70 text-center leading-relaxed">
+                <p className="card-description text-center leading-relaxed">
                   {feature.description}
                 </p>
               </CardContent>
@@ -127,15 +127,15 @@ const VentusAI = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {steps.map((step, index) => (
             <div key={index} className="relative">
-              <Card className="premium-card border-white/10 hover:border-white/20 transition-all duration-300 h-full">
+              <Card className="premium-card hover:border-white/20 transition-all duration-300 h-full">
                 <CardHeader className="text-center">
                   <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4 text-white font-bold text-lg">
                     {step.step}
                   </div>
-                  <CardTitle className="text-white text-lg">{step.title}</CardTitle>
+                  <CardTitle className="card-title text-lg">{step.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-white/70 text-center text-sm leading-relaxed">
+                  <p className="card-description text-center text-sm leading-relaxed">
                     {step.description}
                   </p>
                 </CardContent>
@@ -161,7 +161,7 @@ const VentusAI = () => {
           </p>
         </div>
 
-        <Card className="premium-card border-white/10 max-w-4xl mx-auto">
+        <Card className="premium-card max-w-4xl mx-auto">
           <CardContent className="p-8">
             <div className="bg-slate-800/50 rounded-xl p-6 mb-6 min-h-[400px] border border-white/10">
               <div className="flex items-center mb-4">
@@ -212,12 +212,12 @@ const VentusAI = () => {
 
       {/* CTA Section */}
       <section className="py-20 px-4 md:px-8 max-w-7xl mx-auto text-center">
-        <Card className="premium-card border-white/10 max-w-4xl mx-auto">
+        <Card className="premium-card max-w-4xl mx-auto">
           <CardContent className="p-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold card-title mb-6">
               Ready to Maximize Your Rewards?
             </h2>
-            <p className="text-xl text-white/70 mb-8 max-w-2xl mx-auto">
+            <p className="text-xl card-description mb-8 max-w-2xl mx-auto">
               Join thousands of users who are already earning more with intelligent reward optimization. Be among the first to experience Ventus AI.
             </p>
             <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
