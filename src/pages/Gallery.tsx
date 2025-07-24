@@ -133,9 +133,9 @@ const Gallery = () => {
       <Navbar />
       
       {/* Minimized Hero Section */}
-      <div className="relative pt-16 md:pt-20 pb-8 px-4 md:px-8">
+      <div className="relative pt-16 md:pt-20 pb-4 px-4 md:px-8">
         <div className="max-w-7xl mx-auto text-center">
-          <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-slate-300 to-slate-500 bg-clip-text text-transparent mb-4">
+          <h1 className="text-5xl md:text-7xl font-black bg-gradient-to-r from-white via-slate-300 to-slate-500 bg-clip-text text-transparent mb-2">
             Gallery
           </h1>
           <p className="text-lg md:text-xl text-slate-300 font-medium max-w-2xl mx-auto">
@@ -145,10 +145,10 @@ const Gallery = () => {
       </div>
 
       {/* Main Gallery Content */}
-      <main className="flex-1 px-4 md:px-8 pb-8">
+      <main className="flex-1 px-4 md:px-8 pb-4">
         <div className="max-w-7xl mx-auto">
           {/* Gallery Controls */}
-          <div className="flex justify-between items-center mb-6">
+          <div className="flex justify-between items-center mb-4">
             <div className="flex items-center space-x-4">
               <span className="text-slate-400 text-sm">
                 {currentIndex + 1} / {galleryImages.length}
@@ -204,7 +204,7 @@ const Gallery = () => {
           </Carousel>
 
           {/* Thumbnail Navigation */}
-          <div className="flex justify-center mt-8 space-x-2 overflow-x-auto pb-4">
+          <div className="flex justify-center mt-4 space-x-2 overflow-x-auto pb-4">
             {galleryImages.map((image, index) => (
               <button
                 key={index}
