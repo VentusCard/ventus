@@ -77,9 +77,7 @@ const VentusAI = () => {
       {/* What Ventus AI Does Section */}
       <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="text-center mb-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            What Ventus AI Does for You
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">What Ventus AI Can Do For You</h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
             Harness the power of artificial intelligence to unlock maximum value from your credit card rewards
           </p>
@@ -122,14 +120,7 @@ const VentusAI = () => {
         <Card className="premium-card max-w-6xl mx-auto">
           <CardContent className="p-4 md:p-6">
             <div className="w-full chat-container">
-              <iframe 
-                src="https://udify.app/chatbot/JdL6WFvmKXjD3NaU" 
-                className="responsive-chat-iframe"
-                frameBorder="0" 
-                allow="microphone" 
-                title="Ventus AI Live Chatbot"
-                loading="lazy"
-              />
+              <iframe src="https://udify.app/chatbot/JdL6WFvmKXjD3NaU" className="responsive-chat-iframe" frameBorder="0" allow="microphone" title="Ventus AI Live Chatbot" loading="lazy" />
             </div>
             
             <p className="text-white/50 text-sm text-center mt-4">Ventus AI is currently in development. Join our waitlist to be the first to experience Ventus Smart Rewards.</p>
