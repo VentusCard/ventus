@@ -1,10 +1,14 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { OptimizedImage } from '@/components/gallery/OptimizedImage';
+import { ThumbnailGrid } from '@/components/gallery/ThumbnailGrid';
+import { useImagePreloader } from '@/hooks/useImagePreloader';
+import { usePerformanceMonitor } from '@/hooks/usePerformanceMonitor';
 
 const galleryImages = [
   { 
@@ -98,10 +102,36 @@ const Gallery = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [api, setApi] = useState<CarouselApi>();
+  
+  // Performance monitoring
+  const { metrics, startImageLoad, endImageLoad } = usePerformanceMonitor();
+  
+  // Memoize image URLs for preloader
+  const imageUrls = useMemo(() => galleryImages.map(img => img.url), []);
+  
+  // Preload nearby images
+  useImagePreloader({ 
+    images: imageUrls, 
+    currentIndex, 
+    preloadRange: 2 
+  });
 
   const toggleAutoPlay = useCallback(() => {
     setIsAutoPlay(!isAutoPlay);
   }, [isAutoPlay]);
+
+  const handleImageLoad = useCallback((imageUrl: string) => {
+    endImageLoad(imageUrl, true);
+  }, [endImageLoad]);
+
+  const handleImageError = useCallback((imageUrl: string) => {
+    endImageLoad(imageUrl, false);
+  }, [endImageLoad]);
+
+  const handleThumbnailClick = useCallback((index: number) => {
+    setCurrentIndex(index);
+    api?.scrollTo(index);
+  }, [api]);
 
   // Custom autoplay implementation
   useEffect(() => {
@@ -180,16 +210,18 @@ const Gallery = () => {
                   <Card className="border-0 bg-transparent overflow-hidden group">
                     <CardContent className="p-0 relative">
                       <div className="relative h-[60vh] md:h-[70vh] overflow-hidden rounded-2xl">
-                        {/* Image */}
-                        <img
+                        {/* Optimized Image */}
+                        <OptimizedImage
                           src={image.url}
                           alt={image.alt}
-                          loading="lazy"
+                          priority={index === 0 || Math.abs(index - currentIndex) <= 1} // Prioritize current and adjacent images
+                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 75vw"
                           className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
-                          onError={(e) => {
-                            console.error(`Failed to load image: ${image.url}`);
-                            e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=1200&h=800&fit=crop";
+                          onLoad={() => {
+                            startImageLoad(image.url);
+                            handleImageLoad(image.url);
                           }}
+                          onError={() => handleImageError(image.url)}
                         />
                       </div>
                     </CardContent>
@@ -203,36 +235,27 @@ const Gallery = () => {
             <CarouselNext className="right-4 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm" />
           </Carousel>
 
-          {/* Thumbnail Navigation */}
-          <div className="flex justify-center mt-4 space-x-2 overflow-x-auto pb-4">
-            {galleryImages.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => {
-                  setCurrentIndex(index);
-                  api?.scrollTo(index);
-                }}
-                className={`relative flex-shrink-0 w-12 h-20 md:w-16 md:h-24 rounded-lg overflow-hidden border-2 transition-all duration-300 ${
-                  currentIndex === index 
-                    ? "border-white shadow-lg scale-110" 
-                    : "border-white/30 hover:border-white/60"
-                }`}
-              >
-                <img
-                  src={image.thumbnail}
-                  alt={`Thumbnail ${index + 1}`}
-                  loading="lazy"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    e.currentTarget.src = "https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?w=400&h=600&fit=crop";
-                  }}
-                />
-                {currentIndex === index && (
-                  <div className="absolute inset-0 bg-white/20 backdrop-blur-sm" />
+          {/* Optimized Thumbnail Navigation */}
+          <ThumbnailGrid
+            images={galleryImages}
+            currentIndex={currentIndex}
+            onThumbnailClick={handleThumbnailClick}
+            className="mt-4"
+          />
+
+          {/* Performance Metrics (Development Only) */}
+          {process.env.NODE_ENV === 'development' && (
+            <div className="mt-4 p-4 bg-slate-800/50 rounded-lg text-xs text-slate-400">
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+                <div>Images: {metrics.totalImages}</div>
+                <div>Failed: {metrics.failedImages}</div>
+                <div>Avg Load: {metrics.averageLoadTime.toFixed(0)}ms</div>
+                {metrics.memoryUsage && (
+                  <div>Memory: {metrics.memoryUsage.toFixed(1)}MB</div>
                 )}
-              </button>
-            ))}
-          </div>
+              </div>
+            </div>
+          )}
         </div>
       </main>
       
