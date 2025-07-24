@@ -99,16 +99,7 @@ const Gallery = () => {
           <VirtualThumbnailGrid currentIndex={currentIndex} onThumbnailClick={handleThumbnailClick} className="mt-4" />
 
           {/* Enhanced Performance Metrics (Development Only) */}
-          {process.env.NODE_ENV === 'development' && <div className="mt-4 p-4 bg-slate-800/50 rounded-lg text-xs text-slate-400">
-              <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
-                <div>Total: {metrics.totalImages}</div>
-                <div>Failed: {metrics.failedImages}</div>
-                <div>Load Time: {metrics.averageLoadTime.toFixed(0)}ms</div>
-                <div>Loaded: {loadedCount}</div>
-                <div>Queue: {queueLength}</div>
-                {metrics.memoryUsage && <div>Memory: {metrics.memoryUsage.toFixed(1)}MB</div>}
-              </div>
-            </div>}
+          {process.env.NODE_ENV === 'development'}
         </div>
       </main>
       
