@@ -130,6 +130,7 @@ export const VirtualCarousel: React.FC<VirtualCarouselProps> = ({
                     }
                     className="w-full h-full object-contain transition-transform duration-700 hover:scale-105"
                     onLoad={() => console.log(`Loaded: ${slide.alt}`)}
+                    enableDownloadProtection={true}
                   />
                 ) : (
                   // Placeholder for non-loaded images

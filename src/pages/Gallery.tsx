@@ -60,7 +60,62 @@ const Gallery = () => {
   const handleThumbnailClick = useCallback((index: number) => {
     handleIndexChange(index);
   }, [handleIndexChange]);
-  return <div className="min-h-screen bg-black flex flex-col">
+  // Global download protection
+  useEffect(() => {
+    const handleGlobalContextMenu = (e: Event) => {
+      e.preventDefault();
+      return false;
+    };
+
+    const handleGlobalDragStart = (e: Event) => {
+      if ((e.target as HTMLElement)?.tagName === 'IMG') {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    const handleGlobalSelectStart = (e: Event) => {
+      if ((e.target as HTMLElement)?.tagName === 'IMG') {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Prevent common save shortcuts
+      if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+        e.preventDefault();
+        return false;
+      }
+      // Prevent F12 and other dev tools shortcuts
+      if (e.key === 'F12' || 
+          (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J'))) {
+        e.preventDefault();
+        return false;
+      }
+    };
+
+    document.addEventListener('contextmenu', handleGlobalContextMenu);
+    document.addEventListener('dragstart', handleGlobalDragStart);
+    document.addEventListener('selectstart', handleGlobalSelectStart);
+    document.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.removeEventListener('contextmenu', handleGlobalContextMenu);
+      document.removeEventListener('dragstart', handleGlobalDragStart);
+      document.removeEventListener('selectstart', handleGlobalSelectStart);
+      document.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
+
+  return <div className="min-h-screen bg-black flex flex-col select-none"
+    style={{
+      WebkitUserSelect: 'none',
+      MozUserSelect: 'none',
+      msUserSelect: 'none',
+      userSelect: 'none',
+      WebkitTouchCallout: 'none'
+    }}>
       <Navbar />
       
       {/* Minimized Hero Section */}

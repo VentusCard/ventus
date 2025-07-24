@@ -10,6 +10,7 @@ interface OptimizedImageProps {
   sizes?: string;
   onLoad?: () => void;
   onError?: () => void;
+  enableDownloadProtection?: boolean;
 }
 
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
@@ -20,6 +21,7 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   sizes = '100vw',
   onLoad,
   onError,
+  enableDownloadProtection = false,
 }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -72,6 +74,28 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     onError?.();
   };
 
+  // Download protection event handlers
+  const handleContextMenu = (e: React.MouseEvent) => {
+    if (enableDownloadProtection) {
+      e.preventDefault();
+      return false;
+    }
+  };
+
+  const handleDragStart = (e: React.DragEvent) => {
+    if (enableDownloadProtection) {
+      e.preventDefault();
+      return false;
+    }
+  };
+
+  const handleSelectStart = (e: React.MouseEvent) => {
+    if (enableDownloadProtection) {
+      e.preventDefault();
+      return false;
+    }
+  };
+
   if (!isInView) {
     return (
       <div ref={imgRef} className={cn('bg-slate-800/50', className)}>
@@ -102,6 +126,23 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
         </div>
       )}
       
+      {/* Download protection overlay */}
+      {enableDownloadProtection && (
+        <div 
+          className="absolute inset-0 z-20 bg-transparent"
+          onContextMenu={handleContextMenu}
+          onDragStart={handleDragStart}
+          onMouseDown={handleSelectStart}
+          style={{ 
+            WebkitUserSelect: 'none',
+            MozUserSelect: 'none',
+            msUserSelect: 'none',
+            userSelect: 'none',
+            WebkitTouchCallout: 'none'
+          }}
+        />
+      )}
+      
       <picture>
         <source 
           srcSet={getOptimizedSrc(src, 'webp')} 
@@ -115,11 +156,26 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
           className={cn(
             'w-full h-full transition-opacity duration-300',
             isLoading ? 'opacity-0' : 'opacity-100',
-            objectFitClasses.length > 0 ? objectFitClasses.join(' ') : 'object-cover'
+            objectFitClasses.length > 0 ? objectFitClasses.join(' ') : 'object-cover',
+            enableDownloadProtection && 'select-none pointer-events-none'
           )}
           onLoad={handleLoad}
           onError={handleError}
+          onContextMenu={handleContextMenu}
+          onDragStart={handleDragStart}
+          onMouseDown={handleSelectStart}
           loading={priority ? 'eager' : 'lazy'}
+          draggable={!enableDownloadProtection}
+          {...(enableDownloadProtection && {
+            'data-no-download': 'true',
+            style: { 
+              WebkitUserSelect: 'none',
+              MozUserSelect: 'none',
+              msUserSelect: 'none',
+              userSelect: 'none',
+              WebkitTouchCallout: 'none'
+            }
+          })}
         />
       </picture>
     </div>

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { cn } from '@/lib/utils';
+import { OptimizedImage } from './OptimizedImage';
 import { optimizedGalleryImages } from './ImageAssets';
 
 interface VirtualThumbnailGridProps {
@@ -122,11 +123,13 @@ export const VirtualThumbnailGrid: React.FC<VirtualThumbnailGridProps> = ({
                     srcSet={thumbnail.thumbnail.webp}
                     type="image/webp"
                   />
-                  <img
+                  <OptimizedImage
                     src={thumbnail.thumbnail.fallback}
                     alt={thumbnail.alt}
                     className="w-full h-full object-cover"
-                    loading="lazy"
+                    priority={false}
+                    sizes="120px"
+                    enableDownloadProtection={true}
                   />
                 </picture>
               ) : (
