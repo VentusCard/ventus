@@ -1,120 +1,44 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
-import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious, type CarouselApi } from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft, ChevronRight, Play, Pause } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { OptimizedImage } from '@/components/gallery/OptimizedImage';
-import { ThumbnailGrid } from '@/components/gallery/ThumbnailGrid';
-import { useImagePreloader } from '@/hooks/useImagePreloader';
+import { VirtualCarousel } from '@/components/gallery/VirtualCarousel';
+import { VirtualThumbnailGrid } from '@/components/gallery/VirtualThumbnailGrid';
+import { useAdvancedImagePreloader } from '@/hooks/useAdvancedImagePreloader';
 import { usePerformanceMonitor } from '@/hooks/usePerformanceMonitor';
+import { optimizedGalleryImages } from '@/components/gallery/ImageAssets';
 
-const galleryImages = [
-  { 
-    url: "/lovable-uploads/308245bb-cfe2-442c-afaa-dbd6e3844dcc.png", 
-    thumbnail: "/lovable-uploads/308245bb-cfe2-442c-afaa-dbd6e3844dcc.png",
-    alt: "Winter Sports Excellence" 
-  },
-  { 
-    url: "/lovable-uploads/dfc26975-7c35-4b78-a434-d5d1196d940e.png", 
-    thumbnail: "/lovable-uploads/dfc26975-7c35-4b78-a434-d5d1196d940e.png",
-    alt: "Fitness & Training" 
-  },
-  { 
-    url: "/lovable-uploads/9e3031ef-4e09-481b-9088-5c8d03bc173e.png", 
-    thumbnail: "/lovable-uploads/9e3031ef-4e09-481b-9088-5c8d03bc173e.png",
-    alt: "Mindfulness & Meditation" 
-  },
-  { 
-    url: "/lovable-uploads/bd88f7d0-9d63-42ae-b399-ca287fe69f2d.png", 
-    thumbnail: "/lovable-uploads/bd88f7d0-9d63-42ae-b399-ca287fe69f2d.png",
-    alt: "Strength Training" 
-  },
-  { 
-    url: "/lovable-uploads/c36d4997-fcd2-471f-8ad4-1e1e19735d28.png", 
-    thumbnail: "/lovable-uploads/c36d4997-fcd2-471f-8ad4-1e1e19735d28.png",
-    alt: "Indoor Sports" 
-  },
-  { 
-    url: "/lovable-uploads/b6d8372c-d707-4e56-9f22-6d0d8e36d81a.png", 
-    thumbnail: "/lovable-uploads/b6d8372c-d707-4e56-9f22-6d0d8e36d81a.png",
-    alt: "Boxing & Combat Sports" 
-  },
-  { 
-    url: "/lovable-uploads/a8585ce9-7a38-4abb-bfc0-5abe90ea24ae.png", 
-    thumbnail: "/lovable-uploads/a8585ce9-7a38-4abb-bfc0-5abe90ea24ae.png",
-    alt: "Creative Wellness" 
-  },
-  { 
-    url: "/lovable-uploads/573d1a6d-e0db-49ed-9065-124d596cd1ea.png", 
-    thumbnail: "/lovable-uploads/573d1a6d-e0db-49ed-9065-124d596cd1ea.png",
-    alt: "Luxury Relaxation" 
-  },
-  { 
-    url: "/lovable-uploads/48325a89-81c9-4e12-a77e-7618f5dbc09d.png", 
-    thumbnail: "/lovable-uploads/48325a89-81c9-4e12-a77e-7618f5dbc09d.png",
-    alt: "Dynamic Movement" 
-  },
-  { 
-    url: "/lovable-uploads/1dd4830d-149d-44eb-a09f-90cec046e4cd.png", 
-    thumbnail: "/lovable-uploads/1dd4830d-149d-44eb-a09f-90cec046e4cd.png",
-    alt: "Modern Lifestyle" 
-  },
-  { 
-    url: "/lovable-uploads/7feaf840-e363-4606-80e0-74ec8a23ed13.png", 
-    thumbnail: "/lovable-uploads/7feaf840-e363-4606-80e0-74ec8a23ed13.png",
-    alt: "Skincare & Wellness" 
-  },
-  { 
-    url: "/lovable-uploads/ca73b416-a839-47ab-a78a-ba26dd709c9e.png", 
-    thumbnail: "/lovable-uploads/ca73b416-a839-47ab-a78a-ba26dd709c9e.png",
-    alt: "Pet Lifestyle" 
-  },
-  { 
-    url: "/lovable-uploads/0e40a993-7c21-4ef2-94b6-b3eaac407470.png", 
-    thumbnail: "/lovable-uploads/0e40a993-7c21-4ef2-94b6-b3eaac407470.png",
-    alt: "Pet Fashion" 
-  },
-  { 
-    url: "/lovable-uploads/027ba132-359e-469e-8d35-9b41a5c5388c.png", 
-    thumbnail: "/lovable-uploads/027ba132-359e-469e-8d35-9b41a5c5388c.png",
-    alt: "Rest & Recovery" 
-  },
-  { 
-    url: "/lovable-uploads/5ec9b4c5-1202-416f-a433-340601f2807e.png", 
-    thumbnail: "/lovable-uploads/5ec9b4c5-1202-416f-a433-340601f2807e.png",
-    alt: "Social & Active" 
-  },
-  { 
-    url: "/lovable-uploads/1d0057ad-92c0-458d-a474-6efe94e5a8b6.png", 
-    thumbnail: "/lovable-uploads/1d0057ad-92c0-458d-a474-6efe94e5a8b6.png",
-    alt: "Lifestyle & Dining" 
-  },
-  { 
-    url: "/lovable-uploads/cb753400-56c0-442b-b830-7dcfecb7d63c.png", 
-    thumbnail: "/lovable-uploads/cb753400-56c0-442b-b830-7dcfecb7d63c.png",
-    alt: "Artisanal & Crafted" 
-  },
-];
+// Using optimized gallery images from ImageAssets
 
 const Gallery = () => {
   const [isAutoPlay, setIsAutoPlay] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [api, setApi] = useState<CarouselApi>();
+  const [viewportWidth, setViewportWidth] = useState(1200);
   
   // Performance monitoring
   const { metrics, startImageLoad, endImageLoad } = usePerformanceMonitor();
   
-  // Memoize image URLs for preloader
-  const imageUrls = useMemo(() => galleryImages.map(img => img.url), []);
-  
-  // Preload nearby images
-  useImagePreloader({ 
-    images: imageUrls, 
-    currentIndex, 
-    preloadRange: 2 
+  // Advanced image preloading with priority queue
+  const {
+    isImageLoaded,
+    isImageFailed,
+    loadedCount,
+    failedCount,
+    queueLength
+  } = useAdvancedImagePreloader({
+    currentIndex,
+    viewportWidth,
+    preloadRange: 3
   });
+
+  // Track viewport size
+  useEffect(() => {
+    const updateViewportWidth = () => setViewportWidth(window.innerWidth);
+    updateViewportWidth();
+    window.addEventListener('resize', updateViewportWidth);
+    return () => window.removeEventListener('resize', updateViewportWidth);
+  }, []);
 
   const toggleAutoPlay = useCallback(() => {
     setIsAutoPlay(!isAutoPlay);
@@ -128,35 +52,15 @@ const Gallery = () => {
     endImageLoad(imageUrl, false);
   }, [endImageLoad]);
 
-  const handleThumbnailClick = useCallback((index: number) => {
+  const handleIndexChange = useCallback((index: number) => {
     setCurrentIndex(index);
-    api?.scrollTo(index);
-  }, [api]);
+    startImageLoad(`image-${index}`);
+    endImageLoad(`image-${index}`, true);
+  }, [startImageLoad, endImageLoad]);
 
-  // Custom autoplay implementation
-  useEffect(() => {
-    if (!api || !isAutoPlay) return;
-
-    const interval = setInterval(() => {
-      api.scrollNext();
-    }, 4000);
-
-    return () => clearInterval(interval);
-  }, [api, isAutoPlay]);
-
-  // Update current index when carousel changes
-  useEffect(() => {
-    if (!api) return;
-
-    const updateIndex = () => {
-      setCurrentIndex(api.selectedScrollSnap());
-    };
-
-    api.on("select", updateIndex);
-    return () => {
-      api.off("select", updateIndex);
-    };
-  }, [api]);
+  const handleThumbnailClick = useCallback((index: number) => {
+    handleIndexChange(index);
+  }, [handleIndexChange]);
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
@@ -181,7 +85,10 @@ const Gallery = () => {
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center space-x-4">
               <span className="text-slate-400 text-sm">
-                {currentIndex + 1} / {galleryImages.length}
+                {currentIndex + 1} / {optimizedGalleryImages.length}
+              </span>
+              <span className="text-slate-500 text-xs">
+                Loaded: {loadedCount} | Queue: {queueLength}
               </span>
             </div>
             <Button
@@ -195,61 +102,30 @@ const Gallery = () => {
             </Button>
           </div>
 
-          {/* Image Carousel */}
-          <Carousel 
-            className="w-full"
-            setApi={setApi}
-            opts={{
-              align: "center",
-              loop: true,
-            }}
-          >
-            <CarouselContent className="-ml-2 md:-ml-4">
-              {galleryImages.map((image, index) => (
-                <CarouselItem key={index} className="pl-2 md:pl-4 basis-full md:basis-4/5 lg:basis-3/4">
-                  <Card className="border-0 bg-transparent overflow-hidden group">
-                    <CardContent className="p-0 relative">
-                      <div className="relative h-[50vh] md:h-[60vh] lg:h-[65vh] overflow-hidden rounded-2xl flex items-center justify-center bg-slate-900/50">
-                        {/* Optimized Image */}
-                        <OptimizedImage
-                          src={image.url}
-                          alt={image.alt}
-                          priority={index === 0 || Math.abs(index - currentIndex) <= 1} // Prioritize current and adjacent images
-                          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 75vw"
-                          className="w-full h-full object-contain transition-transform duration-700 group-hover:scale-105"
-                          onLoad={() => {
-                            startImageLoad(image.url);
-                            handleImageLoad(image.url);
-                          }}
-                          onError={() => handleImageError(image.url)}
-                        />
-                      </div>
-                    </CardContent>
-                  </Card>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            
-            {/* Custom Navigation */}
-            <CarouselPrevious className="left-4 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm" />
-            <CarouselNext className="right-4 bg-white/10 border-white/20 text-white hover:bg-white/20 backdrop-blur-sm" />
-          </Carousel>
+          {/* Virtual Image Carousel */}
+          <VirtualCarousel
+            currentIndex={currentIndex}
+            onIndexChange={handleIndexChange}
+            autoPlay={isAutoPlay}
+            className="mb-4"
+          />
 
-          {/* Optimized Thumbnail Navigation */}
-          <ThumbnailGrid
-            images={galleryImages}
+          {/* Virtual Thumbnail Grid */}
+          <VirtualThumbnailGrid
             currentIndex={currentIndex}
             onThumbnailClick={handleThumbnailClick}
             className="mt-4"
           />
 
-          {/* Performance Metrics (Development Only) */}
+          {/* Enhanced Performance Metrics (Development Only) */}
           {process.env.NODE_ENV === 'development' && (
             <div className="mt-4 p-4 bg-slate-800/50 rounded-lg text-xs text-slate-400">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
-                <div>Images: {metrics.totalImages}</div>
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-2">
+                <div>Total: {metrics.totalImages}</div>
                 <div>Failed: {metrics.failedImages}</div>
-                <div>Avg Load: {metrics.averageLoadTime.toFixed(0)}ms</div>
+                <div>Load Time: {metrics.averageLoadTime.toFixed(0)}ms</div>
+                <div>Loaded: {loadedCount}</div>
+                <div>Queue: {queueLength}</div>
                 {metrics.memoryUsage && (
                   <div>Memory: {metrics.memoryUsage.toFixed(1)}MB</div>
                 )}
