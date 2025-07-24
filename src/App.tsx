@@ -12,6 +12,7 @@ import ContactUs from "./pages/ContactUs";
 import AboutUs from "./pages/AboutUs";
 import BenefitsPage from "./pages/BenefitsPage";
 import GolfDemo from "./pages/GolfDemo";
+import Gallery from "./pages/Gallery";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +32,7 @@ const App = () => (
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/benefits" element={<BenefitsPage />} />
+          <Route path="/gallery" element={<Gallery />} />
           <Route path="/demo/golf" element={<GolfDemo />} />
           <Route path="/privacy" element={<Privacy />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
