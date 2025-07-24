@@ -57,6 +57,41 @@ const galleryImages = [
     thumbnail: "/lovable-uploads/1dd4830d-149d-44eb-a09f-90cec046e4cd.png",
     alt: "Modern Lifestyle" 
   },
+  { 
+    url: "/lovable-uploads/7feaf840-e363-4606-80e0-74ec8a23ed13.png", 
+    thumbnail: "/lovable-uploads/7feaf840-e363-4606-80e0-74ec8a23ed13.png",
+    alt: "Skincare & Wellness" 
+  },
+  { 
+    url: "/lovable-uploads/ca73b416-a839-47ab-a78a-ba26dd709c9e.png", 
+    thumbnail: "/lovable-uploads/ca73b416-a839-47ab-a78a-ba26dd709c9e.png",
+    alt: "Pet Lifestyle" 
+  },
+  { 
+    url: "/lovable-uploads/0e40a993-7c21-4ef2-94b6-b3eaac407470.png", 
+    thumbnail: "/lovable-uploads/0e40a993-7c21-4ef2-94b6-b3eaac407470.png",
+    alt: "Pet Fashion" 
+  },
+  { 
+    url: "/lovable-uploads/027ba132-359e-469e-8d35-9b41a5c5388c.png", 
+    thumbnail: "/lovable-uploads/027ba132-359e-469e-8d35-9b41a5c5388c.png",
+    alt: "Rest & Recovery" 
+  },
+  { 
+    url: "/lovable-uploads/5ec9b4c5-1202-416f-a433-340601f2807e.png", 
+    thumbnail: "/lovable-uploads/5ec9b4c5-1202-416f-a433-340601f2807e.png",
+    alt: "Social & Active" 
+  },
+  { 
+    url: "/lovable-uploads/1d0057ad-92c0-458d-a474-6efe94e5a8b6.png", 
+    thumbnail: "/lovable-uploads/1d0057ad-92c0-458d-a474-6efe94e5a8b6.png",
+    alt: "Lifestyle & Dining" 
+  },
+  { 
+    url: "/lovable-uploads/cb753400-56c0-442b-b830-7dcfecb7d63c.png", 
+    thumbnail: "/lovable-uploads/cb753400-56c0-442b-b830-7dcfecb7d63c.png",
+    alt: "Artisanal & Crafted" 
+  },
 ];
 
 const Gallery = () => {
