@@ -34,10 +34,6 @@ const targetingTools = [{
   title: "Lifecycle Stage Targeting",
   description: "Target users based on their customer journey stage and engagement patterns",
   example: "Welcome bonus for new users, loyalty rewards for long-term customers."
-}, {
-  id: "request-demo",
-  title: "Request Demo",
-  description: "Schedule a personalized demo to see these tools in action"
 }];
 
 interface TargetingToolsSectionProps {
@@ -83,14 +79,11 @@ const TargetingToolsSection = ({
           <div className="space-y-3 md:space-y-4">
             {targetingTools.map(tool => {
               const isGeographic = tool.id === "geographic";
-              const isRequestDemo = tool.id === "request-demo";
               const isChecked = selectedTargeting.includes(tool.id);
               
               return (
                 <div key={tool.id} className={`border rounded-lg p-3 md:p-4 ${
                   isGeographic 
-                    ? 'bg-blue-50 border-blue-200' 
-                    : isRequestDemo 
                     ? 'bg-blue-50 border-blue-200' 
                     : ''
                 }`}>
