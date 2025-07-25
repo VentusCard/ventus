@@ -107,7 +107,7 @@ const OnboardingFlow = () => {
               </span>
               <br />
               <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent text-3xl md:text-5xl">
-                Ventus Rewards
+                Ventus Smart Rewards
               </span>
             </h1>
             
