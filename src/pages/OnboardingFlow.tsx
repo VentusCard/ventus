@@ -101,7 +101,7 @@ const OnboardingFlow = () => {
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 py-8 md:py-10">
           <div className="text-center max-w-5xl mx-auto">
-            <h1 className="font-display text-5xl md:text-4xl lg:text-5xl font-bold mb-4 leading-none mt-5 ">
+            <h1 className="font-display text-5xl md:text-4xl lg:text-5xl font-bold mb-4 leading-none mt-10 ">
               <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent text-3xl md:text-5xl">
                 Discover Your
               </span>
