@@ -1,5 +1,5 @@
 const PartnerHero = () => {
-  return <section className="pt-20 pb-6 md:pb-8 px-4 md:px-6">
+  return <section className="pt-32 pb-6 md:pb-8 px-4 md:px-6">
       <div className="max-w-6xl mx-auto text-center">
         <h1 className="font-display text-3xl sm:text-4xl md:text-6xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent leading-tight">
           Partner with
