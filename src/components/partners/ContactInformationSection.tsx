@@ -233,8 +233,7 @@ const ContactInformationSection = ({
             <div className="pt-3 space-y-3">
               <Button 
                 asChild
-                variant="outline"
-                className="w-full h-12 md:h-12 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base"
+                className="w-full h-12 md:h-12 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base"
               >
                 <a href="https://calendar.app.google/tv5tbSTnpJAT9YPg7" target="_blank" rel="noopener noreferrer">
                   <Calendar className="h-4 w-4 mr-2" />
@@ -245,8 +244,7 @@ const ContactInformationSection = ({
               <Button 
                 type="submit" 
                 disabled={isSubmitting}
-                variant="outline"
-                className="w-full h-12 md:h-12 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full h-12 md:h-12 bg-blue-600 text-white hover:bg-blue-700 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? "Submitting..." : "Join Merchant Waitlist"}
               </Button>
