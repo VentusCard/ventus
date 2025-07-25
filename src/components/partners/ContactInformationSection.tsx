@@ -3,8 +3,23 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User, ChevronDown, ChevronUp, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
-import DemoSchedulingDialog from "./DemoSchedulingDialog";
+import { useState, useEffect } from "react";
+
+// Declare types for Google Calendar API
+declare global {
+  interface Window {
+    calendar?: {
+      schedulingButton?: {
+        load: (config: {
+          url: string;
+          color: string;
+          label: string;
+          target: HTMLElement | null;
+        }) => void;
+      };
+    };
+  }
+}
 
 interface ContactInformationSectionProps {
   selectedCategory: string;
@@ -142,6 +157,25 @@ const ContactInformationSection = ({
     }
   };
 
+  // Initialize Google Calendar scheduling button
+  useEffect(() => {
+    if (isExpanded) {
+      // Small delay to ensure the DOM element is rendered
+      const timer = setTimeout(() => {
+        if (window.calendar?.schedulingButton) {
+          window.calendar.schedulingButton.load({
+            url: "https://calendar.google.com/calendar/appointments/schedules/AcZssZ0w8kDaZKKuVR2JYFaScABHMmLQKqIyZMxm_xkFO8VH8LV-bpVMJJwdq6CXQXVF5GrH4pjJJGgF",
+            color: "#4285F4",
+            label: "Schedule Demo",
+            target: document.getElementById("schedule-demo-button")
+          });
+        }
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isExpanded]);
+
   return (
     <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
       <CardHeader 
@@ -231,15 +265,7 @@ const ContactInformationSection = ({
             </div>
 
             <div className="pt-3 space-y-3">
-              <DemoSchedulingDialog>
-                <Button 
-                  type="button"
-                  className="w-full h-12 md:h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base"
-                >
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Schedule Demo
-                </Button>
-              </DemoSchedulingDialog>
+              <div id="schedule-demo-button" className="w-full"></div>
               
               <Button 
                 type="submit" 
