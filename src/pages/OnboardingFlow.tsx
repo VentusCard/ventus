@@ -111,9 +111,7 @@ const OnboardingFlow = () => {
               </span>
             </h1>
             
-            <p className="text-sm md:text-lg text-blue-100 leading-relaxed max-w-5xl mx-auto">Most rewards cards are built for categories, not people. Ventus is here to change that. 
-            <br />
-            We start with your personal goals: like getting healthier, training for your next race, or just taking better care of your dog or home, we then build rewards and curate deals around the things you actually care about. Ventus will find the right offers for you, no more switching cards or missing out on rewards.</p>
+            <p className="text-sm md:text-lg text-blue-100 leading-relaxed max-w-5xl mx-auto">Most cards reward categories. Ventus rewards you. We start with your goals—like fitness, pet care, or home upgrades—and tailor rewards and deals around them. No more switching cards or missing out.</p>
           </div>
         </div>
 
