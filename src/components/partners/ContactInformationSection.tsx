@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { User, ChevronDown, ChevronUp } from "lucide-react";
+import { User, ChevronDown, ChevronUp, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState } from "react";
+import DemoSchedulingDialog from "./DemoSchedulingDialog";
 
 interface ContactInformationSectionProps {
   selectedCategory: string;
@@ -229,13 +230,24 @@ const ContactInformationSection = ({
               />
             </div>
 
-            <div className="pt-3">
+            <div className="pt-3 space-y-3">
+              <DemoSchedulingDialog>
+                <Button 
+                  type="button"
+                  className="w-full h-12 md:h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base"
+                >
+                  <Calendar className="h-4 w-4 mr-2" />
+                  Schedule Demo
+                </Button>
+              </DemoSchedulingDialog>
+              
               <Button 
                 type="submit" 
                 disabled={isSubmitting}
-                className="w-full h-12 md:h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                variant="outline"
+                className="w-full h-12 md:h-12 border-2 border-blue-600 text-blue-600 hover:bg-blue-50 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? "Submitting..." : "Submit to Join the Merchant Waitlist"}
+                {isSubmitting ? "Submitting..." : "Join Merchant Waitlist"}
               </Button>
             </div>
 
