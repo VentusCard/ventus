@@ -76,7 +76,7 @@ const OnboardingFlow = () => {
   const getStepTitle = (stepNum: number) => {
     switch (stepNum) {
       case 1:
-        return 'Choose Your Lifestyle Goal & Subcategories';
+        return 'Choose Your Reward Profile and Subcategories';
       case 2:
         return 'Understand Ventus Value & Explore Deals';
       case 3:
