@@ -30,7 +30,8 @@ import {
   Home, 
   Sofa, 
   Sprout, 
-  Wrench 
+  Wrench,
+  Smile
 } from "lucide-react";
 
 export const dealIcons = {
@@ -53,6 +54,7 @@ export const dealIcons = {
   "Nutrition and Supplements": Pill,
   "Spa and Recovery": Sparkles,
   "Meditation and Mindfulness": Heart,
+  "Skincare and Haircare": Smile,
   // Pet icons - updated to match standardized names
   "Dog Owners": Dog,
   "Cat Owners": Cat,

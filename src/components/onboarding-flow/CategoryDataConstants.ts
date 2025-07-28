@@ -412,6 +412,27 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       item: "Books/journals",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
+    }],
+    "Skincare and Haircare": [{
+      item: "Skincare products",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Haircare products",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Face treatments",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Hair salon services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Beauty subscriptions",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
     }]
   },
   pets: {

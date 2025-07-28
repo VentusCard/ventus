@@ -120,6 +120,14 @@ export const exampleDeals = {
       "Free incense or eye mask with order",
       "Local offers for mindfulness classes and meetups", 
       "Bundle discounts on journals, mats, and accessories"
+    ],
+    "Skincare and Haircare": [
+      "Extra cashback on premium skincare and haircare products",
+      "Extra points on salon services and beauty treatments",
+      "Free travel-sized products with skincare routine purchases",
+      "Local spa and salon partnership discounts",
+      "Bundle deals on complete skincare regimens and hair care sets",
+      "Exclusive access to new product launches and beauty box subscriptions"
     ]
   },
   pets: {
