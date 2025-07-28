@@ -10,6 +10,16 @@ const SelectedCategoriesImpactCard = ({
   selectedGoal,
   selectedSubcategories
 }: SelectedCategoriesImpactCardProps) => {
+  // Transform card names to show reward multipliers
+  const transformCardName = (cardName: string) => {
+    const cardTransformations: Record<string, string> = {
+      "Shopping Cashback Card": "3x with Shopping Card",
+      "General Cashback Card": "2x with General Cash Back Card",
+      "Dining Card": "4x with Dining Card"
+    };
+    return cardTransformations[cardName] || cardName;
+  };
+
   // Get the relevant categories for selected subcategories with debugging
   const getSelectedCategoryData = () => {
     const goalData = categoryData[selectedGoal] || {};
@@ -49,7 +59,7 @@ const SelectedCategoriesImpactCard = ({
                     <div className="flex items-center gap-2 flex-wrap">
                       <span className="text-xs text-slate-500 hidden sm:inline">was</span>
                       <div className={`px-2 py-1 ${item.color} text-white text-xs rounded opacity-60 line-through flex-shrink-0`}>
-                        {item.card}
+                        {transformCardName(item.card)}
                       </div>
                       <span className="text-xs text-blue-600 hidden sm:inline">→</span>
                       <div className="px-2 md:px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs rounded font-bold flex-shrink-0">
