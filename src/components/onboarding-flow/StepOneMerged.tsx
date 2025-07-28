@@ -1,4 +1,3 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
@@ -52,7 +51,7 @@ const goalOptions: GoalOption[] = [{
 }, {
   id: "wellness",
   title: "Wellness",
-  description: "Treat yourself on spa treatments, supplements, and self-care essentials.",
+  description: "Earn more on spa treatments, wellness apps, supplements, and all self-care essentials.",
   availability: "Available Soon",
   year: "Available Soon",
   icon: "💚",
