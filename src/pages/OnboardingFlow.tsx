@@ -78,7 +78,7 @@ const OnboardingFlow = () => {
       case 1:
         return 'Choose Your Reward Profile and Subcategories';
       case 2:
-        return 'Understand Ventus Value & Explore Deals';
+        return 'Understand Ventus Smart Rewards And Ventus AI Deals';
       case 3:
         return 'Input Your Spending & Join Waitlist';
       default:
