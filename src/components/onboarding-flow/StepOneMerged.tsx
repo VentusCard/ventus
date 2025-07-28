@@ -51,7 +51,7 @@ const goalOptions: GoalOption[] = [{
 }, {
   id: "wellness",
   title: "Wellness",
-  description: "Earn more on fitness programs, mental health services, and wellness products.",
+  description: "Treat yourself on spa treatments, wellness apps, supplements, and all self-care essentials.",
   availability: "Available Soon",
   year: "Available Soon",
   icon: "💚",
