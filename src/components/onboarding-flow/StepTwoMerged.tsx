@@ -38,24 +38,48 @@ const StepTwoMerged = ({
         </h2>
         
 
-        <div className="bg-blue-50 p-6 rounded-xl border border-blue-200 mb-8">
-          <h3 className="font-display text-xl font-bold mb-4 text-blue-800">Your Personalized Merchant Deals</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div>
-              <h4 className="font-semibold text-blue-700 mb-2">Selected Categories:</h4>
-              <div className="flex flex-wrap gap-2">
-                {selectedSubcategories.map(sub => {
-                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
-                return <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
-                      {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
-                      {sub}
-                    </span>;
-              })}
-              </div>
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-8 rounded-2xl border-2 border-blue-100 mb-8 shadow-sm">
+          <div className="text-center mb-6">
+            <h3 className="font-display text-2xl font-bold text-blue-900 mb-2">🎯 Your Personalized Deal Strategy</h3>
+            <p className="text-blue-700 text-lg">Here's how Ventus AI will work for you</p>
+          </div>
+          
+          <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-blue-100">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
+              <h4 className="font-bold text-gray-800 text-lg">Your Selected Categories</h4>
             </div>
-            <div>
-              <h4 className="font-semibold text-blue-700 mb-2">What This Means:</h4>
-              <p className="text-sm text-blue-600">Ventus AI will continuously find and secure exclusive deals with merchants in your selected categories, ensuring you always get the best rewards.</p>
+            <div className="flex flex-wrap gap-2">
+              {selectedSubcategories.map(sub => {
+                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
+                return (
+                  <span key={sub} className="flex items-center gap-2 px-4 py-2 bg-blue-100 text-blue-800 rounded-full text-sm font-medium border border-blue-200">
+                    {CategoryIcon && <CategoryIcon className="h-4 w-4" />}
+                    {sub}
+                  </span>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="bg-white rounded-xl p-6 shadow-sm border border-blue-100">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
+              <h4 className="font-bold text-gray-800 text-lg">What Happens Next</h4>
+            </div>
+            <div className="space-y-3">
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-gray-700">Ventus AI continuously monitors deals from merchants in your categories</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-gray-700">We automatically find the best cashback rates and exclusive offers</p>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                <p className="text-gray-700">You get notified of deals that match your spending habits</p>
+              </div>
             </div>
           </div>
         </div>
