@@ -66,7 +66,7 @@ const StepTwoMerged = ({
           return <div key={category} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
                   <div className="flex items-center gap-3 mb-4">
                     {CategoryIcon && <CategoryIcon className="h-6 w-6 text-blue-600" />}
-                    <h3 className="font-bold text-xl text-slate-800">{category}</h3>
+                    <h3 className="font-bold text-xl text-slate-800">Example Deals in {category}</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {selectedDeals[category]?.map((deal, index) => {
