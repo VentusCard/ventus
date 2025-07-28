@@ -91,7 +91,7 @@ const StepTwoMerged = ({
 
         <div className="text-center mt-8">
           <p className="text-slate-600 text-base font-bold">
-            Ready to see your potential rewards? Let's input your spending habits in the next step.
+            Ready to see your potential rewards?
           </p>
         </div>
       </div>
