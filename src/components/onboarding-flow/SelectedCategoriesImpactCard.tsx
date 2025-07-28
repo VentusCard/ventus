@@ -57,7 +57,7 @@ const SelectedCategoriesImpactCard = ({
                 {items.map((item, index) => <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 bg-blue-50 rounded-lg gap-2 sm:gap-2">
                     <span className="text-slate-700 font-medium text-sm md:text-base leading-relaxed">{item.item}</span>
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-xs text-slate-500 hidden sm:inline">was</span>
+                      
                       <div className={`px-2 py-1 ${item.color} text-white text-xs rounded opacity-60 line-through flex-shrink-0`}>
                         {transformCardName(item.card)}
                       </div>
