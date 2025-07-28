@@ -5,84 +5,96 @@ export const exampleDeals = {
       "Extra points on golf rounds and club services", 
       "Free gift with purchase at golf pro shops",
       "Local offers like free balls or discounted lessons at nearby clubs", 
-      "Bundle discounts on golf gear and accessories"
+      "Bundle discounts on golf gear and accessories",
+      "VIP access to exclusive tournament events and celebrity golf days"
     ],
     "Tennis/Racquet Sports": [
       "Extra cashback on tennis gear", 
       "Extra points on court fees and lessons", 
       "Free gift with purchase at tennis retailers",
       "Local offers like demo sessions at neighborhood courts", 
-      "Bundle discounts on racquets, shoes, and accessories"
+      "Bundle discounts on racquets, shoes, and accessories",
+      "Priority booking at premium courts and exclusive club access"
     ],
     "Running/Track": [
       "Extra cashback on running shoes and apparel", 
       "Extra points on race entry fees and fitness apps", 
       "Free water bottle or socks with qualifying purchase",
       "Local offers like free entry to group runs", 
-      "Bundle discounts on running gear packages"
+      "Bundle discounts on running gear packages",
+      "Exclusive early access to limited edition running shoe releases"
     ],
     "Basketball": [
       "Extra cashback on team uniforms and gear", 
       "Extra points on league signups and coaching services", 
       "Free gift with team purchases over a certain amount",
       "Local deals at sporting goods stores or event tickets", 
-      "Bundle discounts on team packs and equipment"
+      "Bundle discounts on team packs and equipment",
+      "Premium seats and meet-and-greet opportunities at pro basketball games"
     ],
     "Football": [
       "Extra cashback on team uniforms and gear", 
       "Extra points on league signups and coaching services", 
       "Free gift with team purchases over a certain amount",
       "Local deals at sporting goods stores or event tickets", 
-      "Bundle discounts on team packs and equipment"
+      "Bundle discounts on team packs and equipment",
+      "Exclusive access to training camps and autograph sessions with players"
     ],
     "Soccer": [
       "Extra cashback on team uniforms and gear", 
       "Extra points on league signups and coaching services", 
       "Free gift with team purchases over a certain amount",
       "Local deals at sporting goods stores or event tickets", 
-      "Bundle discounts on team packs and equipment"
+      "Bundle discounts on team packs and equipment",
+      "VIP stadium tours and behind-the-scenes access at professional matches"
     ],
     "Outdoor Activities": [
       "Extra cashback on hiking and camping gear", 
       "Extra points on guided trips and rentals", 
       "Free gift with outdoor store purchases",
       "Local offers like park passes or tour discounts", 
-      "Bundle discounts on tents, packs, and gear kits"
+      "Bundle discounts on tents, packs, and gear kits",
+      "Exclusive access to private nature reserves and guided wilderness expeditions"
     ],
     "Cycling/Biking": [
       "Extra cashback on bikes and cycling gear", 
       "Extra points on bike maintenance and rentals", 
       "Free cycling accessories with bike purchase",
       "Local bike shop discounts and tune-up deals", 
-      "Bundle discounts on helmet, lights, and safety gear"
+      "Bundle discounts on helmet, lights, and safety gear",
+      "Priority entry to cycling events and exclusive group rides with pro cyclists"
     ],
     "Water Sports": [
       "Extra cashback on swimwear and water gear", 
       "Extra points on pool memberships and lessons", 
       "Free water bottle or goggles with purchase",
       "Local swim club and aquatic center deals", 
-      "Bundle discounts on swim gear and accessories"
+      "Bundle discounts on swim gear and accessories",
+      "Exclusive access to private beach clubs and water sports training sessions"
     ],
     "Snow Sports": [
       "Extra cashback on ski and snowboard equipment", 
       "Extra points on lift tickets and lessons", 
       "Free gear rental with equipment purchase",
       "Local mountain resort discounts and packages", 
-      "Bundle deals on winter sports gear and apparel"
+      "Bundle deals on winter sports gear and apparel",
+      "VIP lodge access and priority lift lines at premium ski resorts"
     ],
     "Fitness/Gym": [
       "Extra cashback on gym memberships and equipment", 
       "Extra points on personal training sessions", 
       "Free gym bag with membership signup",
       "Local fitness studio class passes and deals", 
-      "Bundle discounts on workout gear and supplements"
+      "Bundle discounts on workout gear and supplements",
+      "Exclusive access to celebrity trainer workshops and premium fitness classes"
     ],
     "Yoga/Pilates": [
       "Extra cashback on yoga mats and accessories", 
       "Extra points on class packages and retreats", 
       "Free meditation cushion with studio membership",
       "Local yoga studio discounts and workshops", 
-      "Bundle deals on yoga props and wellness items"
+      "Bundle deals on yoga props and wellness items",
+      "Private sessions with renowned instructors and exclusive retreat experiences"
     ]
   },
   wellness: {
