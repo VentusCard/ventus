@@ -246,16 +246,6 @@ const StepOneMerged = ({
                   </div>
                 </div>}
 
-              {selectedGoal === option.id && <div className="mt-4 pt-4 border-t border-blue-200">
-                  <p className="text-xs font-medium text-blue-700 mb-2">Get Ventus Rewards at:</p>
-                  <div className="space-y-1">
-                    {option.merchants.slice(0, 3).map((merchant, idx) => <div key={idx}>
-                        <p className="text-xs font-medium text-slate-700">{merchant.category}:</p>
-                        <p className="text-xs text-slate-600">{merchant.brands.join(", ")}</p>
-                      </div>)}
-                    <p className="text-xs text-slate-500 italic">And many more...</p>
-                  </div>
-                </div>}
             </CardContent>
           </Card>)}
       </div>
