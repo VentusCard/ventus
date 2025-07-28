@@ -6,35 +6,26 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail, User, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-const categories = [{
-  value: "Sports",
-  label: "Sports"
-}, {
-  value: "Wellness",
-  label: "Wellness"
-}, {
-  value: "Pet Owners",
-  label: "Pet Owners"
-}, {
-  value: "Gamers",
-  label: "Gamers"
-}, {
-  value: "Creatives",
-  label: "Creatives"
-}, {
-  value: "Homeowners",
-  label: "Homeowners"
-}];
+
+const categories = [
+  { value: "Sports", label: "Sports" },
+  { value: "Wellness", label: "Wellness" },
+  { value: "Pet Owners", label: "Pet Owners" },
+  { value: "Gamers", label: "Gamers" },
+  { value: "Creatives", label: "Creatives" },
+  { value: "Homeowners", label: "Homeowners" },
+];
+
 const JoinWaitlist = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setHasAttemptedSubmit(true);
     setIsSubmitting(true);
+
     const form = event.currentTarget;
     const formData = new FormData(form);
 
@@ -61,6 +52,7 @@ const JoinWaitlist = () => {
     console.log('Request headers will be:', {
       'Content-Type': 'application/x-www-form-urlencoded'
     });
+
     try {
       console.log('Sending request to Google Apps Script...');
       console.log('Full request details:', {
@@ -72,6 +64,7 @@ const JoinWaitlist = () => {
         bodyType: 'URLSearchParams',
         bodyContent: urlEncodedData
       });
+
       const response = await fetch('https://script.google.com/macros/s/AKfycbzUjoWHPD7UPljx7Bc0V8IY-BVv2xcKRAvfeojE6HMvf5hyp2-KRVol42uw4ZBGCxVO/exec', {
         method: 'POST',
         headers: {
@@ -79,8 +72,10 @@ const JoinWaitlist = () => {
         },
         body: urlEncodedData
       });
+
       console.log('Response status:', response.status);
       console.log('Response headers:', Object.fromEntries(response.headers.entries()));
+      
       const responseText = await response.text();
       console.log('Response text:', responseText);
       console.log('Response text length:', responseText.length);
@@ -88,7 +83,8 @@ const JoinWaitlist = () => {
 
       // Google Apps Script typically returns 302 for successful form submissions
       // We'll consider 200, 201, 302 as success, and also check if response contains success indicators
-      if (response.status === 200 || response.status === 201 || response.status === 302 || responseText && responseText.toLowerCase().includes('success')) {
+      if (response.status === 200 || response.status === 201 || response.status === 302 || 
+          (responseText && responseText.toLowerCase().includes('success'))) {
         toast({
           title: "Successfully joined the waitlist!",
           description: "We'll notify you when Ventus Card becomes available."
@@ -111,6 +107,7 @@ const JoinWaitlist = () => {
       } else if (error instanceof Error) {
         errorMessage = `Submission failed: ${error.message}`;
       }
+
       toast({
         title: "Submission failed",
         description: errorMessage,
@@ -120,7 +117,9 @@ const JoinWaitlist = () => {
       setIsSubmitting(false);
     }
   };
-  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
       <Navbar />
       
       {/* Hero Section - Mobile Optimized */}
@@ -150,7 +149,7 @@ const JoinWaitlist = () => {
               <CardTitle className="flex items-center justify-center gap-3 text-xl md:text-2xl font-bold">
                 Join the Waitlist
               </CardTitle>
-              <p className="text-slate-600 mt-3 text-sm md:text-base px-2 leading-relaxed">Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans. Waitlist members get one year of Premium Tier for free ($99 Value).</p>
+              <p className="text-slate-600 mt-3 text-sm md:text-base px-2 leading-relaxed">Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
             </CardHeader>
 
             <CardContent className="px-4 md:px-8 pb-6 md:pb-8">
@@ -163,7 +162,15 @@ const JoinWaitlist = () => {
                       </span>
                       First Name
                     </label>
-                    <Input id="firstName" name="firstName" type="text" placeholder="Enter your first name" className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`} minLength={2} required />
+                    <Input 
+                      id="firstName" 
+                      name="firstName" 
+                      type="text" 
+                      placeholder="Enter your first name" 
+                      className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`}
+                      minLength={2}
+                      required 
+                    />
                   </div>
 
                   <div className="form-field">
@@ -173,7 +180,15 @@ const JoinWaitlist = () => {
                       </span>
                       Last Name
                     </label>
-                    <Input id="lastName" name="lastName" type="text" placeholder="Enter your last name" className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`} minLength={2} required />
+                    <Input 
+                      id="lastName" 
+                      name="lastName" 
+                      type="text" 
+                      placeholder="Enter your last name" 
+                      className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`}
+                      minLength={2}
+                      required 
+                    />
                   </div>
                 </div>
 
@@ -184,11 +199,18 @@ const JoinWaitlist = () => {
                     </span>
                     Main Interest Category
                   </label>
-                  <select id="interest" name="interest" className={`mobile-select flex h-12 w-full rounded-md border bg-white px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400 invalid:border-red-500 invalid:focus-visible:border-red-500 invalid:focus-visible:ring-red-500" : "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400"}`} required>
+                  <select 
+                    id="interest" 
+                    name="interest" 
+                    className={`mobile-select flex h-12 w-full rounded-md border bg-white px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400 invalid:border-red-500 invalid:focus-visible:border-red-500 invalid:focus-visible:ring-red-500" : "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400"}`}
+                    required
+                  >
                     <option value="" disabled>Select your main interest category</option>
-                    {categories.map(category => <option key={category.value} value={category.value}>
+                    {categories.map((category) => (
+                      <option key={category.value} value={category.value}>
                         {category.label}
-                      </option>)}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -199,7 +221,13 @@ const JoinWaitlist = () => {
                     </span>
                     Referral Code (Optional)
                   </label>
-                  <Input id="referralCode" name="referralCode" type="text" placeholder="Enter referral code if you have one" className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`} />
+                  <Input 
+                    id="referralCode" 
+                    name="referralCode" 
+                    type="text" 
+                    placeholder="Enter referral code if you have one" 
+                    className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`}
+                  />
                 </div>
 
                 <div className="form-field">
@@ -209,11 +237,22 @@ const JoinWaitlist = () => {
                     </span>
                     Email Address
                   </label>
-                  <Input id="email" name="email" type="email" placeholder="Enter your email address" className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`} required />
+                  <Input 
+                    id="email" 
+                    name="email" 
+                    type="email" 
+                    placeholder="Enter your email address" 
+                    className={`mobile-input h-12 text-base transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20 invalid:border-red-500 invalid:focus:border-red-500 invalid:focus:ring-red-500/20" : "border-slate-200 focus:border-blue-400 focus:ring-blue-400/20"}`}
+                    required 
+                  />
                 </div>
 
                 <div className="pt-2 md:pt-4">
-                  <Button type="submit" className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-base active:scale-95" disabled={isSubmitting}>
+                  <Button 
+                    type="submit" 
+                    className="w-full h-12 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-base active:scale-95"
+                    disabled={isSubmitting}
+                  >
                     {isSubmitting ? "Joining Waitlist..." : "Join the Waitlist"}
                   </Button>
                 </div>
@@ -232,6 +271,8 @@ const JoinWaitlist = () => {
       </section>
 
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default JoinWaitlist;
