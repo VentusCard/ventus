@@ -164,7 +164,7 @@ const WaitlistForm = ({
           <p className="font-bold mb-2 text-lg md:text-lg">
             Be among the first to experience your personalized Ventus Card in 2026.
           </p>
-          <p className="text-base md:text-base">Waitlist members will be notified by order of sign up. Ventus will only be available in the USA for eligible customers. Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
+          <p className="text-base md:text-base">Be the first to experience Ventus. We're launching soon—exclusively for eligible U.S. customers, starting with our waitlist. Every Ventus account will be FDIC-insured at launch, delivering the security you expect and the innovation you've been waiting for.</p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4 mb-4">
