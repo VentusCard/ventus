@@ -97,7 +97,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-blue-500"
     }, {
       item: "Nutrition",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Basketball": [{
@@ -198,7 +198,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Trail food",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Cycling/Biking": [{
@@ -240,7 +240,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-blue-500"
     }, {
       item: "Pool/beach snacks",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Snow Sports": [{
@@ -282,7 +282,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Protein & supplements",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Yoga/Pilates": [{
@@ -326,7 +326,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Supplements",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Mental Health and Therapy": [{
@@ -352,11 +352,11 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
     }],
     "Nutrition and Supplements": [{
       item: "Meal kits",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Vitamins/proteins",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Nutritionist visits",
@@ -364,11 +364,11 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Health groceries",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Gut health products",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Spa and Recovery": [{
@@ -417,7 +417,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
   pets: {
     "Dog Essentials": [{
       item: "Food/treats",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Collars/beds",
@@ -438,7 +438,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
     }],
     "Cat Essentials": [{
       item: "Food/litter",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Subscriptions",
@@ -467,7 +467,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Medications",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Insurance",
@@ -475,28 +475,28 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Shampoo/dental care",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Pet Food and Nutrition": [{
       item: "Subscriptions",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Treats/supplements",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Breed-specific food",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Retail purchases",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
       item: "Autoship",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Pet Activities and Services": [{
@@ -817,7 +817,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Seasonal plants",
-      card: "Grocery Card",
+      card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Home Services": [{
