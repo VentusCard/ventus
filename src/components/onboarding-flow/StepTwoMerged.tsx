@@ -23,7 +23,7 @@ const StepTwoMerged = ({
   };
   const selectedDeals = exampleDeals[selectedGoal] || {};
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
-  return <div>
+  return <div className="space-y-4">
       {/* Selected Categories Impact - Moved to top */}
       <SelectedCategoriesImpactCard selectedGoal={selectedGoal} selectedSubcategories={selectedSubcategories} />
 
@@ -32,7 +32,7 @@ const StepTwoMerged = ({
       <VentusSimplificationSection />
 
       {/* Example Deals Section */}
-      <div className="mt-8">
+      <div className="mt-6">
         <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
           Exclusive Deals for {goalTitles[selectedGoal]} Enthusiasts
         </h2>
