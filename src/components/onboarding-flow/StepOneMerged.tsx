@@ -276,7 +276,7 @@ const StepOneMerged = ({
               {subcategories.map(subcategory => <button 
                 key={subcategory} 
                 onClick={() => toggleSubcategory(subcategory)} 
-                className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] relative ${
+                className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${
                   selectedSubcategories.includes(subcategory)
                     ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-lg'
                     : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-md'
@@ -288,13 +288,6 @@ const StepOneMerged = ({
                 }}
               >
                 <div className="font-medium text-sm">{subcategory}</div>
-                {selectedSubcategories.includes(subcategory) && (
-                  <div className="absolute top-2 right-2">
-                    <div className="w-4 h-4 bg-blue-500 rounded-full flex items-center justify-center">
-                      <Check className="h-2.5 w-2.5 text-white" />
-                    </div>
-                  </div>
-                )}
               </button>)}
             </div>
 
