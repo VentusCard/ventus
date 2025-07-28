@@ -1,4 +1,3 @@
-
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import SelectedCategoriesImpactCard from "./SelectedCategoriesImpactCard";
 import TraditionalVsVentusComparison from "./TraditionalVsVentusComparison";
@@ -6,12 +5,10 @@ import VentusSimplificationSection from "./VentusSimplificationSection";
 import { Card, CardContent } from "@/components/ui/card";
 import { dealIcons, getDealIcon } from "../onboarding/step-three/DealIcons";
 import { exampleDeals } from "../onboarding/step-three/ExampleDealsData";
-
 interface StepTwoMergedProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
 }
-
 const StepTwoMerged = ({
   selectedGoal,
   selectedSubcategories
@@ -24,17 +21,11 @@ const StepTwoMerged = ({
     creatives: "Creatives",
     homeowners: "Homeowners"
   };
-
   const selectedDeals = exampleDeals[selectedGoal] || {};
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
-
-  return (
-    <div>
+  return <div>
       {/* Selected Categories Impact - Moved to top */}
-      <SelectedCategoriesImpactCard 
-        selectedGoal={selectedGoal} 
-        selectedSubcategories={selectedSubcategories} 
-      />
+      <SelectedCategoriesImpactCard selectedGoal={selectedGoal} selectedSubcategories={selectedSubcategories} />
 
       <TraditionalVsVentusComparison />
 
@@ -45,9 +36,7 @@ const StepTwoMerged = ({
         <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
           Exclusive Deals for {goalTitles[selectedGoal]} Enthusiasts
         </h2>
-        <p className="text-lg text-slate-600 mb-8">
-          Here are some example deals and offers you'd have access to with Ventus Card based on your selected categories.
-        </p>
+        
 
         <div className="bg-blue-50 p-6 rounded-xl border border-blue-200 mb-8">
           <h3 className="font-display text-xl font-bold mb-4 text-blue-800">Your Personalized Merchant Deals</h3>
@@ -56,14 +45,12 @@ const StepTwoMerged = ({
               <h4 className="font-semibold text-blue-700 mb-2">Selected Categories:</h4>
               <div className="flex flex-wrap gap-2">
                 {selectedSubcategories.map(sub => {
-                  const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
-                  return (
-                    <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
+                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
+                return <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
                       {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
                       {sub}
-                    </span>
-                  );
-                })}
+                    </span>;
+              })}
               </div>
             </div>
             <div>
@@ -73,21 +60,18 @@ const StepTwoMerged = ({
           </div>
         </div>
 
-        {relevantCategories.length > 0 && (
-          <div className="space-y-6 mb-8">
+        {relevantCategories.length > 0 && <div className="space-y-6 mb-8">
             {relevantCategories.map(category => {
-              const CategoryIcon = dealIcons[category as keyof typeof dealIcons];
-              return (
-                <div key={category} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+          const CategoryIcon = dealIcons[category as keyof typeof dealIcons];
+          return <div key={category} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
                   <div className="flex items-center gap-3 mb-4">
                     {CategoryIcon && <CategoryIcon className="h-6 w-6 text-blue-600" />}
                     <h3 className="font-bold text-xl text-slate-800">{category}</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {selectedDeals[category]?.map((deal, index) => {
-                      const DealIcon = getDealIcon(deal);
-                      return (
-                        <Card key={index} className="bg-white border-slate-200 hover:shadow-md transition-all duration-300">
+                const DealIcon = getDealIcon(deal);
+                return <Card key={index} className="bg-white border-slate-200 hover:shadow-md transition-all duration-300">
                           <CardContent className="p-4">
                             <div className="flex items-center gap-3">
                               <div className="flex-shrink-0 p-2 bg-blue-50 rounded-full">
@@ -98,15 +82,12 @@ const StepTwoMerged = ({
                               </div>
                             </div>
                           </CardContent>
-                        </Card>
-                      );
-                    })}
+                        </Card>;
+              })}
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        )}
+                </div>;
+        })}
+          </div>}
 
         <div className="text-center mt-8">
           <p className="text-slate-600 text-base font-bold">
@@ -114,8 +95,6 @@ const StepTwoMerged = ({
           </p>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default StepTwoMerged;
