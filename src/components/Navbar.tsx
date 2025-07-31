@@ -105,7 +105,7 @@ const Navbar = () => {
         
         {/* Desktop Join Waitlist CTA */}
         <div className="hidden md:flex items-center">
-          <Link to="/join-waitlist" onClick={scrollToTop}>
+          <Link to="/smartrewards" onClick={scrollToTop}>
             <div className="relative group">
               {/* Subtle outer glow */}
               <div className="absolute inset-0 bg-blue-600/20 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -173,7 +173,7 @@ const Navbar = () => {
           
           {/* Mobile Join Waitlist Button */}
           <div className="pt-4">
-            <Link to="/join-waitlist" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
+            <Link to="/smartrewards" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
               <div className="w-full bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 py-4 shadow-lg border border-blue-700/30 text-center hover:bg-gradient-to-br hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 transition-all duration-300">
                 <span className="text-white font-semibold text-base tracking-wide">
                   Join Waitlist
