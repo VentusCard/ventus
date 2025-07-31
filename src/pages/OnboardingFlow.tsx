@@ -111,7 +111,7 @@ const OnboardingFlow = () => {
               </span>
             </h1>
             
-            <p className="text-sm md:text-lg text-blue-100 leading-relaxed max-w-5xl mx-auto">Most cards reward categories. Ventus rewards you. We start with your goals—like fitness, pet care, or home upgrades—and deliver cross-category rewards with tailored deals just for you. No more switching cards or missing out.</p>
+            <p className="text-sm md:text-lg text-blue-100 leading-relaxed max-w-5xl mx-auto">Most cards reward categories. Ventus rewards you. We start with your goals—like fitness, pet care, or home upgrades—and deliver cross-category rewards with tailored deals just for you. No more switching cards or missing out.<br />Choose your personalized reward profile below to join the waitlist!!</p>
           </div>
         </div>
 
