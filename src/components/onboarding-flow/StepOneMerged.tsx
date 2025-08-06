@@ -253,7 +253,7 @@ const StepOneMerged = ({
         pointerEvents: 'auto',
         WebkitTapHighlightColor: 'transparent'
       }}>
-            <h3 className="font-display text-lg font-bold mb-3">
+            <h3 className="font-display font-bold mb-3 text-2xl">
               Pick up to 3 areas you're interested in receiving deals and offers.
             </h3>
             <p className="text-base text-slate-600 mb-4">
