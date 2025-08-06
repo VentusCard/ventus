@@ -136,14 +136,6 @@ const OnboardingFlow = () => {
                   {stepNumber < totalSteps && <div className={`h-1 w-12 md:w-16 transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-400 to-emerald-300' : 'bg-slate-200'}`}></div>}
                 </div>)}
             </div>
-            
-            {/* Step Info - reduced spacing */}
-            <div className="text-center space-y-1">
-              
-              <h2 className="text-xl md:text-2xl font-display font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-                {getStepTitle(step)}
-              </h2>
-            </div>
           </div>
           
           {/* Step Content - mobile optimized with solid background for better touch interaction */}
