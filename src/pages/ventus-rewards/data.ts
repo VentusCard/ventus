@@ -22,11 +22,11 @@ export const lifestyleOptions: LifestyleOption[] = [
   {
     id: "pets",
     title: "Pet Owners",
-    description: "Dog & Cat Care, Grooming, Food & Services",
+    description: "Comprehensive pet care from essentials to specialized services",
     year: "Year One",
     icon: "🐕",
-    subcategories: ["Dog and Cat Essentials", "Grooming", "Food", "Vet Services"],
-    merchants: ["Petco", "Chewy", "VCA Animal Hospitals", "Rover"]
+    subcategories: ["Dog Essentials", "Cat Essentials", "Small Pets (Birds, Fish, Reptiles)", "Pet Food and Nutrition", "Grooming and Health", "Pet Training and Behavior", "Pet Toys and Entertainment", "Pet Insurance and Emergency Care", "Pet Travel and Boarding"],
+    merchants: ["Petco", "Chewy", "VCA Animal Hospitals", "Rover", "PetSmart", "Banfield Pet Hospital"]
   },
   {
     id: "gamers",
@@ -124,29 +124,59 @@ export const getExamplePurchases = (goal: LifestyleGoal, subcategory: string): E
       ]
     },
     pets: {
-      "Dog and Cat Essentials": [
+      "Dog Essentials": [
         { category: "Dog Toys & Accessories", cardType: "Shopping Card", cardColor: "bg-blue-500" },
         { category: "Dog Walking Services", cardType: "General Card", cardColor: "bg-gray-500" },
         { category: "Pet-Friendly Restaurants", cardType: "Dining Card", cardColor: "bg-red-500" },
         { category: "Dog Food & Treats", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Grooming": [
-        { category: "Grooming Supplies", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Professional Grooming", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Post-Grooming Treats", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Pet Shampoos", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Cat Essentials": [
+        { category: "Cat Trees & Scratching Posts", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Cat Sitting Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Cat Café Visits", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Cat Food & Litter", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Food": [
-        { category: "Pet Food Bowls", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+      "Small Pets (Birds, Fish, Reptiles)": [
+        { category: "Habitats & Terrariums", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Exotic Pet Veterinary Care", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Pet Store Workshops", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Specialized Pet Food", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Food and Nutrition": [
+        { category: "Pet Food Bowls & Feeders", cardType: "Shopping Card", cardColor: "bg-blue-500" },
         { category: "Pet Nutrition Consultation", cardType: "General Card", cardColor: "bg-gray-500" },
         { category: "Pet Bakery Treats", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Premium Pet Food", cardType: "Grocery Card", cardColor: "bg-green-500" }
+        { category: "Premium Pet Food & Supplements", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Vet Services": [
-        { category: "Pet Health Monitors", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Veterinary Care", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Recovery Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Pet Medications", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Grooming and Health": [
+        { category: "Grooming Supplies & Tools", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Professional Grooming & Vet Care", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Post-Grooming Celebration", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Pet Shampoos & Medications", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Training and Behavior": [
+        { category: "Training Equipment & Clickers", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Training Classes & Consultations", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Training Success Celebrations", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Training Treats & Rewards", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Toys and Entertainment": [
+        { category: "Interactive & Puzzle Toys", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Pet Entertainment Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Pet Playdate Gatherings", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Enrichment Treats & Toys", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Insurance and Emergency Care": [
+        { category: "Pet Health Monitors & First Aid", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Pet Insurance & Emergency Vet", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Recovery & Comfort Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Emergency Pet Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Travel and Boarding": [
+        { category: "Pet Carriers & Travel Gear", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Pet Boarding & Travel Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Pet-Friendly Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Travel Comfort Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ]
     },
     gamers: {

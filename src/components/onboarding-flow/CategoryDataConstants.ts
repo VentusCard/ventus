@@ -500,91 +500,179 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
   },
   pets: {
     "Dog Essentials": [{
-      item: "Food/treats",
+      item: "Food & treats",
       card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
-      item: "Collars/beds",
+      item: "Leashes & collars",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Vet visits",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
+      item: "Dog beds & carriers",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
     }, {
-      item: "Grooming/daycare",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
+      item: "Training gear",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
     }, {
-      item: "Walking apps",
+      item: "Dog walking services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Cat Essentials": [{
-      item: "Food/litter",
+      item: "Cat food & litter",
       card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
-      item: "Subscriptions",
+      item: "Litter boxes",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Cat trees & scratching posts",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Cat toys & accessories",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Cat sitting services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Small Pets (Birds, Fish, Reptiles)": [{
+      item: "Specialized food",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Habitats & terrariums",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Habitat decorations",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Care equipment",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Exotic vet care",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Pet Food and Nutrition": [{
+      item: "Premium pet food",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Pet supplements",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Prescription diets",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Nutritional treats",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Pet nutritionist consultations",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Grooming and Health": [{
+      item: "Grooming services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Grooming",
+      item: "Veterinary care",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Vet care",
+      item: "Pet medications",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Grooming supplies",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Dental care products",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }],
+    "Pet Training and Behavior": [{
+      item: "Training classes",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Toys/carriers",
+      item: "Behavioral consultations",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Training treats",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Training equipment",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Puppy kindergarten",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Pet Toys and Entertainment": [{
+      item: "Interactive toys",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Puzzle toys",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Pet subscription boxes",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Smart pet tech",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Agility equipment",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }],
-    "Grooming and Health": [{
-      item: "Vet clinics",
+    "Pet Insurance and Emergency Care": [{
+      item: "Pet insurance premiums",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Grooming sessions",
+      item: "Emergency vet services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Medications",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
-    }, {
-      item: "Insurance",
+      item: "Wellness plans",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Shampoo/dental care",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
+      item: "Pet first aid supplies",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Specialist veterinary care",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
     }],
-    "Pet Food and Nutrition": [{
-      item: "Subscriptions",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
+    "Pet Travel and Boarding": [{
+      item: "Pet carriers & travel gear",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
     }, {
-      item: "Treats/supplements",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
-    }, {
-      item: "Breed-specific food",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
-    }, {
-      item: "Retail purchases",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
-    }, {
-      item: "Autoship",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
-    }],
-    "Pet Activities and Services": [{
-      item: "Boarding",
+      item: "Pet boarding services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
@@ -592,17 +680,13 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Daycare",
+      item: "Pet travel insurance",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Training",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
-    }, {
-      item: "Adoption events",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
+      item: "Travel comfort items",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
     }]
   },
   gamers: {

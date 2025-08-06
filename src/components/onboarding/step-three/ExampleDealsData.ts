@@ -163,40 +163,77 @@ export const exampleDeals = {
     ]
   },
   pets: {
-    "Dog Owners": [
-      "Extra cashback on leashes, collars, and toys", 
-      "Extra points on grooming and vet services", 
-      "Free toy with purchase of food or treats",
-      "Local dog park memberships and spa deals", 
-      "Bundle discounts on starter kits for new dog owners"
+    "Dog Essentials": [
+      "Extra cashback on leashes, collars, and training gear",
+      "Extra points on dog walking and daycare services",
+      "Free toy with purchase of dog supplies over $50",
+      "Local dog park memberships and playtime sessions",
+      "Bundle discounts on new puppy starter kits",
+      "VIP access to exclusive dog training workshops and behaviorist consultations"
     ],
-    "Cat Owners": [
-      "Extra cashback on litter boxes, beds, and toys", 
-      "Extra points on cat sitting or vet visits", 
-      "Free teaser toy or scratching pad with order",
-      "Local offers for grooming or boarding", 
-      "Bundle discounts on cat wellness packs"
+    "Cat Essentials": [
+      "Extra cashback on litter boxes, cat trees, and scratching posts",
+      "Extra points on cat sitting and boarding services",
+      "Free feather toy or catnip with qualifying purchase",
+      "Local cat café visits and feline behavior workshops",
+      "Bundle discounts on complete cat comfort packages",
+      "Priority booking at premium cat grooming and wellness centers"
     ],
-    "Grooming and Health": [
-      "Extra cashback on pet grooming services", 
-      "Extra points on vet plans and health kits", 
-      "Free pet shampoo with qualifying purchase",
-      "Local vet and grooming discounts", 
-      "Bundle offers on grooming tools and health supplements"
+    "Small Pets (Birds, Fish, Reptiles)": [
+      "Extra cashback on specialized habitats and terrariums",
+      "Extra points on exotic pet veterinary care",
+      "Free habitat decoration with tank or cage purchase",
+      "Local exotic pet store workshops and care sessions",
+      "Bundle discounts on species-specific care packages",
+      "Exclusive access to rare breed shows and exotic pet communities"
     ],
     "Pet Food and Nutrition": [
-      "Extra cashback on premium pet food", 
-      "Extra points on recurring food delivery", 
-      "Free treats with subscription",
-      "Local shop promotions and sampling days", 
-      "Bundle discounts on food and nutrition kits"
+      "Extra cashback on premium and prescription pet foods",
+      "Extra points on recurring pet food delivery subscriptions",
+      "Free nutritional treats with bulk food purchases",
+      "Local pet nutritionist consultations and feeding workshops",
+      "Bundle discounts on complete nutrition and supplement packages",
+      "Early access to new premium food launches and specialty diets"
     ],
-    "Pet Activities and Services": [
-      "Extra cashback on training and pet daycare", 
-      "Extra points on pet events or classes", 
-      "Free day pass at partner services",
-      "Local doggy yoga or hike meetups", 
-      "Bundle deals on activity gear and subscriptions"
+    "Grooming and Health": [
+      "Extra cashback on professional grooming and spa services",
+      "Extra points on veterinary checkups and wellness plans",
+      "Free pet shampoo or dental care kit with grooming package",
+      "Local mobile grooming services and at-home vet visits",
+      "Bundle offers on complete health and grooming tool sets",
+      "Priority scheduling at top-rated veterinary clinics and specialists"
+    ],
+    "Pet Training and Behavior": [
+      "Extra cashback on training classes and behavioral consultations",
+      "Extra points on puppy kindergarten and obedience programs",
+      "Free training treats and clicker with course enrollment",
+      "Local dog training meetups and socialization events",
+      "Bundle discounts on private training sessions and behavior modification",
+      "Access to certified animal behaviorist workshops and advanced training"
+    ],
+    "Pet Toys and Entertainment": [
+      "Extra cashback on interactive and puzzle toys",
+      "Extra points on pet entertainment subscriptions and toy boxes",
+      "Free enrichment toy with purchase of entertainment bundle",
+      "Local pet playdates and agility course access",
+      "Bundle discounts on seasonal toy collections and activity sets",
+      "Exclusive early access to innovative toy launches and smart pet tech"
+    ],
+    "Pet Insurance and Emergency Care": [
+      "Extra cashback on pet insurance premiums and wellness plans",
+      "Extra points on emergency veterinary services and urgent care",
+      "Free first aid kit with insurance enrollment",
+      "Local emergency vet clinic partnerships and 24/7 hotlines",
+      "Bundle discounts on comprehensive coverage and preventive care",
+      "Priority access to specialist veterinarians and emergency facilities"
+    ],
+    "Pet Travel and Boarding": [
+      "Extra cashback on pet carriers, travel gear, and boarding services",
+      "Extra points on pet-friendly hotel bookings and travel insurance",
+      "Free travel comfort items with carrier or crate purchase",
+      "Local pet-friendly destination guides and travel planning",
+      "Bundle discounts on complete travel safety and comfort packages",
+      "VIP pet concierge services and luxury boarding facility access"
     ]
   },
   gamers: {
