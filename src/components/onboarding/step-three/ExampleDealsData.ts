@@ -103,63 +103,72 @@ export const exampleDeals = {
       "Extra points on personal training and fitness classes", 
       "Free workout gear with gym membership signup",
       "Local fitness studio partnerships and class packages", 
-      "Bundle discounts on recovery tools and massage services"
+      "Bundle discounts on recovery tools and massage services",
+      "VIP access to exclusive fitness boot camps and recovery specialist consultations"
     ],
     "Mental Health and Mindfulness": [
       "Extra cashback on therapy sessions and mental health apps", 
       "Extra points on meditation retreats and mindfulness courses", 
       "Free wellness journal with therapy platform subscription",
       "Local mindfulness workshops and support group discounts", 
-      "Bundle deals on meditation equipment and stress relief tools"
+      "Bundle deals on meditation equipment and stress relief tools",
+      "Priority access to renowned meditation teachers and exclusive wellness retreats"
     ],
     "Nutrition and Supplements": [
       "Extra cashback on vitamins, proteins, and health supplements", 
       "Extra points on nutritionist consultations and meal plans", 
       "Free sample packs with supplement subscriptions",
       "Local health food store partnerships and nutrition seminars", 
-      "Bundle discounts on complete wellness nutrition packages"
+      "Bundle discounts on complete wellness nutrition packages",
+      "Exclusive access to certified nutritionist meal planning and personalized supplement regimens"
     ],
     "Beauty and Cosmetics": [
       "Extra cashback on makeup and beauty products",
       "Extra points on professional makeup services and tutorials",
       "Free beauty samples with cosmetic purchases",
       "Local beauty salon partnerships and makeup workshops",
-      "Bundle deals on complete makeup collections and beauty tools"
+      "Bundle deals on complete makeup collections and beauty tools",
+      "VIP early access to limited edition beauty collections and celebrity makeup artist consultations"
     ],
     "Haircare and Skincare": [
       "Extra cashback on premium skincare and haircare products",
       "Extra points on salon services and spa treatments",
       "Free travel-sized products with routine purchases",
       "Local spa and salon partnership discounts",
-      "Bundle deals on complete skincare and haircare regimens"
+      "Bundle deals on complete skincare and haircare regimens",
+      "Priority booking at luxury spas and exclusive access to professional-grade beauty treatments"
     ],
     "Sleep and Restfulness": [
       "Extra cashback on sleep aids and bedding essentials",
       "Extra points on sleep tracking devices and apps",
       "Free sleep mask with bedding purchases",
       "Local sleep clinic partnerships and consultations",
-      "Bundle discounts on complete sleep optimization packages"
+      "Bundle discounts on complete sleep optimization packages",
+      "Exclusive access to sleep specialists and personalized sleep environment consultations"
     ],
     "Women's Health": [
       "Extra cashback on women's health products and supplements",
       "Extra points on prenatal care and women's wellness services",
       "Free health tracking tools with women's vitamin subscriptions",
       "Local women's health clinic partnerships and workshops",
-      "Bundle deals on comprehensive women's wellness packages"
+      "Bundle deals on comprehensive women's wellness packages",
+      "Priority access to women's health specialists and exclusive wellness community events"
     ],
     "Men's Health": [
       "Extra cashback on men's health supplements and grooming products",
       "Extra points on men's health services and fitness programs",
       "Free grooming kit with men's health supplement purchases",
       "Local men's health clinic partnerships and fitness programs",
-      "Bundle discounts on complete men's wellness packages"
+      "Bundle discounts on complete men's wellness packages",
+      "VIP access to men's health experts and exclusive male wellness community programs"
     ],
     "Retreats and Experiences": [
       "Extra cashback on wellness retreats and spa experiences",
       "Extra points on mindfulness workshops and health coaching",
       "Free wellness consultation with retreat bookings",
       "Local wellness center partnerships and experience packages",
-      "Bundle deals on multi-day wellness experiences and programs"
+      "Bundle deals on multi-day wellness experiences and programs",
+      "Exclusive access to luxury wellness resorts and transformational retreat experiences with celebrity wellness coaches"
     ]
   },
   pets: {
