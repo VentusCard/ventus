@@ -27,7 +27,7 @@ const SelectedCategoriesImpactCard = ({
           <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
             <CreditCard className="h-5 w-5 md:h-6 md:w-6 text-white" />
           </div>
-          <h3 className="font-display text-lg md:text-xl font-bold text-blue-800 leading-tight">The Ventus Smart Rewards Advantage</h3>
+          <h3 className="font-display text-lg font-bold text-blue-800 leading-tight md:text-2xl">The Ventus Smart Rewards Advantage</h3>
         </div>
         
         <p className="text-slate-600 mb-2 md:mb-3 text-sm md:text-base leading-relaxed">
@@ -35,8 +35,7 @@ const SelectedCategoriesImpactCard = ({
         </p>
 
         <div className="space-y-2 md:space-y-3">
-          {scenarios.map((scenario, index) => (
-            <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-white rounded-lg border border-blue-200 gap-2 sm:gap-4">
+          {scenarios.map((scenario, index) => <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 bg-white rounded-lg border border-blue-200 gap-2 sm:gap-4">
               <span className="text-slate-700 font-medium text-sm md:text-base leading-relaxed">
                 {scenario.subcategory}
               </span>
@@ -49,8 +48,7 @@ const SelectedCategoriesImpactCard = ({
                   5X with Ventus Card
                 </div>
               </div>
-            </div>
-          ))}
+            </div>)}
         </div>
 
         <div className="mt-2 md:mt-3 text-center">
