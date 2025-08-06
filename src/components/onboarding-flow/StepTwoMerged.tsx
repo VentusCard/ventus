@@ -41,13 +41,13 @@ const StepTwoMerged = ({
 
       {/* Example Deals Section */}
       <div className="mt-6">
-        <h2 className="font-display text-2xl font-bold mb-4 md:text-2xl">
+        <h2 className="font-display text-2xl font-bold mb-4 md:text-3xl">
           Exclusive Deals for {getDisplayTitle(selectedGoal)}
         </h2>
         
 
         <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-8">
-          <h3 className="font-display text-lg font-bold mb-3 text-blue-800">Your Personalized Merchant Deals</h3>
+          <h3 className="font-display font-bold mb-3 text-blue-800 text-xl">Your Personalized Merchant Deals</h3>
           <div>
             <h4 className="font-semibold text-blue-700 mb-2 text-sm">Selected Categories:</h4>
             <div className="flex flex-wrap gap-2">
