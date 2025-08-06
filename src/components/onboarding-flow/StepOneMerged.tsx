@@ -275,19 +275,7 @@ const StepOneMerged = ({
               </button>)}
             </div>
 
-            {selectedSubcategories.length > 0 && <div className="bg-blue-50 p-4 rounded-lg">
-                <h3 className="font-display text-lg font-bold mb-3">
-                  Selected Subcategories ({selectedSubcategories.length}/3)
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {selectedSubcategories.map(sub => <span key={sub} className="px-3 py-1 bg-blue-100 rounded-full text-sm font-medium text-[#033bbc]">
-                      {sub}
-                    </span>)}
-                </div>
-                <p className="text-slate-600 mt-3 text-sm">
-                  Perfect! You'll see how Ventus simplifies earning rewards across all these categories in the next steps.
-                </p>
-              </div>}
+            {selectedSubcategories.length > 0}
           </div>
         </>}
     </div>;
