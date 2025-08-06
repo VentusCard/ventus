@@ -30,7 +30,7 @@ const businessCategories = [{
 }];
 const subcategories = {
   Sports: ["Golf", "Tennis", "Running", "Snowsports", "Fitness and Gym", "Basketball", "Football", "Soccer", "Hockey", "Apparel and Footwear", "Gears and Accessories", "Sports Facilities"],
-  Wellness: ["Fitness and Exercise", "Mental Health and Therapy", "Nutrition and Supplements", "Spa and Recovery", "Meditation and Mindfulness", "Skincare and Haircare", "Alternative Medicine", "Sleep and Recovery", "Yoga and Pilates", "Wellness Retreats", "Personal Training"],
+  Wellness: ["Fitness and Recovery", "Mental Health and Mindfulness", "Nutrition and Supplements", "Beauty and Cosmetics", "Haircare and Skincare", "Sleep and Restfulness", "Women's Health", "Men's Health", "Retreats and Experiences", "Alternative Medicine", "Yoga and Pilates", "Personal Training"],
   "Pet Owners": ["Dog Essentials", "Cat Owners", "Grooming and Health", "Pet Food and Nutrition", "Vet Services", "Pet Activities and Services", "Pet Insurance", "Pet Training", "Pet Toys and Accessories", "Pet Travel and Boarding"],
   Gamers: ["PC Gaming", "Console Gaming", "Mobile Gaming", "Esports and Streaming", "Gaming Accessories", "Gaming Chairs and Furniture", "Virtual Reality", "Gaming Software", "Gaming Communities", "Retro Gaming"],
   Creatives: ["Photography", "Music Production", "Art Supplies", "Writing Tools", "Online Creative Classes", "Video Production", "Graphic Design", "3D Modeling and Animation", "Digital Marketing Tools", "Creative Software"],

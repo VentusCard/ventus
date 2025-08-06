@@ -98,48 +98,68 @@ export const exampleDeals = {
     ]
   },
   wellness: {
-    "Fitness and Exercise": [
-      "Extra cashback on gym memberships and fitness gear", 
-      "Extra points on classes and personal training", 
-      "Free gym tote with qualifying spend",
-      "Local offers like first-month-free at boutique studios", 
-      "Bundle discounts on workout sets and accessories"
+    "Fitness and Recovery": [
+      "Extra cashback on gym memberships and fitness equipment", 
+      "Extra points on personal training and fitness classes", 
+      "Free workout gear with gym membership signup",
+      "Local fitness studio partnerships and class packages", 
+      "Bundle discounts on recovery tools and massage services"
     ],
-    "Mental Health and Therapy": [
-      "Extra cashback on therapy sessions or platforms", 
-      "Extra points on mental wellness apps", 
-      "Free wellness journal with service sign-up",
-      "Local offers on counseling services or workshops", 
-      "Bundle discounts on therapy tools and guided programs"
+    "Mental Health and Mindfulness": [
+      "Extra cashback on therapy sessions and mental health apps", 
+      "Extra points on meditation retreats and mindfulness courses", 
+      "Free wellness journal with therapy platform subscription",
+      "Local mindfulness workshops and support group discounts", 
+      "Bundle deals on meditation equipment and stress relief tools"
     ],
     "Nutrition and Supplements": [
-      "Extra cashback on protein, vitamins, and nutrition bars", 
-      "Extra points on subscription supplement boxes", 
-      "Free sample packs with minimum spend",
-      "Local offers at nutrition shops or wellness expos", 
-      "Bundle discounts on multivitamin sets and meal prep items"
+      "Extra cashback on vitamins, proteins, and health supplements", 
+      "Extra points on nutritionist consultations and meal plans", 
+      "Free sample packs with supplement subscriptions",
+      "Local health food store partnerships and nutrition seminars", 
+      "Bundle discounts on complete wellness nutrition packages"
     ],
-    "Spa and Recovery": [
-      "Extra cashback on massages and spa bookings", 
-      "Extra points on recovery gear and services", 
-      "Free aromatherapy item with treatment",
-      "Local spa day passes and happy hour deals", 
-      "Bundle discounts on self-care kits and memberships"
+    "Beauty and Cosmetics": [
+      "Extra cashback on makeup and beauty products",
+      "Extra points on professional makeup services and tutorials",
+      "Free beauty samples with cosmetic purchases",
+      "Local beauty salon partnerships and makeup workshops",
+      "Bundle deals on complete makeup collections and beauty tools"
     ],
-    "Meditation and Mindfulness": [
-      "Extra cashback on meditation tools and subscriptions", 
-      "Extra points on mindfulness retreats or apps", 
-      "Free incense or eye mask with order",
-      "Local offers for mindfulness classes and meetups", 
-      "Bundle discounts on journals, mats, and accessories"
-    ],
-    "Skincare and Haircare": [
+    "Haircare and Skincare": [
       "Extra cashback on premium skincare and haircare products",
-      "Extra points on salon services and beauty treatments",
-      "Free travel-sized products with skincare routine purchases",
+      "Extra points on salon services and spa treatments",
+      "Free travel-sized products with routine purchases",
       "Local spa and salon partnership discounts",
-      "Bundle deals on complete skincare regimens and hair care sets",
-      "Exclusive access to new product launches and beauty box subscriptions"
+      "Bundle deals on complete skincare and haircare regimens"
+    ],
+    "Sleep and Restfulness": [
+      "Extra cashback on sleep aids and bedding essentials",
+      "Extra points on sleep tracking devices and apps",
+      "Free sleep mask with bedding purchases",
+      "Local sleep clinic partnerships and consultations",
+      "Bundle discounts on complete sleep optimization packages"
+    ],
+    "Women's Health": [
+      "Extra cashback on women's health products and supplements",
+      "Extra points on prenatal care and women's wellness services",
+      "Free health tracking tools with women's vitamin subscriptions",
+      "Local women's health clinic partnerships and workshops",
+      "Bundle deals on comprehensive women's wellness packages"
+    ],
+    "Men's Health": [
+      "Extra cashback on men's health supplements and grooming products",
+      "Extra points on men's health services and fitness programs",
+      "Free grooming kit with men's health supplement purchases",
+      "Local men's health clinic partnerships and fitness programs",
+      "Bundle discounts on complete men's wellness packages"
+    ],
+    "Retreats and Experiences": [
+      "Extra cashback on wellness retreats and spa experiences",
+      "Extra points on mindfulness workshops and health coaching",
+      "Free wellness consultation with retreat bookings",
+      "Local wellness center partnerships and experience packages",
+      "Bundle deals on multi-day wellness experiences and programs"
     ]
   },
   pets: {

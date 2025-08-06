@@ -308,129 +308,192 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
     }]
   },
   wellness: {
-    "Fitness and Exercise": [{
-      item: "Gym memberships and fitness gear",
+    "Fitness and Recovery": [{
+      item: "Gym memberships",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Equipment",
+      item: "Fitness equipment",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Apparel",
+      item: "Workout apparel",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Fitness apps",
+      item: "Recovery tools",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Sports massage",
       card: "General Cashback Card",
       color: "bg-gray-500"
-    }, {
-      item: "Supplements",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
     }],
-    "Mental Health and Therapy": [{
+    "Mental Health and Mindfulness": [{
       item: "Therapy sessions",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Online subscriptions",
+      item: "Meditation apps",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Journaling supplies",
+      item: "Mindfulness workshops",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Wellness journals",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Wellness products",
-      card: "Shopping Cashback Card",
-      color: "bg-blue-500"
-    }, {
-      item: "Retreats",
+      item: "Mental health retreats",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Nutrition and Supplements": [{
-      item: "Meal kits",
+      item: "Vitamins & minerals",
       card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
-      item: "Vitamins/proteins",
+      item: "Protein supplements",
       card: "4x with Grocery Card",
       color: "bg-green-500"
     }, {
-      item: "Nutritionist visits",
+      item: "Meal replacement shakes",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Nutritionist consultations",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Health groceries",
-      card: "4x with Grocery Card",
-      color: "bg-green-500"
-    }, {
-      item: "Gut health products",
+      item: "Organic health foods",
       card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
-    "Spa and Recovery": [{
-      item: "Massages",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
-    }, {
-      item: "Sauna/cryotherapy",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
-    }, {
-      item: "Recovery devices",
+    "Beauty and Cosmetics": [{
+      item: "Makeup products",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Spa packages",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
-    }, {
-      item: "Skincare products",
-      card: "Shopping Cashback Card",
-      color: "bg-blue-500"
-    }],
-    "Meditation and Mindfulness": [{
-      item: "Apps",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
-    }, {
-      item: "Classes",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
-    }, {
-      item: "Meditation gear",
+      item: "Beauty tools",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Retreats",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
-    }, {
-      item: "Books/journals",
-      card: "Shopping Cashback Card",
-      color: "bg-blue-500"
-    }],
-    "Skincare and Haircare": [{
-      item: "Skincare products",
-      card: "Shopping Cashback Card",
-      color: "bg-blue-500"
-    }, {
-      item: "Haircare products",
-      card: "Shopping Cashback Card",
-      color: "bg-blue-500"
-    }, {
-      item: "Face treatments",
-      card: "General Cashback Card",
-      color: "bg-gray-500"
-    }, {
-      item: "Hair salon services",
+      item: "Cosmetic treatments",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
       item: "Beauty subscriptions",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Professional makeup services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Haircare and Skincare": [{
+      item: "Skincare products",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Hair care products",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Salon services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Facial treatments",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Hair styling tools",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }],
+    "Sleep and Restfulness": [{
+      item: "Sleep aids & supplements",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Sleep tracking devices",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Bedding & pillows",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Sleep apps",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Sleep clinic services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Women's Health": [{
+      item: "Women's vitamins",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Prenatal care",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Feminine care products",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Women's health apps",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "OB/GYN services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Men's Health": [{
+      item: "Men's vitamins",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Men's grooming products",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Performance supplements",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Men's health checkups",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Testosterone support",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }],
+    "Retreats and Experiences": [{
+      item: "Wellness retreats",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Spa weekends",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Yoga retreats",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Meditation workshops",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Health coaching programs",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }]

@@ -31,7 +31,11 @@ import {
   Sofa, 
   Sprout, 
   Wrench,
-  Smile
+  Smile,
+  Moon,
+  User,
+  UserCheck,
+  Mountain
 } from "lucide-react";
 
 export const dealIcons = {
@@ -49,12 +53,15 @@ export const dealIcons = {
   "Fitness/Gym": Dumbbell,
   "Yoga/Pilates": Heart,
   // Wellness icons
-  "Fitness and Exercise": Dumbbell,
-  "Mental Health and Therapy": Brain,
+  "Fitness and Recovery": Dumbbell,
+  "Mental Health and Mindfulness": Brain,
   "Nutrition and Supplements": Pill,
-  "Spa and Recovery": Sparkles,
-  "Meditation and Mindfulness": Heart,
-  "Skincare and Haircare": Smile,
+  "Beauty and Cosmetics": Sparkles,
+  "Haircare and Skincare": Smile,
+  "Sleep and Restfulness": Moon,
+  "Women's Health": User,
+  "Men's Health": UserCheck,
+  "Retreats and Experiences": Mountain,
   // Pet icons - updated to match standardized names
   "Dog Owners": Dog,
   "Cat Owners": Cat,

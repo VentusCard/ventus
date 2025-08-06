@@ -29,7 +29,7 @@ const subcategoriesData: SubcategoryData[] = [
   },
   {
     goalId: "wellness",
-    subcategories: ["Fitness and Exercise", "Mental Health and Therapy", "Nutrition and Supplements", "Spa and Recovery", "Meditation and Mindfulness"]
+    subcategories: ["Fitness and Recovery", "Mental Health and Mindfulness", "Nutrition and Supplements", "Beauty and Cosmetics", "Haircare and Skincare", "Sleep and Restfulness", "Women's Health", "Men's Health", "Retreats and Experiences"]
   },
   {
     goalId: "pets",
@@ -83,24 +83,40 @@ const merchantDealsData: Record<LifestyleGoal, MerchantDeal[]> = {
   ],
   "wellness": [
     {
-      subcategory: "Fitness and Exercise",
-      merchants: ["ClassPass", "Orangetheory", "Peloton", "Nike Training Club", "Lululemon"]
+      subcategory: "Fitness and Recovery",
+      merchants: ["ClassPass", "Orangetheory", "Peloton", "Therabody", "Hyperice"]
     },
     {
-      subcategory: "Mental Health and Therapy",
-      merchants: ["BetterHelp", "Talkspace", "Calm", "Headspace", "Noom"]
+      subcategory: "Mental Health and Mindfulness",
+      merchants: ["BetterHelp", "Talkspace", "Calm", "Headspace", "Ten Percent Happier"]
     },
     {
       subcategory: "Nutrition and Supplements",
-      merchants: ["Athletic Greens", "Thorne", "Huel", "MyFitnessPal Premium", "Ritual"]
+      merchants: ["Athletic Greens", "Thorne", "Huel", "Ritual", "Care/of"]
     },
     {
-      subcategory: "Spa and Recovery",
-      merchants: ["Massage Envy", "Therabody", "HydroMassage", "Soothe", "Hyperice"]
+      subcategory: "Beauty and Cosmetics",
+      merchants: ["Sephora", "Ulta Beauty", "Glossier", "Fenty Beauty", "Rare Beauty"]
     },
     {
-      subcategory: "Meditation and Mindfulness",
-      merchants: ["Headspace", "Calm", "Ten Percent Happier", "Insight Timer", "Balance"]
+      subcategory: "Haircare and Skincare",
+      merchants: ["The Ordinary", "CeraVe", "Olaplex", "Drunk Elephant", "Paula's Choice"]
+    },
+    {
+      subcategory: "Sleep and Restfulness",
+      merchants: ["Sleep Number", "Casper", "Purple", "Oura Ring", "Calm Sleep Stories"]
+    },
+    {
+      subcategory: "Women's Health",
+      merchants: ["Ritual Women's", "HUM Nutrition", "Lola", "Thinx", "Maven Clinic"]
+    },
+    {
+      subcategory: "Men's Health",
+      merchants: ["Roman", "Hims", "Athletic Greens", "Ritual Men's", "Future Fit"]
+    },
+    {
+      subcategory: "Retreats and Experiences",
+      merchants: ["Retreat Guru", "BookRetreats", "Yoga Alliance", "Wanderlust", "Mindvalley"]
     }
   ],
   "pets": [

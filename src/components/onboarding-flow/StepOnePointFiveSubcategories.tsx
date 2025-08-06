@@ -9,7 +9,7 @@ interface StepOnePointFiveSubcategoriesProps {
 
 const subcategoryData: Record<LifestyleGoal, string[]> = {
   sports: ["Golf", "Tennis/Racquet Sports", "Running/Track", "Basketball", "Football", "Soccer", "Outdoor Activities", "Cycling/Biking", "Water Sports", "Snow Sports", "Fitness/Gym", "Yoga/Pilates"],
-  wellness: ["Fitness and Exercise", "Mental Health and Therapy", "Nutrition and Supplements", "Spa and Recovery", "Meditation and Mindfulness", "Skincare and Haircare"],
+  wellness: ["Fitness and Recovery", "Mental Health and Mindfulness", "Nutrition and Supplements", "Beauty and Cosmetics", "Haircare and Skincare", "Sleep and Restfulness", "Women's Health", "Men's Health", "Retreats and Experiences"],
   pets: ["Dog Owners", "Cat Owners", "Grooming and Health", "Pet Food and Nutrition", "Pet Activities and Services"],
   gamers: ["PC Gaming", "Console Gaming", "Mobile Gaming", "Esports and Streaming", "Gaming Accessories"],
   creatives: ["Photography", "Music Production", "Art Supplies", "Writing Tools", "Online Creative Classes"],

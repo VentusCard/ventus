@@ -16,7 +16,7 @@ export const lifestyleOptions: LifestyleOption[] = [
     description: "Fitness, Mental Health, Nutrition & Spa",
     year: "Year One",
     icon: "🧘‍♀️",
-    subcategories: ["Fitness", "Mental Health", "Nutrition", "Spa", "Meditation"],
+    subcategories: ["Fitness and Recovery", "Mental Health and Mindfulness", "Nutrition and Supplements", "Beauty and Cosmetics", "Haircare and Skincare", "Sleep and Restfulness", "Women's Health", "Men's Health", "Retreats and Experiences"],
     merchants: ["Peloton", "Calm", "Whole Foods", "SoulCycle"]
   },
   {
