@@ -41,7 +41,7 @@ const StepTwoMerged = ({
 
       {/* Example Deals Section */}
       <div className="mt-6">
-        <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
+        <h2 className="font-display text-2xl font-bold mb-4 md:text-2xl">
           Exclusive Deals for {getDisplayTitle(selectedGoal)}
         </h2>
         
