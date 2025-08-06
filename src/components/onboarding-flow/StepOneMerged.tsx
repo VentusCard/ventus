@@ -204,7 +204,10 @@ const StepOneMerged = ({
   onSelectGoal,
   onSelectSubcategories
 }: StepOneMergedProps) => {
-  const subcategories = selectedGoal ? subcategoryData[selectedGoal] || [] : [];
+  // Define disabled goal categories
+  const disabledGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];
+  
+  const subcategories = selectedGoal && !disabledGoals.includes(selectedGoal) ? subcategoryData[selectedGoal] || [] : [];
   
   const toggleSubcategory = (subcategory: string) => {
     if (selectedSubcategories.includes(subcategory)) {
@@ -229,28 +232,54 @@ const StepOneMerged = ({
       </p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
-        {goalOptions.map(option => <Card key={option.id} className={`cursor-pointer transition-all hover:shadow-lg ${selectedGoal === option.id ? 'ring-2 ring-blue-500 shadow-lg scale-105' : ''}`} onClick={() => onSelectGoal(option.id)}>
-            <CardContent className="p-4">
-              <div className="text-center">
-                <div className="text-3xl mb-3">{option.icon}</div>
-                <h3 className="text-lg font-bold text-gray-900 mb-2">{option.title}</h3>
-                <p className="text-gray-600 mb-3 text-sm">{option.description}</p>
-                <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${option.year === "Available First" ? "bg-green-100 text-green-700" : option.year === "Available Soon" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
-                  {option.availability}
-                </span>
-              </div>
-              
-              {selectedGoal === option.id && <div className="absolute top-3 right-3">
-                  <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
-                    <Check className="h-3 w-3 text-white" />
+        {goalOptions.map(option => {
+          const isDisabled = disabledGoals.includes(option.id);
+          return (
+            <Card 
+              key={option.id} 
+              className={`transition-all ${
+                isDisabled 
+                  ? 'opacity-50 cursor-not-allowed grayscale' 
+                  : `cursor-pointer hover:shadow-lg ${selectedGoal === option.id ? 'ring-2 ring-blue-500 shadow-lg scale-105' : ''}`
+              }`} 
+              onClick={() => !isDisabled && onSelectGoal(option.id)}
+            >
+              <CardContent className="p-4">
+                <div className="text-center">
+                  <div className="text-3xl mb-3">{option.icon}</div>
+                  <h3 className={`text-lg font-bold mb-2 ${isDisabled ? 'text-gray-400' : 'text-gray-900'}`}>
+                    {option.title}
+                  </h3>
+                  <p className={`mb-3 text-sm ${isDisabled ? 'text-gray-400' : 'text-gray-600'}`}>
+                    {option.description}
+                  </p>
+                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
+                    isDisabled 
+                      ? "bg-gray-100 text-gray-400" 
+                      : option.year === "Available First" 
+                        ? "bg-green-100 text-green-700" 
+                        : option.year === "Available Soon" 
+                          ? "bg-blue-100 text-blue-700" 
+                          : "bg-orange-100 text-orange-700"
+                  }`}>
+                    {isDisabled ? "Coming Later" : option.availability}
+                  </span>
+                </div>
+                
+                {selectedGoal === option.id && !isDisabled && (
+                  <div className="absolute top-3 right-3">
+                    <div className="w-5 h-5 bg-blue-500 rounded-full flex items-center justify-center">
+                      <Check className="h-3 w-3 text-white" />
+                    </div>
                   </div>
-                </div>}
-
-            </CardContent>
-          </Card>)}
+                )}
+              </CardContent>
+            </Card>
+          );
+        })}
       </div>
 
-      {selectedGoal && <>
+      {selectedGoal && !disabledGoals.includes(selectedGoal) && <>
           <div className="touch-manipulation" style={{
         touchAction: 'manipulation',
         pointerEvents: 'auto',
