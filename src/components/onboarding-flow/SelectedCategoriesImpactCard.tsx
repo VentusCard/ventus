@@ -41,8 +41,8 @@ const SelectedCategoriesImpactCard = ({
                 {scenario.subcategory}
               </span>
               <div className="flex items-center gap-2 flex-wrap">
-                <div className={`px-2 py-1 ${getCardColor(scenario.currentCard)} text-white text-xs rounded opacity-60 line-through flex-shrink-0`}>
-                  {scenario.currentMultiplier} with {scenario.currentCard}
+                <div className={`px-2 py-1 ${getCardColor(scenario.card)} text-white text-xs rounded opacity-60 line-through flex-shrink-0`}>
+                  {scenario.multiplier} with {scenario.card}
                 </div>
                 <span className="text-xs text-blue-600 hidden sm:inline">→</span>
                 <div className="px-2 md:px-3 py-1 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-xs rounded font-bold flex-shrink-0">
