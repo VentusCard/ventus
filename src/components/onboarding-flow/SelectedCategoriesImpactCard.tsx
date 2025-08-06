@@ -15,9 +15,9 @@ const SelectedCategoriesImpactCard = ({
 
   // Map card names to their brand colors
   const getCardColor = (cardName: string) => {
-    if (cardName.includes('Shopping Cashback')) return 'bg-blue-500';
+    if (cardName.includes('Shopping Cashback')) return 'bg-red-500';
     if (cardName.includes('General Cashback')) return 'bg-gray-500';
-    if (cardName.includes('Dining')) return 'bg-red-500';
+    if (cardName.includes('Dining')) return 'bg-orange-500';
     if (cardName.includes('Grocery')) return 'bg-green-500';
     return 'bg-gray-500'; // fallback
   };
