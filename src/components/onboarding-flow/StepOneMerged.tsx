@@ -217,10 +217,7 @@ const StepOneMerged = ({
   };
   return <div>
       <h2 className="font-display text-xl md:text-2xl font-bold mb-3">What would you like your Ventus Card to reward you on?</h2>
-      <p className="text-base text-slate-600 mb-6">
-        What's the primary lifestyle goal you want Ventus to support? Select one category that best represents 
-        where you'd like to earn enhanced rewards.
-      </p>
+      <p className="text-base text-slate-600 mb-6">Select one category to earn personalized smart rewards from Ventus. </p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {goalOptions.map(option => {
