@@ -53,7 +53,8 @@ const OnboardingFlow = () => {
     switch (step) {
       case 1:
         return <StepOneMerged selectedGoal={onboardingData.mainGoal} selectedSubcategories={onboardingData.subcategories} onSelectGoal={goal => updateOnboardingData({
-          mainGoal: goal
+          mainGoal: goal,
+          subcategories: []
         })} onSelectSubcategories={subcategories => updateOnboardingData({
           subcategories
         })} />;
@@ -63,7 +64,8 @@ const OnboardingFlow = () => {
         return <StepFourSpendingInput onboardingData={onboardingData} updateOnboardingData={updateOnboardingData} />;
       default:
         return <StepOneMerged selectedGoal={onboardingData.mainGoal} selectedSubcategories={onboardingData.subcategories} onSelectGoal={goal => updateOnboardingData({
-          mainGoal: goal
+          mainGoal: goal,
+          subcategories: []
         })} onSelectSubcategories={subcategories => updateOnboardingData({
           subcategories
         })} />;
