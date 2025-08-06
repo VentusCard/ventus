@@ -216,8 +216,8 @@ const StepOneMerged = ({
     }
   };
   return <div>
-      <h2 className="font-display text-xl md:text-2xl font-bold mb-3">What would you like your Ventus Card to reward you on?</h2>
-      <p className="text-base text-slate-600 mb-6">
+      <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What would you like your Ventus Card to reward you on?</h2>
+      <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
         What's the primary lifestyle goal you want Ventus to support? Select one category that best represents 
         where you'd like to earn enhanced rewards.
       </p>
@@ -229,12 +229,12 @@ const StepOneMerged = ({
               <CardContent className="p-4">
                 <div className="text-center">
                   <div className="text-3xl mb-3">{option.icon}</div>
-                  <h3 className={`text-lg font-bold mb-2 ${isDisabled ? 'text-gray-400' : 'text-gray-900'}`}>
-                    {option.title}
-                  </h3>
-                  <p className={`mb-3 text-sm ${isDisabled ? 'text-gray-400' : 'text-gray-600'}`}>
-                    {option.description}
-                  </p>
+                   <h3 className={`font-display text-lg md:text-xl font-bold leading-tight mb-2 ${isDisabled ? 'text-muted-foreground/50' : 'text-foreground'}`}>
+                     {option.title}
+                   </h3>
+                   <p className={`font-sans text-sm md:text-base leading-relaxed mb-3 ${isDisabled ? 'text-muted-foreground/50' : 'text-muted-foreground'}`}>
+                     {option.description}
+                   </p>
                   <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${isDisabled ? "bg-gray-100 text-gray-400" : option.year === "Available First" ? "bg-green-100 text-green-700" : option.year === "Available Soon" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
                     {isDisabled ? "Coming Later" : option.availability}
                   </span>
@@ -256,12 +256,12 @@ const StepOneMerged = ({
         pointerEvents: 'auto',
         WebkitTapHighlightColor: 'transparent'
       }}>
-            <h3 className="font-display text-lg font-bold mb-3">
-              Pick up to 3 areas you're interested in receiving deals and offers.
-            </h3>
-            <p className="text-base text-slate-600 mb-4">
-              No pressure, you can add more when Ventus launches!
-            </p>
+             <h3 className="font-display text-lg md:text-xl font-bold text-foreground leading-tight mb-3">
+               Pick up to 3 areas you're interested in receiving deals and offers.
+             </h3>
+             <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed mb-4">
+               No pressure, you can add more when Ventus launches!
+             </p>
 
             {selectedSubcategories.length >= 3}
 
@@ -271,7 +271,7 @@ const StepOneMerged = ({
             pointerEvents: 'auto',
             WebkitTapHighlightColor: 'transparent'
           }}>
-                <div className="font-medium text-sm">{subcategory}</div>
+                <div className="font-sans text-sm md:text-base font-medium text-foreground">{subcategory}</div>
               </button>)}
             </div>
 
