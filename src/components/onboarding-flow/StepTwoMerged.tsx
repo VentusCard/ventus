@@ -47,24 +47,17 @@ const StepTwoMerged = ({
         
 
         <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-4">
-            {/* Left side - Title and description */}
-            <div className="flex-1">
-              <h3 className="font-display text-lg font-bold mb-1 text-blue-800">Your Personalized Merchant Deals</h3>
-              <p className="font-semibold text-blue-700 text-sm">Selected Categories:</p>
-            </div>
-            
-            {/* Right side - Categories */}
-            <div className="flex-1 md:flex-none">
-              <div className="flex flex-wrap gap-2">
-                {selectedSubcategories.map(sub => {
-                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
-                return <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
-                      {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
-                      {sub}
-                    </span>;
-              })}
-              </div>
+          <h3 className="font-display text-lg font-bold mb-3 text-blue-800">Your Personalized Merchant Deals</h3>
+          <div>
+            <h4 className="font-semibold text-blue-700 mb-2 text-sm">Selected Categories:</h4>
+            <div className="flex flex-wrap gap-2">
+              {selectedSubcategories.map(sub => {
+              const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
+              return <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
+                    {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
+                    {sub}
+                  </span>;
+            })}
             </div>
           </div>
         </div>
