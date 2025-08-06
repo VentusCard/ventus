@@ -183,7 +183,7 @@ const goalOptions: GoalOption[] = [{
 const subcategoryData: Record<LifestyleGoal, string[]> = {
   sports: ["Golf", "Tennis/Racquet Sports", "Running/Track", "Basketball", "Football", "Soccer", "Outdoor Activities", "Cycling/Biking", "Water Sports", "Snow Sports", "Fitness/Gym", "Yoga/Pilates"],
   wellness: ["Fitness and Exercise", "Mental Health and Therapy", "Nutrition and Supplements", "Spa and Recovery", "Meditation and Mindfulness", "Skincare and Haircare"],
-  pets: ["Dog Owners", "Cat Owners", "Grooming and Health", "Pet Food and Nutrition", "Pet Activities and Services"],
+  pets: ["Dog Owners", "Cat Owners", "Grooming and Health", "Pet Food and Nutrition", "Pet Activities and Services", "Pet Training", "Pet Toys and Accessories", "Pet Travel and Boarding", "Bird Owners", "Small Animal Owners", "Fish & Aquarium Owners", "Reptile & Exotic Pet Owners"],
   gamers: ["PC Gaming", "Console Gaming", "Mobile Gaming", "Esports and Streaming", "Gaming Accessories"],
   creatives: ["Photography", "Music Production", "Art Supplies", "Writing Tools", "Online Creative Classes"],
   homeowners: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services"]

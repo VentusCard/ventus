@@ -540,6 +540,153 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       item: "Adoption events",
       card: "General Cashback Card",
       color: "bg-gray-500"
+    }],
+    "Pet Training": [{
+      item: "Training sessions",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Training equipment",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Behavior classes",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Training treats",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Online training courses",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Pet Toys and Accessories": [{
+      item: "Interactive toys",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Puzzle feeders",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Collars & leashes",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Pet clothing",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Subscription toy boxes",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Pet Travel and Boarding": [{
+      item: "Travel carriers",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Boarding services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Pet sitting",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Travel accessories",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Pet-friendly accommodations",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Bird Owners": [{
+      item: "Bird cages & aviaries",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Bird food & supplements",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Avian vet care",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Bird toys & enrichment",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Cage accessories",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }],
+    "Small Animal Owners": [{
+      item: "Habitats & enclosures",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Small animal food",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Bedding & substrates",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Enrichment toys",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Exotic vet care",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Fish & Aquarium Owners": [{
+      item: "Aquarium tanks & equipment",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Fish food & treatments",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Filtration systems",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Aquarium decorations",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Water testing & maintenance",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Reptile & Exotic Pet Owners": [{
+      item: "Terrariums & heating",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Specialized reptile food",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "UVB lighting & equipment",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Substrate & decor",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Exotic veterinary care",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
     }]
   },
   gamers: {

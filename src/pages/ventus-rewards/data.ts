@@ -23,9 +23,22 @@ export const lifestyleOptions: LifestyleOption[] = [
     id: "pets",
     title: "Pet Owners",
     description: "Dog & Cat Care, Grooming, Food & Services",
-    year: "Year One",
+    year: "Year One", 
     icon: "🐕",
-    subcategories: ["Dog and Cat Essentials", "Grooming", "Food", "Vet Services"],
+    subcategories: [
+      "Dog and Cat Essentials", 
+      "Grooming", 
+      "Food", 
+      "Vet Services",
+      "Pet Activities and Services",
+      "Pet Training",
+      "Pet Toys and Accessories", 
+      "Pet Travel and Boarding",
+      "Bird Owners",
+      "Small Animal Owners",
+      "Fish & Aquarium Owners",
+      "Reptile & Exotic Pet Owners"
+    ],
     merchants: ["Petco", "Chewy", "VCA Animal Hospitals", "Rover"]
   },
   {
@@ -147,6 +160,54 @@ export const getExamplePurchases = (goal: LifestyleGoal, subcategory: string): E
         { category: "Veterinary Care", cardType: "General Card", cardColor: "bg-gray-500" },
         { category: "Recovery Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
         { category: "Pet Medications", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Activities and Services": [
+        { category: "Training Equipment", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Pet Daycare & Training", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Pet-Friendly Restaurants", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Training Treats", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Training": [
+        { category: "Training Tools & Equipment", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Professional Training Sessions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Training Celebration Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Training Rewards & Treats", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Toys and Accessories": [
+        { category: "Toys & Accessories", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Toy Subscription Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Pet Playtime Snacks", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Interactive Treat Toys", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Pet Travel and Boarding": [
+        { category: "Travel Carriers & Gear", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Boarding & Pet Sitting", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Pet-Friendly Travel Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Travel Snacks & Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Bird Owners": [
+        { category: "Bird Cages & Aviaries", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Avian Veterinary Care", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Bird-Watching Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Bird Food & Supplements", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Small Animal Owners": [
+        { category: "Small Animal Habitats", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Exotic Pet Veterinary Care", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Pet Care Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Small Animal Food & Bedding", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Fish & Aquarium Owners": [
+        { category: "Aquarium Equipment & Tanks", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Aquarium Maintenance Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Aquarium Viewing Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Fish Food & Water Treatments", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Reptile & Exotic Pet Owners": [
+        { category: "Terrariums & Heating Equipment", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Exotic Veterinary Care", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Exotic Pet Community Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Specialized Reptile Food", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ]
     },
     gamers: {
