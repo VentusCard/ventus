@@ -177,62 +177,6 @@ export const exampleDeals = {
       "Free day pass at partner services",
       "Local doggy yoga or hike meetups", 
       "Bundle deals on activity gear and subscriptions"
-    ],
-    "Pet Training": [
-      "Extra cashback on professional training sessions",
-      "Extra points on training equipment and tools",
-      "Free consultation with certified trainers",
-      "Local group training class discounts",
-      "Bundle deals on training packages and supplies",
-      "Exclusive access to advanced behavior workshops"
-    ],
-    "Pet Toys and Accessories": [
-      "Extra cashback on interactive toys and puzzles",
-      "Extra points on seasonal toy collections",
-      "Free toy with purchase of accessories bundle",
-      "Local pet store toy testing events",
-      "Bundle discounts on toy variety packs",
-      "Early access to new toy releases and limited editions"
-    ],
-    "Pet Travel and Boarding": [
-      "Extra cashback on pet travel carriers and gear",
-      "Extra points on boarding and pet sitting services",
-      "Free travel kit with boarding reservation",
-      "Local pet-friendly hotel and travel discounts",
-      "Bundle deals on travel accessories and safety gear",
-      "VIP boarding services and travel concierge support"
-    ],
-    "Bird Owners": [
-      "Extra cashback on bird cages and aviaries",
-      "Extra points on specialized bird food and supplements",
-      "Free bird toy with cage purchase",
-      "Local bird club meetups and exotic bird shows",
-      "Bundle discounts on bird care starter kits",
-      "Access to avian veterinarian consultations"
-    ],
-    "Small Animal Owners": [
-      "Extra cashback on habitats and enclosures",
-      "Extra points on small animal food and bedding",
-      "Free enrichment toy with habitat purchase",
-      "Local small animal rescue events and adoption fairs",
-      "Bundle deals on care packages and habitat accessories",
-      "Educational workshops on small animal care"
-    ],
-    "Fish & Aquarium Owners": [
-      "Extra cashback on aquarium equipment and tanks",
-      "Extra points on fish food and water treatments",
-      "Free aquarium decoration with tank setup",
-      "Local aquarium society meetings and fish swaps",
-      "Bundle discounts on complete aquarium starter kits",
-      "Expert consultations on aquatic ecosystem management"
-    ],
-    "Reptile & Exotic Pet Owners": [
-      "Extra cashback on terrariums and heating equipment",
-      "Extra points on specialized reptile food and supplements",
-      "Free habitat accessory with terrarium purchase",
-      "Local reptile expos and exotic pet shows",
-      "Bundle deals on complete reptile care packages",
-      "Access to exotic veterinarian and care specialists"
     ]
   },
   gamers: {
