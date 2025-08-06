@@ -5,7 +5,6 @@ import VentusSimplificationSection from "./VentusSimplificationSection";
 import { Card, CardContent } from "@/components/ui/card";
 import { dealIcons, getDealIcon } from "../onboarding/step-three/DealIcons";
 import { exampleDeals } from "../onboarding/step-three/ExampleDealsData";
-import { Brain, Target, TrendingUp } from "lucide-react";
 interface StepTwoMergedProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
@@ -47,37 +46,26 @@ const StepTwoMerged = ({
         </h2>
         
 
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-xl border border-blue-200 mb-8">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
-              <Brain className="h-5 w-5 text-white" />
+        <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-8">
+          <div className="flex flex-col md:flex-row md:items-center gap-4">
+            {/* Left side - Title and description */}
+            <div className="flex-1">
+              <h3 className="font-display text-lg font-bold mb-1 text-blue-800">Your Personalized Merchant Deals</h3>
+              <p className="font-semibold text-blue-700 text-sm">Selected Categories:</p>
             </div>
-            <h3 className="font-display text-lg font-bold text-blue-800">Ventus AI Personalized Merchant Deals</h3>
-          </div>
-          
-          <p className="text-blue-700 mb-3 text-sm">
-            <strong>Powered by Ventus AI:</strong> Our intelligent system has analyzed your {getDisplayTitle(selectedGoal).toLowerCase()} lifestyle and automatically curated these exclusive merchant partnerships to maximize your rewards.
-          </p>
-          
-          <div className="bg-white/60 p-3 rounded-lg border border-blue-200/50 mb-3">
-            <div className="flex items-center gap-2 mb-2">
-              <Target className="h-4 w-4 text-blue-600" />
-              <span className="font-semibold text-blue-700 text-sm">AI-Selected Categories for Maximum Rewards:</span>
+            
+            {/* Right side - Categories */}
+            <div className="flex-1 md:flex-none">
+              <div className="flex flex-wrap gap-2">
+                {selectedSubcategories.map(sub => {
+                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
+                return <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
+                      {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
+                      {sub}
+                    </span>;
+              })}
+              </div>
             </div>
-            <div className="flex flex-wrap gap-2">
-              {selectedSubcategories.map(sub => {
-              const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
-              return <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
-                    {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
-                    {sub}
-                  </span>;
-            })}
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-2 text-blue-600 text-xs">
-            <TrendingUp className="h-3 w-3" />
-            <span>AI continuously discovers new deals and optimizes rewards for your spending patterns</span>
           </div>
         </div>
 
