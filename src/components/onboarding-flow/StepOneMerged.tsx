@@ -289,8 +289,7 @@ const StepOneMerged = ({
               Choose Your Subcategories
             </h3>
             <p className="text-base text-slate-600 mb-4">
-              Select up to 3 subcategories that reflect your interests. 
-              Each will unlock a curated set of reward opportunities and merchant deals.
+              Pick up to 3 categories that best match your interests to receive curated offers and rewards.
             </p>
 
             {selectedSubcategories.length >= 3 && (
