@@ -1,9 +1,8 @@
-
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 
 export const goalTitles: Record<LifestyleGoal, string> = {
   sports: "Sports Enthusiasts",
-  wellness: "Wellness Focused",
+  wellness: "Wellness Focused", 
   pets: "Pet Owners",
   gamers: "Gamers",
   creatives: "Creatives",
@@ -25,7 +24,7 @@ export const mainCategoryScenarios: Record<LifestyleGoal, Array<{
     { subcategory: "Training & Coaching", card: "General Cashback Card", multiplier: "2x" }
   ],
   wellness: [
-    { subcategory: "Fitness Equipment & Gear", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "Fitness Gyms and Classes", card: "General Cashback Card", multiplier: "2x" },
     { subcategory: "Health Supplements", card: "Grocery Card", multiplier: "4x" },
     { subcategory: "Spa & Wellness Services", card: "General Cashback Card", multiplier: "2x" },
     { subcategory: "Beauty & Cosmetics", card: "Shopping Cashback Card", multiplier: "3x" },
