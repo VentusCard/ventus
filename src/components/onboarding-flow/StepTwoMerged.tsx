@@ -5,10 +5,12 @@ import VentusSimplificationSection from "./VentusSimplificationSection";
 import { Card, CardContent } from "@/components/ui/card";
 import { dealIcons, getDealIcon } from "../onboarding/step-three/DealIcons";
 import { exampleDeals } from "../onboarding/step-three/ExampleDealsData";
+
 interface StepTwoMergedProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
 }
+
 const StepTwoMerged = ({
   selectedGoal,
   selectedSubcategories
@@ -21,8 +23,18 @@ const StepTwoMerged = ({
     creatives: "Creatives",
     homeowners: "Homeowners"
   };
+
+  // Helper function to get the proper title with or without "Enthusiasts"
+  const getDisplayTitle = (goal: LifestyleGoal) => {
+    if (goal === 'pets') {
+      return goalTitles[goal]; // "Pet Owners" without "Enthusiasts"
+    }
+    return `${goalTitles[goal]} Enthusiasts`;
+  };
+
   const selectedDeals = exampleDeals[selectedGoal] || {};
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
+
   return <div className="space-y-4">
       {/* Selected Categories Impact - Moved to top */}
       <SelectedCategoriesImpactCard selectedGoal={selectedGoal} selectedSubcategories={selectedSubcategories} />
@@ -34,7 +46,7 @@ const StepTwoMerged = ({
       {/* Example Deals Section */}
       <div className="mt-6">
         <h2 className="font-display text-2xl md:text-3xl font-bold mb-4">
-          Exclusive Deals for {goalTitles[selectedGoal]} Enthusiasts
+          Exclusive Deals for {getDisplayTitle(selectedGoal)}
         </h2>
         
 
@@ -97,4 +109,5 @@ const StepTwoMerged = ({
       </div>
     </div>;
 };
+
 export default StepTwoMerged;
