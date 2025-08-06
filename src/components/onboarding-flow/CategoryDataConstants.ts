@@ -18,7 +18,7 @@ export const mainCategoryScenarios: Record<LifestyleGoal, Array<{
 }>> = {
   sports: [
     { subcategory: "Sports Equipment & Gear", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Fitness & Gym Memberships", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "Gym & Facilities Fees", card: "General Cashback Card", multiplier: "2x" },
     { subcategory: "Athletic Apparel", card: "Shopping Cashback Card", multiplier: "3x" },
     { subcategory: "Sports Events & Tickets", card: "General Cashback Card", multiplier: "2x" },
     { subcategory: "Sports Dining & Concessions", card: "Dining Card", multiplier: "4x" },
