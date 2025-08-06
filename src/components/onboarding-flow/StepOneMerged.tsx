@@ -289,7 +289,7 @@ const StepOneMerged = ({
               Choose Your Subcategories
             </h3>
             <p className="text-base text-slate-600 mb-4">
-              Pick up to 3 categories that best match your interests to receive curated offers and rewards.
+              Pick up to 3 areas you're interested in for deals and offers. No pressure, you can add more when Ventus launches!
             </p>
 
             {selectedSubcategories.length >= 3 && (
