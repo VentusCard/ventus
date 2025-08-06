@@ -10,6 +10,62 @@ export const goalTitles: Record<LifestyleGoal, string> = {
   homeowners: "Homeowners"
 };
 
+// Main category scenarios for the impact card
+export const mainCategoryScenarios: Record<LifestyleGoal, Array<{
+  subcategory: string;
+  currentCard: string;
+  currentMultiplier: string;
+}>> = {
+  sports: [
+    { subcategory: "Golf Equipment", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Gym Memberships", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Sports Apparel", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Game Tickets", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Arena Food", currentCard: "Dining Card", currentMultiplier: "4x" },
+    { subcategory: "Athletic Training", currentCard: "General Cashback Card", currentMultiplier: "2x" }
+  ],
+  wellness: [
+    { subcategory: "Fitness Equipment", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Supplements", currentCard: "Grocery Card", currentMultiplier: "4x" },
+    { subcategory: "Spa Services", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Beauty Products", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Wellness Apps", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Health Retreats", currentCard: "General Cashback Card", currentMultiplier: "2x" }
+  ],
+  pets: [
+    { subcategory: "Pet Food", currentCard: "Grocery Card", currentMultiplier: "4x" },
+    { subcategory: "Veterinary Care", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Pet Supplies", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Pet Insurance", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Pet Grooming", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Pet Toys", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" }
+  ],
+  gamers: [
+    { subcategory: "Gaming Hardware", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Game Purchases", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Gaming Subscriptions", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Gaming Accessories", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Streaming Services", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Gaming Events", currentCard: "General Cashback Card", currentMultiplier: "2x" }
+  ],
+  creatives: [
+    { subcategory: "Art Supplies", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Creative Software", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Photography Gear", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Workshop Classes", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Creative Tools", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Art Exhibitions", currentCard: "General Cashback Card", currentMultiplier: "2x" }
+  ],
+  homeowners: [
+    { subcategory: "Home Improvement", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Appliances", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Home Services", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Gardening Supplies", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" },
+    { subcategory: "Home Security", currentCard: "General Cashback Card", currentMultiplier: "2x" },
+    { subcategory: "Furniture", currentCard: "Shopping Cashback Card", currentMultiplier: "3x" }
+  ]
+};
+
 export const categoryData: Record<LifestyleGoal, Record<string, Array<{
   item: string;
   card: string;
