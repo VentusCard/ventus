@@ -12,6 +12,15 @@ const SelectedCategoriesImpactCard = ({
 }: SelectedCategoriesImpactCardProps) => {
   // Get scenarios for the selected goal
   const scenarios = mainCategoryScenarios[selectedGoal] || [];
+
+  // Map card names to their brand colors
+  const getCardColor = (cardName: string) => {
+    if (cardName.includes('Shopping Cashback')) return 'bg-blue-500';
+    if (cardName.includes('General Cashback')) return 'bg-gray-500';
+    if (cardName.includes('Dining')) return 'bg-red-500';
+    if (cardName.includes('Grocery')) return 'bg-green-500';
+    return 'bg-gray-500'; // fallback
+  };
   return <Card className="bg-gradient-to-r from-blue-50 to-blue-100 border-blue-200 mb-4">
       <CardContent className="p-3 md:p-4">
         <div className="flex items-center gap-3 mb-2 md:mb-3">
@@ -32,7 +41,7 @@ const SelectedCategoriesImpactCard = ({
                 {scenario.subcategory}
               </span>
               <div className="flex items-center gap-2 flex-wrap">
-                <div className="px-2 py-1 bg-gray-500 text-white text-xs rounded opacity-60 line-through flex-shrink-0">
+                <div className={`px-2 py-1 ${getCardColor(scenario.currentCard)} text-white text-xs rounded opacity-60 line-through flex-shrink-0`}>
                   {scenario.currentMultiplier} with {scenario.currentCard}
                 </div>
                 <span className="text-xs text-blue-600 hidden sm:inline">→</span>
