@@ -257,7 +257,7 @@ const StepOneMerged = ({
         WebkitTapHighlightColor: 'transparent'
       }}>
             <h3 className="font-display text-lg font-bold mb-3">
-              Choose Your Subcategories
+              Pick up to 3 areas you're interested in receiving deals and offers.
             </h3>
             <p className="text-base text-slate-600 mb-4">
               Pick up to 3 areas you're interested in for deals and offers. No pressure, you can add more when Ventus launches!
