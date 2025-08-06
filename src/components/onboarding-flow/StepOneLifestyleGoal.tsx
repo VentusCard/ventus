@@ -185,8 +185,8 @@ const StepOneLifestyleGoal = ({
 }: StepOneLifestyleGoalProps) => {
   return (
     <div>
-      <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">What would you like to be rewarded on?</h2>
-      <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
+      <h2 className="font-display text-xl md:text-2xl font-bold mb-3">What would like to be rewarded on?</h2>
+      <p className="text-base text-slate-600 mb-6">
         What's the primary lifestyle goal you want Ventus to support? Select one category that best represents 
         where you'd like to earn enhanced rewards.
       </p>
@@ -203,8 +203,8 @@ const StepOneLifestyleGoal = ({
             <CardContent className="p-4">
               <div className="text-center">
                 <div className="text-3xl mb-3">{option.icon}</div>
-                <h3 className="font-display text-lg md:text-xl font-bold text-foreground leading-tight mb-2">{option.title}</h3>
-                <p className="font-sans text-sm md:text-base text-muted-foreground leading-relaxed mb-3">{option.description}</p>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{option.title}</h3>
+                <p className="text-gray-600 mb-3 text-sm">{option.description}</p>
                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                   option.year === "Available First" 
                     ? "bg-green-100 text-green-700" 
@@ -231,10 +231,10 @@ const StepOneLifestyleGoal = ({
 
       {selectedGoal && (
         <div className="bg-blue-50 p-4 rounded-lg">
-          <h3 className="font-display text-lg md:text-xl font-bold text-foreground leading-tight mb-2">
+          <h3 className="font-display text-lg font-bold mb-2">
             {goalOptions.find(g => g.id === selectedGoal)?.title} Selected
           </h3>
-          <p className="font-sans text-sm md:text-base text-muted-foreground leading-relaxed">
+          <p className="text-slate-600 text-sm">
             Great choice! In the next step, you'll be able to select specific subcategories within 
             {' '}{goalOptions.find(g => g.id === selectedGoal)?.title} to further personalize your rewards experience.
           </p>

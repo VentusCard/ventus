@@ -56,8 +56,8 @@ const StepOne: React.FC<StepOneProps> = ({ selectedGoal, onSelectGoal }) => {
 
   return (
     <div className="space-y-4">
-      <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground leading-tight">Choose Your Main Lifestyle Goal</h2>
-      <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed">
+      <h2 className="font-display text-2xl md:text-3xl font-bold">Choose Your Main Lifestyle Goal</h2>
+      <p className="text-lg text-slate-600">
         Select the category that best represents your primary spending habits and interests. This will help us personalize your rewards.
       </p>
       
@@ -83,9 +83,9 @@ const StepOne: React.FC<StepOneProps> = ({ selectedGoal, onSelectGoal }) => {
               />
               <div className="relative w-full">
                 <CardHeader className="px-0 pb-0 pt-2">
-                   <CardTitle className="font-display text-lg md:text-xl font-bold text-white drop-shadow-md leading-tight">{goal.label}</CardTitle>
-                 </CardHeader>
-                 <p className="font-sans text-sm md:text-base text-blue-100 drop-shadow-md leading-relaxed">{goal.description}</p>
+                  <CardTitle className={`text-lg font-semibold text-white drop-shadow-md`}>{goal.label}</CardTitle>
+                </CardHeader>
+                <p className="text-sm text-blue-100 drop-shadow-md">{goal.description}</p>
               </div>
             </CardContent>
           </Card>

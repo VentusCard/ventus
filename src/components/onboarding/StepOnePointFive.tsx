@@ -271,7 +271,7 @@ const StepOnePointFive = ({
 
   return (
     <div>
-      <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground leading-tight mb-6">Select Your Interests</h2>
+      <h2 className="font-display text-2xl md:text-3xl font-bold mb-6">Select Your Interests</h2>
       
       <div className="bg-blue-50 p-6 rounded-lg mb-8">
         <div className="flex items-center gap-4">
@@ -281,13 +281,13 @@ const StepOnePointFive = ({
             </div>
           </div>
           <div>
-             <div className="font-sans text-sm md:text-base text-accent-foreground">Your Selected Lifestyle Goal</div>
-             <h3 className="font-display text-xl md:text-2xl font-bold text-foreground leading-tight">{getGoalName(selectedGoal)}</h3>
+            <div className="text-sm text-blue-700">Your Selected Lifestyle Goal</div>
+            <h3 className="font-display text-xl font-bold">{getGoalName(selectedGoal)}</h3>
           </div>
         </div>
       </div>
       
-      <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed mb-8">
+      <p className="text-lg text-slate-600 mb-8">
         Select the subcategories that reflect your interests. You may choose more than one. 
         Each will unlock a curated set of reward opportunities and merchant deals.
       </p>
@@ -295,7 +295,7 @@ const StepOnePointFive = ({
       <div className="mb-8">
         <Card>
           <CardHeader>
-            <CardTitle className="font-display text-lg md:text-xl font-bold text-foreground leading-tight">{getGoalName(selectedGoal)} Subcategories</CardTitle>
+            <CardTitle>{getGoalName(selectedGoal)} Subcategories</CardTitle>
           </CardHeader>
           <CardContent className="p-6">
             <div className="space-y-4">
@@ -316,12 +316,12 @@ const StepOnePointFive = ({
                         checked={selectedSubcategories.includes(subcategory)} 
                         onCheckedChange={() => toggleSubcategory(subcategory)}
                       />
-                       <Label 
-                         htmlFor={`subcategory-${subcategory}`} 
-                         className="font-sans text-sm md:text-base font-medium text-foreground cursor-pointer"
-                       >
-                         {subcategory}
-                       </Label>
+                      <Label 
+                        htmlFor={`subcategory-${subcategory}`} 
+                        className="text-base font-medium cursor-pointer"
+                      >
+                        {subcategory}
+                      </Label>
                     </div>
                     
                     {selectedSubcategories.includes(subcategory) && (
@@ -330,7 +330,7 @@ const StepOnePointFive = ({
                           e.stopPropagation();
                           toggleSubcategoryOpen(subcategory);
                         }}
-                        className="font-sans text-sm md:text-base text-primary hover:text-primary/80"
+                        className="flex items-center text-sm text-blue-600 hover:text-blue-800"
                       >
                         {openSubcategories.includes(subcategory) ? (
                           <>Hide Deals <ChevronUp className="ml-1 h-4 w-4" /></>
@@ -344,14 +344,14 @@ const StepOnePointFive = ({
                   <CollapsibleContent>
                     {selectedSubcategories.includes(subcategory) && (
                       <div className="bg-slate-50 p-4">
-                         <div className="flex items-center gap-2 mb-3 text-accent-foreground">
-                           <ShoppingBag className="h-4 w-4" />
-                           <h4 className="font-sans text-base md:text-lg font-semibold">Example Merchant Deals</h4>
-                         </div>
+                        <div className="flex items-center gap-2 mb-3 text-blue-700">
+                          <ShoppingBag className="h-4 w-4" />
+                          <h4 className="font-medium">Example Merchant Deals</h4>
+                        </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                           {getMerchantDealsForSubcategory(subcategory).map((merchant, index) => (
                             <div key={index} className="bg-white p-3 rounded-md shadow-sm">
-                              <span className="font-sans text-sm md:text-base font-medium text-foreground">{merchant}</span>
+                              <span className="font-medium">{merchant}</span>
                             </div>
                           ))}
                         </div>
@@ -367,17 +367,17 @@ const StepOnePointFive = ({
       
       {selectedSubcategories.length > 0 && (
         <div className="bg-green-50 p-6 rounded-lg">
-           <h3 className="font-display text-xl md:text-2xl font-bold text-foreground leading-tight mb-4">Selected Interests</h3>
-           <div className="flex flex-wrap gap-2">
-             {selectedSubcategories.map((subcategory) => (
-               <span 
-                 key={subcategory}
-                 className="bg-white border border-green-200 text-green-800 px-3 py-1 rounded-full font-sans text-sm md:text-base"
-               >
-                 {subcategory}
-               </span>
-             ))}
-           </div>
+          <h3 className="font-display text-xl font-bold mb-4">Selected Interests</h3>
+          <div className="flex flex-wrap gap-2">
+            {selectedSubcategories.map((subcategory) => (
+              <span 
+                key={subcategory}
+                className="bg-white border border-green-200 text-green-800 px-3 py-1 rounded-full text-sm"
+              >
+                {subcategory}
+              </span>
+            ))}
+          </div>
         </div>
       )}
     </div>

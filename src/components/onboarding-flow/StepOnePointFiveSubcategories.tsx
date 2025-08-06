@@ -48,19 +48,19 @@ const StepOnePointFiveSubcategories = ({
         WebkitTapHighlightColor: 'transparent'
       }}
     >
-      <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground leading-tight mb-4">
+      <h2 className="font-display text-xl md:text-2xl font-bold mb-3">
         Choose Your Subcategories
       </h2>
-      <p className="font-sans text-base md:text-lg text-muted-foreground leading-relaxed mb-6">
+      <p className="text-base text-slate-600 mb-6">
         Select the subcategories that reflect your interests. You may choose more than one. 
         Each will unlock a curated set of reward opportunities and merchant deals.
       </p>
 
       <div className="bg-blue-50 p-4 rounded-lg mb-6">
-        <h3 className="font-display text-lg md:text-xl font-bold text-foreground leading-tight mb-2">
+        <h3 className="font-display text-lg font-bold mb-2">
           Selected Goal: {goalTitles[selectedGoal]}
         </h3>
-        <p className="font-sans text-sm md:text-base text-muted-foreground leading-relaxed">
+        <p className="text-slate-600 text-sm">
           Now customize your experience by selecting specific areas within {goalTitles[selectedGoal]} {' '}
           where you want to earn enhanced rewards.
         </p>
@@ -82,24 +82,24 @@ const StepOnePointFiveSubcategories = ({
               WebkitTapHighlightColor: 'transparent'
             }}
           >
-            <div className="font-sans text-sm md:text-base font-medium text-foreground">{subcategory}</div>
+            <div className="font-medium text-sm">{subcategory}</div>
           </button>
         ))}
       </div>
 
       {selectedSubcategories.length > 0 && (
         <div className="bg-blue-50 p-4 rounded-lg">
-          <h3 className="font-display text-lg md:text-xl font-bold text-foreground leading-tight mb-3">
+          <h3 className="font-display text-lg font-bold mb-3">
             Selected Subcategories ({selectedSubcategories.length})
           </h3>
           <div className="flex flex-wrap gap-2">
             {selectedSubcategories.map(sub => (
-              <span key={sub} className="px-3 py-1 bg-blue-100 rounded-full font-sans text-sm md:text-base font-medium text-primary">
+              <span key={sub} className="px-3 py-1 bg-blue-100 rounded-full text-sm font-medium text-[#033bbc]">
                 {sub}
               </span>
             ))}
           </div>
-          <p className="font-sans text-sm md:text-base text-muted-foreground leading-relaxed mt-3">
+          <p className="text-slate-600 mt-3 text-sm">
             Perfect! You'll see how Ventus simplifies earning rewards across all these categories in the next steps.
           </p>
         </div>
