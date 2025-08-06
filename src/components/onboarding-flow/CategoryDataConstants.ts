@@ -438,7 +438,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
   pets: {
     "Dog Essentials": [{
       item: "Food/treats",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Collars/beds",
@@ -459,7 +459,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
     }],
     "Cat Essentials": [{
       item: "Food/litter",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Subscriptions",
@@ -488,7 +488,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Medications",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Insurance",
@@ -496,28 +496,28 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Shampoo/dental care",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }],
     "Pet Food and Nutrition": [{
       item: "Subscriptions",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Treats/supplements",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Breed-specific food",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Retail purchases",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Autoship",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }],
     "Pet Activities and Services": [{
@@ -555,7 +555,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-gray-500"
     }, {
       item: "Training treats",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Online training courses",
@@ -610,7 +610,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-blue-500"
     }, {
       item: "Bird food & supplements",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Avian vet care",
@@ -631,11 +631,11 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-blue-500"
     }, {
       item: "Small animal food",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Bedding & substrates",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Enrichment toys",
@@ -652,7 +652,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-blue-500"
     }, {
       item: "Fish food & treatments",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "Filtration systems",
@@ -673,7 +673,7 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       color: "bg-blue-500"
     }, {
       item: "Specialized reptile food",
-      card: "4x with Grocery Card",
+      card: "2x with General Cash Back Card",
       color: "bg-green-500"
     }, {
       item: "UVB lighting & equipment",
