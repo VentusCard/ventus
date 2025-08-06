@@ -5,12 +5,10 @@ import VentusSimplificationSection from "./VentusSimplificationSection";
 import { Card, CardContent } from "@/components/ui/card";
 import { dealIcons, getDealIcon } from "../onboarding/step-three/DealIcons";
 import { exampleDeals } from "../onboarding/step-three/ExampleDealsData";
-
 interface StepTwoMergedProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
 }
-
 const StepTwoMerged = ({
   selectedGoal,
   selectedSubcategories
@@ -31,10 +29,8 @@ const StepTwoMerged = ({
     }
     return `${goalTitles[goal]} Enthusiasts`;
   };
-
   const selectedDeals = exampleDeals[selectedGoal] || {};
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
-
   return <div className="space-y-4">
       {/* Selected Categories Impact - Moved to top */}
       <SelectedCategoriesImpactCard selectedGoal={selectedGoal} selectedSubcategories={selectedSubcategories} />
@@ -65,10 +61,7 @@ const StepTwoMerged = ({
               })}
               </div>
             </div>
-            <div>
-              <h4 className="font-semibold text-blue-700 mb-2">What This Means:</h4>
-              <p className="text-sm text-blue-600">Ventus AI will continuously find and secure exclusive deals with merchants in your selected categories, ensuring you always get the best rewards.</p>
-            </div>
+            
           </div>
         </div>
 
@@ -109,5 +102,4 @@ const StepTwoMerged = ({
       </div>
     </div>;
 };
-
 export default StepTwoMerged;
