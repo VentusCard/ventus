@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail, User, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import ReferralSuccessPopover from "@/components/ReferralSuccessPopover";
 
 const categories = [
   { value: "Sports", label: "Sports" },
@@ -20,7 +19,6 @@ const categories = [
 const JoinWaitlist = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [hasAttemptedSubmit, setHasAttemptedSubmit] = useState(false);
-  const [showReferralPopover, setShowReferralPopover] = useState(false);
   const { toast } = useToast();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -95,11 +93,6 @@ const JoinWaitlist = () => {
         // Reset form using the stored reference
         form.reset();
         setHasAttemptedSubmit(false);
-
-        // Show referral popover after successful submission
-        setTimeout(() => {
-          setShowReferralPopover(true);
-        }, 1000);
       } else {
         console.error('Server returned error:', response.status, responseText);
         throw new Error(`Server error: ${response.status}`);
@@ -278,11 +271,6 @@ const JoinWaitlist = () => {
       </section>
 
       <Footer />
-      
-      <ReferralSuccessPopover 
-        isOpen={showReferralPopover}
-        onOpenChange={setShowReferralPopover}
-      />
     </div>
   );
 };
