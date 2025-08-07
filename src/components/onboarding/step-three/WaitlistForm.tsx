@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
 import { LifestyleGoal, OnboardingFlowData } from "@/pages/OnboardingFlow";
+import ReferralSuccessPopover from "@/components/ReferralSuccessPopover";
 const lifestyleCategories: {
   label: string;
   value: LifestyleGoal;
@@ -36,6 +37,7 @@ const WaitlistForm = ({
 }: WaitlistFormProps) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [emailError, setEmailError] = useState("");
+  const [showReferralPopover, setShowReferralPopover] = useState(false);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -119,6 +121,11 @@ const WaitlistForm = ({
           interest: onboardingData?.mainGoal || ""
         });
         form.reset();
+
+        // Show referral popover after successful submission
+        setTimeout(() => {
+          setShowReferralPopover(true);
+        }, 1000);
       } else {
         console.error('Server returned error:', response.status, responseText);
         throw new Error(`Server error: ${response.status}`);
@@ -149,9 +156,11 @@ const WaitlistForm = ({
     const category = lifestyleCategories.find(cat => cat.value === onboardingData.mainGoal);
     return category ? category.label : "";
   };
-  return <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
-      <div className="h-3 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
-      <CardContent className="p-5 md:p-6">
+  return (
+    <>
+      <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
+        <div className="h-3 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
+        <CardContent className="p-5 md:p-6">
         <h3 className="font-display text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
           <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg flex-shrink-0">
             <Shield className="text-white" size={20} />
@@ -213,6 +222,13 @@ const WaitlistForm = ({
           </Button>
         </form>
       </CardContent>
-    </Card>;
+    </Card>
+    
+    <ReferralSuccessPopover 
+      isOpen={showReferralPopover}
+      onOpenChange={setShowReferralPopover}
+    />
+    </>
+  );
 };
 export default WaitlistForm;
