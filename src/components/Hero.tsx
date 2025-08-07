@@ -110,7 +110,7 @@ const Hero = () => {
           
           {/* Enhanced subheading with soft blue-gray tone */}
           <p className="text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
-            Personalized rewards for high-impact living
+            AI-powered Smart rewards for purposeful living
           </p>
           
           {/* Video Centerpiece - removed hover effects and mobile animations */}
