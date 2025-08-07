@@ -141,7 +141,7 @@ const Hero = () => {
           
           {/* Enhanced Learn More button - now smaller on mobile */}
           <div className="mt-6 md:mt-8 h-[48px] md:h-[64px] flex items-center justify-center">
-            <Link to="/about">
+            <Link to="/smartrewards">
               <Button 
                 size="sm"
                 className={`bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-12 md:px-20 py-4 md:py-7 text-sm md:text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[48px] md:min-h-[64px] min-w-[160px] md:min-w-[220px] border-0 ${
