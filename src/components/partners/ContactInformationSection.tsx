@@ -250,7 +250,7 @@ const ContactInformationSection = ({
                 className="w-full h-12 md:h-12 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 <Calendar className="h-4 w-4 mr-2" />
-                Schedule Demo
+                Join Waitlist + Schedule Demo
               </Button>
               
               <Button 
