@@ -258,7 +258,7 @@ const ContactInformationSection = ({
                 disabled={isSubmitting}
                 className="w-full h-12 md:h-12 bg-blue-600 text-white hover:bg-blue-700 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? "Submitting..." : "Join Merchant Waitlist"}
+                {isSubmitting ? "Submitting..." : "Join Merchant Waitlist Only"}
               </Button>
             </div>
 
