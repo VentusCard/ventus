@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User, ChevronDown, ChevronUp, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 interface ContactInformationSectionProps {
   selectedCategory: string;
@@ -23,7 +23,9 @@ const ContactInformationSection = ({
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [websiteValue, setWebsiteValue] = useState("");
-
+  const [shouldOpenScheduler, setShouldOpenScheduler] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  const schedulerUrl = "https://calendar.app.google/tv5tbSTnpJAT9YPg7";
   // Format the company industry field to include subcategories
   const formatCompanyIndustry = () => {
     if (!selectedCategory) return "";
@@ -77,6 +79,12 @@ const ContactInformationSection = ({
       setWebsiteValue(formattedUrl);
     }
   };
+  
+  const handleScheduleDemo = () => {
+    handleWebsiteBlur();
+    setShouldOpenScheduler(true);
+    formRef.current?.requestSubmit();
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -122,10 +130,14 @@ const ContactInformationSection = ({
         description: "Your submission has been recorded successfully. Thank you for you interest in partnering with Ventus! We will notify you when Ventus is ready to launch.",
       });
       
+      // Open scheduler if requested, then reset
+      if (shouldOpenScheduler) {
+        window.open(schedulerUrl, "_blank", "noopener,noreferrer");
+        setShouldOpenScheduler(false);
+      }
       // Reset the form and website state
       (e.target as HTMLFormElement).reset();
       setWebsiteValue("");
-
     } catch (error) {
       console.error('Submission error details:', error);
       console.error('Error name:', error instanceof Error ? error.name : 'Unknown');
@@ -166,7 +178,7 @@ const ContactInformationSection = ({
 
       {isExpanded && (
         <CardContent className="px-4 md:px-8 pb-4 md:pb-6 space-y-4 md:space-y-5 animate-accordion-down">
-          <form onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
+          <form ref={formRef} onSubmit={handleSubmit} className="space-y-4 md:space-y-5">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Name</label>
@@ -231,14 +243,14 @@ const ContactInformationSection = ({
             </div>
 
             <div className="pt-3 space-y-3">
-              <Button 
-                asChild
-                className="w-full h-12 md:h-12 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base"
+              <Button
+                type="button"
+                onClick={handleScheduleDemo}
+                disabled={isSubmitting}
+                className="w-full h-12 md:h-12 font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] text-sm md:text-base disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <a href="https://calendar.app.google/tv5tbSTnpJAT9YPg7" target="_blank" rel="noopener noreferrer">
-                  <Calendar className="h-4 w-4 mr-2" />
-                  Schedule Demo
-                </a>
+                <Calendar className="h-4 w-4 mr-2" />
+                Schedule Demo
               </Button>
               
               <Button 
