@@ -31,7 +31,7 @@ const StepTwoMerged = ({
   };
   const selectedDeals = exampleDeals[selectedGoal] || {};
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
-  return <div className="space-y-4">
+  return <div className="space-y-3 md:space-y-4">
       {/* Selected Categories Impact - Moved to top */}
       <SelectedCategoriesImpactCard selectedGoal={selectedGoal} selectedSubcategories={selectedSubcategories} />
 
@@ -40,13 +40,13 @@ const StepTwoMerged = ({
       <VentusSimplificationSection />
 
       {/* Example Deals Section */}
-      <div className="mt-6">
-        <h2 className="font-display text-2xl font-bold mb-4 md:text-2xl">
+      <div className="mt-4">
+        <h2 className="font-display text-2xl font-bold mb-3 md:text-2xl">
           Exclusive Deals for {getDisplayTitle(selectedGoal)}
         </h2>
         
 
-        <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-8">
+        <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-4">
           <h3 className="font-display font-bold mb-3 text-blue-800 text-xl">Your Personalized Merchant Deals</h3>
           <div>
             <h4 className="font-semibold text-blue-700 mb-2 text-sm">Selected Categories:</h4>
@@ -62,7 +62,7 @@ const StepTwoMerged = ({
           </div>
         </div>
 
-        {relevantCategories.length > 0 && <div className="space-y-6 mb-8">
+        {relevantCategories.length > 0 && <div className="space-y-4 mb-4">
             {relevantCategories.map(category => {
           const CategoryIcon = dealIcons[category as keyof typeof dealIcons];
           return <div key={category} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
@@ -91,7 +91,7 @@ const StepTwoMerged = ({
         })}
           </div>}
 
-        <div className="text-center mt-8">
+        <div className="text-center mt-6">
           <p className="text-slate-600 text-base font-bold">
             Ready to see your potential rewards?
           </p>
