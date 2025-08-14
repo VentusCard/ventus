@@ -36,7 +36,7 @@ const Navbar = () => {
         {/* Logo/Brand */}
         <div className="flex items-center flex-1 md:flex-initial">
           <Link to="/" onClick={closeMobileMenu}>
-            <h1 className="text-base md:text-lg tracking-[0.15em] font-sans font-light text-white/95 relative cursor-pointer hover:text-white transition-colors duration-300">
+            <h1 className="text-base md:text-lg tracking-[0.15em] font-horizon font-light text-white/95 relative cursor-pointer hover:text-white transition-colors duration-300">
               <span className="relative inline-block">
                 VENTUS CARD
                 {/* Subtle metallic sheen effect */}

@@ -24,6 +24,7 @@ export default {
 				sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'sans-serif'],
 				display: ['SF Pro Display', 'Playfair Display', 'serif'],
 				mono: ['SF Mono', 'Monaco', 'Cascadia Code', 'monospace'],
+				horizon: ['Orbitron', 'monospace'],
 			},
 
 			// Background Images & Gradients
