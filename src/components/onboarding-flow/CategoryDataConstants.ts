@@ -16,52 +16,52 @@ export const mainCategoryScenarios: Record<LifestyleGoal, Array<{
   multiplier: string;
 }>> = {
   sports: [
-    { subcategory: "Sports Equipment & Gear", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Gym & Facilities Fees", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Apparel and Footwear", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Sports Events & Tickets", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Sports Dining & Concessions", card: "Dining Card", multiplier: "4x" },
-    { subcategory: "Training & Coaching", card: "General Cashback Card", multiplier: "2x" }
+    { subcategory: "All Sports Equipment & Gear", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Gym & Facilities Fees", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Apparel and Footwear", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Sports Events & Tickets", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Sports Dining & Concessions", card: "Dining Card", multiplier: "4x" },
+    { subcategory: "All Training & Coaching", card: "General Cashback Card", multiplier: "2x" }
   ],
   wellness: [
-    { subcategory: "Fitness Gyms and Classes", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Health Supplements", card: "Grocery Card", multiplier: "4x" },
-    { subcategory: "Spa & Wellness Services", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Beauty & Cosmetics", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Wellness Apps & Subscriptions", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Health Retreats & Programs", card: "General Cashback Card", multiplier: "2x" }
+    { subcategory: "All Fitness Gyms and Classes", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Health Supplements", card: "Grocery Card", multiplier: "4x" },
+    { subcategory: "All Spa & Wellness Services", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Beauty & Cosmetics", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Wellness Apps & Subscriptions", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Health Retreats & Programs", card: "General Cashback Card", multiplier: "2x" }
   ],
   pets: [
-    { subcategory: "Pet Food & Nutrition", card: "Grocery Card", multiplier: "4x" },
-    { subcategory: "Veterinary Care & Health", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Pet Supplies & Accessories", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Pet Insurance & Services", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Pet Grooming & Care", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Pet Toys & Entertainment", card: "Shopping Cashback Card", multiplier: "3x" }
+    { subcategory: "All Pet Food & Nutrition", card: "Grocery Card", multiplier: "4x" },
+    { subcategory: "All Veterinary Care & Health", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Pet Supplies & Accessories", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Pet Insurance & Services", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Pet Grooming & Care", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Pet Toys & Entertainment", card: "Shopping Cashback Card", multiplier: "3x" }
   ],
   gamers: [
-    { subcategory: "Gaming Hardware & Equipment", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Game Purchases & Downloads", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Gaming Subscriptions & Services", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Gaming Accessories & Peripherals", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Streaming & Entertainment", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Gaming Events & Tournaments", card: "General Cashback Card", multiplier: "2x" }
+    { subcategory: "All Gaming Hardware & Equipment", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Game Purchases & Downloads", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Gaming Subscriptions & Services", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Gaming Accessories & Peripherals", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Streaming & Entertainment", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Gaming Events & Tournaments", card: "General Cashback Card", multiplier: "2x" }
   ],
   creatives: [
-    { subcategory: "Art Supplies & Materials", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Creative Software & Tools", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Photography & Video Equipment", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Classes & Workshops", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Creative Hardware & Tools", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Art Events & Exhibitions", card: "General Cashback Card", multiplier: "2x" }
+    { subcategory: "All Art Supplies & Materials", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Creative Software & Tools", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Photography & Video Equipment", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Classes & Workshops", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Creative Hardware & Tools", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Art Events & Exhibitions", card: "General Cashback Card", multiplier: "2x" }
   ],
   homeowners: [
-    { subcategory: "Home Improvement & Repair", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Home Appliances & Electronics", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Home Services & Maintenance", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Garden & Landscaping", card: "Shopping Cashback Card", multiplier: "3x" },
-    { subcategory: "Home Security & Safety", card: "General Cashback Card", multiplier: "2x" },
-    { subcategory: "Furniture & Home Decor", card: "Shopping Cashback Card", multiplier: "3x" }
+    { subcategory: "All Home Improvement & Repair", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Home Appliances & Electronics", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Home Services & Maintenance", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Garden & Landscaping", card: "Shopping Cashback Card", multiplier: "3x" },
+    { subcategory: "All Home Security & Safety", card: "General Cashback Card", multiplier: "2x" },
+    { subcategory: "All Furniture & Home Decor", card: "Shopping Cashback Card", multiplier: "3x" }
   ]
 };
 
