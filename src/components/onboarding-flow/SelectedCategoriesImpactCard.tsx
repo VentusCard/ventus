@@ -27,7 +27,7 @@ const SelectedCategoriesImpactCard = ({
           <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
             <CreditCard className="h-5 w-5 md:h-6 md:w-6 text-white" />
           </div>
-          <h3 className="font-display text-xl md:text-2xl font-bold text-blue-800 leading-tight">The Ventus Smart Rewards Advantage</h3>
+          <h3 className="font-display text-xl md:text-2xl font-bold text-blue-800 leading-tight">The Ventus Smart Rewards Experience</h3>
         </div>
         
         <p className="text-slate-600 mb-3 md:mb-4 text-base md:text-lg leading-relaxed">
