@@ -111,19 +111,9 @@ const StepFourSpendingInput = ({
     return goalMapping[goal] || goal;
   };
   return <div>
-      {/* Header Section */}
-      <div className="mb-8">
-        <h2 className="font-display text-xl md:text-2xl font-bold mb-3">
-          Join the Waitlist Today!
-        </h2>
-        <p className="text-base text-slate-600 mb-6">
-          Reserve your place in line for the smart rewards card built around your lifestyle
-        </p>
-      </div>
-
       {/* Join Waitlist Section */}
       <div>
-        <WaitlistForm onboardingData={onboardingData} />
+        
       </div>
     </div>;
 };
