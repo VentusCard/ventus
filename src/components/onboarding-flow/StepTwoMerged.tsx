@@ -34,10 +34,10 @@ const StepTwoMerged = ({
   return <div className="space-y-3 md:space-y-4">
       {/* Header Section */}
       <div className="mb-8">
-        <h2 className="font-display text-xl md:text-2xl font-bold mb-3">
+        <h2 className="font-display text-xl md:text-2xl font-bold mb-4">
           Your Personalized Smart Rewards System
         </h2>
-        <p className="text-base text-slate-600 mb-6">
+        <p className="text-base md:text-lg text-slate-600 mb-6">
           See how Ventus combines your selected categories into one intelligent card that automatically maximizes your rewards.
         </p>
       </div>
@@ -51,15 +51,15 @@ const StepTwoMerged = ({
 
       {/* Example Deals Section */}
       <div className="mt-4">
-        <h2 className="font-display text-2xl font-bold mb-3 md:text-2xl">
+        <h2 className="font-display text-xl md:text-2xl font-bold mb-4">
           Exclusive Deals for {getDisplayTitle(selectedGoal)}
         </h2>
         
 
         <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-4">
-          <h3 className="font-display font-bold mb-3 text-blue-800 text-xl">Your Personalized Merchant Deals</h3>
+          <h3 className="font-display text-lg md:text-xl font-bold mb-3 text-blue-800">Your Personalized Merchant Deals</h3>
           <div>
-            <h4 className="font-semibold text-blue-700 mb-2 text-sm">Selected Categories:</h4>
+            <h4 className="font-semibold text-blue-700 mb-3 text-sm md:text-base">Selected Categories:</h4>
             <div className="flex flex-wrap gap-2">
               {selectedSubcategories.map(sub => {
               const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
@@ -78,7 +78,7 @@ const StepTwoMerged = ({
           return <div key={category} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
                   <div className="flex items-center gap-3 mb-4">
                     {CategoryIcon && <CategoryIcon className="h-6 w-6 text-blue-600" />}
-                    <h3 className="font-bold text-xl text-slate-800">Example Deals in {category}</h3>
+                    <h3 className="font-display text-lg md:text-xl font-bold text-slate-800">Example Deals in {category}</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {selectedDeals[category]?.map((deal, index) => {
@@ -89,7 +89,7 @@ const StepTwoMerged = ({
                               <div className="flex-shrink-0 p-2 bg-blue-50 rounded-full">
                                 <DealIcon className="h-4 w-4 text-blue-600" />
                               </div>
-                              <div className="text-slate-700 text-sm font-medium flex-1 min-h-[50px] flex items-center">
+                              <div className="text-slate-700 text-sm md:text-base font-medium flex-1 min-h-[50px] flex items-center">
                                 <span className="text-left w-full">{deal}</span>
                               </div>
                             </div>
@@ -102,7 +102,7 @@ const StepTwoMerged = ({
           </div>}
 
         <div className="text-center mt-6">
-          <p className="text-slate-600 text-base font-bold">
+          <p className="text-slate-600 text-base md:text-lg font-bold">
             Ready to see your potential rewards?
           </p>
         </div>

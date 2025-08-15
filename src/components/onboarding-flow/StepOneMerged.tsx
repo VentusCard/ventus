@@ -226,12 +226,12 @@ const StepOneMerged = ({
               <CardContent className="p-4">
                 <div className="text-center">
                   <div className="text-3xl mb-3">{option.icon}</div>
-                  <h3 className={`text-lg font-bold mb-2 ${isDisabled ? 'text-gray-400' : 'text-gray-900'}`}>
+                   <h3 className={`font-display text-lg md:text-xl font-bold mb-3 ${isDisabled ? 'text-gray-400' : 'text-gray-900'}`}>
                     {option.title}
-                  </h3>
-                  <p className={`mb-3 text-sm ${isDisabled ? 'text-gray-400' : 'text-gray-600'}`}>
+                   </h3>
+                   <p className={`mb-3 text-sm md:text-base ${isDisabled ? 'text-gray-400' : 'text-gray-600'}`}>
                     {option.description}
-                  </p>
+                   </p>
                   <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${isDisabled ? "bg-gray-100 text-gray-400" : option.year === "Available First" ? "bg-green-100 text-green-700" : option.year === "Available Soon" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
                     {isDisabled ? "Coming Later" : option.availability}
                   </span>
@@ -253,10 +253,10 @@ const StepOneMerged = ({
         pointerEvents: 'auto',
         WebkitTapHighlightColor: 'transparent'
       }}>
-            <h3 className="font-display font-bold mb-3 text-2xl">
+            <h3 className="font-display text-lg md:text-xl font-bold mb-4">
               Pick up to 3 areas you're interested in receiving deals and offers.
             </h3>
-            <p className="text-base text-slate-600 mb-4">
+            <p className="text-base md:text-lg text-slate-600 mb-4">
               No pressure, you can add more when Ventus launches!
             </p>
 
@@ -268,7 +268,7 @@ const StepOneMerged = ({
             pointerEvents: 'auto',
             WebkitTapHighlightColor: 'transparent'
           }}>
-                <div className="font-medium text-sm">{subcategory}</div>
+                <div className="font-medium text-sm md:text-base">{subcategory}</div>
               </button>)}
             </div>
 

@@ -103,17 +103,17 @@ const OnboardingFlow = () => {
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 py-8 md:py-10">
           <div className="text-center max-w-5xl mx-auto">
-            <h1 className="font-display text-5xl md:text-4xl lg:text-5xl font-bold mb-4 leading-none mt-10 ">
-              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent text-3xl md:text-5xl">
+            <h1 className="font-display text-2xl md:text-3xl font-bold mb-4 leading-none mt-10">
+              <span className="bg-gradient-to-r from-white via-blue-100 to-cyan-200 bg-clip-text text-transparent">
                 Discover Your
               </span>
               <br />
-              <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent text-3xl md:text-5xl">
+              <span className="bg-gradient-to-r from-cyan-300 via-blue-200 to-white bg-clip-text text-transparent">
                 Ventus Smart Rewards
               </span>
             </h1>
             
-            <p className="text-sm md:text-lg text-blue-100 leading-relaxed max-w-5xl mx-auto">Most cards reward categories. Ventus rewards you. We start with your goals—like fitness, pet care, or home upgrades—and deliver cross-category rewards with tailored deals just for you. No more switching cards or missing out.<br />Choose your personalized reward profile below to join the waitlist!</p>
+            <p className="text-base md:text-lg text-blue-100 leading-relaxed max-w-5xl mx-auto">Most cards reward categories. Ventus rewards you. We start with your goals—like fitness, pet care, or home upgrades—and deliver cross-category rewards with tailored deals just for you. No more switching cards or missing out.<br />Choose your personalized reward profile below to join the waitlist!</p>
           </div>
         </div>
 

@@ -27,10 +27,10 @@ const SelectedCategoriesImpactCard = ({
           <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
             <CreditCard className="h-5 w-5 md:h-6 md:w-6 text-white" />
           </div>
-          <h3 className="font-display text-lg font-bold text-blue-800 leading-tight md:text-2xl">The Ventus Smart Rewards Advantage</h3>
+          <h3 className="font-display text-xl md:text-2xl font-bold text-blue-800 leading-tight">The Ventus Smart Rewards Advantage</h3>
         </div>
         
-        <p className="text-slate-600 mb-2 md:mb-3 text-sm md:text-base leading-relaxed">
+        <p className="text-slate-600 mb-3 md:mb-4 text-base md:text-lg leading-relaxed">
           Traditional credit cards force you to juggle multiple cards for different purchase types. Ventus automatically gives you <strong>5x rewards on ALL related purchases</strong> with one intelligent card:
         </p>
 

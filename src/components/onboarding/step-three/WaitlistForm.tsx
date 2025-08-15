@@ -152,34 +152,34 @@ const WaitlistForm = ({
   return <Card className="overflow-hidden border-0 shadow-premium bg-gradient-to-br from-blue-50 via-sky-50 to-cyan-50/50 card-mobile">
       <div className="h-3 bg-gradient-to-r from-blue-500 to-cyan-400"></div>
       <CardContent className="p-5 md:p-6">
-        <h3 className="font-display text-2xl md:text-3xl font-bold mb-4 flex items-center gap-3">
+        <h3 className="font-display text-xl md:text-2xl font-bold mb-4 flex items-center gap-3">
           <div className="p-2 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl shadow-lg flex-shrink-0">
             <Shield className="text-white" size={20} />
           </div>
-          <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent text-xl">
+          <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
             Join the Waitlist Today!
           </span>
         </h3>
-        <div className="text-slate-600 mb-5 text-base md:text-lg leading-relaxed">
-          <p className="font-bold mb-2 text-lg md:text-lg">
+        <div className="text-slate-600 mb-6 text-base md:text-lg leading-relaxed">
+          <p className="font-bold mb-3 text-base md:text-lg">
             Be among the first to experience your personalized Ventus Card in 2026.
           </p>
-          <p className="text-base md:text-base">Be the first to experience Ventus. We're launching soon—exclusively for eligible U.S. customers, starting with our waitlist. Every Ventus account will be FDIC-insured at launch, delivering the security you expect and the innovation you've been waiting for.</p>
+          <p className="text-sm md:text-base">Be the first to experience Ventus. We're launching soon—exclusively for eligible U.S. customers, starting with our waitlist. Every Ventus account will be FDIC-insured at launch, delivering the security you expect and the innovation you've been waiting for.</p>
         </div>
         
         <form onSubmit={handleSubmit} className="space-y-4 mb-4">
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">First Name</label>
+            <label className="block text-sm md:text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide">First Name</label>
             <Input name="firstName" type="text" placeholder="First Name" value={formData.firstName} onChange={e => handleInputChange('firstName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" minLength={2} required />
           </div>
           
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">Last Name</label>
+            <label className="block text-sm md:text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide">Last Name</label>
             <Input name="lastName" type="text" placeholder="Last Name" value={formData.lastName} onChange={e => handleInputChange('lastName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" />
           </div>
           
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">Main Category</label>
+            <label className="block text-sm md:text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide">Main Category</label>
             <Select name="interest" value={formData.interest} onValueChange={value => handleInputChange('interest', value)} required>
               <SelectTrigger className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base">
                 <SelectValue placeholder={onboardingData?.mainGoal ? getSelectedCategoryLabel() : "Select a category"} />
@@ -195,7 +195,7 @@ const WaitlistForm = ({
           </div>
 
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide flex items-center gap-2">
+            <label className="block text-sm md:text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide flex items-center gap-2">
               <Target size={16} className="text-slate-500" />
               Referral Code (Optional)
             </label>
@@ -203,7 +203,7 @@ const WaitlistForm = ({
           </div>
           
           <div className="form-field">
-            <label className="block text-sm font-semibold mb-3 text-slate-700 uppercase tracking-wide">Email Address</label>
+            <label className="block text-sm md:text-base font-semibold mb-3 text-slate-700 uppercase tracking-wide">Email Address</label>
             <Input name="email" type="email" placeholder="Email Address" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} className={`bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base ${emailError ? 'border-red-500 focus:border-red-500' : ''}`} required />
             {emailError && <p className="text-red-500 text-sm mt-2">{emailError}</p>}
           </div>
