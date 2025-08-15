@@ -157,7 +157,7 @@ const WaitlistForm = ({
             <Shield className="text-white" size={20} />
           </div>
           <span className="bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent text-xl">
-            Join the Waitlist
+            Join the Waitlist Today!
           </span>
         </h3>
         <div className="text-slate-600 mb-5 text-base md:text-lg leading-relaxed">
