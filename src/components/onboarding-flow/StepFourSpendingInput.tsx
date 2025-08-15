@@ -112,7 +112,7 @@ const StepFourSpendingInput = ({
   };
   return <div>
       {/* Header Section */}
-      <div className="text-center mb-8">
+      <div className="mb-8">
         <h2 className="font-display text-xl md:text-2xl font-bold mb-3">
           Join the Waitlist Today!
         </h2>

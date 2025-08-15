@@ -33,7 +33,7 @@ const StepTwoMerged = ({
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
   return <div className="space-y-3 md:space-y-4">
       {/* Header Section */}
-      <div className="text-center mb-8">
+      <div className="mb-8">
         <h2 className="font-display text-xl md:text-2xl font-bold mb-3">
           Your Personalized Smart Rewards System
         </h2>
