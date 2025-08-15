@@ -32,6 +32,16 @@ const StepTwoMerged = ({
   const selectedDeals = exampleDeals[selectedGoal] || {};
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
   return <div className="space-y-3 md:space-y-4">
+      {/* Header Section */}
+      <div className="text-center mb-8">
+        <h2 className="font-display text-xl md:text-2xl font-bold mb-3">
+          Your Personalized Smart Rewards System
+        </h2>
+        <p className="text-base text-slate-600 mb-6">
+          See how Ventus combines your selected categories into one intelligent card that automatically maximizes your rewards.
+        </p>
+      </div>
+
       {/* Selected Categories Impact - Moved to top */}
       <SelectedCategoriesImpactCard selectedGoal={selectedGoal} selectedSubcategories={selectedSubcategories} />
 
