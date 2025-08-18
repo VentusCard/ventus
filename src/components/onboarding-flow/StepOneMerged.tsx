@@ -302,7 +302,7 @@ const StepOneMerged = ({
             {selectedSubcategories.length >= 3}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-500/50 bg-gradient-to-br from-blue-600/20 to-blue-700/20 text-blue-200 shadow-md ring-2 ring-blue-400/30' : 'border-blue-300 bg-gradient-to-br from-blue-400/40 to-blue-500/40 text-blue-100 shadow-lg hover:border-blue-200 hover:from-blue-300/50 hover:to-blue-400/50'}`} style={{
+              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-300 bg-gradient-to-br from-blue-400/40 to-blue-500/40 text-blue-100 shadow-lg ring-2 ring-blue-400/30' : 'border-blue-500/50 bg-gradient-to-br from-blue-600/20 to-blue-700/20 text-blue-200 hover:border-blue-400 hover:from-blue-500/30 hover:to-blue-600/30 shadow-md'}`} style={{
             touchAction: 'manipulation',
             pointerEvents: 'auto',
             WebkitTapHighlightColor: 'transparent'
