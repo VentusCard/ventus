@@ -67,7 +67,7 @@ const VentusAI = () => {
               Ventus AI
             </h1>
           </div>
-          <p className="text-xl md:text-2xl text-white/80 mb-6 max-w-5xl mx-auto leading-relaxed">Your intelligent assistant for maximizing rewards. Get personalized insights, deals, and instant answers to all your reward questions.</p>
+          <p className="text-xl md:text-2xl text-white/80 mb-6 max-w-6xl mx-auto leading-relaxed">Your intelligent assistant for maximizing rewards. Get personalized insights, deals, and instant answers to all your reward questions.</p>
           
         </div>
       </section>
