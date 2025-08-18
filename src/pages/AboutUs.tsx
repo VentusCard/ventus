@@ -22,7 +22,7 @@ const AboutUs = () => {
     title: "Our Community",
     description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
   }];
-  return <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/95">
+  return <div className="dark min-h-screen bg-gradient-to-br from-background via-background to-background/95">
       <Navbar />
       
       {/* Hero Section */}
