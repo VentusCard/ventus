@@ -72,10 +72,10 @@ const testimonials: Testimonial[] = [{
   role: "General Manager"
 }];
 const PartnerTestimonials = () => {
-  return <section className="py-8 px-4 md:px-6 relative">
+  return <section className="py-8 px-4 md:px-8 relative">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
-      <div className="max-w-full mx-auto relative">
+      <div className="max-w-7xl mx-auto relative">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent">
             What Our Partners Say
@@ -93,7 +93,7 @@ const PartnerTestimonials = () => {
               delay: 4000,
             }),
           ]}
-          className="w-full max-w-5xl mx-auto"
+          className="w-full"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
             {testimonials.map(testimonial => <CarouselItem key={testimonial.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/2">

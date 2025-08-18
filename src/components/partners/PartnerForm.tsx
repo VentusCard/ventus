@@ -51,8 +51,8 @@ const PartnerForm = () => {
   };
 
   return (
-    <section className="pt-4 pb-8 px-4 md:px-6">
-      <div className="max-w-full mx-auto">
+    <section className="pt-4 pb-8 px-4 md:px-8">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent">

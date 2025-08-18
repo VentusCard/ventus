@@ -48,7 +48,8 @@ const tools = [
 
 const PartnerToolsSection = () => {
   return (
-    <section className="py-8 px-4 md:px-8 max-w-full mx-auto relative">
+    <section className="py-8 px-4 md:px-8 relative">
+      <div className="max-w-7xl mx-auto">
       {/* Background tech pattern */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
       
@@ -104,6 +105,7 @@ const PartnerToolsSection = () => {
             );
           })}
         </div>
+      </div>
       </div>
     </section>
   );
