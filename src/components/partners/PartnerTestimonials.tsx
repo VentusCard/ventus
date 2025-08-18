@@ -9,25 +9,66 @@ interface Testimonial {
   role: string;
 }
 
-// Placeholder testimonials - you can replace these with real data
 const testimonials: Testimonial[] = [{
   id: 1,
-  quote: "Working with Ventus has transformed how we connect with our customers. The AI-powered targeting is incredibly accurate.",
-  author: "Sarah Johnson",
-  company: "Premium Golf Resort",
-  role: "Marketing Director"
-}, {
-  id: 2,
-  quote: "The conversion rates we've seen since partnering with Ventus are unprecedented. It's a game-changer for our business.",
-  author: "Michael Chen",
-  company: "Elite Country Club",
+  quote: "Ventus feels like a natural fit for golf. Our members spend on tee times, gear, even dining, and this is a way to bring more of that together.",
+  author: "",
+  company: "Elite Golf Club",
   role: "General Manager"
 }, {
+  id: 2,
+  quote: "We liked that Ventus looks at the full tennis lifestyle. It's not just about selling racquets, it's about connecting with players who stay engaged.",
+  author: "",
+  company: "Specialty Tennis Shop",
+  role: "Head of Partnerships"
+}, {
   id: 3,
-  quote: "Ventus Card's technology helped us reach exactly the right customers at the perfect time. ROI has never been better.",
-  author: "Amanda Davis",
-  company: "Luxury Spa & Resort",
-  role: "Chief Marketing Officer"
+  quote: "We added our resort because Ventus cardholders are already investing in the sport. They're the type of guest who books passes and comes back.",
+  author: "",
+  company: "Destination Ski Resort",
+  role: "VP of Marketing"
+}, {
+  id: 4,
+  quote: "I signed up because Ventus is focused on people who really value fitness. It makes more sense than putting money into broad ads.",
+  author: "",
+  company: "Boutique Fitness Chain",
+  role: "Owner"
+}, {
+  id: 5,
+  quote: "We joined the waitlist because cyclists on Ventus are exactly our customer, people who ride often and spend across gear and races.",
+  author: "",
+  company: "Premium Cycling Brand",
+  role: "Marketing Director"
+}, {
+  id: 6,
+  quote: "Runners are loyal and gear driven. Ventus speaks directly to that, so we wanted to be in early.",
+  author: "",
+  company: "Performance Hydration Brand",
+  role: "Partnerships Manager"
+}, {
+  id: 7,
+  quote: "We joined the Ventus waitlist because their audience is already investing in performance and recovery. It's the perfect fit for products like ours that support athletes beyond training.",
+  author: "",
+  company: "Sports Recovery Brand",
+  role: "Head of Partnerships"
+}, {
+  id: 8,
+  quote: "We're on the waitlist because Ventus is athlete first. That matches the customers we care about most.",
+  author: "",
+  company: "Global Snowboard Brand",
+  role: "Head of Ecommerce"
+}, {
+  id: 9,
+  quote: "We joined the Ventus waitlist because their focus on wellness spenders lines up with how our customers shop. It feels like a natural extension of our brand.",
+  author: "",
+  company: "Award Winning Skincare Brand",
+  role: "Head of Marketing"
+}, {
+  id: 10,
+  quote: "We signed up because Ventus attracts pet owners who already spend on quality food and toys. Those are our best customers.",
+  author: "",
+  company: "Regional Pet Retailer",
+  role: "General Manager"
 }];
 const PartnerTestimonials = () => {
   return <section className="py-12 px-4 md:px-6">
@@ -53,7 +94,6 @@ const PartnerTestimonials = () => {
                     </blockquote>
                     <div className="mt-auto">
                       <cite className="not-italic">
-                        <div className="font-semibold text-slate-900">{testimonial.author}</div>
                         <div className="text-sm text-slate-600">{testimonial.role}</div>
                         <div className="text-sm font-medium text-blue-600">{testimonial.company}</div>
                       </cite>
