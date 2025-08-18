@@ -22,7 +22,7 @@ interface GoalOption {
 const goalOptions: GoalOption[] = [{
   id: "sports",
   title: "Sports",
-  description: "Maximize rewards on sports equipment, apparel, subscriptions, and event tickets.",
+  description: "For the sports enthusiast: complete rewards on equipment, apparel, fees, tickets, and more.",
   availability: "Available First",
   year: "Available First",
   icon: "🏃‍♂️",
@@ -48,7 +48,7 @@ const goalOptions: GoalOption[] = [{
 }, {
   id: "wellness",
   title: "Wellness",
-  description: "Earn more on spa treatments, wellness apps, supplements, and all self-care essentials.",
+  description: "For the wellness seeker: holistic rewards on spa , classes, wellness apps, supplements, and more.",
   availability: "Available Soon",
   year: "Available Soon",
   icon: "💚",
@@ -74,7 +74,7 @@ const goalOptions: GoalOption[] = [{
 }, {
   id: "pets",
   title: "Pet Owners",
-  description: "Get rewarded on pet supplies, veterinary services, and grooming expenses.",
+  description: "For the pet lover: comprehensive rewards on food, supplies, vet visits, grooming, and more.",
   availability: "Available Soon",
   year: "Available Soon",
   icon: "🐕",
