@@ -70,7 +70,7 @@ const Benefits = () => {
             Ready to Experience Ventus Smart Rewards?
           </h3>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Join thousands of smart spenders who are already earning more rewards on their lifestyle goals.
+            Be among the first to experience intelligent rewards that adapt to your lifestyle goals.
           </p>
           <Link to="/smartrewards">
             <Button size="lg" className="text-lg px-8 py-6">
