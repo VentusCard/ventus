@@ -73,7 +73,7 @@ const PartnerToolsSection = () => {
           {tools.map((tool, index) => {
             const IconComponent = tool.icon;
             return (
-              <Card key={index} className="group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-0 bg-white/80 backdrop-blur-sm hover:scale-105 animate-fade-in overflow-hidden relative">
+              <Card key={index} className="group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-0 bg-white backdrop-blur-sm hover:scale-105 animate-fade-in overflow-hidden relative">
                 {/* Animated background gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
                 
