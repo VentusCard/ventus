@@ -72,10 +72,12 @@ const testimonials: Testimonial[] = [{
   role: "General Manager"
 }];
 const PartnerTestimonials = () => {
-  return <section className="py-6 px-4 md:px-6">
-      <div className="max-w-full mx-auto">
+  return <section className="py-6 px-4 md:px-6 relative">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
+      <div className="max-w-full mx-auto relative">
         <div className="text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent">
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent">
             What Our Partners Say
           </h2>
           
