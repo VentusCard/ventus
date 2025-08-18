@@ -30,7 +30,7 @@ const VentusSimplificationSection = () => {
   return <div className="mb-6">
       <div className="text-center mb-8">
         <h3 className="font-display text-2xl md:text-3xl font-bold mb-4 text-white">
-          Powered by Intelligent AI
+          Powered by Ventus AI
         </h3>
         <p className="text-lg text-white/80 max-w-3xl mx-auto">
           Experience the future of rewards with AI that works behind the scenes to maximize your benefits automatically.
