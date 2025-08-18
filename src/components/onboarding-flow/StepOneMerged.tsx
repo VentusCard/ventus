@@ -258,18 +258,22 @@ const StepOneMerged = ({
         };
         
         return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
-              <CardContent className="p-5">
-                <div className="text-center">
-                  <div className="text-4xl md:text-5xl mb-4 transform transition-transform duration-300">{option.icon}</div>
-                   <h3 className={`font-display text-lg md:text-xl font-bold mb-3 ${isDisabled ? 'text-slate-500' : 'text-white'}`}>
-                    {option.title}
-                   </h3>
-                   <p className={`mb-3 text-sm md:text-base ${isDisabled ? 'text-slate-600' : 'text-white/70'}`}>
-                    {option.description}
-                   </p>
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${isDisabled ? "bg-slate-700 text-slate-500" : option.year === "Available First" ? "bg-green-500/20 text-green-400" : option.year === "Available Soon" ? "bg-blue-500/20 text-blue-400" : "bg-orange-500/20 text-orange-400"}`}>
-                    {isDisabled ? "Coming Later" : option.availability}
-                  </span>
+              <CardContent className="p-5 h-full flex flex-col">
+                <div className="text-center flex-1 flex flex-col justify-between">
+                  <div>
+                    <div className="text-4xl md:text-5xl mb-4 transform transition-transform duration-300">{option.icon}</div>
+                     <h3 className={`font-display text-lg md:text-xl font-bold mb-3 ${isDisabled ? 'text-slate-500' : 'text-white'}`}>
+                       {option.title}
+                     </h3>
+                     <p className={`mb-4 text-sm md:text-base ${isDisabled ? 'text-slate-600' : 'text-white/70'}`}>
+                       {option.description}
+                     </p>
+                  </div>
+                  <div className="mt-auto">
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${isDisabled ? "bg-slate-700 text-slate-500" : option.year === "Available First" ? "bg-green-500/20 text-green-400" : option.year === "Available Soon" ? "bg-blue-500/20 text-blue-400" : "bg-orange-500/20 text-orange-400"}`}>
+                      {isDisabled ? "Coming Later" : option.availability}
+                    </span>
+                  </div>
                 </div>
                 
                 {selectedGoal === option.id && !isDisabled && <div className="absolute top-3 right-3">
