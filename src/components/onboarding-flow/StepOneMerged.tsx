@@ -226,37 +226,29 @@ const StepOneMerged = ({
           if (isDisabled) {
             return 'bg-slate-600/30 border border-slate-500/50 opacity-50 cursor-not-allowed grayscale';
           }
-          
+
           // Dark blue gradients for Sports, Wellness, and Pet Owners
           if (option.id === 'sports') {
             // Available First - Very dark blue gradient
             const baseStyles = 'bg-gradient-to-br from-blue-950/85 to-slate-900/90 border border-blue-700/80';
             const hoverStyles = 'hover:from-blue-900/90 hover:to-slate-800/95 hover:border-blue-600/85';
-            const selectedStyles = selectedGoal === option.id 
-              ? 'ring-2 ring-blue-400 scale-105 shadow-blue-500/30 shadow-2xl' 
-              : 'shadow-lg';
+            const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-blue-400 scale-105 shadow-blue-500/30 shadow-2xl' : 'shadow-lg';
             return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
           }
-          
           if (option.id === 'wellness' || option.id === 'pets') {
             // Available Soon - Dark blue-tinted gradient (distinct from grey disabled cards)
             const baseStyles = 'bg-gradient-to-br from-blue-950/85 to-blue-900/90 border border-blue-800/70';
             const hoverStyles = 'hover:from-blue-900/90 hover:to-blue-800/95 hover:border-blue-700/80';
-            const selectedStyles = selectedGoal === option.id 
-              ? 'ring-2 ring-blue-500 scale-105 shadow-blue-400/20 shadow-2xl' 
-              : 'shadow-lg';
+            const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-blue-500 scale-105 shadow-blue-400/20 shadow-2xl' : 'shadow-lg';
             return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
           }
-          
+
           // Default styling for other categories
           const baseStyles = 'bg-slate-600/30 border border-slate-500/50';
           const hoverStyles = 'hover:bg-slate-500/40 hover:brightness-110';
-          const selectedStyles = selectedGoal === option.id 
-            ? 'ring-2 ring-blue-400 bg-slate-500/50 scale-105 shadow-blue-500/20 shadow-2xl' 
-            : 'shadow-lg';
+          const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-blue-400 bg-slate-500/50 scale-105 shadow-blue-500/20 shadow-2xl' : 'shadow-lg';
           return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
         };
-        
         return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[280px] h-full ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="text-center flex-1 flex flex-col justify-between">
@@ -311,16 +303,12 @@ const StepOneMerged = ({
               </button>)}
             </div>
 
-            {selectedSubcategories.length > 0 && (
-              <div className="text-center mt-8">
+            {selectedSubcategories.length > 0 && <div className="text-center mt-8">
                 <h4 className="font-display text-xl md:text-2xl font-bold text-white mb-2">
                   Ready to See Your Smart Rewards Profile?
                 </h4>
-                <p className="text-white/80 text-base md:text-lg">
-                  Let's continue building your personalized rewards experience.
-                </p>
-              </div>
-            )}
+                
+              </div>}
           </div>
         </>}
     </div>;
