@@ -68,7 +68,7 @@ const StepTwoMerged = ({
               {selectedSubcategories.map(sub => {
                 const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
                 return (
-                  <span key={sub} className="flex items-center gap-1 px-3 py-1 bg-gradient-to-br from-blue-500/60 to-blue-600/60 text-white rounded-lg text-sm shadow-lg">
+                  <span key={sub} className="flex items-center gap-2 px-4 py-2 bg-gradient-to-br from-blue-500/60 to-blue-600/60 text-white rounded-lg text-base shadow-lg">
                     {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
                     {sub}
                   </span>
