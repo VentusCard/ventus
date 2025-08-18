@@ -96,7 +96,7 @@ const PartnerTestimonials = () => {
           className="w-full"
         >
           <CarouselContent className="-ml-2 md:-ml-4">
-            {testimonials.map(testimonial => <CarouselItem key={testimonial.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/2">
+            {testimonials.map(testimonial => <CarouselItem key={testimonial.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/3">
                 <Card className="h-full">
                   <CardContent className="p-6 flex flex-col h-full">
                     <Quote className="h-8 w-8 text-blue-600 mb-4 flex-shrink-0" />
