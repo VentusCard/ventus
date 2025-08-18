@@ -21,7 +21,7 @@ const tools = [{
 }, {
   icon: Calendar,
   title: "Seasonal timing intelligence",
-  description: "NE 'snowsports' Users in but haven't bought ski passes in August",
+  description: "NE 'snowsports' Users but haven't bought ski passes in August",
   gradient: "from-orange-500 via-amber-500 to-yellow-500",
   bgGlow: "bg-orange-500/10"
 }, {
