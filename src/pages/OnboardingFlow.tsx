@@ -126,7 +126,7 @@ const OnboardingFlow = () => {
           {/* Progress Section - updated for dark theme */}
           <div className="mb-6">
             {/* Step Progress Bar */}
-            <div className="flex items-center justify-center mb-4 overflow-x-auto pb-2">
+            <div className="flex items-center justify-center mt-2 mb-4 overflow-x-auto pb-2">
               {Array.from({
               length: totalSteps
             }, (_, i) => i + 1).map(stepNumber => <div key={stepNumber} className="flex items-center">
