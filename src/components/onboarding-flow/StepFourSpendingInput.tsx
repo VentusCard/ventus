@@ -117,7 +117,7 @@ const StepFourSpendingInput = ({
           Excited About the Next-Gen Smart Reward Experience?
         </h2>
         <p className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto">
-          You're almost there! Join our exclusive waitlist to be among the first to experience personalized rewards tailored to your {getGoalDisplayName(onboardingData.mainGoal || '')} lifestyle.
+          You're almost there! Join our waitlist to be among the first to experience smart rewards tailored to your lifestyle in 2026!
         </p>
       </div>
 
