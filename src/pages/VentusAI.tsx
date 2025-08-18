@@ -136,7 +136,7 @@ const VentusAI = () => {
             <p className="text-xl card-description mb-6 max-w-2xl mx-auto">
               Join thousands of users who are already earning more with intelligent reward optimization. Be among the first to experience Ventus AI.
             </p>
-            <Link to="/join-waitlist">
+            <Link to="/smartrewards">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
                 Join the Waitlist
                 <ArrowRight className="ml-2 h-5 w-5" />
