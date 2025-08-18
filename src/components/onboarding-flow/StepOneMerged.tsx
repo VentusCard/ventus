@@ -100,7 +100,7 @@ const goalOptions: GoalOption[] = [{
 }, {
   id: "gamers",
   title: "Gamers",
-  description: "Level up your rewards on gaming platforms, hardware, and subscriptions.",
+  description: "For the gamer: immersive rewards on consoles, accessories, in-game purchases, streaming, and more.",
   availability: "Year One",
   year: "Year One",
   icon: "🎮",
@@ -126,7 +126,7 @@ const goalOptions: GoalOption[] = [{
 }, {
   id: "creatives",
   title: "Creatives",
-  description: "Boost rewards on creative software, supplies, and hardware.",
+  description: "For the creative: inspiring rewards on tools, software, courses, studio gear, and more.",
   availability: "Year One",
   year: "Year One",
   icon: "🎨",
@@ -152,7 +152,7 @@ const goalOptions: GoalOption[] = [{
 }, {
   id: "homeowners",
   title: "Homeowners",
-  description: "Earn more on home improvement, furniture, and home services.",
+  description: "For the home owner: rewarding upgrades on furniture, appliances, décor, repairs, and more.",
   availability: "Year One",
   year: "Year One",
   icon: "🏠",
