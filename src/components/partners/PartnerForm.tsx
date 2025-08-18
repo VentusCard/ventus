@@ -51,7 +51,7 @@ const PartnerForm = () => {
   };
 
   return (
-    <section className="pb-16 md:pb-20 px-4 md:px-6">
+    <section className="pt-8 pb-16 px-4 md:px-6">
       <div className="max-w-5xl mx-auto">
         <div className="space-y-4 md:space-y-6">
           

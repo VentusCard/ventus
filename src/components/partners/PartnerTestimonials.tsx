@@ -37,7 +37,7 @@ const testimonials: Testimonial[] = [
 
 const PartnerTestimonials = () => {
   return (
-    <section className="py-16 px-4 md:px-6">
+    <section className="py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent">
