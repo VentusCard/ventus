@@ -250,7 +250,7 @@ const StepOneMerged = ({
           return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
         };
         return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[280px] h-full ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
-              <CardContent className="p-5 h-full flex flex-col">
+              <CardContent className="p-5 h-full flex flex-col bg-gradient-to-br from-blue-500/30 to-blue-600/20">
                 <div className="text-center flex-1 flex flex-col justify-between">
                   <div>
                     <div className="text-4xl md:text-5xl mb-4 transform transition-transform duration-300">{option.icon}</div>
