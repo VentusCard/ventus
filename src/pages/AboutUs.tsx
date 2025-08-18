@@ -35,7 +35,7 @@ const AboutUs = () => {
         
         {/* Hero Section */}
         <div className="pt-[80px] pb-8 px-4 md:px-8">
-          <div className="max-w-4xl mx-auto text-center">
+          <div className="max-w-6xl mx-auto text-center">
             
             
           </div>
@@ -43,7 +43,7 @@ const AboutUs = () => {
 
         {/* Our Story Section */}
         <div className="px-4 md:px-8 pb-8">
-          <div className="max-w-4xl mx-auto">
+          <div className="max-w-6xl mx-auto">
             <Card className="premium-card mb-8">
               <CardHeader className="pb-4">
                 <CardTitle className="text-3xl font-bold card-title text-center">Our Story</CardTitle>
