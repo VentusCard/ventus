@@ -22,76 +22,85 @@ const AboutUs = () => {
     title: "Our Community",
     description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
   }];
-  return <div className="dark min-h-screen bg-gradient-to-br from-background via-background to-background/95">
-      <Navbar />
-      
-      {/* Hero Section */}
-      <div className="pt-[80px] pb-8 px-4 md:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          
-          
-        </div>
+  return <div className="dark min-h-screen bg-gradient-to-br from-slate-900 via-blue-900/50 to-slate-800 relative overflow-hidden">
+      {/* Atmospheric Blue Overlays */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-1/4 -right-1/4 w-1/2 h-1/2 bg-blue-400/10 rounded-full blur-3xl"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-blue-600/5 rounded-full blur-3xl"></div>
       </div>
-
-      {/* Our Story Section */}
-      <div className="px-4 md:px-8 pb-8">
-        <div className="max-w-4xl mx-auto">
-          <Card className="border-0 shadow-xl bg-card backdrop-blur-sm mb-8">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-3xl font-bold text-foreground text-center">Our Story</CardTitle>
-            </CardHeader>
-            <CardContent className="text-muted-foreground space-y-3 text-lg leading-relaxed pt-0">
-              <p>
-                Ventus was born out of a simple frustration: juggling multiple credit cards just to optimize rewards—and still missing out. As avid spenders across sports, wellness, travel, and daily essentials, our co-founders, both longtime friends and wallet nerds, kept asking the same question: Why isn't there a single card that adapts to how we actually live?
-              </p>
-              <p>
-                Meanwhile, merchants were running endless one-size-fits-all promotions, with little visibility into who they were really reaching or how those offers performed.
-              </p>
-              <p>Ventus is our answer. We built a card that aligns directly with your lifestyle goals—whether that's golf, wellness, gaming, or pet care—powered by an AI assistant that tracks your interests and finds the best rewards and deals, automatically. For merchants, we offer targeting tools that connect them to the exact audiences they want—based on real behavior, not assumptions.</p>
-              <p>
-                Ventus bridges the gap between everyday spenders and the merchants who want to reach them—intelligently, transparently, and rewardingly.
-              </p>
-            </CardContent>
-          </Card>
-
-          {/* Values Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {values.map((value, index) => <Card key={index} className="border-0 shadow-lg bg-card backdrop-blur-sm hover:shadow-xl transition-all duration-300">
-                <CardHeader className="pb-3">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <value.icon className="h-6 w-6 text-primary" />
-                    </div>
-                    <CardTitle className="text-xl font-semibold text-foreground">{value.title}</CardTitle>
-                  </div>
-                </CardHeader>
-                <CardContent className="pt-0">
-                  <p className="text-muted-foreground leading-relaxed">{value.description}</p>
-                </CardContent>
-              </Card>)}
+      
+      <div className="relative z-10">
+        <Navbar />
+        
+        {/* Hero Section */}
+        <div className="pt-[80px] pb-8 px-4 md:px-8">
+          <div className="max-w-4xl mx-auto text-center">
+            
+            
           </div>
+        </div>
 
-          {/* Team Section */}
-          <Card className="border-0 shadow-xl bg-card backdrop-blur-sm">
-            
-            
-          </Card>
+        {/* Our Story Section */}
+        <div className="px-4 md:px-8 pb-8">
+          <div className="max-w-4xl mx-auto">
+            <Card className="border-0 shadow-xl bg-card/80 backdrop-blur-lg border border-blue-500/20 mb-8 hover:border-blue-400/30 transition-all duration-300">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-3xl font-bold text-foreground text-center">Our Story</CardTitle>
+              </CardHeader>
+              <CardContent className="text-muted-foreground space-y-3 text-lg leading-relaxed pt-0">
+                <p>
+                  Ventus was born out of a simple frustration: juggling multiple credit cards just to optimize rewards—and still missing out. As avid spenders across sports, wellness, travel, and daily essentials, our co-founders, both longtime friends and wallet nerds, kept asking the same question: Why isn't there a single card that adapts to how we actually live?
+                </p>
+                <p>
+                  Meanwhile, merchants were running endless one-size-fits-all promotions, with little visibility into who they were really reaching or how those offers performed.
+                </p>
+                <p>Ventus is our answer. We built a card that aligns directly with your lifestyle goals—whether that's golf, wellness, gaming, or pet care—powered by an AI assistant that tracks your interests and finds the best rewards and deals, automatically. For merchants, we offer targeting tools that connect them to the exact audiences they want—based on real behavior, not assumptions.</p>
+                <p>
+                  Ventus bridges the gap between everyday spenders and the merchants who want to reach them—intelligently, transparently, and rewardingly.
+                </p>
+              </CardContent>
+            </Card>
 
-          {/* CTA Section */}
-          <div className="mt-12 text-center">
-            <div className="max-w-2xl mx-auto mb-8">
-              <h3 className="text-2xl font-bold text-foreground mb-4">
-                Ready to Experience Ventus?
-              </h3>
-              <p className="text-muted-foreground text-lg leading-relaxed">
-                Discover how Ventus Card can transform your spending into personalized rewards that align with your lifestyle.
-              </p>
+            {/* Values Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+              {values.map((value, index) => <Card key={index} className="border-0 shadow-lg bg-card/80 backdrop-blur-lg border border-blue-500/20 hover:shadow-xl hover:border-blue-400/30 transition-all duration-300">
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center gap-3 mb-2">
+                      <div className="p-2 bg-blue-500/20 rounded-lg border border-blue-400/30">
+                        <value.icon className="h-6 w-6 text-blue-400" />
+                      </div>
+                      <CardTitle className="text-xl font-semibold text-foreground">{value.title}</CardTitle>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                  </CardContent>
+                </Card>)}
             </div>
-            <Link to="/smartrewards">
-              <Button size="lg" className="w-full max-w-md px-12 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200">
-                Learn How Ventus Smart Rewards Works
-              </Button>
-            </Link>
+
+            {/* Team Section */}
+            <Card className="border-0 shadow-xl bg-card/80 backdrop-blur-lg border border-blue-500/20 hover:border-blue-400/30 transition-all duration-300">
+              
+              
+            </Card>
+
+            {/* CTA Section */}
+            <div className="mt-12 text-center">
+              <div className="max-w-2xl mx-auto mb-8">
+                <h3 className="text-2xl font-bold text-foreground mb-4">
+                  Ready to Experience Ventus?
+                </h3>
+                <p className="text-muted-foreground text-lg leading-relaxed">
+                  Discover how Ventus Card can transform your spending into personalized rewards that align with your lifestyle.
+                </p>
+              </div>
+              <Link to="/smartrewards">
+                <Button size="lg" className="w-full max-w-md px-12 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200 border border-blue-500/30">
+                  Learn How Ventus Smart Rewards Works
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
