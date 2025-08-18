@@ -7,21 +7,21 @@ const benefitTiers = [{
   description: "Smart rewards. Zero cost.",
   price: "$0",
   period: "/year",
-  features: ["3x points on goal-related purchases (up to $1,000/month)", "Access to a virtual card with full analytics dashboard", "Select a main category goal every year", "Various point redemption methods"],
+  features: ["3x points on goal-related purchases (up to $1,000/month)", "Access to a virtual card with full analytics dashboard", "Select a main category goal every year", "Receive deals from up to 1 selected subcategories", "Various point redemption methods"],
   highlighted: false
 }, {
   name: "Premium",
   description: "Tailored rewards for everyday achievers.",
   price: "$99",
   period: "/year",
-  features: ["Includes everything in Standard, plus:", "5x points on goal-related purchases in one main category", "Enjoy personalized cross rewards with aligned merchant offers", "Update your main category goal every 6 months"],
+  features: ["Includes everything in Standard, plus:", "5x points on goal-related purchases in one main category", "Enjoy personalized cross rewards with aligned merchant offers", "Receive deals from up to 3 selected subcategories", "Update your main category goal every 6 months"],
   highlighted: true
 }, {
   name: "Elite",
   description: "Comprehensive reward for high-impact living.",
   price: "$199",
   period: "/year",
-  features: ["Includes everything in Premium, plus:", "5x points on purchases in up to 3 main categories", "Access to exclusive events, stackable offers, and VIP perks", "All merchant offers will be automatically applied", "Personalized concierge support and AI powered shopping experience"],
+  features: ["Includes everything in Premium, plus:", "5x points on purchases in up to 3 main categories", "Access to exclusive events, stackable offers, and VIP perks", "All merchant offers will be automatically applied", "Receive deals from up to 5 selected subcategories", "Personalized concierge support and AI powered shopping experience"],
   highlighted: false
 }];
 const Benefits = () => {
