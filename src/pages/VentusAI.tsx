@@ -55,38 +55,38 @@ const VentusAI = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-20 px-4 md:px-8 max-w-7xl mx-auto">
+      <section className="pt-16 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="text-center">
-          <div className="flex items-center justify-center mb-4 py-[20px]">
+          <div className="flex items-center justify-center mb-2 py-[12px]">
             <Bot className="h-12 w-12 text-blue-400 mr-4" />
             <h1 className="text-5xl md:text-7xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent">
               Ventus AI
             </h1>
           </div>
-          <p className="text-xl md:text-2xl text-white/80 mb-6 max-w-6xl mx-auto leading-relaxed">Your intelligent assistant for maximizing rewards. Get personalized insights, deals, and instant answers to all your reward questions.</p>
+          <p className="text-xl md:text-2xl text-white/80 mb-3 max-w-6xl mx-auto leading-relaxed">Your intelligent assistant for maximizing rewards. Get personalized insights, deals, and instant answers to all your reward questions.</p>
           
         </div>
       </section>
 
       {/* What Ventus AI Does Section */}
-      <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">What Ventus AI Can Do For You</h2>
+      <section className="py-8 px-4 md:px-8 max-w-7xl mx-auto">
+        <div className="text-center mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">What Ventus AI Can Do For You</h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
             Harness the power of artificial intelligence to unlock maximum value from your credit card rewards
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((feature, index) => <Card key={index} className="premium-card hover:border-white/20 transition-all duration-300">
-              <CardHeader className="text-center pb-2">
-                <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-3">
-                  <feature.icon className="h-8 w-8 text-white" />
+              <CardHeader className="text-center pb-1">
+                <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-2">
+                  <feature.icon className="h-7 w-7 text-white" />
                 </div>
-                <CardTitle className="card-title text-xl">{feature.title}</CardTitle>
+                <CardTitle className="card-title text-lg">{feature.title}</CardTitle>
               </CardHeader>
-              <CardContent className="pt-2">
-                <p className="card-description text-center leading-relaxed">
+              <CardContent className="pt-1">
+                <p className="card-description text-center leading-snug text-sm">
                   {feature.description}
                 </p>
               </CardContent>
@@ -101,9 +101,9 @@ const VentusAI = () => {
       
 
       {/* Live Chatbot Section */}
-      <section id="live-chat-section" className="py-12 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+      <section id="live-chat-section" className="py-8 px-4 md:px-8 max-w-7xl mx-auto">
+        <div className="text-center mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
             Try Ventus AI Live
           </h2>
           <p className="text-xl text-white/70 max-w-3xl mx-auto">
@@ -112,24 +112,24 @@ const VentusAI = () => {
         </div>
 
         <Card className="premium-card max-w-6xl mx-auto">
-          <CardContent className="p-4 md:p-6">
+          <CardContent className="p-3 md:p-4">
             <div className="w-full chat-container">
               <iframe src="https://udify.app/chatbot/JdL6WFvmKXjD3NaU" className="responsive-chat-iframe" frameBorder="0" allow="microphone" title="Ventus AI Live Chatbot" loading="lazy" />
             </div>
             
-            <p className="text-white/50 text-sm text-center mt-4">Ventus AI is currently in development. Join our waitlist to be the first to experience Ventus Smart Rewards.</p>
+            <p className="text-white/50 text-sm text-center mt-2">Ventus AI is currently in development. Join our waitlist to be the first to experience Ventus Smart Rewards.</p>
           </CardContent>
         </Card>
       </section>
 
       {/* CTA Section */}
-      <section className="py-12 px-4 md:px-8 max-w-7xl mx-auto text-center">
+      <section className="py-8 px-4 md:px-8 max-w-7xl mx-auto text-center">
         <Card className="premium-card max-w-4xl mx-auto">
-          <CardContent className="p-8 px-[24px] py-[24px]">
-            <h2 className="text-3xl md:text-4xl font-bold card-title mb-4">
+          <CardContent className="p-6 px-[20px] py-[20px]">
+            <h2 className="text-3xl md:text-4xl font-bold card-title mb-3">
               Ready to Maximize Your Rewards?
             </h2>
-            <p className="text-xl card-description mb-6 max-w-2xl mx-auto">
+            <p className="text-xl card-description mb-4 max-w-2xl mx-auto">
               Join thousands of users who are already earning more with intelligent reward optimization. Be among the first to experience Ventus AI.
             </p>
             <Link to="/smartrewards">
