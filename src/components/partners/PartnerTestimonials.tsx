@@ -1,6 +1,7 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { Quote } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 interface Testimonial {
   id: number;
   quote: string;
@@ -80,10 +81,18 @@ const PartnerTestimonials = () => {
           
         </div>
 
-        <Carousel opts={{
-        align: "start",
-        loop: true
-      }} className="w-full max-w-5xl mx-auto">
+        <Carousel 
+          opts={{
+            align: "start",
+            loop: true
+          }} 
+          plugins={[
+            Autoplay({
+              delay: 4000,
+            }),
+          ]}
+          className="w-full max-w-5xl mx-auto"
+        >
           <CarouselContent className="-ml-2 md:-ml-4">
             {testimonials.map(testimonial => <CarouselItem key={testimonial.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/2">
                 <Card className="h-full">
