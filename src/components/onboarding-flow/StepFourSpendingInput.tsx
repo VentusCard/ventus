@@ -114,7 +114,7 @@ const StepFourSpendingInput = ({
       {/* Header Section */}
       <div className="text-center mb-8">
         <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
-          Complete Your Ventus Profile
+          Excited About the Next-Gen Smart Reward Experience?
         </h2>
         <p className="text-lg md:text-xl text-white/80 max-w-2xl mx-auto">
           You're almost there! Join our exclusive waitlist to be among the first to experience personalized rewards tailored to your {getGoalDisplayName(onboardingData.mainGoal || '')} lifestyle.
