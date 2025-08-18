@@ -302,7 +302,7 @@ const StepOneMerged = ({
             {selectedSubcategories.length >= 3}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-400 bg-gradient-to-br from-blue-500/20 to-blue-600/20 text-blue-300 shadow-lg' : 'border-slate-600 bg-slate-800/50 text-white hover:border-blue-400 hover:bg-blue-500/10 shadow-md'}`} style={{
+              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-400 bg-gradient-to-br from-blue-500/30 to-blue-600/30 text-blue-200 shadow-lg' : 'border-blue-500/50 bg-gradient-to-br from-blue-600/20 to-blue-700/20 text-blue-200 hover:border-blue-400 hover:from-blue-500/30 hover:to-blue-600/30 shadow-md'}`} style={{
             touchAction: 'manipulation',
             pointerEvents: 'auto',
             WebkitTapHighlightColor: 'transparent'
