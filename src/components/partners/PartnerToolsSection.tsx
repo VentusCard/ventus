@@ -58,7 +58,7 @@ const PartnerToolsSection = () => {
             <Brain className="h-4 w-4 text-primary mr-2" />
             <span className="text-sm font-medium text-primary">AI-Powered Technology</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-foreground via-primary to-purple-600 bg-clip-text text-transparent mb-4">
+          <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent mb-4">
             Our Suite of Advanced Tools
           </h2>
           <p className="text-lg text-muted-foreground w-full mx-auto">
