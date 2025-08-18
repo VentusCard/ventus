@@ -300,13 +300,7 @@ const StepOneMerged = ({
             {selectedSubcategories.length >= 3}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? `border-blue-400 ${
-                selectedGoal === 'sports' 
-                  ? 'bg-gradient-to-br from-blue-300/60 to-blue-400/60' 
-                  : (selectedGoal === 'wellness' || selectedGoal === 'pets')
-                  ? 'bg-gradient-to-br from-slate-700/60 to-slate-800/60'
-                  : 'bg-gradient-to-br from-blue-500/60 to-blue-600/60'
-              } text-white shadow-lg ring-2 ring-blue-500/40` : 'border-slate-500/50 bg-gradient-to-br from-slate-600/20 to-slate-700/20 text-slate-300 hover:border-slate-400 hover:from-slate-500/30 hover:to-slate-600/30 shadow-md'}`} style={{
+              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-400 bg-gradient-to-br from-blue-500/60 to-blue-600/60 text-white shadow-lg ring-2 ring-blue-500/40' : 'border-slate-500/50 bg-gradient-to-br from-slate-600/20 to-slate-700/20 text-slate-300 hover:border-slate-400 hover:from-slate-500/30 hover:to-slate-600/30 shadow-md'}`} style={{
             touchAction: 'manipulation',
             pointerEvents: 'auto',
             WebkitTapHighlightColor: 'transparent'
