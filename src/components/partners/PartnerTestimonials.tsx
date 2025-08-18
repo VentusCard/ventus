@@ -72,7 +72,7 @@ const testimonials: Testimonial[] = [{
   role: "General Manager"
 }];
 const PartnerTestimonials = () => {
-  return <section className="py-6 px-4 md:px-6 relative">
+  return <section className="py-8 px-4 md:px-6 relative">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
       <div className="max-w-full mx-auto relative">
