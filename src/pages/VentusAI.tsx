@@ -68,10 +68,7 @@ const VentusAI = () => {
             </h1>
           </div>
           <p className="text-xl md:text-2xl text-white/80 mb-6 max-w-3xl mx-auto leading-relaxed">Your intelligent assistant for maximizing rewards. Get personalized insights, deals, and instant answers to all your reward questions.</p>
-          <Button onClick={scrollToChat} className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-            Start Chatting with Ventus AI
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
+          
         </div>
       </section>
 
