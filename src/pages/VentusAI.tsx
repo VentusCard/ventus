@@ -5,13 +5,9 @@ import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { Brain, Target, TrendingUp, Zap, Shield, MessageCircle, ArrowRight, Bot, User, Sparkles } from "lucide-react";
 const VentusAI = () => {
+  // Auto-scroll disabled per user request
   const scrollToChat = () => {
-    const chatSection = document.getElementById('live-chat-section');
-    if (chatSection) {
-      chatSection.scrollIntoView({
-        behavior: 'smooth'
-      });
-    }
+    // Scroll functionality disabled
   };
   const features = [{
     icon: Brain,
