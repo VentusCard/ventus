@@ -219,7 +219,7 @@ const StepOneMerged = ({
       <h2 className="font-display text-xl md:text-2xl font-bold mb-3">What would you like your Ventus Card to reward you on?</h2>
       <p className="text-base text-slate-600 mb-6">Select one category to earn personalized smart rewards from Ventus. </p>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 items-stretch">
         {goalOptions.map(option => {
         const isDisabled = disabledGoals.includes(option.id);
         const getCardStyles = () => {
@@ -257,7 +257,7 @@ const StepOneMerged = ({
           return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
         };
         
-        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
+        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[280px] h-full ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
               <CardContent className="p-5 h-full flex flex-col">
                 <div className="text-center flex-1 flex flex-col justify-between">
                   <div>
