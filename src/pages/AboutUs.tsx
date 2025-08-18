@@ -22,7 +22,7 @@ const AboutUs = () => {
     title: "Our Community",
     description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
   }];
-  return <div className="dark min-h-screen bg-gradient-to-br from-slate-900 via-blue-900/50 to-slate-800 relative overflow-hidden">
+  return <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
       {/* Atmospheric Blue Overlays */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/4 -left-1/4 w-1/2 h-1/2 bg-blue-500/10 rounded-full blur-3xl"></div>
@@ -44,11 +44,11 @@ const AboutUs = () => {
         {/* Our Story Section */}
         <div className="px-4 md:px-8 pb-8">
           <div className="max-w-4xl mx-auto">
-            <Card className="border-0 shadow-xl bg-card/80 backdrop-blur-lg border border-blue-500/20 mb-8 hover:border-blue-400/30 transition-all duration-300">
+            <Card className="premium-card mb-8">
               <CardHeader className="pb-4">
-                <CardTitle className="text-3xl font-bold text-foreground text-center">Our Story</CardTitle>
+                <CardTitle className="text-3xl font-bold card-title text-center">Our Story</CardTitle>
               </CardHeader>
-              <CardContent className="text-muted-foreground space-y-3 text-lg leading-relaxed pt-0">
+              <CardContent className="card-description space-y-3 text-lg leading-relaxed pt-0">
                 <p>
                   Ventus was born out of a simple frustration: juggling multiple credit cards just to optimize rewards—and still missing out. As avid spenders across sports, wellness, travel, and daily essentials, our co-founders, both longtime friends and wallet nerds, kept asking the same question: Why isn't there a single card that adapts to how we actually live?
                 </p>
@@ -64,23 +64,21 @@ const AboutUs = () => {
 
             {/* Values Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-              {values.map((value, index) => <Card key={index} className="border-0 shadow-lg bg-card/80 backdrop-blur-lg border border-blue-500/20 hover:shadow-xl hover:border-blue-400/30 transition-all duration-300">
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center gap-3 mb-2">
-                      <div className="p-2 bg-blue-500/20 rounded-lg border border-blue-400/30">
-                        <value.icon className="h-6 w-6 text-blue-400" />
-                      </div>
-                      <CardTitle className="text-xl font-semibold text-foreground">{value.title}</CardTitle>
+              {values.map((value, index) => <Card key={index} className="premium-card hover:border-white/20 transition-all duration-300">
+                  <CardHeader className="pb-3 text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mx-auto mb-3">
+                      <value.icon className="h-8 w-8 text-white" />
                     </div>
+                    <CardTitle className="text-xl card-title">{value.title}</CardTitle>
                   </CardHeader>
-                  <CardContent className="pt-0">
-                    <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                  <CardContent className="pt-2">
+                    <p className="card-description text-center leading-relaxed">{value.description}</p>
                   </CardContent>
                 </Card>)}
             </div>
 
             {/* Team Section */}
-            <Card className="border-0 shadow-xl bg-card/80 backdrop-blur-lg border border-blue-500/20 hover:border-blue-400/30 transition-all duration-300">
+            <Card className="premium-card">
               
               
             </Card>
@@ -88,15 +86,15 @@ const AboutUs = () => {
             {/* CTA Section */}
             <div className="mt-12 text-center">
               <div className="max-w-2xl mx-auto mb-8">
-                <h3 className="text-2xl font-bold text-foreground mb-4">
+                <h3 className="text-2xl font-bold text-white mb-4">
                   Ready to Experience Ventus?
                 </h3>
-                <p className="text-muted-foreground text-lg leading-relaxed">
+                <p className="text-white/70 text-lg leading-relaxed">
                   Discover how Ventus Card can transform your spending into personalized rewards that align with your lifestyle.
                 </p>
               </div>
               <Link to="/smartrewards">
-                <Button size="lg" className="w-full max-w-md px-12 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200 border border-blue-500/30">
+                <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
                   Learn How Ventus Smart Rewards Works
                 </Button>
               </Link>
