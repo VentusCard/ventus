@@ -2,6 +2,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PartnerHero from "@/components/partners/PartnerHero";
+import PartnerTestimonials from "@/components/partners/PartnerTestimonials";
 import PartnerForm from "@/components/partners/PartnerForm";
 
 const Partners = () => {
@@ -9,6 +10,7 @@ const Partners = () => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
       <Navbar />
       <PartnerHero />
+      <PartnerTestimonials />
       <PartnerForm />
       <Footer />
     </div>
