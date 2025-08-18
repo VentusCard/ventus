@@ -59,7 +59,7 @@ const VentusAI = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="pt-20 pb-12 px-4 md:px-8 max-w-7xl mx-auto py-0">
+      <section className="pt-20 px-4 md:px-8 max-w-7xl mx-auto">
         <div className="text-center">
           <div className="flex items-center justify-center mb-4 py-[20px]">
             <Bot className="h-12 w-12 text-blue-400 mr-4" />
