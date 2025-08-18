@@ -250,7 +250,7 @@ const StepOneMerged = ({
           return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
         };
         return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[280px] h-full ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
-              <CardContent className={`p-5 h-full flex flex-col bg-gradient-to-br ${
+              <CardContent className={`p-5 h-full flex flex-col bg-gradient-to-br rounded-lg ${
                 option.id === 'sports' 
                   ? 'from-blue-500/60 to-blue-600/60' 
                   : (option.id === 'wellness' || option.id === 'pets')
