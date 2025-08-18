@@ -239,9 +239,9 @@ const StepOneMerged = ({
           }
           
           if (option.id === 'wellness' || option.id === 'pets') {
-            // Available Soon - Very dark muted gradient
-            const baseStyles = 'bg-gradient-to-br from-slate-900/80 to-slate-900/90 border border-slate-700/70';
-            const hoverStyles = 'hover:from-slate-800/90 hover:to-slate-800/95 hover:border-slate-600/80';
+            // Available Soon - Dark blue-tinted gradient (distinct from grey disabled cards)
+            const baseStyles = 'bg-gradient-to-br from-blue-950/85 to-blue-900/90 border border-blue-800/70';
+            const hoverStyles = 'hover:from-blue-900/90 hover:to-blue-800/95 hover:border-blue-700/80';
             const selectedStyles = selectedGoal === option.id 
               ? 'ring-2 ring-blue-500 scale-105 shadow-blue-400/20 shadow-2xl' 
               : 'shadow-lg';
