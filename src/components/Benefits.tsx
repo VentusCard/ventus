@@ -14,14 +14,14 @@ const benefitTiers = [{
   description: "Tailored rewards for everyday achievers.",
   price: "$99",
   period: "/year",
-  features: ["Includes everything in Standard, plus:", "5x points on goal-related purchases in one main category (up to $2,000/month)", "Enjoy personalized cross rewards with aligned merchant offers", "Update your main category goal every 6 months"],
+  features: ["Includes everything in Standard, plus:", "5x points on goal-related purchases in one main category", "Enjoy personalized cross rewards with aligned merchant offers", "Update your main category goal every 6 months"],
   highlighted: true
 }, {
   name: "Elite",
   description: "Comprehensive reward for high-impact living.",
   price: "$199",
   period: "/year",
-  features: ["Includes everything in Premium, plus:", "5x points on purchases in up to 3 main categories (up to $2,500/month per category)", "Access to exclusive events, stackable offers, and VIP perks", "All merchant offers will be automatically applied", "Personalized concierge support and AI powered shopping experience"],
+  features: ["Includes everything in Premium, plus:", "5x points on purchases in up to 3 main categories", "Access to exclusive events, stackable offers, and VIP perks", "All merchant offers will be automatically applied", "Personalized concierge support and AI powered shopping experience"],
   highlighted: false
 }];
 const Benefits = () => {
