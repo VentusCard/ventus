@@ -61,9 +61,11 @@ const PartnerToolsSection = () => {
           <h2 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent mb-4">
             Our Suite of Advanced Tools
           </h2>
-          <p className="text-lg text-muted-foreground w-full mx-auto">
+          <p className="text-lg text-white/80 w-full mx-auto">
             Leverage cutting-edge AI and data analytics to create personalized experiences 
-            that drive engagement and maximize revenue. Cutting-edge capabilities, zero-integration.
+            that drive engagement and maximize revenue. 
+            <br />
+            Cutting-edge capabilities, zero-integration.
           </p>
         </div>
         
