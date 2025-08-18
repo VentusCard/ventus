@@ -259,7 +259,7 @@ const StepOneMerged = ({
               }`}>
                 <div className="text-center flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="text-4xl md:text-5xl mb-4 transform transition-transform duration-300">{option.icon}</div>
+                    <div className="text-4xl md:text-5xl mb-4 mt-2 transform transition-transform duration-300">{option.icon}</div>
                      <h3 className={`font-display text-lg md:text-xl font-bold mb-3 ${isDisabled ? 'text-slate-500' : 'text-white'}`}>
                        {option.title}
                      </h3>
