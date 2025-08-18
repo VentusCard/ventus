@@ -66,7 +66,18 @@ const Benefits = () => {
 
         {/* Call to Action Section */}
         <div className="mt-16 text-center">
-          
+          <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">
+            Ready to Transform Your Spending?
+          </h3>
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Join thousands of smart spenders who are already earning more rewards on their lifestyle goals.
+          </p>
+          <Link to="/smartrewards">
+            <Button size="lg" className="text-lg px-8 py-6">
+              Start Your Journey
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+          </Link>
         </div>
       </div>
     </section>;
