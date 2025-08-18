@@ -1,6 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
+import { useRef, useEffect } from "react";
 interface StepOneMergedProps {
   selectedGoal: LifestyleGoal | null;
   selectedSubcategories: string[];
@@ -200,6 +201,20 @@ const StepOneMerged = ({
 }: StepOneMergedProps) => {
   // Define disabled goal categories
   const disabledGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];
+  const subcategorySectionRef = useRef<HTMLDivElement>(null);
+
+  // Auto-scroll to subcategory section when goal is selected
+  useEffect(() => {
+    if (selectedGoal && !disabledGoals.includes(selectedGoal) && subcategorySectionRef.current) {
+      setTimeout(() => {
+        subcategorySectionRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+          inline: 'nearest'
+        });
+      }, 100);
+    }
+  }, [selectedGoal, disabledGoals]);
   const subcategories = selectedGoal && !disabledGoals.includes(selectedGoal) ? subcategoryData[selectedGoal] || [] : [];
   const toggleSubcategory = (subcategory: string) => {
     if (selectedSubcategories.includes(subcategory)) {
@@ -285,7 +300,7 @@ const StepOneMerged = ({
       </div>
 
       {selectedGoal && !disabledGoals.includes(selectedGoal) && <>
-          <div className="touch-manipulation" style={{
+          <div ref={subcategorySectionRef} className="touch-manipulation" style={{
         touchAction: 'manipulation',
         pointerEvents: 'auto',
         WebkitTapHighlightColor: 'transparent'
