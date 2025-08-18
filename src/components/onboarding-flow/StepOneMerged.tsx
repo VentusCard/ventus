@@ -222,7 +222,42 @@ const StepOneMerged = ({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {goalOptions.map(option => {
         const isDisabled = disabledGoals.includes(option.id);
-        return <Card key={option.id} className={`bg-slate-600/30 border border-slate-500/50 backdrop-blur-sm transition-all duration-300 ${isDisabled ? 'opacity-50 cursor-not-allowed grayscale' : `cursor-pointer hover:scale-110 hover:bg-slate-500/40 hover:shadow-2xl hover:brightness-110 ${selectedGoal === option.id ? 'ring-2 ring-blue-400 bg-slate-500/50 scale-105 shadow-blue-500/20 shadow-2xl' : 'shadow-lg'}`}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
+        const getCardStyles = () => {
+          if (isDisabled) {
+            return 'bg-slate-600/30 border border-slate-500/50 opacity-50 cursor-not-allowed grayscale';
+          }
+          
+          // Blue gradients for Sports, Wellness, and Pet Owners
+          if (option.id === 'sports') {
+            // Available First - Brighter blue gradient
+            const baseStyles = 'bg-gradient-to-br from-blue-500/40 to-blue-600/50 border border-blue-400/60';
+            const hoverStyles = 'hover:from-blue-400/50 hover:to-blue-500/60 hover:border-blue-300/70';
+            const selectedStyles = selectedGoal === option.id 
+              ? 'ring-2 ring-blue-400 scale-105 shadow-blue-500/30 shadow-2xl' 
+              : 'shadow-lg';
+            return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
+          }
+          
+          if (option.id === 'wellness' || option.id === 'pets') {
+            // Available Soon - Softer blue gradient
+            const baseStyles = 'bg-gradient-to-br from-blue-400/20 to-blue-500/30 border border-blue-300/40';
+            const hoverStyles = 'hover:from-blue-300/30 hover:to-blue-400/40 hover:border-blue-200/50';
+            const selectedStyles = selectedGoal === option.id 
+              ? 'ring-2 ring-blue-300 scale-105 shadow-blue-400/20 shadow-2xl' 
+              : 'shadow-lg';
+            return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
+          }
+          
+          // Default styling for other categories
+          const baseStyles = 'bg-slate-600/30 border border-slate-500/50';
+          const hoverStyles = 'hover:bg-slate-500/40 hover:brightness-110';
+          const selectedStyles = selectedGoal === option.id 
+            ? 'ring-2 ring-blue-400 bg-slate-500/50 scale-105 shadow-blue-500/20 shadow-2xl' 
+            : 'shadow-lg';
+          return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
+        };
+        
+        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
               <CardContent className="p-5">
                 <div className="text-center">
                   <div className="text-4xl md:text-5xl mb-4 transform transition-transform duration-300">{option.icon}</div>
