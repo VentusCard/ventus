@@ -54,7 +54,7 @@ const PartnerToolsSection = () => {
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900"></div>
       
       <div className="relative">
-        <div className="text-center mb-12">
+        <div className="text-center mb-12 mt-0">
           <div className="inline-flex items-center px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-purple-500/10 border border-primary/20 mb-6">
             <Brain className="h-4 w-4 text-primary mr-2" />
             <span className="text-sm font-medium text-primary">AI-Powered Technology</span>
