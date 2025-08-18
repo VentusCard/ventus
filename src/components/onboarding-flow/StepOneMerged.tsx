@@ -1,9 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
-import { useState, useEffect } from "react";
 interface StepOneMergedProps {
   selectedGoal: LifestyleGoal | null;
   selectedSubcategories: string[];
@@ -201,12 +198,9 @@ const StepOneMerged = ({
   onSelectGoal,
   onSelectSubcategories
 }: StepOneMergedProps) => {
-  const [showProfileDialog, setShowProfileDialog] = useState(false);
-  
   // Define disabled goal categories
   const disabledGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];
   const subcategories = selectedGoal && !disabledGoals.includes(selectedGoal) ? subcategoryData[selectedGoal] || [] : [];
-  
   const toggleSubcategory = (subcategory: string) => {
     if (selectedSubcategories.includes(subcategory)) {
       // Remove subcategory if already selected
@@ -217,11 +211,6 @@ const StepOneMerged = ({
       if (selectedSubcategories.length < 3) {
         const updated = [...selectedSubcategories, subcategory];
         onSelectSubcategories(updated);
-        
-        // Show popup if this is the first subcategory selected
-        if (selectedSubcategories.length === 0) {
-          setShowProfileDialog(true);
-        }
       }
       // If at limit, do nothing (no selection will occur)
     }
@@ -325,28 +314,6 @@ const StepOneMerged = ({
             {selectedSubcategories.length > 0}
           </div>
         </>}
-        
-        {/* Profile Dialog */}
-        <Dialog open={showProfileDialog} onOpenChange={setShowProfileDialog}>
-          <DialogContent className="sm:max-w-md bg-gradient-to-br from-slate-900 to-slate-800 border border-slate-700">
-            <DialogHeader>
-              <DialogTitle className="text-xl font-bold text-center text-white mb-4">
-                Ready to See Your Smart Rewards Profile?
-              </DialogTitle>
-            </DialogHeader>
-            <div className="text-center space-y-4">
-              <p className="text-slate-300">
-                Great choice! You're building a personalized rewards profile that will earn you more on what matters to you.
-              </p>
-              <Button 
-                onClick={() => setShowProfileDialog(false)}
-                className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-200"
-              >
-                Continue Building Profile
-              </Button>
-            </div>
-          </DialogContent>
-        </Dialog>
     </div>;
 };
 export default StepOneMerged;
