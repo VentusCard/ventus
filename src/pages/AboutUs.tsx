@@ -50,14 +50,16 @@ const AboutUs = () => {
               </CardHeader>
               <CardContent className="card-description space-y-3 text-lg leading-relaxed pt-0">
                 <p>
-                  Ventus was born out of a simple frustration: juggling multiple credit cards just to optimize rewards—and still missing out. As avid spenders across sports, wellness, travel, and daily essentials, our co-founders, both longtime friends and wallet nerds, kept asking the same question: Why isn't there a single card that adapts to how we actually live?
+                  Ventus was born out of a simple frustration: juggling multiple credit cards to chase rewards and still missing out. The cofounders, longtime friends and self proclaimed wallet nerds, kept asking the same question: why isn't there a card that is smart, easy and actually adapts to how we actually live.
                 </p>
                 <p>
-                  Meanwhile, merchants were running endless one-size-fits-all promotions, with little visibility into who they were really reaching or how those offers performed.
+                  As everyday spenders across sports, wellness, and others, we realized that rewards were always split into narrow categories that ignored the bigger picture. What we wanted was a single card that could look at a lifestyle as a whole and reward it fully.
                 </p>
-                <p>Ventus is our answer. We built a card that aligns directly with your lifestyle goals—whether that's golf, wellness, gaming, or pet care—powered by an AI assistant that tracks your interests and finds the best rewards and deals, automatically. For merchants, we offer targeting tools that connect them to the exact audiences they want—based on real behavior, not assumptions.</p>
                 <p>
-                  Ventus bridges the gap between everyday spenders and the merchants who want to reach them—intelligently, transparently, and rewardingly.
+                  That is why we built Ventus. Your rewards grow across every part of your chosen goal, from gear and events to services, subscriptions, and daily purchases, all connected by the things you love most. An AI assistant works quietly in the background to make sure you never miss out, finding rewards and deals that match your interests.
+                </p>
+                <p>
+                  Ventus takes the hassle out of rewards and gives you a card that feels holistic, personal, and built around the way you actually live.
                 </p>
               </CardContent>
             </Card>
