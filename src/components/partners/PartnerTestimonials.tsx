@@ -1,7 +1,6 @@
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { Quote } from "lucide-react";
-
 interface Testimonial {
   id: number;
   quote: string;
@@ -11,53 +10,41 @@ interface Testimonial {
 }
 
 // Placeholder testimonials - you can replace these with real data
-const testimonials: Testimonial[] = [
-  {
-    id: 1,
-    quote: "Working with Ventus has transformed how we connect with our customers. The AI-powered targeting is incredibly accurate.",
-    author: "Sarah Johnson",
-    company: "Premium Golf Resort",
-    role: "Marketing Director"
-  },
-  {
-    id: 2,
-    quote: "The conversion rates we've seen since partnering with Ventus are unprecedented. It's a game-changer for our business.",
-    author: "Michael Chen",
-    company: "Elite Country Club",
-    role: "General Manager"
-  },
-  {
-    id: 3,
-    quote: "Ventus Card's technology helped us reach exactly the right customers at the perfect time. ROI has never been better.",
-    author: "Amanda Davis",
-    company: "Luxury Spa & Resort",
-    role: "Chief Marketing Officer"
-  }
-];
-
+const testimonials: Testimonial[] = [{
+  id: 1,
+  quote: "Working with Ventus has transformed how we connect with our customers. The AI-powered targeting is incredibly accurate.",
+  author: "Sarah Johnson",
+  company: "Premium Golf Resort",
+  role: "Marketing Director"
+}, {
+  id: 2,
+  quote: "The conversion rates we've seen since partnering with Ventus are unprecedented. It's a game-changer for our business.",
+  author: "Michael Chen",
+  company: "Elite Country Club",
+  role: "General Manager"
+}, {
+  id: 3,
+  quote: "Ventus Card's technology helped us reach exactly the right customers at the perfect time. ROI has never been better.",
+  author: "Amanda Davis",
+  company: "Luxury Spa & Resort",
+  role: "Chief Marketing Officer"
+}];
 const PartnerTestimonials = () => {
-  return (
-    <section className="py-12 px-4 md:px-6">
+  return <section className="py-12 px-4 md:px-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-slate-900 via-blue-900 to-slate-800 bg-clip-text text-transparent">
             What Our Partners Say
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-            Join hundreds of successful partners who have transformed their customer engagement with Ventus
-          </p>
+          
         </div>
 
-        <Carousel
-          opts={{
-            align: "start",
-            loop: true,
-          }}
-          className="w-full max-w-5xl mx-auto"
-        >
+        <Carousel opts={{
+        align: "start",
+        loop: true
+      }} className="w-full max-w-5xl mx-auto">
           <CarouselContent className="-ml-2 md:-ml-4">
-            {testimonials.map((testimonial) => (
-              <CarouselItem key={testimonial.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/2">
+            {testimonials.map(testimonial => <CarouselItem key={testimonial.id} className="pl-2 md:pl-4 md:basis-1/2 lg:basis-1/2">
                 <Card className="h-full">
                   <CardContent className="p-6 flex flex-col h-full">
                     <Quote className="h-8 w-8 text-blue-600 mb-4 flex-shrink-0" />
@@ -73,8 +60,7 @@ const PartnerTestimonials = () => {
                     </div>
                   </CardContent>
                 </Card>
-              </CarouselItem>
-            ))}
+              </CarouselItem>)}
           </CarouselContent>
           <CarouselPrevious className="hidden md:flex" />
           <CarouselNext className="hidden md:flex" />
@@ -84,8 +70,6 @@ const PartnerTestimonials = () => {
           <p className="text-sm text-slate-500">Swipe to see more testimonials</p>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default PartnerTestimonials;
