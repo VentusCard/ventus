@@ -230,7 +230,7 @@ const StepOneMerged = ({
           // Dark blue gradients for Sports, Wellness, and Pet Owners
           if (option.id === 'sports') {
             // Available First - Very dark blue gradient
-            const baseStyles = 'bg-gradient-to-br from-blue-900/90 to-blue-900/85 border border-blue-700/80';
+            const baseStyles = 'bg-gradient-to-br from-blue-900/90 to-slate-900/95 border border-blue-700/80';
             const hoverStyles = 'hover:from-blue-800/95 hover:to-blue-800/98 hover:border-blue-600/85';
             const selectedStyles = selectedGoal === option.id 
               ? 'ring-2 ring-blue-400 scale-105 shadow-blue-500/30 shadow-2xl' 
