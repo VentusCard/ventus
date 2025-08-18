@@ -252,7 +252,7 @@ const StepOneMerged = ({
         return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[280px] h-full ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
               <CardContent className={`p-5 h-full flex flex-col bg-gradient-to-br ${
                 option.id === 'sports' 
-                  ? 'from-blue-300/60 to-blue-400/50' 
+                  ? 'from-blue-500/60 to-blue-600/60' 
                   : (option.id === 'wellness' || option.id === 'pets')
                   ? 'from-slate-700/40 to-slate-800/30'
                   : 'from-blue-500/30 to-blue-600/20'
