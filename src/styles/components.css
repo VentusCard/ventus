@@ -66,12 +66,12 @@
       inset 0 -1px 0 rgba(0, 0, 0, 0.05);
   }
 
-  /* Premium card styling for dark backgrounds */
+  /* Premium card styling for dark backgrounds - Blue theme */
   .premium-card {
     @apply metallic-shadow rounded-xl border-0;
-    background: rgba(255, 255, 255, 0.08) !important;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(29, 78, 216, 0.15)) !important;
     backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(59, 130, 246, 0.3) !important;
   }
 
   /* Explicit text color overrides for premium cards */
@@ -128,8 +128,8 @@
   /* Mobile-specific legibility improvements */
   @media (max-width: 768px) {
     .premium-card {
-      background: rgba(255, 255, 255, 0.12) !important;
-      border: 1px solid rgba(255, 255, 255, 0.2) !important;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.2)) !important;
+      border: 1px solid rgba(59, 130, 246, 0.4) !important;
     }
 
     .premium-card .card-title,
