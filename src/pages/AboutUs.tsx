@@ -48,7 +48,7 @@ const AboutUs = () => {
               <CardHeader className="pb-4">
                 <CardTitle className="text-3xl font-bold card-title text-center">Our Story</CardTitle>
               </CardHeader>
-              <CardContent className="card-description space-y-3 text-lg leading-relaxed pt-0">
+              <CardContent className="card-description space-y-3 text-xl leading-relaxed pt-0">
                 <p>
                   Ventus was born out of a simple frustration: juggling multiple credit cards to chase rewards and still missing out. The cofounders, longtime friends and self proclaimed wallet nerds, kept asking the same question: why isn't there a card that is smart, easy and actually adapts to how we actually live.
                 </p>
