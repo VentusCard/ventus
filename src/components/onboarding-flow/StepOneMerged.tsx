@@ -202,6 +202,7 @@ const StepOneMerged = ({
   // Define disabled goal categories
   const disabledGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];
   const subcategorySectionRef = useRef<HTMLDivElement>(null);
+  const hasScrolledRef = useRef<LifestyleGoal | null>(null);
 
   // Custom slow scroll function
   const slowScrollTo = (element: HTMLElement) => {
@@ -229,12 +230,16 @@ const StepOneMerged = ({
     requestAnimationFrame(animation);
   };
 
-  // Auto-scroll to subcategory section when goal is selected
+  // Auto-scroll to subcategory section when goal is selected (only once per goal)
   useEffect(() => {
     if (selectedGoal && !disabledGoals.includes(selectedGoal) && subcategorySectionRef.current) {
-      setTimeout(() => {
-        slowScrollTo(subcategorySectionRef.current!);
-      }, 150);
+      // Only scroll if this is a new goal selection or first time selecting this goal
+      if (hasScrolledRef.current !== selectedGoal) {
+        hasScrolledRef.current = selectedGoal;
+        setTimeout(() => {
+          slowScrollTo(subcategorySectionRef.current!);
+        }, 150);
+      }
     }
   }, [selectedGoal, disabledGoals]);
   const subcategories = selectedGoal && !disabledGoals.includes(selectedGoal) ? subcategoryData[selectedGoal] || [] : [];
