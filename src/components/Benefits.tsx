@@ -67,7 +67,7 @@ const Benefits = () => {
         {/* Call to Action Section */}
         <div className="mt-16 text-center">
           <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">
-            Ready to Transform Your Spending?
+            Ready to Experience Ventus Smart Rewards?
           </h3>
           <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
             Join thousands of smart spenders who are already earning more rewards on their lifestyle goals.
