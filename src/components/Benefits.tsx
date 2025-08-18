@@ -69,7 +69,7 @@ const Benefits = () => {
           <h3 className="font-display text-2xl md:text-3xl font-bold mb-4">
             Ready to Experience Ventus Smart Rewards?
           </h3>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+          <p className="text-lg text-muted-foreground mb-8 max-w-4xl mx-auto">
             Be among the first to experience intelligent rewards that adapt to your lifestyle goals.
           </p>
           <Link to="/smartrewards">
