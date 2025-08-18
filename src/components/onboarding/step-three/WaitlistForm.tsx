@@ -178,8 +178,8 @@ const WaitlistForm = ({
           
           <div className="form-field">
             <label className="block text-sm md:text-base font-bold mb-3 text-white uppercase tracking-wide">Main Category</label>
-            <Select name="interest" value={formData.interest} onValueChange={value => handleInputChange('interest', value)} required>
-              <SelectTrigger className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base">
+            <Select name="interest" value={formData.interest} onValueChange={value => handleInputChange('interest', value)} disabled={!!onboardingData?.mainGoal} required>
+              <SelectTrigger className={`border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base ${onboardingData?.mainGoal ? 'bg-slate-100 text-slate-700 cursor-not-allowed' : 'bg-white'}`}>
                 <SelectValue placeholder={onboardingData?.mainGoal ? getSelectedCategoryLabel() : "Select a category"} />
               </SelectTrigger>
               <SelectContent>
