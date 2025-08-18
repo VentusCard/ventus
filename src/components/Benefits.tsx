@@ -14,7 +14,7 @@ const benefitTiers = [{
   description: "Tailored rewards for everyday achievers.",
   price: "$99",
   period: "/year",
-  features: ["Includes everything in Standard, plus:", "5x points on in-goal purchases in one main category", "Enjoy personalized cross rewards with aligned merchant offers", "Receive deals from up to 3 selected subcategories", "Update your main category goal every 6 months"],
+  features: ["Includes everything in Standard, plus:", "5x points on in-goal purchases in one main category, up to $1000 per month", "Enjoy personalized cross rewards with aligned merchant offers", "Receive deals from up to 3 selected subcategories", "Update your main category goal every 6 months"],
   highlighted: true
 }, {
   name: "Elite",
