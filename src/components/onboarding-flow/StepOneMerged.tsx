@@ -223,7 +223,7 @@ const StepOneMerged = ({
         {goalOptions.map(option => {
         const isDisabled = disabledGoals.includes(option.id);
         return <Card key={option.id} className={`bg-slate-600/30 border border-slate-500/50 backdrop-blur-sm transition-all duration-300 ${isDisabled ? 'opacity-50 cursor-not-allowed grayscale' : `cursor-pointer hover:scale-110 hover:bg-slate-500/40 hover:shadow-2xl hover:brightness-110 ${selectedGoal === option.id ? 'ring-2 ring-blue-400 bg-slate-500/50 scale-105 shadow-blue-500/20 shadow-2xl' : 'shadow-lg'}`}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
-              <CardContent className="p-5 bg-slate-400/20 rounded-lg">
+              <CardContent className="p-5">
                 <div className="text-center">
                   <div className="text-4xl md:text-5xl mb-4 transform transition-transform duration-300">{option.icon}</div>
                    <h3 className={`font-display text-lg md:text-xl font-bold mb-3 ${isDisabled ? 'text-slate-500' : 'text-white'}`}>
