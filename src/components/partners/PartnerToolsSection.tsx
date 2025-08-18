@@ -50,7 +50,7 @@ const PartnerToolsSection = () => {
   return (
     <section className="py-8 px-4 md:px-8 max-w-full mx-auto relative">
       {/* Background tech pattern */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-50/50 via-blue-50/30 to-purple-50/50 rounded-b-3xl"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 rounded-b-3xl"></div>
       
       <div className="relative">
         <div className="text-center mb-12">
