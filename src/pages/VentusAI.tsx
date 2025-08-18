@@ -125,7 +125,7 @@ const VentusAI = () => {
       {/* CTA Section */}
       <section className="py-8 px-4 md:px-8 max-w-7xl mx-auto text-center">
         <Card className="premium-card max-w-4xl mx-auto">
-          <CardContent className="p-8 md:p-12">
+          <CardContent className="py-8 px-12 md:py-12 md:px-16">
             <h2 className="text-3xl md:text-4xl font-bold card-title mb-3">
               Ready to Maximize Your Rewards?
             </h2>
