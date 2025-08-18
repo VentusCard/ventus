@@ -222,17 +222,17 @@ const StepOneMerged = ({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
         {goalOptions.map(option => {
         const isDisabled = disabledGoals.includes(option.id);
-        return <Card key={option.id} className={`transition-all ${isDisabled ? 'opacity-50 cursor-not-allowed grayscale' : `cursor-pointer hover:shadow-lg ${selectedGoal === option.id ? 'ring-2 ring-blue-500 shadow-lg scale-105' : ''}`}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
+        return <Card key={option.id} className={`premium-card transition-all ${isDisabled ? 'opacity-50 cursor-not-allowed grayscale' : `cursor-pointer hover:shadow-titanium ${selectedGoal === option.id ? 'ring-2 ring-blue-400 shadow-titanium scale-105' : ''}`}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
               <CardContent className="p-4">
                 <div className="text-center">
                   <div className="text-3xl mb-3">{option.icon}</div>
-                   <h3 className={`font-display text-lg md:text-xl font-bold mb-3 ${isDisabled ? 'text-gray-400' : 'text-gray-900'}`}>
+                   <h3 className={`font-display text-lg md:text-xl font-bold mb-3 ${isDisabled ? 'text-slate-500' : 'text-white'}`}>
                     {option.title}
                    </h3>
-                   <p className={`mb-3 text-sm md:text-base ${isDisabled ? 'text-gray-400' : 'text-gray-600'}`}>
+                   <p className={`mb-3 text-sm md:text-base ${isDisabled ? 'text-slate-600' : 'text-white/70'}`}>
                     {option.description}
                    </p>
-                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${isDisabled ? "bg-gray-100 text-gray-400" : option.year === "Available First" ? "bg-green-100 text-green-700" : option.year === "Available Soon" ? "bg-blue-100 text-blue-700" : "bg-orange-100 text-orange-700"}`}>
+                  <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${isDisabled ? "bg-slate-700 text-slate-500" : option.year === "Available First" ? "bg-green-500/20 text-green-400" : option.year === "Available Soon" ? "bg-blue-500/20 text-blue-400" : "bg-orange-500/20 text-orange-400"}`}>
                     {isDisabled ? "Coming Later" : option.availability}
                   </span>
                 </div>
@@ -253,17 +253,17 @@ const StepOneMerged = ({
         pointerEvents: 'auto',
         WebkitTapHighlightColor: 'transparent'
       }}>
-            <h3 className="font-display text-lg md:text-xl font-bold mb-4">
+            <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-white">
               Pick up to 3 areas you're interested in receiving deals and offers.
             </h3>
-            <p className="text-base md:text-lg text-slate-600 mb-4">
+            <p className="text-lg md:text-xl text-white/80 mb-6">
               No pressure, you can add more when Ventus launches!
             </p>
 
             {selectedSubcategories.length >= 3}
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-lg' : 'border-slate-200 bg-white text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-md'}`} style={{
+              {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-400 bg-gradient-to-br from-blue-500/20 to-blue-600/20 text-blue-300 shadow-lg' : 'border-slate-600 bg-slate-800/50 text-white hover:border-blue-400 hover:bg-blue-500/10 shadow-md'}`} style={{
             touchAction: 'manipulation',
             pointerEvents: 'auto',
             WebkitTapHighlightColor: 'transparent'

@@ -5,10 +5,12 @@ import VentusSimplificationSection from "./VentusSimplificationSection";
 import { Card, CardContent } from "@/components/ui/card";
 import { dealIcons, getDealIcon } from "../onboarding/step-three/DealIcons";
 import { exampleDeals } from "../onboarding/step-three/ExampleDealsData";
+
 interface StepTwoMergedProps {
   selectedGoal: LifestyleGoal;
   selectedSubcategories: string[];
 }
+
 const StepTwoMerged = ({
   selectedGoal,
   selectedSubcategories
@@ -29,15 +31,18 @@ const StepTwoMerged = ({
     }
     return `${goalTitles[goal]} Enthusiasts`;
   };
+
   const selectedDeals = exampleDeals[selectedGoal] || {};
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
-  return <div className="space-y-3 md:space-y-4">
+
+  return (
+    <div className="space-y-4 md:space-y-6">
       {/* Header Section */}
       <div className="mb-8">
-        <h2 className="font-display text-xl md:text-2xl font-bold mb-4">
+        <h2 className="font-display text-2xl md:text-3xl font-bold mb-4 text-white">
           Your Personalized Smart Rewards System
         </h2>
-        <p className="text-base md:text-lg text-slate-600 mb-6">
+        <p className="text-lg md:text-xl text-white/80 mb-6">
           See how Ventus combines your selected categories into one intelligent card that automatically maximizes your rewards.
         </p>
       </div>
@@ -50,63 +55,72 @@ const StepTwoMerged = ({
       <VentusSimplificationSection />
 
       {/* Example Deals Section */}
-      <div className="mt-4">
-        <h2 className="font-display text-xl md:text-2xl font-bold mb-4">
+      <div className="mt-6">
+        <h2 className="font-display text-2xl md:text-3xl font-bold mb-6 text-white">
           Exclusive Deals for {getDisplayTitle(selectedGoal)}
         </h2>
         
-
-        <div className="bg-blue-50 p-4 rounded-xl border border-blue-200 mb-4">
-          <h3 className="font-display text-lg md:text-xl font-bold mb-3 text-blue-800">Your Personalized Merchant Deals</h3>
+        <div className="premium-card bg-gradient-to-br from-blue-500/20 to-blue-600/10 border-blue-400/30 p-6 mb-6">
+          <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-blue-300">Your Personalized Merchant Deals</h3>
           <div>
-            <h4 className="font-semibold text-blue-700 mb-3 text-sm md:text-base">Selected Categories:</h4>
+            <h4 className="font-semibold text-blue-400 mb-4 text-base md:text-lg">Selected Categories:</h4>
             <div className="flex flex-wrap gap-2">
               {selectedSubcategories.map(sub => {
-              const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
-              return <span key={sub} className="flex items-center gap-1 px-2 py-1 bg-blue-100 text-blue-700 rounded text-sm">
+                const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
+                return (
+                  <span key={sub} className="flex items-center gap-1 px-3 py-1 bg-blue-500/30 text-blue-200 rounded-lg text-sm">
                     {CategoryIcon && <CategoryIcon className="h-3 w-3" />}
                     {sub}
-                  </span>;
-            })}
+                  </span>
+                );
+              })}
             </div>
           </div>
         </div>
 
-        {relevantCategories.length > 0 && <div className="space-y-4 mb-4">
+        {relevantCategories.length > 0 && (
+          <div className="space-y-6 mb-6">
             {relevantCategories.map(category => {
-          const CategoryIcon = dealIcons[category as keyof typeof dealIcons];
-          return <div key={category} className="bg-white border border-slate-200 rounded-xl p-6 shadow-sm">
+              const CategoryIcon = dealIcons[category as keyof typeof dealIcons];
+              return (
+                <div key={category} className="premium-card p-6">
                   <div className="flex items-center gap-3 mb-4">
-                    {CategoryIcon && <CategoryIcon className="h-6 w-6 text-blue-600" />}
-                    <h3 className="font-display text-lg md:text-xl font-bold text-slate-800">Example Deals in {category}</h3>
+                    {CategoryIcon && <CategoryIcon className="h-6 w-6 text-blue-400" />}
+                    <h3 className="font-display text-xl md:text-2xl font-bold text-white">Example Deals in {category}</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {selectedDeals[category]?.map((deal, index) => {
-                const DealIcon = getDealIcon(deal);
-                return <Card key={index} className="bg-white border-slate-200 hover:shadow-md transition-all duration-300">
+                      const DealIcon = getDealIcon(deal);
+                      return (
+                        <Card key={index} className="premium-card hover:shadow-titanium transition-all duration-300">
                           <CardContent className="p-4">
                             <div className="flex items-center gap-3">
-                              <div className="flex-shrink-0 p-2 bg-blue-50 rounded-full">
-                                <DealIcon className="h-4 w-4 text-blue-600" />
+                              <div className="flex-shrink-0 p-2 bg-blue-500/20 rounded-full">
+                                <DealIcon className="h-4 w-4 text-blue-400" />
                               </div>
-                              <div className="text-slate-700 text-sm md:text-base font-medium flex-1 min-h-[50px] flex items-center">
+                              <div className="text-white/90 text-sm md:text-base font-medium flex-1 min-h-[50px] flex items-center">
                                 <span className="text-left w-full">{deal}</span>
                               </div>
                             </div>
                           </CardContent>
-                        </Card>;
-              })}
+                        </Card>
+                      );
+                    })}
                   </div>
-                </div>;
-        })}
-          </div>}
+                </div>
+              );
+            })}
+          </div>
+        )}
 
-        <div className="text-center mt-6">
-          <p className="text-slate-600 text-base md:text-lg font-bold">
+        <div className="text-center mt-8">
+          <p className="text-white text-lg md:text-xl font-bold">
             Ready to see your potential rewards?
           </p>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default StepTwoMerged;
