@@ -227,11 +227,11 @@ const StepOneMerged = ({
             return 'bg-slate-600/30 border border-slate-500/50 opacity-50 cursor-not-allowed grayscale';
           }
           
-          // Blue gradients for Sports, Wellness, and Pet Owners
+          // Dark blue gradients for Sports, Wellness, and Pet Owners
           if (option.id === 'sports') {
-            // Available First - Brighter blue gradient
-            const baseStyles = 'bg-gradient-to-br from-blue-500/40 to-blue-600/50 border border-blue-400/60';
-            const hoverStyles = 'hover:from-blue-400/50 hover:to-blue-500/60 hover:border-blue-300/70';
+            // Available First - Dark bright blue gradient
+            const baseStyles = 'bg-gradient-to-br from-blue-800/80 to-blue-900/90 border border-blue-600/80';
+            const hoverStyles = 'hover:from-blue-700/90 hover:to-blue-800/95 hover:border-blue-500/90';
             const selectedStyles = selectedGoal === option.id 
               ? 'ring-2 ring-blue-400 scale-105 shadow-blue-500/30 shadow-2xl' 
               : 'shadow-lg';
@@ -239,11 +239,11 @@ const StepOneMerged = ({
           }
           
           if (option.id === 'wellness' || option.id === 'pets') {
-            // Available Soon - Softer blue gradient
-            const baseStyles = 'bg-gradient-to-br from-blue-400/20 to-blue-500/30 border border-blue-300/40';
-            const hoverStyles = 'hover:from-blue-300/30 hover:to-blue-400/40 hover:border-blue-200/50';
+            // Available Soon - Dark muted blue gradient
+            const baseStyles = 'bg-gradient-to-br from-blue-900/60 to-slate-800/80 border border-blue-700/60';
+            const hoverStyles = 'hover:from-blue-800/70 hover:to-slate-700/90 hover:border-blue-600/70';
             const selectedStyles = selectedGoal === option.id 
-              ? 'ring-2 ring-blue-300 scale-105 shadow-blue-400/20 shadow-2xl' 
+              ? 'ring-2 ring-blue-500 scale-105 shadow-blue-400/20 shadow-2xl' 
               : 'shadow-lg';
             return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
           }
