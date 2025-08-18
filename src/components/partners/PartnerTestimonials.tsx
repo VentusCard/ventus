@@ -89,7 +89,7 @@ const PartnerTestimonials = () => {
                 <Card className="h-full">
                   <CardContent className="p-6 flex flex-col h-full">
                     <Quote className="h-8 w-8 text-blue-600 mb-4 flex-shrink-0" />
-                    <blockquote className="text-slate-700 mb-6 flex-grow leading-relaxed">
+                    <blockquote className="text-slate-700 mb-6 flex-grow leading-relaxed text-lg">
                       "{testimonial.quote}"
                     </blockquote>
                     <div className="mt-auto">
