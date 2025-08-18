@@ -31,7 +31,9 @@ const SelectedCategoriesImpactCard = ({
         </div>
         
         <p className="text-white/80 mb-4 md:mb-6 text-base md:text-lg leading-relaxed">
-          Traditional credit cards force you to juggle multiple cards for different purchase types. Ventus automatically gives you <strong className="text-white">5x rewards on ALL related purchases</strong> with one intelligent card:
+          Traditional credit cards force you to juggle multiple cards for different purchase types. 
+          <br />
+          Ventus automatically gives you <strong className="text-white">5x rewards on ALL related purchases</strong> with one intelligent card:
         </p>
 
         <div className="space-y-3 md:space-y-4">
