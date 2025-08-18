@@ -122,7 +122,7 @@ const OnboardingFlow = () => {
       </section>
       
       <div className="flex-grow">
-        <div className="max-w-7xl mx-auto px-6 md:px-8 py-6">
+        <div className="max-w-7xl mx-auto px-6 md:px-8 pb-6">
           {/* Progress Section - updated for dark theme */}
           <div className="mb-6">
             {/* Step Progress Bar */}
