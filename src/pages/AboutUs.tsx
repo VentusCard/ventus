@@ -22,7 +22,7 @@ const AboutUs = () => {
     title: "Our Community",
     description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
   }];
-  return <div className="min-h-screen bg-background">
+  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar />
       
       {/* Hero Section */}
@@ -36,11 +36,11 @@ const AboutUs = () => {
       {/* Our Story Section */}
       <div className="px-4 md:px-8 pb-8">
         <div className="max-w-4xl mx-auto">
-          <Card className="mb-8">
+          <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm mb-8">
             <CardHeader className="pb-4">
-              <CardTitle className="text-3xl font-bold text-center">Our Story</CardTitle>
+              <CardTitle className="text-3xl font-bold text-slate-900 text-center">Our Story</CardTitle>
             </CardHeader>
-            <CardContent className="text-muted-foreground space-y-3 text-lg leading-relaxed pt-0">
+            <CardContent className="text-slate-600 space-y-3 text-lg leading-relaxed pt-0">
               <p>
                 Ventus was born out of a simple frustration: juggling multiple credit cards just to optimize rewards—and still missing out. As avid spenders across sports, wellness, travel, and daily essentials, our co-founders, both longtime friends and wallet nerds, kept asking the same question: Why isn't there a single card that adapts to how we actually live?
               </p>
@@ -56,23 +56,23 @@ const AboutUs = () => {
 
           {/* Values Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-            {values.map((value, index) => <Card key={index} className="hover:shadow-xl transition-all duration-300">
+            {values.map((value, index) => <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-3 mb-2">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <value.icon className="h-6 w-6 text-primary" />
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <value.icon className="h-6 w-6 text-blue-600" />
                     </div>
-                    <CardTitle className="text-xl font-semibold">{value.title}</CardTitle>
+                    <CardTitle className="text-xl font-semibold text-slate-900">{value.title}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <p className="text-muted-foreground leading-relaxed">{value.description}</p>
+                  <p className="text-slate-600 leading-relaxed">{value.description}</p>
                 </CardContent>
               </Card>)}
           </div>
 
           {/* Team Section */}
-          <Card className="">
+          <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm">
             
             
           </Card>
@@ -80,15 +80,15 @@ const AboutUs = () => {
           {/* CTA Section */}
           <div className="mt-12 text-center">
             <div className="max-w-2xl mx-auto mb-8">
-              <h3 className="text-2xl font-bold mb-4">
+              <h3 className="text-2xl font-bold text-slate-900 mb-4">
                 Ready to Experience Ventus?
               </h3>
-              <p className="text-muted-foreground text-lg leading-relaxed">
+              <p className="text-slate-600 text-lg leading-relaxed">
                 Discover how Ventus Card can transform your spending into personalized rewards that align with your lifestyle.
               </p>
             </div>
             <Link to="/smartrewards">
-              <Button size="lg" className="w-full max-w-md px-12 py-4 text-lg font-semibold transform hover:scale-105 transition-all duration-200">
+              <Button size="lg" className="w-full max-w-md px-12 py-4 text-lg font-semibold bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 shadow-premium hover:shadow-titanium transform hover:scale-105 transition-all duration-200">
                 Learn How Ventus Smart Rewards Works
               </Button>
             </Link>
