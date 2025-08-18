@@ -63,7 +63,7 @@ const PartnerToolsSection = () => {
           </h2>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
             Leverage cutting-edge AI and data analytics to create personalized experiences 
-            that drive engagement and maximize revenue.
+            that drive engagement and maximize revenue. Cutting-edge capabilities, zero-integration.
           </p>
         </div>
         
