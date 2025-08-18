@@ -216,7 +216,7 @@ const StepOneMerged = ({
     }
   };
   return <div>
-      <h2 className="font-display text-xl md:text-2xl font-bold mb-3">What would you like your Ventus Card to reward you on?</h2>
+      <h2 className="font-display text-lg md:text-2xl font-bold mb-3">What would you like your Ventus Card to reward you on?</h2>
       <p className="text-base text-slate-600 mb-6">Select one category to earn personalized smart rewards from Ventus. </p>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6 items-stretch">
@@ -260,12 +260,12 @@ const StepOneMerged = ({
                 <div className="text-center flex-1 flex flex-col justify-between">
                   <div>
                     <div className="text-4xl md:text-5xl mb-4 mt-2 transform transition-transform duration-300">{option.icon}</div>
-                     <h3 className={`font-display text-lg md:text-xl font-bold mb-3 ${isDisabled ? 'text-slate-500' : 'text-white'}`}>
-                       {option.title}
-                     </h3>
-                     <p className={`mb-4 text-sm md:text-base ${isDisabled ? 'text-slate-600' : 'text-white/70'}`}>
-                       {option.description}
-                     </p>
+                     <h3 className={`font-display text-base md:text-xl font-bold mb-3 ${isDisabled ? 'text-slate-500' : 'text-white'}`}>
+                        {option.title}
+                      </h3>
+                      <p className={`mb-4 text-xs md:text-base ${isDisabled ? 'text-slate-600' : 'text-white/70'}`}>
+                        {option.description}
+                      </p>
                   </div>
                   <div className="mt-auto">
                     <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${isDisabled ? "bg-slate-700 text-slate-500" : option.year === "Available First" ? "bg-green-500/20 text-green-400" : option.year === "Available Soon" ? "bg-blue-500/20 text-blue-400" : "bg-orange-500/20 text-orange-400"}`}>
@@ -290,10 +290,10 @@ const StepOneMerged = ({
         pointerEvents: 'auto',
         WebkitTapHighlightColor: 'transparent'
       }}>
-            <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-white">
+            <h3 className="font-display text-lg md:text-2xl font-bold mb-4 text-white">
               Pick up to 3 areas you're interested in receiving deals and offers.
             </h3>
-            <p className="text-lg md:text-xl text-white/80 mb-6">
+            <p className="text-base md:text-xl text-white/80 mb-6">
               No pressure, you can add more when Ventus launches!
             </p>
 
@@ -310,7 +310,7 @@ const StepOneMerged = ({
             </div>
 
             {selectedSubcategories.length > 0 && <div className="text-center mt-8">
-                <h4 className="font-display text-xl md:text-2xl font-bold text-white mb-2">
+                <h4 className="font-display text-lg md:text-2xl font-bold text-white mb-2">
                   Ready to See Your Smart Rewards Profile?
                 </h4>
                 

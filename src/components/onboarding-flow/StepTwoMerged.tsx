@@ -39,10 +39,10 @@ const StepTwoMerged = ({
     <div className="space-y-4 md:space-y-6">
       {/* Header Section */}
       <div className="mb-8">
-        <h2 className="font-display text-2xl md:text-3xl font-bold mb-4 text-white">
+        <h2 className="font-display text-xl md:text-3xl font-bold mb-4 text-white">
           Your Personalized Smart Rewards System
         </h2>
-        <p className="text-lg md:text-xl text-white/80 mb-6">
+        <p className="text-base md:text-xl text-white/80 mb-6">
           See how Ventus combines your selected categories into one intelligent card that automatically maximizes your rewards.
         </p>
       </div>
@@ -56,14 +56,14 @@ const StepTwoMerged = ({
 
       {/* Example Deals Section */}
       <div className="mt-6">
-        <h2 className="font-display text-2xl md:text-3xl font-bold mb-6 text-white">
+        <h2 className="font-display text-xl md:text-3xl font-bold mb-6 text-white">
           Exclusive Deals for {getDisplayTitle(selectedGoal)}
         </h2>
         
         <div className="premium-card bg-gradient-to-br from-blue-500/20 to-blue-600/10 border-blue-400/30 p-6 mb-6">
-          <h3 className="font-display text-xl md:text-2xl font-bold mb-4 text-blue-300">Your Personalized Merchant Deals</h3>
+          <h3 className="font-display text-lg md:text-2xl font-bold mb-4 text-blue-300">Your Personalized Merchant Deals</h3>
           <div>
-            <h4 className="font-semibold text-blue-400 mb-4 text-base md:text-lg">Selected Categories:</h4>
+            <h4 className="font-semibold text-blue-400 mb-4 text-sm md:text-lg">Selected Categories:</h4>
             <div className="flex flex-wrap gap-2">
               {selectedSubcategories.map(sub => {
                 const CategoryIcon = dealIcons[sub as keyof typeof dealIcons];
@@ -86,7 +86,7 @@ const StepTwoMerged = ({
                 <div key={category} className="premium-card p-6">
                   <div className="flex items-center gap-3 mb-4">
                     {CategoryIcon && <CategoryIcon className="h-6 w-6 text-blue-400" />}
-                    <h3 className="font-display text-xl md:text-2xl font-bold text-white">Example Deals in {category}</h3>
+                    <h3 className="font-display text-lg md:text-2xl font-bold text-white">Example Deals in {category}</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                     {selectedDeals[category]?.map((deal, index) => {

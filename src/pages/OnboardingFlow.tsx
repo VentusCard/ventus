@@ -103,7 +103,7 @@ const OnboardingFlow = () => {
         
         <div className="relative z-10 max-w-7xl mx-auto px-6 md:px-8 py-8 md:py-10">
           <div className="text-center max-w-6xl mx-auto">
-            <h1 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-none mt-10">
+            <h1 className="font-display text-2xl md:text-5xl lg:text-6xl font-bold mb-6 leading-none mt-10">
               <span className="bg-gradient-to-r from-white via-blue-100 to-blue-200 bg-clip-text text-transparent">
                 Discover Your
               </span>
@@ -113,7 +113,7 @@ const OnboardingFlow = () => {
               </span>
             </h1>
             
-            <p className="text-lg md:text-xl text-white/80 leading-relaxed max-w-6xl mx-auto">Most cards reward categories. Ventus rewards you. Set your goals like fitness, pet care, or home upgrades and earn cross category rewards with personalized deals. No more juggling cards or missing out.<br />Join the waitlist with your reward profile today with 3 quick steps!</p>
+            <p className="text-base md:text-xl text-white/80 leading-relaxed max-w-6xl mx-auto">Most cards reward categories. Ventus rewards you. Set your goals like fitness, pet care, or home upgrades and earn cross category rewards with personalized deals. No more juggling cards or missing out.<br />Join the waitlist with your reward profile today with 3 quick steps!</p>
           </div>
         </div>
 

@@ -113,10 +113,10 @@ const StepFourSpendingInput = ({
   return <div>
       {/* Header Section */}
       <div className="text-center mb-8">
-        <h2 className="font-display text-2xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
+        <h2 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-white mb-4">
           Excited About the Next-Gen Smart Reward Experience?
         </h2>
-        <p className="text-lg md:text-xl text-white/80 max-w-4xl mx-auto">
+        <p className="text-base md:text-xl text-white/80 max-w-4xl mx-auto">
           You're almost there! Join our waitlist to be among the first to experience smart rewards tailored to your lifestyle in 2026!
         </p>
       </div>

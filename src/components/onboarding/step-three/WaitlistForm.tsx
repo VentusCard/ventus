@@ -152,7 +152,7 @@ const WaitlistForm = ({
   return <Card className="overflow-hidden border-0 shadow-premium premium-card">
       <div className="h-3 bg-gradient-to-r from-blue-500 to-blue-600"></div>
       <CardContent className="p-5 md:p-6">
-        <h3 className="font-display text-xl md:text-2xl font-bold mb-4 flex items-center gap-3 text-white">
+        <h3 className="font-display text-lg md:text-2xl font-bold mb-4 flex items-center gap-3 text-white">
           <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-xl shadow-lg flex-shrink-0">
             <Shield className="text-white" size={20} />
           </div>
@@ -167,17 +167,17 @@ const WaitlistForm = ({
         
         <form onSubmit={handleSubmit} className="space-y-4 mb-4">
           <div className="form-field">
-            <label className="block text-sm md:text-base font-bold mb-3 text-white uppercase tracking-wide">First Name</label>
+            <label className="block text-sm md:text-base font-medium mb-3 text-white">First Name</label>
             <Input name="firstName" type="text" placeholder="First Name" value={formData.firstName} onChange={e => handleInputChange('firstName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" minLength={2} required />
           </div>
           
           <div className="form-field">
-            <label className="block text-sm md:text-base font-bold mb-3 text-white uppercase tracking-wide">Last Name</label>
+            <label className="block text-sm md:text-base font-medium mb-3 text-white">Last Name</label>
             <Input name="lastName" type="text" placeholder="Last Name" value={formData.lastName} onChange={e => handleInputChange('lastName', e.target.value)} className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base" />
           </div>
           
           <div className="form-field">
-            <label className="block text-sm md:text-base font-bold mb-3 text-white uppercase tracking-wide">Main Category</label>
+            <label className="block text-sm md:text-base font-medium mb-3 text-white">Main Category</label>
             <Select name="interest" value={formData.interest} onValueChange={value => handleInputChange('interest', value)} disabled={!!onboardingData?.mainGoal} required>
               <SelectTrigger className="bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base disabled:opacity-100">
                 <SelectValue placeholder={onboardingData?.mainGoal ? getSelectedCategoryLabel() : "Select a category"} />
@@ -193,7 +193,7 @@ const WaitlistForm = ({
           </div>
 
           <div className="form-field">
-            <label className="block text-sm md:text-base font-bold mb-3 text-white uppercase tracking-wide flex items-center gap-2">
+            <label className="block text-sm md:text-base font-medium mb-3 text-white flex items-center gap-2">
               <Target size={16} className="text-white/60" />
               Referral Code (Optional)
             </label>
@@ -201,7 +201,7 @@ const WaitlistForm = ({
           </div>
           
           <div className="form-field">
-            <label className="block text-sm md:text-base font-bold mb-3 text-white uppercase tracking-wide">Email Address</label>
+            <label className="block text-sm md:text-base font-medium mb-3 text-white">Email Address</label>
             <Input name="email" type="email" placeholder="Email Address" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} className={`bg-white border-slate-200 focus:border-blue-400 transition-all duration-200 h-12 text-base ${emailError ? 'border-red-500 focus:border-red-500' : ''}`} required />
             {emailError && <p className="text-red-400 text-sm mt-2">{emailError}</p>}
           </div>
