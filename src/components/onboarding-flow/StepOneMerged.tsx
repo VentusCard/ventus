@@ -229,9 +229,9 @@ const StepOneMerged = ({
           
           // Dark blue gradients for Sports, Wellness, and Pet Owners
           if (option.id === 'sports') {
-            // Available First - Dark bright blue gradient
-            const baseStyles = 'bg-gradient-to-br from-blue-800/80 to-blue-900/90 border border-blue-600/80';
-            const hoverStyles = 'hover:from-blue-700/90 hover:to-blue-800/95 hover:border-blue-500/90';
+            // Available First - Very dark blue gradient
+            const baseStyles = 'bg-gradient-to-br from-blue-900/90 to-slate-900/95 border border-blue-700/80';
+            const hoverStyles = 'hover:from-blue-800/95 hover:to-slate-800/98 hover:border-blue-600/90';
             const selectedStyles = selectedGoal === option.id 
               ? 'ring-2 ring-blue-400 scale-105 shadow-blue-500/30 shadow-2xl' 
               : 'shadow-lg';
@@ -239,9 +239,9 @@ const StepOneMerged = ({
           }
           
           if (option.id === 'wellness' || option.id === 'pets') {
-            // Available Soon - Dark muted blue gradient
-            const baseStyles = 'bg-gradient-to-br from-blue-900/60 to-slate-800/80 border border-blue-700/60';
-            const hoverStyles = 'hover:from-blue-800/70 hover:to-slate-700/90 hover:border-blue-600/70';
+            // Available Soon - Very dark muted gradient
+            const baseStyles = 'bg-gradient-to-br from-slate-900/80 to-slate-900/90 border border-slate-700/70';
+            const hoverStyles = 'hover:from-slate-800/90 hover:to-slate-800/95 hover:border-slate-600/80';
             const selectedStyles = selectedGoal === option.id 
               ? 'ring-2 ring-blue-500 scale-105 shadow-blue-400/20 shadow-2xl' 
               : 'shadow-lg';
