@@ -203,16 +203,38 @@ const StepOneMerged = ({
   const disabledGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];
   const subcategorySectionRef = useRef<HTMLDivElement>(null);
 
+  // Custom slow scroll function
+  const slowScrollTo = (element: HTMLElement) => {
+    const startPosition = window.pageYOffset;
+    const targetPosition = element.offsetTop - 20; // 20px offset from top
+    const distance = targetPosition - startPosition;
+    const duration = 1200; // 1.2 seconds for slower scroll
+    let start: number | null = null;
+
+    const animation = (currentTime: number) => {
+      if (start === null) start = currentTime;
+      const timeElapsed = currentTime - start;
+      const progress = Math.min(timeElapsed / duration, 1);
+      
+      // Easing function for smoother animation
+      const ease = 1 - Math.pow(1 - progress, 3); // Ease-out cubic
+      
+      window.scrollTo(0, startPosition + (distance * ease));
+      
+      if (timeElapsed < duration) {
+        requestAnimationFrame(animation);
+      }
+    };
+
+    requestAnimationFrame(animation);
+  };
+
   // Auto-scroll to subcategory section when goal is selected
   useEffect(() => {
     if (selectedGoal && !disabledGoals.includes(selectedGoal) && subcategorySectionRef.current) {
       setTimeout(() => {
-        subcategorySectionRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'start',
-          inline: 'nearest'
-        });
-      }, 100);
+        slowScrollTo(subcategorySectionRef.current!);
+      }, 150);
     }
   }, [selectedGoal, disabledGoals]);
   const subcategories = selectedGoal && !disabledGoals.includes(selectedGoal) ? subcategoryData[selectedGoal] || [] : [];
