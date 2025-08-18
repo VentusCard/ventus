@@ -311,7 +311,16 @@ const StepOneMerged = ({
               </button>)}
             </div>
 
-            {selectedSubcategories.length > 0}
+            {selectedSubcategories.length > 0 && (
+              <div className="text-center mt-8">
+                <h4 className="font-display text-xl md:text-2xl font-bold text-white mb-2">
+                  Ready to See Your Smart Rewards Profile?
+                </h4>
+                <p className="text-white/80 text-base md:text-lg">
+                  Let's continue building your personalized rewards experience.
+                </p>
+              </div>
+            )}
           </div>
         </>}
     </div>;
