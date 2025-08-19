@@ -126,14 +126,14 @@ const OnboardingFlow = () => {
           {/* Progress Section - updated for dark theme */}
           <div className="mb-6">
             {/* Step Progress Bar */}
-            <div className="flex items-center justify-center mt-4 mb-6 overflow-x-auto pt-4 pb-4 px-8">
+            <div className="flex items-center justify-center mt-4 mb-6 overflow-x-auto pt-4 pb-4 px-4 md:px-8">
               {Array.from({
               length: totalSteps
             }, (_, i) => i + 1).map(stepNumber => <div key={stepNumber} className="flex items-center">
-                  <div className={`h-10 w-10 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-lg' : step === stepNumber ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg ring-4 ring-blue-400/30' : 'bg-slate-700 text-slate-300 border-2 border-slate-600'}`}>
-                    {step > stepNumber ? <CheckCircle2 className="h-4 w-4" /> : stepNumber}
+                  <div className={`h-6 w-6 md:h-10 md:w-10 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-500 to-emerald-400 text-white shadow-lg' : step === stepNumber ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg ring-2 md:ring-4 ring-blue-400/30' : 'bg-slate-700 text-slate-300 border border-2 border-slate-600'}`}>
+                    {step > stepNumber ? <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4" /> : stepNumber}
                   </div>
-                  {stepNumber < totalSteps && <div className={`h-1 w-20 md:w-24 transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-400 to-emerald-300' : 'bg-slate-700'}`}></div>}
+                  {stepNumber < totalSteps && <div className={`h-0.5 md:h-1 w-12 md:w-20 lg:w-24 transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-gradient-to-r from-green-400 to-emerald-300' : 'bg-slate-700'}`}></div>}
                 </div>)}
             </div>
           </div>
