@@ -14,7 +14,7 @@ const tools = [{
   bgGlow: "bg-purple-500/10"
 }, {
   icon: ShoppingBag,
-  title: "Purchase-driven tools",
+  title: "Purchase-focused tools",
   description: "10% extra cashback for purchases $500 and above",
   examples: [
     "15% cashback on sports gear purchases over $300",
