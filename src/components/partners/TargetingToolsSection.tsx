@@ -34,6 +34,11 @@ const targetingTools = [{
   title: "Lifecycle Stage Targeting",
   description: "Target users based on their customer journey stage and engagement patterns",
   example: "Welcome bonus for new users, loyalty rewards for long-term customers."
+}, {
+  id: "retention-loyalty",
+  title: "Retention and Loyalty Tools",
+  description: "Super fan, birthday, free 5th smoothie, rewards and experiences",
+  example: "Offer 'Play 4 rounds, get the 5th free' to regular golfers, or exclusive pro shop discounts for members who book tee times monthly."
 }];
 
 interface TargetingToolsSectionProps {
