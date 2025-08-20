@@ -71,6 +71,7 @@ const tools = [{
 const PartnerToolsSection = () => {
   const [currentExamples, setCurrentExamples] = useState<{ [key: number]: number }>({});
   const [isHovered, setIsHovered] = useState<{ [key: number]: boolean }>({});
+  const [animatingCards, setAnimatingCards] = useState<{ [key: number]: boolean }>({});
 
   useEffect(() => {
     const intervals: { [key: number]: NodeJS.Timeout } = {};
@@ -79,10 +80,7 @@ const PartnerToolsSection = () => {
       if (tool.examples) {
         intervals[index] = setInterval(() => {
           if (!isHovered[index]) {
-            setCurrentExamples(prev => ({
-              ...prev,
-              [index]: ((prev[index] || 0) + 1) % tool.examples.length
-            }));
+            smoothTransition(index, ((currentExamples[index] || 0) + 1) % tool.examples.length);
           }
         }, 4000);
       }
@@ -91,7 +89,28 @@ const PartnerToolsSection = () => {
     return () => {
       Object.values(intervals).forEach(interval => clearInterval(interval));
     };
-  }, [isHovered]);
+  }, [isHovered, currentExamples]);
+
+  const smoothTransition = (cardIndex: number, nextExampleIndex: number) => {
+    setAnimatingCards(prev => ({ ...prev, [cardIndex]: true }));
+    
+    setTimeout(() => {
+      setCurrentExamples(prev => ({
+        ...prev,
+        [cardIndex]: nextExampleIndex
+      }));
+      
+      setTimeout(() => {
+        setAnimatingCards(prev => ({ ...prev, [cardIndex]: false }));
+      }, 150);
+    }, 150);
+  };
+
+  const handleDotClick = (cardIndex: number, exampleIndex: number) => {
+    if (!animatingCards[cardIndex]) {
+      smoothTransition(cardIndex, exampleIndex);
+    }
+  };
 
   const handleMouseEnter = (index: number) => {
     setIsHovered(prev => ({ ...prev, [index]: true }));
@@ -148,7 +167,7 @@ const PartnerToolsSection = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="relative">
-                  <CardDescription className="text-base leading-relaxed text-foreground/80 max-w-xs mx-auto">
+                  <CardDescription className={`text-base leading-relaxed text-foreground/80 max-w-xs mx-auto transition-all duration-300 ${animatingCards[index] ? 'opacity-0 transform scale-95' : 'opacity-100 transform scale-100'}`}>
                     <span className="text-primary font-medium">"</span>
                     {currentExample || tool.description}
                     <span className="text-primary font-medium">"</span>
@@ -160,7 +179,7 @@ const PartnerToolsSection = () => {
                       {tool.examples.map((_, exampleIndex) => (
                         <button
                           key={exampleIndex}
-                          onClick={() => setCurrentExamples(prev => ({ ...prev, [index]: exampleIndex }))}
+                          onClick={() => handleDotClick(index, exampleIndex)}
                           className={`w-1.5 h-1.5 rounded-full transition-all duration-300 hover:scale-125 cursor-pointer ${
                             (currentExamples[index] || 0) === exampleIndex
                               ? `bg-gradient-to-r ${tool.gradient}` 
