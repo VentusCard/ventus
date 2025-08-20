@@ -1,5 +1,6 @@
 import { Target, ShoppingBag, Users, Calendar, Heart, Brain } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect } from "react";
 const tools = [{
   icon: Target,
   title: "Goal-based targeting",
@@ -10,6 +11,11 @@ const tools = [{
   icon: ShoppingBag,
   title: "Purchase-driven tools",
   description: "10% extra cashback for purchases $500 and above",
+  examples: [
+    "15% cashback on sports gear purchases over $300",
+    "Double rewards for team sports: Buy 5+ items, get 20% off",
+    "Tiered sports rewards: 5% at $150, 10% at $400, 15% at $750+"
+  ],
   gradient: "from-blue-500 via-cyan-500 to-teal-500",
   bgGlow: "bg-blue-500/10"
 }, {
@@ -38,6 +44,38 @@ const tools = [{
   bgGlow: "bg-indigo-500/10"
 }];
 const PartnerToolsSection = () => {
+  const [currentExamples, setCurrentExamples] = useState<{ [key: number]: number }>({});
+  const [isHovered, setIsHovered] = useState<{ [key: number]: boolean }>({});
+
+  useEffect(() => {
+    const intervals: { [key: number]: NodeJS.Timeout } = {};
+
+    tools.forEach((tool, index) => {
+      if (tool.examples) {
+        intervals[index] = setInterval(() => {
+          if (!isHovered[index]) {
+            setCurrentExamples(prev => ({
+              ...prev,
+              [index]: ((prev[index] || 0) + 1) % tool.examples.length
+            }));
+          }
+        }, 4000);
+      }
+    });
+
+    return () => {
+      Object.values(intervals).forEach(interval => clearInterval(interval));
+    };
+  }, [isHovered]);
+
+  const handleMouseEnter = (index: number) => {
+    setIsHovered(prev => ({ ...prev, [index]: true }));
+  };
+
+  const handleMouseLeave = (index: number) => {
+    setIsHovered(prev => ({ ...prev, [index]: false }));
+  };
+
   return <section className="py-8 px-4 md:px-8 relative">
       <div className="max-w-7xl mx-auto">
       {/* Background tech pattern */}
@@ -60,7 +98,14 @@ const PartnerToolsSection = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {tools.map((tool, index) => {
             const IconComponent = tool.icon;
-            return <Card key={index} className="group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-0 bg-white backdrop-blur-sm hover:scale-105 animate-fade-in overflow-hidden relative">
+            const currentExample = tool.examples ? tool.examples[currentExamples[index] || 0] : null;
+            
+            return <Card 
+              key={index} 
+              className="group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-0 bg-white backdrop-blur-sm hover:scale-105 animate-fade-in overflow-hidden relative"
+              onMouseEnter={() => handleMouseEnter(index)}
+              onMouseLeave={() => handleMouseLeave(index)}
+            >
                 {/* Animated background gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>
                 
@@ -80,9 +125,25 @@ const PartnerToolsSection = () => {
                 <CardContent className="relative">
                   <CardDescription className="text-base leading-relaxed text-foreground/80">
                     <span className="text-primary font-medium">"</span>
-                    {tool.description}
+                    {currentExample || tool.description}
                     <span className="text-primary font-medium">"</span>
                   </CardDescription>
+                  
+                  {/* Example indicators */}
+                  {tool.examples && (
+                    <div className="flex justify-center space-x-1.5 mt-3">
+                      {tool.examples.map((_, exampleIndex) => (
+                        <div
+                          key={exampleIndex}
+                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                            (currentExamples[index] || 0) === exampleIndex
+                              ? `bg-gradient-to-r ${tool.gradient}` 
+                              : 'bg-foreground/20'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                  )}
                   
                   {/* Tech-forward accent line */}
                   <div className={`mt-4 h-1 w-0 group-hover:w-full bg-gradient-to-r ${tool.gradient} transition-all duration-500 rounded-full`}></div>
