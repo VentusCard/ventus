@@ -39,28 +39,6 @@
   }
 }
 
-@keyframes rollUpOut {
-  0% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateY(-100%);
-  }
-}
-
-@keyframes rollUpIn {
-  0% {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  100% {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
 /* Animation utility classes */
 @media (prefers-reduced-motion: no-preference) {
   .shimmer-effect {
@@ -76,13 +54,5 @@
 
   .animate-shimmer {
     animation: futuristic-shimmer 3s ease-in-out infinite;
-  }
-
-  .animate-roll-up-out {
-    animation: rollUpOut 0.3s ease-in-out forwards;
-  }
-
-  .animate-roll-up-in {
-    animation: rollUpIn 0.3s ease-in-out forwards;
   }
 }
