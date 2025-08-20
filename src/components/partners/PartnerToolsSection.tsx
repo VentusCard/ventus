@@ -156,7 +156,7 @@ const PartnerToolsSection = () => {
                   
                   {/* Example indicators */}
                   {tool.examples && (
-                    <div className="flex justify-center space-x-1.5 mt-3">
+                    <div className="flex justify-center items-center space-x-1.5 mt-3">
                       {tool.examples.map((_, exampleIndex) => (
                         <div
                           key={exampleIndex}
