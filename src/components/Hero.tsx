@@ -79,7 +79,7 @@ const Hero = () => {
           <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
               <span className="relative z-20 animate-[unleashed_2s_ease-out_0.5s_both]">
-                Unleashed
+                Made Smarter
               </span>
               {/* Elegant brushstroke with metallic shimmer */}
               <svg className="absolute bottom-0 left-0 w-full h-3 md:h-4 lg:h-5 animate-[brushstroke-draw_1.5s_ease-out_0.5s_both] opacity-90" viewBox="0 0 200 20" preserveAspectRatio="none" style={{
