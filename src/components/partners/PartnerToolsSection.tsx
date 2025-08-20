@@ -132,8 +132,8 @@ const PartnerToolsSection = () => {
             Our Suite of Advanced Tools
           </h2>
           <p className="text-lg text-white/80 w-full mx-auto">
-            Leverage cutting-edge AI and data analytics to create personalized experiences 
-            that drive engagement and maximize revenue. 
+            Ventus leverages proprietary AI and analytics to create customizable tool suite 
+            to drive engagement and maximize revenue. 
             <br />
             Cutting-edge capabilities, zero-integration.
           </p>
