@@ -96,6 +96,7 @@ const ContactInformationSection = ({
         fullName: formData.get('fullName'),
         roleTitle: formData.get('roleTitle'),
         emailAddress: formData.get('emailAddress'),
+        referralCode: formData.get('referralCode'),
         ventusToolsInterested: formatVentusToolsInterested()
       };
       console.log('Submitting data:', submitData);
@@ -185,10 +186,15 @@ const ContactInformationSection = ({
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Role/Title</label>
                 <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" />
               </div>
-              <div className="md:col-span-2">
+              <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Business Email Address</label>
                 <Input name="emailAddress" type="email" placeholder="name@company.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address (e.g., name@company.com)" className="h-11 md:h-12 text-sm md:text-base" required />
                 <p className="text-xs text-slate-500 mt-1">Please enter a valid email address</p>
+              </div>
+              <div>
+                <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Referral Code <span className="text-slate-500 font-normal">(Optional)</span></label>
+                <Input name="referralCode" placeholder="Enter referral code" className="h-11 md:h-12 text-sm md:text-base" />
+                <p className="text-xs text-slate-500 mt-1">If someone referred you to Ventus</p>
               </div>
             </div>
             
