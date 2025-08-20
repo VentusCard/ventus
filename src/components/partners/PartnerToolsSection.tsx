@@ -158,12 +158,13 @@ const PartnerToolsSection = () => {
                   {tool.examples && (
                     <div className="flex justify-center items-center space-x-1.5 mt-3">
                       {tool.examples.map((_, exampleIndex) => (
-                        <div
+                        <button
                           key={exampleIndex}
-                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                          onClick={() => setCurrentExamples(prev => ({ ...prev, [index]: exampleIndex }))}
+                          className={`w-1.5 h-1.5 rounded-full transition-all duration-300 hover:scale-125 cursor-pointer ${
                             (currentExamples[index] || 0) === exampleIndex
                               ? `bg-gradient-to-r ${tool.gradient}` 
-                              : 'bg-foreground/20'
+                              : 'bg-foreground/20 hover:bg-foreground/40'
                           }`}
                         />
                       ))}
