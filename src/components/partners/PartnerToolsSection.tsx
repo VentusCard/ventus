@@ -5,6 +5,11 @@ const tools = [{
   icon: Target,
   title: "Goal-based targeting",
   description: "Extra 2x points for all purchases for fitness-focused users",
+  examples: [
+    "2x points for fitness enthusiasts on gym gear",
+    "Bonus rewards for eco-conscious users on sustainable products", 
+    "Extra cashback for students on educational purchases"
+  ],
   gradient: "from-purple-500 via-pink-500 to-red-500",
   bgGlow: "bg-purple-500/10"
 }, {
@@ -22,24 +27,44 @@ const tools = [{
   icon: Users,
   title: "Behavioral clustering",
   description: "Create rich, merchant-ready cohorts, such as 'Basketball superfans'",
+  examples: [
+    "Basketball superfans: Game tickets + sports gear",
+    "Coffee connoisseurs: Premium beans + brewing equipment",
+    "Travel enthusiasts: Flights + accommodation + gear"
+  ],
   gradient: "from-emerald-500 via-green-500 to-lime-500",
   bgGlow: "bg-emerald-500/10"
 }, {
   icon: Calendar,
   title: "Seasonal timing intelligence",
   description: "NE 'snowsports' Users but haven't bought ski passes in August",
+  examples: [
+    "Ski gear promotions for mountain residents in October",
+    "Beach wear deals for warm climate users in March",
+    "Holiday shopping alerts 3 weeks before peak season"
+  ],
   gradient: "from-orange-500 via-amber-500 to-yellow-500",
   bgGlow: "bg-orange-500/10"
 }, {
   icon: Heart,
   title: "Retention and loyalty tools",
   description: "Super fan, birthday, free 5th smoothie, rewards and experiences",
+  examples: [
+    "Birthday month: 20% off + free shipping",
+    "Loyalty streak: Free item after 5 purchases",
+    "VIP early access to sales and new products"
+  ],
   gradient: "from-rose-500 via-pink-500 to-purple-500",
   bgGlow: "bg-rose-500/10"
 }, {
   icon: Brain,
   title: "Continuous AI optimization and recommendations",
   description: "Smart insights to maximize engagement and revenue",
+  examples: [
+    "Real-time personalization based on browsing patterns",
+    "Dynamic pricing optimization for maximum conversion",
+    "Predictive recommendations before users search"
+  ],
   gradient: "from-indigo-500 via-purple-500 to-pink-500",
   bgGlow: "bg-indigo-500/10"
 }];
