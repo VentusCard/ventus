@@ -71,6 +71,7 @@ const tools = [{
 const PartnerToolsSection = () => {
   const [currentExamples, setCurrentExamples] = useState<{ [key: number]: number }>({});
   const [isHovered, setIsHovered] = useState<{ [key: number]: boolean }>({});
+  const [animationStates, setAnimationStates] = useState<{ [key: number]: 'idle' | 'exiting' | 'entering' }>({});
 
   useEffect(() => {
     const intervals: { [key: number]: NodeJS.Timeout } = {};
@@ -79,10 +80,22 @@ const PartnerToolsSection = () => {
       if (tool.examples) {
         intervals[index] = setInterval(() => {
           if (!isHovered[index]) {
-            setCurrentExamples(prev => ({
-              ...prev,
-              [index]: ((prev[index] || 0) + 1) % tool.examples.length
-            }));
+            // Start exit animation
+            setAnimationStates(prev => ({ ...prev, [index]: 'exiting' }));
+            
+            // After exit animation, change content and start enter animation
+            setTimeout(() => {
+              setCurrentExamples(prev => ({
+                ...prev,
+                [index]: ((prev[index] || 0) + 1) % tool.examples.length
+              }));
+              setAnimationStates(prev => ({ ...prev, [index]: 'entering' }));
+              
+              // Reset to idle after enter animation
+              setTimeout(() => {
+                setAnimationStates(prev => ({ ...prev, [index]: 'idle' }));
+              }, 300);
+            }, 300);
           }
         }, 4000);
       }
@@ -148,11 +161,19 @@ const PartnerToolsSection = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="relative">
-                  <CardDescription className="text-base leading-relaxed text-foreground/80">
-                    <span className="text-primary font-medium">"</span>
-                    {currentExample || tool.description}
-                    <span className="text-primary font-medium">"</span>
-                  </CardDescription>
+                  <div className="relative h-16 overflow-hidden">
+                    <CardDescription 
+                      className={`text-base leading-relaxed text-foreground/80 absolute inset-0 flex items-center transition-all duration-300 ${
+                        animationStates[index] === 'exiting' ? 'animate-roll-up-out' :
+                        animationStates[index] === 'entering' ? 'animate-roll-up-in' :
+                        ''
+                      }`}
+                    >
+                      <span className="text-primary font-medium">"</span>
+                      {currentExample || tool.description}
+                      <span className="text-primary font-medium">"</span>
+                    </CardDescription>
+                  </div>
                   
                   {/* Example indicators */}
                   {tool.examples && (
