@@ -8,8 +8,8 @@ const tools = [{
   bgGlow: "bg-purple-500/10"
 }, {
   icon: ShoppingBag,
-  title: "Purchase-driven segmentation",
-  description: "10% cashback for users who spent $200+ on sports in the last 3 months",
+  title: "Purchase-driven tools",
+  description: "10% extra cashback for purchases $500 and above",
   gradient: "from-blue-500 via-cyan-500 to-teal-500",
   bgGlow: "bg-blue-500/10"
 }, {
