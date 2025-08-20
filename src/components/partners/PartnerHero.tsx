@@ -7,8 +7,7 @@ const PartnerHero = () => {
           <span className="text-blue-600">Ventus Card</span>
         </h1>
         
-        <p className="text-lg md:text-xl text-slate-600 w-full mx-auto leading-relaxed mb-2 md:mb-4 px-2">Get early access to AI-powered smart campaigns that target high-conversion segments based on verified behavior and lifestyle goals.
-Join hundreds of top facilities and brands preparing to launch with Ventus!</p>
+        
       </div>
     </section>;
 };
