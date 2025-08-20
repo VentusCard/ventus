@@ -148,7 +148,7 @@ const PartnerToolsSection = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="relative">
-                  <CardDescription className="text-base leading-relaxed text-foreground/80">
+                  <CardDescription className="text-base leading-relaxed text-foreground/80 max-w-xs mx-auto">
                     <span className="text-primary font-medium">"</span>
                     {currentExample || tool.description}
                     <span className="text-primary font-medium">"</span>
