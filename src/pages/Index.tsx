@@ -4,7 +4,6 @@ import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Hero from "@/components/Hero"
 import Features from "@/components/Features"
-import Benefits from "@/components/Benefits"
 import Rewards from "@/components/Rewards"
 import Testimonials from "@/components/Testimonials"
 import CTA from "@/components/CTA"
@@ -12,14 +11,12 @@ import CTA from "@/components/CTA"
 const Index = () => {
   const [visibleSections, setVisibleSections] = useState({
     features: false,
-    benefits: false,
     rewards: false,
     testimonials: false,
     cta: false
   });
   
   const featuresRef = useRef<HTMLDivElement>(null);
-  const benefitsRef = useRef<HTMLDivElement>(null);
   const rewardsRef = useRef<HTMLDivElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -31,10 +28,6 @@ const Index = () => {
       // Check each section visibility
       if (featuresRef.current && scrollPosition > featuresRef.current.offsetTop) {
         setVisibleSections(prev => ({ ...prev, features: true }));
-      }
-      
-      if (benefitsRef.current && scrollPosition > benefitsRef.current.offsetTop) {
-        setVisibleSections(prev => ({ ...prev, benefits: true }));
       }
       
       if (rewardsRef.current && scrollPosition > rewardsRef.current.offsetTop) {
@@ -72,18 +65,9 @@ const Index = () => {
           <Features />
         </div>
         <div 
-          id="benefits" 
-          ref={benefitsRef}
-          className={`transition-all duration-500 ease-out delay-75 bg-[#F8F9FA] ${
-            visibleSections.benefits ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
-        >
-          <Benefits />
-        </div>
-        <div 
           id="rewards" 
           ref={rewardsRef}
-          className={`transition-all duration-500 ease-out delay-150 bg-[#F8F9FA] ${
+          className={`transition-all duration-500 ease-out delay-75 bg-[#F8F9FA] ${
             visibleSections.rewards ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
           }`}
         >
