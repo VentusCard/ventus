@@ -1,5 +1,6 @@
 import { User, Dumbbell, Heart, Dog, Gamepad2, Palette, Home, Snowflake, Flag, Circle, Zap, Bike, Waves } from "lucide-react";
 import { LucideIcon } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
 
 type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
 
@@ -20,15 +21,6 @@ const goalIcons: Record<string, LucideIcon> = {
   gamers: Gamepad2,
   creatives: Palette,
   homeowners: Home,
-};
-
-const goalColors: Record<string, string> = {
-  sports: "from-blue-500 to-cyan-500",
-  wellness: "from-emerald-500 to-teal-500",
-  pets: "from-orange-500 to-amber-500",
-  gamers: "from-purple-500 to-pink-500",
-  creatives: "from-fuchsia-500 to-purple-500",
-  homeowners: "from-slate-500 to-zinc-500",
 };
 
 const goalTitles: Record<string, string> = {
@@ -66,19 +58,22 @@ const getInitials = (name: string): string => {
 export const UserProfileBar = ({ profile }: UserProfileBarProps) => {
   const goal = profile.lifestyle_goal || "sports";
   const GoalIcon = goalIcons[goal] || Dumbbell;
-  const goalGradient = goalColors[goal] || goalColors.sports;
   const goalTitle = goalTitles[goal] || goal;
   const categories = profile.selected_categories || [];
 
   return (
-    <div className="w-full bg-background/95 backdrop-blur-lg border-b border-border shadow-sm animate-slideDown">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-3">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+    <div className="w-full bg-card/50 backdrop-blur-sm border-b border-border shadow-sm animate-slideDown">
+      <div className="max-w-7xl mx-auto px-6 py-4">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
           
           {/* User Section */}
           <div className="flex items-center gap-3 min-w-fit">
-            <div className={`h-10 w-10 rounded-full bg-gradient-to-br ${goalGradient} flex items-center justify-center text-white font-bold text-sm shadow-lg ring-2 ring-white`}>
-              {profile.full_name ? getInitials(profile.full_name) : <User className="h-5 w-5" />}
+            <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center font-bold text-sm ring-2 ring-primary/20 backdrop-blur-sm">
+              {profile.full_name ? (
+                <span className="text-primary">{getInitials(profile.full_name)}</span>
+              ) : (
+                <User className="h-5 w-5 text-primary" />
+              )}
             </div>
             <div>
               <p className="text-sm font-semibold text-foreground">
@@ -88,35 +83,37 @@ export const UserProfileBar = ({ profile }: UserProfileBarProps) => {
             </div>
           </div>
 
+          {/* Divider */}
+          <div className="hidden lg:block h-8 w-px bg-border" />
+
           {/* Goal Section */}
-          <div className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r ${goalGradient} bg-opacity-10 border border-primary/20 shadow-sm hover:shadow-md transition-all duration-200 hover:scale-105`}>
-            <GoalIcon className="h-5 w-5 text-primary" />
-            <span className="text-sm font-semibold text-foreground whitespace-nowrap">
+          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/5 border border-primary/10 hover:bg-primary/10 transition-all duration-200">
+            <GoalIcon className="h-4 w-4 text-primary" />
+            <span className="text-sm font-medium text-foreground whitespace-nowrap">
               {goalTitle}
             </span>
           </div>
 
           {/* Categories Section */}
-          <div className="flex items-center gap-2 overflow-x-auto w-full lg:w-auto scrollbar-hide">
+          <div className="flex items-center gap-2 overflow-x-auto flex-1 scrollbar-hide">
             {categories.slice(0, 5).map((cat, idx) => {
               const CategoryIcon = categoryIcons[cat] || Circle;
               return (
-                <div
+                <Badge
                   key={cat}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-card rounded-md border-l-4 border-l-primary shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 animate-slideInLeft"
+                  variant="secondary"
+                  className="flex items-center gap-1.5 px-3 py-1.5 hover:bg-accent transition-all duration-200 animate-slideInLeft"
                   style={{ animationDelay: `${idx * 50}ms` }}
                 >
-                  <CategoryIcon className="h-4 w-4 text-primary flex-shrink-0" />
-                  <span className="text-xs font-medium text-foreground whitespace-nowrap">
-                    {cat}
-                  </span>
-                </div>
+                  <CategoryIcon className="h-3 w-3 flex-shrink-0" />
+                  <span className="text-xs whitespace-nowrap">{cat}</span>
+                </Badge>
               );
             })}
             {categories.length > 5 && (
-              <div className="flex items-center justify-center px-3 py-1.5 bg-muted rounded-md text-xs font-medium text-muted-foreground">
-                +{categories.length - 5} more
-              </div>
+              <Badge variant="outline" className="text-xs">
+                +{categories.length - 5}
+              </Badge>
             )}
           </div>
         </div>
