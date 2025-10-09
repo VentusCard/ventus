@@ -34,50 +34,65 @@ Deno.serve(async (req) => {
       .eq("id", userId)
       .single();
 
-    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
-    if (!LOVABLE_API_KEY) {
-      throw new Error("LOVABLE_API_KEY not configured");
+    const PERPLEXITY_API_KEY = Deno.env.get("PERPLEXITY_API_KEY");
+    if (!PERPLEXITY_API_KEY) {
+      throw new Error("PERPLEXITY_API_KEY not configured");
     }
 
-    const systemPrompt = `You are a deal-finding assistant for Ventus Card users. The user's lifestyle goal is "${profile?.lifestyle_goal || "general"}" and their preferred categories are: ${profile?.selected_categories?.join(", ") || "various"}.
+    const systemPrompt = `You are a real-time deal finder for Ventus Card users. The user's lifestyle goal is "${profile?.lifestyle_goal || "general"}" and their preferred categories are: ${profile?.selected_categories?.join(", ") || "various"}.
 
-When users ask for deals:
-1. Parse their query to understand category, price range, and preferences
-2. Generate 3-5 realistic deals that match their criteria
-3. Return ONLY valid JSON in this exact format (no markdown, no explanation):
+Search the web for REAL, CURRENT deals that match their query. For each deal, find:
+- The actual product name and merchant
+- Current sale price and original price from the retailer
+- A brief compelling description
+- The direct URL to the deal on the merchant's website
+- Calculate the discount percentage
+
+Return ONLY valid JSON in this exact format (no markdown, no explanation):
 
 {
   "deals": [
     {
-      "title": "Product Name",
-      "merchant": "Store Name",
-      "description": "Brief compelling description (1-2 sentences)",
+      "title": "Actual Product Name",
+      "merchant": "Real Store Name",
+      "description": "Brief description highlighting why this deal is good (1-2 sentences)",
       "originalPrice": 100.00,
       "dealPrice": 75.00,
       "discount": 25,
       "category": "Category Name",
-      "dealUrl": "https://example.com/deal"
+      "dealUrl": "https://actual-merchant.com/product-page"
     }
   ],
-  "message": "Optional brief message about the deals"
+  "message": "Optional brief message about the deals found"
 }
 
-Make the deals realistic and relevant to their query. Prioritize deals in their preferred categories when possible.`;
+Prioritize:
+1. Deals in their preferred categories: ${profile?.selected_categories?.join(", ") || "various"}
+2. Recent deals (within the last week)
+3. Reputable merchants
+4. Working, direct links to product pages
+5. Significant discounts (15%+ off)
+
+Find 3-5 real deals from actual retailers.`;
 
     const response = await fetch(
-      "https://ai.gateway.lovable.dev/v1/chat/completions",
+      "https://api.perplexity.ai/chat/completions",
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${LOVABLE_API_KEY}`,
+          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
+          model: "llama-3.1-sonar-large-128k-online",
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: query },
           ],
+          temperature: 0.2,
+          max_tokens: 2000,
+          return_related_questions: false,
+          search_recency_filter: "week",
         }),
       }
     );
