@@ -39,6 +39,15 @@
   }
 }
 
+@keyframes typing-dot {
+  0%, 60%, 100% {
+    transform: translateY(0);
+  }
+  30% {
+    transform: translateY(-8px);
+  }
+}
+
 /* Animation utility classes */
 @media (prefers-reduced-motion: no-preference) {
   .shimmer-effect {
@@ -54,5 +63,9 @@
 
   .animate-shimmer {
     animation: futuristic-shimmer 3s ease-in-out infinite;
+  }
+
+  .animate-typing-dot {
+    animation: typing-dot 1.4s ease-in-out infinite;
   }
 }

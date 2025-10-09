@@ -1,215 +1,213 @@
 
-@layer base {
-  /* Metallic utility classes */
-  .metallic-surface {
-    background: linear-gradient(135deg, 
-      hsl(var(--metallic-silver)) 0%, 
-      hsl(var(--metallic-platinum)) 25%, 
-      hsl(var(--metallic-silver)) 50%, 
-      hsl(var(--metallic-titanium)) 75%, 
-      hsl(var(--metallic-platinum)) 100%
-    );
-    position: relative;
-  }
+/* Metallic utility classes */
+.metallic-surface {
+  background: linear-gradient(135deg, 
+    hsl(var(--metallic-silver)) 0%, 
+    hsl(var(--metallic-platinum)) 25%, 
+    hsl(var(--metallic-silver)) 50%, 
+    hsl(var(--metallic-titanium)) 75%, 
+    hsl(var(--metallic-platinum)) 100%
+  );
+  position: relative;
+}
 
-  .metallic-surface::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(45deg, 
-      transparent 30%, 
-      rgba(255, 255, 255, 0.1) 50%, 
-      transparent 70%
-    );
-    pointer-events: none;
-  }
+.metallic-surface::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, 
+    transparent 30%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    transparent 70%
+  );
+  pointer-events: none;
+}
 
-  .titanium-gradient {
-    background: linear-gradient(135deg, 
-      #f8fafc 0%, 
-      #e2e8f0 20%, 
-      #cbd5e1 40%, 
-      #94a3b8 60%, 
-      #64748b 80%, 
-      #475569 100%
-    );
-  }
+.titanium-gradient {
+  background: linear-gradient(135deg, 
+    #f8fafc 0%, 
+    #e2e8f0 20%, 
+    #cbd5e1 40%, 
+    #94a3b8 60%, 
+    #64748b 80%, 
+    #475569 100%
+  );
+}
 
-  .blue-titanium-gradient {
-    background: linear-gradient(135deg, 
-      #dbeafe 0%, 
-      #bfdbfe 20%, 
-      #93c5fd 40%, 
-      #60a5fa 60%, 
-      #3b82f6 80%, 
-      #1d4ed8 100%
-    );
-  }
+.blue-titanium-gradient {
+  background: linear-gradient(135deg, 
+    #dbeafe 0%, 
+    #bfdbfe 20%, 
+    #93c5fd 40%, 
+    #60a5fa 60%, 
+    #3b82f6 80%, 
+    #1d4ed8 100%
+  );
+}
 
-  .metallic-border {
-    border: 1px solid;
-    border-image: linear-gradient(45deg, 
-      hsl(var(--metallic-silver)), 
-      hsl(var(--metallic-titanium)), 
-      hsl(var(--metallic-steel))
-    ) 1;
-  }
+.metallic-border {
+  border: 1px solid;
+  border-image: linear-gradient(45deg, 
+    hsl(var(--metallic-silver)), 
+    hsl(var(--metallic-titanium)), 
+    hsl(var(--metallic-steel))
+  ) 1;
+}
 
-  .metallic-shadow {
-    box-shadow: 
-      0 1px 3px rgba(0, 0, 0, 0.12),
-      0 1px 2px rgba(0, 0, 0, 0.24),
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.05);
-  }
+.metallic-shadow {
+  box-shadow: 
+    0 1px 3px rgba(0, 0, 0, 0.12),
+    0 1px 2px rgba(0, 0, 0, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.05);
+}
 
-  /* Premium card styling for dark backgrounds - Blue theme */
+/* Premium card styling for dark backgrounds - Blue theme */
+.premium-card {
+  @apply metallic-shadow rounded-xl border-0;
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(29, 78, 216, 0.15)) !important;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+/* Explicit text color overrides for premium cards */
+.premium-card .card-title,
+.premium-card [class*="card-title"],
+.premium-card h1,
+.premium-card h2,
+.premium-card h3,
+.premium-card h4,
+.premium-card h5,
+.premium-card h6 {
+  color: white !important;
+}
+
+.premium-card .card-description,
+.premium-card [class*="card-description"],
+.premium-card p {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+/* Dark mode chat interface styling */
+.chat-interface {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.chat-message-bot {
+  background: rgba(59, 130, 246, 0.2);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.chat-message-user {
+  background: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.95);
+}
+
+.chat-input {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: white !important;
+}
+
+.chat-input::placeholder {
+  color: rgba(255, 255, 255, 0.6) !important;
+}
+
+.chat-input:focus {
+  outline: none !important;
+  ring: 2px !important;
+  ring-color: rgba(59, 130, 246, 0.5) !important;
+  border-color: rgba(59, 130, 246, 0.7) !important;
+}
+
+/* Mobile-specific legibility improvements */
+@media (max-width: 768px) {
   .premium-card {
-    @apply metallic-shadow rounded-xl border-0;
-    background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(29, 78, 216, 0.15)) !important;
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(59, 130, 246, 0.3) !important;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.2)) !important;
+    border: 1px solid rgba(59, 130, 246, 0.4) !important;
   }
 
-  /* Explicit text color overrides for premium cards */
   .premium-card .card-title,
-  .premium-card [class*="card-title"],
-  .premium-card h1,
-  .premium-card h2,
-  .premium-card h3,
-  .premium-card h4,
-  .premium-card h5,
-  .premium-card h6 {
-    color: white !important;
+  .premium-card [class*="card-title"] {
+    font-size: 1.1rem !important;
+    font-weight: 600 !important;
+    line-height: 1.4 !important;
   }
 
   .premium-card .card-description,
-  .premium-card [class*="card-description"],
-  .premium-card p {
-    color: rgba(255, 255, 255, 0.8) !important;
+  .premium-card [class*="card-description"] {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    color: rgba(255, 255, 255, 0.85) !important;
   }
 
-  /* Dark mode chat interface styling */
   .chat-interface {
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(15, 23, 42, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
   }
 
-  .chat-message-bot {
-    background: rgba(59, 130, 246, 0.2);
-    color: rgba(255, 255, 255, 0.95);
-  }
-
+  .chat-message-bot,
   .chat-message-user {
-    background: rgba(255, 255, 255, 0.15);
-    color: rgba(255, 255, 255, 0.95);
+    font-size: 0.9rem !important;
+    line-height: 1.5 !important;
   }
 
   .chat-input {
-    background: rgba(255, 255, 255, 0.08) !important;
-    border: 1px solid rgba(255, 255, 255, 0.2) !important;
-    color: white !important;
+    font-size: 1rem !important;
+    background: rgba(255, 255, 255, 0.12) !important;
+    border: 1px solid rgba(255, 255, 255, 0.25) !important;
   }
+}
 
-  .chat-input::placeholder {
-    color: rgba(255, 255, 255, 0.6) !important;
-  }
+/* Chat Container and Responsive Iframe */
+.chat-container {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  border-radius: 12px;
+}
 
-  .chat-input:focus {
-    outline: none !important;
-    ring: 2px !important;
-    ring-color: rgba(59, 130, 246, 0.5) !important;
-    border-color: rgba(59, 130, 246, 0.7) !important;
-  }
+.responsive-chat-iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 700px;
+  border: none;
+  border-radius: 12px;
+  background: rgba(15, 23, 42, 0.8);
+}
 
-  /* Mobile-specific legibility improvements */
-  @media (max-width: 768px) {
-    .premium-card {
-      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(29, 78, 216, 0.2)) !important;
-      border: 1px solid rgba(59, 130, 246, 0.4) !important;
-    }
-
-    .premium-card .card-title,
-    .premium-card [class*="card-title"] {
-      font-size: 1.1rem !important;
-      font-weight: 600 !important;
-      line-height: 1.4 !important;
-    }
-
-    .premium-card .card-description,
-    .premium-card [class*="card-description"] {
-      font-size: 0.95rem !important;
-      line-height: 1.5 !important;
-      color: rgba(255, 255, 255, 0.85) !important;
-    }
-
-    .chat-interface {
-      background: rgba(15, 23, 42, 0.9) !important;
-      border: 1px solid rgba(255, 255, 255, 0.15) !important;
-    }
-
-    .chat-message-bot,
-    .chat-message-user {
-      font-size: 0.9rem !important;
-      line-height: 1.5 !important;
-    }
-
-    .chat-input {
-      font-size: 1rem !important;
-      background: rgba(255, 255, 255, 0.12) !important;
-      border: 1px solid rgba(255, 255, 255, 0.25) !important;
-    }
-  }
-
-  /* Chat Container and Responsive Iframe */
+/* Mobile chat optimizations */
+@media (max-width: 768px) {
   .chat-container {
-    position: relative;
-    width: 100%;
-    overflow: hidden;
-    border-radius: 12px;
+    border-radius: 8px;
   }
 
   .responsive-chat-iframe {
-    width: 100%;
-    height: 100%;
+    min-height: 60vh;
+    border-radius: 8px;
+  }
+}
+
+/* Tablet Adjustments */
+@media (min-width: 769px) and (max-width: 1024px) {
+  .responsive-chat-iframe {
+    min-height: 65vh;
+  }
+}
+
+/* Desktop and larger */
+@media (min-width: 1025px) {
+  .responsive-chat-iframe {
     min-height: 700px;
-    border: none;
-    border-radius: 12px;
-    background: rgba(15, 23, 42, 0.8);
   }
+}
 
-  /* Mobile chat optimizations */
-  @media (max-width: 768px) {
-    .chat-container {
-      border-radius: 8px;
-    }
-
-    .responsive-chat-iframe {
-      min-height: 60vh;
-      border-radius: 8px;
-    }
-  }
-
-  /* Tablet Adjustments */
-  @media (min-width: 769px) and (max-width: 1024px) {
-    .responsive-chat-iframe {
-      min-height: 65vh;
-    }
-  }
-
-  /* Desktop and larger */
-  @media (min-width: 1025px) {
-    .responsive-chat-iframe {
-      min-height: 700px;
-    }
-  }
-
-  .glass-effect {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
+.glass-effect {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
