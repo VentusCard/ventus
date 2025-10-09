@@ -85,6 +85,7 @@ const Dashboard = () => {
               messages={messages}
               isLoading={isLoading}
               onSendMessage={searchDeals}
+              profile={profile}
             />
           </div>
           <div className="lg:col-span-3 h-full">

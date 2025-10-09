@@ -5,22 +5,40 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Sparkles } from "lucide-react";
 import { ChatMessage } from "./ChatMessage";
 import { TypingIndicator } from "./TypingIndicator";
+import { PromptSuggestions } from "./PromptSuggestions";
+import { generateChatPrompts } from "@/utils/generateChatPrompts";
+
 export interface Message {
   role: "user" | "assistant";
   content: string;
 }
+
+interface Profile {
+  lifestyle_goal?: string | null;
+  selected_categories?: string[] | null;
+}
+
 interface ChatPanelProps {
   messages: Message[];
   isLoading: boolean;
   onSendMessage: (message: string) => void;
+  profile?: Profile | null;
 }
 export const ChatPanel = ({
   messages,
   isLoading,
-  onSendMessage
+  onSendMessage,
+  profile
 }: ChatPanelProps) => {
   const [input, setInput] = useState("");
+  const [suggestedPrompts, setSuggestedPrompts] = useState<string[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  // Generate prompts when messages change or on mount
+  useEffect(() => {
+    const prompts = generateChatPrompts(profile || null, messages);
+    setSuggestedPrompts(prompts);
+  }, [messages, profile]);
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
@@ -31,6 +49,12 @@ export const ChatPanel = ({
     if (input.trim() && !isLoading) {
       onSendMessage(input.trim());
       setInput("");
+    }
+  };
+
+  const handlePromptClick = (prompt: string) => {
+    if (!isLoading) {
+      onSendMessage(prompt);
     }
   };
   return <div className="h-full flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5 backdrop-blur-sm border-r">
@@ -62,6 +86,11 @@ export const ChatPanel = ({
       </ScrollArea>
 
       <div className="p-6 border-t bg-card/50 backdrop-blur-sm">
+        <PromptSuggestions 
+          prompts={suggestedPrompts}
+          onPromptClick={handlePromptClick}
+          isLoading={isLoading}
+        />
         <form onSubmit={handleSubmit} className="flex gap-2">
           <Input value={input} onChange={e => setInput(e.target.value)} placeholder="Ask for deals..." disabled={isLoading} className="flex-1" />
           <Button type="submit" disabled={isLoading || !input.trim()}>
