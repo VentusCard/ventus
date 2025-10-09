@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -6,6 +7,8 @@ import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
 import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
 import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
 export interface OnboardingFlowData {
   mainGoal: LifestyleGoal | null;
@@ -18,7 +21,10 @@ export interface OnboardingFlowData {
   maxCashbackPercentage: number;
 }
 const OnboardingFlow = () => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
   const [step, setStep] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [onboardingData, setOnboardingData] = useState<OnboardingFlowData>({
     mainGoal: null,
     subcategories: [],
@@ -31,13 +37,69 @@ const OnboardingFlow = () => {
   });
   const totalSteps = 3;
 
-  // Scroll to top when component mounts
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, []);
-  const goToNextStep = () => {
-    setStep(prev => prev + 1);
-    window.scrollTo(0, 0);
+    
+    // Check if user is logged in
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (!session) {
+        navigate("/login");
+      }
+    });
+  }, [navigate]);
+  const goToNextStep = async () => {
+    if (step === totalSteps) {
+      await handleCompleteOnboarding();
+    } else {
+      setStep(prev => prev + 1);
+      window.scrollTo(0, 0);
+    }
+  };
+
+  const handleCompleteOnboarding = async () => {
+    setLoading(true);
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) {
+        toast({
+          title: "Error",
+          description: "Please log in to continue",
+          variant: "destructive",
+        });
+        navigate("/login");
+        return;
+      }
+
+      const { error } = await supabase
+        .from("profiles")
+        .update({
+          lifestyle_goal: onboardingData.mainGoal,
+          selected_categories: onboardingData.subcategories,
+          spending_frequency: onboardingData.spendingFrequency,
+          spending_amount: onboardingData.spendingAmount,
+          estimated_annual_spend: onboardingData.estimatedAnnualSpend,
+          estimated_rewards: onboardingData.estimatedPoints,
+          onboarding_completed: true,
+        })
+        .eq("id", session.user.id);
+
+      if (error) throw error;
+
+      toast({
+        title: "Success!",
+        description: "Your preferences have been saved.",
+      });
+
+      navigate("/dashboard");
+    } catch (error: any) {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to save preferences",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
@@ -155,11 +217,16 @@ const OnboardingFlow = () => {
                 <ArrowLeft size={18} /> Back
               </Button> : <div></div>}
             
-            {step < totalSteps ? <Button type="button" onClick={goToNextStep} disabled={isNextButtonDisabled()} className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation ${isNextButtonDisabled() ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`} style={{
-            touchAction: 'manipulation'
-          }}>
-                Next <ArrowRight size={18} />
-              </Button> : <div></div>}
+            <Button 
+              type="button" 
+              onClick={goToNextStep} 
+              disabled={isNextButtonDisabled() || loading} 
+              className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation ${isNextButtonDisabled() || loading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`} 
+              style={{ touchAction: 'manipulation' }}
+            >
+              {loading ? "Saving..." : step === totalSteps ? "Complete" : "Next"} 
+              {!loading && <ArrowRight size={18} />}
+            </Button>
           </div>
         </div>
       </div>
