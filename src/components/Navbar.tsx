@@ -157,14 +157,14 @@ const Navbar = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Link to="/login" onClick={closeMobileMenu}>
+            <Link to="/smartrewards" onClick={closeMobileMenu}>
               <div className="relative group">
                 <div className="absolute inset-0 bg-blue-600/20 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 md:px-8 py-2.5 shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-700/30">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-white/4 to-transparent rounded-lg"></div>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-lg"></div>
                   <span className="relative text-white font-semibold text-sm tracking-wide">
-                    Login
+                    Join Waitlist
                   </span>
                 </div>
               </div>
@@ -254,10 +254,10 @@ const Navbar = () => {
                 </Button>
               </div>
             ) : (
-              <Link to="/login" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
+              <Link to="/smartrewards" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
                 <div className="w-full bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 py-4 shadow-lg border border-blue-700/30 text-center hover:bg-gradient-to-br hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 transition-all duration-300">
                   <span className="text-white font-semibold text-base tracking-wide">
-                    Login
+                    Join Waitlist
                   </span>
                 </div>
               </Link>
