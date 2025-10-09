@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Send } from "lucide-react";
+import { Send, Sparkles } from "lucide-react";
 import { ChatMessage } from "./ChatMessage";
 import { TypingIndicator } from "./TypingIndicator";
 export interface Message {
@@ -35,10 +35,17 @@ export const ChatPanel = ({
   };
   return <div className="h-full flex flex-col bg-gradient-to-br from-background via-background/95 to-primary/5 backdrop-blur-sm border-r">
       <div className="p-6 border-b bg-card/50 backdrop-blur-sm">
-        <h2 className="text-2xl font-bold">Ventus AI</h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          Ask me to find deals for you!
-        </p>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-primary/60 flex items-center justify-center shadow-lg">
+            <Sparkles className="w-5 h-5 text-primary-foreground" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">Ventus AI</h2>
+            <p className="text-sm text-muted-foreground">
+              Ask me to find deals for you!
+            </p>
+          </div>
+        </div>
       </div>
 
       <ScrollArea className="flex-1 p-6" ref={scrollRef}>

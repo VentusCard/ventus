@@ -1,6 +1,6 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { DealCard, Deal } from "./DealCard";
-import { Package } from "lucide-react";
+import { Package, Gift } from "lucide-react";
 
 interface DealsPanelProps {
   deals: Deal[];
@@ -11,10 +11,17 @@ export const DealsPanel = ({ deals, isLoading }: DealsPanelProps) => {
   return (
     <div className="h-full flex flex-col bg-gradient-to-br from-background to-muted/20">
       <div className="p-6 border-b bg-card/50 backdrop-blur-sm">
-        <h2 className="text-2xl font-bold">Deals for You</h2>
-        <p className="text-sm text-muted-foreground mt-1">
-          {deals.length > 0 ? `${deals.length} deals found` : "Your deals will appear here"}
-        </p>
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-accent to-accent/60 flex items-center justify-center shadow-lg border border-primary/10">
+            <Gift className="w-5 h-5 text-accent-foreground" />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold">Deals for You</h2>
+            <p className="text-sm text-muted-foreground">
+              {deals.length > 0 ? `${deals.length} deals found` : "Your deals will appear here"}
+            </p>
+          </div>
+        </div>
       </div>
 
       <ScrollArea className="flex-1 p-6">
