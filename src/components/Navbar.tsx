@@ -1,35 +1,13 @@
-import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, User, LogOut, LayoutDashboard, Tag, Heart } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
-import { User as SupabaseUser } from "@supabase/supabase-js";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from "@/components/ui/navigation-menu"
+import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button"
+import { Link } from "react-router-dom"
+import { useState } from "react"
+import { Menu, X } from "lucide-react"
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, session) => {
-        setUser(session?.user ?? null);
-      }
-    );
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
 
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
@@ -43,16 +21,13 @@ const Navbar = () => {
   };
 
   const toggleMobileMenu = () => {
+    console.log('Mobile menu toggled:', !isMobileMenuOpen);
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const closeMobileMenu = () => {
+    console.log('Mobile menu closed');
     setIsMobileMenuOpen(false);
-  };
-
-  const handleLogout = async () => {
-    await supabase.auth.signOut();
-    navigate("/");
   };
 
   return (
@@ -64,7 +39,9 @@ const Navbar = () => {
             <h1 className="text-base md:text-lg tracking-[0.15em] font-sans font-medium text-white/95 relative cursor-pointer hover:text-white transition-colors duration-300">
               <span className="relative inline-block">
                 VENTUS CARD
+                {/* Subtle metallic sheen effect */}
                 <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-40 blur-[1px]"></div>
+                {/* Fine underline accent */}
                 <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
               </span>
             </h1>
@@ -110,7 +87,7 @@ const Navbar = () => {
           </Link>
         </div>
         
-        {/* Mobile Menu Button */}
+        {/* Mobile Menu Button - positioned on the far right */}
         <div className="md:hidden flex items-center justify-end pr-2">
           <button
             onClick={toggleMobileMenu}
@@ -126,50 +103,28 @@ const Navbar = () => {
           </button>
         </div>
         
-        {/* User Menu / Login - Desktop */}
+        {/* Desktop Join Waitlist CTA */}
         <div className="hidden md:flex items-center">
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2 bg-white/10 border-white/20 hover:bg-white/20 text-white">
-                  <User className="h-4 w-4" />
-                  Account
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-                  <LayoutDashboard className="h-4 w-4 mr-2" />
-                  Dashboard
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/deals")}>
-                  <Tag className="h-4 w-4 mr-2" />
-                  Find Deals
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/saved-deals")}>
-                  <Heart className="h-4 w-4 mr-2" />
-                  Saved Deals
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <Link to="/smartrewards" onClick={closeMobileMenu}>
-              <div className="relative group">
-                <div className="absolute inset-0 bg-blue-600/20 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 md:px-8 py-2.5 shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-700/30">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-white/4 to-transparent rounded-lg"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-lg"></div>
-                  <span className="relative text-white font-semibold text-sm tracking-wide">
-                    Join Waitlist
-                  </span>
-                </div>
+          <Link to="/smartrewards" onClick={scrollToTop}>
+            <div className="relative group">
+              {/* Subtle outer glow */}
+              <div className="absolute inset-0 bg-blue-600/20 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              
+              {/* Main button container */}
+              <div className="relative bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 md:px-8 py-2.5 shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-700/30">
+                {/* Metallic highlight overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-white/4 to-transparent rounded-lg"></div>
+                
+                {/* Subtle metallic texture */}
+                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-lg"></div>
+                
+                {/* Button text */}
+                <span className="relative text-white font-semibold text-sm tracking-wide">
+                  Join Waitlist
+                </span>
               </div>
-            </Link>
-          )}
+            </div>
+          </Link>
         </div>
       </div>
       
@@ -216,57 +171,20 @@ const Navbar = () => {
             Contact Us
           </Link>
           
-          {/* Mobile User Menu */}
+          {/* Mobile Join Waitlist Button */}
           <div className="pt-4">
-            {user ? (
-              <div className="space-y-2">
-                <Button 
-                  onClick={() => { closeMobileMenu(); navigate("/dashboard"); }}
-                  variant="outline"
-                  className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
-                >
-                  <LayoutDashboard className="h-4 w-4 mr-2" />
-                  Dashboard
-                </Button>
-                <Button 
-                  onClick={() => { closeMobileMenu(); navigate("/deals"); }}
-                  variant="outline"
-                  className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
-                >
-                  <Tag className="h-4 w-4 mr-2" />
-                  Find Deals
-                </Button>
-                <Button 
-                  onClick={() => { closeMobileMenu(); navigate("/saved-deals"); }}
-                  variant="outline"
-                  className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
-                >
-                  <Heart className="h-4 w-4 mr-2" />
-                  Saved Deals
-                </Button>
-                <Button 
-                  onClick={() => { closeMobileMenu(); handleLogout(); }}
-                  variant="outline"
-                  className="w-full bg-red-500/20 border-red-500/30 text-white hover:bg-red-500/30"
-                >
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </Button>
+            <Link to="/smartrewards" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
+              <div className="w-full bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 py-4 shadow-lg border border-blue-700/30 text-center hover:bg-gradient-to-br hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 transition-all duration-300">
+                <span className="text-white font-semibold text-base tracking-wide">
+                  Join Waitlist
+                </span>
               </div>
-            ) : (
-              <Link to="/smartrewards" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
-                <div className="w-full bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 py-4 shadow-lg border border-blue-700/30 text-center hover:bg-gradient-to-br hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 transition-all duration-300">
-                  <span className="text-white font-semibold text-base tracking-wide">
-                    Join Waitlist
-                  </span>
-                </div>
-              </Link>
-            )}
+            </Link>
           </div>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Navbar;
+export default Navbar

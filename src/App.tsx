@@ -15,10 +15,6 @@ import GolfDemo from "./pages/GolfDemo";
 import Gallery from "./pages/Gallery";
 import Privacy from "./pages/Privacy";
 import VentusAI from "./pages/VentusAI";
-import Login from "./pages/Login";
-import Dashboard from "./pages/Dashboard";
-import Deals from "./pages/Deals";
-import SavedDeals from "./pages/SavedDeals";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -31,11 +27,7 @@ const App = () => (
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/login" element={<Login />} />
           <Route path="/smartrewards" element={<OnboardingFlow />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/deals" element={<Deals />} />
-          <Route path="/saved-deals" element={<SavedDeals />} />
           <Route path="/join-waitlist" element={<JoinWaitlist />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/contact" element={<ContactUs />} />
