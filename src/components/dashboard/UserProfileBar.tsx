@@ -63,7 +63,7 @@ export const UserProfileBar = ({ profile }: UserProfileBarProps) => {
 
   return (
     <div className="w-full bg-card/50 backdrop-blur-sm border-b border-border shadow-sm animate-slideDown">
-      <div className="max-w-7xl mx-auto px-6 py-6">
+      <div className="max-w-7xl mx-auto px-6 py-6 flex items-center">
         <div className="flex flex-col lg:flex-row items-start lg:items-center gap-4">
           
           {/* User Section */}
