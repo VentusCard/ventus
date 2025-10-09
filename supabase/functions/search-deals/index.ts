@@ -84,7 +84,7 @@ Find 3-5 real deals from actual retailers.`;
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          model: "llama-3.1-sonar-large-128k-online",
+          model: "sonar-pro",
           messages: [
             { role: "system", content: systemPrompt },
             { role: "user", content: query },
