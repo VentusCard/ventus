@@ -9,6 +9,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import { Separator } from "@/components/ui/separator";
+import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
+import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
+import { LifestyleGoal } from "@/pages/OnboardingFlow";
 
 const signupSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -30,6 +33,9 @@ const Login = () => {
   const [signupEmail, setSignupEmail] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [fullName, setFullName] = useState("");
+  const [onboardingStep, setOnboardingStep] = useState(0); // 0=auth, 1=goal, 2=deals
+  const [selectedGoal, setSelectedGoal] = useState<LifestyleGoal | null>(null);
+  const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
 
   useEffect(() => {
     const checkUser = async () => {
@@ -37,14 +43,18 @@ const Login = () => {
       if (session) {
         const { data: profile } = await supabase
           .from("profiles")
-          .select("onboarding_completed")
+          .select("onboarding_completed, lifestyle_goal, selected_categories")
           .eq("id", session.user.id)
           .single();
 
         if (profile?.onboarding_completed) {
           navigate("/dashboard");
-        } else {
-          navigate("/smartrewards");
+        } else if (profile && !profile.lifestyle_goal) {
+          setOnboardingStep(1);
+        } else if (profile?.lifestyle_goal && !profile.onboarding_completed) {
+          setSelectedGoal(profile.lifestyle_goal as LifestyleGoal);
+          setSelectedSubcategories(profile.selected_categories || []);
+          setOnboardingStep(2);
         }
       }
     };
@@ -79,7 +89,7 @@ const Login = () => {
       if (profile?.onboarding_completed) {
         navigate("/dashboard");
       } else {
-        navigate("/smartrewards");
+        setOnboardingStep(1);
       }
     } catch (error: any) {
       toast({
@@ -117,7 +127,7 @@ const Login = () => {
         description: "Let's set up your preferences.",
       });
 
-      navigate("/smartrewards");
+      setOnboardingStep(1);
     } catch (error: any) {
       toast({
         title: "Signup failed",
@@ -134,7 +144,7 @@ const Login = () => {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo: `${window.location.origin}/`,
+          redirectTo: `${window.location.origin}/login`,
         },
       });
 
@@ -147,6 +157,100 @@ const Login = () => {
       });
     }
   };
+
+  const saveOnboardingData = async () => {
+    setLoading(true);
+    const { data: { session } } = await supabase.auth.getSession();
+    
+    if (!session) {
+      toast({
+        title: "Error",
+        description: "No active session found",
+        variant: "destructive",
+      });
+      setLoading(false);
+      return;
+    }
+
+    const { error } = await supabase
+      .from("profiles")
+      .update({
+        lifestyle_goal: selectedGoal,
+        selected_categories: selectedSubcategories,
+        onboarding_completed: true,
+      })
+      .eq("id", session.user.id);
+
+    setLoading(false);
+
+    if (error) {
+      toast({
+        title: "Error saving data",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Welcome!",
+        description: "Your preferences have been saved.",
+      });
+      navigate("/dashboard");
+    }
+  };
+
+  const handleContinueToStep2 = () => {
+    if (selectedGoal && selectedSubcategories.length > 0) {
+      setOnboardingStep(2);
+    }
+  };
+
+  if (onboardingStep === 1) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-4 md:p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-2">Welcome to Ventus</h1>
+            <p className="text-muted-foreground">Step 1 of 2: Choose your lifestyle focus</p>
+          </div>
+          <StepOneMerged
+            selectedGoal={selectedGoal}
+            selectedSubcategories={selectedSubcategories}
+            onSelectGoal={setSelectedGoal}
+            onSelectSubcategories={setSelectedSubcategories}
+          />
+          {selectedGoal && selectedSubcategories.length > 0 && (
+            <div className="flex justify-center mt-8">
+              <Button size="lg" onClick={handleContinueToStep2}>
+                Continue to Your Personalized Rewards
+              </Button>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
+  if (onboardingStep === 2) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 p-4 md:p-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-8">
+            <h1 className="text-3xl font-bold mb-2">Your Personalized Reward System</h1>
+            <p className="text-muted-foreground">Step 2 of 2: See what you'll earn</p>
+          </div>
+          <StepTwoMerged
+            selectedGoal={selectedGoal!}
+            selectedSubcategories={selectedSubcategories}
+          />
+          <div className="flex justify-center mt-8">
+            <Button size="lg" onClick={saveOnboardingData} disabled={loading}>
+              {loading ? "Saving..." : "Get Started"}
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5 flex items-center justify-center p-4">
