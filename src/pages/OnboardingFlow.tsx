@@ -42,7 +42,7 @@ const OnboardingFlow = () => {
   }, []);
   const goToNextStep = async () => {
     if (step === totalSteps) {
-      await handleCompleteOnboarding();
+      navigate("/ventus-ai");
     } else {
       setStep(prev => prev + 1);
       window.scrollTo(0, 0);
@@ -217,7 +217,7 @@ const OnboardingFlow = () => {
               className={`flex items-center gap-2 px-8 py-3 text-base font-semibold bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 shadow-lg transition-all duration-200 min-h-[48px] min-w-[120px] touch-manipulation ${isNextButtonDisabled() || loading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-105 active:scale-95'}`} 
               style={{ touchAction: 'manipulation' }}
             >
-              {loading ? "Saving..." : step === totalSteps ? "Complete" : "Next"} 
+              {step === totalSteps ? "Learn More" : "Next"} 
               {!loading && <ArrowRight size={18} />}
             </Button>
           </div>
