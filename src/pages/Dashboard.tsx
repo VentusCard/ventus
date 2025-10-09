@@ -5,11 +5,13 @@ import { User } from "@supabase/supabase-js";
 import Navbar from "@/components/Navbar";
 import { ChatPanel } from "@/components/dashboard/ChatPanel";
 import { DealsPanel } from "@/components/dashboard/DealsPanel";
+import { UserProfileBar } from "@/components/dashboard/UserProfileBar";
 import { useDealSearch } from "@/hooks/useDealSearch";
 
 interface Profile {
   full_name: string | null;
   lifestyle_goal: string | null;
+  selected_categories: string[] | null;
   estimated_annual_spend: number | null;
   estimated_rewards: number | null;
   onboarding_completed: boolean;
@@ -18,6 +20,7 @@ interface Profile {
 const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const { messages, deals, isLoading, searchDeals } = useDealSearch();
 
@@ -46,12 +49,16 @@ const Dashboard = () => {
   const fetchProfile = async (userId: string) => {
     const { data, error } = await supabase
       .from("profiles")
-      .select("*")
+      .select("full_name, lifestyle_goal, selected_categories, estimated_annual_spend, estimated_rewards, onboarding_completed")
       .eq("id", userId)
       .single();
 
-    if (data && !data.onboarding_completed) {
-      navigate("/smartrewards");
+    if (data) {
+      if (!data.onboarding_completed) {
+        navigate("/smartrewards");
+      } else {
+        setProfile(data);
+      }
     }
     setLoading(false);
   };
@@ -70,6 +77,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
+      {profile && <UserProfileBar profile={profile} />}
       <div className="flex-1 pt-16 grid grid-cols-1 lg:grid-cols-5">
         <div className="lg:col-span-2 h-[calc(100vh-4rem)]">
           <ChatPanel
