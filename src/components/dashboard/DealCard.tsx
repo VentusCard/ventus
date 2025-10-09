@@ -85,38 +85,38 @@ export const DealCard = ({ deal, index }: DealCardProps) => {
         animationFillMode: "backwards",
       }}
     >
-      <CardHeader className="relative pb-3">
-        <div className="absolute top-4 right-4">
-          <Badge className="bg-primary text-primary-foreground font-bold">
+      <CardHeader className="relative pb-2">
+        <div className="absolute top-3 right-3">
+          <Badge className="bg-primary text-primary-foreground font-bold text-xs">
             {deal.discount}% OFF
           </Badge>
         </div>
-        <div className="flex items-start gap-3">
+        <div className="flex items-start gap-2">
           <div className="flex-1">
-            <p className="text-sm text-muted-foreground mb-1">{deal.merchant}</p>
-            <CardTitle className="text-lg">{deal.title}</CardTitle>
+            <p className="text-xs text-muted-foreground mb-0.5">{deal.merchant}</p>
+            <CardTitle className="text-base leading-tight">{deal.title}</CardTitle>
           </div>
         </div>
       </CardHeader>
-      <CardContent className="space-y-4">
-        <CardDescription className="line-clamp-2">
+      <CardContent className="space-y-2">
+        <CardDescription className="line-clamp-2 text-sm">
           {deal.description}
         </CardDescription>
 
-        <div className="flex items-baseline gap-3">
-          <span className="text-3xl font-bold text-primary">
+        <div className="flex items-baseline gap-2">
+          <span className="text-2xl font-bold text-primary">
             ${deal.dealPrice.toFixed(2)}
           </span>
-          <span className="text-lg text-muted-foreground line-through">
+          <span className="text-base text-muted-foreground line-through">
             ${deal.originalPrice.toFixed(2)}
           </span>
         </div>
 
-        <Badge variant="outline" className="mr-2">
+        <Badge variant="outline" className="text-xs">
           {deal.category}
         </Badge>
 
-        <div className="flex gap-2 pt-2">
+        <div className="flex gap-2 pt-1">
           <Button
             onClick={handleSaveDeal}
             disabled={isSaved || isSaving}
