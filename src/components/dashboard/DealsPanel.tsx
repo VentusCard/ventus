@@ -24,7 +24,8 @@ export const DealsPanel = ({ deals, isLoading }: DealsPanelProps) => {
         </div>
       </div>
 
-      <ScrollArea className="flex-1 p-6">
+      <ScrollArea className="flex-1 overflow-hidden">
+        <div className="p-6">
         {deals.length === 0 && !isLoading && (
           <div className="flex flex-col items-center justify-center h-full text-center py-12">
             <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mb-4">
@@ -37,10 +38,11 @@ export const DealsPanel = ({ deals, isLoading }: DealsPanelProps) => {
           </div>
         )}
 
-        <div className="space-y-6">
-          {deals.map((deal, index) => (
-            <DealCard key={`${deal.title}-${index}`} deal={deal} index={index} />
-          ))}
+          <div className="space-y-6">
+            {deals.map((deal, index) => (
+              <DealCard key={`${deal.title}-${index}`} deal={deal} index={index} />
+            ))}
+          </div>
         </div>
       </ScrollArea>
     </div>

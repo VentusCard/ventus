@@ -77,9 +77,9 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
-      <div className="pt-16">
+      <div className="flex-1 flex flex-col pt-16">
         {profile && <UserProfileBar profile={profile} />}
-        <div className="grid grid-cols-1 lg:grid-cols-5 h-[calc(100vh-8rem)]">
+        <div className="grid grid-cols-1 lg:grid-cols-5 flex-1 overflow-hidden">
           <div className="lg:col-span-2 h-full">
             <ChatPanel
               messages={messages}
