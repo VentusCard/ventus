@@ -14,16 +14,129 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          estimated_annual_spend: number | null
+          estimated_rewards: number | null
+          full_name: string | null
+          id: string
+          lifestyle_goal: string | null
+          onboarding_completed: boolean | null
+          selected_categories: string[] | null
+          spending_amount: number | null
+          spending_frequency: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          estimated_annual_spend?: number | null
+          estimated_rewards?: number | null
+          full_name?: string | null
+          id: string
+          lifestyle_goal?: string | null
+          onboarding_completed?: boolean | null
+          selected_categories?: string[] | null
+          spending_amount?: number | null
+          spending_frequency?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          estimated_annual_spend?: number | null
+          estimated_rewards?: number | null
+          full_name?: string | null
+          id?: string
+          lifestyle_goal?: string | null
+          onboarding_completed?: boolean | null
+          selected_categories?: string[] | null
+          spending_amount?: number | null
+          spending_frequency?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
+      saved_deals: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          deal_description: string | null
+          deal_title: string
+          deal_url: string | null
+          discount_percentage: number | null
+          discounted_price: number | null
+          id: string
+          merchant_name: string | null
+          original_price: number | null
+          user_id: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          deal_description?: string | null
+          deal_title: string
+          deal_url?: string | null
+          discount_percentage?: number | null
+          discounted_price?: number | null
+          id?: string
+          merchant_name?: string | null
+          original_price?: number | null
+          user_id: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          deal_description?: string | null
+          deal_title?: string
+          deal_url?: string | null
+          discount_percentage?: number | null
+          discounted_price?: number | null
+          id?: string
+          merchant_name?: string | null
+          original_price?: number | null
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string | null
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "user" | "merchant" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +263,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["user", "merchant", "admin"],
+    },
   },
 } as const
