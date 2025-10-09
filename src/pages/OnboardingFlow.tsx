@@ -39,14 +39,7 @@ const OnboardingFlow = () => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    
-    // Check if user is logged in
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) {
-        navigate("/login");
-      }
-    });
-  }, [navigate]);
+  }, []);
   const goToNextStep = async () => {
     if (step === totalSteps) {
       await handleCompleteOnboarding();
