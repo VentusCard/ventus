@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { User, ChevronDown, ChevronUp, Calendar } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useState, useRef } from "react";
+import { z } from "zod";
 interface ContactInformationSectionProps {
   selectedCategory: string;
   selectedSubcategories: string[];
@@ -26,6 +27,16 @@ const ContactInformationSection = ({
   const [shouldOpenScheduler, setShouldOpenScheduler] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const schedulerUrl = "https://calendar.app.google/tv5tbSTnpJAT9YPg7";
+
+  // Input validation schema
+  const contactFormSchema = z.object({
+    companyName: z.string().trim().min(1, "Company name is required").max(100, "Company name must be less than 100 characters"),
+    companyWebsite: z.string().trim().url("Please enter a valid URL").max(500, "Website URL must be less than 500 characters"),
+    fullName: z.string().trim().min(2, "Full name must be at least 2 characters").max(100, "Full name must be less than 100 characters"),
+    roleTitle: z.string().trim().max(100, "Role must be less than 100 characters").optional(),
+    emailAddress: z.string().trim().email("Please enter a valid email address").max(255, "Email must be less than 255 characters"),
+    referralCode: z.string().trim().max(50, "Referral code must be less than 50 characters").optional(),
+  });
   // Format the company industry field to include subcategories
   const formatCompanyIndustry = () => {
     if (!selectedCategory) return "";
@@ -87,22 +98,41 @@ const ContactInformationSection = ({
     try {
       const formData = new FormData(e.currentTarget);
 
-      // Create the data object using the formatted website value
-      const submitData = {
-        companyName: formData.get('companyName'),
-        companyIndustry: formatCompanyIndustry(),
+      // Validate input data
+      const validationData = {
+        companyName: formData.get('companyName') as string,
         companyWebsite: websiteValue,
-        // Use the formatted website value
-        fullName: formData.get('fullName'),
-        roleTitle: formData.get('roleTitle'),
-        emailAddress: formData.get('emailAddress'),
-        referralCode: formData.get('referralCode'),
+        fullName: formData.get('fullName') as string,
+        roleTitle: formData.get('roleTitle') as string || '',
+        emailAddress: formData.get('emailAddress') as string,
+        referralCode: formData.get('referralCode') as string || '',
+      };
+
+      const validationResult = contactFormSchema.safeParse(validationData);
+      
+      if (!validationResult.success) {
+        const firstError = validationResult.error.errors[0];
+        toast({
+          title: "Validation Error",
+          description: firstError.message,
+          variant: "destructive"
+        });
+        return;
+      }
+
+      // Create the data object using validated values
+      const submitData = {
+        companyName: validationResult.data.companyName,
+        companyIndustry: formatCompanyIndustry(),
+        companyWebsite: validationResult.data.companyWebsite,
+        fullName: validationResult.data.fullName,
+        roleTitle: validationResult.data.roleTitle || '',
+        emailAddress: validationResult.data.emailAddress,
+        referralCode: validationResult.data.referralCode || '',
         ventusToolsInterested: formatVentusToolsInterested()
       };
-      console.log('Submitting data:', submitData);
-      console.log('Request URL:', 'https://script.google.com/macros/s/AKfycbz5uXOuRGLn18G_LlDDnQQQ-0JKbOMF6oFix1FXN5WuFYiTBYG2FggDVpr682MfC54o/exec');
 
-      // Try the submission
+      // Submit the form
       const response = await fetch('https://script.google.com/macros/s/AKfycbwkoEyfHrqnvO0pineSeEecN33h5IvqhaP1vOQPaQxQwiA99qu0kKKE9oYWn5_Wzctt/exec', {
         method: 'POST',
         mode: 'no-cors',
@@ -111,13 +141,6 @@ const ContactInformationSection = ({
         },
         body: new URLSearchParams(submitData as any).toString()
       });
-      console.log('Response received:', response);
-      console.log('Response type:', response.type);
-      console.log('Response status:', response.status);
-
-      // With no-cors mode, response.type will be 'opaque' and we can't read the actual response
-      // But if we get here without an error, the request was sent successfully
-      console.log('Form submission completed - request sent successfully');
       toast({
         title: "Submission Recorded!",
         description: "Your submission has been recorded successfully. Thank you for you interest in partnering with Ventus! We will notify you when Ventus is ready to launch."
@@ -132,9 +155,6 @@ const ContactInformationSection = ({
       (e.target as HTMLFormElement).reset();
       setWebsiteValue("");
     } catch (error) {
-      console.error('Submission error details:', error);
-      console.error('Error name:', error instanceof Error ? error.name : 'Unknown');
-      console.error('Error message:', error instanceof Error ? error.message : 'Unknown error');
       toast({
         title: "Submission Error",
         description: "There was an error submitting your application. Please try again or contact us directly.",
@@ -167,7 +187,7 @@ const ContactInformationSection = ({
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-5">
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Name</label>
-                <Input name="companyName" placeholder="Enter company name" className="h-11 md:h-12 text-sm md:text-base" required />
+                <Input name="companyName" placeholder="Enter company name" className="h-11 md:h-12 text-sm md:text-base" maxLength={100} required />
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Industry</label>
@@ -175,25 +195,25 @@ const ContactInformationSection = ({
               </div>
               <div className="md:col-span-2">
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Company Website</label>
-                <Input name="companyWebsite" type="url" value={websiteValue} onChange={handleWebsiteChange} onBlur={handleWebsiteBlur} placeholder="www.example.com (https:// will be added automatically)" className="h-11 md:h-12 text-sm md:text-base" required />
+                <Input name="companyWebsite" type="url" value={websiteValue} onChange={handleWebsiteChange} onBlur={handleWebsiteBlur} placeholder="www.example.com (https:// will be added automatically)" className="h-11 md:h-12 text-sm md:text-base" maxLength={500} required />
                 <p className="text-xs text-slate-500 mt-1">https:// will be automatically added if not provided</p>
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Full Name</label>
-                <Input name="fullName" placeholder="Enter full name" className="h-11 md:h-12 text-sm md:text-base" required />
+                <Input name="fullName" placeholder="Enter full name" className="h-11 md:h-12 text-sm md:text-base" minLength={2} maxLength={100} required />
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Role/Title</label>
-                <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" />
+                <Input name="roleTitle" placeholder="Enter role or title" className="h-11 md:h-12 text-sm md:text-base" maxLength={100} />
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Business Email Address</label>
-                <Input name="emailAddress" type="email" placeholder="name@company.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address (e.g., name@company.com)" className="h-11 md:h-12 text-sm md:text-base" required />
+                <Input name="emailAddress" type="email" placeholder="name@company.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address (e.g., name@company.com)" className="h-11 md:h-12 text-sm md:text-base" maxLength={255} required />
                 <p className="text-xs text-slate-500 mt-1">Please enter a valid email address</p>
               </div>
               <div>
                 <label className="text-slate-700 font-medium mb-2 block text-sm md:text-base">Referral Code <span className="text-slate-500 font-normal">(Optional)</span></label>
-                <Input name="referralCode" placeholder="Enter referral code" className="h-11 md:h-12 text-sm md:text-base" />
+                <Input name="referralCode" placeholder="Enter referral code" className="h-11 md:h-12 text-sm md:text-base" maxLength={50} />
                 <p className="text-xs text-slate-500 mt-1">If someone referred you to Ventus</p>
               </div>
             </div>

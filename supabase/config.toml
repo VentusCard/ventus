@@ -1,0 +1,4 @@
+project_id = "theaknjrmfsyauxxvhmk"
+
+[functions.search-deals]
+verify_jwt = true
