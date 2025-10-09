@@ -45,8 +45,24 @@ Search the web for REAL, CURRENT deals that match their query. For each deal, fi
 - The actual product name and merchant
 - Current sale price and original price from the retailer
 - A brief compelling description
-- The direct URL to the deal on the merchant's website
+- **The direct URL to the product page on the ACTUAL RETAILER'S website**
 - Calculate the discount percentage
+
+**CRITICAL URL REQUIREMENTS:**
+The dealUrl MUST be a direct product page on the OFFICIAL RETAILER'S website where users can immediately add to cart and purchase. The URL should contain product identifiers (SKU, product name) in the path.
+
+**EXCLUDED SITES (DO NOT USE):**
+- Review/news sites: golfmonthly.com, techradar.com, wirecutter.com, cnet.com
+- Deal aggregators: slickdeals.com, dealnews.com, bensbargains.com
+- Coupon sites: retailmenot.com, groupon.com
+- Marketplace/auction sites: eBay, Craigslist, Facebook Marketplace, Mercari
+- Article or blog pages about deals
+
+**ONLY USE CREDIBLE RETAILERS:**
+- Major retail chains: Amazon, Walmart, Target, Best Buy, REI, Dick's Sporting Goods
+- Official brand websites: Nike, Adidas, Callaway, TaylorMade, Wilson, Titleist
+- Authorized specialty retailers: Golf Galaxy, PGA Tour Superstore, PetSmart, Petco
+- Department stores: Macy's, Nordstrom, Kohl's
 
 Return ONLY valid JSON in this exact format (no markdown, no explanation):
 
@@ -60,20 +76,21 @@ Return ONLY valid JSON in this exact format (no markdown, no explanation):
       "dealPrice": 75.00,
       "discount": 25,
       "category": "Category Name",
-      "dealUrl": "https://actual-merchant.com/product-page"
+      "dealUrl": "https://actual-merchant.com/product/item-name-or-sku"
     }
   ],
   "message": "Optional brief message about the deals found"
 }
 
 Prioritize:
-1. Deals in their preferred categories: ${profile?.selected_categories?.join(", ") || "various"}
-2. Recent deals (within the last week)
-3. Reputable merchants
-4. Working, direct links to product pages
-5. Significant discounts (15%+ off)
+1. **Direct product purchase pages from credible authorized retailers ONLY**
+2. Deals in their preferred categories: ${profile?.selected_categories?.join(", ") || "various"}
+3. Recent deals (within the last week)
+4. Official retailer websites or authorized dealers
+5. Working product URLs with clear product identifiers in the path
+6. Significant discounts (15%+ off)
 
-Find 3-5 real deals from actual retailers.`;
+Find 3-5 real deals from trusted retailers with direct purchase links.`;
 
     const response = await fetch(
       "https://api.perplexity.ai/chat/completions",
