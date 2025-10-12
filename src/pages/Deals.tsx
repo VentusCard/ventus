@@ -14,7 +14,7 @@ const Deals = () => {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         if (!session) {
-          navigate("/login");
+          navigate("/auth");
         } else {
           setLoading(false);
         }
@@ -23,7 +23,7 @@ const Deals = () => {
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       if (!session) {
-        navigate("/login");
+        navigate("/auth");
       } else {
         setLoading(false);
       }

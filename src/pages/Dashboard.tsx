@@ -29,7 +29,7 @@ const Dashboard = () => {
       (_event, session) => {
         setUser(session?.user ?? null);
         if (!session) {
-          navigate("/login");
+          navigate("/auth");
         }
       }
     );
@@ -37,7 +37,7 @@ const Dashboard = () => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (!session) {
-        navigate("/login");
+        navigate("/auth");
       } else {
         fetchProfile(session.user.id);
       }

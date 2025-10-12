@@ -87,7 +87,7 @@ const ResetPassword = () => {
       });
 
       setTimeout(() => {
-        navigate("/login");
+        navigate("/auth");
       }, 2000);
     } catch (error: any) {
       toast({
@@ -163,7 +163,7 @@ const ResetPassword = () => {
                 type="button"
                 variant="ghost"
                 className="w-full"
-                onClick={() => navigate("/login")}
+                onClick={() => navigate("/auth")}
               >
                 Back to Login
               </Button>

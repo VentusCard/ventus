@@ -59,7 +59,7 @@ const OnboardingFlow = () => {
           description: "Please log in to continue",
           variant: "destructive",
         });
-        navigate("/login");
+        navigate("/auth");
         return;
       }
 
