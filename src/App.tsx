@@ -16,6 +16,7 @@ import Gallery from "./pages/Gallery";
 import Privacy from "./pages/Privacy";
 import VentusAI from "./pages/VentusAI";
 import Login from "./pages/Login";
+import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import Deals from "./pages/Deals";
 import SavedDeals from "./pages/SavedDeals";
@@ -32,6 +33,7 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/smartrewards" element={<OnboardingFlow />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/deals" element={<Deals />} />

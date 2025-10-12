@@ -328,6 +328,14 @@ const Login = () => {
                 <Button type="submit" className="w-full" disabled={loading}>
                   {loading ? "Logging in..." : "Login"}
                 </Button>
+                <Button
+                  type="button"
+                  variant="link"
+                  className="w-full text-sm text-muted-foreground"
+                  onClick={() => navigate("/reset-password")}
+                >
+                  Forgot password?
+                </Button>
               </form>
             </TabsContent>
             <TabsContent value="signup">
