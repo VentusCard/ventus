@@ -1,0 +1,90 @@
+import { Transaction } from "@/types/transaction";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { DollarSign, Calendar, Hash } from "lucide-react";
+
+interface PreviewTableProps {
+  transactions: Transaction[];
+}
+
+export function PreviewTable({ transactions }: PreviewTableProps) {
+  const totalAmount = transactions.reduce((sum, t) => sum + t.amount, 0);
+  const dateRange = transactions.length > 0 ? {
+    start: transactions.reduce((min, t) => t.date < min ? t.date : min, transactions[0].date),
+    end: transactions.reduce((max, t) => t.date > max ? t.date : max, transactions[0].date),
+  } : null;
+
+  return (
+    <Card>
+      <CardHeader>
+        <div className="flex items-center justify-between">
+          <div>
+            <CardTitle>Transaction Preview</CardTitle>
+            <CardDescription>
+              Review your data before enrichment
+            </CardDescription>
+          </div>
+          <Badge variant="secondary" className="text-lg px-4 py-2">
+            {transactions.length} transactions
+          </Badge>
+        </div>
+        
+        <div className="flex gap-6 pt-4 text-sm">
+          <div className="flex items-center gap-2">
+            <DollarSign className="w-4 h-4 text-muted-foreground" />
+            <span className="text-muted-foreground">Total:</span>
+            <span className="font-semibold">${totalAmount.toFixed(2)}</span>
+          </div>
+          {dateRange && (
+            <div className="flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground">Range:</span>
+              <span className="font-semibold">{dateRange.start} to {dateRange.end}</span>
+            </div>
+          )}
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="border rounded-lg overflow-hidden">
+          <div className="max-h-[400px] overflow-y-auto">
+            <Table>
+              <TableHeader className="sticky top-0 bg-background">
+                <TableRow>
+                  <TableHead>Merchant</TableHead>
+                  <TableHead>Description</TableHead>
+                  <TableHead>MCC</TableHead>
+                  <TableHead className="text-right">Amount</TableHead>
+                  <TableHead>Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {transactions.map((transaction) => (
+                  <TableRow key={transaction.transaction_id}>
+                    <TableCell className="font-medium">{transaction.merchant_name}</TableCell>
+                    <TableCell className="text-muted-foreground text-sm">
+                      {transaction.description || "—"}
+                    </TableCell>
+                    <TableCell>
+                      {transaction.mcc ? (
+                        <Badge variant="outline" className="font-mono text-xs">
+                          {transaction.mcc}
+                        </Badge>
+                      ) : (
+                        <span className="text-muted-foreground text-sm">—</span>
+                      )}
+                    </TableCell>
+                    <TableCell className="text-right font-mono">
+                      ${transaction.amount.toFixed(2)}
+                    </TableCell>
+                    <TableCell className="text-sm">{transaction.date}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      </CardContent>
+    </Card>
+  );
+}

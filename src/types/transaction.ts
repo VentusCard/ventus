@@ -1,0 +1,86 @@
+export interface Transaction {
+  transaction_id: string;
+  merchant_name: string;
+  description?: string;
+  mcc?: string;
+  amount: number;
+  date: string;
+}
+
+export interface EnrichedTransaction extends Transaction {
+  normalized_merchant: string;
+  pillar: string;
+  subcategory: string;
+  confidence: number;
+  explanation: string;
+  enriched_at: string;
+}
+
+export interface Correction {
+  transaction_id: string;
+  original_pillar: string;
+  corrected_pillar: string;
+  original_subcategory: string;
+  corrected_subcategory: string;
+  reason: string;
+  corrected_at: string;
+}
+
+export interface Filters {
+  dateRange: {
+    start: Date | null;
+    end: Date | null;
+  };
+  confidenceThreshold: number;
+  includeMisc: boolean;
+  mode: "predicted" | "corrected";
+}
+
+export interface MCCAggregate {
+  mcc: string;
+  totalSpend: number;
+  transactionCount: number;
+  avgAmount: number;
+}
+
+export interface PillarAggregate {
+  pillar: string;
+  totalSpend: number;
+  transactionCount: number;
+  avgAmount: number;
+  avgConfidence: number;
+  subcategories: SubcategoryData[];
+}
+
+export interface SubcategoryData {
+  subcategory: string;
+  totalSpend: number;
+  transactionCount: number;
+}
+
+export interface TimeSeriesData {
+  date: string;
+  [key: string]: number | string;
+}
+
+export interface PieChartData {
+  name: string;
+  value: number;
+  percentage: number;
+}
+
+export interface SankeyNode {
+  id: string;
+  label: string;
+}
+
+export interface SankeyLink {
+  source: string;
+  target: string;
+  value: number;
+}
+
+export interface SankeyData {
+  nodes: SankeyNode[];
+  links: SankeyLink[];
+}
