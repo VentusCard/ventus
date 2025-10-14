@@ -14,6 +14,14 @@ export interface EnrichedTransaction extends Transaction {
   confidence: number;
   explanation: string;
   enriched_at: string;
+  travel_context?: {
+    is_travel_related: boolean;
+    travel_period_start: string | null;
+    travel_period_end: string | null;
+    travel_destination: string | null;
+    original_pillar: string | null;
+    reclassification_reason: string | null;
+  };
 }
 
 export interface Correction {
@@ -50,6 +58,16 @@ export interface PillarAggregate {
   avgAmount: number;
   avgConfidence: number;
   subcategories: SubcategoryData[];
+}
+
+export interface PillarSegment {
+  originalPillar: string;
+  amount: number;
+  color: string;
+}
+
+export interface PillarAggregateWithSegments extends PillarAggregate {
+  segments: PillarSegment[];
 }
 
 export interface SubcategoryData {

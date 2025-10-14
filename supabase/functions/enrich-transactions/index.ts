@@ -49,6 +49,33 @@ Rules for extraction:
 
 DO NOT classify payment platform transactions as "Miscellaneous" if you can identify the actual merchant.
 
+TRAVEL DETECTION:
+After initial classification, detect travel periods using these signals:
+
+Travel Anchor Transactions:
+- Hotels (MCC 7011, merchants: Marriott, Hilton, Hyatt, Holiday Inn, etc.)
+- Flights (MCC 4511, merchants: Delta, Southwest, United, American Airlines, etc.)
+- Vacation Rentals (Airbnb, VRBO)
+- Car Rentals (Enterprise, Hertz, Budget, etc.)
+
+Geographic Displacement Signals:
+- Merchant names containing city/state names different from typical patterns
+- Multiple transactions in unfamiliar locations within short timeframe
+- Merchants with location suffixes (e.g., "Starbucks NYC", "Shell Houston")
+
+Reclassification Rules (Travel Context Window: ±3 days from travel anchor):
+1. Gas Stations: If within travel window → "Travel & Exploration" / "Travel Transportation"
+2. Restaurants/Coffee: If within travel window + unfamiliar merchant → "Travel & Exploration" / "Dining Away"
+3. Rideshares (Uber/Lyft): If within travel window → "Travel & Exploration" / "Local Transportation"
+4. Convenience Stores: If within travel window → "Travel & Exploration" / "Travel Essentials"
+
+Travel Context Annotation:
+- Mark transactions as travel_related: true/false
+- Note travel_period_start and travel_period_end dates
+- Record travel_destination if identifiable from hotel/flight
+- Store original_pillar before reclassification
+- Provide reclassification_reason explaining the travel context
+
 Classification Guidelines:
 - Be confident when merchant is clearly recognizable (e.g., "STARBUCKS" → Food & Dining, confidence: 0.95)
 - Use moderate confidence for ambiguous merchants (0.5-0.7)
@@ -118,6 +145,36 @@ const TOOLS = [
                 explanation: {
                   type: "string",
                   description: "Brief reasoning for the classification"
+                },
+                travel_context: {
+                  type: "object",
+                  properties: {
+                    is_travel_related: {
+                      type: "boolean",
+                      description: "Whether this transaction is part of a travel period"
+                    },
+                    travel_period_start: {
+                      type: "string",
+                      description: "Start date of travel period (ISO format)"
+                    },
+                    travel_period_end: {
+                      type: "string",
+                      description: "End date of travel period (ISO format)"
+                    },
+                    travel_destination: {
+                      type: "string",
+                      description: "City/location of travel if identifiable"
+                    },
+                    original_pillar: {
+                      type: "string",
+                      description: "Original pillar before travel reclassification"
+                    },
+                    reclassification_reason: {
+                      type: "string",
+                      description: "Why this was reclassified as travel"
+                    }
+                  },
+                  description: "Travel detection context for the transaction"
                 }
               },
               required: ["transaction_id", "normalized_merchant", "pillar", "subcategory", "confidence", "explanation"]
@@ -240,6 +297,14 @@ Deno.serve(async (req) => {
         subcategory: enriched.subcategory,
         confidence: enriched.confidence,
         explanation: enriched.explanation,
+        travel_context: enriched.travel_context || {
+          is_travel_related: false,
+          travel_period_start: null,
+          travel_period_end: null,
+          travel_destination: null,
+          original_pillar: null,
+          reclassification_reason: null
+        },
         enriched_at: new Date().toISOString()
       };
     });

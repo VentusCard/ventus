@@ -5,11 +5,14 @@ import {
   Filters,
   MCCAggregate,
   PillarAggregate,
+  PillarAggregateWithSegments,
+  PillarSegment,
   SubcategoryData,
   TimeSeriesData,
   PieChartData,
   SankeyData,
 } from "@/types/transaction";
+import { PILLAR_COLORS } from "./sampleData";
 
 // MCC-based aggregations
 export function aggregateByMCC(transactions: Transaction[]): MCCAggregate[] {
@@ -63,7 +66,63 @@ export function getMCCDistribution(transactions: Transaction[]): PieChartData[] 
   }));
 }
 
-// Pillar-based aggregations
+// Pillar-based aggregations with travel breakdown
+export function aggregateByPillarWithTravelBreakdown(transactions: EnrichedTransaction[]): PillarAggregateWithSegments[] {
+  const pillarMap = new Map<string, { 
+    totalSpend: number; 
+    count: number; 
+    totalConfidence: number; 
+    subcats: Map<string, SubcategoryData>;
+    segments: Map<string, number>; // Track spending by original pillar
+  }>();
+
+  transactions.forEach((t) => {
+    const existing = pillarMap.get(t.pillar) || { 
+      totalSpend: 0, 
+      count: 0, 
+      totalConfidence: 0, 
+      subcats: new Map(),
+      segments: new Map()
+    };
+    
+    existing.totalSpend += t.amount;
+    existing.count += 1;
+    existing.totalConfidence += t.confidence;
+
+    const subcat = existing.subcats.get(t.subcategory) || { subcategory: t.subcategory, totalSpend: 0, transactionCount: 0 };
+    subcat.totalSpend += t.amount;
+    subcat.transactionCount += 1;
+    existing.subcats.set(t.subcategory, subcat);
+
+    // Track segments by original pillar for travel-reclassified transactions
+    const segmentKey = (t.travel_context?.is_travel_related && t.travel_context?.original_pillar) 
+      ? t.travel_context.original_pillar 
+      : t.pillar;
+    existing.segments.set(segmentKey, (existing.segments.get(segmentKey) || 0) + t.amount);
+
+    pillarMap.set(t.pillar, existing);
+  });
+
+  return Array.from(pillarMap.entries())
+    .map(([pillar, data]) => ({
+      pillar,
+      totalSpend: data.totalSpend,
+      transactionCount: data.count,
+      avgAmount: data.totalSpend / data.count,
+      avgConfidence: data.totalConfidence / data.count,
+      subcategories: Array.from(data.subcats.values()).sort((a, b) => b.totalSpend - a.totalSpend),
+      segments: Array.from(data.segments.entries())
+        .map(([originalPillar, amount]) => ({
+          originalPillar,
+          amount,
+          color: PILLAR_COLORS[originalPillar] || "#64748b"
+        }))
+        .sort((a, b) => b.amount - a.amount)
+    }))
+    .sort((a, b) => b.totalSpend - a.totalSpend);
+}
+
+// Pillar-based aggregations (original function preserved)
 export function aggregateByPillar(transactions: EnrichedTransaction[]): PillarAggregate[] {
   const pillarMap = new Map<string, { totalSpend: number; count: number; totalConfidence: number; subcats: Map<string, SubcategoryData> }>();
 

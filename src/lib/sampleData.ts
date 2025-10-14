@@ -52,7 +52,25 @@ txn_050,WHOLE FOODS,Organic groceries,5411,143.56,2025-11-05
 txn_051,PLANET FITNESS,Monthly membership,7997,22.99,2025-11-01
 txn_052,WARBY PARKER,Prescription glasses,5995,195.00,2025-11-06
 txn_053,GRUBHUB,Dinner delivery,5814,42.30,2025-11-07
-txn_054,LOWES,Garden supplies,5211,87.45,2025-11-08`;
+txn_054,LOWES,Garden supplies,5211,87.45,2025-11-08
+txn_055,SHELL OIL LOCAL,Gas station home,5541,48.20,2025-11-09
+txn_056,DELTA AIR LINES NYC,Flight to LaGuardia NYC,4511,520.00,2025-11-10
+txn_057,MARRIOTT TIMES SQUARE,Hotel check-in NYC 4 nights,7011,950.00,2025-11-10
+txn_058,SHELL OIL QUEENS NY,Gas rental car Queens,5541,58.30,2025-11-10
+txn_059,UBER NYC,Ride from airport to hotel,4121,45.80,2025-11-10
+txn_060,STARBUCKS MANHATTAN,Coffee in Times Square,5814,8.95,2025-11-11
+txn_061,JOES PIZZA NYC,Lunch Manhattan,5814,22.50,2025-11-11
+txn_062,BROADWAY THEATRE,Hamilton tickets,7922,350.00,2025-11-11
+txn_063,UBER NYC,Ride to Broadway,4121,18.40,2025-11-11
+txn_064,SHELL OIL BROOKLYN,Gas fill-up Brooklyn,5541,62.15,2025-11-12
+txn_065,WHOLE FOODS MANHATTAN,Groceries for hotel,5411,45.70,2025-11-12
+txn_066,MET MUSEUM NYC,Museum admission,8999,30.00,2025-11-12
+txn_067,LYFT NYC,Ride to museum,4121,22.30,2025-11-12
+txn_068,CENTRAL PARK CAFE,Lunch in park,5814,28.60,2025-11-13
+txn_069,UBER NYC,Ride to airport,4121,52.90,2025-11-14
+txn_070,DELTA AIR LINES,Return flight home,4511,480.00,2025-11-14
+txn_071,SHELL OIL LOCAL,Gas station home,5541,49.10,2025-11-15
+txn_072,STARBUCKS COFFEE,Morning coffee home,5814,6.75,2025-11-16`;
 
 export const PILLAR_COLORS: Record<string, string> = {
   "Sports & Active Living": "#3b82f6",
