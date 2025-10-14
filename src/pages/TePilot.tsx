@@ -83,13 +83,31 @@ const TePilot = () => {
         body: { transactions: parsedTransactions }
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("Edge function error:", error);
+        
+        // Handle specific error types
+        if (error.message?.includes("429") || error.message?.includes("rate limit")) {
+          toast.error("Rate limits exceeded. Please try again in a moment.");
+        } else if (error.message?.includes("402") || error.message?.includes("payment")) {
+          toast.error("Payment required. Please add credits to your Lovable AI workspace.");
+        } else {
+          toast.error(`Enrichment failed: ${error.message}`);
+        }
+        return;
+      }
+
+      if (!data || !data.enriched_transactions) {
+        toast.error("No enriched data received from AI");
+        return;
+      }
       
       setEnrichedTransactions(data.enriched_transactions);
       setActiveTab("results");
       toast.success("Transactions enriched successfully!");
     } catch (error: any) {
-      toast.error(`Enrichment failed: ${error.message}`);
+      console.error("Enrichment error:", error);
+      toast.error(`Enrichment failed: ${error.message || "Unknown error"}`);
     } finally {
       setIsProcessing(false);
     }

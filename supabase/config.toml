@@ -2,3 +2,6 @@ project_id = "theaknjrmfsyauxxvhmk"
 
 [functions.search-deals]
 verify_jwt = true
+
+[functions.enrich-transactions]
+verify_jwt = false
