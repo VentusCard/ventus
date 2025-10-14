@@ -377,7 +377,7 @@ const TePilot = () => {
           })} />
             <div className="grid md:grid-cols-2 gap-6">
               <BeforeInsightsPanel transactions={parsedTransactions} />
-              <AfterInsightsPanel transactions={filteredTransactions} />
+              <AfterInsightsPanel transactions={filteredTransactions} allTransactions={displayTransactions} />
             </div>
           </TabsContent>
         </Tabs>

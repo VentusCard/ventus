@@ -6,10 +6,11 @@ import { PILLAR_COLORS } from "@/lib/sampleData";
 
 interface AfterInsightsPanelProps {
   transactions: EnrichedTransaction[];
+  allTransactions: EnrichedTransaction[];
 }
 
-export function AfterInsightsPanel({ transactions }: AfterInsightsPanelProps) {
-  const pillarAggregates = aggregateByPillar(transactions);
+export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsightsPanelProps) {
+  const pillarAggregates = aggregateByPillar(allTransactions);
   const totalSpend = transactions.reduce((sum, t) => sum + t.amount, 0);
   const miscRate = calculateMiscRate(transactions);
   const avgConfidence = calculateAverageConfidence(transactions);
