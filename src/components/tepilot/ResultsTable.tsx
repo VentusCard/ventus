@@ -70,16 +70,35 @@ export function ResultsTable({ transactions, onCorrection }: ResultsTableProps) 
                         <ArrowRight className="w-4 h-4 text-primary mx-auto" />
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          style={{
-                            backgroundColor: `${PILLAR_COLORS[transaction.pillar]}20`,
-                            color: PILLAR_COLORS[transaction.pillar],
-                            borderColor: `${PILLAR_COLORS[transaction.pillar]}40`,
-                          }}
-                          className="border"
-                        >
-                          {transaction.pillar}
-                        </Badge>
+                        {transaction.travel_context?.is_travel_related && transaction.travel_context?.original_pillar ? (
+                          <div className="flex items-center gap-1 text-xs">
+                            <span style={{ color: PILLAR_COLORS[transaction.travel_context.original_pillar] }}>
+                              {transaction.travel_context.original_pillar}
+                            </span>
+                            <ArrowRight className="w-3 h-3 text-muted-foreground" />
+                            <Badge
+                              style={{
+                                backgroundColor: `${PILLAR_COLORS[transaction.pillar]}20`,
+                                color: PILLAR_COLORS[transaction.pillar],
+                                borderColor: `${PILLAR_COLORS[transaction.pillar]}40`,
+                              }}
+                              className="border"
+                            >
+                              {transaction.pillar}
+                            </Badge>
+                          </div>
+                        ) : (
+                          <Badge
+                            style={{
+                              backgroundColor: `${PILLAR_COLORS[transaction.pillar]}20`,
+                              color: PILLAR_COLORS[transaction.pillar],
+                              borderColor: `${PILLAR_COLORS[transaction.pillar]}40`,
+                            }}
+                            className="border"
+                          >
+                            {transaction.pillar}
+                          </Badge>
+                        )}
                       </TableCell>
                       <TableCell className="text-sm">{transaction.subcategory}</TableCell>
                       <TableCell>
