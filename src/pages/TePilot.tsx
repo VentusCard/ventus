@@ -183,7 +183,7 @@ const TePilot = () => {
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Protected Page</CardTitle>
-            <CardDescription>Enter password to access TE Pilot</CardDescription>
+            <CardDescription>Enter password to access the Ventus AI Transaction Enrichment Pilot</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
