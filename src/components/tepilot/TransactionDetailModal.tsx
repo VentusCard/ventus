@@ -8,7 +8,6 @@ import {
 } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight } from "lucide-react";
 import { PILLAR_COLORS } from "@/lib/sampleData";
 
 interface TransactionDetailModalProps {
@@ -66,24 +65,6 @@ export function TransactionDetailModal({ transaction, isOpen, onClose }: Transac
               {transaction.pillar}
             </Badge>
           </div>
-
-          {transaction.travel_context?.is_travel_related && transaction.travel_context?.original_pillar && (
-            <div className="bg-muted/30 rounded px-3 py-2 text-xs space-y-1">
-              <div className="flex items-center gap-1.5">
-                <span className="text-muted-foreground">Originally:</span>
-                <span style={{ color: PILLAR_COLORS[transaction.travel_context.original_pillar] }} className="font-medium">
-                  {transaction.travel_context.original_pillar}
-                </span>
-                <ArrowRight className="w-3 h-3 text-muted-foreground" />
-                <span className="font-medium">Travel-reclassified</span>
-              </div>
-              {transaction.travel_context.reclassification_reason && (
-                <p className="text-muted-foreground italic">
-                  {transaction.travel_context.reclassification_reason}
-                </p>
-              )}
-            </div>
-          )}
 
           <div>
             <p className="text-sm text-muted-foreground mb-2">Subcategory</p>
