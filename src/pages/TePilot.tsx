@@ -184,7 +184,7 @@ const TePilot = () => {
   const filteredTransactions = applyFilters(displayTransactions, filters);
   if (!isAuthenticated) {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
-        <Card className="w-full max-w-3xl">
+        <Card className="w-full max-w-6xl">
           <CardHeader>
             <CardTitle className="text-3xl">Ventus AI Transaction Enrichment Pilot</CardTitle>
             <CardDescription className="text-base">
