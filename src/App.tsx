@@ -20,6 +20,7 @@ import ResetPassword from "./pages/ResetPassword";
 import Dashboard from "./pages/Dashboard";
 import Deals from "./pages/Deals";
 import SavedDeals from "./pages/SavedDeals";
+import TePilot from "./pages/TePilot";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,6 +48,7 @@ const App = () => (
           <Route path="/demo/golf" element={<GolfDemo />} />
           <Route path="/ventus-ai" element={<VentusAI />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/tepilot" element={<TePilot />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
