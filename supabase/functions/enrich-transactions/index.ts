@@ -20,7 +20,7 @@ LIFESTYLE PILLARS (11):
 8. Entertainment & Culture - Movies, concerts, streaming services, books, museums, theaters
 9. Family & Community - Childcare, education, charitable donations, gifts, family activities
 10. Financial & Aspirational - Investments, insurance, luxury items, financial services
-11. Miscellaneous & Unclassified - Unclear or uncategorizable transactions
+11. Miscellaneous & Unclassified - Unclear or uncategorizable transactions, peer-to-peer transfers
 
 For each transaction, analyze:
 - Merchant name (primary signal)
@@ -28,11 +28,35 @@ For each transaction, analyze:
 - MCC code if available (supporting data)
 - Amount (contextual clue)
 
+MERCHANT NAME PARSING:
+Payment platforms often appear as prefixes to actual merchant names. Extract the TRUE merchant:
+
+Common patterns:
+- "APPLE PAY Nike" → Extract "Nike"
+- "APPL PAY *Nike" → Extract "Nike"  
+- "PayPal *Starbucks" → Extract "Starbucks"
+- "VENMO Whole Foods" → Extract "Whole Foods"
+- "SQ *Chipotle" → Extract "Chipotle" (SQ = Square)
+- "CASHAPP *Target" → Extract "Target"
+- "ZELLE Nike Store" → Extract "Nike Store"
+
+Rules for extraction:
+1. If merchant starts with payment platform name (Apple Pay, PayPal, Venmo, Cash App, Zelle, SQ, etc.), extract what comes AFTER
+2. Remove asterisks (*), hyphens, extra spaces
+3. Classify based on the ACTUAL merchant, not the payment platform
+4. In normalized_merchant, only include the actual merchant name (e.g., "Nike", not "Apple Pay Nike")
+5. You can mention the payment method in the explanation if relevant
+
+DO NOT classify payment platform transactions as "Miscellaneous" if you can identify the actual merchant.
+
 Classification Guidelines:
 - Be confident when merchant is clearly recognizable (e.g., "STARBUCKS" → Food & Dining, confidence: 0.95)
 - Use moderate confidence for ambiguous merchants (0.5-0.7)
-- Use Miscellaneous & Unclassified for truly unclear transactions (e.g., "PAYPAL *TRANSFER", "VENMO PAYMENT")
-- Normalize merchant names (e.g., "STARBUCKS #1234" → "Starbucks Coffee")
+- Use Miscellaneous & Unclassified for truly unclear transactions or peer-to-peer transfers without merchant details
+- Normalize merchant names by:
+  * Removing payment platform prefixes (e.g., "APPLE PAY Nike" → "Nike")
+  * Removing store numbers/locations (e.g., "STARBUCKS #1234" → "Starbucks Coffee")
+  * Removing special characters like *, -, extra spaces
 - Provide brief, specific explanations
 
 Return structured classification with:
