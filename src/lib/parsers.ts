@@ -1,9 +1,28 @@
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import { Transaction } from "@/types/transaction";
+import { detectColumns, applyColumnMapping } from "./columnDetection";
+
+// Column mapping result type
+export interface MappingResult {
+  needsMapping: boolean;
+  headers?: string[];
+  rows?: any[];
+  suggestedMapping?: Record<string, string | null>;
+  transactions?: Transaction[];
+}
+
+// Column mapping result type
+export interface MappingResult {
+  needsMapping: boolean;
+  headers?: string[];
+  rows?: any[];
+  suggestedMapping?: Record<string, string | null>;
+  transactions?: Transaction[];
+}
 
 // Main parser dispatcher
-export async function parseFile(file: File): Promise<Transaction[]> {
+export async function parseFile(file: File): Promise<MappingResult> {
   const extension = file.name.split(".").pop()?.toLowerCase();
 
   switch (extension) {
@@ -20,15 +39,15 @@ export async function parseFile(file: File): Promise<Transaction[]> {
 }
 
 // CSV Parser using Papa Parse
-export async function parseCSV(file: File): Promise<Transaction[]> {
+export async function parseCSV(file: File): Promise<MappingResult> {
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
         try {
-          const transactions = mapColumns(results.meta.fields || [], results.data);
-          resolve(transactions);
+          const result = mapColumns(results.meta.fields || [], results.data);
+          resolve(result);
         } catch (error) {
           reject(error);
         }
@@ -41,7 +60,7 @@ export async function parseCSV(file: File): Promise<Transaction[]> {
 }
 
 // JSON Parser
-export async function parseJSON(file: File): Promise<Transaction[]> {
+export async function parseJSON(file: File): Promise<MappingResult> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     
@@ -56,8 +75,8 @@ export async function parseJSON(file: File): Promise<Transaction[]> {
         }
 
         const headers = Object.keys(data[0] || {});
-        const transactions = mapColumns(headers, data);
-        resolve(transactions);
+        const result = mapColumns(headers, data);
+        resolve(result);
       } catch (error) {
         reject(new Error(`JSON parsing failed: ${error.message}`));
       }
@@ -69,7 +88,7 @@ export async function parseJSON(file: File): Promise<Transaction[]> {
 }
 
 // XLSX Parser using SheetJS
-export async function parseXLSX(file: File): Promise<Transaction[]> {
+export async function parseXLSX(file: File): Promise<MappingResult> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -95,8 +114,8 @@ export async function parseXLSX(file: File): Promise<Transaction[]> {
           return obj;
         });
 
-        const transactions = mapColumns(headers, rows);
-        resolve(transactions);
+        const result = mapColumns(headers, rows);
+        resolve(result);
       } catch (error) {
         reject(new Error(`XLSX parsing failed: ${error.message}`));
       }
@@ -108,7 +127,7 @@ export async function parseXLSX(file: File): Promise<Transaction[]> {
 }
 
 // Paste Text Parser
-export function parsePastedText(text: string): Transaction[] {
+export function parsePastedText(text: string): MappingResult {
   const lines = text.trim().split("\n").filter(line => line.trim());
   
   if (lines.length < 2) {
@@ -132,26 +151,29 @@ export function parsePastedText(text: string): Transaction[] {
   return mapColumns(headers, rows);
 }
 
-// Column mapping (handles flexible headers)
-export function mapColumns(headers: string[], rows: any[]): Transaction[] {
+// Column mapping (handles flexible headers with smart detection)
+export function mapColumns(headers: string[], rows: any[]): MappingResult {
+  const { mapping, confidence } = detectColumns(headers);
+  
+  // Check if we need user intervention
+  const requiredFields = ["merchant_name", "date", "amount"];
+  const missingRequired = requiredFields.filter(field => !mapping[field]);
+  
+  if (missingRequired.length > 0) {
+    // Need user to map columns
+    return {
+      needsMapping: true,
+      headers,
+      rows,
+      suggestedMapping: mapping
+    };
+  }
+  
+  // Auto-mapping succeeded - create reverse map (standardField -> originalColumn)
   const headerMap: Record<string, string> = {};
-
-  // Map flexible column names to standardized names
-  headers.forEach((header) => {
-    const normalized = header.toLowerCase().replace(/[_\s-]/g, "");
-
-    if (["merchant", "merchantname", "name", "merchantdescription"].includes(normalized)) {
-      headerMap[header] = "merchant_name";
-    } else if (["description", "desc", "memo", "transactiondescription"].includes(normalized)) {
-      headerMap[header] = "description";
-    } else if (["mcc", "merchantcategorycode", "categorycode", "category"].includes(normalized)) {
-      headerMap[header] = "mcc";
-    } else if (["amount", "transactionamount", "total", "value", "price"].includes(normalized)) {
-      headerMap[header] = "amount";
-    } else if (["date", "transactiondate", "posteddate", "purchasedate"].includes(normalized)) {
-      headerMap[header] = "date";
-    } else if (["transactionid", "id", "txnid", "transaction"].includes(normalized)) {
-      headerMap[header] = "transaction_id";
+  Object.entries(mapping).forEach(([standardField, columnName]) => {
+    if (columnName) {
+      headerMap[columnName] = standardField;
     }
   });
 
@@ -165,7 +187,35 @@ export function mapColumns(headers: string[], rows: any[]): Transaction[] {
   });
 
   if (transactions.length === 0) {
-    throw new Error("No valid transactions found. Check column names and data format.");
+    throw new Error("No valid transactions found in the data.");
+  }
+
+  return { needsMapping: false, transactions };
+}
+
+// Process with user-confirmed mapping
+export function mapColumnsWithMapping(
+  headers: string[], 
+  rows: any[], 
+  userMapping: Record<string, string>
+): Transaction[] {
+  // Create reverse map (originalColumn -> standardField)
+  const headerMap: Record<string, string> = {};
+  Object.entries(userMapping).forEach(([standardField, columnName]) => {
+    headerMap[columnName] = standardField;
+  });
+
+  const transactions: Transaction[] = [];
+
+  rows.forEach((row, index) => {
+    const transaction = validateTransaction(row, headerMap, index);
+    if (transaction) {
+      transactions.push(transaction);
+    }
+  });
+
+  if (transactions.length === 0) {
+    throw new Error("No valid transactions found in the data.");
   }
 
   return transactions;

@@ -15,7 +15,8 @@ import { ExportControls } from "@/components/tepilot/ExportControls";
 import { FilterControls } from "@/components/tepilot/FilterControls";
 import { BeforeInsightsPanel } from "@/components/tepilot/BeforeInsightsPanel";
 import { AfterInsightsPanel } from "@/components/tepilot/AfterInsightsPanel";
-import { parseFile, parsePastedText } from "@/lib/parsers";
+import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
+import { parseFile, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
 const TePilot = () => {
@@ -42,6 +43,13 @@ const TePilot = () => {
     includeMisc: true,
     mode: "predicted"
   });
+  
+  // New state for column mapping
+  const [pendingMapping, setPendingMapping] = useState<{
+    headers: string[];
+    rows: any[];
+    suggestedMapping: Record<string, string | null>;
+  } | null>(null);
   useEffect(() => {
     const auth = sessionStorage.getItem("tepilot_auth");
     if (auth === "authenticated") setIsAuthenticated(true);
@@ -59,21 +67,57 @@ const TePilot = () => {
   };
   const handleParse = async () => {
     try {
-      let transactions: Transaction[];
+      let result: MappingResult;
       if (inputMode === "paste") {
-        transactions = parsePastedText(rawInput);
+        result = parsePastedText(rawInput);
       } else if (uploadedFile) {
-        transactions = await parseFile(uploadedFile);
+        result = await parseFile(uploadedFile);
       } else {
         toast.error("No data to parse");
         return;
       }
+      
+      if (result.needsMapping) {
+        // Show column mapper
+        setPendingMapping({
+          headers: result.headers!,
+          rows: result.rows!,
+          suggestedMapping: result.suggestedMapping!
+        });
+        toast.info("Please map your columns to continue");
+      } else {
+        // Auto-mapping succeeded
+        setParsedTransactions(result.transactions!);
+        setActiveTab("preview");
+        toast.success(`Parsed ${result.transactions!.length} transactions`);
+      }
+    } catch (error: any) {
+      toast.error(error.message);
+    }
+  };
+  
+  const handleMappingConfirm = (mapping: Record<string, string>) => {
+    try {
+      if (!pendingMapping) return;
+      
+      const transactions = mapColumnsWithMapping(
+        pendingMapping.headers,
+        pendingMapping.rows,
+        mapping
+      );
+      
       setParsedTransactions(transactions);
+      setPendingMapping(null);
       setActiveTab("preview");
       toast.success(`Parsed ${transactions.length} transactions`);
     } catch (error: any) {
       toast.error(error.message);
     }
+  };
+  
+  const handleMappingCancel = () => {
+    setPendingMapping(null);
+    toast.info("Column mapping cancelled");
   };
   const handleEnrich = async () => {
     setIsProcessing(true);
@@ -172,9 +216,18 @@ const TePilot = () => {
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">
-            <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={setRawInput}>
-              {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
-            </UploadOrPasteContainer>
+            {pendingMapping ? (
+              <ColumnMapper
+                detectedColumns={pendingMapping.headers}
+                suggestedMapping={pendingMapping.suggestedMapping}
+                onConfirm={handleMappingConfirm}
+                onCancel={handleMappingCancel}
+              />
+            ) : (
+              <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={setRawInput}>
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
+              </UploadOrPasteContainer>
+            )}
           </TabsContent>
 
           <TabsContent value="preview" className="space-y-6">
