@@ -327,7 +327,7 @@ const TePilot = () => {
           <Button variant="outline" onClick={() => {
           sessionStorage.removeItem("tepilot_auth");
           setIsAuthenticated(false);
-        }}>Lock Page</Button>
+        }}>Log out and Clear Session</Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
