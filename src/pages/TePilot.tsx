@@ -18,7 +18,6 @@ import { AfterInsightsPanel } from "@/components/tepilot/AfterInsightsPanel";
 import { parseFile, parsePastedText } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
-
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -30,19 +29,23 @@ const TePilot = () => {
   const [enrichedTransactions, setEnrichedTransactions] = useState<EnrichedTransaction[]>([]);
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
   const [isProcessing, setIsProcessing] = useState(false);
-  const [progress, setProgress] = useState({ current: 0, total: 0 });
+  const [progress, setProgress] = useState({
+    current: 0,
+    total: 0
+  });
   const [filters, setFilters] = useState<Filters>({
-    dateRange: { start: null, end: null },
+    dateRange: {
+      start: null,
+      end: null
+    },
     confidenceThreshold: 0,
     includeMisc: true,
     mode: "predicted"
   });
-
   useEffect(() => {
     const auth = sessionStorage.getItem("tepilot_auth");
     if (auth === "authenticated") setIsAuthenticated(true);
   }, []);
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === "2025proto") {
@@ -54,7 +57,6 @@ const TePilot = () => {
       setPassword("");
     }
   };
-
   const handleParse = async () => {
     try {
       let transactions: Transaction[];
@@ -73,19 +75,24 @@ const TePilot = () => {
       toast.error(error.message);
     }
   };
-
   const handleEnrich = async () => {
     setIsProcessing(true);
-    setProgress({ current: 0, total: parsedTransactions.length });
-    
+    setProgress({
+      current: 0,
+      total: parsedTransactions.length
+    });
     try {
-      const { data, error } = await supabase.functions.invoke("enrich-transactions", {
-        body: { transactions: parsedTransactions }
+      const {
+        data,
+        error
+      } = await supabase.functions.invoke("enrich-transactions", {
+        body: {
+          transactions: parsedTransactions
+        }
       });
-
       if (error) {
         console.error("Edge function error:", error);
-        
+
         // Handle specific error types
         if (error.message?.includes("429") || error.message?.includes("rate limit")) {
           toast.error("Rate limits exceeded. Please try again in a moment.");
@@ -96,12 +103,10 @@ const TePilot = () => {
         }
         return;
       }
-
       if (!data || !data.enriched_transactions) {
         toast.error("No enriched data received from AI");
         return;
       }
-      
       setEnrichedTransactions(data.enriched_transactions);
       setActiveTab("results");
       toast.success("Transactions enriched successfully!");
@@ -112,11 +117,9 @@ const TePilot = () => {
       setIsProcessing(false);
     }
   };
-
   const handleCorrection = (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => {
     const transaction = enrichedTransactions.find(t => t.transaction_id === transactionId);
     if (!transaction) return;
-
     const correction: Correction = {
       transaction_id: transactionId,
       original_pillar: transaction.pillar,
@@ -126,20 +129,13 @@ const TePilot = () => {
       reason,
       corrected_at: new Date().toISOString()
     };
-
     setCorrections(new Map(corrections.set(transactionId, correction)));
     toast.success("Correction saved locally");
   };
-
-  const displayTransactions = filters.mode === "corrected" 
-    ? applyCorrections(enrichedTransactions, corrections)
-    : enrichedTransactions;
-  
+  const displayTransactions = filters.mode === "corrected" ? applyCorrections(enrichedTransactions, corrections) : enrichedTransactions;
   const filteredTransactions = applyFilters(displayTransactions, filters);
-
   if (!isAuthenticated) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
+    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>Protected Page</CardTitle>
@@ -147,24 +143,24 @@ const TePilot = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
-              <Input type="password" placeholder="Enter password" value={password} onChange={(e) => setPassword(e.target.value)} autoFocus />
+              <Input type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoFocus />
               <Button type="submit" className="w-full">Access</Button>
             </form>
           </CardContent>
         </Card>
-      </div>
-    );
+      </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+  return <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold">Transaction Enrichment Pilot</h1>
+            <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment Pilot</h1>
             <p className="text-muted-foreground mt-2">Discover how Ventus understands spending beyond MCC codes</p>
           </div>
-          <Button variant="outline" onClick={() => { sessionStorage.removeItem("tepilot_auth"); setIsAuthenticated(false); }}>Lock Page</Button>
+          <Button variant="outline" onClick={() => {
+          sessionStorage.removeItem("tepilot_auth");
+          setIsAuthenticated(false);
+        }}>Lock Page</Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
@@ -177,11 +173,7 @@ const TePilot = () => {
 
           <TabsContent value="upload" className="space-y-6">
             <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={setRawInput}>
-              {inputMode === "paste" ? (
-                <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} />
-              ) : (
-                <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />
-              )}
+              {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
             </UploadOrPasteContainer>
           </TabsContent>
 
@@ -198,7 +190,15 @@ const TePilot = () => {
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            <FilterControls filters={filters} onFiltersChange={setFilters} onReset={() => setFilters({ dateRange: { start: null, end: null }, confidenceThreshold: 0, includeMisc: true, mode: "predicted" })} />
+            <FilterControls filters={filters} onFiltersChange={setFilters} onReset={() => setFilters({
+            dateRange: {
+              start: null,
+              end: null
+            },
+            confidenceThreshold: 0,
+            includeMisc: true,
+            mode: "predicted"
+          })} />
             <div className="grid md:grid-cols-2 gap-6">
               <BeforeInsightsPanel transactions={parsedTransactions} />
               <AfterInsightsPanel transactions={filteredTransactions} />
@@ -206,8 +206,6 @@ const TePilot = () => {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default TePilot;
