@@ -200,6 +200,9 @@ const TePilot = () => {
                 analyze the full context of each transaction, delivering accurate lifestyle-based categorization that 
                 understands what you're actually spending on.
               </p>
+              <p className="mt-3">
+                <strong className="text-foreground">Banks partnering with Ventus AI</strong> can transform how they understand and serve their customers—unlocking unprecedented insights into spending patterns to deliver personalized experiences, targeted offers, and meaningful financial wellness guidance that sets them apart from competitors still using traditional categorization.
+              </p>
             </div>
 
             {/* Comparison Table */}
