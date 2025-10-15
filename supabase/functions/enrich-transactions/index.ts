@@ -21,7 +21,7 @@ CONFIDENCE LEVELS:
 • Moderate (0.6): Ambiguous merchants
 • Low (0.3): Use Miscellaneous & Unclassified`;
 
-// PASS 2: Travel Pattern Detection (unchanged)
+// PASS 2: Travel Pattern Detection
 const TRAVEL_DETECTION_PROMPT = `You are Ventus's travel pattern detector. Analyze transaction sequences to identify travel periods and reclassify transactions accordingly.
 
 HOME ZIP CODE: The user's home ZIP code will be provided. Use this to easily identify when transactions occur away from home.
@@ -32,26 +32,31 @@ Identify these key travel indicators:
 - Flights: Delta, Southwest, United, American Airlines (MCC 4511)
 - Car Rentals: Enterprise, Hertz, Budget, Avis
 
-ZIP CODE ANALYSIS:
-- Compare each transaction's ZIP code to the home ZIP code
+ZIP CODE ANALYSIS (for physical locations only):
+- Many online/digital transactions (Netflix, Amazon, PayPal purchases) will NOT have ZIP codes - this is normal
+- Only compare ZIP codes for physical merchant transactions (gas stations, restaurants, stores)
 - Different ZIP codes (especially different first 3 digits) indicate travel
-- Sequential transactions with consistent non-home ZIP codes indicate a travel period
+- Sequential physical transactions with consistent non-home ZIP codes indicate a travel period
+- Missing ZIP codes should NOT affect travel detection - rely on merchant names and temporal patterns
 
 TRAVEL WINDOW LOGIC:
-For each travel anchor (hotel/flight) OR cluster of non-home ZIP codes, create a travel window of ±3 days.
+For each travel anchor (hotel/flight) OR cluster of non-home ZIP codes in physical transactions, create a travel window of ±3 days.
 
 RECLASSIFICATION RULES:
-Within travel windows, reclassify these transactions to "Travel & Exploration":
+Within travel windows, reclassify these PHYSICAL transactions to "Travel & Exploration":
 1. Gas Stations → "Travel Transportation" (e.g., Shell, Exxon)
 2. Restaurants/Coffee (unfamiliar) → "Dining Away" (e.g., "Joe's Cafe NYC")
 3. Rideshares → "Local Transportation" (Uber, Lyft)
 4. Convenience Stores → "Travel Essentials" (7-Eleven, CVS during travel)
 
+IMPORTANT: Online purchases during travel (Netflix, Amazon) should STAY in their original categories.
+
 GEOGRAPHIC SIGNALS:
 - Merchant names with city/state suffixes (e.g., "Starbucks NYC")
-- Multiple unfamiliar merchants in short timeframe
+- Multiple unfamiliar physical merchants in short timeframe
 - Location patterns different from typical behavior
-- ZIP codes different from home ZIP code
+- ZIP codes different from home ZIP code (when available)
+- Temporal clustering of travel-related merchants
 
 OUTPUT:
 For each transaction, provide:
@@ -299,7 +304,7 @@ Deno.serve(async (req) => {
       merchant: t.merchant_name,
       amount: t.amount,
       date: t.date,
-      zip: t.zip_code
+      ...(t.zip_code && { zip: t.zip_code }) // Only include if present
     }));
     
     // Extract home ZIP code from first transaction that has it
