@@ -1,7 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, FileText } from "lucide-react";
-import { SAMPLE_CSV } from "@/lib/sampleData";
+import { SAMPLE_CSV, SAMPLE_CSV_SPORTS_WELLNESS } from "@/lib/sampleData";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { ChevronDown } from "lucide-react";
 
 interface UploadOrPasteContainerProps {
   mode: "paste" | "upload";
@@ -21,13 +28,28 @@ export function UploadOrPasteContainer({ mode, onModeChange, onLoadSample, child
               Upload a file or paste your transaction data to get started
             </CardDescription>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => onLoadSample(SAMPLE_CSV)}
-          >
-            Load Sample Data
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm">
+                Load Sample Data
+                <ChevronDown className="ml-2 h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="w-64 bg-background">
+              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV)}>
+                <div className="flex flex-col">
+                  <span className="font-medium">Travel Enthusiast</span>
+                  <span className="text-xs text-muted-foreground">SF resident with NYC trip</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_SPORTS_WELLNESS)}>
+                <div className="flex flex-col">
+                  <span className="font-medium">Sports & Wellness Fan</span>
+                  <span className="text-xs text-muted-foreground">Austin resident, minimal travel</span>
+                </div>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
         <div className="flex gap-2 mt-4">
           <Button
