@@ -38,8 +38,11 @@ export function EnrichActionBar({
               </p>
             </div>
             <p className="text-xs text-center text-muted-foreground">
-              {currentPhase === "classification" && "Basic classification will appear in ~5-8 seconds"}
-              {currentPhase === "travel" && "Results are visible! Travel context is being added in the background..."}
+              {currentPhase === "classification" && statusMessage.includes("Batch") 
+                ? "Results are appearing below as each batch completes..." 
+                : currentPhase === "classification" 
+                ? "First results will appear in ~3 seconds..." 
+                : "Results are visible! Travel context is being added in the background..."}
             </p>
           </div>}
       </CardContent>

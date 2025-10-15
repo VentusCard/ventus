@@ -131,15 +131,9 @@ const TePilot = () => {
     toast.info("Column mapping cancelled");
   };
   const handleEnrich = async () => {
+    setActiveTab("results"); // Switch to results IMMEDIATELY
     await startEnrichment(parsedTransactions);
   };
-  
-  // Auto-switch to results tab when Pass 1 completes
-  useEffect(() => {
-    if (currentPhase === "travel" && enrichedTransactions.length > 0) {
-      setActiveTab("results");
-    }
-  }, [currentPhase, enrichedTransactions.length]);
   const handleCorrection = (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => {
     const transaction = enrichedTransactions.find(t => t.transaction_id === transactionId);
     if (!transaction) return;
@@ -356,6 +350,7 @@ const TePilot = () => {
             <ResultsTable 
               transactions={enrichedTransactions} 
               currentPhase={currentPhase}
+              statusMessage={statusMessage}
               onCorrection={handleCorrection} 
             />
           </TabsContent>

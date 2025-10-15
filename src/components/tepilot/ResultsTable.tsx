@@ -12,10 +12,11 @@ import { CorrectionModal } from "./CorrectionModal";
 interface ResultsTableProps {
   transactions: EnrichedTransaction[];
   currentPhase?: "idle" | "classification" | "travel" | "complete";
+  statusMessage?: string;
   onCorrection: (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => void;
 }
 
-export function ResultsTable({ transactions, currentPhase = "idle", onCorrection }: ResultsTableProps) {
+export function ResultsTable({ transactions, currentPhase = "idle", statusMessage = "", onCorrection }: ResultsTableProps) {
   const [selectedTransaction, setSelectedTransaction] = useState<EnrichedTransaction | null>(null);
   const [correctionTransaction, setCorrectionTransaction] = useState<EnrichedTransaction | null>(null);
 
@@ -35,7 +36,23 @@ export function ResultsTable({ transactions, currentPhase = "idle", onCorrection
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="border rounded-lg overflow-hidden">
+          {currentPhase === "classification" && transactions.length > 0 && (
+            <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+              <div className="flex items-center gap-2 text-sm text-blue-700 dark:text-blue-400">
+                <Loader2 className="w-4 h-4 animate-spin" />
+                <span className="font-medium">{statusMessage}</span>
+              </div>
+            </div>
+          )}
+          {transactions.length === 0 && currentPhase === "classification" && (
+            <div className="text-center py-12 text-muted-foreground">
+              <Loader2 className="w-8 h-8 animate-spin mx-auto mb-3" />
+              <p>Waiting for first batch of results...</p>
+              <p className="text-sm mt-2">This should take ~3 seconds</p>
+            </div>
+          )}
+          {transactions.length > 0 && (
+            <div className="border rounded-lg overflow-hidden">
             <div className="max-h-[600px] overflow-y-auto">
               <Table>
                 <TableHeader className="sticky top-0 bg-background">
@@ -122,7 +139,8 @@ export function ResultsTable({ transactions, currentPhase = "idle", onCorrection
                 </TableBody>
               </Table>
             </div>
-          </div>
+            </div>
+          )}
         </CardContent>
       </Card>
 

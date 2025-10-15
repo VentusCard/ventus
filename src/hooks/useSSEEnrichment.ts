@@ -78,11 +78,21 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
               console.log('[SSE Status]', data.message);
               break;
 
+            case 'batch_complete':
+              const { batchNum, totalBatches, count, model } = data;
+              setStatusMessage(
+                `Batch ${batchNum}/${totalBatches} complete: ${count} classified with ${model}`
+              );
+              setEnrichedTransactions(prev => [...prev, ...data.batch_transactions]);
+              console.log('[SSE Batch Complete]', `${batchNum}/${totalBatches}`, count, 'transactions');
+              break;
+
             case 'pass1':
+              // This now contains ALL classifications merged from batches
               setEnrichedTransactions(data.enriched_transactions);
               setCurrentPhase('travel');
               setStatusMessage('Classification complete! Analyzing travel patterns...');
-              toast.success('Basic classification complete!');
+              toast.success(`All ${data.enriched_transactions.length} transactions classified!`);
               console.log('[SSE Pass 1]', data.enriched_transactions.length, 'transactions classified');
               break;
 
