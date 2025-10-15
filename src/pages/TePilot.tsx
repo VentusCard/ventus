@@ -19,9 +19,8 @@ import { ExportControls } from "@/components/tepilot/ExportControls";
 import { FilterControls } from "@/components/tepilot/FilterControls";
 import { OverviewMetrics } from "@/components/tepilot/insights/OverviewMetrics";
 import { TravelTimeline } from "@/components/tepilot/insights/TravelTimeline";
-import { TransformationFlow } from "@/components/tepilot/insights/TransformationFlow";
 import { PillarExplorer } from "@/components/tepilot/insights/PillarExplorer";
-import { ComparisonView } from "@/components/tepilot/insights/ComparisonView";
+import { BeforeAfterTransformation } from "@/components/tepilot/insights/BeforeAfterTransformation";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
@@ -376,11 +375,9 @@ const TePilot = () => {
             
             <TravelTimeline transactions={displayTransactions} />
             
-            <TransformationFlow transactions={displayTransactions} />
-            
             <PillarExplorer transactions={displayTransactions} />
             
-            <ComparisonView 
+            <BeforeAfterTransformation 
               originalTransactions={parsedTransactions}
               enrichedTransactions={displayTransactions}
             />
