@@ -158,7 +158,7 @@ const TePilot = () => {
             <CardTitle className="text-3xl">Ventus AI Transaction Enrichment Pilot</CardTitle>
             <CardDescription className="text-base">
               Experience next-generation transaction categorization powered by semantic AI
-              <span className="block mt-1 text-sm text-muted-foreground">Release V1.2 Oct 2025</span>
+              <span className="block mt-1 text-sm text-muted-foreground">Release V1.2 Oct 2025; added smart travel detection system (pattern training), with double labeling.</span>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
