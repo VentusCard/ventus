@@ -146,10 +146,12 @@ const TePilot = () => {
       reason,
       corrected_at: new Date().toISOString()
     };
-    setCorrections(new Map(corrections.set(transactionId, correction)));
-    toast.success("Correction saved locally");
+    const newCorrections = new Map(corrections.set(transactionId, correction));
+    setCorrections(newCorrections);
+    toast.success("Correction applied - label updated!");
   };
-  const displayTransactions = filters.mode === "corrected" ? applyCorrections(enrichedTransactions, corrections) : enrichedTransactions;
+  // Always apply corrections, then apply filters
+  const displayTransactions = applyCorrections(enrichedTransactions, corrections);
   const filteredTransactions = applyFilters(displayTransactions, filters);
   if (!isAuthenticated) {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
