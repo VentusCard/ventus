@@ -187,7 +187,7 @@ Deno.serve(async (req) => {
 
     // PARALLEL API CALLS
     const [classificationResponse, travelResponse] = await Promise.all([
-      // Pass 1: Basic Classification (flash-lite)
+      // Pass 1: Basic Classification (flash - better for structured output)
       fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
         method: "POST",
         headers: {
@@ -195,7 +195,7 @@ Deno.serve(async (req) => {
           "Authorization": `Bearer ${LOVABLE_API_KEY}`,
         },
         body: JSON.stringify({
-          model: "google/gemini-2.5-flash-lite",
+          model: "google/gemini-2.5-flash",
           messages: [
             { role: "system", content: CLASSIFICATION_PROMPT },
             { role: "user", content: `Classify these ${transactions.length} transactions:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
@@ -251,10 +251,13 @@ Deno.serve(async (req) => {
 
     // Parse Pass 1 results
     const classificationData = await classificationResponse.json();
+    console.log(`[PASS 1] Full response:`, JSON.stringify(classificationData, null, 2));
+    
     const classificationToolCalls = classificationData.choices?.[0]?.message?.tool_calls;
     
     if (!classificationToolCalls || classificationToolCalls.length === 0) {
       console.error("[PASS 1] No tool calls in classification response");
+      console.error("[PASS 1] Response message:", classificationData.choices?.[0]?.message);
       return new Response(
         JSON.stringify({ error: "No classification results returned" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
@@ -262,8 +265,13 @@ Deno.serve(async (req) => {
     }
 
     const enrichmentData = JSON.parse(classificationToolCalls[0].function.arguments);
-    const basicClassifications = enrichmentData.enriched_transactions;
+    const basicClassifications = enrichmentData.enriched_transactions || [];
     console.log(`[PASS 1] Classified ${basicClassifications.length} transactions`);
+    
+    if (basicClassifications.length === 0) {
+      console.error("[PASS 1] enriched_transactions array is EMPTY!");
+      console.error("[PASS 1] Tool call arguments:", classificationToolCalls[0].function.arguments);
+    }
 
     // Parse Pass 2 results (non-critical, can fail gracefully)
     let travelAnalysis: any[] = [];
