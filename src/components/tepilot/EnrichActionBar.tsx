@@ -1,23 +1,20 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Sparkles, Loader2 } from "lucide-react";
 interface EnrichActionBarProps {
   transactionCount: number;
   isProcessing: boolean;
-  progress: {
-    current: number;
-    total: number;
-  };
+  statusMessage?: string;
+  currentPhase?: "idle" | "classification" | "travel" | "complete";
   onEnrich: () => void;
 }
 export function EnrichActionBar({
   transactionCount,
   isProcessing,
-  progress,
+  statusMessage = "",
+  currentPhase = "idle",
   onEnrich
 }: EnrichActionBarProps) {
-  const progressPercent = progress.total > 0 ? progress.current / progress.total * 100 : 0;
   return <Card className="border-primary/20 bg-primary/5">
       <CardContent className="pt-6">
         {!isProcessing ? <div className="flex flex-col items-center gap-4">
@@ -35,12 +32,14 @@ export function EnrichActionBar({
             <div className="flex items-center justify-center gap-3">
               <Loader2 className="w-5 h-5 animate-spin text-primary" />
               <p className="text-sm font-medium">
-                Processing transaction {progress.current} of {progress.total}...
+                {currentPhase === "classification" && "Classifying with flash-lite (fast)..."}
+                {currentPhase === "travel" && "Analyzing travel patterns with flash..."}
+                {statusMessage || "Processing transactions..."}
               </p>
             </div>
-            <Progress value={progressPercent} className="h-2" />
             <p className="text-xs text-center text-muted-foreground">
-              This may take a few seconds. Please don't close this page.
+              {currentPhase === "classification" && "Basic classification will appear in ~5-8 seconds"}
+              {currentPhase === "travel" && "Results are visible! Travel context is being added in the background..."}
             </p>
           </div>}
       </CardContent>

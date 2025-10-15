@@ -4,17 +4,18 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Eye, Edit } from "lucide-react";
+import { ArrowRight, Eye, Edit, Loader2 } from "lucide-react";
 import { PILLAR_COLORS } from "@/lib/sampleData";
 import { TransactionDetailModal } from "./TransactionDetailModal";
 import { CorrectionModal } from "./CorrectionModal";
 
 interface ResultsTableProps {
   transactions: EnrichedTransaction[];
+  currentPhase?: "idle" | "classification" | "travel" | "complete";
   onCorrection: (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => void;
 }
 
-export function ResultsTable({ transactions, onCorrection }: ResultsTableProps) {
+export function ResultsTable({ transactions, currentPhase = "idle", onCorrection }: ResultsTableProps) {
   const [selectedTransaction, setSelectedTransaction] = useState<EnrichedTransaction | null>(null);
   const [correctionTransaction, setCorrectionTransaction] = useState<EnrichedTransaction | null>(null);
 
@@ -70,16 +71,24 @@ export function ResultsTable({ transactions, onCorrection }: ResultsTableProps) 
                         <ArrowRight className="w-4 h-4 text-primary mx-auto" />
                       </TableCell>
                       <TableCell>
-                        <Badge
-                          style={{
-                            backgroundColor: `${PILLAR_COLORS[transaction.pillar]}20`,
-                            color: PILLAR_COLORS[transaction.pillar],
-                            borderColor: `${PILLAR_COLORS[transaction.pillar]}40`,
-                          }}
-                          className="border"
-                        >
-                          {transaction.pillar}
-                        </Badge>
+                        <div className="flex items-center gap-2">
+                          <Badge
+                            style={{
+                              backgroundColor: `${PILLAR_COLORS[transaction.pillar]}20`,
+                              color: PILLAR_COLORS[transaction.pillar],
+                              borderColor: `${PILLAR_COLORS[transaction.pillar]}40`,
+                            }}
+                            className="border"
+                          >
+                            {transaction.pillar}
+                          </Badge>
+                          {!transaction.travel_context && currentPhase === "travel" && (
+                            <Badge variant="outline" className="text-xs">
+                              <Loader2 className="h-3 w-3 animate-spin mr-1" />
+                              Analyzing...
+                            </Badge>
+                          )}
+                        </div>
                       </TableCell>
                       <TableCell className="text-sm">{transaction.subcategory}</TableCell>
                       <TableCell>

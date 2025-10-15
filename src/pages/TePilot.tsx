@@ -25,6 +25,7 @@ import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
+import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,13 +34,17 @@ const TePilot = () => {
   const [rawInput, setRawInput] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [parsedTransactions, setParsedTransactions] = useState<Transaction[]>([]);
-  const [enrichedTransactions, setEnrichedTransactions] = useState<EnrichedTransaction[]>([]);
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [progress, setProgress] = useState({
-    current: 0,
-    total: 0
-  });
+  
+  // SSE Enrichment Hook
+  const {
+    enrichedTransactions,
+    isProcessing,
+    statusMessage,
+    currentPhase,
+    error: enrichmentError,
+    startEnrichment
+  } = useSSEEnrichment();
   const [filters, setFilters] = useState<Filters>({
     dateRange: {
       start: null,
@@ -126,47 +131,15 @@ const TePilot = () => {
     toast.info("Column mapping cancelled");
   };
   const handleEnrich = async () => {
-    setIsProcessing(true);
-    setProgress({
-      current: 0,
-      total: parsedTransactions.length
-    });
-    try {
-      const {
-        data,
-        error
-      } = await supabase.functions.invoke("enrich-transactions", {
-        body: {
-          transactions: parsedTransactions
-        }
-      });
-      if (error) {
-        console.error("Edge function error:", error);
-
-        // Handle specific error types
-        if (error.message?.includes("429") || error.message?.includes("rate limit")) {
-          toast.error("Rate limits exceeded. Please try again in a moment.");
-        } else if (error.message?.includes("402") || error.message?.includes("payment")) {
-          toast.error("Payment required. Please add credits to your Lovable AI workspace.");
-        } else {
-          toast.error(`Enrichment failed: ${error.message}`);
-        }
-        return;
-      }
-      if (!data || !data.enriched_transactions) {
-        toast.error("No enriched data received from AI");
-        return;
-      }
-      setEnrichedTransactions(data.enriched_transactions);
-      setActiveTab("results");
-      toast.success("Transactions enriched successfully!");
-    } catch (error: any) {
-      console.error("Enrichment error:", error);
-      toast.error(`Enrichment failed: ${error.message || "Unknown error"}`);
-    } finally {
-      setIsProcessing(false);
-    }
+    await startEnrichment(parsedTransactions);
   };
+  
+  // Auto-switch to results tab when Pass 1 completes
+  useEffect(() => {
+    if (currentPhase === "travel" && enrichedTransactions.length > 0) {
+      setActiveTab("results");
+    }
+  }, [currentPhase, enrichedTransactions.length]);
   const handleCorrection = (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => {
     const transaction = enrichedTransactions.find(t => t.transaction_id === transactionId);
     if (!transaction) return;
@@ -357,14 +330,34 @@ const TePilot = () => {
 
           <TabsContent value="preview" className="space-y-6">
             <PreviewTable transactions={parsedTransactions} />
-            <EnrichActionBar transactionCount={parsedTransactions.length} isProcessing={isProcessing} progress={progress} onEnrich={handleEnrich} />
+            <EnrichActionBar 
+              transactionCount={parsedTransactions.length} 
+              isProcessing={isProcessing} 
+              statusMessage={statusMessage}
+              currentPhase={currentPhase}
+              onEnrich={handleEnrich} 
+            />
           </TabsContent>
 
           <TabsContent value="results" className="space-y-6">
+            {currentPhase === "travel" && (
+              <Card className="border-yellow-500/20 bg-yellow-500/5">
+                <CardContent className="pt-6 flex items-center gap-3">
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent" />
+                  <p className="text-sm font-medium text-yellow-700 dark:text-yellow-400">
+                    {statusMessage || "Analyzing travel patterns..."}
+                  </p>
+                </CardContent>
+              </Card>
+            )}
             <div className="flex justify-end">
               <ExportControls transactions={enrichedTransactions} />
             </div>
-            <ResultsTable transactions={enrichedTransactions} onCorrection={handleCorrection} />
+            <ResultsTable 
+              transactions={enrichedTransactions} 
+              currentPhase={currentPhase}
+              onCorrection={handleCorrection} 
+            />
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">

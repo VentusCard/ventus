@@ -182,183 +182,225 @@ Deno.serve(async (req) => {
       date: t.date
     }));
 
-    console.log(`[PARALLEL] Starting dual-model enrichment for ${transactions.length} transactions`);
+    console.log(`[SSE] Starting streaming enrichment for ${transactions.length} transactions`);
     const startTime = Date.now();
 
-    // PARALLEL API CALLS
-    const [classificationResponse, travelResponse] = await Promise.all([
-      // Pass 1: Basic Classification (flash - better for structured output)
-      fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [
-            { role: "system", content: CLASSIFICATION_PROMPT },
-            { role: "user", content: `Classify these ${transactions.length} transactions:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
-          ],
-          tools: CLASSIFICATION_TOOL,
-          tool_choice: { type: "function", function: { name: "classify_transactions" } }
-        }),
-      }),
-      
-      // Pass 2: Travel Detection (flash)
-      fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-        },
-        body: JSON.stringify({
-          model: "google/gemini-2.5-flash",
-          messages: [
-            { role: "system", content: TRAVEL_DETECTION_PROMPT },
-            { role: "user", content: `Analyze these transactions for travel patterns (sorted by date):\n\n${JSON.stringify(transactionSummary, null, 2)}` }
-          ],
-          tools: TRAVEL_DETECTION_TOOL,
-          tool_choice: { type: "function", function: { name: "detect_travel_patterns" } }
-        }),
-      })
-    ]);
-
-    const parallelTime = Date.now() - startTime;
-    console.log(`[PARALLEL] Both API calls completed in ${parallelTime}ms`);
-
-    // Handle errors for Pass 1 (critical)
-    if (!classificationResponse.ok) {
-      if (classificationResponse.status === 429) {
-        return new Response(
-          JSON.stringify({ error: "Rate limits exceeded, please try again later." }),
-          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
-      if (classificationResponse.status === 402) {
-        return new Response(
-          JSON.stringify({ error: "Payment required, please add funds to your Lovable AI workspace." }),
-          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
-      }
-      const errorText = await classificationResponse.text();
-      console.error("[PASS 1] Classification failed:", classificationResponse.status, errorText);
-      return new Response(
-        JSON.stringify({ error: "Classification failed", details: errorText }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    // Parse Pass 1 results
-    const classificationData = await classificationResponse.json();
-    console.log(`[PASS 1] Full response:`, JSON.stringify(classificationData, null, 2));
-    
-    const classificationToolCalls = classificationData.choices?.[0]?.message?.tool_calls;
-    
-    if (!classificationToolCalls || classificationToolCalls.length === 0) {
-      console.error("[PASS 1] No tool calls in classification response");
-      console.error("[PASS 1] Response message:", classificationData.choices?.[0]?.message);
-      return new Response(
-        JSON.stringify({ error: "No classification results returned" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    const enrichmentData = JSON.parse(classificationToolCalls[0].function.arguments);
-    const basicClassifications = enrichmentData.enriched_transactions || [];
-    console.log(`[PASS 1] Classified ${basicClassifications.length} transactions`);
-    
-    if (basicClassifications.length === 0) {
-      console.error("[PASS 1] enriched_transactions array is EMPTY!");
-      console.error("[PASS 1] Tool call arguments:", classificationToolCalls[0].function.arguments);
-    }
-
-    // Parse Pass 2 results (non-critical, can fail gracefully)
-    let travelAnalysis: any[] = [];
-    
-    if (!travelResponse.ok) {
-      console.warn(`[PASS 2] Travel detection failed (${travelResponse.status}), proceeding without travel context`);
-    } else {
-      const travelData = await travelResponse.json();
-      const travelToolCalls = travelData.choices?.[0]?.message?.tool_calls;
-      
-      if (travelToolCalls && travelToolCalls.length > 0) {
-        const travelResults = JSON.parse(travelToolCalls[0].function.arguments);
-        travelAnalysis = travelResults.travel_analysis || [];
-        console.log(`[PASS 2] Analyzed ${travelAnalysis.length} transactions for travel`);
-      } else {
-        console.warn("[PASS 2] No travel detection results returned");
-      }
-    }
-
-    // MERGE RESULTS: Basic classifications + Travel overrides
-    const results = transactions.map((original) => {
-      const basicClass = basicClassifications.find((e: any) => e.transaction_id === original.transaction_id);
-      const travelContext = travelAnalysis.find((t: any) => t.transaction_id === original.transaction_id);
-      
-      if (!basicClass) {
-        // Fallback
-        return {
-          ...original,
-          normalized_merchant: original.merchant_name,
-          pillar: "Miscellaneous & Unclassified",
-          subcategory: "Unknown",
-          confidence: 0.1,
-          explanation: "Classification not available",
-          enriched_at: new Date().toISOString()
+    // Create SSE stream
+    const encoder = new TextEncoder();
+    const stream = new ReadableStream({
+      async start(controller) {
+        const sendEvent = (event: string, data: any) => {
+          const message = `event: ${event}\ndata: ${JSON.stringify(data)}\n\n`;
+          controller.enqueue(encoder.encode(message));
         };
+
+        try {
+          // PASS 1: Basic Classification with flash-lite (fast labeling)
+          sendEvent("status", { message: "Classifying transactions with flash-lite..." });
+          const pass1Start = Date.now();
+
+          const classificationResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "google/gemini-2.5-flash-lite",
+              messages: [
+                { role: "system", content: CLASSIFICATION_PROMPT },
+                { role: "user", content: `Classify these ${transactions.length} transactions:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
+              ],
+              tools: CLASSIFICATION_TOOL,
+              tool_choice: { type: "function", function: { name: "classify_transactions" } }
+            }),
+          });
+
+          // Handle Pass 1 errors (critical)
+          if (!classificationResponse.ok) {
+            if (classificationResponse.status === 429) {
+              sendEvent("error", { message: "Rate limits exceeded, please try again later." });
+              controller.close();
+              return;
+            }
+            if (classificationResponse.status === 402) {
+              sendEvent("error", { message: "Payment required, please add funds to your Lovable AI workspace." });
+              controller.close();
+              return;
+            }
+            const errorText = await classificationResponse.text();
+            console.error("[PASS 1] Classification failed:", classificationResponse.status, errorText);
+            sendEvent("error", { message: "Classification failed" });
+            controller.close();
+            return;
+          }
+
+          // Parse Pass 1 results
+          const classificationData = await classificationResponse.json();
+          const classificationToolCalls = classificationData.choices?.[0]?.message?.tool_calls;
+          
+          if (!classificationToolCalls || classificationToolCalls.length === 0) {
+            console.error("[PASS 1] No tool calls in classification response");
+            sendEvent("error", { message: "No classification results returned" });
+            controller.close();
+            return;
+          }
+
+          const enrichmentData = JSON.parse(classificationToolCalls[0].function.arguments);
+          const basicClassifications = enrichmentData.enriched_transactions || [];
+          const pass1Time = Date.now() - pass1Start;
+          console.log(`[PASS 1] Classified ${basicClassifications.length} transactions in ${pass1Time}ms`);
+
+          // Merge Pass 1 results with original transactions
+          const pass1Results = transactions.map((original) => {
+            const basicClass = basicClassifications.find((e: any) => e.transaction_id === original.transaction_id);
+            
+            if (!basicClass) {
+              return {
+                ...original,
+                normalized_merchant: original.merchant_name,
+                pillar: "Miscellaneous & Unclassified",
+                subcategory: "Unknown",
+                confidence: 0.1,
+                explanation: "Classification not available",
+                travel_context: {
+                  is_travel_related: false,
+                  travel_period_start: null,
+                  travel_period_end: null,
+                  travel_destination: null,
+                  original_pillar: null,
+                  reclassification_reason: null
+                },
+                enriched_at: new Date().toISOString()
+              };
+            }
+
+            return {
+              ...original,
+              normalized_merchant: basicClass.normalized_merchant,
+              pillar: basicClass.pillar,
+              subcategory: basicClass.subcategory,
+              confidence: basicClass.confidence,
+              explanation: basicClass.explanation,
+              travel_context: null, // Will be filled by Pass 2
+              enriched_at: new Date().toISOString()
+            };
+          });
+
+          // Send Pass 1 results immediately
+          sendEvent("pass1", { 
+            enriched_transactions: pass1Results,
+            timestamp: new Date().toISOString()
+          });
+
+          // PASS 2: Travel Detection with flash (complex reasoning)
+          sendEvent("status", { message: "Analyzing travel patterns with flash..." });
+          const pass2Start = Date.now();
+
+          const travelResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+            },
+            body: JSON.stringify({
+              model: "google/gemini-2.5-flash",
+              messages: [
+                { role: "system", content: TRAVEL_DETECTION_PROMPT },
+                { role: "user", content: `Analyze these transactions for travel patterns (sorted by date):\n\n${JSON.stringify(transactionSummary, null, 2)}` }
+              ],
+              tools: TRAVEL_DETECTION_TOOL,
+              tool_choice: { type: "function", function: { name: "detect_travel_patterns" } }
+            }),
+          });
+
+          // Handle Pass 2 errors (non-critical)
+          let travelAnalysis: any[] = [];
+          
+          if (!travelResponse.ok) {
+            console.warn(`[PASS 2] Travel detection failed (${travelResponse.status}), proceeding without travel context`);
+          } else {
+            const travelData = await travelResponse.json();
+            const travelToolCalls = travelData.choices?.[0]?.message?.tool_calls;
+            
+            if (travelToolCalls && travelToolCalls.length > 0) {
+              const travelResults = JSON.parse(travelToolCalls[0].function.arguments);
+              travelAnalysis = travelResults.travel_analysis || [];
+              const pass2Time = Date.now() - pass2Start;
+              console.log(`[PASS 2] Analyzed ${travelAnalysis.length} transactions for travel in ${pass2Time}ms`);
+            } else {
+              console.warn("[PASS 2] No travel detection results returned");
+            }
+          }
+
+          // Prepare Pass 2 updates
+          const travelUpdates = transactions.map((original) => {
+            const basicClass = basicClassifications.find((e: any) => e.transaction_id === original.transaction_id);
+            const travelContext = travelAnalysis.find((t: any) => t.transaction_id === original.transaction_id);
+            
+            if (!basicClass) return null;
+
+            let finalPillar = basicClass.pillar;
+            let finalSubcategory = basicClass.subcategory;
+
+            // Override with travel reclassification if applicable
+            if (travelContext?.is_travel_related && travelContext.reclassified_pillar) {
+              finalPillar = travelContext.reclassified_pillar;
+              finalSubcategory = travelContext.reclassified_subcategory;
+            }
+
+            return {
+              transaction_id: original.transaction_id,
+              pillar: finalPillar,
+              subcategory: finalSubcategory,
+              travel_context: travelContext ? {
+                is_travel_related: travelContext.is_travel_related,
+                travel_period_start: travelContext.travel_period_start || null,
+                travel_period_end: travelContext.travel_period_end || null,
+                travel_destination: travelContext.travel_destination || null,
+                original_pillar: travelContext.original_pillar || null,
+                reclassification_reason: travelContext.reclassification_reason || null
+              } : {
+                is_travel_related: false,
+                travel_period_start: null,
+                travel_period_end: null,
+                travel_destination: null,
+                original_pillar: null,
+                reclassification_reason: null
+              }
+            };
+          }).filter(Boolean);
+
+          // Send Pass 2 updates
+          sendEvent("pass2", { 
+            travel_updates: travelUpdates,
+            timestamp: new Date().toISOString()
+          });
+
+          // Signal completion
+          const totalTime = Date.now() - startTime;
+          console.log(`[SSE] Total enrichment completed in ${totalTime}ms`);
+          sendEvent("done", { message: "Enrichment complete" });
+          controller.close();
+
+        } catch (error: any) {
+          console.error("[SSE] Error:", error);
+          sendEvent("error", { message: error.message });
+          controller.close();
+        }
       }
-
-      // Start with basic classification
-      let finalPillar = basicClass.pillar;
-      let finalSubcategory = basicClass.subcategory;
-
-      // Override with travel reclassification if applicable
-      if (travelContext?.is_travel_related && travelContext.reclassified_pillar) {
-        finalPillar = travelContext.reclassified_pillar;
-        finalSubcategory = travelContext.reclassified_subcategory;
-      }
-
-      return {
-        ...original,
-        normalized_merchant: basicClass.normalized_merchant,
-        pillar: finalPillar,
-        subcategory: finalSubcategory,
-        confidence: basicClass.confidence,
-        explanation: basicClass.explanation,
-        travel_context: travelContext ? {
-          is_travel_related: travelContext.is_travel_related,
-          travel_period_start: travelContext.travel_period_start || null,
-          travel_period_end: travelContext.travel_period_end || null,
-          travel_destination: travelContext.travel_destination || null,
-          original_pillar: travelContext.original_pillar || null,
-          reclassification_reason: travelContext.reclassification_reason || null
-        } : {
-          is_travel_related: false,
-          travel_period_start: null,
-          travel_period_end: null,
-          travel_destination: null,
-          original_pillar: null,
-          reclassification_reason: null
-        },
-        enriched_at: new Date().toISOString()
-      };
     });
 
-    const totalTime = Date.now() - startTime;
-    console.log(`[PARALLEL] Total enrichment completed in ${totalTime}ms`);
-
-    return new Response(
-      JSON.stringify({ enriched_transactions: results }),
-      {
-        headers: {
-          ...corsHeaders,
-          "Content-Type": "application/json",
-        },
+    return new Response(stream, {
+      headers: {
+        ...corsHeaders,
+        "Content-Type": "text/event-stream",
+        "Cache-Control": "no-cache",
+        "Connection": "keep-alive"
       }
-    );
+    });
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error:", error);
     return new Response(
       JSON.stringify({ error: error.message }),
