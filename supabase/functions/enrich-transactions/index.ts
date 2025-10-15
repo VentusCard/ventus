@@ -220,7 +220,7 @@ Deno.serve(async (req) => {
         "Authorization": `Bearer ${LOVABLE_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "openai/gpt-5-mini",
+        model: "google/gemini-2.5-pro",
         messages: [
           {
             role: "system",
