@@ -7,34 +7,91 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SYSTEM_PROMPT = `Classify transactions into lifestyle pillars.
+const SYSTEM_PROMPT = `You are Ventus's transaction enrichment AI. Your job is to classify financial transactions into lifestyle pillars and subcategories.
 
-PILLARS:
-1. Sports & Active Living - Gyms, sports, fitness
-2. Health & Wellness - Healthcare, pharmacies, wellness  
-3. Food & Dining - Restaurants, groceries, delivery
-4. Travel & Exploration - Hotels, flights, transportation
-5. Home & Living - Furniture, utilities, home goods
-6. Style & Beauty - Clothing, cosmetics, fashion
-7. Pets - Pet supplies, veterinary care
-8. Entertainment & Culture - Movies, streaming, events
-9. Family & Community - Education, childcare, gifts
-10. Financial & Aspirational - Investments, insurance
-11. Miscellaneous & Unclassified - Unclear transactions
+LIFESTYLE PILLARS (11):
+1. Sports & Active Living - Gym memberships, sports equipment, fitness classes, outdoor activities, athletic wear
+2. Health & Wellness - Healthcare, pharmacies, mental health services, spa treatments, vitamins, medical care
+3. Food & Dining - Restaurants, groceries, meal delivery, coffee shops, bars, catering
+4. Travel & Exploration - Hotels, flights, rental cars, travel experiences, tours, cruises
+5. Home & Living - Furniture, home improvement, utilities, rent/mortgage, appliances, home decor
+6. Style & Beauty - Clothing, cosmetics, hair salons, jewelry, fashion accessories
+7. Pets - Pet supplies, veterinary care, grooming, pet food, pet accessories
+8. Entertainment & Culture - Movies, concerts, streaming services, books, museums, theaters
+9. Family & Community - Childcare, education, charitable donations, gifts, family activities
+10. Financial & Aspirational - Investments, insurance, luxury items, financial services
+11. Miscellaneous & Unclassified - Unclear or uncategorizable transactions, peer-to-peer transfers
 
-MERCHANT PARSING:
-Remove payment platforms (Apple Pay, PayPal, Venmo, SQ):
-- "APPLE PAY Nike" → "Nike"
-- "PayPal *Starbucks" → "Starbucks"
-- "SQ *Chipotle" → "Chipotle"
+For each transaction, analyze:
+- Merchant name (primary signal)
+- Transaction description (secondary context)
+- MCC code if available (supporting data)
+- Amount (contextual clue)
 
-RULES:
-1. Extract actual merchant after payment platform
-2. Remove store numbers: "STARBUCKS #1234" → "Starbucks Coffee"
-3. High confidence for known brands (0.9+)
-4. Use Miscellaneous only for truly unclear
+MERCHANT NAME PARSING:
+Payment platforms often appear as prefixes to actual merchant names. Extract the TRUE merchant:
 
-Return: normalized_merchant, pillar, subcategory, confidence, explanation`;
+Common patterns:
+- "APPLE PAY Nike" → Extract "Nike"
+- "APPL PAY *Nike" → Extract "Nike"  
+- "PayPal *Starbucks" → Extract "Starbucks"
+- "VENMO Whole Foods" → Extract "Whole Foods"
+- "SQ *Chipotle" → Extract "Chipotle" (SQ = Square)
+- "CASHAPP *Target" → Extract "Target"
+- "ZELLE Nike Store" → Extract "Nike Store"
+
+Rules for extraction:
+1. If merchant starts with payment platform name (Apple Pay, PayPal, Venmo, Cash App, Zelle, SQ, etc.), extract what comes AFTER
+2. Remove asterisks (*), hyphens, extra spaces
+3. Classify based on the ACTUAL merchant, not the payment platform
+4. In normalized_merchant, only include the actual merchant name (e.g., "Nike", not "Apple Pay Nike")
+5. You can mention the payment method in the explanation if relevant
+
+DO NOT classify payment platform transactions as "Miscellaneous" if you can identify the actual merchant.
+
+TRAVEL DETECTION:
+After initial classification, detect travel periods using these signals:
+
+Travel Anchor Transactions:
+- Hotels (MCC 7011, merchants: Marriott, Hilton, Hyatt, Holiday Inn, etc.)
+- Flights (MCC 4511, merchants: Delta, Southwest, United, American Airlines, etc.)
+- Vacation Rentals (Airbnb, VRBO)
+- Car Rentals (Enterprise, Hertz, Budget, etc.)
+
+Geographic Displacement Signals:
+- Merchant names containing city/state names different from typical patterns
+- Multiple transactions in unfamiliar locations within short timeframe
+- Merchants with location suffixes (e.g., "Starbucks NYC", "Shell Houston")
+
+Reclassification Rules (Travel Context Window: ±3 days from travel anchor):
+1. Gas Stations: If within travel window → "Travel & Exploration" / "Travel Transportation"
+2. Restaurants/Coffee: If within travel window + unfamiliar merchant → "Travel & Exploration" / "Dining Away"
+3. Rideshares (Uber/Lyft): If within travel window → "Travel & Exploration" / "Local Transportation"
+4. Convenience Stores: If within travel window → "Travel & Exploration" / "Travel Essentials"
+
+Travel Context Annotation:
+- Mark transactions as travel_related: true/false
+- Note travel_period_start and travel_period_end dates
+- Record travel_destination if identifiable from hotel/flight
+- Store original_pillar before reclassification
+- Provide reclassification_reason explaining the travel context
+
+Classification Guidelines:
+- Be confident when merchant is clearly recognizable (e.g., "STARBUCKS" → Food & Dining, confidence: 0.95)
+- Use moderate confidence for ambiguous merchants (0.5-0.7)
+- Use Miscellaneous & Unclassified for truly unclear transactions or peer-to-peer transfers without merchant details
+- Normalize merchant names by:
+  * Removing payment platform prefixes (e.g., "APPLE PAY Nike" → "Nike")
+  * Removing store numbers/locations (e.g., "STARBUCKS #1234" → "Starbucks Coffee")
+  * Removing special characters like *, -, extra spaces
+- Provide brief, specific explanations
+
+Return structured classification with:
+- normalized_merchant: Clean, readable merchant name
+- pillar: One of the 11 pillars above (exact match)
+- subcategory: Specific category within pillar (e.g., "Coffee Shop", "Gym Membership")
+- confidence: 0.0 to 1.0 (be honest about uncertainty)
+- explanation: Brief reasoning for classification (1-2 sentences max)`;
 
 const TOOLS = [
   {
@@ -89,6 +146,36 @@ const TOOLS = [
                   type: "string",
                   description: "Brief reasoning for the classification"
                 },
+                travel_context: {
+                  type: "object",
+                  properties: {
+                    is_travel_related: {
+                      type: "boolean",
+                      description: "Whether this transaction is part of a travel period"
+                    },
+                    travel_period_start: {
+                      type: "string",
+                      description: "Start date of travel period (ISO format)"
+                    },
+                    travel_period_end: {
+                      type: "string",
+                      description: "End date of travel period (ISO format)"
+                    },
+                    travel_destination: {
+                      type: "string",
+                      description: "City/location of travel if identifiable"
+                    },
+                    original_pillar: {
+                      type: "string",
+                      description: "Original pillar before travel reclassification"
+                    },
+                    reclassification_reason: {
+                      type: "string",
+                      description: "Why this was reclassified as travel"
+                    }
+                  },
+                  description: "Travel detection context for the transaction"
+                }
               },
               required: ["transaction_id", "normalized_merchant", "pillar", "subcategory", "confidence", "explanation"]
             }
@@ -107,18 +194,13 @@ Deno.serve(async (req) => {
 
   try {
     const { transactions } = await req.json();
-    
-    console.log(`[REQUEST] Enriching ${transactions?.length || 0} transactions`);
-    
+
     if (!Array.isArray(transactions) || transactions.length === 0) {
-      console.error("[ERROR] No transactions provided in request");
       return new Response(
         JSON.stringify({ error: "Invalid input: transactions array required" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-    
-    console.log(`[REQUEST] Transaction IDs: ${transactions.map(t => t.transaction_id).slice(0, 5).join(', ')}${transactions.length > 5 ? '...' : ''}`);
 
     // Prepare transaction data for AI
     const transactionSummary = transactions.map((t) => ({
@@ -129,8 +211,6 @@ Deno.serve(async (req) => {
       amount: t.amount,
       date: t.date
     }));
-    
-    console.log(`[AI_CALL] Model: gemini-2.5-flash-lite, Processing ${transactions.length} transactions`);
 
     // Call Lovable AI
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -140,7 +220,7 @@ Deno.serve(async (req) => {
         "Authorization": `Bearer ${LOVABLE_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash-lite",
+        model: "google/gemini-2.5-flash",
         messages: [
           {
             role: "system",
@@ -178,51 +258,21 @@ Deno.serve(async (req) => {
     }
 
     const aiResponse = await response.json();
-    console.log("[AI_RESPONSE] Received response from AI");
     console.log("AI Response:", JSON.stringify(aiResponse, null, 2));
 
     // Extract tool call results
     const toolCalls = aiResponse.choices?.[0]?.message?.tool_calls;
-    
     if (!toolCalls || toolCalls.length === 0) {
-      console.error("[ERROR] No tool calls in AI response");
-      console.error("[DEBUG] Full AI response structure:", JSON.stringify(aiResponse, null, 2));
+      console.error("No tool calls in response:", aiResponse);
       return new Response(
-        JSON.stringify({ 
-          error: "No tool calls returned from AI",
-          details: "AI did not invoke the classify_transactions function"
-        }),
+        JSON.stringify({ error: "No tool calls returned from AI" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
-
-    console.log(`[TOOL_CALL] Found ${toolCalls.length} tool call(s)`);
-    console.log(`[TOOL_CALL] Function: ${toolCalls[0].function.name}`);
-    console.log(`[TOOL_CALL] Arguments length: ${toolCalls[0].function.arguments.length} characters`);
 
     const enrichmentData = JSON.parse(toolCalls[0].function.arguments);
     const enrichedTransactions = enrichmentData.enriched_transactions;
-    
-    console.log(`[ENRICHMENT] Received ${enrichedTransactions?.length || 0} enriched transactions`);
-    console.log(`[ENRICHMENT] Expected ${transactions.length} transactions`);
 
-    if (!enrichedTransactions || enrichedTransactions.length === 0) {
-      console.error("[ERROR] Empty enriched_transactions array");
-      console.error("[DEBUG] Enrichment data structure:", JSON.stringify(enrichmentData, null, 2));
-      console.error("[DEBUG] Tool call raw arguments (first 500 chars):", toolCalls[0].function.arguments.substring(0, 500));
-      return new Response(
-        JSON.stringify({ 
-          error: "AI returned empty results", 
-          details: "gemini-2.5-flash-lite returned no enriched transactions - may not handle task complexity",
-          input_count: transactions.length,
-          output_count: 0
-        }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
-    }
-
-    console.log(`[MERGE] Merging ${enrichedTransactions.length} enriched with ${transactions.length} original transactions`);
-    
     // Merge enriched data with original transactions
     const results = transactions.map((original) => {
       const enriched = enrichedTransactions.find((e: any) => e.transaction_id === original.transaction_id);
@@ -258,9 +308,6 @@ Deno.serve(async (req) => {
         enriched_at: new Date().toISOString()
       };
     });
-    
-    console.log(`[SUCCESS] Returning ${results.length} enriched transactions`);
-    console.log(`[SUCCESS] Sample confidence scores: ${results.slice(0, 3).map(r => r.confidence).join(', ')}`);
 
     return new Response(
       JSON.stringify({ enriched_transactions: results }),
