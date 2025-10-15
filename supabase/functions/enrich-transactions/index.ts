@@ -7,41 +7,21 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// PASS 1: Basic Classification (fast, simple labeling)
-const CLASSIFICATION_PROMPT = `You are Ventus's transaction classifier. Classify transactions into lifestyle pillars and subcategories based on merchant names.
+// PASS 1: Simplified Classification Prompt (50% reduction)
+const CLASSIFICATION_PROMPT = `Classify transactions into lifestyle pillars based on merchant names.
 
-LIFESTYLE PILLARS (11):
-1. Sports & Active Living - Gym memberships, sports equipment, fitness classes, outdoor activities, athletic wear
-2. Health & Wellness - Healthcare, pharmacies, mental health services, spa treatments, vitamins, medical care
-3. Food & Dining - Restaurants, groceries, meal delivery, coffee shops, bars, catering
-4. Travel & Exploration - Hotels, flights, rental cars, travel experiences, tours, cruises
-5. Home & Living - Furniture, home improvement, utilities, rent/mortgage, appliances, home decor
-6. Style & Beauty - Clothing, cosmetics, hair salons, jewelry, fashion accessories
-7. Pets - Pet supplies, veterinary care, grooming, pet food, pet accessories
-8. Entertainment & Culture - Movies, concerts, streaming services, books, museums, theaters
-9. Family & Community - Childcare, education, charitable donations, gifts, family activities
-10. Financial & Aspirational - Investments, insurance, luxury items, financial services
-11. Miscellaneous & Unclassified - Unclear or uncategorizable transactions, peer-to-peer transfers
+PILLARS: Sports & Active Living | Health & Wellness | Food & Dining | Travel & Exploration | Home & Living | Style & Beauty | Pets | Entertainment & Culture | Family & Community | Financial & Aspirational | Miscellaneous & Unclassified
 
-MERCHANT NAME PARSING:
-Payment platforms often appear as prefixes. Extract the TRUE merchant:
-- "APPLE PAY Nike" → Extract "Nike"
-- "PayPal *Starbucks" → Extract "Starbucks"
-- "SQ *Chipotle" → Extract "Chipotle"
+MERCHANT PARSING:
+• Remove payment prefixes: Apple Pay, PayPal, Venmo, SQ, Cash App, Zelle
+• Extract true merchant (e.g., "SQ *Chipotle" → "Chipotle")
 
-Rules:
-1. Remove payment platform prefixes (Apple Pay, PayPal, Venmo, Cash App, Zelle, SQ)
-2. Remove asterisks, hyphens, extra spaces
-3. Classify based on ACTUAL merchant
-4. In normalized_merchant, only include merchant name
+CONFIDENCE LEVELS:
+• High (0.9): Clear merchants (Nike, Starbucks, Delta)
+• Moderate (0.6): Ambiguous merchants
+• Low (0.3): Use Miscellaneous & Unclassified`;
 
-Classification Guidelines:
-- High confidence for clear merchants (0.9-0.95)
-- Moderate confidence for ambiguous (0.5-0.7)
-- Use Miscellaneous only for truly unclear transactions
-- Brief explanations (1-2 sentences)`;
-
-// PASS 2: Travel Pattern Detection (complex reasoning)
+// PASS 2: Travel Pattern Detection (unchanged)
 const TRAVEL_DETECTION_PROMPT = `You are Ventus's travel pattern detector. Analyze transaction sequences to identify travel periods and reclassify transactions accordingly.
 
 TRAVEL ANCHOR DETECTION:
@@ -75,54 +55,50 @@ For each transaction, provide:
 - reclassified_pillar: New pillar (if reclassified)
 - reclassified_subcategory: New subcategory (if reclassified)`;
 
-// PASS 1 TOOL: Basic Classification
-const CLASSIFICATION_TOOL = [
-  {
-    type: "function",
-    function: {
-      name: "classify_transactions",
-      description: "Classify transactions into lifestyle pillars",
-      parameters: {
-        type: "object",
-        properties: {
-          enriched_transactions: {
-            type: "array",
-            items: {
-              type: "object",
-              properties: {
-                transaction_id: { type: "string" },
-                normalized_merchant: { type: "string" },
-                pillar: {
-                  type: "string",
-                  enum: [
-                    "Sports & Active Living",
-                    "Health & Wellness",
-                    "Food & Dining",
-                    "Travel & Exploration",
-                    "Home & Living",
-                    "Style & Beauty",
-                    "Pets",
-                    "Entertainment & Culture",
-                    "Family & Community",
-                    "Financial & Aspirational",
-                    "Miscellaneous & Unclassified"
-                  ]
-                },
-                subcategory: { type: "string" },
-                confidence: { type: "number", minimum: 0, maximum: 1 },
-                explanation: { type: "string" }
+// PASS 1 TOOL: Optimized Schema (40% reduction)
+const CLASSIFICATION_TOOL = [{
+  type: "function",
+  function: {
+    name: "classify_batch",
+    description: "Classify a batch of transactions",
+    parameters: {
+      type: "object",
+      properties: {
+        classifications: {
+          type: "array",
+          items: {
+            type: "object",
+            properties: {
+              transaction_id: { type: "string" },
+              normalized_merchant: { type: "string" },
+              pillar: {
+                type: "string",
+                enum: [
+                  "Sports & Active Living",
+                  "Health & Wellness",
+                  "Food & Dining",
+                  "Travel & Exploration",
+                  "Home & Living",
+                  "Style & Beauty",
+                  "Pets",
+                  "Entertainment & Culture",
+                  "Family & Community",
+                  "Financial & Aspirational",
+                  "Miscellaneous & Unclassified"
+                ]
               },
-              required: ["transaction_id", "normalized_merchant", "pillar", "subcategory", "confidence", "explanation"]
-            }
+              subcategory: { type: "string" }
+            },
+            required: ["transaction_id", "pillar"]
           }
-        },
-        required: ["enriched_transactions"]
-      }
+        }
+      },
+      required: ["classifications"]
     }
   }
-];
+}];
 
-// PASS 2 TOOL: Travel Detection
+// PASS 2 TOOL: Travel Detection (unchanged)
 const TRAVEL_DETECTION_TOOL = [
   {
     type: "function",
@@ -157,6 +133,143 @@ const TRAVEL_DETECTION_TOOL = [
   }
 ];
 
+// Batch Processing Helper Functions
+async function classifyBatch(
+  batch: any[], 
+  batchIndex: number, 
+  totalBatches: number,
+  sendEvent: Function
+): Promise<any[]> {
+  const startTime = Date.now();
+  const batchNum = batchIndex + 1;
+  sendEvent("status", { 
+    message: `Classifying batch ${batchNum}/${totalBatches} (${batch.length} transactions)...`,
+    progress: Math.round((batchIndex / totalBatches) * 100)
+  });
+  
+  try {
+    // Try flash-lite first (fast & cheap)
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash-lite",
+        messages: [
+          { role: "system", content: CLASSIFICATION_PROMPT },
+          { role: "user", content: `Classify these ${batch.length} transactions:\n${JSON.stringify(batch, null, 2)}` }
+        ],
+        tools: CLASSIFICATION_TOOL,
+        tool_choice: { type: "function", function: { name: "classify_batch" } },
+        temperature: 0,
+        max_tokens: 2500
+      })
+    });
+    
+    if (!response.ok) {
+      console.warn(`[BATCH ${batchNum}] Flash-lite failed (${response.status}), retrying with flash`);
+      return await classifyBatchWithFlash(batch, batchIndex, totalBatches, sendEvent);
+    }
+    
+    const data = await response.json();
+    const toolCalls = data.choices?.[0]?.message?.tool_calls;
+    
+    if (!toolCalls || toolCalls.length === 0) {
+      console.warn(`[BATCH ${batchNum}] No tool calls, retrying with flash`);
+      return await classifyBatchWithFlash(batch, batchIndex, totalBatches, sendEvent);
+    }
+    
+    const results = JSON.parse(toolCalls[0].function.arguments);
+    const classifications = results.classifications || [];
+    const elapsed = Date.now() - startTime;
+    
+    console.log(`[BATCH ${batchNum}] ✓ Classified ${classifications.length}/${batch.length} in ${elapsed}ms with flash-lite`);
+    
+    sendEvent("batch_complete", { 
+      batchIndex,
+      batchNum,
+      totalBatches,
+      count: classifications.length,
+      elapsed,
+      model: "flash-lite"
+    });
+    
+    return classifications;
+    
+  } catch (error) {
+    console.error(`[BATCH ${batchNum}] Error:`, error);
+    return await classifyBatchWithFlash(batch, batchIndex, totalBatches, sendEvent);
+  }
+}
+
+async function classifyBatchWithFlash(
+  batch: any[], 
+  batchIndex: number, 
+  totalBatches: number,
+  sendEvent: Function
+): Promise<any[]> {
+  const batchNum = batchIndex + 1;
+  sendEvent("status", { 
+    message: `Retrying batch ${batchNum}/${totalBatches} with flash...`,
+    progress: Math.round((batchIndex / totalBatches) * 100)
+  });
+  
+  try {
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages: [
+          { role: "system", content: CLASSIFICATION_PROMPT },
+          { role: "user", content: `Classify these ${batch.length} transactions:\n${JSON.stringify(batch, null, 2)}` }
+        ],
+        tools: CLASSIFICATION_TOOL,
+        tool_choice: { type: "function", function: { name: "classify_batch" } },
+        temperature: 0,
+        max_tokens: 2500
+      })
+    });
+    
+    if (!response.ok) {
+      console.error(`[BATCH ${batchNum}] Flash also failed (${response.status})`);
+      return [];
+    }
+    
+    const data = await response.json();
+    const toolCalls = data.choices?.[0]?.message?.tool_calls;
+    
+    if (!toolCalls || toolCalls.length === 0) {
+      console.error(`[BATCH ${batchNum}] Flash returned no tool calls`);
+      return [];
+    }
+    
+    const results = JSON.parse(toolCalls[0].function.arguments);
+    const classifications = results.classifications || [];
+    
+    console.log(`[BATCH ${batchNum}] ✓ Classified ${classifications.length}/${batch.length} with flash (fallback)`);
+    
+    sendEvent("batch_complete", { 
+      batchIndex,
+      batchNum,
+      totalBatches,
+      count: classifications.length,
+      model: "flash"
+    });
+    
+    return classifications;
+    
+  } catch (error) {
+    console.error(`[BATCH ${batchNum}] Flash fallback failed:`, error);
+    return [];
+  }
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -172,12 +285,10 @@ Deno.serve(async (req) => {
       );
     }
 
-    // Prepare transaction data for AI
+    // Streamlined transaction input (30% token reduction)
     const transactionSummary = transactions.map((t) => ({
-      transaction_id: t.transaction_id,
-      merchant_name: t.merchant_name,
-      description: t.description || "",
-      mcc: t.mcc || "unknown",
+      id: t.transaction_id,
+      merchant: t.merchant_name,
       amount: t.amount,
       date: t.date
     }));
@@ -195,77 +306,46 @@ Deno.serve(async (req) => {
         };
 
         try {
-          // PASS 1: Basic Classification with flash-lite (fast labeling)
-          sendEvent("status", { message: "Classifying transactions with flash-lite..." });
+          // PASS 1: Batch Classification with Progressive Updates
+          sendEvent("status", { message: "Starting batch classification...", progress: 0 });
           const pass1Start = Date.now();
 
-          const classificationResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-            },
-            body: JSON.stringify({
-              model: "google/gemini-2.5-flash-lite",
-              messages: [
-                { role: "system", content: CLASSIFICATION_PROMPT },
-                { role: "user", content: `Classify these ${transactions.length} transactions:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
-              ],
-              tools: CLASSIFICATION_TOOL,
-              tool_choice: { type: "function", function: { name: "classify_transactions" } },
-              temperature: 0.1,        // Low temperature for deterministic tool calling
-              top_p: 0.9,              // Focus on high-probability tokens
-              max_tokens: 8000         // Sufficient space for 72 transactions
-            }),
-          });
-
-          // Handle Pass 1 errors (critical)
-          if (!classificationResponse.ok) {
-            if (classificationResponse.status === 429) {
-              sendEvent("error", { message: "Rate limits exceeded, please try again later." });
-              controller.close();
-              return;
-            }
-            if (classificationResponse.status === 402) {
-              sendEvent("error", { message: "Payment required, please add funds to your Lovable AI workspace." });
-              controller.close();
-              return;
-            }
-            const errorText = await classificationResponse.text();
-            console.error("[PASS 1] Classification failed:", classificationResponse.status, errorText);
-            sendEvent("error", { message: "Classification failed" });
-            controller.close();
-            return;
+          // Split into batches of 24
+          const BATCH_SIZE = 24;
+          const batches: any[][] = [];
+          for (let i = 0; i < transactionSummary.length; i += BATCH_SIZE) {
+            batches.push(transactionSummary.slice(i, i + BATCH_SIZE));
           }
 
-          // Parse Pass 1 results
-          const classificationData = await classificationResponse.json();
-          const classificationToolCalls = classificationData.choices?.[0]?.message?.tool_calls;
-          
-          if (!classificationToolCalls || classificationToolCalls.length === 0) {
-            console.error("[PASS 1] No tool calls in classification response");
-            sendEvent("error", { message: "No classification results returned" });
-            controller.close();
-            return;
-          }
+          console.log(`[PASS 1] Processing ${transactionSummary.length} transactions in ${batches.length} batches`);
 
-          const enrichmentData = JSON.parse(classificationToolCalls[0].function.arguments);
-          const basicClassifications = enrichmentData.enriched_transactions || [];
+          // Process all batches in parallel
+          const batchPromises = batches.map((batch, idx) => 
+            classifyBatch(batch, idx, batches.length, sendEvent)
+          );
+
+          const batchResults = await Promise.all(batchPromises);
+          const allClassifications = batchResults.flat();
+
           const pass1Time = Date.now() - pass1Start;
-          console.log(`[PASS 1] Classified ${basicClassifications.length} transactions in ${pass1Time}ms`);
+          const successRate = Math.round((allClassifications.length / transactionSummary.length) * 100);
+
+          console.log(`[PASS 1] ✓ Completed: ${allClassifications.length}/${transactionSummary.length} (${successRate}%) in ${pass1Time}ms`);
 
           // Merge Pass 1 results with original transactions
           const pass1Results = transactions.map((original) => {
-            const basicClass = basicClassifications.find((e: any) => e.transaction_id === original.transaction_id);
+            const classification = allClassifications.find((c: any) => 
+              c.transaction_id === original.transaction_id
+            );
             
-            if (!basicClass) {
+            if (!classification) {
               return {
                 ...original,
                 normalized_merchant: original.merchant_name,
                 pillar: "Miscellaneous & Unclassified",
                 subcategory: "Unknown",
                 confidence: 0.1,
-                explanation: "Classification not available",
+                explanation: "Classification failed",
                 travel_context: {
                   is_travel_related: false,
                   travel_period_start: null,
@@ -280,23 +360,29 @@ Deno.serve(async (req) => {
 
             return {
               ...original,
-              normalized_merchant: basicClass.normalized_merchant,
-              pillar: basicClass.pillar,
-              subcategory: basicClass.subcategory,
-              confidence: basicClass.confidence,
-              explanation: basicClass.explanation,
+              normalized_merchant: classification.normalized_merchant || original.merchant_name,
+              pillar: classification.pillar,
+              subcategory: classification.subcategory || "General",
+              confidence: classification.confidence || 0.8,
+              explanation: classification.explanation || "",
               travel_context: null, // Will be filled by Pass 2
               enriched_at: new Date().toISOString()
             };
           });
 
-          // Send Pass 1 results immediately
+          // Send Pass 1 complete event
           sendEvent("pass1", { 
             enriched_transactions: pass1Results,
+            stats: {
+              total: transactions.length,
+              classified: allClassifications.length,
+              success_rate: successRate,
+              time_ms: pass1Time
+            },
             timestamp: new Date().toISOString()
           });
 
-          // PASS 2: Travel Detection with flash (complex reasoning)
+          // PASS 2: Travel Detection with flash (unchanged logic)
           sendEvent("status", { message: "Analyzing travel patterns with flash..." });
           const pass2Start = Date.now();
 
@@ -338,13 +424,13 @@ Deno.serve(async (req) => {
 
           // Prepare Pass 2 updates
           const travelUpdates = transactions.map((original) => {
-            const basicClass = basicClassifications.find((e: any) => e.transaction_id === original.transaction_id);
+            const classification = allClassifications.find((c: any) => c.transaction_id === original.transaction_id);
             const travelContext = travelAnalysis.find((t: any) => t.transaction_id === original.transaction_id);
             
-            if (!basicClass) return null;
+            if (!classification) return null;
 
-            let finalPillar = basicClass.pillar;
-            let finalSubcategory = basicClass.subcategory;
+            let finalPillar = classification.pillar;
+            let finalSubcategory = classification.subcategory || "General";
 
             // Override with travel reclassification if applicable
             if (travelContext?.is_travel_related && travelContext.reclassified_pillar) {
