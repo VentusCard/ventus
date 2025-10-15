@@ -24,14 +24,21 @@ CONFIDENCE LEVELS:
 // PASS 2: Travel Pattern Detection (unchanged)
 const TRAVEL_DETECTION_PROMPT = `You are Ventus's travel pattern detector. Analyze transaction sequences to identify travel periods and reclassify transactions accordingly.
 
+HOME ZIP CODE: The user's home ZIP code will be provided. Use this to easily identify when transactions occur away from home.
+
 TRAVEL ANCHOR DETECTION:
 Identify these key travel indicators:
 - Hotels: Marriott, Hilton, Hyatt, Holiday Inn, Airbnb, VRBO (MCC 7011)
 - Flights: Delta, Southwest, United, American Airlines (MCC 4511)
 - Car Rentals: Enterprise, Hertz, Budget, Avis
 
+ZIP CODE ANALYSIS:
+- Compare each transaction's ZIP code to the home ZIP code
+- Different ZIP codes (especially different first 3 digits) indicate travel
+- Sequential transactions with consistent non-home ZIP codes indicate a travel period
+
 TRAVEL WINDOW LOGIC:
-For each travel anchor (hotel/flight), create a travel window of ±3 days.
+For each travel anchor (hotel/flight) OR cluster of non-home ZIP codes, create a travel window of ±3 days.
 
 RECLASSIFICATION RULES:
 Within travel windows, reclassify these transactions to "Travel & Exploration":
@@ -44,6 +51,7 @@ GEOGRAPHIC SIGNALS:
 - Merchant names with city/state suffixes (e.g., "Starbucks NYC")
 - Multiple unfamiliar merchants in short timeframe
 - Location patterns different from typical behavior
+- ZIP codes different from home ZIP code
 
 OUTPUT:
 For each transaction, provide:
@@ -290,10 +298,16 @@ Deno.serve(async (req) => {
       id: t.transaction_id,
       merchant: t.merchant_name,
       amount: t.amount,
-      date: t.date
+      date: t.date,
+      zip: t.zip_code
     }));
+    
+    // Extract home ZIP code from first transaction that has it
+    const homeZip = transactions.find(t => t.home_zip)?.home_zip || 
+                    transactions.find(t => t.zip_code)?.zip_code || 
+                    "Unknown";
 
-    console.log(`[SSE] Starting streaming enrichment for ${transactions.length} transactions`);
+    console.log(`[SSE] Starting streaming enrichment for ${transactions.length} transactions (Home ZIP: ${homeZip})`);
     const startTime = Date.now();
 
     // Create SSE stream
@@ -396,7 +410,7 @@ Deno.serve(async (req) => {
               model: "google/gemini-2.5-flash",
               messages: [
                 { role: "system", content: TRAVEL_DETECTION_PROMPT },
-                { role: "user", content: `Analyze these transactions for travel patterns (sorted by date):\n\n${JSON.stringify(transactionSummary, null, 2)}` }
+                { role: "user", content: `HOME ZIP CODE: ${homeZip}\n\nAnalyze these transactions for travel patterns (sorted by date):\n\n${JSON.stringify(transactionSummary, null, 2)}` }
               ],
               tools: TRAVEL_DETECTION_TOOL,
               tool_choice: { type: "function", function: { name: "detect_travel_patterns" } }

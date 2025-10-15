@@ -33,6 +33,9 @@ const FIELD_KEYWORDS: Record<string, string[]> = {
   transaction_id: [
     "transactionid", "id", "txnid", "transaction", 
     "reference", "ref", "referencenumber", "identifier"
+  ],
+  zip_code: [
+    "zipcode", "zip", "postalcode", "postal", "zipcode", "zip_code"
   ]
 };
 
@@ -83,7 +86,8 @@ export function detectColumns(headers: string[]): {
     amount: null,
     date: null,
     mcc: null,
-    transaction_id: null
+    transaction_id: null,
+    zip_code: null
   };
   
   const confidence: Record<string, number> = {};

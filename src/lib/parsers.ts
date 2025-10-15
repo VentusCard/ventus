@@ -134,25 +134,41 @@ export function parsePastedText(text: string): MappingResult {
     throw new Error("Pasted text must have headers and at least one row");
   }
 
+  // Extract home ZIP code from comment line if present
+  let homeZip: string | undefined;
+  let startLine = 0;
+  
+  if (lines[0].startsWith("#") || lines[0].startsWith("//")) {
+    const zipMatch = lines[0].match(/(?:Home\s+)?ZIP\s*(?:Code)?:\s*(\d{5})/i);
+    if (zipMatch) {
+      homeZip = zipMatch[1];
+    }
+    startLine = 1;
+  }
+
   // Try CSV format first
-  const firstLine = lines[0];
+  const firstLine = lines[startLine];
   const delimiter = firstLine.includes("\t") ? "\t" : ",";
   const headers = firstLine.split(delimiter).map(h => h.trim());
   
-  const rows = lines.slice(1).map(line => {
+  const rows = lines.slice(startLine + 1).map(line => {
     const values = line.split(delimiter).map(v => v.trim());
     const obj: any = {};
     headers.forEach((header, index) => {
       obj[header] = values[index] || "";
     });
+    // Add home ZIP to each row for reference
+    if (homeZip) {
+      obj._homeZip = homeZip;
+    }
     return obj;
   });
 
-  return mapColumns(headers, rows);
+  return mapColumns(headers, rows, homeZip);
 }
 
 // Column mapping (handles flexible headers with smart detection)
-export function mapColumns(headers: string[], rows: any[]): MappingResult {
+export function mapColumns(headers: string[], rows: any[], homeZip?: string): MappingResult {
   const { mapping, confidence } = detectColumns(headers);
   
   // Check if we need user intervention
@@ -180,7 +196,7 @@ export function mapColumns(headers: string[], rows: any[]): MappingResult {
   const transactions: Transaction[] = [];
 
   rows.forEach((row, index) => {
-    const transaction = validateTransaction(row, headerMap, index);
+    const transaction = validateTransaction(row, headerMap, index, homeZip);
     if (transaction) {
       transactions.push(transaction);
     }
@@ -222,7 +238,7 @@ export function mapColumnsWithMapping(
 }
 
 // Validation
-function validateTransaction(row: any, headerMap: Record<string, string>, index: number): Transaction | null {
+function validateTransaction(row: any, headerMap: Record<string, string>, index: number, homeZip?: string): Transaction | null {
   try {
     // Extract fields using header map
     let merchant_name = "";
@@ -231,6 +247,7 @@ function validateTransaction(row: any, headerMap: Record<string, string>, index:
     let amount = 0;
     let date = "";
     let transaction_id = "";
+    let zip_code = "";
 
     Object.entries(headerMap).forEach(([originalHeader, standardField]) => {
       const value = row[originalHeader];
@@ -253,6 +270,9 @@ function validateTransaction(row: any, headerMap: Record<string, string>, index:
           break;
         case "transaction_id":
           transaction_id = String(value || "").trim();
+          break;
+        case "zip_code":
+          zip_code = String(value || "").trim();
           break;
       }
     });
@@ -280,6 +300,9 @@ function validateTransaction(row: any, headerMap: Record<string, string>, index:
       return null;
     }
 
+    // Use home ZIP from row metadata if not passed as parameter
+    const finalHomeZip = homeZip || row._homeZip;
+
     return {
       transaction_id,
       merchant_name,
@@ -287,6 +310,8 @@ function validateTransaction(row: any, headerMap: Record<string, string>, index:
       mcc: mcc || undefined,
       amount,
       date: parsedDate,
+      zip_code: zip_code || undefined,
+      home_zip: finalHomeZip || undefined,
     };
   } catch (error) {
     console.warn(`Row ${index + 1}: Validation failed - ${error.message}`);

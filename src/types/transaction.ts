@@ -5,6 +5,8 @@ export interface Transaction {
   mcc?: string;
   amount: number;
   date: string;
+  zip_code?: string;
+  home_zip?: string;
 }
 
 export interface EnrichedTransaction extends Transaction {
