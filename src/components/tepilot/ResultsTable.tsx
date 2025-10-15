@@ -4,10 +4,16 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Eye, Edit, Loader2 } from "lucide-react";
+import { ArrowRight, Eye, Edit, Loader2, Plane, MapPin } from "lucide-react";
 import { PILLAR_COLORS } from "@/lib/sampleData";
 import { TransactionDetailModal } from "./TransactionDetailModal";
 import { CorrectionModal } from "./CorrectionModal";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface ResultsTableProps {
   transactions: EnrichedTransaction[];
@@ -89,16 +95,68 @@ export function ResultsTable({ transactions, currentPhase = "idle", statusMessag
                       </TableCell>
                       <TableCell>
                         <div className="flex items-center gap-2">
-                          <Badge
-                            style={{
-                              backgroundColor: `${PILLAR_COLORS[transaction.pillar]}20`,
-                              color: PILLAR_COLORS[transaction.pillar],
-                              borderColor: `${PILLAR_COLORS[transaction.pillar]}40`,
-                            }}
-                            className="border"
-                          >
-                            {transaction.pillar}
-                          </Badge>
+                          {transaction.travel_context?.is_travel_related && transaction.travel_context.original_pillar && transaction.travel_context.original_pillar !== "Travel & Exploration" ? (
+                            <TooltipProvider>
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <div className="flex items-center gap-1.5 cursor-help">
+                                    <Badge
+                                      className="border flex items-center gap-1 text-xs px-2 py-0.5"
+                                      style={{
+                                        backgroundColor: `${PILLAR_COLORS["Travel & Exploration"]}15`,
+                                        color: PILLAR_COLORS["Travel & Exploration"],
+                                        borderColor: `${PILLAR_COLORS["Travel & Exploration"]}30`,
+                                      }}
+                                    >
+                                      <Plane className="w-3 h-3" />
+                                      Travel
+                                    </Badge>
+                                    <span className="text-muted-foreground">:</span>
+                                    <Badge
+                                      className="border"
+                                      style={{
+                                        backgroundColor: `${PILLAR_COLORS[transaction.travel_context.original_pillar]}20`,
+                                        color: PILLAR_COLORS[transaction.travel_context.original_pillar],
+                                        borderColor: `${PILLAR_COLORS[transaction.travel_context.original_pillar]}40`,
+                                      }}
+                                    >
+                                      {transaction.travel_context.original_pillar}
+                                    </Badge>
+                                  </div>
+                                </TooltipTrigger>
+                                <TooltipContent className="max-w-xs">
+                                  <div className="text-xs space-y-1.5">
+                                    <p className="font-semibold flex items-center gap-1">
+                                      <MapPin className="w-3 h-3" />
+                                      Travel Context
+                                    </p>
+                                    {transaction.travel_context.travel_destination && (
+                                      <p>📍 Destination: {transaction.travel_context.travel_destination}</p>
+                                    )}
+                                    {transaction.travel_context.travel_period_start && (
+                                      <p>🗓️ Period: {new Date(transaction.travel_context.travel_period_start).toLocaleDateString()} - {new Date(transaction.travel_context.travel_period_end!).toLocaleDateString()}</p>
+                                    )}
+                                    {transaction.travel_context.reclassification_reason && (
+                                      <p className="text-muted-foreground italic pt-1 border-t mt-1">
+                                        {transaction.travel_context.reclassification_reason}
+                                      </p>
+                                    )}
+                                  </div>
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
+                          ) : (
+                            <Badge
+                              style={{
+                                backgroundColor: `${PILLAR_COLORS[transaction.pillar]}20`,
+                                color: PILLAR_COLORS[transaction.pillar],
+                                borderColor: `${PILLAR_COLORS[transaction.pillar]}40`,
+                              }}
+                              className="border"
+                            >
+                              {transaction.pillar}
+                            </Badge>
+                          )}
                           {!transaction.travel_context && currentPhase === "travel" && (
                             <Badge variant="outline" className="text-xs">
                               <Loader2 className="h-3 w-3 animate-spin mr-1" />
