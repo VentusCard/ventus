@@ -21,7 +21,7 @@ export function OverviewMetrics({ originalTransactions, enrichedTransactions }: 
   const topPillar = Object.entries(dominantPillar).sort((a, b) => b[1] - a[1])[0];
   
   const travelSpend = enrichedTransactions
-    .filter(t => t.pillar === "Travel & Experiences")
+    .filter(t => t.pillar === "Travel & Exploration")
     .reduce((sum, t) => sum + t.amount, 0);
   const travelPercent = (travelSpend / totalSpend) * 100;
 
