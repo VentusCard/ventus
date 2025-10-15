@@ -49,6 +49,10 @@ export function TransactionDetailModal({ transaction, isOpen, onClose }: Transac
               <p className="text-sm text-muted-foreground">MCC Code</p>
               <p className="font-medium">{transaction.mcc || "Not provided"}</p>
             </div>
+            <div>
+              <p className="text-sm text-muted-foreground">Zip Code</p>
+              <p className="font-medium">{transaction.zip_code || "Not provided"}</p>
+            </div>
           </div>
 
           <Separator />
