@@ -5,6 +5,8 @@ import { PILLAR_COLORS } from "@/lib/sampleData";
 import { useState } from "react";
 import { ChevronDown, TrendingUp } from "lucide-react";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { SubcategoryTransactionsModal } from "./SubcategoryTransactionsModal";
+import { TransactionDetailModal } from "../TransactionDetailModal";
 
 interface PillarExplorerProps {
   transactions: EnrichedTransaction[];
@@ -12,6 +14,11 @@ interface PillarExplorerProps {
 
 export function PillarExplorer({ transactions }: PillarExplorerProps) {
   const [selectedPillar, setSelectedPillar] = useState<string | null>(null);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<{
+    subcategory: string;
+    pillar: string;
+  } | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<EnrichedTransaction | null>(null);
   
   const pillars = aggregateByPillar(transactions);
   const totalSpend = pillars.reduce((sum, p) => sum + p.totalSpend, 0);
@@ -110,7 +117,14 @@ export function PillarExplorer({ transactions }: PillarExplorerProps) {
                             return (
                               <div
                                 key={subcat.subcategory}
-                                className="p-4 rounded-lg bg-accent/30 border"
+                                className="p-4 rounded-lg bg-accent/30 border cursor-pointer hover:bg-accent/40 transition-colors"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setSelectedSubcategory({
+                                    subcategory: subcat.subcategory,
+                                    pillar: selectedPillar
+                                  });
+                                }}
                               >
                                 <p className="font-medium text-sm mb-2">{subcat.subcategory}</p>
                                 <p className="text-xl font-bold mb-1">${subcat.totalSpend.toFixed(2)}</p>
@@ -162,6 +176,32 @@ export function PillarExplorer({ transactions }: PillarExplorerProps) {
             </CollapsibleContent>
           </Card>
         </Collapsible>
+      )}
+
+      {/* Subcategory Transactions Modal */}
+      {selectedSubcategory && (
+        <SubcategoryTransactionsModal
+          isOpen={!!selectedSubcategory}
+          onClose={() => setSelectedSubcategory(null)}
+          subcategory={selectedSubcategory.subcategory}
+          pillar={selectedSubcategory.pillar}
+          transactions={transactions.filter(
+            t => t.pillar === selectedSubcategory.pillar && 
+                 t.subcategory === selectedSubcategory.subcategory
+          )}
+          onTransactionClick={(transaction) => {
+            setSelectedTransaction(transaction);
+          }}
+        />
+      )}
+
+      {/* Transaction Detail Modal */}
+      {selectedTransaction && (
+        <TransactionDetailModal
+          transaction={selectedTransaction}
+          isOpen={!!selectedTransaction}
+          onClose={() => setSelectedTransaction(null)}
+        />
       )}
     </div>
   );
