@@ -35,24 +35,15 @@ export function UploadOrPasteContainer({ mode, onModeChange, onLoadSample, child
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64 bg-background">
+            <DropdownMenuContent align="end" className="w-48 bg-background">
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 1</span>
-                  <span className="text-xs text-muted-foreground">SF resident with NYC trip</span>
-                </div>
+                Dataset 1
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_SPORTS_WELLNESS)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 2</span>
-                  <span className="text-xs text-muted-foreground">Austin resident, minimal travel</span>
-                </div>
+                Dataset 2
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_FOOD_HOME)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 3</span>
-                  <span className="text-xs text-muted-foreground">Chicago resident, no travel</span>
-                </div>
+                Dataset 3
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
