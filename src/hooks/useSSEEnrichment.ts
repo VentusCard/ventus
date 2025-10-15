@@ -83,8 +83,8 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
               setStatusMessage(
                 `Batch ${batchNum}/${totalBatches} complete: ${count} classified with ${model}`
               );
-              setEnrichedTransactions(prev => [...prev, ...data.batch_transactions]);
               console.log('[SSE Batch Complete]', `${batchNum}/${totalBatches}`, count, 'transactions');
+              // Note: Transactions will arrive all at once in pass1 event
               break;
 
             case 'pass1':
