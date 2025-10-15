@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { TrendingUp, Target, Layers, Plane } from "lucide-react";
 import { Transaction, EnrichedTransaction } from "@/types/transaction";
 import { calculateAverageConfidence, calculateMiscRate } from "@/lib/aggregations";
+import { LIFESTYLE_PILLARS } from "@/lib/sampleData";
 
 interface OverviewMetricsProps {
   originalTransactions: Transaction[];
@@ -44,7 +45,7 @@ export function OverviewMetrics({ originalTransactions, enrichedTransactions }: 
     },
     {
       title: "Lifestyle Insights",
-      value: `${pillarsUsed} Pillars`,
+      value: `${pillarsUsed}/${LIFESTYLE_PILLARS.length} Pillars`,
       subtitle: topPillar ? `Top: ${topPillar[0]}` : "No data",
       icon: Layers,
       color: "text-blue-500",
