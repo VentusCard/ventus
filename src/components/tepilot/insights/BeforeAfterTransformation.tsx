@@ -125,8 +125,9 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
                     ).map((originalPillar) => (
                       <Bar 
                         key={originalPillar}
-                        dataKey={(data: PillarAggregateWithSegments) => {
-                          const segment = data.segments.find(s => s.originalPillar === originalPillar);
+                        dataKey={(data: any) => {
+                          if (!data || !data.segments) return 0;
+                          const segment = data.segments.find((s: any) => s.originalPillar === originalPillar);
                           return segment ? segment.amount : 0;
                         }}
                         stackId="pillar"
@@ -316,8 +317,9 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
                       ).map((originalPillar) => (
                         <Bar 
                           key={originalPillar}
-                          dataKey={(data: PillarAggregateWithSegments) => {
-                            const segment = data.segments.find(s => s.originalPillar === originalPillar);
+                          dataKey={(data: any) => {
+                            if (!data || !data.segments) return 0;
+                            const segment = data.segments.find((s: any) => s.originalPillar === originalPillar);
                             return segment ? segment.amount : 0;
                           }}
                           stackId="pillar"
