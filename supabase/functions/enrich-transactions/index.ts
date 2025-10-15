@@ -194,13 +194,18 @@ Deno.serve(async (req) => {
 
   try {
     const { transactions } = await req.json();
-
+    
+    console.log(`[REQUEST] Enriching ${transactions?.length || 0} transactions`);
+    
     if (!Array.isArray(transactions) || transactions.length === 0) {
+      console.error("[ERROR] No transactions provided in request");
       return new Response(
         JSON.stringify({ error: "Invalid input: transactions array required" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
+    
+    console.log(`[REQUEST] Transaction IDs: ${transactions.map(t => t.transaction_id).slice(0, 5).join(', ')}${transactions.length > 5 ? '...' : ''}`);
 
     // Prepare transaction data for AI
     const transactionSummary = transactions.map((t) => ({
@@ -211,6 +216,8 @@ Deno.serve(async (req) => {
       amount: t.amount,
       date: t.date
     }));
+    
+    console.log(`[AI_CALL] Model: gemini-2.5-flash-lite, Processing ${transactions.length} transactions`);
 
     // Call Lovable AI
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -220,7 +227,7 @@ Deno.serve(async (req) => {
         "Authorization": `Bearer ${LOVABLE_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "google/gemini-2.5-flash",
+        model: "google/gemini-2.5-flash-lite",
         messages: [
           {
             role: "system",
@@ -258,21 +265,51 @@ Deno.serve(async (req) => {
     }
 
     const aiResponse = await response.json();
+    console.log("[AI_RESPONSE] Received response from AI");
     console.log("AI Response:", JSON.stringify(aiResponse, null, 2));
 
     // Extract tool call results
     const toolCalls = aiResponse.choices?.[0]?.message?.tool_calls;
+    
     if (!toolCalls || toolCalls.length === 0) {
-      console.error("No tool calls in response:", aiResponse);
+      console.error("[ERROR] No tool calls in AI response");
+      console.error("[DEBUG] Full AI response structure:", JSON.stringify(aiResponse, null, 2));
       return new Response(
-        JSON.stringify({ error: "No tool calls returned from AI" }),
+        JSON.stringify({ 
+          error: "No tool calls returned from AI",
+          details: "AI did not invoke the classify_transactions function"
+        }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
+    console.log(`[TOOL_CALL] Found ${toolCalls.length} tool call(s)`);
+    console.log(`[TOOL_CALL] Function: ${toolCalls[0].function.name}`);
+    console.log(`[TOOL_CALL] Arguments length: ${toolCalls[0].function.arguments.length} characters`);
+
     const enrichmentData = JSON.parse(toolCalls[0].function.arguments);
     const enrichedTransactions = enrichmentData.enriched_transactions;
+    
+    console.log(`[ENRICHMENT] Received ${enrichedTransactions?.length || 0} enriched transactions`);
+    console.log(`[ENRICHMENT] Expected ${transactions.length} transactions`);
 
+    if (!enrichedTransactions || enrichedTransactions.length === 0) {
+      console.error("[ERROR] Empty enriched_transactions array");
+      console.error("[DEBUG] Enrichment data structure:", JSON.stringify(enrichmentData, null, 2));
+      console.error("[DEBUG] Tool call raw arguments (first 500 chars):", toolCalls[0].function.arguments.substring(0, 500));
+      return new Response(
+        JSON.stringify({ 
+          error: "AI returned empty results", 
+          details: "gemini-2.5-flash-lite returned no enriched transactions - may not handle task complexity",
+          input_count: transactions.length,
+          output_count: 0
+        }),
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+
+    console.log(`[MERGE] Merging ${enrichedTransactions.length} enriched with ${transactions.length} original transactions`);
+    
     // Merge enriched data with original transactions
     const results = transactions.map((original) => {
       const enriched = enrichedTransactions.find((e: any) => e.transaction_id === original.transaction_id);
@@ -308,6 +345,9 @@ Deno.serve(async (req) => {
         enriched_at: new Date().toISOString()
       };
     });
+    
+    console.log(`[SUCCESS] Returning ${results.length} enriched transactions`);
+    console.log(`[SUCCESS] Sample confidence scores: ${results.slice(0, 3).map(r => r.confidence).join(', ')}`);
 
     return new Response(
       JSON.stringify({ enriched_transactions: results }),
