@@ -317,56 +317,25 @@ const TePilot = () => {
         </Card>
       </div>;
   }
-  return <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-blue-950 p-4 md:p-8">
+  return <div className="min-h-screen bg-background p-4 md:p-8">
       <div className="max-w-7xl mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent [text-shadow:0_0_30px_rgba(6,182,212,0.3)]">
-              Ventus AI Transaction Enrichment <span className="inline-block px-2 py-1 text-sm bg-cyan-500/20 text-cyan-300 rounded-md border border-cyan-500/30 ml-2">Pilot</span>
-            </h1>
-            <p className="text-slate-300 mt-2">Discover how Ventus understands spending beyond MCC codes</p>
+            <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment Pilot</h1>
+            <p className="text-muted-foreground mt-2">Discover how Ventus understands spending beyond MCC codes</p>
           </div>
-          <Button 
-            variant="outline" 
-            className="border-slate-700 hover:border-cyan-500/50 hover:bg-cyan-500/10 text-slate-300"
-            onClick={() => {
-              sessionStorage.removeItem("tepilot_auth");
-              setIsAuthenticated(false);
-            }}
-          >
-            Log Out and Clear Session
-          </Button>
+          <Button variant="outline" onClick={() => {
+          sessionStorage.removeItem("tepilot_auth");
+          setIsAuthenticated(false);
+        }}>Log Out and Clear Session</Button>
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4 bg-slate-900/60 backdrop-blur-xl border border-slate-700/50 p-1">
-            <TabsTrigger 
-              value="upload"
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/20 hover:bg-slate-800/50 text-slate-400"
-            >
-              Upload
-            </TabsTrigger>
-            <TabsTrigger 
-              value="preview" 
-              disabled={parsedTransactions.length === 0}
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/20 hover:bg-slate-800/50 text-slate-400 disabled:opacity-40"
-            >
-              Preview
-            </TabsTrigger>
-            <TabsTrigger 
-              value="results" 
-              disabled={enrichedTransactions.length === 0}
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/20 hover:bg-slate-800/50 text-slate-400 disabled:opacity-40"
-            >
-              Results
-            </TabsTrigger>
-            <TabsTrigger 
-              value="insights" 
-              disabled={enrichedTransactions.length === 0}
-              className="data-[state=active]:bg-gradient-to-r data-[state=active]:from-cyan-500 data-[state=active]:to-blue-600 data-[state=active]:text-white data-[state=active]:shadow-lg data-[state=active]:shadow-cyan-500/20 hover:bg-slate-800/50 text-slate-400 disabled:opacity-40"
-            >
-              Insights
-            </TabsTrigger>
+          <TabsList className="grid w-full grid-cols-4">
+            <TabsTrigger value="upload">Upload</TabsTrigger>
+            <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
+            <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Results</TabsTrigger>
+            <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Insights</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">

@@ -42,76 +42,58 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
   return (
     <div className="space-y-6">
       {travelSpend > 0 && (
-        <Card className="border-teal-500/40 bg-gradient-to-br from-teal-500/10 to-cyan-600/10 backdrop-blur-xl relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-teal-500/5 to-cyan-500/5 pointer-events-none" />
-          <CardHeader className="relative">
-            <CardTitle className="flex items-center gap-2 text-slate-100">
-              <div className="w-10 h-10 rounded-full bg-teal-500/20 flex items-center justify-center [box-shadow:0_0_20px_rgba(20,184,166,0.4)]">
-                <Plane className="h-5 w-5 text-teal-400" />
-              </div>
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Plane className="h-5 w-5" />
               Travel Intelligence
             </CardTitle>
           </CardHeader>
-          <CardContent className="relative">
+          <CardContent>
             <div className="grid grid-cols-3 gap-4">
-              <div className="p-3 rounded-lg bg-teal-500/10 border border-teal-500/20">
-                <p className="text-sm text-slate-400">Travel Spend</p>
-                <p className="text-2xl font-bold text-teal-300">${travelSpend.toFixed(2)}</p>
+              <div>
+                <p className="text-sm text-muted-foreground">Travel Spend</p>
+                <p className="text-2xl font-bold">${travelSpend.toFixed(2)}</p>
               </div>
-              <div className="p-3 rounded-lg bg-cyan-500/10 border border-cyan-500/20">
-                <p className="text-sm text-slate-400">Travel Transactions</p>
-                <p className="text-2xl font-bold text-cyan-300">{travelTransactions.length}</p>
+              <div>
+                <p className="text-sm text-muted-foreground">Travel Transactions</p>
+                <p className="text-2xl font-bold">{travelTransactions.length}</p>
               </div>
-              <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
-                <p className="text-sm text-slate-400">Reclassified</p>
-                <p className="text-2xl font-bold text-blue-300">{reclassifiedCount}</p>
+              <div>
+                <p className="text-sm text-muted-foreground">Reclassified</p>
+                <p className="text-2xl font-bold">{reclassifiedCount}</p>
               </div>
             </div>
           </CardContent>
         </Card>
       )}
       
-      <Card className="border-cyan-500/30 bg-slate-900/40 backdrop-blur-xl">
+      <Card>
         <CardHeader>
-          <CardTitle className="text-slate-100">After: Lifestyle Pillar Intelligence</CardTitle>
+          <CardTitle>After: Lifestyle Pillar Intelligence</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-3 gap-4 mb-6">
-            <div className="p-4 rounded-lg border border-emerald-500/30 bg-gradient-to-br from-emerald-500/10 to-emerald-600/10 hover:scale-105 transition-transform">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                  <span className="text-emerald-400 text-xs">$</span>
-                </div>
-                <p className="text-sm text-slate-400">Total Spend</p>
-              </div>
-              <p className="text-2xl font-bold text-emerald-300">${totalSpend.toFixed(2)}</p>
+            <div>
+              <p className="text-sm text-muted-foreground">Total Spend</p>
+              <p className="text-2xl font-bold">${totalSpend.toFixed(2)}</p>
             </div>
-            <div className="p-4 rounded-lg border border-yellow-500/30 bg-gradient-to-br from-yellow-500/10 to-orange-600/10 hover:scale-105 transition-transform">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 rounded-full bg-yellow-500/20 flex items-center justify-center">
-                  <span className="text-yellow-400 text-xs">%</span>
-                </div>
-                <p className="text-sm text-slate-400">Misc Rate</p>
-              </div>
-              <p className="text-2xl font-bold text-yellow-300">{miscRate.toFixed(1)}%</p>
+            <div>
+              <p className="text-sm text-muted-foreground">Misc Rate</p>
+              <p className="text-2xl font-bold">{miscRate.toFixed(1)}%</p>
             </div>
-            <div className="p-4 rounded-lg border border-cyan-500/30 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 hover:scale-105 transition-transform">
-              <div className="flex items-center gap-2 mb-2">
-                <div className="w-8 h-8 rounded-full bg-cyan-500/20 flex items-center justify-center">
-                  <span className="text-cyan-400 text-xs">✓</span>
-                </div>
-                <p className="text-sm text-slate-400">Avg Confidence</p>
-              </div>
-              <p className="text-2xl font-bold text-cyan-300">{(avgConfidence * 100).toFixed(0)}%</p>
+            <div>
+              <p className="text-sm text-muted-foreground">Avg Confidence</p>
+              <p className="text-2xl font-bold">{(avgConfidence * 100).toFixed(0)}%</p>
             </div>
           </div>
 
           <div>
-            <h4 className="text-sm font-medium mb-4 text-slate-300">Spend by Lifestyle Pillar</h4>
+            <h4 className="text-sm font-medium mb-4">Spend by Lifestyle Pillar</h4>
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={chartData} layout="vertical">
-                <XAxis type="number" stroke="#64748b" />
-                <YAxis type="category" dataKey="pillar" width={200} stroke="#64748b" />
+                <XAxis type="number" />
+                <YAxis type="category" dataKey="pillar" width={200} />
                 <Tooltip 
                   content={({ active, payload }) => {
                     if (active && payload && payload.length > 0) {
@@ -121,25 +103,22 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                       if (!aggregate) return null;
                       
                       return (
-                        <div className="bg-slate-900/95 backdrop-blur-xl border border-cyan-500/30 rounded-lg shadow-lg shadow-cyan-500/10 p-3">
-                          <p className="font-semibold mb-2 text-slate-100">{pillar}</p>
-                          <p className="text-sm text-slate-400 mb-2">
-                            Total: <span className="text-emerald-300 font-semibold">${aggregate.totalSpend.toFixed(2)}</span>
+                        <div className="bg-background border rounded-lg shadow-lg p-3">
+                          <p className="font-semibold mb-2">{pillar}</p>
+                          <p className="text-sm text-muted-foreground mb-2">
+                            Total: ${aggregate.totalSpend.toFixed(2)}
                           </p>
                           {aggregate.segments.length > 1 && (
-                            <div className="space-y-1 pt-2 border-t border-slate-700">
-                              <p className="text-xs text-slate-500 mb-1">Composition:</p>
+                            <div className="space-y-1 pt-2 border-t">
+                              <p className="text-xs text-muted-foreground mb-1">Composition:</p>
                               {aggregate.segments.map((seg, idx) => (
                                 <div key={idx} className="flex items-center gap-2 text-sm">
                                   <div 
-                                    className="w-3 h-3 rounded-sm shadow-sm" 
-                                    style={{ 
-                                      backgroundColor: seg.color,
-                                      boxShadow: `0 0 8px ${seg.color}40`
-                                    }}
+                                    className="w-3 h-3 rounded-sm" 
+                                    style={{ backgroundColor: seg.color }}
                                   />
-                                  <span className="text-xs text-slate-300">
-                                    {seg.originalPillar}: <span className="text-slate-100 font-medium">${seg.amount.toFixed(2)}</span>
+                                  <span className="text-xs">
+                                    {seg.originalPillar}: ${seg.amount.toFixed(2)}
                                   </span>
                                 </div>
                               ))}
@@ -162,9 +141,6 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                     }}
                     stackId="a"
                     fill={PILLAR_COLORS[segmentPillar] || "#64748b"}
-                    style={{
-                      filter: `drop-shadow(0 0 6px ${PILLAR_COLORS[segmentPillar]}40)`
-                    }}
                   />
                 ))}
               </BarChart>
