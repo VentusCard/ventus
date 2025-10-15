@@ -156,7 +156,26 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
               data.travel_updates.forEach((travelUpdate: any) => {
                 const idx = updated.findIndex(t => t.transaction_id === travelUpdate.transaction_id);
                 if (idx !== -1) {
-                  updated[idx] = { ...updated[idx], ...travelUpdate };
+                  // Store original pillar before updating
+                  const originalPillar = updated[idx].pillar;
+                  
+                  // Update pillar and subcategory if reclassified
+                  if (travelUpdate.reclassified_pillar) {
+                    updated[idx].pillar = travelUpdate.reclassified_pillar;
+                  }
+                  if (travelUpdate.reclassified_subcategory) {
+                    updated[idx].subcategory = travelUpdate.reclassified_subcategory;
+                  }
+                  
+                  // Add travel_context object with proper structure
+                  updated[idx].travel_context = {
+                    is_travel_related: travelUpdate.is_travel_related || false,
+                    travel_period_start: travelUpdate.travel_period_start || null,
+                    travel_period_end: travelUpdate.travel_period_end || null,
+                    travel_destination: travelUpdate.travel_destination || null,
+                    original_pillar: travelUpdate.original_pillar || originalPillar,
+                    reclassification_reason: travelUpdate.reclassification_reason || null,
+                  };
                 }
               });
               return updated;
