@@ -54,9 +54,15 @@ const CLASSIFICATION_TOOL = [{
                   "Miscellaneous & Unclassified"
                 ]
               },
-              subcategory: { type: "string" }
+              subcategory: { type: "string" },
+              confidence: { 
+                type: "number",
+                description: "Confidence score: 0.9 for clear merchants (Nike, Starbucks), 0.6 for ambiguous merchants, 0.3 for unclear/miscellaneous",
+                minimum: 0.3,
+                maximum: 0.9
+              }
             },
-            required: ["transaction_id", "pillar"]
+            required: ["transaction_id", "pillar", "confidence"]
           }
         }
       },
