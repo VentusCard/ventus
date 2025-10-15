@@ -22,6 +22,57 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
   const reclassifiedCount = travelTransactions.filter(t => t.travel_context?.original_pillar && 
     t.travel_context.original_pillar !== t.pillar).length;
   
+  // Aggregate travel transactions by subcategory with original pillar segments
+  const travelSubcategoryMap = new Map<string, {
+    totalSpend: number;
+    segments: Map<string, number>;
+  }>();
+
+  travelTransactions.forEach(t => {
+    const subcat = t.subcategory;
+    const existing = travelSubcategoryMap.get(subcat) || {
+      totalSpend: 0,
+      segments: new Map()
+    };
+    
+    existing.totalSpend += t.amount;
+    
+    const originalPillar = t.travel_context?.original_pillar || t.pillar;
+    existing.segments.set(
+      originalPillar, 
+      (existing.segments.get(originalPillar) || 0) + t.amount
+    );
+    
+    travelSubcategoryMap.set(subcat, existing);
+  });
+
+  const travelSubcategoryData = Array.from(travelSubcategoryMap.entries())
+    .map(([subcategory, data]) => {
+      const dataPoint: any = { subcategory, totalSpend: data.totalSpend };
+      const segments = Array.from(data.segments.entries())
+        .map(([originalPillar, amount]) => ({
+          originalPillar,
+          amount,
+          color: PILLAR_COLORS[originalPillar] || "#64748b"
+        }))
+        .sort((a, b) => b.amount - a.amount);
+      
+      segments.forEach((seg, idx) => {
+        dataPoint[`segment_${idx}`] = seg.amount;
+        dataPoint[`segment_${idx}_name`] = seg.originalPillar;
+        dataPoint[`segment_${idx}_color`] = seg.color;
+      });
+      
+      dataPoint.segments = segments;
+      return dataPoint;
+    })
+    .sort((a, b) => b.totalSpend - a.totalSpend);
+
+  const allTravelSegmentKeys = new Set<string>();
+  travelSubcategoryData.forEach(data => {
+    data.segments.forEach((seg: any) => allTravelSegmentKeys.add(seg.originalPillar));
+  });
+  
   // Prepare data for stacked bar chart
   const chartData = pillarAggregates.map(agg => {
     const dataPoint: any = { pillar: agg.pillar };
@@ -50,7 +101,7 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="grid grid-cols-3 gap-4">
+            <div className="grid grid-cols-3 gap-4 mb-6">
               <div>
                 <p className="text-sm text-muted-foreground">Travel Spend</p>
                 <p className="text-2xl font-bold">${travelSpend.toFixed(2)}</p>
@@ -63,6 +114,66 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                 <p className="text-sm text-muted-foreground">Reclassified</p>
                 <p className="text-2xl font-bold">{reclassifiedCount}</p>
               </div>
+            </div>
+
+            <div>
+              <h4 className="text-sm font-medium mb-4">Travel Spending by Category</h4>
+              <ResponsiveContainer width="100%" height={Math.max(300, travelSubcategoryData.length * 50)}>
+                <BarChart data={travelSubcategoryData} layout="vertical">
+                  <XAxis type="number" />
+                  <YAxis type="category" dataKey="subcategory" width={150} />
+                  <Tooltip 
+                    content={({ active, payload }) => {
+                      if (active && payload && payload.length > 0) {
+                        const subcategory = payload[0].payload.subcategory;
+                        const data = travelSubcategoryData.find(d => d.subcategory === subcategory);
+                        
+                        if (!data) return null;
+                        
+                        return (
+                          <div className="bg-background border rounded-lg shadow-lg p-3">
+                            <p className="font-semibold mb-2">{subcategory}</p>
+                            <p className="text-sm text-muted-foreground mb-2">
+                              Total: ${data.totalSpend.toFixed(2)}
+                            </p>
+                            {data.segments.length > 1 && (
+                              <div className="space-y-1 pt-2 border-t">
+                                <p className="text-xs text-muted-foreground mb-1">Original Categories:</p>
+                                {data.segments.map((seg: any, idx: number) => (
+                                  <div key={idx} className="flex items-center gap-2 text-sm">
+                                    <div 
+                                      className="w-3 h-3 rounded-sm" 
+                                      style={{ backgroundColor: seg.color }}
+                                    />
+                                    <span className="text-xs">
+                                      {seg.originalPillar}: ${seg.amount.toFixed(2)}
+                                    </span>
+                                  </div>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        );
+                      }
+                      return null;
+                    }}
+                  />
+                  {Array.from(allTravelSegmentKeys).map((segmentPillar) => (
+                    <Bar 
+                      key={segmentPillar}
+                      dataKey={(data: any) => {
+                        const segment = data.segments.find((s: any) => s.originalPillar === segmentPillar);
+                        return segment ? segment.amount : 0;
+                      }}
+                      stackId="travel"
+                      fill={PILLAR_COLORS[segmentPillar] || "#64748b"}
+                    />
+                  ))}
+                </BarChart>
+              </ResponsiveContainer>
+              <p className="text-xs text-muted-foreground mt-4">
+                * Colors show which spending category transactions were originally classified as before travel detection
+              </p>
             </div>
           </CardContent>
         </Card>
