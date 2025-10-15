@@ -51,7 +51,7 @@ export function OverviewMetrics({ originalTransactions, enrichedTransactions }: 
       bgColor: "bg-blue-500/10"
     },
     {
-      title: "Travel Impact",
+      title: "Travel Insight",
       value: `${travelPercent.toFixed(1)}%`,
       subtitle: `$${travelSpend.toFixed(2)} travel spend`,
       icon: Plane,
