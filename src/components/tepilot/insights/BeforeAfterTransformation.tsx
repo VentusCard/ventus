@@ -14,7 +14,6 @@ interface BeforeAfterTransformationProps {
 }
 
 export function BeforeAfterTransformation({ originalTransactions, enrichedTransactions }: BeforeAfterTransformationProps) {
-  const [animatedMode, setAnimatedMode] = useState<"before" | "after">("before");
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   
   const mccData = aggregateByMCC(originalTransactions).slice(0, 10);
@@ -47,10 +46,9 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
       </CardHeader>
       <CardContent>
         <Tabs defaultValue="side-by-side">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="side-by-side">Side-by-Side</TabsTrigger>
             <TabsTrigger value="flow">Transformation Flow</TabsTrigger>
-            <TabsTrigger value="animated">Animated Toggle</TabsTrigger>
           </TabsList>
           
           {/* Tab 1: Side-by-Side Charts */}
@@ -223,117 +221,6 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
                   );
                 })}
               </div>
-            </div>
-          </TabsContent>
-          
-          {/* Tab 3: Animated Toggle */}
-          <TabsContent value="animated">
-            <div className="flex items-center justify-between mb-4">
-              <p className="text-sm text-muted-foreground">
-                Toggle between views to see the transformation
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  variant={animatedMode === "before" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setAnimatedMode("before")}
-                >
-                  Before: MCC
-                </Button>
-                <Button
-                  variant={animatedMode === "after" ? "default" : "outline"}
-                  size="sm"
-                  onClick={() => setAnimatedMode("after")}
-                >
-                  After: Lifestyle
-                </Button>
-              </div>
-            </div>
-            
-            <div className={`transition-all duration-300 ${animatedMode === "before" ? "animate-fade-in" : "animate-fade-in"}`}>
-              {animatedMode === "before" ? (
-                <div>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Raw merchant category codes - limited insight
-                  </p>
-                  <ResponsiveContainer width="100%" height={400}>
-                    <BarChart data={mccData}>
-                      <XAxis dataKey="mcc" angle={-45} textAnchor="end" height={120} />
-                      <YAxis />
-                      <Tooltip formatter={(value) => `$${Number(value).toFixed(2)}`} />
-                      <Bar dataKey="totalSpend" fill="#64748b" radius={[8, 8, 0, 0]} />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              ) : (
-                <div>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Organized by lifestyle pillars - actionable insights
-                  </p>
-                  <ResponsiveContainer width="100%" height={400}>
-                    <BarChart data={pillarData}>
-                      <XAxis dataKey="pillar" angle={-45} textAnchor="end" height={120} />
-                      <YAxis />
-                      <Tooltip 
-                        content={({ active, payload }) => {
-                          if (active && payload && payload.length > 0) {
-                            const pillar = payload[0].payload.pillar;
-                            const data = pillarData.find(p => p.pillar === pillar);
-                            
-                            if (!data) return null;
-                            
-                            return (
-                              <div className="bg-background border rounded-lg shadow-lg p-3">
-                                <p className="font-semibold mb-2">{pillar}</p>
-                                <p className="text-sm text-muted-foreground mb-2">
-                                  Total: ${data.totalSpend.toFixed(2)}
-                                </p>
-                                {data.segments.length > 1 && (
-                                  <div className="space-y-1 pt-2 border-t">
-                                    <p className="text-xs text-muted-foreground mb-1">Original Categories:</p>
-                                    {data.segments.map((seg, idx) => (
-                                      <div key={idx} className="flex items-center gap-2 text-sm">
-                                        <div 
-                                          className="w-3 h-3 rounded-sm" 
-                                          style={{ backgroundColor: seg.color }}
-                                        />
-                                        <span className="text-xs">
-                                          {seg.originalPillar}: ${seg.amount.toFixed(2)}
-                                        </span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                            );
-                          }
-                          return null;
-                        }}
-                      />
-                      {Array.from(
-                        new Set(
-                          pillarData.flatMap(p => p.segments.map(s => s.originalPillar))
-                        )
-                      ).map((originalPillar) => (
-                        <Bar 
-                          key={originalPillar}
-                          dataKey={(data: any) => {
-                            if (!data || !data.segments) return 0;
-                            const segment = data.segments.find((s: any) => s.originalPillar === originalPillar);
-                            return segment ? segment.amount : 0;
-                          }}
-                          stackId="pillar"
-                          fill={PILLAR_COLORS[originalPillar] || "#64748b"}
-                          radius={[8, 8, 0, 0]}
-                        />
-                      ))}
-                    </BarChart>
-                  </ResponsiveContainer>
-                  <p className="text-xs text-muted-foreground mt-4">
-                    * Stacked segments show original spending categories before travel reclassification
-                  </p>
-                </div>
-              )}
             </div>
           </TabsContent>
         </Tabs>
