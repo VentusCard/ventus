@@ -3,5 +3,8 @@ project_id = "theaknjrmfsyauxxvhmk"
 [functions.search-deals]
 verify_jwt = true
 
+[functions.classify-transactions]
+verify_jwt = false
+
 [functions.enrich-transactions]
 verify_jwt = false
