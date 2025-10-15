@@ -7,7 +7,8 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const SYSTEM_PROMPT = `You are Ventus's transaction enrichment AI. Your job is to classify financial transactions into lifestyle pillars and subcategories.
+// PASS 1: Basic Classification (fast, simple labeling)
+const CLASSIFICATION_PROMPT = `You are Ventus's transaction classifier. Classify transactions into lifestyle pillars and subcategories based on merchant names.
 
 LIFESTYLE PILLARS (11):
 1. Sports & Active Living - Gym memberships, sports equipment, fitness classes, outdoor activities, athletic wear
@@ -22,83 +23,65 @@ LIFESTYLE PILLARS (11):
 10. Financial & Aspirational - Investments, insurance, luxury items, financial services
 11. Miscellaneous & Unclassified - Unclear or uncategorizable transactions, peer-to-peer transfers
 
-For each transaction, analyze:
-- Merchant name (primary signal)
-- Transaction description (secondary context)
-- MCC code if available (supporting data)
-- Amount (contextual clue)
-
 MERCHANT NAME PARSING:
-Payment platforms often appear as prefixes to actual merchant names. Extract the TRUE merchant:
-
-Common patterns:
+Payment platforms often appear as prefixes. Extract the TRUE merchant:
 - "APPLE PAY Nike" → Extract "Nike"
-- "APPL PAY *Nike" → Extract "Nike"  
 - "PayPal *Starbucks" → Extract "Starbucks"
-- "VENMO Whole Foods" → Extract "Whole Foods"
-- "SQ *Chipotle" → Extract "Chipotle" (SQ = Square)
-- "CASHAPP *Target" → Extract "Target"
-- "ZELLE Nike Store" → Extract "Nike Store"
+- "SQ *Chipotle" → Extract "Chipotle"
 
-Rules for extraction:
-1. If merchant starts with payment platform name (Apple Pay, PayPal, Venmo, Cash App, Zelle, SQ, etc.), extract what comes AFTER
-2. Remove asterisks (*), hyphens, extra spaces
-3. Classify based on the ACTUAL merchant, not the payment platform
-4. In normalized_merchant, only include the actual merchant name (e.g., "Nike", not "Apple Pay Nike")
-5. You can mention the payment method in the explanation if relevant
-
-DO NOT classify payment platform transactions as "Miscellaneous" if you can identify the actual merchant.
-
-TRAVEL DETECTION:
-After initial classification, detect travel periods using these signals:
-
-Travel Anchor Transactions:
-- Hotels (MCC 7011, merchants: Marriott, Hilton, Hyatt, Holiday Inn, etc.)
-- Flights (MCC 4511, merchants: Delta, Southwest, United, American Airlines, etc.)
-- Vacation Rentals (Airbnb, VRBO)
-- Car Rentals (Enterprise, Hertz, Budget, etc.)
-
-Geographic Displacement Signals:
-- Merchant names containing city/state names different from typical patterns
-- Multiple transactions in unfamiliar locations within short timeframe
-- Merchants with location suffixes (e.g., "Starbucks NYC", "Shell Houston")
-
-Reclassification Rules (Travel Context Window: ±3 days from travel anchor):
-1. Gas Stations: If within travel window → "Travel & Exploration" / "Travel Transportation"
-2. Restaurants/Coffee: If within travel window + unfamiliar merchant → "Travel & Exploration" / "Dining Away"
-3. Rideshares (Uber/Lyft): If within travel window → "Travel & Exploration" / "Local Transportation"
-4. Convenience Stores: If within travel window → "Travel & Exploration" / "Travel Essentials"
-
-Travel Context Annotation:
-- Mark transactions as travel_related: true/false
-- Note travel_period_start and travel_period_end dates
-- Record travel_destination if identifiable from hotel/flight
-- Store original_pillar before reclassification
-- Provide reclassification_reason explaining the travel context
+Rules:
+1. Remove payment platform prefixes (Apple Pay, PayPal, Venmo, Cash App, Zelle, SQ)
+2. Remove asterisks, hyphens, extra spaces
+3. Classify based on ACTUAL merchant
+4. In normalized_merchant, only include merchant name
 
 Classification Guidelines:
-- Be confident when merchant is clearly recognizable (e.g., "STARBUCKS" → Food & Dining, confidence: 0.95)
-- Use moderate confidence for ambiguous merchants (0.5-0.7)
-- Use Miscellaneous & Unclassified for truly unclear transactions or peer-to-peer transfers without merchant details
-- Normalize merchant names by:
-  * Removing payment platform prefixes (e.g., "APPLE PAY Nike" → "Nike")
-  * Removing store numbers/locations (e.g., "STARBUCKS #1234" → "Starbucks Coffee")
-  * Removing special characters like *, -, extra spaces
-- Provide brief, specific explanations
+- High confidence for clear merchants (0.9-0.95)
+- Moderate confidence for ambiguous (0.5-0.7)
+- Use Miscellaneous only for truly unclear transactions
+- Brief explanations (1-2 sentences)`;
 
-Return structured classification with:
-- normalized_merchant: Clean, readable merchant name
-- pillar: One of the 11 pillars above (exact match)
-- subcategory: Specific category within pillar (e.g., "Coffee Shop", "Gym Membership")
-- confidence: 0.0 to 1.0 (be honest about uncertainty)
-- explanation: Brief reasoning for classification (1-2 sentences max)`;
+// PASS 2: Travel Pattern Detection (complex reasoning)
+const TRAVEL_DETECTION_PROMPT = `You are Ventus's travel pattern detector. Analyze transaction sequences to identify travel periods and reclassify transactions accordingly.
 
-const TOOLS = [
+TRAVEL ANCHOR DETECTION:
+Identify these key travel indicators:
+- Hotels: Marriott, Hilton, Hyatt, Holiday Inn, Airbnb, VRBO (MCC 7011)
+- Flights: Delta, Southwest, United, American Airlines (MCC 4511)
+- Car Rentals: Enterprise, Hertz, Budget, Avis
+
+TRAVEL WINDOW LOGIC:
+For each travel anchor (hotel/flight), create a travel window of ±3 days.
+
+RECLASSIFICATION RULES:
+Within travel windows, reclassify these transactions to "Travel & Exploration":
+1. Gas Stations → "Travel Transportation" (e.g., Shell, Exxon)
+2. Restaurants/Coffee (unfamiliar) → "Dining Away" (e.g., "Joe's Cafe NYC")
+3. Rideshares → "Local Transportation" (Uber, Lyft)
+4. Convenience Stores → "Travel Essentials" (7-Eleven, CVS during travel)
+
+GEOGRAPHIC SIGNALS:
+- Merchant names with city/state suffixes (e.g., "Starbucks NYC")
+- Multiple unfamiliar merchants in short timeframe
+- Location patterns different from typical behavior
+
+OUTPUT:
+For each transaction, provide:
+- is_travel_related: true/false
+- travel_period_start/end: ISO dates if part of travel
+- travel_destination: City/location if identifiable
+- original_pillar: Pillar before reclassification
+- reclassification_reason: Why this was changed to travel
+- reclassified_pillar: New pillar (if reclassified)
+- reclassified_subcategory: New subcategory (if reclassified)`;
+
+// PASS 1 TOOL: Basic Classification
+const CLASSIFICATION_TOOL = [
   {
     type: "function",
     function: {
       name: "classify_transactions",
-      description: "Classify financial transactions into lifestyle pillars with confidence scores",
+      description: "Classify transactions into lifestyle pillars",
       parameters: {
         type: "object",
         properties: {
@@ -107,14 +90,8 @@ const TOOLS = [
             items: {
               type: "object",
               properties: {
-                transaction_id: {
-                  type: "string",
-                  description: "Original transaction ID"
-                },
-                normalized_merchant: {
-                  type: "string",
-                  description: "Clean, readable merchant name"
-                },
+                transaction_id: { type: "string" },
+                normalized_merchant: { type: "string" },
                 pillar: {
                   type: "string",
                   enum: [
@@ -129,59 +106,52 @@ const TOOLS = [
                     "Family & Community",
                     "Financial & Aspirational",
                     "Miscellaneous & Unclassified"
-                  ],
-                  description: "Lifestyle pillar classification"
+                  ]
                 },
-                subcategory: {
-                  type: "string",
-                  description: "Specific subcategory within the pillar"
-                },
-                confidence: {
-                  type: "number",
-                  minimum: 0,
-                  maximum: 1,
-                  description: "Confidence score from 0.0 to 1.0"
-                },
-                explanation: {
-                  type: "string",
-                  description: "Brief reasoning for the classification"
-                },
-                travel_context: {
-                  type: "object",
-                  properties: {
-                    is_travel_related: {
-                      type: "boolean",
-                      description: "Whether this transaction is part of a travel period"
-                    },
-                    travel_period_start: {
-                      type: "string",
-                      description: "Start date of travel period (ISO format)"
-                    },
-                    travel_period_end: {
-                      type: "string",
-                      description: "End date of travel period (ISO format)"
-                    },
-                    travel_destination: {
-                      type: "string",
-                      description: "City/location of travel if identifiable"
-                    },
-                    original_pillar: {
-                      type: "string",
-                      description: "Original pillar before travel reclassification"
-                    },
-                    reclassification_reason: {
-                      type: "string",
-                      description: "Why this was reclassified as travel"
-                    }
-                  },
-                  description: "Travel detection context for the transaction"
-                }
+                subcategory: { type: "string" },
+                confidence: { type: "number", minimum: 0, maximum: 1 },
+                explanation: { type: "string" }
               },
               required: ["transaction_id", "normalized_merchant", "pillar", "subcategory", "confidence", "explanation"]
             }
           }
         },
         required: ["enriched_transactions"]
+      }
+    }
+  }
+];
+
+// PASS 2 TOOL: Travel Detection
+const TRAVEL_DETECTION_TOOL = [
+  {
+    type: "function",
+    function: {
+      name: "detect_travel_patterns",
+      description: "Identify travel periods and reclassify transactions within travel windows",
+      parameters: {
+        type: "object",
+        properties: {
+          travel_analysis: {
+            type: "array",
+            items: {
+              type: "object",
+              properties: {
+                transaction_id: { type: "string" },
+                is_travel_related: { type: "boolean" },
+                travel_period_start: { type: "string" },
+                travel_period_end: { type: "string" },
+                travel_destination: { type: "string" },
+                original_pillar: { type: "string" },
+                reclassified_pillar: { type: "string" },
+                reclassified_subcategory: { type: "string" },
+                reclassification_reason: { type: "string" }
+              },
+              required: ["transaction_id", "is_travel_related"]
+            }
+          }
+        },
+        required: ["travel_analysis"]
       }
     }
   }
@@ -212,73 +182,114 @@ Deno.serve(async (req) => {
       date: t.date
     }));
 
-    // Call Lovable AI
-    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: "google/gemini-2.5-pro",
-        messages: [
-          {
-            role: "system",
-            content: SYSTEM_PROMPT
-          },
-          {
-            role: "user",
-            content: `Classify these ${transactions.length} transactions:\n\n${JSON.stringify(transactionSummary, null, 2)}`
-          }
-        ],
-        tools: TOOLS,
-        tool_choice: { type: "function", function: { name: "classify_transactions" } }
-      }),
-    });
+    console.log(`[PARALLEL] Starting dual-model enrichment for ${transactions.length} transactions`);
+    const startTime = Date.now();
 
-    if (!response.ok) {
-      if (response.status === 429) {
+    // PARALLEL API CALLS
+    const [classificationResponse, travelResponse] = await Promise.all([
+      // Pass 1: Basic Classification (flash-lite)
+      fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash-lite",
+          messages: [
+            { role: "system", content: CLASSIFICATION_PROMPT },
+            { role: "user", content: `Classify these ${transactions.length} transactions:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
+          ],
+          tools: CLASSIFICATION_TOOL,
+          tool_choice: { type: "function", function: { name: "classify_transactions" } }
+        }),
+      }),
+      
+      // Pass 2: Travel Detection (flash)
+      fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "google/gemini-2.5-flash",
+          messages: [
+            { role: "system", content: TRAVEL_DETECTION_PROMPT },
+            { role: "user", content: `Analyze these transactions for travel patterns (sorted by date):\n\n${JSON.stringify(transactionSummary, null, 2)}` }
+          ],
+          tools: TRAVEL_DETECTION_TOOL,
+          tool_choice: { type: "function", function: { name: "detect_travel_patterns" } }
+        }),
+      })
+    ]);
+
+    const parallelTime = Date.now() - startTime;
+    console.log(`[PARALLEL] Both API calls completed in ${parallelTime}ms`);
+
+    // Handle errors for Pass 1 (critical)
+    if (!classificationResponse.ok) {
+      if (classificationResponse.status === 429) {
         return new Response(
           JSON.stringify({ error: "Rate limits exceeded, please try again later." }),
           { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
-      if (response.status === 402) {
+      if (classificationResponse.status === 402) {
         return new Response(
           JSON.stringify({ error: "Payment required, please add funds to your Lovable AI workspace." }),
           { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
         );
       }
-      const errorText = await response.text();
-      console.error("AI API Error:", response.status, errorText);
+      const errorText = await classificationResponse.text();
+      console.error("[PASS 1] Classification failed:", classificationResponse.status, errorText);
       return new Response(
-        JSON.stringify({ error: "AI enrichment failed", details: errorText }),
+        JSON.stringify({ error: "Classification failed", details: errorText }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const aiResponse = await response.json();
-    console.log("AI Response:", JSON.stringify(aiResponse, null, 2));
-
-    // Extract tool call results
-    const toolCalls = aiResponse.choices?.[0]?.message?.tool_calls;
-    if (!toolCalls || toolCalls.length === 0) {
-      console.error("No tool calls in response:", aiResponse);
+    // Parse Pass 1 results
+    const classificationData = await classificationResponse.json();
+    const classificationToolCalls = classificationData.choices?.[0]?.message?.tool_calls;
+    
+    if (!classificationToolCalls || classificationToolCalls.length === 0) {
+      console.error("[PASS 1] No tool calls in classification response");
       return new Response(
-        JSON.stringify({ error: "No tool calls returned from AI" }),
+        JSON.stringify({ error: "No classification results returned" }),
         { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
-    const enrichmentData = JSON.parse(toolCalls[0].function.arguments);
-    const enrichedTransactions = enrichmentData.enriched_transactions;
+    const enrichmentData = JSON.parse(classificationToolCalls[0].function.arguments);
+    const basicClassifications = enrichmentData.enriched_transactions;
+    console.log(`[PASS 1] Classified ${basicClassifications.length} transactions`);
 
-    // Merge enriched data with original transactions
-    const results = transactions.map((original) => {
-      const enriched = enrichedTransactions.find((e: any) => e.transaction_id === original.transaction_id);
+    // Parse Pass 2 results (non-critical, can fail gracefully)
+    let travelAnalysis: any[] = [];
+    
+    if (!travelResponse.ok) {
+      console.warn(`[PASS 2] Travel detection failed (${travelResponse.status}), proceeding without travel context`);
+    } else {
+      const travelData = await travelResponse.json();
+      const travelToolCalls = travelData.choices?.[0]?.message?.tool_calls;
       
-      if (!enriched) {
-        // Fallback if AI didn't classify this transaction
+      if (travelToolCalls && travelToolCalls.length > 0) {
+        const travelResults = JSON.parse(travelToolCalls[0].function.arguments);
+        travelAnalysis = travelResults.travel_analysis || [];
+        console.log(`[PASS 2] Analyzed ${travelAnalysis.length} transactions for travel`);
+      } else {
+        console.warn("[PASS 2] No travel detection results returned");
+      }
+    }
+
+    // MERGE RESULTS: Basic classifications + Travel overrides
+    const results = transactions.map((original) => {
+      const basicClass = basicClassifications.find((e: any) => e.transaction_id === original.transaction_id);
+      const travelContext = travelAnalysis.find((t: any) => t.transaction_id === original.transaction_id);
+      
+      if (!basicClass) {
+        // Fallback
         return {
           ...original,
           normalized_merchant: original.merchant_name,
@@ -290,14 +301,31 @@ Deno.serve(async (req) => {
         };
       }
 
+      // Start with basic classification
+      let finalPillar = basicClass.pillar;
+      let finalSubcategory = basicClass.subcategory;
+
+      // Override with travel reclassification if applicable
+      if (travelContext?.is_travel_related && travelContext.reclassified_pillar) {
+        finalPillar = travelContext.reclassified_pillar;
+        finalSubcategory = travelContext.reclassified_subcategory;
+      }
+
       return {
         ...original,
-        normalized_merchant: enriched.normalized_merchant,
-        pillar: enriched.pillar,
-        subcategory: enriched.subcategory,
-        confidence: enriched.confidence,
-        explanation: enriched.explanation,
-        travel_context: enriched.travel_context || {
+        normalized_merchant: basicClass.normalized_merchant,
+        pillar: finalPillar,
+        subcategory: finalSubcategory,
+        confidence: basicClass.confidence,
+        explanation: basicClass.explanation,
+        travel_context: travelContext ? {
+          is_travel_related: travelContext.is_travel_related,
+          travel_period_start: travelContext.travel_period_start || null,
+          travel_period_end: travelContext.travel_period_end || null,
+          travel_destination: travelContext.travel_destination || null,
+          original_pillar: travelContext.original_pillar || null,
+          reclassification_reason: travelContext.reclassification_reason || null
+        } : {
           is_travel_related: false,
           travel_period_start: null,
           travel_period_end: null,
@@ -308,6 +336,9 @@ Deno.serve(async (req) => {
         enriched_at: new Date().toISOString()
       };
     });
+
+    const totalTime = Date.now() - startTime;
+    console.log(`[PARALLEL] Total enrichment completed in ${totalTime}ms`);
 
     return new Response(
       JSON.stringify({ enriched_transactions: results }),
