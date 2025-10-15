@@ -10,7 +10,7 @@ const corsHeaders = {
 // Simplified Classification Prompt
 const CLASSIFICATION_PROMPT = `Classify transactions into lifestyle pillars based on merchant names.
 
-PILLARS: Sports & Active Living | Health & Wellness | Food & Dining | Travel & Exploration | Home & Living | Style & Beauty | Pets | Entertainment & Culture | Family & Community | Financial & Aspirational | Miscellaneous & Unclassified
+PILLARS: Sports & Active Living | Health & Wellness | Food & Dining | Travel & Exploration | Home & Living | Style & Beauty | Pets | Entertainment & Culture | Technology & Digital Life | Family & Community | Financial & Aspirational | Miscellaneous & Unclassified
 
 MERCHANT PARSING:
 • Remove payment prefixes: Apple Pay, PayPal, Venmo, SQ, Cash App, Zelle
@@ -48,6 +48,7 @@ const CLASSIFICATION_TOOL = [{
                   "Style & Beauty",
                   "Pets",
                   "Entertainment & Culture",
+                  "Technology & Digital Life",
                   "Family & Community",
                   "Financial & Aspirational",
                   "Miscellaneous & Unclassified"

@@ -82,6 +82,7 @@ export const PILLAR_COLORS: Record<string, string> = {
   "Style & Beauty": "#f43f5e",
   "Pets": "#06b6d4",
   "Entertainment & Culture": "#6366f1",
+  "Technology & Digital Life": "#ef4444",
   "Family & Community": "#14b8a6",
   "Financial & Aspirational": "#a855f7",
   "Miscellaneous & Unclassified": "#64748b"
@@ -96,6 +97,7 @@ export const LIFESTYLE_PILLARS = [
   "Style & Beauty",
   "Pets",
   "Entertainment & Culture",
+  "Technology & Digital Life",
   "Family & Community",
   "Financial & Aspirational",
   "Miscellaneous & Unclassified"
