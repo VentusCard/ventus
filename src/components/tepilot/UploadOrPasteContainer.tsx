@@ -38,19 +38,19 @@ export function UploadOrPasteContainer({ mode, onModeChange, onLoadSample, child
             <DropdownMenuContent align="end" className="w-64 bg-background">
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV)}>
                 <div className="flex flex-col">
-                  <span className="font-medium">Travel Enthusiast</span>
+                  <span className="font-medium">Dataset 1</span>
                   <span className="text-xs text-muted-foreground">SF resident with NYC trip</span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_SPORTS_WELLNESS)}>
                 <div className="flex flex-col">
-                  <span className="font-medium">Sports & Wellness Fan</span>
+                  <span className="font-medium">Dataset 2</span>
                   <span className="text-xs text-muted-foreground">Austin resident, minimal travel</span>
                 </div>
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_FOOD_HOME)}>
                 <div className="flex flex-col">
-                  <span className="font-medium">Food & Home Enthusiast</span>
+                  <span className="font-medium">Dataset 3</span>
                   <span className="text-xs text-muted-foreground">Chicago resident, no travel</span>
                 </div>
               </DropdownMenuItem>
