@@ -17,8 +17,11 @@ import { EnrichActionBar } from "@/components/tepilot/EnrichActionBar";
 import { ResultsTable } from "@/components/tepilot/ResultsTable";
 import { ExportControls } from "@/components/tepilot/ExportControls";
 import { FilterControls } from "@/components/tepilot/FilterControls";
-import { BeforeInsightsPanel } from "@/components/tepilot/BeforeInsightsPanel";
-import { AfterInsightsPanel } from "@/components/tepilot/AfterInsightsPanel";
+import { OverviewMetrics } from "@/components/tepilot/insights/OverviewMetrics";
+import { TravelTimeline } from "@/components/tepilot/insights/TravelTimeline";
+import { TransformationFlow } from "@/components/tepilot/insights/TransformationFlow";
+import { PillarExplorer } from "@/components/tepilot/insights/PillarExplorer";
+import { ComparisonView } from "@/components/tepilot/insights/ComparisonView";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
@@ -366,19 +369,21 @@ const TePilot = () => {
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            <FilterControls filters={filters} onFiltersChange={setFilters} onReset={() => setFilters({
-            dateRange: {
-              start: null,
-              end: null
-            },
-            confidenceThreshold: 0,
-            includeMisc: true,
-            mode: "predicted"
-          })} />
-            <div className="grid md:grid-cols-2 gap-6">
-              <BeforeInsightsPanel transactions={parsedTransactions} />
-              <AfterInsightsPanel transactions={filteredTransactions} allTransactions={displayTransactions} />
-            </div>
+            <OverviewMetrics 
+              originalTransactions={parsedTransactions}
+              enrichedTransactions={displayTransactions}
+            />
+            
+            <TravelTimeline transactions={displayTransactions} />
+            
+            <TransformationFlow transactions={displayTransactions} />
+            
+            <PillarExplorer transactions={displayTransactions} />
+            
+            <ComparisonView 
+              originalTransactions={parsedTransactions}
+              enrichedTransactions={displayTransactions}
+            />
           </TabsContent>
         </Tabs>
       </div>
