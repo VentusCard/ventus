@@ -212,7 +212,10 @@ Deno.serve(async (req) => {
                 { role: "user", content: `Classify these ${transactions.length} transactions:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
               ],
               tools: CLASSIFICATION_TOOL,
-              tool_choice: { type: "function", function: { name: "classify_transactions" } }
+              tool_choice: { type: "function", function: { name: "classify_transactions" } },
+              temperature: 0.1,        // Low temperature for deterministic tool calling
+              top_p: 0.9,              // Focus on high-probability tokens
+              max_tokens: 8000         // Sufficient space for 72 transactions
             }),
           });
 
