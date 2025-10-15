@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, FileText } from "lucide-react";
-import { SAMPLE_CSV, SAMPLE_CSV_SPORTS_WELLNESS } from "@/lib/sampleData";
+import { SAMPLE_CSV, SAMPLE_CSV_SPORTS_WELLNESS, SAMPLE_CSV_FOOD_HOME } from "@/lib/sampleData";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -46,6 +46,12 @@ export function UploadOrPasteContainer({ mode, onModeChange, onLoadSample, child
                 <div className="flex flex-col">
                   <span className="font-medium">Sports & Wellness Fan</span>
                   <span className="text-xs text-muted-foreground">Austin resident, minimal travel</span>
+                </div>
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_FOOD_HOME)}>
+                <div className="flex flex-col">
+                  <span className="font-medium">Food & Home Enthusiast</span>
+                  <span className="text-xs text-muted-foreground">Chicago resident, no travel</span>
                 </div>
               </DropdownMenuItem>
             </DropdownMenuContent>
