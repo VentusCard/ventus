@@ -24,7 +24,7 @@ export function EnrichActionBar({
                 {transactionCount} transactions will be classified into lifestyle pillars using AI
               </p>
             </div>
-            <Button size="lg" onClick={onEnrich} className="w-full max-w-md" disabled={transactionCount === 0}>
+            <Button size="lg" onClick={onEnrich} className="w-full max-w-md" variant="ai" disabled={transactionCount === 0}>
               <Sparkles className="w-5 h-5 mr-2" />
               Ventus AI Transaction Enrichment
             </Button>
