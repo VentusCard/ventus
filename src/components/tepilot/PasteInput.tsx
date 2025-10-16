@@ -57,6 +57,7 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
         onClick={onParse} 
         disabled={!value.trim()}
         className="w-full"
+        variant="ai"
       >
         Ventus AI Transaction Enrichment
       </Button>
