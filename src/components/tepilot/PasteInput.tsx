@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { FileText } from "lucide-react";
+import { FileText, Sparkles } from "lucide-react";
 
 interface PasteInputProps {
   value: string;
@@ -26,7 +26,10 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
       </Alert>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium">Anchor ZIP Code (Optional)</label>
+        <label className="text-sm font-medium flex items-center gap-1.5">
+          <Sparkles className="h-3.5 w-3.5 text-transparent bg-gradient-to-r from-blue-600 via-blue-600 to-purple-600 bg-clip-text" style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }} />
+          Anchor ZIP Code (Optional)
+        </label>
         <Input
           type="text"
           value={anchorZip}
