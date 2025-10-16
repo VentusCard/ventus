@@ -205,7 +205,7 @@ const TePilot = () => {
                         <h4 className="font-semibold text-sm">AI Enrichment</h4>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        Semantic AI analyzes each transaction in full context, assigning lifestyle categories and detecting travel patterns with confidence scores.
+                        Semantic AI enriches raw transaction data with lifestyle categories, merchant context, and travel indicators, each tagged with confidence scores and explanations for quality assurance.
                       </p>
                     </div>
                     <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
