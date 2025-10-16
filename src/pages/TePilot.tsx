@@ -194,8 +194,13 @@ const TePilot = () => {
             <Accordion type="single" collapsible className="w-full">
               {/* Section 1: Ventus AI Workflows */}
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-lg font-semibold">
-                  Ventus AI Workflows
+                <AccordionTrigger className="text-lg font-semibold group">
+                  <div className="flex flex-col items-start gap-1 text-left">
+                    <span>Ventus AI Workflows</span>
+                    <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
+                      Three workflows transform raw data to insights
+                    </span>
+                  </div>
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
@@ -232,8 +237,13 @@ const TePilot = () => {
 
               {/* Section 2: Why Semantic AI is Different */}
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-lg font-semibold">
-                  Why Semantic AI is Different
+                <AccordionTrigger className="text-lg font-semibold group">
+                  <div className="flex flex-col items-start gap-1 text-left">
+                    <span>Why Semantic AI is Different</span>
+                    <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
+                      AI delivers accuracy legacy methods can't match
+                    </span>
+                  </div>
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="border rounded-lg overflow-hidden">
@@ -288,8 +298,13 @@ const TePilot = () => {
 
               {/* Section 3: Key Features */}
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-lg font-semibold">
-                  Key Features
+                <AccordionTrigger className="text-lg font-semibold group">
+                  <div className="flex flex-col items-start gap-1 text-left">
+                    <span>Key Features</span>
+                    <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
+                      Full-stack AI features for transaction intelligence
+                    </span>
+                  </div>
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
