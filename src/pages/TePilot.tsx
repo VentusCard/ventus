@@ -44,7 +44,6 @@ const TePilot = () => {
     statusMessage,
     currentPhase,
     error: enrichmentError,
-    travelSummary,
     startEnrichment
   } = useSSEEnrichment();
   const [filters, setFilters] = useState<Filters>({
@@ -381,7 +380,6 @@ const TePilot = () => {
               isProcessing={isProcessing} 
               statusMessage={statusMessage}
               currentPhase={currentPhase}
-              travelSummary={travelSummary}
               onEnrich={handleEnrich} 
             />
           </TabsContent>

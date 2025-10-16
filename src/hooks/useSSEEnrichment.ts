@@ -2,19 +2,12 @@ import { useState, useCallback } from 'react';
 import { Transaction, EnrichedTransaction } from '@/types/transaction';
 import { toast } from 'sonner';
 
-interface TravelSummary {
-  travelTransactions: number;
-  destinations: string[];
-  reclassified: number;
-}
-
 interface UseSSEEnrichmentReturn {
   enrichedTransactions: EnrichedTransaction[];
   isProcessing: boolean;
   statusMessage: string;
   currentPhase: "idle" | "classification" | "travel" | "complete";
   error: string | null;
-  travelSummary: TravelSummary | null;
   startEnrichment: (transactions: Transaction[], homeZip?: string) => Promise<void>;
 }
 
@@ -24,7 +17,6 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
   const [statusMessage, setStatusMessage] = useState('');
   const [currentPhase, setCurrentPhase] = useState<"idle" | "classification" | "travel" | "complete">("idle");
   const [error, setError] = useState<string | null>(null);
-  const [travelSummary, setTravelSummary] = useState<TravelSummary | null>(null);
 
   const callClassifyTransactions = useCallback(async (transactions: Transaction[]): Promise<EnrichedTransaction[]> => {
     const projectId = 'theaknjrmfsyauxxvhmk';
@@ -188,22 +180,6 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
               });
               return updated;
             });
-            
-            // Calculate travel summary
-            const travelCount = data.travel_updates.filter((t: any) => t.is_travel_related).length;
-            const destinations = [...new Set(
-              data.travel_updates
-                .map((t: any) => t.travel_destination)
-                .filter((d: any) => d !== null)
-            )];
-            const reclassifiedCount = data.travel_updates.filter((t: any) => t.reclassified_pillar).length;
-            
-            setTravelSummary({
-              travelTransactions: travelCount,
-              destinations: destinations as string[],
-              reclassified: reclassifiedCount
-            });
-            
             setStatusMessage('Travel context added!');
             toast.success('Travel patterns detected!');
             console.log('[Travel Updates]', data.travel_updates.length, 'travel updates applied');
@@ -227,7 +203,6 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     setIsProcessing(true);
     setError(null);
     setEnrichedTransactions([]);
-    setTravelSummary(null);
     setCurrentPhase("classification");
 
     try {
@@ -268,7 +243,6 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     statusMessage,
     currentPhase,
     error,
-    travelSummary,
     startEnrichment
   };
 };
