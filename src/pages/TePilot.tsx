@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, Upload, BarChart3 } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, Upload, BarChart3, Scan, RefreshCw } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "sonner";
 import { Transaction, EnrichedTransaction, Correction, Filters } from "@/types/transaction";
@@ -288,6 +288,24 @@ const TePilot = () => {
                         <h4 className="font-semibold text-sm mb-1">Higher Accuracy</h4>
                         <p className="text-sm text-muted-foreground">
                           Better confidence scores with transparent reasoning
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <Scan className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Pattern Recognition</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Currently detects travel spending patterns and destinations. Additional behavioral patterns in training to unlock deeper insights.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <RefreshCw className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Adaptive Learning</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Corrections teach the AI to improve future classifications, creating a smarter system over time
                         </p>
                       </div>
                     </div>
