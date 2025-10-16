@@ -27,7 +27,7 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
 
       <div className="space-y-2">
         <label className="text-sm font-medium flex items-center gap-1.5">
-          <Sparkles className="h-3.5 w-3.5 text-transparent bg-gradient-to-r from-blue-600 via-blue-600 to-purple-600 bg-clip-text" style={{ backgroundClip: 'text', WebkitBackgroundClip: 'text' }} />
+          <Sparkles className="h-3.5 w-3.5 text-blue-600" />
           Anchor ZIP Code (Optional)
         </label>
         <Input
