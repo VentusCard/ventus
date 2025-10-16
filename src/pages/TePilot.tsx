@@ -41,7 +41,7 @@ const TePilot = () => {
   const [showRecommendationsModal, setShowRecommendationsModal] = useState(false);
   const [recommendations, setRecommendations] = useState<any>(null);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
-  
+
   // SSE Enrichment Hook
   const {
     enrichedTransactions,
@@ -61,7 +61,7 @@ const TePilot = () => {
     includeMisc: true,
     mode: "predicted"
   });
-  
+
   // New state for column mapping
   const [pendingMapping, setPendingMapping] = useState<{
     headers: string[];
@@ -89,17 +89,16 @@ const TePilot = () => {
       if (inputMode === "paste") {
         // Prepend Home ZIP Code header if parsing pasted text
         let textToParse = rawInput;
-        
+
         // Check if the text already has a Home ZIP Code header
         const firstLine = textToParse.trim().split("\n")[0];
         const hasZipHeader = firstLine.startsWith("#") && firstLine.toLowerCase().includes("zip");
-        
+
         // If no existing header, add one with the anchor ZIP (or N/A if empty)
         if (!hasZipHeader) {
           const zipValue = anchorZip.trim() || "N/A";
           textToParse = `# Home ZIP Code: ${zipValue}\n${textToParse}`;
         }
-        
         result = parsePastedText(textToParse);
       } else if (uploadedFile) {
         result = await parseFile(uploadedFile);
@@ -107,7 +106,6 @@ const TePilot = () => {
         toast.error("No data to parse");
         return;
       }
-      
       if (result.needsMapping) {
         // Show column mapper
         setPendingMapping({
@@ -127,17 +125,10 @@ const TePilot = () => {
       toast.error(error.message);
     }
   };
-  
   const handleMappingConfirm = async (mapping: Record<string, string>) => {
     try {
       if (!pendingMapping) return;
-      
-      const transactions = mapColumnsWithMapping(
-        pendingMapping.headers,
-        pendingMapping.rows,
-        mapping
-      );
-      
+      const transactions = mapColumnsWithMapping(pendingMapping.headers, pendingMapping.rows, mapping);
       setParsedTransactions(transactions);
       setPendingMapping(null);
       toast.success(`Parsed ${transactions.length} transactions - starting enrichment...`);
@@ -147,7 +138,6 @@ const TePilot = () => {
       toast.error(error.message);
     }
   };
-  
   const handleMappingCancel = () => {
     setPendingMapping(null);
     toast.info("Column mapping cancelled");
@@ -170,60 +160,59 @@ const TePilot = () => {
     };
     const newCorrections = new Map(corrections.set(transactionId, correction));
     setCorrections(newCorrections);
-    
+
     // Send feedback to AI for training (fire-and-forget)
     supabase.functions.invoke('send-feedback', {
-      body: { transaction, correction }
+      body: {
+        transaction,
+        correction
+      }
     }).catch(err => console.log("Feedback sending failed (non-critical):", err));
-    
     toast.success("Correction applied and feedback sent to AI for training!");
   };
   // Always apply corrections, then apply filters
   const displayTransactions = applyCorrections(enrichedTransactions, corrections);
   const filteredTransactions = applyFilters(displayTransactions, filters);
-
   const handleGenerateRecommendations = async () => {
     setIsGeneratingRecommendations(true);
     try {
       // Aggregate insights from enriched transactions
       const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
       const monthlyAverage = totalSpend / 12; // Approximate
-      
+
       // Calculate top pillars
       const pillarSpending = enrichedTransactions.reduce((acc, t) => {
         const pillar = t.pillar || "Other";
         acc[pillar] = (acc[pillar] || 0) + t.amount;
         return acc;
       }, {} as Record<string, number>);
-      
-      const topPillars = Object.entries(pillarSpending)
-        .map(([pillar, spend]) => ({
-          pillar,
-          spend,
-          percentage: Math.round((spend / totalSpend) * 100)
-        }))
-        .sort((a, b) => b.spend - a.spend)
-        .slice(0, 5);
+      const topPillars = Object.entries(pillarSpending).map(([pillar, spend]) => ({
+        pillar,
+        spend,
+        percentage: Math.round(spend / totalSpend * 100)
+      })).sort((a, b) => b.spend - a.spend).slice(0, 5);
 
       // Calculate top merchants
       const merchantData = enrichedTransactions.reduce((acc, t) => {
         const merchant = t.merchant_name || "Unknown";
         if (!acc[merchant]) {
-          acc[merchant] = { visits: 0, totalSpend: 0 };
+          acc[merchant] = {
+            visits: 0,
+            totalSpend: 0
+          };
         }
         acc[merchant].visits += 1;
         acc[merchant].totalSpend += t.amount;
         return acc;
-      }, {} as Record<string, { visits: number; totalSpend: number }>);
-
-      const topMerchants = Object.entries(merchantData)
-        .map(([merchant, data]) => ({
-          merchant,
-          visits: data.visits,
-          totalSpend: Math.round(data.totalSpend)
-        }))
-        .sort((a, b) => b.totalSpend - a.totalSpend)
-        .slice(0, 10);
+      }, {} as Record<string, {
+        visits: number;
+        totalSpend: number;
+      }>);
+      const topMerchants = Object.entries(merchantData).map(([merchant, data]) => ({
+        merchant,
+        visits: data.visits,
+        totalSpend: Math.round(data.totalSpend)
+      })).sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 10);
 
       // Determine customer segment
       const segment = {
@@ -231,7 +220,6 @@ const TePilot = () => {
         lifestyle: topPillars.filter(p => p.percentage > 15).map(p => p.pillar),
         spendingVelocity: totalSpend > 120000 ? "high" : totalSpend > 60000 ? "medium" : "low"
       };
-
       const insights = {
         totalSpend: Math.round(totalSpend),
         monthlyAverage: Math.round(monthlyAverage),
@@ -239,15 +227,16 @@ const TePilot = () => {
         topMerchants,
         segment
       };
-
       console.log('Sending insights to generate-partner-recommendations:', insights);
-
-      const { data, error } = await supabase.functions.invoke('generate-partner-recommendations', {
-        body: { insights }
+      const {
+        data,
+        error
+      } = await supabase.functions.invoke('generate-partner-recommendations', {
+        body: {
+          insights
+        }
       });
-
       if (error) throw error;
-
       console.log('Received recommendations:', data);
       setRecommendations(data);
       setShowRecommendationsModal(true);
@@ -463,13 +452,7 @@ const TePilot = () => {
             <div>
               <h3 className="font-semibold text-lg mb-4">Enter Password to Continue</h3>
               <form onSubmit={handleSubmit} className="space-y-4">
-                <Input 
-                  type="password" 
-                  placeholder="Enter password" 
-                  value={password} 
-                  onChange={e => setPassword(e.target.value)} 
-                  autoFocus 
-                />
+                <Input type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoFocus />
                 <Button type="submit" className="w-full">
                   Access Pilot
                 </Button>
@@ -490,20 +473,20 @@ const TePilot = () => {
           // Clear authentication
           sessionStorage.removeItem("tepilot_auth");
           setIsAuthenticated(false);
-          
+
           // Clear all transaction data
           setParsedTransactions([]);
           setCorrections(new Map());
-          
+
           // Clear enrichment state
           resetEnrichment();
-          
+
           // Clear all input data
           setRawInput("");
           setUploadedFile(null);
           setPendingMapping(null);
           setAnchorZip("");
-          
+
           // Reset filters to default
           setFilters({
             dateRange: {
@@ -514,11 +497,10 @@ const TePilot = () => {
             includeMisc: true,
             mode: "predicted"
           });
-          
+
           // Reset UI state
           setActiveTab("upload");
           setInputMode("paste");
-          
           toast.success("Session cleared successfully");
         }}>Log Out and Clear Session</Button>
         </div>
@@ -531,61 +513,34 @@ const TePilot = () => {
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">
-            {pendingMapping ? (
-              <ColumnMapper
-                detectedColumns={pendingMapping.headers}
-                suggestedMapping={pendingMapping.suggestedMapping}
-                onConfirm={handleMappingConfirm}
-                onCancel={handleMappingCancel}
-              />
-            ) : (
-              <UploadOrPasteContainer 
-                mode={inputMode} 
-                onModeChange={setInputMode} 
-                onLoadSample={(data, zip) => {
-                  setRawInput(data);
-                  setAnchorZip(zip);
-                }}
-              >
+            {pendingMapping ? <ColumnMapper detectedColumns={pendingMapping.headers} suggestedMapping={pendingMapping.suggestedMapping} onConfirm={handleMappingConfirm} onCancel={handleMappingCancel} /> : <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={(data, zip) => {
+            setRawInput(data);
+            setAnchorZip(zip);
+          }}>
                 {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
-              </UploadOrPasteContainer>
-            )}
+              </UploadOrPasteContainer>}
           </TabsContent>
 
           <TabsContent value="preview" className="space-y-6">
             <PreviewTable transactions={parsedTransactions} />
-            <EnrichActionBar 
-              transactionCount={parsedTransactions.length} 
-              isProcessing={isProcessing} 
-              statusMessage={statusMessage}
-              currentPhase={currentPhase}
-              onEnrich={handleEnrich} 
-            />
+            <EnrichActionBar transactionCount={parsedTransactions.length} isProcessing={isProcessing} statusMessage={statusMessage} currentPhase={currentPhase} onEnrich={handleEnrich} />
           </TabsContent>
 
           <TabsContent value="results" className="space-y-6">
-            {currentPhase === "travel" && (
-              <Card className="border-yellow-500/20 bg-yellow-500/5">
+            {currentPhase === "travel" && <Card className="border-yellow-500/20 bg-yellow-500/5">
                 <CardContent className="pt-6 flex items-center gap-3">
                   <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent" />
                   <p className="text-sm font-medium text-yellow-700 dark:text-yellow-400">
                     {statusMessage || "Analyzing travel patterns..."}
                   </p>
                 </CardContent>
-              </Card>
-            )}
+              </Card>}
             <div className="flex justify-end">
               <ExportControls transactions={enrichedTransactions} />
             </div>
-            <ResultsTable 
-              transactions={enrichedTransactions} 
-              currentPhase={currentPhase}
-              statusMessage={statusMessage}
-              onCorrection={handleCorrection} 
-            />
+            <ResultsTable transactions={enrichedTransactions} currentPhase={currentPhase} statusMessage={statusMessage} onCorrection={handleCorrection} />
             
-            {currentPhase === "complete" && enrichedTransactions.length > 0 && (
-              <Card className="border-primary/20 bg-primary/5">
+            {currentPhase === "complete" && enrichedTransactions.length > 0 && <Card className="border-primary/20 bg-primary/5">
                 <CardContent className="pt-6 flex flex-col items-center gap-4">
                   <div className="text-center">
                     <h3 className="text-lg font-semibold mb-2">Ready to explore insights?</h3>
@@ -593,48 +548,32 @@ const TePilot = () => {
                       View aggregated spending patterns, travel analysis, and lifestyle breakdowns
                     </p>
                   </div>
-                  <Button 
-                    onClick={() => setActiveTab("insights")}
-                    size="lg"
-                    className="gap-2"
-                  >
+                  <Button onClick={() => setActiveTab("insights")} size="lg" className="gap-2">
                     View Insights
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </CardContent>
-              </Card>
-            )}
+              </Card>}
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            <OverviewMetrics 
-              originalTransactions={parsedTransactions}
-              enrichedTransactions={displayTransactions}
-            />
+            <OverviewMetrics originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
             
             <PillarExplorer transactions={displayTransactions} />
             
             <TravelTimeline transactions={displayTransactions} />
             
-            <BeforeAfterTransformation 
-              originalTransactions={parsedTransactions}
-              enrichedTransactions={displayTransactions}
-            />
+            <BeforeAfterTransformation originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
             
             <Card>
               <CardHeader>
-                <CardTitle>AI Revenue Opportunity Recommendations</CardTitle>
+                <CardTitle>Ventus AI Revenue Opportunity Recommendations</CardTitle>
                 <CardDescription>
                   Generate example deal recommendations based on spending patterns
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <Button 
-                  onClick={handleGenerateRecommendations}
-                  disabled={isGeneratingRecommendations}
-                  className="w-full"
-                  variant="ai"
-                >
+                <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full" variant="ai">
                   {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                 </Button>
               </CardContent>
@@ -643,17 +582,13 @@ const TePilot = () => {
         </Tabs>
       </div>
 
-      {recommendations && (
-        <RecommendationsModal
-          isOpen={showRecommendationsModal}
-          onClose={() => setShowRecommendationsModal(false)}
-          recommendations={recommendations.recommendations || []}
-          summary={recommendations.summary || { 
-            total_estimated_value: { monthly: 0, annual: 0 },
-            message: "No recommendations available"
-          }}
-        />
-      )}
+      {recommendations && <RecommendationsModal isOpen={showRecommendationsModal} onClose={() => setShowRecommendationsModal(false)} recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
+      total_estimated_value: {
+        monthly: 0,
+        annual: 0
+      },
+      message: "No recommendations available"
+    }} />}
     </div>;
 };
 export default TePilot;
