@@ -10,17 +10,22 @@ interface Recommendation {
   title: string;
   description: string;
   estimated_value: {
-    monthly: number | null;
-    annual: number;
+    current_monthly: number | null;
+    current_annual: number;
+    lift_monthly?: number;
+    lift_annual?: number;
+    lift_scenario?: string;
     calculation: string;
   };
   matching_data: {
     spending: string;
     merchants: string[];
     categories: string[];
+    lift_opportunity?: string;
   };
   tier: "deal" | "experience" | "financial_product";
   priority: number;
+  lift_type?: "frequency" | "amount" | "new_category" | "merchant_expansion";
 }
 
 interface RecommendationsModalProps {
@@ -28,7 +33,9 @@ interface RecommendationsModalProps {
   onClose: () => void;
   recommendations: Recommendation[];
   summary: {
-    total_estimated_value: { monthly: number; annual: number };
+    total_current_value?: { monthly: number; annual: number };
+    total_lift_potential?: { monthly: number; annual: number };
+    total_estimated_value?: { monthly: number; annual: number };
     message: string;
   };
 }
@@ -58,7 +65,17 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
         <DialogHeader>
           <DialogTitle>Example Banking Partner Recommendations</DialogTitle>
           <DialogDescription>
-            Potential value: ${summary.total_estimated_value.annual.toLocaleString()}/year
+            {summary.total_lift_potential ? (
+              <>
+                Current value: ${(summary.total_current_value?.annual || 0).toLocaleString()}/year
+                {" • "}
+                <span className="text-primary font-semibold">
+                  Lift potential: ${summary.total_lift_potential.annual.toLocaleString()}/year
+                </span>
+              </>
+            ) : (
+              <>Potential value: ${(summary.total_estimated_value?.annual || summary.total_current_value?.annual || 0).toLocaleString()}/year</>
+            )}
           </DialogDescription>
         </DialogHeader>
 
@@ -82,11 +99,11 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                   </div>
                   <div className="text-right flex flex-col items-end">
                     <div className="text-xl font-bold text-primary">
-                      ${rec.estimated_value.annual.toLocaleString()}<span className="text-sm font-normal">/yr</span>
+                      ${(rec.estimated_value.lift_annual || rec.estimated_value.current_annual).toLocaleString()}<span className="text-sm font-normal">/yr</span>
                     </div>
-                    {rec.estimated_value.monthly !== null && (
+                    {rec.estimated_value.lift_monthly !== undefined && rec.estimated_value.current_monthly !== null && (
                       <div className="text-sm text-muted-foreground">
-                        ${rec.estimated_value.monthly.toLocaleString()}/mo
+                        ${rec.estimated_value.lift_monthly.toLocaleString()}/mo
                       </div>
                     )}
                   </div>
@@ -109,16 +126,36 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                      {rec.estimated_value.monthly !== null && (
+                      {rec.estimated_value.current_monthly !== null && (
                         <div className="flex justify-between text-sm">
-                          <span className="text-muted-foreground">Monthly:</span>
-                          <span className="font-semibold">${rec.estimated_value.monthly.toLocaleString()}</span>
+                          <span className="text-muted-foreground">Current Monthly:</span>
+                          <span className="font-semibold">${rec.estimated_value.current_monthly.toLocaleString()}</span>
                         </div>
                       )}
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Annual:</span>
-                        <span className="font-semibold">${rec.estimated_value.annual.toLocaleString()}</span>
+                        <span className="text-muted-foreground">Current Annual:</span>
+                        <span className="font-semibold">${rec.estimated_value.current_annual.toLocaleString()}</span>
                       </div>
+                      
+                      {rec.estimated_value.lift_monthly !== undefined && (
+                        <>
+                          <Separator className="my-2" />
+                          <div className="flex justify-between text-sm">
+                            <span className="text-primary font-medium">Lift Monthly:</span>
+                            <span className="font-bold text-primary">${rec.estimated_value.lift_monthly.toLocaleString()}</span>
+                          </div>
+                          <div className="flex justify-between text-sm">
+                            <span className="text-primary font-medium">Lift Annual:</span>
+                            <span className="font-bold text-primary">${rec.estimated_value.lift_annual?.toLocaleString()}</span>
+                          </div>
+                          {rec.estimated_value.lift_scenario && (
+                            <p className="text-xs text-primary/80 italic mt-2">
+                              {rec.estimated_value.lift_scenario}
+                            </p>
+                          )}
+                        </>
+                      )}
+                      
                       <Separator className="my-2" />
                       <p className="text-xs text-muted-foreground italic">
                         {rec.estimated_value.calculation}
@@ -136,6 +173,14 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                     </CardHeader>
                     <CardContent>
                       <ul className="space-y-2">
+                        {rec.matching_data.lift_opportunity && (
+                          <li className="flex items-start gap-2 mb-3 p-2 bg-primary/5 rounded-md">
+                            <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
+                            <div className="text-sm text-primary font-medium">
+                              {rec.matching_data.lift_opportunity}
+                            </div>
+                          </li>
+                        )}
                         <li className="flex items-start gap-2">
                           <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
                           <div className="text-sm">

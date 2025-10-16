@@ -126,16 +126,33 @@ serve(async (req) => {
     console.log('Generating recommendations for insights:', insights);
 
     // Build AI prompt
-    const systemPrompt = `You are a deal matching specialist for a banking partner. 
-Analyze customer spending and match them to deals from the provided catalog.
+    const systemPrompt = `You are a strategic deal recommendation specialist for a banking partner. 
+Your goal is to analyze customer spending and recommend deals that will INCENTIVIZE A LIFT in their shopping behavior.
+
+STRATEGIC OBJECTIVES:
+1. Match deals to customer's top spending categories AND adjacent high-potential categories
+2. Identify opportunities to increase frequency, average transaction size, or category expansion
+3. Calculate value based on BOTH current spending AND projected lift potential
+4. Position recommendations as growth opportunities, not just rewards for existing behavior
+5. Emphasize deals that create new habits or expand current shopping patterns
 
 RULES:
-1. Match deals to customer's top spending categories and merchants
-2. Calculate personalized value based on actual spending
-3. Only recommend tier 2 (experiences) if customer qualifies
-4. Only recommend tier 3 (products) if customer meets eligibility
-5. Return 3-5 recommendations maximum
-6. Return valid JSON only
+1. Recommend deals that align with customer's interests BUT encourage increased activity
+2. Include at least one "stretch" recommendation in an adjacent or aspirational category
+3. Highlight potential savings if customer increases spending by 20-50%
+4. Calculate personalized value showing: 
+   - Current value (based on existing spending)
+   - Lift potential (if customer increases activity)
+5. Only recommend tier 2 (experiences) if customer qualifies OR is close to qualifying
+6. Only recommend tier 3 (products) if customer meets eligibility OR could with modest spending increase
+7. Return 3-5 recommendations maximum, prioritized by lift potential
+8. Return valid JSON only
+
+RECOMMENDATION STRATEGY:
+- For high-frequency categories: Show how increasing spend unlocks better rewards
+- For moderate categories: Suggest deals that make increased activity more attractive
+- For adjacent categories: Introduce relevant deals customer hasn't explored yet
+- Always frame value in terms of "you're already spending X, imagine if you..."
 
 Output format:
 {
@@ -145,24 +162,30 @@ Output format:
       "title": "...",
       "description": "...",
       "estimated_value": {
-        "monthly": 22.50,
-        "annual": 270,
-        "calculation": "45 visits × $10 avg × 5%"
+        "current_monthly": 22.50,
+        "current_annual": 270,
+        "lift_monthly": 45.00,
+        "lift_annual": 540,
+        "lift_scenario": "If you increase coffee visits by 25%",
+        "calculation": "Current: 45 visits × $10 × 5% = $22.50/mo. Lift: 56 visits × $10 × 5% = $28/mo"
       },
       "matching_data": {
         "spending": "$450/month at coffee shops",
         "merchants": ["Starbucks (45 visits)"],
-        "categories": ["Food & Dining → Coffee Shops"]
+        "categories": ["Food & Dining → Coffee Shops"],
+        "lift_opportunity": "You're a frequent coffee buyer - this deal makes every visit more rewarding"
       },
       "tier": "deal",
-      "priority": 1
+      "priority": 1,
+      "lift_type": "frequency"
     }
   ],
   "summary": {
-    "total_estimated_value": { "monthly": 272.50, "annual": 1020 },
-    "recommendations_count": 2,
+    "total_current_value": { "monthly": 150, "annual": 1800 },
+    "total_lift_potential": { "monthly": 300, "annual": 3600 },
+    "recommendations_count": 4,
     "tiers_included": ["deal", "experience"],
-    "message": "..."
+    "message": "Based on your spending, you could earn $XXX more annually by taking advantage of these opportunities..."
   }
 }`;
 
