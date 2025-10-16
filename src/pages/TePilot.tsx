@@ -595,7 +595,7 @@ const TePilot = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full" variant="ai">
+                <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
                   {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                 </Button>
                 
