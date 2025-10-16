@@ -6,7 +6,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Bank's deal catalog (example deals)
+// Bank's deal catalog - strategically positioned for incremental revenue
 const DEAL_CATALOG = {
   tier1_deals: [
     {
@@ -21,11 +21,11 @@ const DEAL_CATALOG = {
     },
     {
       id: "DEAL_002",
-      title: "10% Cashback at Grocery Stores",
-      description: "Earn 10% back on all grocery purchases at major chains",
+      title: "10% Cashback at Mid-Tier Grocery Stores",
+      description: "Earn 10% back at traditional grocery chains like Safeway, Kroger, Albertsons",
       category: "Food & Dining",
       subcategories: ["Grocery", "Supermarkets"],
-      merchants: ["Whole Foods", "Trader Joe's", "Safeway"],
+      merchants: ["Safeway", "Kroger", "Albertsons"],
       value_type: "cashback",
       value_percentage: 10,
     },
@@ -58,6 +58,162 @@ const DEAL_CATALOG = {
       merchants: ["Equinox", "24 Hour Fitness", "Planet Fitness"],
       value_type: "cashback",
       value_percentage: 15,
+    },
+    {
+      id: "DEAL_006",
+      title: "15% Cashback at Premium Grocery & Meal Prep",
+      description: "Premium rewards at Whole Foods, premium meal kits like Blue Apron, HelloFresh, and specialty food delivery",
+      category: "Food & Dining",
+      subcategories: ["Premium Grocery", "Meal Kits", "Specialty Foods"],
+      merchants: ["Whole Foods", "Blue Apron", "HelloFresh", "Thrive Market"],
+      value_type: "cashback",
+      value_percentage: 15,
+      strategy: "premium_upsell",
+    },
+    {
+      id: "DEAL_007",
+      title: "20% Cashback at Gourmet Food Delivery",
+      description: "Exceptional rewards at premium food delivery: Goldbelly, Fresh Direct, specialty gourmet services",
+      category: "Food & Dining",
+      subcategories: ["Gourmet Delivery", "Specialty Foods"],
+      merchants: ["Goldbelly", "Fresh Direct", "Williams Sonoma Food"],
+      value_type: "cashback",
+      value_percentage: 20,
+      strategy: "premium_upsell",
+    },
+    {
+      id: "DEAL_008",
+      title: "12% Cashback at Premium Coffee & Tea",
+      description: "Premium rewards at specialty coffee roasters and artisan tea shops",
+      category: "Food & Dining",
+      subcategories: ["Specialty Coffee", "Artisan Tea"],
+      merchants: ["Blue Bottle Coffee", "Intelligentsia", "David's Tea"],
+      value_type: "cashback",
+      value_percentage: 12,
+      strategy: "premium_upsell",
+    },
+    {
+      id: "DEAL_009",
+      title: "Tiered Grocery Rewards: Up to 15%",
+      description: "8% under $100, 12% at $100-$200, 15% over $200 per transaction",
+      category: "Food & Dining",
+      subcategories: ["Grocery"],
+      merchants: ["Major grocery chains"],
+      value_type: "tiered_cashback",
+      tiers: {low: 8, medium: 12, high: 15},
+      strategy: "ticket_expansion",
+    },
+    {
+      id: "DEAL_010",
+      title: "Bonus Home Improvement Cashback",
+      description: "10% base + extra 5% on purchases $500+",
+      category: "Home & Living",
+      subcategories: ["Home Improvement"],
+      merchants: ["Home Depot", "Lowe's"],
+      value_type: "bonus_cashback",
+      base_percentage: 10,
+      bonus_percentage: 15,
+      bonus_threshold: 500,
+      strategy: "ticket_expansion",
+    },
+    {
+      id: "DEAL_011",
+      title: "25% Cashback at Cooking Classes & Culinary Experiences",
+      description: "Premium rewards for cooking classes, wine tastings, culinary tours",
+      category: "Food & Dining",
+      subcategories: ["Culinary Classes", "Food Experiences"],
+      merchants: ["Sur La Table", "Williams Sonoma Classes", "Local culinary schools"],
+      value_type: "cashback",
+      value_percentage: 25,
+      strategy: "adjacent_category",
+    },
+    {
+      id: "DEAL_012",
+      title: "20% Cashback at Premium Wine & Spirits Clubs",
+      description: "Exceptional rewards at curated wine clubs and premium spirits subscriptions",
+      category: "Food & Dining",
+      subcategories: ["Wine Clubs", "Premium Spirits"],
+      merchants: ["Winc", "Firstleaf", "Flaviar"],
+      value_type: "cashback",
+      value_percentage: 20,
+      strategy: "adjacent_category",
+    },
+    {
+      id: "DEAL_013",
+      title: "15% Cashback at Gourmet Kitchen & Home Goods",
+      description: "Premium rewards for high-end kitchen equipment and gourmet home goods",
+      category: "Home & Living",
+      subcategories: ["Kitchen Equipment", "Gourmet Home"],
+      merchants: ["Williams Sonoma", "Sur La Table", "Crate & Barrel"],
+      value_type: "cashback",
+      value_percentage: 15,
+      strategy: "adjacent_category",
+    },
+    {
+      id: "DEAL_014",
+      title: "18% Cashback at Premium Wellness & Nutrition",
+      description: "Exceptional rewards for nutrition coaching, wellness programs, premium supplements",
+      category: "Wellness & Self-Care",
+      subcategories: ["Nutrition Coaching", "Premium Supplements"],
+      merchants: ["Noom", "Thrive Market", "Ritual"],
+      value_type: "cashback",
+      value_percentage: 18,
+      strategy: "adjacent_category",
+    },
+    {
+      id: "DEAL_015",
+      title: "20% Cashback at Boutique Fitness Studios",
+      description: "Premium partner studios: barre, pilates, yoga, boutique cycling",
+      category: "Wellness & Self-Care",
+      subcategories: ["Boutique Fitness"],
+      merchants: ["Pure Barre", "Club Pilates", "CorePower Yoga"],
+      value_type: "cashback",
+      value_percentage: 20,
+      strategy: "strategic_partner",
+    },
+    {
+      id: "DEAL_016",
+      title: "15% Cashback at Lifestyle Subscription Services",
+      description: "Curated subscription boxes: fashion, beauty, home, wellness",
+      category: "Style & Beauty",
+      subcategories: ["Subscription Boxes"],
+      merchants: ["Stitch Fix", "FabFitFun", "Birchbox"],
+      value_type: "cashback",
+      value_percentage: 15,
+      strategy: "strategic_partner",
+    },
+    {
+      id: "DEAL_017",
+      title: "12% Cashback at Premium Entertainment Venues",
+      description: "Premium rewards at upscale restaurants, theaters, cultural experiences",
+      category: "Entertainment & Culture",
+      subcategories: ["Fine Dining", "Theater", "Cultural Events"],
+      merchants: ["OpenTable premium partners", "Theater chains", "Museums"],
+      value_type: "cashback",
+      value_percentage: 12,
+      strategy: "strategic_partner",
+    },
+    {
+      id: "DEAL_018",
+      title: "Accelerated Dining Rewards: Up to 15%",
+      description: "5% base, 10% after 8 visits/month, 15% after 12 visits/month",
+      category: "Food & Dining",
+      subcategories: ["Restaurants"],
+      merchants: ["Partner restaurants"],
+      value_type: "milestone_cashback",
+      tiers: {base: 5, bronze: 10, silver: 15},
+      strategy: "frequency_multiplier",
+    },
+    {
+      id: "DEAL_019",
+      title: "Retail Milestone Bonus: Up to 20%",
+      description: "10% standard, 15% after $500 monthly spend, 20% after $1000 monthly spend",
+      category: "Shopping",
+      subcategories: ["Retail"],
+      merchants: ["Major retail partners"],
+      value_type: "milestone_cashback",
+      tiers: {base: 10, bronze: 15, gold: 20},
+      strategy: "frequency_multiplier",
     },
   ],
 
@@ -126,66 +282,100 @@ serve(async (req) => {
     console.log("Generating recommendations for insights:", insights);
 
     // Build AI prompt
-    const systemPrompt = `You are a strategic deal recommendation specialist for a banking partner. 
-Your goal is to analyze customer spending and recommend deals that will INCENTIVIZE A reasonable LIFT in their shopping behavior.
+    const systemPrompt = `You are a strategic revenue optimization specialist for a banking partner.
+Your mission: Generate recommendations that drive INCREMENTAL, PROFITABLE customer behavior.
 
-STRATEGIC OBJECTIVES:
-1. Match deals to customer's top spending categories AND adjacent high-potential categories
-2. Identify opportunities to increase frequency, average transaction size, or category expansion
-3. Calculate value based on BOTH current spending AND projected lift potential
-4. Position recommendations as growth opportunities, not just rewards for existing behavior
-5. Emphasize deals that create new habits or expand current shopping patterns
+CRITICAL PRINCIPLE: Do NOT simply reward existing behavior. Every recommendation must create NEW value:
+- Premium upsells (not just more of the same)
+- Adjacent category exploration (leverage interests to expand wallet share)
+- Ticket size increases (incentivize larger purchases)
+- Strategic merchant partnerships (direct to preferred partners)
+- Frequency multipliers (reward increased engagement)
 
-RULES:
-1. Recommend deals that align with customer's interests BUT encourage increased activity
-2. Include at least one "stretch" recommendation in an adjacent or aspirational category
-3. Highlight potential savings if customer increases spending by 5-20%
-4. Calculate personalized value showing: 
-   - Current value (based on existing spending)
-   - Lift potential (if customer increases activity)
-5. Only recommend tier 2 (experiences) if customer qualifies OR is close to qualifying
-6. Only recommend tier 3 (products) if customer meets eligibility OR could with modest spending increase
-7. Return 3-5 recommendations maximum, prioritized by lift potential
-8. Return valid JSON only
+STRATEGIC RECOMMENDATION FRAMEWORK:
 
-RECOMMENDATION STRATEGY:
-- For high-frequency categories: Show how increasing spend unlocks better rewards
-- For moderate categories: Suggest deals that make increased activity more attractive
-- For adjacent categories: Introduce relevant deals customer hasn't explored yet
-- Always frame value in terms of "you're already spending X, imagine if you..."
+1. **Premium Upsell Strategy**
+   - If customer shops mid-tier → Recommend premium alternatives with higher rewards
+   - Example: Regular grocery → Premium grocers + meal kits + gourmet delivery
+   - Benefit: Higher transaction values, better margins
 
-Output format:
+2. **Adjacent Category Expansion**
+   - Leverage existing interests to introduce new spending categories
+   - Example: Food enthusiast → Cooking classes, wine clubs, kitchen goods
+   - Benefit: Net new spend, not cannibalizing existing
+
+3. **Ticket Size Incentives**
+   - Offer tiered rewards that encourage larger basket sizes
+   - Example: 10% base, 15% on orders $150+, 20% on orders $250+
+   - Benefit: Consolidation of spend, fewer transactions, higher values
+
+4. **Strategic Partner Direction**
+   - Prioritize merchants with co-marketing agreements or better economics
+   - Example: Boutique studios over chains, curated services over mass market
+   - Benefit: Revenue share opportunities, better unit economics
+
+5. **Frequency Multipliers**
+   - Milestone-based rewards that drive engagement
+   - Example: 20% cashback after hitting 10 visits this month
+   - Benefit: Increased loyalty, predictable volume
+
+MANDATORY RULES:
+1. Return EXACTLY 5 recommendations, each with DIFFERENT deal_id
+2. At least 1 must be premium upsell from current spending
+3. At least 2 must be adjacent category expansion (new to customer)
+4. At least 1 must include ticket size or frequency incentives
+5. Lift scenarios must show 5-20% spending increases ONLY
+6. Calculate TWO values:
+   - Current value: Based on existing spending patterns
+   - Lift value: If customer adopts premium/adjacent/larger behavior
+7. Each recommendation needs clear "why this is profitable" reasoning
+8. No duplicate deal_ids
+9. Return valid JSON only
+
+VALUE CALCULATION FORMAT:
+{
+  "estimated_value": {
+    "current_monthly": 0,      // Often $0 for new categories
+    "current_annual": 0,
+    "lift_monthly": 50,         // What they COULD earn
+    "lift_annual": 600,
+    "lift_scenario": "If you spend $250/month at premium meal delivery (15% of current grocery budget)",
+    "calculation": "New category: $250/mo × 20% = $50/mo. This redirects spend to higher-margin merchant partners.",
+    "strategic_rationale": "Introduces premium category, increases ticket size, drives to partner merchants"
+  },
+  "matching_data": {
+    "current_behavior": "Spends $1,573/mo at mid-tier grocery stores",
+    "opportunity": "Could redirect 15% to premium meal delivery + specialty foods",
+    "lift_opportunity": "Premium upsell: Higher transaction values, partner revenue share, adjacent category expansion"
+  }
+}
+
+Output structure:
 {
   "recommendations": [
     {
-      "deal_id": "DEAL_001",
+      "deal_id": "DEAL_XXX",
       "title": "...",
       "description": "...",
-      "estimated_value": {
-        "current_monthly": 22.50,
-        "current_annual": 270,
-        "lift_monthly": 45.00,
-        "lift_annual": 540,
-        "lift_scenario": "If you increase coffee visits by 25%",
-        "calculation": "Current: 45 visits × $10 × 5% = $22.50/mo. Lift: 56 visits × $10 × 5% = $28/mo"
-      },
-      "matching_data": {
-        "spending": "$450/month at coffee shops",
-        "merchants": ["Starbucks (45 visits)"],
-        "categories": ["Food & Dining → Coffee Shops"],
-        "lift_opportunity": "You're a frequent coffee buyer - this deal makes every visit more rewarding"
-      },
+      "estimated_value": { ... },
+      "matching_data": { ... },
       "tier": "deal",
       "priority": 1,
-      "lift_type": "frequency"
+      "lift_type": "premium_upsell" | "adjacent_category" | "ticket_expansion" | "frequency_multiplier"
     }
   ],
   "summary": {
-    "total_current_value": { "monthly": 150, "annual": 1800 },
-    "total_lift_potential": { "monthly": 300, "annual": 3600 },
-    "recommendations_count": 4,
-    "tiers_included": ["deal", "experience"],
-    "message": "Based on your spending, you could earn $XXX more annually by taking advantage of these opportunities..."
+    "total_current_value": { "monthly": X, "annual": Y },
+    "total_lift_potential": { "monthly": X, "annual": Y },
+    "recommendations_count": 5,
+    "strategy_mix": {
+      "premium_upsells": 1,
+      "adjacent_categories": 2,
+      "ticket_expansion": 1,
+      "frequency_multipliers": 1
+    },
+    "incremental_revenue_potential": "Detailed explanation of how these recommendations drive new, profitable behavior",
+    "message": "Strategic summary focusing on growth and new value creation"
   }
 }`;
 
@@ -199,7 +389,12 @@ Output format:
 Available Deal Catalog:
 ${JSON.stringify(DEAL_CATALOG, null, 2)}
 
-Generate 3-5 personalized recommendations with estimated values based on the customer's actual spending patterns.`;
+Generate exactly 5 STRATEGIC recommendations that drive INCREMENTAL, PROFITABLE behavior:
+- 1 premium upsell from existing categories
+- 2 adjacent category expansions (new to customer)
+- 1 ticket size or frequency incentive
+- 1 strategic partner direction
+Each must use a different deal_id. Focus on 5-20% lift scenarios that create NEW value, not just reward existing spending.`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
