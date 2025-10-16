@@ -20,7 +20,7 @@ export function UploadOrPasteContainer({
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
-            <CardTitle>Analysis Setup</CardTitle>
+            <CardTitle>Transaction Enrichment Setup</CardTitle>
             <CardDescription>
               Upload a file or paste your transaction data to get started
             </CardDescription>
