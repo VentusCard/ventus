@@ -296,8 +296,35 @@ const TePilot = () => {
             <p className="text-muted-foreground mt-2">Discover how Ventus understands spending beyond MCC codes</p>
           </div>
           <Button variant="outline" onClick={() => {
+          // Clear authentication
           sessionStorage.removeItem("tepilot_auth");
           setIsAuthenticated(false);
+          
+          // Clear all transaction data
+          setParsedTransactions([]);
+          setCorrections(new Map());
+          
+          // Clear all input data
+          setRawInput("");
+          setUploadedFile(null);
+          setPendingMapping(null);
+          
+          // Reset filters to default
+          setFilters({
+            dateRange: {
+              start: null,
+              end: null
+            },
+            confidenceThreshold: 0,
+            includeMisc: true,
+            mode: "predicted"
+          });
+          
+          // Reset UI state
+          setActiveTab("upload");
+          setInputMode("paste");
+          
+          toast.success("Session cleared successfully");
         }}>Log Out and Clear Session</Button>
         </div>
 
