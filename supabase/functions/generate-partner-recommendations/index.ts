@@ -137,35 +137,34 @@ For each deal, YOU decide ALL parameters dynamically:
    
    CRITICAL: Each of the 3 deals MUST target a DIFFERENT merchant category. Do NOT combine multiple categories in one deal.
 4. **Lift Strategy**: Assign one per deal
-  - premium_upsell: Higher rewards in dominant category
-  - adjacent_category: New category related to top spending
-  - ticket_expansion: Bonus for larger purchases
-  - frequency_multiplier: Rewards for repeat visits
-  - trial_conversion: Encourage conversion from one-time to recurring purchase
-  - reactivation_push: Incentivize return to inactive category
-  - loyalty_reward: Bonus for long-term consistent spend
-  - seasonal_alignment: Align with calendar events or lifestyle timing
+  - Premium Upsell: Higher rewards in dominant category
+  - Adjacent Category: New category related to top spending
+  - Ticket Expansion: Bonus for larger purchases
+  - Frequency Multiplier: Rewards for repeat visits
+  - Trial Conversion: Encourage conversion from one-time to recurring purchase
+  - Reactivation Push: Incentivize return to inactive category
+  - Loyalty Reward: Bonus for long-term consistent spend
+  - Seasonal Alignment: Align with calendar events or lifestyle timing
 
 ### Title Guidelines
 Titles must be specific, benefit-focused, and include the value proposition for ONE category only:
 - ✅ GOOD: "15% Cashback at Premium Grocers"
 - ✅ GOOD: "12% Cashback + $50 Bonus at Outdoor Stores on Orders Over $300"
 - ✅ GOOD: "8% Back at Athletic Apparel Stores"
-- ❌ BAD: "8% at Grocers + 5% at Wholesale Clubs" (combo deal - NOT ALLOWED)
 - ❌ BAD: "Cashback at Stores" (too vague)
 - ❌ BAD: "Special Offer" (no specifics)
 
 ### Description Guidelines
-Descriptions must connect the offer to their specific behavior and explain the benefit clearly:
-- Reference their actual spending: "You spent $X at [category] last year..."
-- Explain the value: "This offer saves you $Y annually based on your current spending"
-- Be conversational and personal: "We noticed you love..." or "Based on your trips to..."
-- Include a call-to-action: "Start earning today" or "Activate this offer now"
+Descriptions must connect the offer to the customer’s spending behavior and highlight how it encourages greater engagement and spend:
+  - Reference verified spending: "This customer spent $X at [category] over the past year..."
+  - Explain the incentive: "This offer motivates additional purchases by rewarding continued activity..."
+  - Be professional and insight-driven: "We identified strong spend in..." or "Based on ongoing transactions at..."
+  - Include a call-to-action: "Encourage activation to drive higher spend" or "Promote this offer to deepen engagement"
 
 Examples (each focusing on ONE category):
-- "You spent $2,800 at Premium Outdoor Stores last year. With 15% cashback, that's $420 back in your pocket annually. Perfect for your next hiking adventure."
-- "Based on your 8 weekly visits to Premium Grocers, this 12% cashback offer will save you $1,500/year on the groceries you already buy."
-- "Triple your rewards on the athletic gear you love. Your $550 in annual purchases at Premium Athletic Apparel will now earn you 3X points—that's $82 in extra rewards."
+  - "This customer spent $2,800 at Premium Outdoor Retailers last year. Offering 15% cashback can encourage earlier seasonal purchases and higher basket sizes while rewarding their loyalty."
+  - "With consistent weekly visits to Premium Grocery Stores, a 12% cashback incentive motivates incremental trips and greater share of wallet within this essential category."
+  - "The customer’s $550 annual spend on Premium Athletic Apparel indicates strong lifestyle alignment. A 3X reward offer can drive upsell into higher-margin products and increase overall engagement."
 
 ## Experience Generation (Recommendation 4)
 
