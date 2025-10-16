@@ -260,6 +260,10 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
+                      <p className="font-semibold">V1.3 - Current</p>
+                      <p>Third working AI flow generating revenue opportunities based on holistic customer spending profile</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
                       <p className="font-semibold">V1.2 - October 2025</p>
                       <p>Added smart travel detection system (pattern training) with double labeling</p>
                     </div>
@@ -268,7 +272,7 @@ const TePilot = () => {
                       <p>Enhanced merchant categorization with improved semantic matching</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V1.0 - August 2025</p>
+                      <p className="font-semibold">V1.0 - September 2025</p>
                       <p>Initial release with AI-powered transaction enrichment and classification</p>
                     </div>
                   </AccordionContent>
