@@ -129,10 +129,10 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
                         <CardContent>
                           <ul className="space-y-2">
                             {rec.matching_data.lift_opportunity && (
-                              <li className="flex items-start gap-2 mb-3 p-2 bg-primary/5 rounded-md">
+                              <li className="flex items-start gap-2">
                                 <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
-                                <div className="text-sm text-primary font-medium">
-                                  {rec.matching_data.lift_opportunity}
+                                <div className="text-sm">
+                                  <span className="font-medium">Lift Opportunity:</span> {rec.matching_data.lift_opportunity}
                                 </div>
                               </li>
                             )}
