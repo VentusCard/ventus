@@ -125,7 +125,6 @@ For each deal, YOU decide ALL parameters dynamically:
 1. **Cashback Percentage**: Choose 5-20% based on customer value and merchant profitability
 2. **Merchants**: Select from customer's actual top merchants (use anonymized format in output)
 3. Deal Structure: Each deal must focus on ONE merchant category only. Choose structure:
-
   - Simple cashback: “X% cashback at [single category]”
   - High-value reward: “Earn Xx points at [single category]”
   - Free item: “Get a free [small item] when spending over $Y at [single category]”
@@ -136,6 +135,7 @@ For each deal, YOU decide ALL parameters dynamically:
   - Seasonal: “Earn X% cashback at [single category] during [event/season]”
    
    CRITICAL: Each of the 3 deals MUST target a DIFFERENT merchant category. Do NOT combine multiple categories in one deal.
+
 4. **Lift Strategy**: Assign one per deal
   - Premium Upsell: Higher rewards in dominant category
   - Adjacent Category: New category related to top spending
