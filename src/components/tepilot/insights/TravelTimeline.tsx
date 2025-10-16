@@ -3,25 +3,18 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { EnrichedTransaction } from "@/types/transaction";
 import { ChevronDown, MapPin, ArrowRight } from "lucide-react";
 import { useState } from "react";
-
 interface TravelTimelineProps {
   transactions: EnrichedTransaction[];
 }
-
-export function TravelTimeline({ transactions }: TravelTimelineProps) {
+export function TravelTimeline({
+  transactions
+}: TravelTimelineProps) {
   const [isOpen, setIsOpen] = useState(false);
-  
-  const travelTransactions = transactions.filter(
-    t => t.travel_context?.is_travel_related
-  );
-  
+  const travelTransactions = transactions.filter(t => t.travel_context?.is_travel_related);
   if (travelTransactions.length === 0) return null;
-  
   const travelSpend = travelTransactions.reduce((sum, t) => sum + t.amount, 0);
-  const reclassifiedCount = travelTransactions.filter(
-    t => t.travel_context?.original_pillar !== "Travel & Experiences"
-  ).length;
-  
+  const reclassifiedCount = travelTransactions.filter(t => t.travel_context?.original_pillar !== "Travel & Experiences").length;
+
   // Group by date for timeline
   const dateGroups = travelTransactions.reduce((acc, t) => {
     const date = t.date;
@@ -29,18 +22,15 @@ export function TravelTimeline({ transactions }: TravelTimelineProps) {
     acc[date].push(t);
     return acc;
   }, {} as Record<string, EnrichedTransaction[]>);
-  
   const sortedDates = Object.keys(dateGroups).sort();
-
-  return (
-    <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+  return <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <Card>
         <CollapsibleTrigger className="w-full">
           <CardHeader className="cursor-pointer hover:bg-accent/50 transition-colors">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <MapPin className="w-5 h-5 text-purple-500" />
-                <CardTitle>Travel Intelligence</CardTitle>
+                <CardTitle>Travel Intelligence (Pattern Recognition)</CardTitle>
               </div>
               <div className="flex items-center gap-4 text-sm text-muted-foreground">
                 <span>{travelTransactions.length} travel transactions</span>
@@ -60,11 +50,9 @@ export function TravelTimeline({ transactions }: TravelTimelineProps) {
                 <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border" />
                 
                 {sortedDates.map((date, idx) => {
-                  const dayTransactions = dateGroups[date];
-                  const daySpend = dayTransactions.reduce((sum, t) => sum + t.amount, 0);
-                  
-                  return (
-                    <div key={date} className="relative pl-10 pb-6">
+                const dayTransactions = dateGroups[date];
+                const daySpend = dayTransactions.reduce((sum, t) => sum + t.amount, 0);
+                return <div key={date} className="relative pl-10 pb-6">
                       <div className="absolute left-2.5 w-3 h-3 bg-purple-500 rounded-full border-2 border-background" />
                       
                       <div className="space-y-2">
@@ -73,34 +61,26 @@ export function TravelTimeline({ transactions }: TravelTimelineProps) {
                           <p className="text-sm text-muted-foreground">${daySpend.toFixed(2)}</p>
                         </div>
                         
-                        {dayTransactions.slice(0, 3).map((t, tidx) => (
-                          <div key={tidx} className="flex items-center gap-2 text-sm bg-accent/30 p-2 rounded">
+                        {dayTransactions.slice(0, 3).map((t, tidx) => <div key={tidx} className="flex items-center gap-2 text-sm bg-accent/30 p-2 rounded">
                             <span className="flex-1 truncate">{t.merchant_name}</span>
-                            {t.travel_context?.original_pillar && t.travel_context.original_pillar !== "Travel & Experiences" && (
-                              <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                            {t.travel_context?.original_pillar && t.travel_context.original_pillar !== "Travel & Experiences" && <div className="flex items-center gap-1 text-xs text-muted-foreground">
                                 <span>{t.travel_context.original_pillar}</span>
                                 <ArrowRight className="w-3 h-3" />
                                 <span className="text-purple-500">Travel</span>
-                              </div>
-                            )}
+                              </div>}
                             <span className="text-muted-foreground">${t.amount.toFixed(2)}</span>
-                          </div>
-                        ))}
+                          </div>)}
                         
-                        {dayTransactions.length > 3 && (
-                          <p className="text-xs text-muted-foreground pl-2">
+                        {dayTransactions.length > 3 && <p className="text-xs text-muted-foreground pl-2">
                             +{dayTransactions.length - 3} more transactions
-                          </p>
-                        )}
+                          </p>}
                       </div>
-                    </div>
-                  );
-                })}
+                    </div>;
+              })}
               </div>
             </div>
           </CardContent>
         </CollapsibleContent>
       </Card>
-    </Collapsible>
-  );
+    </Collapsible>;
 }
