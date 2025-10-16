@@ -36,7 +36,7 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
           className="font-mono"
         />
         <p className="text-xs text-muted-foreground">
-          This will be used as the home location reference for transaction analysis
+          This will be used as the home location reference for travel analysis
         </p>
       </div>
 
