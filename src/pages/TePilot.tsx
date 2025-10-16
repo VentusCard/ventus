@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, Upload, BarChart3, Scan, RefreshCw } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "sonner";
 import { Transaction, EnrichedTransaction, Correction, Filters } from "@/types/transaction";
@@ -322,15 +322,6 @@ const TePilot = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
                     <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
                       <div className="flex items-center gap-2">
-                        <Upload className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">Upload & Parse</h4>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Import your transaction data via CSV, TSV, or paste directly. Our smart parser automatically detects columns and handles various formats.
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
-                      <div className="flex items-center gap-2">
                         <Brain className="h-5 w-5 text-primary" />
                         <h4 className="font-semibold text-sm">AI Enrichment</h4>
                       </div>
@@ -340,11 +331,20 @@ const TePilot = () => {
                     </div>
                     <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
                       <div className="flex items-center gap-2">
-                        <BarChart3 className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">Insights & Analysis</h4>
+                        <TrendingUp className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-sm">AI Pattern Analysis</h4>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        Explore enriched results, correct any labels, and discover spending insights across lifestyle pillars and travel destinations.
+                        Uncover hidden spending behaviors and trends across lifestyle pillars, merchant patterns, and travel behaviors for deeper customer understanding.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-sm">AI Recommendations</h4>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Transform insights into actionable marketing signals and reward engine parameters, ready for seamless integration into your customer engagement platforms.
                       </p>
                     </div>
                   </div>
