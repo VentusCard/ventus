@@ -1,64 +1,95 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 // Merchant tier classification keywords
 const MERCHANT_TIER_KEYWORDS = {
   premium: [
-    "WHOLE FOODS", "TRADER JOE", "SPROUTS", "WEGMANS",
-    "REI", "PATAGONIA", "ARC'TERYX",
-    "EQUINOX", "LIFETIME FITNESS", "ORANGETHEORY",
-    "LULULEMON", "ATHLETA", "VUORI",
-    "NORDSTROM", "BLOOMINGDALE", "NEIMAN MARCUS",
-    "RITZ-CARLTON", "FOUR SEASONS", "ST. REGIS", "HILTON", "MARRIOTT", "HYATT",
-    "BLUE BOTTLE", "INTELLIGENTSIA", "STUMPTOWN",
-    "BARRYS BOOTCAMP", "SOULCYCLE", "PURE BARRE",
-    "NIKE STORE", "LULULEMON", "ATHLETA",
+    "WHOLE FOODS",
+    "TRADER JOE",
+    "SPROUTS",
+    "WEGMANS",
+    "REI",
+    "PATAGONIA",
+    "ARC'TERYX",
+    "EQUINOX",
+    "LIFETIME FITNESS",
+    "ORANGETHEORY",
+    "LULULEMON",
+    "ATHLETA",
+    "VUORI",
+    "NORDSTROM",
+    "BLOOMINGDALE",
+    "NEIMAN MARCUS",
+    "RITZ-CARLTON",
+    "FOUR SEASONS",
+    "ST. REGIS",
+    "HILTON",
+    "MARRIOTT",
+    "HYATT",
+    "BLUE BOTTLE",
+    "INTELLIGENTSIA",
+    "STUMPTOWN",
+    "BARRYS BOOTCAMP",
+    "SOULCYCLE",
+    "PURE BARRE",
+    "NIKE STORE",
+    "LULULEMON",
+    "ATHLETA",
   ],
   outlet: [
-    "ALDI", "SAVE A LOT", "FOOD 4 LESS",
-    "TJ MAXX", "ROSS", "MARSHALLS", "BURLINGTON",
-    "PLANET FITNESS", "LA FITNESS",
-    "MOTEL 6", "SUPER 8", "DAYS INN",
-    "DUNKIN", "7-ELEVEN",
-  ]
+    "ALDI",
+    "SAVE A LOT",
+    "FOOD 4 LESS",
+    "TJ MAXX",
+    "ROSS",
+    "MARSHALLS",
+    "BURLINGTON",
+    "PLANET FITNESS",
+    "LA FITNESS",
+    "MOTEL 6",
+    "SUPER 8",
+    "DAYS INN",
+    "DUNKIN",
+    "7-ELEVEN",
+  ],
 };
 
 // Merchant category detection
 const MERCHANT_CATEGORIES = {
-  "Grocers": ["WHOLE FOODS", "TRADER JOE", "KROGER", "SAFEWAY", "PUBLIX", "ALDI", "WEGMANS", "SPROUTS"],
+  Grocers: ["WHOLE FOODS", "TRADER JOE", "KROGER", "SAFEWAY", "PUBLIX", "ALDI", "WEGMANS", "SPROUTS"],
   "Outdoor Stores": ["REI", "CABELAS", "BASS PRO", "DICKS SPORTING", "PATAGONIA"],
   "Fitness Centers": ["EQUINOX", "PLANET FITNESS", "LA FITNESS", "ORANGETHEORY", "BARRYS", "LIFETIME", "SOULCYCLE"],
   "Athletic Apparel": ["LULULEMON", "ATHLETA", "NIKE", "ADIDAS", "UNDER ARMOUR", "VUORI"],
   "Department Stores": ["NORDSTROM", "MACYS", "BLOOMINGDALE", "NEIMAN MARCUS", "DILLARDS"],
-  "Hotels": ["MARRIOTT", "HILTON", "HYATT", "RITZ-CARLTON", "FOUR SEASONS", "MOTEL 6", "SUPER 8"],
+  Hotels: ["MARRIOTT", "HILTON", "HYATT", "RITZ-CARLTON", "FOUR SEASONS", "MOTEL 6", "SUPER 8"],
   "Coffee Shops": ["STARBUCKS", "BLUE BOTTLE", "INTELLIGENTSIA", "DUNKIN", "PEETS"],
-  "Restaurants": ["CHEESECAKE FACTORY", "OLIVE GARDEN", "CHIPOTLE", "PANERA", "SWEETGREEN"],
+  Restaurants: ["CHEESECAKE FACTORY", "OLIVE GARDEN", "CHIPOTLE", "PANERA", "SWEETGREEN"],
   "Gas Stations": ["CHEVRON", "SHELL", "EXXON", "BP", "ARCO", "76"],
-  "Airlines": ["DELTA", "UNITED", "AMERICAN AIRLINES", "SOUTHWEST", "JETBLUE"],
+  Airlines: ["DELTA", "UNITED", "AMERICAN AIRLINES", "SOUTHWEST", "JETBLUE"],
   "Rental Cars": ["HERTZ", "ENTERPRISE", "AVIS", "BUDGET", "NATIONAL"],
 };
 
 function getMerchantTier(merchantName: string): string {
   const upperName = merchantName.toUpperCase();
-  
+
   for (const keyword of MERCHANT_TIER_KEYWORDS.premium) {
     if (upperName.includes(keyword)) return "Premium";
   }
-  
+
   for (const keyword of MERCHANT_TIER_KEYWORDS.outlet) {
     if (upperName.includes(keyword)) return "Outlet";
   }
-  
+
   return ""; // Standard tier gets no prefix
 }
 
 function getMerchantCategory(merchantName: string): string {
   const upperName = merchantName.toUpperCase();
-  
+
   for (const [category, keywords] of Object.entries(MERCHANT_CATEGORIES)) {
     for (const keyword of keywords) {
       if (upperName.includes(keyword)) {
@@ -66,7 +97,7 @@ function getMerchantCategory(merchantName: string): string {
       }
     }
   }
-  
+
   return "Merchants";
 }
 
@@ -93,17 +124,27 @@ For each deal, YOU decide ALL parameters dynamically:
 
 1. **Cashback Percentage**: Choose 5-20% based on customer value and merchant profitability
 2. **Merchants**: Select from customer's actual top merchants (use anonymized format in output)
-3. **Deal Structure**: Each deal must focus on ONE merchant category only. Choose structure:
-   - Simple cashback: "X% cashback at [single category]"
-   - Tiered: "X% base + Y% bonus on purchases over $Z at [single category]"
-   - Time-limited: "X% cashback for the next N months at [single category]"
+3. Deal Structure: Each deal must focus on ONE merchant category only. Choose structure:
+
+  - Simple cashback: “X% cashback at [single category]”
+  - High-value reward: “Earn Xx points at [single category]”
+  - Free item: “Get a free [small item] when spending over $Y at [single category]”
+  - Time-limited: “X% cashback for the next N days/weeks/months at [single category]”
+  - Threshold bonus: “Spend $Y+ at [single category] to unlock Z% cashback”
+  - Loyalty streak: “After N purchases at [single category], get X% bonus on the next”
+  - Referral: “Bring a friend to [single category] and both earn X% cashback”
+  - Seasonal: “Earn X% cashback at [single category] during [event/season]”
    
    CRITICAL: Each of the 3 deals MUST target a DIFFERENT merchant category. Do NOT combine multiple categories in one deal.
 4. **Lift Strategy**: Assign one per deal
-   - premium_upsell: Higher rewards in dominant category
-   - adjacent_category: New category related to top spending
-   - ticket_expansion: Bonus for larger purchases
-   - frequency_multiplier: Rewards for repeat visits
+  - premium_upsell: Higher rewards in dominant category
+  - adjacent_category: New category related to top spending
+  - ticket_expansion: Bonus for larger purchases
+  - frequency_multiplier: Rewards for repeat visits
+  - trial_conversion: Encourage conversion from one-time to recurring purchase
+  - reactivation_push: Incentivize return to inactive category
+  - loyalty_reward: Bonus for long-term consistent spend
+  - seasonal_alignment: Align with calendar events or lifestyle timing
 
 ### Title Guidelines
 Titles must be specific, benefit-focused, and include the value proposition for ONE category only:
@@ -255,35 +296,35 @@ REMEMBER:
 - Be creative and realistic - these should feel like real banking offers`;
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const { insights } = await req.json();
-    
+
     if (!insights) {
-      return new Response(
-        JSON.stringify({ error: 'Missing insights parameter' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "Missing insights parameter" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    console.log('Generating recommendations for insights:', JSON.stringify(insights, null, 2));
+    console.log("Generating recommendations for insights:", JSON.stringify(insights, null, 2));
 
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY not configured');
+      throw new Error("LOVABLE_API_KEY not configured");
     }
 
     // Build user prompt with actual spending data
     const topPillarsText = insights.topPillars
       .map((p: any) => `- ${p.pillar}: $${p.spend} (${p.percentage}%)`)
-      .join('\n');
-    
+      .join("\n");
+
     const topMerchantsText = insights.topMerchants
       .map((m: any) => `- ${m.merchant}: ${m.visits} visits, $${m.totalSpend}`)
-      .join('\n');
+      .join("\n");
 
     const userPrompt = `Generate 5 personalized recommendations for this customer:
 
@@ -300,7 +341,7 @@ TOP MERCHANTS:
 ${topMerchantsText}
 
 TOP LIFESTYLE INTERESTS:
-${insights.segment.lifestyle.join(', ')}
+${insights.segment.lifestyle.join(", ")}
 
 Generate recommendations that:
 1. Maximize rewards in their dominant categories
@@ -311,40 +352,40 @@ Generate recommendations that:
 Remember to anonymize merchant names in your output!`;
 
     // Call Lovable AI
-    const aiResponse = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
-      method: 'POST',
+    const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
       headers: {
-        'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-        'Content-Type': 'application/json',
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: 'google/gemini-2.5-flash',
+        model: "google/gemini-2.5-flash",
         messages: [
-          { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: userPrompt }
+          { role: "system", content: SYSTEM_PROMPT },
+          { role: "user", content: userPrompt },
         ],
-        response_format: { type: 'json_object' }
+        response_format: { type: "json_object" },
       }),
     });
 
     if (!aiResponse.ok) {
       const errorText = await aiResponse.text();
-      console.error('AI gateway error:', aiResponse.status, errorText);
-      
+      console.error("AI gateway error:", aiResponse.status, errorText);
+
       if (aiResponse.status === 429) {
-        return new Response(
-          JSON.stringify({ error: 'Rate limit exceeded. Please try again later.' }),
-          { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
+        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again later." }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
-      
+
       if (aiResponse.status === 402) {
-        return new Response(
-          JSON.stringify({ error: 'AI service payment required. Please add credits.' }),
-          { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-        );
+        return new Response(JSON.stringify({ error: "AI service payment required. Please add credits." }), {
+          status: 402,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
-      
+
       throw new Error(`AI gateway error: ${aiResponse.status} ${errorText}`);
     }
 
@@ -352,24 +393,22 @@ Remember to anonymize merchant names in your output!`;
     const content = aiData.choices[0].message.content;
     const recommendations = JSON.parse(content);
 
-    console.log('Generated recommendations:', JSON.stringify(recommendations, null, 2));
+    console.log("Generated recommendations:", JSON.stringify(recommendations, null, 2));
 
-    return new Response(
-      JSON.stringify(recommendations),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-
+    return new Response(JSON.stringify(recommendations), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   } catch (error) {
-    console.error('Error generating recommendations:', error);
+    console.error("Error generating recommendations:", error);
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : 'Unknown error',
-        details: error instanceof Error ? error.stack : undefined
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Unknown error",
+        details: error instanceof Error ? error.stack : undefined,
       }),
-      { 
-        status: 500, 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' } 
-      }
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      },
     );
   }
 });
