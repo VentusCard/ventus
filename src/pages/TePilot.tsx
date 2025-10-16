@@ -635,7 +635,7 @@ const TePilot = () => {
                   className="w-full"
                   variant="ai"
                 >
-                  {isGeneratingRecommendations ? "Generating..." : "Generate Partner Recommendations"}
+                  {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                 </Button>
               </CardContent>
             </Card>
