@@ -488,7 +488,10 @@ const TePilot = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment Pilot</h1>
-            <p className="text-muted-foreground mt-2">Discover how Ventus understands spending beyond MCC codes</p>
+            <p className="text-muted-foreground mt-2">
+              Discover how Ventus understands spending beyond MCC codes
+              <span className="block mt-1 text-sm">Release V1.2 Oct 2025; added smart travel detection system (pattern training), with double labeling.</span>
+            </p>
           </div>
         <Button variant="outline" onClick={() => {
           // Clear authentication
