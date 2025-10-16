@@ -170,7 +170,7 @@ Examples (each focusing on ONE category):
 
 Create ONE aspirational benefit that matches their lifestyle. Examples:
 - Airport lounge access (Priority Pass, 10 visits/year) - for travelers
-- Wellness program ($500 annual credit for spa/fitness) - for health-focused
+- Wellness program (trial credit for spa/fitness) - for health-focused
 - Premium event access (concert/sports presales) - for entertainment spenders
 - Hotel elite status + (amount) resort credit - for travelers
 - Airline elite status + (amount) Airline credit - for travelers
