@@ -150,7 +150,7 @@ const TePilot = () => {
     setActiveTab("results"); // Switch to results IMMEDIATELY
     await startEnrichment(parsedTransactions, anchorZip);
   };
-  const handleCorrection = (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => {
+  const handleCorrection = async (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => {
     const transaction = enrichedTransactions.find(t => t.transaction_id === transactionId);
     if (!transaction) return;
     const correction: Correction = {
@@ -164,7 +164,13 @@ const TePilot = () => {
     };
     const newCorrections = new Map(corrections.set(transactionId, correction));
     setCorrections(newCorrections);
-    toast.success("Correction applied - label updated!");
+    
+    // Send feedback to AI for training (fire-and-forget)
+    supabase.functions.invoke('send-feedback', {
+      body: { transaction, correction }
+    }).catch(err => console.log("Feedback sending failed (non-critical):", err));
+    
+    toast.success("Correction applied and feedback sent to AI for training!");
   };
   // Always apply corrections, then apply filters
   const displayTransactions = applyCorrections(enrichedTransactions, corrections);
