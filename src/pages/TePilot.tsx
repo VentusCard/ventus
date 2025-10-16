@@ -117,20 +117,17 @@ const TePilot = () => {
         });
         toast.info("Please map your columns to continue");
       } else {
-        // Auto-mapping succeeded - parse, skip preview, and auto-enrich
+        // Auto-mapping succeeded
         setParsedTransactions(result.transactions!);
-        toast.success(`Parsed ${result.transactions!.length} transactions. Starting AI enrichment...`);
-        
-        // Automatically trigger enrichment
-        setActiveTab("results");
-        await startEnrichment(result.transactions!, anchorZip);
+        setActiveTab("preview");
+        toast.success(`Parsed ${result.transactions!.length} transactions`);
       }
     } catch (error: any) {
       toast.error(error.message);
     }
   };
   
-  const handleMappingConfirm = async (mapping: Record<string, string>) => {
+  const handleMappingConfirm = (mapping: Record<string, string>) => {
     try {
       if (!pendingMapping) return;
       
@@ -142,11 +139,8 @@ const TePilot = () => {
       
       setParsedTransactions(transactions);
       setPendingMapping(null);
-      toast.success(`Parsed ${transactions.length} transactions. Starting AI enrichment...`);
-      
-      // Automatically trigger enrichment after successful mapping
-      setActiveTab("results");
-      await startEnrichment(transactions, anchorZip);
+      setActiveTab("preview");
+      toast.success(`Parsed ${transactions.length} transactions`);
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -528,8 +522,9 @@ const TePilot = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className="grid w-full grid-cols-4">
             <TabsTrigger value="upload">Upload</TabsTrigger>
+            <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
             <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Results</TabsTrigger>
             <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Insights</TabsTrigger>
           </TabsList>
