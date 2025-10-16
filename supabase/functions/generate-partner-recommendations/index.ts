@@ -2,8 +2,8 @@ import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
 const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 // Bank's deal catalog (example deals)
@@ -17,7 +17,7 @@ const DEAL_CATALOG = {
       subcategories: ["Coffee Shops"],
       merchants: ["Starbucks", "Dunkin'", "Peet's Coffee"],
       value_type: "cashback",
-      value_percentage: 5
+      value_percentage: 5,
     },
     {
       id: "DEAL_002",
@@ -27,7 +27,7 @@ const DEAL_CATALOG = {
       subcategories: ["Grocery", "Supermarkets"],
       merchants: ["Whole Foods", "Trader Joe's", "Safeway"],
       value_type: "cashback",
-      value_percentage: 10
+      value_percentage: 10,
     },
     {
       id: "DEAL_003",
@@ -37,7 +37,7 @@ const DEAL_CATALOG = {
       subcategories: ["Fitness Classes", "Spa Services"],
       merchants: ["Equinox", "SoulCycle", "Massage Envy"],
       value_type: "discount",
-      value_amount: 50
+      value_amount: 50,
     },
     {
       id: "DEAL_004",
@@ -47,7 +47,7 @@ const DEAL_CATALOG = {
       subcategories: ["Gas Stations"],
       merchants: ["Shell", "Chevron", "BP"],
       value_type: "cashback",
-      value_percentage: 3
+      value_percentage: 3,
     },
     {
       id: "DEAL_005",
@@ -57,10 +57,10 @@ const DEAL_CATALOG = {
       subcategories: ["Fitness Classes", "Gym Memberships"],
       merchants: ["Equinox", "24 Hour Fitness", "Planet Fitness"],
       value_type: "cashback",
-      value_percentage: 15
-    }
+      value_percentage: 15,
+    },
   ],
-  
+
   tier2_experiences: [
     {
       id: "EXP_001",
@@ -68,7 +68,7 @@ const DEAL_CATALOG = {
       description: "3-month complimentary membership to spa facilities and wellness centers",
       category: "Wellness & Self-Care",
       value_amount: 750,
-      eligibility: "Premium customers spending $500+/month on wellness"
+      eligibility: "Premium customers spending $500+/month on wellness",
     },
     {
       id: "EXP_002",
@@ -76,7 +76,7 @@ const DEAL_CATALOG = {
       description: "Unlimited access to 1,000+ airport lounges worldwide for 1 year",
       category: "Travel & Exploration",
       value_amount: 429,
-      eligibility: "Customers with 3+ flight bookings in past 6 months"
+      eligibility: "Customers with 3+ flight bookings in past 6 months",
     },
     {
       id: "EXP_003",
@@ -84,10 +84,10 @@ const DEAL_CATALOG = {
       description: "24/7 concierge service for travel, dining, and event bookings",
       category: "Lifestyle Services",
       value_amount: 1200,
-      eligibility: "Premium customers spending $10,000+/month"
-    }
+      eligibility: "Premium customers spending $10,000+/month",
+    },
   ],
-  
+
   tier3_financial: [
     {
       id: "PROD_001",
@@ -96,7 +96,7 @@ const DEAL_CATALOG = {
       category: "Financial Products",
       annual_fee: 95,
       estimated_value: 650,
-      eligibility: "Customers spending $1,000+/month on travel & dining"
+      eligibility: "Customers spending $1,000+/month on travel & dining",
     },
     {
       id: "PROD_002",
@@ -105,29 +105,29 @@ const DEAL_CATALOG = {
       category: "Financial Products",
       annual_fee: 0,
       estimated_value: 300,
-      eligibility: "Customers spending $1,500+/month"
-    }
-  ]
+      eligibility: "Customers spending $1,500+/month",
+    },
+  ],
 };
 
 serve(async (req) => {
-  if (req.method === 'OPTIONS') {
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const { insights } = await req.json();
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
     if (!LOVABLE_API_KEY) {
-      throw new Error('LOVABLE_API_KEY not configured');
+      throw new Error("LOVABLE_API_KEY not configured");
     }
 
-    console.log('Generating recommendations for insights:', insights);
+    console.log("Generating recommendations for insights:", insights);
 
     // Build AI prompt
     const systemPrompt = `You are a strategic deal recommendation specialist for a banking partner. 
-Your goal is to analyze customer spending and recommend deals that will INCENTIVIZE A LIFT in their shopping behavior.
+Your goal is to analyze customer spending and recommend deals that will INCENTIVIZE A reasonable LIFT in their shopping behavior.
 
 STRATEGIC OBJECTIVES:
 1. Match deals to customer's top spending categories AND adjacent high-potential categories
@@ -139,7 +139,7 @@ STRATEGIC OBJECTIVES:
 RULES:
 1. Recommend deals that align with customer's interests BUT encourage increased activity
 2. Include at least one "stretch" recommendation in an adjacent or aspirational category
-3. Highlight potential savings if customer increases spending by 20-50%
+3. Highlight potential savings if customer increases spending by 5-20%
 4. Calculate personalized value showing: 
    - Current value (based on existing spending)
    - Lift potential (if customer increases activity)
@@ -205,13 +205,13 @@ Generate 3-5 personalized recommendations with estimated values based on the cus
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: userPrompt }
+          { role: "user", content: userPrompt },
         ],
         response_format: { type: "json_object" },
       }),
@@ -219,27 +219,23 @@ Generate 3-5 personalized recommendations with estimated values based on the cus
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('AI gateway error:', response.status, errorText);
+      console.error("AI gateway error:", response.status, errorText);
       throw new Error(`AI gateway error: ${response.status}`);
     }
 
     const data = await response.json();
     const result = JSON.parse(data.choices[0].message.content);
 
-    console.log('Generated recommendations:', result);
+    console.log("Generated recommendations:", result);
 
     return new Response(JSON.stringify(result), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
-
   } catch (error) {
-    console.error('Error generating recommendations:', error);
-    return new Response(
-      JSON.stringify({ error: error.message }), 
-      { 
-        status: 500,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
-      }
-    );
+    console.error("Error generating recommendations:", error);
+    return new Response(JSON.stringify({ error: error.message }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });
