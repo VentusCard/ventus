@@ -22,7 +22,7 @@ import { OverviewMetrics } from "@/components/tepilot/insights/OverviewMetrics";
 import { TravelTimeline } from "@/components/tepilot/insights/TravelTimeline";
 import { PillarExplorer } from "@/components/tepilot/insights/PillarExplorer";
 import { BeforeAfterTransformation } from "@/components/tepilot/insights/BeforeAfterTransformation";
-import { RecommendationsModal } from "@/components/tepilot/RecommendationsModal";
+import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
@@ -38,7 +38,6 @@ const TePilot = () => {
   const [anchorZip, setAnchorZip] = useState("");
   const [parsedTransactions, setParsedTransactions] = useState<Transaction[]>([]);
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
-  const [showRecommendationsModal, setShowRecommendationsModal] = useState(false);
   const [recommendations, setRecommendations] = useState<any>(null);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
 
@@ -239,7 +238,6 @@ const TePilot = () => {
       if (error) throw error;
       console.log('Received recommendations:', data);
       setRecommendations(data);
-      setShowRecommendationsModal(true);
       toast.success("Generated personalized recommendations!");
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -578,17 +576,22 @@ const TePilot = () => {
                 </Button>
               </CardContent>
             </Card>
+
+            {recommendations && (
+              <RecommendationsCard 
+                recommendations={recommendations.recommendations || []} 
+                summary={recommendations.summary || {
+                  total_estimated_value: {
+                    monthly: 0,
+                    annual: 0
+                  },
+                  message: "No recommendations available"
+                }} 
+              />
+            )}
           </TabsContent>
         </Tabs>
       </div>
-
-      {recommendations && <RecommendationsModal isOpen={showRecommendationsModal} onClose={() => setShowRecommendationsModal(false)} recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-      total_estimated_value: {
-        monthly: 0,
-        annual: 0
-      },
-      message: "No recommendations available"
-    }} />}
     </div>;
 };
 export default TePilot;
