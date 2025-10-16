@@ -8,7 +8,7 @@ interface UseSSEEnrichmentReturn {
   statusMessage: string;
   currentPhase: "idle" | "classification" | "travel" | "complete";
   error: string | null;
-  startEnrichment: (transactions: Transaction[]) => Promise<void>;
+  startEnrichment: (transactions: Transaction[], homeZip?: string) => Promise<void>;
 }
 
 export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
@@ -199,7 +199,7 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     }
   }, []);
 
-  const startEnrichment = useCallback(async (transactions: Transaction[]) => {
+  const startEnrichment = useCallback(async (transactions: Transaction[], homeZip?: string) => {
     setIsProcessing(true);
     setError(null);
     setEnrichedTransactions([]);
@@ -210,11 +210,23 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
       console.log('[Enrichment] Starting classification...');
       const classifiedTransactions = await callClassifyTransactions(transactions);
 
-      // Step 2: Add travel detection with flash
-      console.log('[Enrichment] Starting travel detection...');
-      setCurrentPhase("travel");
-      setStatusMessage('Analyzing travel patterns...');
-      await callEnrichTransactions(classifiedTransactions);
+      // Step 2: Check if we have a valid home ZIP before running travel detection
+      const hasValidHomeZip = homeZip && homeZip.trim() !== "" && homeZip.trim() !== "N/A";
+      
+      if (hasValidHomeZip) {
+        // Add travel detection with flash
+        console.log('[Enrichment] Starting travel detection...');
+        setCurrentPhase("travel");
+        setStatusMessage('Analyzing travel patterns...');
+        await callEnrichTransactions(classifiedTransactions);
+      } else {
+        // Skip travel detection if no valid home ZIP
+        console.log('[Enrichment] Skipping travel detection (no home ZIP provided)');
+        setStatusMessage('Classification complete (travel analysis skipped - no home ZIP provided)');
+        setCurrentPhase('complete');
+        setIsProcessing(false);
+        toast.success(`${classifiedTransactions.length} transactions classified!`);
+      }
 
     } catch (err: any) {
       setError(err.message);

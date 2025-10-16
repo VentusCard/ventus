@@ -146,7 +146,7 @@ const TePilot = () => {
   };
   const handleEnrich = async () => {
     setActiveTab("results"); // Switch to results IMMEDIATELY
-    await startEnrichment(parsedTransactions);
+    await startEnrichment(parsedTransactions, anchorZip);
   };
   const handleCorrection = (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => {
     const transaction = enrichedTransactions.find(t => t.transaction_id === transactionId);
