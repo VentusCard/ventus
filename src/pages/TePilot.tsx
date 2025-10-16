@@ -170,7 +170,7 @@ const TePilot = () => {
                 Traditional transaction categorization relies on outdated methods like MCC codes or simple text matching, 
                 often producing generic or incorrect results. <strong className="text-foreground">Ventus AI uses semantic understanding</strong> to 
                 analyze the full context of each transaction, delivering accurate lifestyle-based categorization that 
-                understands what you're actually spending on. This enables financial institutions to unlock richer consumer insights and turning vast, unstructured transaction data into actionable intelligence.
+                understands what you're actually spending on. This enables financial institutions to unlock richer consumer insights and <strong className="text-foreground">turning vast, unstructured transaction data into actionable intelligence.</strong>
               </p>
             </div>
 
