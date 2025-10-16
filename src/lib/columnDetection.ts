@@ -20,7 +20,8 @@ const FIELD_KEYWORDS: Record<string, string[]> = {
   ],
   amount: [
     "amount", "total", "value", "price", "cost", "sum",
-    "transactionamount", "payment", "charge", "debit", "credit"
+    "transactionamount", "payment", "charge", "debit", "credit",
+    "amountusd", "amount(usd)", "usd"
   ],
   date: [
     "date", "transactiondate", "posteddate", "purchasedate",
@@ -28,7 +29,7 @@ const FIELD_KEYWORDS: Record<string, string[]> = {
   ],
   mcc: [
     "mcc", "merchantcategorycode", "categorycode", 
-    "category", "merchantcategory", "type"
+    "category", "merchantcategory", "type", "cat"
   ],
   transaction_id: [
     "transactionid", "id", "txnid", "transaction", 

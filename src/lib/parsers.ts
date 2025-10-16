@@ -126,6 +126,73 @@ export async function parseXLSX(file: File): Promise<MappingResult> {
   });
 }
 
+// Parse markdown table format
+function parseMarkdownTable(lines: string[], startLine: number, homeZip?: string): MappingResult {
+  // Extract header row
+  const headerLine = lines[startLine].trim();
+  let headers = headerLine
+    .split("|")
+    .map(h => h.trim())
+    .filter(h => h); // Remove empty strings from leading/trailing pipes
+  
+  // Find separator row (contains -- or ===)
+  let dataStartLine = startLine + 1;
+  while (dataStartLine < lines.length) {
+    const line = lines[dataStartLine].trim();
+    if (line.includes("--") || line.includes("===")) {
+      dataStartLine++; // Skip separator row
+      break;
+    }
+    dataStartLine++;
+  }
+  
+  // Auto-detect and remove index column (# column or numeric-only first column)
+  const firstColName = headers[0].toLowerCase();
+  const shouldRemoveFirstCol = firstColName === "#" || 
+                                 firstColName === "id" || 
+                                 firstColName === "index" ||
+                                 firstColName === "no" ||
+                                 firstColName === "number";
+  
+  if (shouldRemoveFirstCol) {
+    headers = headers.slice(1); // Remove first column from headers
+  }
+  
+  // Parse data rows
+  const rows = lines.slice(dataStartLine).map(line => {
+    let values = line
+      .trim()
+      .split("|")
+      .map(v => v.trim())
+      .filter((v, i, arr) => {
+        // Remove empty strings from leading/trailing pipes
+        return !(i === 0 && v === "") && !(i === arr.length - 1 && v === "");
+      });
+    
+    // Remove first column data if we detected an index column
+    if (shouldRemoveFirstCol && values.length > headers.length) {
+      values = values.slice(1);
+    }
+    
+    const obj: any = {};
+    headers.forEach((header, index) => {
+      obj[header] = values[index] || "";
+    });
+    
+    if (homeZip) {
+      obj._homeZip = homeZip;
+    }
+    
+    return obj;
+  }).filter(row => {
+    // Filter out empty rows or separator rows that might have been missed
+    const hasData = Object.values(row).some(v => v && !String(v).includes("--"));
+    return hasData;
+  });
+  
+  return mapColumns(headers, rows, homeZip);
+}
+
 // Paste Text Parser
 export function parsePastedText(text: string): MappingResult {
   const lines = text.trim().split("\n").filter(line => line.trim());
@@ -146,10 +213,17 @@ export function parsePastedText(text: string): MappingResult {
     startLine = 1;
   }
 
-  // Try CSV format first
-  const firstLine = lines[startLine];
-  const delimiter = firstLine.includes("\t") ? "\t" : ",";
-  const headers = firstLine.split(delimiter).map(h => h.trim());
+  // DETECT FORMAT TYPE
+  const firstDataLine = lines[startLine];
+  
+  // Check if it's a markdown table (contains pipes)
+  if (firstDataLine.includes("|")) {
+    return parseMarkdownTable(lines, startLine, homeZip);
+  }
+  
+  // Otherwise use existing CSV/TSV logic
+  const delimiter = firstDataLine.includes("\t") ? "\t" : ",";
+  const headers = firstDataLine.split(delimiter).map(h => h.trim());
   
   const rows = lines.slice(startLine + 1).map(line => {
     const values = line.split(delimiter).map(v => v.trim());
