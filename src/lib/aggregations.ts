@@ -292,3 +292,73 @@ export function applyCorrections(
     };
   });
 }
+
+// Helper functions for modals
+export function getTopMerchants(transactions: EnrichedTransaction[], limit: number = 5): { merchant: string; totalSpend: number; count: number }[] {
+  const merchantMap = new Map<string, { totalSpend: number; count: number }>();
+
+  transactions.forEach((t) => {
+    const merchant = t.description || "Unknown";
+    const existing = merchantMap.get(merchant) || { totalSpend: 0, count: 0 };
+    merchantMap.set(merchant, {
+      totalSpend: existing.totalSpend + t.amount,
+      count: existing.count + 1,
+    });
+  });
+
+  return Array.from(merchantMap.entries())
+    .map(([merchant, data]) => ({ merchant, ...data }))
+    .sort((a, b) => b.totalSpend - a.totalSpend)
+    .slice(0, limit);
+}
+
+export function getSpendingTimeline(transactions: EnrichedTransaction[]): { month: string; amount: number }[] {
+  const monthMap = new Map<string, number>();
+
+  transactions.forEach((t) => {
+    const date = new Date(t.date);
+    const month = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+    monthMap.set(month, (monthMap.get(month) || 0) + t.amount);
+  });
+
+  return Array.from(monthMap.entries())
+    .map(([month, amount]) => ({ month, amount }))
+    .sort((a, b) => a.month.localeCompare(b.month));
+}
+
+export function getConfidenceBreakdown(transactions: EnrichedTransaction[]): { level: string; count: number; percentage: number }[] {
+  const breakdown = { high: 0, medium: 0, low: 0 };
+
+  transactions.forEach((t) => {
+    if (t.confidence >= 0.8) breakdown.high++;
+    else if (t.confidence >= 0.5) breakdown.medium++;
+    else breakdown.low++;
+  });
+
+  const total = transactions.length;
+  return [
+    { level: "High (≥80%)", count: breakdown.high, percentage: (breakdown.high / total) * 100 },
+    { level: "Medium (50-79%)", count: breakdown.medium, percentage: (breakdown.medium / total) * 100 },
+    { level: "Low (<50%)", count: breakdown.low, percentage: (breakdown.low / total) * 100 },
+  ].filter(item => item.count > 0);
+}
+
+export function getTravelDestinations(transactions: EnrichedTransaction[], limit: number = 5): { destination: string; count: number; totalSpend: number }[] {
+  const destinationMap = new Map<string, { count: number; totalSpend: number }>();
+
+  transactions
+    .filter(t => t.pillar === "Travel & Exploration" && t.travel_context?.travel_destination)
+    .forEach((t) => {
+      const dest = t.travel_context!.travel_destination!;
+      const existing = destinationMap.get(dest) || { count: 0, totalSpend: 0 };
+      destinationMap.set(dest, {
+        count: existing.count + 1,
+        totalSpend: existing.totalSpend + t.amount,
+      });
+    });
+
+  return Array.from(destinationMap.entries())
+    .map(([destination, data]) => ({ destination, ...data }))
+    .sort((a, b) => b.totalSpend - a.totalSpend)
+    .slice(0, limit);
+}
