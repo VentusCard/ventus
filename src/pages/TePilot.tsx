@@ -633,6 +633,7 @@ const TePilot = () => {
                   onClick={handleGenerateRecommendations}
                   disabled={isGeneratingRecommendations}
                   className="w-full"
+                  variant="ai"
                 >
                   {isGeneratingRecommendations ? "Generating..." : "Generate Partner Recommendations"}
                 </Button>
