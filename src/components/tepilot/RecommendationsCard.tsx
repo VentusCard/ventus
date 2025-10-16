@@ -49,13 +49,26 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
     }
   }, [recommendations]);
 
-  const getTierBadgeVariant = (tier: string) => {
+  const getTierBadgeClasses = (tier: string) => {
     switch(tier) {
-      case "deal": return "default";
-      case "experience": return "secondary";
-      case "financial_product": return "outline";
-      default: return "outline";
+      case "deal": 
+        return "bg-blue-50 border-blue-200 text-blue-700 hover:bg-blue-100";
+      case "experience": 
+        return "bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100";
+      case "financial_product": 
+        return "bg-green-50 border-green-200 text-green-700 hover:bg-green-100";
+      default: 
+        return "bg-slate-50 border-slate-200 text-slate-700";
     }
+  };
+
+  const getPriorityBadgeClasses = (priority: number) => {
+    if (priority <= 2) {
+      return "text-orange-600 border-orange-200";
+    } else if (priority >= 5) {
+      return "text-slate-600 border-slate-200";
+    }
+    return ""; // Default styling for priority 3-4
   };
 
   const getTierLabel = (tier: string) => {
@@ -110,10 +123,10 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
                       <div className="flex flex-col items-start gap-2">
                         <h3 className="font-semibold text-lg text-left">{rec.title}</h3>
                         <div className="flex gap-2">
-                          <Badge variant={getTierBadgeVariant(rec.tier)}>
+                          <Badge className={getTierBadgeClasses(rec.tier)}>
                             {getTierLabel(rec.tier)}
                           </Badge>
-                          <Badge variant="outline">
+                          <Badge variant="outline" className={getPriorityBadgeClasses(rec.priority)}>
                             Priority {rec.priority}
                           </Badge>
                         </div>
@@ -139,10 +152,10 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
                       <p className="text-muted-foreground">{rec.description}</p>
 
                       {/* Value Breakdown */}
-                      <Card className="bg-muted/50">
+                      <Card className="bg-emerald-50/30 border-emerald-100">
                         <CardHeader className="pb-3">
                           <CardTitle className="text-base flex items-center gap-2">
-                            <DollarSign className="h-4 w-4" />
+                            <DollarSign className="h-4 w-4 text-emerald-600" />
                             Estimated Value
                           </CardTitle>
                         </CardHeader>
@@ -161,11 +174,11 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
                           {rec.estimated_value.lift_monthly !== undefined && (
                             <>
                               <Separator className="my-2" />
-                              <div className="flex justify-between text-sm">
+                              <div className="flex justify-between text-sm bg-green-50/20 p-2 rounded">
                                 <span className="text-primary font-medium">Lift Monthly:</span>
                                 <span className="font-bold text-primary">${rec.estimated_value.lift_monthly.toLocaleString()}</span>
                               </div>
-                              <div className="flex justify-between text-sm">
+                              <div className="flex justify-between text-sm bg-green-50/20 p-2 rounded">
                                 <span className="text-primary font-medium">Lift Annual:</span>
                                 <span className="font-bold text-primary">${rec.estimated_value.lift_annual?.toLocaleString()}</span>
                               </div>
@@ -185,10 +198,10 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
                       </Card>
 
                       {/* Matching Data */}
-                      <Card className="bg-muted/50">
+                      <Card className="bg-blue-50/30 border-blue-100">
                         <CardHeader className="pb-3">
                           <CardTitle className="text-base flex items-center gap-2">
-                            <Target className="h-4 w-4" />
+                            <Target className="h-4 w-4 text-blue-600" />
                             Why This Matches
                           </CardTitle>
                         </CardHeader>
