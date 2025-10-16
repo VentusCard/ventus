@@ -19,9 +19,8 @@ interface Recommendation {
     calculation: string;
   };
   matching_data: {
-    spending: string;
-    merchants: string[];
-    categories: string[];
+    current_behavior: string;
+    opportunity: string;
     lift_opportunity?: string;
   };
   tier: "deal" | "experience" | "financial_product";
@@ -218,19 +217,13 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
                             <li className="flex items-start gap-2">
                               <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
                               <div className="text-sm">
-                                <span className="font-medium">Spending:</span> {rec.matching_data.spending}
+                                <span className="font-medium">Current Behavior:</span> {rec.matching_data.current_behavior}
                               </div>
                             </li>
                             <li className="flex items-start gap-2">
                               <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
                               <div className="text-sm">
-                                <span className="font-medium">Merchants:</span> {(rec.matching_data.merchants || []).join(", ")}
-                              </div>
-                            </li>
-                            <li className="flex items-start gap-2">
-                              <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
-                              <div className="text-sm">
-                                <span className="font-medium">Categories:</span> {(rec.matching_data.categories || []).join(", ")}
+                                <span className="font-medium">Opportunity:</span> {rec.matching_data.opportunity}
                               </div>
                             </li>
                           </ul>
