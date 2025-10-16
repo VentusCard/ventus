@@ -334,6 +334,17 @@ MANDATORY RULES:
 7. Each recommendation needs clear "why this is profitable" reasoning
 8. Return valid JSON only
 
+/*
+INCREMENTAL LANGUAGE GUIDELINES:
+- Use: "adds", "expands", "increases", "introduces", "unlocks", "captures", "consolidates"
+- Avoid: "redirects", "shifts", "moves" (implies zero incremental value)
+- Always emphasize: NEW spending, ADDITIONAL spending, INCREASED spending
+- Premium Upsells: "adds $X in premium category spending"
+- Adjacent Categories: "introduces $X in NEW category spending"
+- Ticket Expansion: "increases transaction size from $X to $Y"
+- Financial Products: "consolidates $X/month onto primary card"
+*/
+
 VALUE CALCULATION FORMAT:
 
 FOR DEALS (tier1_deals):
@@ -344,12 +355,12 @@ FOR DEALS (tier1_deals):
     "lift_monthly": 50,         // What they COULD earn
     "lift_annual": 600,
     "lift_scenario": "If you spend $250/month at premium meal delivery (15% of current grocery budget)",
-    "calculation": "New category: $250/mo × 20% = $50/mo. This redirects spend to higher-margin merchant partners.",
-    "strategic_rationale": "Introduces premium category, increases ticket size, drives to partner merchants"
+    "calculation": "New category: $250/mo × 20% = $50/mo. This adds $250/month in premium category spending with possible revenue from merchant deals.",
+    "strategic_rationale": "If customer adds $250/month in premium meal delivery spending, bank captures $250/month in transactions with possible revenue from merchant deals and expands share of food spending wallet"
   },
   "matching_data": {
     "current_behavior": "Spends $1,573/mo at mid-tier grocery stores",
-    "opportunity": "Could redirect 15% to premium meal delivery + specialty foods",
+    "opportunity": "Could add $250/month in premium meal delivery spending (15% increase from current grocery budget)",
     "lift_opportunity": "Premium upsell: Higher transaction values, partner revenue share, adjacent category expansion"
   }
 }
@@ -363,7 +374,7 @@ FOR EXPERIENCES (tier2_experiences):
     "lift_annual": 750,        // Full experience value
     "lift_scenario": "If you qualify for 3-month complimentary wellness club membership ($750 value)",
     "calculation": "Experience value: $750 / 12 months = $62.50/mo equivalent. Drives wellness spending and premium engagement.",
-    "strategic_rationale": "Experience offering: High perceived value, drives category engagement, creates emotional connection, encourages spending in wellness pillar"
+    "strategic_rationale": "If customer activates $750 wellness club experience, bank seeds future wellness spending estimated at $200-400/month with possible revenue from merchant deals while building emotional brand loyalty that drives retention"
   },
   "matching_data": {
     "current_behavior": "Minimal wellness spending currently",
@@ -381,7 +392,7 @@ FOR FINANCIAL PRODUCTS (tier3_financial):
     "lift_annual": 650,
     "lift_scenario": "If you upgrade to Travel Rewards Card and maintain current $1,200/mo travel & dining spend",
     "calculation": "$1,200/mo × (3X on travel/dining @ 1¢/point = 3%) = $36/mo + $300 travel credit ($25/mo) - $95 annual fee ($7.92/mo) = $53/mo net value.",
-    "strategic_rationale": "Financial product upsell: Deepens banking relationship, increases wallet share, long-term customer retention, cross-sell success"
+    "strategic_rationale": "If customer consolidates $1,200/month travel and dining spend onto this card, bank captures $1,200/month in transactions with possible revenue from merchant deals and becomes primary card across premium lifestyle categories"
   },
   "matching_data": {
     "current_behavior": "Spends $1,200+/month on travel and dining",
