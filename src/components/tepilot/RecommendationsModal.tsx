@@ -190,13 +190,13 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                         <li className="flex items-start gap-2">
                           <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
                           <div className="text-sm">
-                            <span className="font-medium">Merchants:</span> {rec.matching_data.merchants.join(", ")}
+                            <span className="font-medium">Merchants:</span> {(rec.matching_data.merchants || []).join(", ")}
                           </div>
                         </li>
                         <li className="flex items-start gap-2">
                           <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
                           <div className="text-sm">
-                            <span className="font-medium">Categories:</span> {rec.matching_data.categories.join(", ")}
+                            <span className="font-medium">Categories:</span> {(rec.matching_data.categories || []).join(", ")}
                           </div>
                         </li>
                       </ul>
