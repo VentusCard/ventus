@@ -232,7 +232,7 @@ const TePilot = () => {
                       </TableCell>
                       <TableCell className="text-green-700 dark:text-green-400 font-medium text-sm flex items-center gap-1">
                         <CheckCircle className="h-4 w-4" />
-                        Accurate
+                        Accurate and insightful
                       </TableCell>
                     </TableRow>
                   </TableBody>
