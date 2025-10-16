@@ -125,14 +125,14 @@ For each deal, YOU decide ALL parameters dynamically:
 1. **Cashback Percentage**: Choose 5-20% based on customer value and merchant profitability
 2. **Merchants**: Select from customer's actual top merchants (use anonymized format in output)
 3. Deal Structure: Each deal must focus on ONE merchant category only. Choose structure:
-  - Simple cashback: “X% cashback at [single category]”
-  - High-value reward: “Earn Xx points at [single category]”
-  - Free item: “Get a free [small item] when spending over $Y at [single category]”
-  - Time-limited: “X% cashback for the next N days/weeks/months at [single category]”
-  - Threshold bonus: “Spend $Y+ at [single category] to unlock Z% cashback”
-  - Loyalty streak: “After N purchases at [single category], get X% bonus on the next”
-  - Referral: “Bring a friend to [single category] and both earn X% cashback”
-  - Seasonal: “Earn X% cashback at [single category] during [event/season]”
+  - Simple cashback: "X% cashback at [single category]"
+  - High-value reward: "Earn Xx points at [single category]"
+  - Free item: "Get a free [small item] when spending over $Y at [single category]"
+  - Time-limited: "X% cashback for the next N days/weeks/months at [single category]"
+  - Threshold bonus: "Spend $Y+ at [single category] to unlock Z% cashback"
+  - Loyalty streak: "After N purchases at [single category], get X% bonus on the next"
+  - Referral: "Bring a friend to [single category] and both earn X% cashback"
+  - Seasonal: "Earn X% cashback at [single category] during [event/season]"
    
    CRITICAL: Each of the 3 deals MUST target a DIFFERENT merchant category. Do NOT combine multiple categories in one deal.
 
@@ -155,16 +155,16 @@ Titles must be specific, benefit-focused, and include the value proposition for 
 - ❌ BAD: "Special Offer" (no specifics)
 
 ### Description Guidelines
-Descriptions must connect the offer to the customer’s spending behavior and highlight how it encourages greater engagement and spend, written from the bank's perspective:
-- Reference verified spending: "This customer spent $X at [category] over the past year..."
-- Explain the incentive: "This offer motivates additional purchases by rewarding continued activity..."
-- Be professional and insight-driven: "We identified strong spend in..." or "Based on ongoing transactions at..."
-- Include a call-to-action: "Encourage activation to drive higher spend" or "Promote this offer to deepen engagement"
+Descriptions must be written from the bank's perspective, explaining how the offer strategically incentivizes increased customer spending and revenue:
+- Start with customer spending pattern: "This customer spent $X at [category]..."
+- Explain the strategic incentive: "This offer drives [specific behavior] by rewarding..."
+- Focus on revenue impact: "Expected to increase transaction frequency/basket size/wallet share..."
+- Be analytical and business-focused: "Projected to capture X% more spend..." or "Incentivizes shift from competitors..."
 
 Examples (each focusing on ONE category):
-- "This customer spent (amount) at Premium Outdoor Retailers last year. Offering 15% cashback can encourage earlier seasonal purchases and higher basket sizes while rewarding their loyalty."
-- "With consistent weekly visits to Premium Grocery Stores, an additional x% cashback incentive motivates this customer to make incremental trips and greater share of wallet within this essential category."
-- "The customer’s (amout) annual spend on Premium Athletic Apparel indicates strong lifestyle alignment. A 3X reward offer can drive upsell into higher-margin products and increase overall engagement."
+- "This customer spent $2,800 at Premium Outdoor Stores last year. Offering 15% cashback strategically incentivizes earlier seasonal purchases and larger basket sizes, driving increased transaction frequency while deepening category loyalty. Expected to capture an additional 20% wallet share in this category."
+- "With 52 weekly visits to Premium Grocery Stores totaling $6,200 annually, this 12% cashback offer incentivizes incremental trip frequency and higher per-visit spend. Projected to increase share of grocery wallet by 15-25% as customer consolidates spending to maximize rewards."
+- "The customer's $550 annual spend on Premium Athletic Apparel indicates strong lifestyle alignment. This 3X rewards multiplier strategically drives upsell into premium product tiers and increases purchase frequency, with projected 30% lift in category spend as rewards compound over time."
 
 ## Experience Generation (Recommendation 4)
 
