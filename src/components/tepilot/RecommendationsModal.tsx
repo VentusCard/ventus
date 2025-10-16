@@ -2,25 +2,15 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } f
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { DollarSign, Target, CheckCircle2 } from "lucide-react";
+import { Target, CheckCircle2 } from "lucide-react";
 
 interface Recommendation {
   deal_id: string;
   title: string;
   description: string;
-  estimated_value: {
-    current_monthly: number | null;
-    current_annual: number;
-    lift_monthly?: number;
-    lift_annual?: number;
-    lift_scenario?: string;
-    calculation: string;
-  };
   matching_data: {
-    spending: string;
-    merchants: string[];
-    categories: string[];
+    current_behavior: string;
+    opportunity: string;
     lift_opportunity?: string;
   };
   tier: "deal" | "experience" | "financial_product";
@@ -33,9 +23,6 @@ interface RecommendationsModalProps {
   onClose: () => void;
   recommendations: Recommendation[];
   summary: {
-    total_current_value?: { monthly: number; annual: number };
-    total_lift_potential?: { monthly: number; annual: number };
-    total_estimated_value?: { monthly: number; annual: number };
     message: string;
   };
 }
@@ -65,17 +52,7 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
         <DialogHeader>
           <DialogTitle>Example Banking Partner Recommendations</DialogTitle>
           <DialogDescription>
-            {summary.total_lift_potential ? (
-              <>
-                Current value: ${(summary.total_current_value?.annual || 0).toLocaleString()}/year
-                {" • "}
-                <span className="text-primary font-semibold">
-                  Lift potential: ${summary.total_lift_potential.annual.toLocaleString()}/year
-                </span>
-              </>
-            ) : (
-              <>Potential value: ${(summary.total_estimated_value?.annual || summary.total_current_value?.annual || 0).toLocaleString()}/year</>
-            )}
+            {recommendations.length} strategic recommendations for incremental revenue
           </DialogDescription>
         </DialogHeader>
 
@@ -97,16 +74,6 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                       </Badge>
                     </div>
                   </div>
-                  <div className="text-right flex flex-col items-end">
-                    <div className="text-xl font-bold text-primary">
-                      ${(rec.estimated_value.lift_annual || rec.estimated_value.current_annual).toLocaleString()}<span className="text-sm font-normal">/yr</span>
-                    </div>
-                    {rec.estimated_value.lift_monthly !== undefined && rec.estimated_value.current_monthly !== null && (
-                      <div className="text-sm text-muted-foreground">
-                        ${rec.estimated_value.lift_monthly.toLocaleString()}/mo
-                      </div>
-                    )}
-                  </div>
                 </div>
               </AccordionTrigger>
 
@@ -117,58 +84,12 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                   {/* Description */}
                   <p className="text-muted-foreground">{rec.description}</p>
 
-                  {/* Value Breakdown */}
-                  <Card className="bg-muted/50">
-                    <CardHeader className="pb-3">
-                      <CardTitle className="text-base flex items-center gap-2">
-                        <DollarSign className="h-4 w-4" />
-                        Estimated Value
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent className="space-y-2">
-                      {rec.estimated_value.current_monthly !== null && (
-                        <div className="flex justify-between text-sm">
-                          <span className="text-muted-foreground">Current Monthly:</span>
-                          <span className="font-semibold">${rec.estimated_value.current_monthly.toLocaleString()}</span>
-                        </div>
-                      )}
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Current Annual:</span>
-                        <span className="font-semibold">${rec.estimated_value.current_annual.toLocaleString()}</span>
-                      </div>
-                      
-                      {rec.estimated_value.lift_monthly !== undefined && (
-                        <>
-                          <Separator className="my-2" />
-                          <div className="flex justify-between text-sm">
-                            <span className="text-primary font-medium">Lift Monthly:</span>
-                            <span className="font-bold text-primary">${rec.estimated_value.lift_monthly.toLocaleString()}</span>
-                          </div>
-                          <div className="flex justify-between text-sm">
-                            <span className="text-primary font-medium">Lift Annual:</span>
-                            <span className="font-bold text-primary">${rec.estimated_value.lift_annual?.toLocaleString()}</span>
-                          </div>
-                          {rec.estimated_value.lift_scenario && (
-                            <p className="text-xs text-primary/80 italic mt-2">
-                              {rec.estimated_value.lift_scenario}
-                            </p>
-                          )}
-                        </>
-                      )}
-                      
-                      <Separator className="my-2" />
-                      <p className="text-xs text-muted-foreground italic">
-                        {rec.estimated_value.calculation}
-                      </p>
-                    </CardContent>
-                  </Card>
-
                   {/* Matching Data */}
                   <Card className="bg-muted/50">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-base flex items-center gap-2">
                         <Target className="h-4 w-4" />
-                        Why This Matches
+                        Why This Recommendation
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -184,19 +105,13 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                         <li className="flex items-start gap-2">
                           <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
                           <div className="text-sm">
-                            <span className="font-medium">Spending:</span> {rec.matching_data.spending}
+                            <span className="font-medium">Current Behavior:</span> {rec.matching_data.current_behavior}
                           </div>
                         </li>
                         <li className="flex items-start gap-2">
                           <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
                           <div className="text-sm">
-                            <span className="font-medium">Merchants:</span> {(rec.matching_data.merchants || []).join(", ")}
-                          </div>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
-                          <div className="text-sm">
-                            <span className="font-medium">Categories:</span> {(rec.matching_data.categories || []).join(", ")}
+                            <span className="font-medium">Opportunity:</span> {rec.matching_data.opportunity}
                           </div>
                         </li>
                       </ul>
