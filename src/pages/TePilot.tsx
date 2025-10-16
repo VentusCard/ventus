@@ -33,6 +33,7 @@ const TePilot = () => {
   const [inputMode, setInputMode] = useState<"paste" | "upload">("paste");
   const [rawInput, setRawInput] = useState("");
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [anchorZip, setAnchorZip] = useState("");
   const [parsedTransactions, setParsedTransactions] = useState<Transaction[]>([]);
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
   
@@ -80,7 +81,20 @@ const TePilot = () => {
     try {
       let result: MappingResult;
       if (inputMode === "paste") {
-        result = parsePastedText(rawInput);
+        // Prepend Home ZIP Code header if parsing pasted text
+        let textToParse = rawInput;
+        
+        // Check if the text already has a Home ZIP Code header
+        const firstLine = textToParse.trim().split("\n")[0];
+        const hasZipHeader = firstLine.startsWith("#") && firstLine.toLowerCase().includes("zip");
+        
+        // If no existing header, add one with the anchor ZIP (or N/A if empty)
+        if (!hasZipHeader) {
+          const zipValue = anchorZip.trim() || "N/A";
+          textToParse = `# Home ZIP Code: ${zipValue}\n${textToParse}`;
+        }
+        
+        result = parsePastedText(textToParse);
       } else if (uploadedFile) {
         result = await parseFile(uploadedFile);
       } else {
@@ -308,6 +322,7 @@ const TePilot = () => {
           setRawInput("");
           setUploadedFile(null);
           setPendingMapping(null);
+          setAnchorZip("");
           
           // Reset filters to default
           setFilters({
@@ -346,7 +361,7 @@ const TePilot = () => {
               />
             ) : (
               <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={setRawInput}>
-                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
               </UploadOrPasteContainer>
             )}
           </TabsContent>

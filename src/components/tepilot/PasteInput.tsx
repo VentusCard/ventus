@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { FileText } from "lucide-react";
@@ -8,9 +9,11 @@ interface PasteInputProps {
   value: string;
   onChange: (value: string) => void;
   onParse: () => void;
+  anchorZip: string;
+  onAnchorZipChange: (value: string) => void;
 }
 
-export function PasteInput({ value, onChange, onParse }: PasteInputProps) {
+export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipChange }: PasteInputProps) {
   const lineCount = value.split("\n").filter(line => line.trim()).length;
 
   return (
@@ -21,6 +24,21 @@ export function PasteInput({ value, onChange, onParse }: PasteInputProps) {
           <strong>Format:</strong> Paste CSV data with headers. Required: transaction_id, merchant_name, description, mcc, amount, date. Optional: zip_code
         </AlertDescription>
       </Alert>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium">Anchor ZIP Code (Optional)</label>
+        <Input
+          type="text"
+          value={anchorZip}
+          onChange={(e) => onAnchorZipChange(e.target.value)}
+          placeholder="e.g., 94102"
+          maxLength={5}
+          className="font-mono"
+        />
+        <p className="text-xs text-muted-foreground">
+          This will be used as the home location reference for transaction analysis
+        </p>
+      </div>
 
       <div className="space-y-2">
         <div className="flex justify-between text-sm text-muted-foreground">

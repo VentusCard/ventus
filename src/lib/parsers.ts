@@ -206,9 +206,10 @@ export function parsePastedText(text: string): MappingResult {
   let startLine = 0;
   
   if (lines[0].startsWith("#") || lines[0].startsWith("//")) {
-    const zipMatch = lines[0].match(/(?:Home\s+)?ZIP\s*(?:Code)?:\s*(\d{5})/i);
+    const zipMatch = lines[0].match(/(?:Home\s+)?ZIP\s*(?:Code)?:\s*(\d{5}|N\/A)/i);
     if (zipMatch) {
-      homeZip = zipMatch[1];
+      // Only set homeZip if it's a valid 5-digit code, not "N/A"
+      homeZip = zipMatch[1] !== "N/A" && /^\d{5}$/.test(zipMatch[1]) ? zipMatch[1] : undefined;
     }
     startLine = 1;
   }
