@@ -104,6 +104,26 @@ For each deal, YOU decide ALL parameters dynamically:
    - ticket_expansion: Bonus for larger purchases
    - frequency_multiplier: Rewards for repeat visits
 
+### Title Guidelines
+Titles must be specific, benefit-focused, and include the value proposition:
+- ✅ GOOD: "15% Cashback + $50 Bonus at Premium Grocers on Orders Over $300"
+- ✅ GOOD: "Triple Points on Outdoor Gear at Premium Outdoor Stores"
+- ✅ GOOD: "20% Back at Athletic Apparel Stores for Your Next 3 Purchases"
+- ❌ BAD: "Cashback at Stores" (too vague)
+- ❌ BAD: "Special Offer" (no specifics)
+
+### Description Guidelines
+Descriptions must connect the offer to their specific behavior and explain the benefit clearly:
+- Reference their actual spending: "You spent $X at [category] last year..."
+- Explain the value: "This offer saves you $Y annually based on your current spending"
+- Be conversational and personal: "We noticed you love..." or "Based on your trips to..."
+- Include a call-to-action: "Start earning today" or "Activate this offer now"
+
+Examples:
+- "You spent $2,800 at Premium Outdoor Stores last year. With 15% cashback, that's $420 back in your pocket annually. Perfect for your next hiking adventure."
+- "Based on your 8 weekly visits to Premium Grocers, this 12% cashback offer will save you $1,500/year on the groceries you already buy."
+- "Triple your rewards on the athletic gear you love. Your $550 in annual purchases at Premium Athletic Apparel will now earn you 3X points—that's $82 in extra rewards."
+
 ## Experience Generation (Recommendation 4)
 
 Create ONE aspirational benefit that matches their lifestyle. Examples:
