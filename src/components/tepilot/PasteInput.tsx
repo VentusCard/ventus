@@ -52,14 +52,6 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
           className="font-mono text-sm min-h-[300px]"
         />
       </div>
-
-      <Button 
-        onClick={onParse} 
-        disabled={!value.trim()}
-        className="w-full"
-      >
-        Parse Transactions
-      </Button>
     </div>
   );
 }
