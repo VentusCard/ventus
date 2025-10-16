@@ -66,7 +66,6 @@ export function PreviewTable({ transactions }: PreviewTableProps) {
                   <TableHead>MCC</TableHead>
                   <TableHead className="text-right">Amount</TableHead>
                   <TableHead>Date</TableHead>
-                  <TableHead>Zip Code</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -89,9 +88,6 @@ export function PreviewTable({ transactions }: PreviewTableProps) {
                       ${transaction.amount.toFixed(2)}
                     </TableCell>
                     <TableCell className="text-sm">{transaction.date}</TableCell>
-                    <TableCell className="text-sm">
-                      {transaction.zip_code || "—"}
-                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>

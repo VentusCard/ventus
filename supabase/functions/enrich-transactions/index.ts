@@ -10,7 +10,7 @@ const corsHeaders = {
 // Travel Pattern Detection
 const TRAVEL_DETECTION_PROMPT = `You are Ventus's travel pattern detector. Analyze transaction sequences to identify travel periods and reclassify transactions accordingly.
 
-HOME ZIP CODE: The user's home ZIP code will be provided. Use this to easily identify when transactions occur away from home.
+HOME ZIP CODE: The user's home ZIP code will be provided. Use this as a reference for the user's home location.
 
 TRAVEL ANCHOR DETECTION:
 Identify these key travel indicators:
@@ -18,15 +18,8 @@ Identify these key travel indicators:
 - Flights: Delta, Southwest, United, American Airlines (MCC 4511)
 - Car Rentals: Enterprise, Hertz, Budget, Avis
 
-ZIP CODE ANALYSIS (for physical locations only):
-- Many online/digital transactions (Netflix, Amazon, PayPal purchases) will NOT have ZIP codes - this is normal
-- Only compare ZIP codes for physical merchant transactions (gas stations, restaurants, stores)
-- Different ZIP codes (especially different first 3 digits) indicate travel
-- Sequential physical transactions with consistent non-home ZIP codes indicate a travel period
-- Missing ZIP codes should NOT affect travel detection - rely on merchant names and temporal patterns
-
 TRAVEL WINDOW LOGIC:
-For each travel anchor (hotel/flight) OR cluster of non-home ZIP codes in physical transactions, create a travel window of ±3 days.
+For each travel anchor (hotel/flight), create a travel window of ±3 days.
 
 RECLASSIFICATION RULES:
 Within travel windows, reclassify these PHYSICAL transactions to "Travel & Exploration":
@@ -41,7 +34,6 @@ GEOGRAPHIC SIGNALS:
 - Merchant names with city/state suffixes (e.g., "Starbucks NYC")
 - Multiple unfamiliar physical merchants in short timeframe
 - Location patterns different from typical behavior
-- ZIP codes different from home ZIP code (when available)
 - Temporal clustering of travel-related merchants
 
 OUTPUT:
@@ -106,9 +98,7 @@ Deno.serve(async (req) => {
     console.log(`[Travel Detection] Starting for ${transactions.length} pre-classified transactions`);
 
     // Extract home ZIP code
-    const homeZip = transactions.find(t => t.home_zip)?.home_zip || 
-                    transactions.find(t => t.zip_code)?.zip_code || 
-                    "Unknown";
+    const homeZip = transactions.find(t => t.home_zip)?.home_zip || "Unknown";
 
     // Create SSE stream
     const encoder = new TextEncoder();
@@ -130,8 +120,7 @@ Deno.serve(async (req) => {
             merchant: t.normalized_merchant || t.merchant_name,
             amount: t.amount,
             pillar: t.pillar,
-            subcategory: t.subcategory,
-            ...(t.zip_code && { zip: t.zip_code })
+            subcategory: t.subcategory
           }));
 
           const travelResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {

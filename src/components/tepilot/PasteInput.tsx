@@ -21,7 +21,7 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
       <Alert>
         <FileText className="h-4 w-4" />
         <AlertDescription>
-          <strong>Format:</strong> Paste CSV data with headers. Required: transaction_id, merchant_name, description, mcc, amount, date. Optional: zip_code
+          <strong>Format:</strong> Paste CSV data with headers. Required: transaction_id, merchant_name, description, mcc, amount, date
         </AlertDescription>
       </Alert>
 
@@ -48,7 +48,7 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
         <Textarea
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="transaction_id,merchant_name,description,mcc,amount,date,zip_code&#10;1,STARBUCKS COFFEE,Morning coffee,5814,12.45,2025-10-01,94102&#10;2,WHOLE FOODS,Groceries,5411,156.78,2025-10-02,94103"
+          placeholder="transaction_id,merchant_name,description,mcc,amount,date&#10;1,STARBUCKS COFFEE,Morning coffee,5814,12.45,2025-10-01&#10;2,WHOLE FOODS,Groceries,5411,156.78,2025-10-02"
           className="font-mono text-sm min-h-[300px]"
         />
       </div>
