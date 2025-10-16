@@ -327,12 +327,11 @@ MANDATORY RULES:
 2. Each recommendation must have a different ID (no duplicate deal_id/exp_id/product_id)
 3. Recommendation 1 must be premium upsell from current spending
 4. Recommendations 2-3 should prioritize adjacent category expansion or ticket/frequency incentives
-5. Lift scenarios must show 5-20% spending increases ONLY
-6. Calculate TWO values for each recommendation:
-   - Current value: Based on existing spending patterns
-   - Lift value: If customer adopts premium/adjacent/larger behavior
-7. Each recommendation needs clear "why this is profitable" reasoning
-8. Return valid JSON only
+5. Focus on behavioral insights rather than dollar calculations:
+   - Current behavior: What customer does now
+   - Opportunity: What new spending this unlocks
+   - Lift opportunity: Why this creates strategic value for the bank
+6. Return valid JSON only
 
 /*
 INCREMENTAL LANGUAGE GUIDELINES:
@@ -345,59 +344,14 @@ INCREMENTAL LANGUAGE GUIDELINES:
 - Financial Products: "consolidates $X/month onto primary card"
 */
 
-VALUE CALCULATION FORMAT:
+RECOMMENDATION OUTPUT FORMAT:
 
-FOR DEALS (tier1_deals):
+Each recommendation should include:
 {
-  "estimated_value": {
-    "current_monthly": 0,      // Often $0 for new categories
-    "current_annual": 0,
-    "lift_monthly": 50,         // What they COULD earn
-    "lift_annual": 600,
-    "lift_scenario": "If the customer spends $250/month at premium meal delivery (15% of current grocery budget)",
-    "calculation": "New category: $250/mo × 20% = $50/mo. This adds $250/month in premium category spending with possible revenue from merchant deals.",
-    "strategic_rationale": "If customer adds $250/month in premium meal delivery spending, bank captures $250/month in transactions with possible revenue from merchant deals and expands share of food spending wallet"
-  },
   "matching_data": {
-    "current_behavior": "Spends $1,573/mo at mid-tier grocery stores",
-    "opportunity": "Could add $250/month in premium meal delivery spending (15% increase from current grocery budget)",
-    "lift_opportunity": "Premium upsell: Higher transaction values, partner revenue share, adjacent category expansion"
-  }
-}
-
-FOR EXPERIENCES (tier2_experiences):
-{
-  "estimated_value": {
-    "current_monthly": 0,      // Usually $0 (new benefit)
-    "current_annual": 0,
-    "lift_monthly": 62.5,      // Value amount / 12 months
-    "lift_annual": 750,        // Full experience value
-    "lift_scenario": "If the customer qualifies for 3-month complimentary wellness club membership ($750 value)",
-    "calculation": "Experience value: $750 / 12 months = $62.50/mo equivalent. Drives wellness spending and premium engagement.",
-    "strategic_rationale": "If customer activates $750 wellness club experience, bank seeds future wellness spending estimated at $200-400/month with possible revenue from merchant deals while building emotional brand loyalty that drives retention"
-  },
-  "matching_data": {
-    "current_behavior": "Minimal wellness spending currently",
-    "opportunity": "Premium experience could unlock new wellness spending category",
-    "lift_opportunity": "Experience benefit: Drives new category adoption, increases lifetime value, premium positioning"
-  }
-}
-
-FOR FINANCIAL PRODUCTS (tier3_financial):
-{
-  "estimated_value": {
-    "current_monthly": 20,      // Current rewards earning
-    "current_annual": 240,
-    "lift_monthly": 54,         // With new card (includes annual benefits)
-    "lift_annual": 650,
-    "lift_scenario": "If the customer upgrades to Travel Rewards Card and maintains current $1,200/mo travel & dining spend",
-    "calculation": "$1,200/mo × (3X on travel/dining @ 1¢/point = 3%) = $36/mo + $300 travel credit ($25/mo) - $95 annual fee ($7.92/mo) = $53/mo net value.",
-    "strategic_rationale": "If customer consolidates $1,200/month travel and dining spend onto this card, bank captures $1,200/month in transactions with possible revenue from merchant deals and becomes primary card across premium lifestyle categories"
-  },
-  "matching_data": {
-    "current_behavior": "Spends $1,200+/month on travel and dining",
-    "opportunity": "Could maximize rewards with category-specific card",
-    "lift_opportunity": "Financial product: Wallet consolidation, deeper relationship, improved unit economics, retention driver"
+    "current_behavior": "Clear description of existing spending pattern (e.g., 'Spends $1,573/mo at mid-tier grocery stores')",
+    "opportunity": "What new spending this recommendation unlocks (e.g., 'Could add premium meal delivery spending')",
+    "lift_opportunity": "Strategic value to the bank (e.g., 'Premium upsell: Higher transaction values, partner revenue share')"
   }
 }
 
@@ -408,8 +362,11 @@ Output structure:
       "deal_id": "DEAL_XXX",  // For recommendations 1-3
       "title": "...",
       "description": "...",
-      "estimated_value": { ... },
-      "matching_data": { ... },
+      "matching_data": {
+        "current_behavior": "...",
+        "opportunity": "...",
+        "lift_opportunity": "..."
+      },
       "tier": "deal",
       "priority": 1,
       "lift_type": "premium_upsell" | "adjacent_category" | "ticket_expansion" | "frequency_multiplier"
@@ -418,8 +375,11 @@ Output structure:
       "exp_id": "EXP_XXX",  // For recommendation 4 (MUST be experience)
       "title": "...",
       "description": "...",
-      "estimated_value": { ... },
-      "matching_data": { ... },
+      "matching_data": {
+        "current_behavior": "...",
+        "opportunity": "...",
+        "lift_opportunity": "..."
+      },
       "tier": "experience",
       "priority": 4,
       "lift_type": "experience"
@@ -428,16 +388,17 @@ Output structure:
       "product_id": "PROD_XXX",  // For recommendation 5 (MUST be financial product)
       "title": "...",
       "description": "...",
-      "estimated_value": { ... },
-      "matching_data": { ... },
+      "matching_data": {
+        "current_behavior": "...",
+        "opportunity": "...",
+        "lift_opportunity": "..."
+      },
       "tier": "financial_product",
       "priority": 5,
       "lift_type": "financial_product"
     }
   ],
   "summary": {
-    "total_current_value": { "monthly": X, "annual": Y },
-    "total_lift_potential": { "monthly": X, "annual": Y },
     "recommendations_count": 5,
     "strategy_mix": {
       "premium_upsells": 1,
@@ -469,7 +430,7 @@ Generate exactly 5 STRATEGIC recommendations in this STRICT ORDER:
 
 Requirements:
 - Each recommendation must have a unique ID
-- Recommendations 1-3 focus on 5-20% lift in specific categories
+- Focus on clear behavioral insights in matching_data (current_behavior, opportunity, lift_opportunity)
 - Recommendation 4 should align with customer's lifestyle/spending patterns
 - Recommendation 5 should maximize overall wallet share and relationship depth
 - All recommendations must drive INCREMENTAL, PROFITABLE behavior`;
