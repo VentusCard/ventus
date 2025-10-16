@@ -549,18 +549,22 @@ const TePilot = () => {
                 {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
               </UploadOrPasteContainer>
             )}
+            
+            {/* Show EnrichActionBar after successful parse */}
+            {parsedTransactions.length > 0 && !pendingMapping && (
+              <EnrichActionBar 
+                transactionCount={parsedTransactions.length} 
+                isProcessing={isProcessing} 
+                statusMessage={statusMessage}
+                currentPhase={currentPhase}
+                onEnrich={handleEnrich} 
+              />
+            )}
           </TabsContent>
 
-          <TabsContent value="preview" className="space-y-6">
-            <PreviewTable transactions={parsedTransactions} />
-            <EnrichActionBar 
-              transactionCount={parsedTransactions.length} 
-              isProcessing={isProcessing} 
-              statusMessage={statusMessage}
-              currentPhase={currentPhase}
-              onEnrich={handleEnrich} 
-            />
-          </TabsContent>
+            <TabsContent value="preview" className="space-y-6">
+              <PreviewTable transactions={parsedTransactions} />
+            </TabsContent>
 
           <TabsContent value="results" className="space-y-6">
             {currentPhase === "travel" && (
