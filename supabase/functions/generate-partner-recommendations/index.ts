@@ -107,7 +107,7 @@ function anonymizeMerchant(merchantName: string): string {
   return tier ? `${tier} ${category}` : category;
 }
 
-const SYSTEM_PROMPT = `You are a banking partner recommendation engine. Your job is to generate 5 personalized recommendations for a customer based on their spending data.
+const SYSTEM_PROMPT = `You are a deal and product recommendation engine for banks. Your job is analyze a customer's spending history to generate 5 personalized deal and product recommendations that would clearly incentize more spending, more deal utilization and more cross-selling opportunties.
 
 CRITICAL: Generate ALL details dynamically based on the customer's actual spending patterns. DO NOT use templates or predefined values.
 
