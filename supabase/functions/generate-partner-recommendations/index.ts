@@ -354,7 +354,7 @@ FOR DEALS (tier1_deals):
     "current_annual": 0,
     "lift_monthly": 50,         // What they COULD earn
     "lift_annual": 600,
-    "lift_scenario": "If you spend $250/month at premium meal delivery (15% of current grocery budget)",
+    "lift_scenario": "If the customer spends $250/month at premium meal delivery (15% of current grocery budget)",
     "calculation": "New category: $250/mo × 20% = $50/mo. This adds $250/month in premium category spending with possible revenue from merchant deals.",
     "strategic_rationale": "If customer adds $250/month in premium meal delivery spending, bank captures $250/month in transactions with possible revenue from merchant deals and expands share of food spending wallet"
   },
@@ -372,7 +372,7 @@ FOR EXPERIENCES (tier2_experiences):
     "current_annual": 0,
     "lift_monthly": 62.5,      // Value amount / 12 months
     "lift_annual": 750,        // Full experience value
-    "lift_scenario": "If you qualify for 3-month complimentary wellness club membership ($750 value)",
+    "lift_scenario": "If the customer qualifies for 3-month complimentary wellness club membership ($750 value)",
     "calculation": "Experience value: $750 / 12 months = $62.50/mo equivalent. Drives wellness spending and premium engagement.",
     "strategic_rationale": "If customer activates $750 wellness club experience, bank seeds future wellness spending estimated at $200-400/month with possible revenue from merchant deals while building emotional brand loyalty that drives retention"
   },
@@ -390,7 +390,7 @@ FOR FINANCIAL PRODUCTS (tier3_financial):
     "current_annual": 240,
     "lift_monthly": 54,         // With new card (includes annual benefits)
     "lift_annual": 650,
-    "lift_scenario": "If you upgrade to Travel Rewards Card and maintain current $1,200/mo travel & dining spend",
+    "lift_scenario": "If the customer upgrades to Travel Rewards Card and maintains current $1,200/mo travel & dining spend",
     "calculation": "$1,200/mo × (3X on travel/dining @ 1¢/point = 3%) = $36/mo + $300 travel credit ($25/mo) - $95 annual fee ($7.92/mo) = $53/mo net value.",
     "strategic_rationale": "If customer consolidates $1,200/month travel and dining spend onto this card, bank captures $1,200/month in transactions with possible revenue from merchant deals and becomes primary card across premium lifestyle categories"
   },
