@@ -586,12 +586,12 @@ const TePilot = () => {
             {currentPhase === "complete" && enrichedTransactions.length > 0 && (
               <Card className="border-primary/20 bg-primary/5">
                 <CardContent className="pt-6 flex flex-col items-center gap-4">
-                <div className="text-center">
-                  <h3 className="text-lg font-semibold mb-2 text-blue-900 dark:text-blue-300">Ready to explore insights?</h3>
-                  <p className="text-sm mb-4 text-blue-800 dark:text-blue-400">
-                    View aggregated spending patterns, travel analysis, and lifestyle breakdowns
-                  </p>
-                </div>
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold mb-2">Ready to explore insights?</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      View aggregated spending patterns, travel analysis, and lifestyle breakdowns
+                    </p>
+                  </div>
                   <Button 
                     onClick={() => setActiveTab("insights")}
                     size="lg"
@@ -620,25 +620,19 @@ const TePilot = () => {
               enrichedTransactions={displayTransactions}
             />
             
-            <Card className="premium-card relative overflow-hidden animate-fade-in border-l-4 border-l-primary">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
-              
-              <CardHeader className="relative z-10">
-                <CardTitle className="flex items-center gap-3 text-2xl">
-                  <Sparkles className="h-6 w-6 text-primary animate-pulse" />
-                  AI Revenue Opportunity Recommendations
-                </CardTitle>
+            <Card>
+              <CardHeader>
+                <CardTitle>AI Revenue Opportunity Recommendations</CardTitle>
                 <CardDescription>
                   Generate example deal recommendations based on spending patterns
                 </CardDescription>
               </CardHeader>
-              <CardContent className="relative z-10">
+              <CardContent>
                 <Button 
                   onClick={handleGenerateRecommendations}
                   disabled={isGeneratingRecommendations}
-                  className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg hover:shadow-xl transition-all duration-300 group"
+                  className="w-full"
                 >
-                  <Sparkles className="h-4 w-4 mr-2 group-hover:animate-spin" />
                   {isGeneratingRecommendations ? "Generating..." : "Generate Partner Recommendations"}
                 </Button>
               </CardContent>
