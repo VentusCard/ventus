@@ -622,7 +622,7 @@ const TePilot = () => {
             
             <Card>
               <CardHeader>
-                <CardTitle>Banking Partner Recommendations</CardTitle>
+                <CardTitle>AI Revenue Opportunity Recommendations</CardTitle>
                 <CardDescription>
                   Generate example deal recommendations based on spending patterns
                 </CardDescription>
