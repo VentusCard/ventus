@@ -360,7 +360,14 @@ const TePilot = () => {
                 onCancel={handleMappingCancel}
               />
             ) : (
-              <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={setRawInput}>
+              <UploadOrPasteContainer 
+                mode={inputMode} 
+                onModeChange={setInputMode} 
+                onLoadSample={(data, zip) => {
+                  setRawInput(data);
+                  setAnchorZip(zip);
+                }}
+              >
                 {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
               </UploadOrPasteContainer>
             )}

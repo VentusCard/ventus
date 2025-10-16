@@ -13,7 +13,7 @@ import { ChevronDown } from "lucide-react";
 interface UploadOrPasteContainerProps {
   mode: "paste" | "upload";
   onModeChange: (mode: "paste" | "upload") => void;
-  onLoadSample: (sampleData: string) => void;
+  onLoadSample: (sampleData: string, zipCode: string) => void;
   children: React.ReactNode;
 }
 
@@ -36,13 +36,13 @@ export function UploadOrPasteContainer({ mode, onModeChange, onLoadSample, child
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 bg-background">
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV)}>
+              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV, "94102")}>
                 Dataset 1
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_SPORTS_WELLNESS)}>
+              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_SPORTS_WELLNESS, "78701")}>
                 Dataset 2
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_FOOD_HOME)}>
+              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_FOOD_HOME, "60614")}>
                 Dataset 3
               </DropdownMenuItem>
             </DropdownMenuContent>
