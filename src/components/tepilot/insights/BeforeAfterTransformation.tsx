@@ -1,12 +1,12 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Transaction, EnrichedTransaction, PillarAggregateWithSegments } from "@/types/transaction";
 import { aggregateByMCC, aggregateByPillarWithTravelBreakdown, buildSankeyFlow } from "@/lib/aggregations";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { PILLAR_COLORS } from "@/lib/sampleData";
 import { useState } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown, BarChart3 } from "lucide-react";
 interface BeforeAfterTransformationProps {
   originalTransactions: Transaction[];
   enrichedTransactions: EnrichedTransaction[];
@@ -15,6 +15,7 @@ export function BeforeAfterTransformation({
   originalTransactions,
   enrichedTransactions
 }: BeforeAfterTransformationProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   const mccData = aggregateByMCC(originalTransactions).slice(0, 10);
   const pillarData = aggregateByPillarWithTravelBreakdown(enrichedTransactions);
@@ -29,14 +30,25 @@ export function BeforeAfterTransformation({
   });
   const topMCCs = Array.from(mccTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10);
   const topPillars = Array.from(pillarTotals.entries()).sort((a, b) => b[1] - a[1]);
-  return <Card>
-      <CardHeader>
-        <CardTitle>MCC vs Lifestyle Pillar Visualization</CardTitle>
-        <p className="text-sm text-muted-foreground">
-          See how Ventus AI transforms raw MCCs into actionable lifestyle insights
-        </p>
-      </CardHeader>
-      <CardContent>
+  return <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <Card>
+        <CollapsibleTrigger className="w-full">
+          <CardHeader className="cursor-pointer hover:bg-accent/50 transition-colors">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <BarChart3 className="w-5 h-5 text-blue-500" />
+                <CardTitle>MCC vs Lifestyle Pillar Visualization</CardTitle>
+              </div>
+              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                <span>See AI transformation</span>
+                <ChevronDown className={`w-5 h-5 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
+              </div>
+            </div>
+          </CardHeader>
+        </CollapsibleTrigger>
+        
+        <CollapsibleContent>
+          <CardContent className="pt-0">
         <Tabs defaultValue="side-by-side">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="side-by-side">Side-by-Side</TabsTrigger>
@@ -169,6 +181,8 @@ export function BeforeAfterTransformation({
             </div>
           </TabsContent>
         </Tabs>
-      </CardContent>
-    </Card>;
+          </CardContent>
+        </CollapsibleContent>
+      </Card>
+    </Collapsible>;
 }
