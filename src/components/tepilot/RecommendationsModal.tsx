@@ -10,7 +10,7 @@ interface Recommendation {
   title: string;
   description: string;
   estimated_value: {
-    monthly: number;
+    monthly: number | null;
     annual: number;
     calculation: string;
   };
@@ -84,9 +84,11 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                     <div className="text-xl font-bold text-primary">
                       ${rec.estimated_value.annual.toLocaleString()}<span className="text-sm font-normal">/yr</span>
                     </div>
-                    <div className="text-sm text-muted-foreground">
-                      ${rec.estimated_value.monthly.toLocaleString()}/mo
-                    </div>
+                    {rec.estimated_value.monthly !== null && (
+                      <div className="text-sm text-muted-foreground">
+                        ${rec.estimated_value.monthly.toLocaleString()}/mo
+                      </div>
+                    )}
                   </div>
                 </div>
               </AccordionTrigger>
@@ -107,10 +109,12 @@ export function RecommendationsModal({ isOpen, onClose, recommendations, summary
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="space-y-2">
-                      <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Monthly:</span>
-                        <span className="font-semibold">${rec.estimated_value.monthly.toLocaleString()}</span>
-                      </div>
+                      {rec.estimated_value.monthly !== null && (
+                        <div className="flex justify-between text-sm">
+                          <span className="text-muted-foreground">Monthly:</span>
+                          <span className="font-semibold">${rec.estimated_value.monthly.toLocaleString()}</span>
+                        </div>
+                      )}
                       <div className="flex justify-between text-sm">
                         <span className="text-muted-foreground">Annual:</span>
                         <span className="font-semibold">${rec.estimated_value.annual.toLocaleString()}</span>
