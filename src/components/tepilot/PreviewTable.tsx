@@ -2,7 +2,7 @@ import { Transaction } from "@/types/transaction";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign, Calendar, Hash } from "lucide-react";
+import { DollarSign, Calendar, Hash, MapPin } from "lucide-react";
 
 interface PreviewTableProps {
   transactions: Transaction[];
@@ -14,6 +14,9 @@ export function PreviewTable({ transactions }: PreviewTableProps) {
     start: transactions.reduce((min, t) => t.date < min ? t.date : min, transactions[0].date),
     end: transactions.reduce((max, t) => t.date > max ? t.date : max, transactions[0].date),
   } : null;
+  
+  // Extract anchor ZIP from first transaction if available
+  const anchorZip = transactions.length > 0 && transactions[0].home_zip ? transactions[0].home_zip : null;
 
   return (
     <Card>
@@ -41,6 +44,13 @@ export function PreviewTable({ transactions }: PreviewTableProps) {
               <Calendar className="w-4 h-4 text-muted-foreground" />
               <span className="text-muted-foreground">Range:</span>
               <span className="font-semibold">{dateRange.start} to {dateRange.end}</span>
+            </div>
+          )}
+          {anchorZip && (
+            <div className="flex items-center gap-2">
+              <MapPin className="w-4 h-4 text-muted-foreground" />
+              <span className="text-muted-foreground">Anchor ZIP:</span>
+              <span className="font-semibold font-mono">{anchorZip}</span>
             </div>
           )}
         </div>
