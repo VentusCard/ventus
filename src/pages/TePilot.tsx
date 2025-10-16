@@ -192,8 +192,46 @@ const TePilot = () => {
 
             {/* Accordion with 3 collapsible sections */}
             <Accordion type="single" collapsible className="w-full">
-              {/* Section 1: Why Semantic AI is Different */}
+              {/* Section 1: Ventus AI Workflows */}
               <AccordionItem value="item-1">
+                <AccordionTrigger className="text-lg font-semibold">
+                  Ventus AI Workflows
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <div className="flex items-center gap-2">
+                        <Brain className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-sm">AI Enrichment</h4>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Semantic AI analyzes each transaction in full context, assigning lifestyle categories and detecting travel patterns with confidence scores.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-sm">AI Pattern Analysis</h4>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Uncover hidden spending behaviors and trends across lifestyle pillars, merchant patterns, and travel behaviors for deeper customer understanding.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-sm">AI Recommendations</h4>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Transform insights into actionable marketing signals and reward engine parameters, ready for seamless integration into your customer engagement platforms.
+                      </p>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Section 2: Why Semantic AI is Different */}
+              <AccordionItem value="item-2">
                 <AccordionTrigger className="text-lg font-semibold">
                   Why Semantic AI is Different
                 </AccordionTrigger>
@@ -248,8 +286,8 @@ const TePilot = () => {
                 </AccordionContent>
               </AccordionItem>
 
-              {/* Section 2: Key Features */}
-              <AccordionItem value="item-2">
+              {/* Section 3: Key Features */}
+              <AccordionItem value="item-3">
                 <AccordionTrigger className="text-lg font-semibold">
                   Key Features
                 </AccordionTrigger>
@@ -308,44 +346,6 @@ const TePilot = () => {
                           Corrections teach the AI to improve future classifications, creating a smarter system over time
                         </p>
                       </div>
-                    </div>
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-
-              {/* Section 3: Ventus AI Workflows */}
-              <AccordionItem value="item-3">
-                <AccordionTrigger className="text-lg font-semibold">
-                  Ventus AI Workflows
-                </AccordionTrigger>
-                <AccordionContent>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
-                      <div className="flex items-center gap-2">
-                        <Brain className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">AI Enrichment</h4>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Semantic AI analyzes each transaction in full context, assigning lifestyle categories and detecting travel patterns with confidence scores.
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
-                      <div className="flex items-center gap-2">
-                        <TrendingUp className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">AI Pattern Analysis</h4>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Uncover hidden spending behaviors and trends across lifestyle pillars, merchant patterns, and travel behaviors for deeper customer understanding.
-                      </p>
-                    </div>
-                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
-                      <div className="flex items-center gap-2">
-                        <Sparkles className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">AI Recommendations</h4>
-                      </div>
-                      <p className="text-sm text-muted-foreground">
-                        Transform insights into actionable marketing signals and reward engine parameters, ready for seamless integration into your customer engagement platforms.
-                      </p>
                     </div>
                   </div>
                 </AccordionContent>
