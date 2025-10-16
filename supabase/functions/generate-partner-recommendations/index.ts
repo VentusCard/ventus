@@ -137,14 +137,14 @@ For each deal, YOU decide ALL parameters dynamically:
    CRITICAL: Each of the 3 deals MUST target a DIFFERENT merchant category. Do NOT combine multiple categories in one deal.
 
 4. **Lift Strategy**: Assign one per deal
-  - Premium Upsell: Higher rewards in dominant category
-  - Adjacent Category: New category related to top spending
-  - Ticket Expansion: Bonus for larger purchases
-  - Frequency Multiplier: Rewards for repeat visits
-  - Trial Conversion: Encourage conversion from one-time to recurring purchase
-  - Reactivation Push: Incentivize return to inactive category
-  - Loyalty Reward: Bonus for long-term consistent spend
-  - Seasonal Alignment: Align with calendar events or lifestyle timing
+- Premium Upsell: Rewards to incentivize more spending in dominant category
+- Adjacent subcategory: New subcategory within to top spending category
+- Ticket Expansion: Bonus for larger purchases
+- Frequency Multiplier: Rewards for repeat visits
+- Trial Conversion: Encourage conversion from one-time to recurring purchase
+- Reactivation Push: Incentivize return to inactive category
+- Loyalty Reward: Bonus for long-term consistent spend
+- Seasonal Alignment: Align with calendar events or lifestyle timing
 
 ### Title Guidelines
 Titles must be specific, benefit-focused, and include the value proposition for ONE category only:
@@ -156,36 +156,39 @@ Titles must be specific, benefit-focused, and include the value proposition for 
 
 ### Description Guidelines
 Descriptions must connect the offer to the customer’s spending behavior and highlight how it encourages greater engagement and spend, written from the bank's perspective:
-  - Reference verified spending: "This customer spent $X at [category] over the past year..."
-  - Explain the incentive: "This offer motivates additional purchases by rewarding continued activity..."
-  - Be professional and insight-driven: "We identified strong spend in..." or "Based on ongoing transactions at..."
-  - Include a call-to-action: "Encourage activation to drive higher spend" or "Promote this offer to deepen engagement"
+- Reference verified spending: "This customer spent $X at [category] over the past year..."
+- Explain the incentive: "This offer motivates additional purchases by rewarding continued activity..."
+- Be professional and insight-driven: "We identified strong spend in..." or "Based on ongoing transactions at..."
+- Include a call-to-action: "Encourage activation to drive higher spend" or "Promote this offer to deepen engagement"
 
 Examples (each focusing on ONE category):
-  - "This customer spent (amount) at Premium Outdoor Retailers last year. Offering 15% cashback can encourage earlier seasonal purchases and higher basket sizes while rewarding their loyalty."
-  - "With consistent weekly visits to Premium Grocery Stores, an additional x% cashback incentive motivates this customer to make incremental trips and greater share of wallet within this essential category."
-  - "The customer’s (amout) annual spend on Premium Athletic Apparel indicates strong lifestyle alignment. A 3X reward offer can drive upsell into higher-margin products and increase overall engagement."
+- "This customer spent (amount) at Premium Outdoor Retailers last year. Offering 15% cashback can encourage earlier seasonal purchases and higher basket sizes while rewarding their loyalty."
+- "With consistent weekly visits to Premium Grocery Stores, an additional x% cashback incentive motivates this customer to make incremental trips and greater share of wallet within this essential category."
+- "The customer’s (amout) annual spend on Premium Athletic Apparel indicates strong lifestyle alignment. A 3X reward offer can drive upsell into higher-margin products and increase overall engagement."
 
 ## Experience Generation (Recommendation 4)
 
 Create ONE aspirational benefit that matches their lifestyle. Examples:
-- Airport lounge access (Priority Pass, 10 visits/year) - for travelers
-- Wellness program (trial credit for spa/fitness) - for health-focused
-- Premium event access (concert/sports presales) - for entertainment spenders
-- Hotel elite status + (amount) resort credit - for travelers
-- Airline elite status + (amount) Airline credit - for travelers
-- Dining program (private chef's table, wine tastings) - for foodies
+- Airport lounge access (Priority Pass, 10 visits/year) 
+- Wellness program (trial credit for spa/fitness) 
+- Premium event access (concert/sports presales) 
+- Hotel elite status + (amount) resort credit 
+- Airline elite status + (amount) Airline credit 
+- Dining program (private chef's table, wine tastings) 
 
 YOU decide the value amount ($200-$1000) and specific benefits.
 
 ## Financial Product Generation (Recommendation 5)
 
-Create ONE credit card that maximizes rewards for their top categories. YOU decide:
-- Card name (must sound like real bank products: "Premium Travel Rewards", "Lifestyle Cashback Plus", etc.)
+Create ONE credit card or financial product that serves this customer. YOU design soemething that must sound like real bank products, see examples::
+- Credit Card name (must sound like real bank products: "Premium Travel Rewards", "Lifestyle Cashback Plus", etc.)
 - Earn rates (1X-5X points on different categories)
 - Annual fee ($0-$550)
 - Annual credits/benefits ($100-$500 value)
 - Estimated annual value (calculate based on their spend)
+- Buy Now Pay Later Products for Large Purchaess
+- Home Loan and Lending Products
+- Other investments and financial products
 
 Examples:
 - Travel spender: "3X on travel/dining, 2X on gas, $300 annual travel credit, $95 fee"
