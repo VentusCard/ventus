@@ -595,10 +595,6 @@ const TePilot = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
-                  {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
-                </Button>
-                
                 {recommendations && (
                   <RecommendationsCard 
                     recommendations={recommendations.recommendations || []} 
@@ -611,6 +607,10 @@ const TePilot = () => {
                     }} 
                   />
                 )}
+                
+                <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
+                  {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
+                </Button>
               </CardContent>
             </Card>
           </TabsContent>
