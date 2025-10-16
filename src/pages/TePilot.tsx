@@ -117,17 +117,20 @@ const TePilot = () => {
         });
         toast.info("Please map your columns to continue");
       } else {
-        // Auto-mapping succeeded
+        // Auto-mapping succeeded - parse, skip preview, and auto-enrich
         setParsedTransactions(result.transactions!);
-        setActiveTab("preview");
-        toast.success(`Parsed ${result.transactions!.length} transactions`);
+        toast.success(`Parsed ${result.transactions!.length} transactions. Starting AI enrichment...`);
+        
+        // Automatically trigger enrichment
+        setActiveTab("results");
+        await startEnrichment(result.transactions!, anchorZip);
       }
     } catch (error: any) {
       toast.error(error.message);
     }
   };
   
-  const handleMappingConfirm = (mapping: Record<string, string>) => {
+  const handleMappingConfirm = async (mapping: Record<string, string>) => {
     try {
       if (!pendingMapping) return;
       
@@ -139,8 +142,11 @@ const TePilot = () => {
       
       setParsedTransactions(transactions);
       setPendingMapping(null);
-      setActiveTab("preview");
-      toast.success(`Parsed ${transactions.length} transactions`);
+      toast.success(`Parsed ${transactions.length} transactions. Starting AI enrichment...`);
+      
+      // Automatically trigger enrichment after successful mapping
+      setActiveTab("results");
+      await startEnrichment(transactions, anchorZip);
     } catch (error: any) {
       toast.error(error.message);
     }
