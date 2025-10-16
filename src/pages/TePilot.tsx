@@ -570,25 +570,25 @@ const TePilot = () => {
                   Generate example deal recommendations based on spending patterns
                 </CardDescription>
               </CardHeader>
-              <CardContent>
+              <CardContent className="space-y-4">
                 <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full" variant="ai">
                   {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                 </Button>
+                
+                {recommendations && (
+                  <RecommendationsCard 
+                    recommendations={recommendations.recommendations || []} 
+                    summary={recommendations.summary || {
+                      total_estimated_value: {
+                        monthly: 0,
+                        annual: 0
+                      },
+                      message: "No recommendations available"
+                    }} 
+                  />
+                )}
               </CardContent>
             </Card>
-
-            {recommendations && (
-              <RecommendationsCard 
-                recommendations={recommendations.recommendations || []} 
-                summary={recommendations.summary || {
-                  total_estimated_value: {
-                    monthly: 0,
-                    annual: 0
-                  },
-                  message: "No recommendations available"
-                }} 
-              />
-            )}
           </TabsContent>
         </Tabs>
       </div>
