@@ -44,7 +44,8 @@ const TePilot = () => {
     statusMessage,
     currentPhase,
     error: enrichmentError,
-    startEnrichment
+    startEnrichment,
+    resetEnrichment
   } = useSSEEnrichment();
   const [filters, setFilters] = useState<Filters>({
     dateRange: {
@@ -309,7 +310,7 @@ const TePilot = () => {
             <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment Pilot</h1>
             <p className="text-muted-foreground mt-2">Discover how Ventus understands spending beyond MCC codes</p>
           </div>
-          <Button variant="outline" onClick={() => {
+        <Button variant="outline" onClick={() => {
           // Clear authentication
           sessionStorage.removeItem("tepilot_auth");
           setIsAuthenticated(false);
@@ -317,6 +318,9 @@ const TePilot = () => {
           // Clear all transaction data
           setParsedTransactions([]);
           setCorrections(new Map());
+          
+          // Clear enrichment state
+          resetEnrichment();
           
           // Clear all input data
           setRawInput("");

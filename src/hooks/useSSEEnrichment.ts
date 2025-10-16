@@ -9,6 +9,7 @@ interface UseSSEEnrichmentReturn {
   currentPhase: "idle" | "classification" | "travel" | "complete";
   error: string | null;
   startEnrichment: (transactions: Transaction[], homeZip?: string) => Promise<void>;
+  resetEnrichment: () => void;
 }
 
 export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
@@ -237,12 +238,21 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     }
   }, [callClassifyTransactions, callEnrichTransactions]);
 
+  const resetEnrichment = useCallback(() => {
+    setEnrichedTransactions([]);
+    setIsProcessing(false);
+    setStatusMessage('');
+    setCurrentPhase('idle');
+    setError(null);
+  }, []);
+
   return {
     enrichedTransactions,
     isProcessing,
     statusMessage,
     currentPhase,
     error,
-    startEnrichment
+    startEnrichment,
+    resetEnrichment
   };
 };
