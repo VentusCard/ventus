@@ -587,6 +587,19 @@ const TePilot = () => {
             
             <BeforeAfterTransformation originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
             
+            {recommendations && (
+              <RecommendationsCard 
+                recommendations={recommendations.recommendations || []} 
+                summary={recommendations.summary || {
+                  total_estimated_value: {
+                    monthly: 0,
+                    annual: 0
+                  },
+                  message: "No recommendations available"
+                }} 
+              />
+            )}
+            
             <Card>
               <CardHeader>
                 <CardTitle>Ventus AI Revenue Opportunity Recommendations</CardTitle>
@@ -594,23 +607,10 @@ const TePilot = () => {
                   Generate example deal recommendations based on spending patterns
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
+              <CardContent>
                 <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
                   {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                 </Button>
-                
-                {recommendations && (
-                  <RecommendationsCard 
-                    recommendations={recommendations.recommendations || []} 
-                    summary={recommendations.summary || {
-                      total_estimated_value: {
-                        monthly: 0,
-                        annual: 0
-                      },
-                      message: "No recommendations available"
-                    }} 
-                  />
-                )}
               </CardContent>
             </Card>
           </TabsContent>
