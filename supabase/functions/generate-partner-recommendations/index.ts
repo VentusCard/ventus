@@ -93,11 +93,12 @@ For each deal, YOU decide ALL parameters dynamically:
 
 1. **Cashback Percentage**: Choose 5-20% based on customer value and merchant profitability
 2. **Merchants**: Select from customer's actual top merchants (use anonymized format in output)
-3. **Deal Structure**: Choose one of:
-   - Simple cashback: "X% cashback at [merchants]"
-   - Tiered: "X% base + Y% bonus on purchases over $Z"
-   - Time-limited: "X% cashback for the next N months"
-   - Combo: "X% at [merchant A] + Y% at [merchant B]"
+3. **Deal Structure**: Each deal must focus on ONE merchant category only. Choose structure:
+   - Simple cashback: "X% cashback at [single category]"
+   - Tiered: "X% base + Y% bonus on purchases over $Z at [single category]"
+   - Time-limited: "X% cashback for the next N months at [single category]"
+   
+   CRITICAL: Each of the 3 deals MUST target a DIFFERENT merchant category. Do NOT combine multiple categories in one deal.
 4. **Lift Strategy**: Assign one per deal
    - premium_upsell: Higher rewards in dominant category
    - adjacent_category: New category related to top spending
@@ -105,10 +106,11 @@ For each deal, YOU decide ALL parameters dynamically:
    - frequency_multiplier: Rewards for repeat visits
 
 ### Title Guidelines
-Titles must be specific, benefit-focused, and include the value proposition:
-- ✅ GOOD: "15% Cashback + $50 Bonus at Premium Grocers on Orders Over $300"
-- ✅ GOOD: "Triple Points on Outdoor Gear at Premium Outdoor Stores"
-- ✅ GOOD: "20% Back at Athletic Apparel Stores for Your Next 3 Purchases"
+Titles must be specific, benefit-focused, and include the value proposition for ONE category only:
+- ✅ GOOD: "15% Cashback at Premium Grocers"
+- ✅ GOOD: "12% Cashback + $50 Bonus at Outdoor Stores on Orders Over $300"
+- ✅ GOOD: "8% Back at Athletic Apparel Stores"
+- ❌ BAD: "8% at Grocers + 5% at Wholesale Clubs" (combo deal - NOT ALLOWED)
 - ❌ BAD: "Cashback at Stores" (too vague)
 - ❌ BAD: "Special Offer" (no specifics)
 
@@ -119,7 +121,7 @@ Descriptions must connect the offer to their specific behavior and explain the b
 - Be conversational and personal: "We noticed you love..." or "Based on your trips to..."
 - Include a call-to-action: "Start earning today" or "Activate this offer now"
 
-Examples:
+Examples (each focusing on ONE category):
 - "You spent $2,800 at Premium Outdoor Stores last year. With 15% cashback, that's $420 back in your pocket annually. Perfect for your next hiking adventure."
 - "Based on your 8 weekly visits to Premium Grocers, this 12% cashback offer will save you $1,500/year on the groceries you already buy."
 - "Triple your rewards on the athletic gear you love. Your $550 in annual purchases at Premium Athletic Apparel will now earn you 3X points—that's $82 in extra rewards."
@@ -186,7 +188,7 @@ Return EXACTLY this structure:
       "title": "Dynamic title you generate",
       "description": "Dynamic description explaining the value",
       "category": "Sports & Active Living",
-      "merchants": ["Premium Outdoor Stores", "Premium Athletic Apparel"],
+      "merchants": ["Premium Outdoor Stores"],  // Single category only - do NOT include multiple categories
       "value_type": "cashback" | "tiered_cashback" | "points",
       "value_percentage": 12,
       "bonus_threshold_amount": 500,  // optional, for tiered deals
@@ -248,6 +250,8 @@ REMEMBER:
 - Experience MUST have tier="experience" and priority=4
 - Financial product MUST have tier="financial_product" and priority=5
 - All merchant names in output MUST be anonymized
+- Each deal (1-3) MUST focus on ONE merchant category only - NO combo deals
+- The 3 deals MUST target 3 DIFFERENT merchant categories
 - Be creative and realistic - these should feel like real banking offers`;
 
 serve(async (req) => {
