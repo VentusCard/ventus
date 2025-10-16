@@ -611,9 +611,9 @@ const TePilot = () => {
               enrichedTransactions={displayTransactions}
             />
             
-            <TravelTimeline transactions={displayTransactions} />
-            
             <PillarExplorer transactions={displayTransactions} />
+            
+            <TravelTimeline transactions={displayTransactions} />
             
             <BeforeAfterTransformation 
               originalTransactions={parsedTransactions}
