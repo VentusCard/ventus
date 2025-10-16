@@ -253,7 +253,27 @@ const TePilot = () => {
             <CardTitle className="text-3xl">Ventus AI Transaction Enrichment Pilot</CardTitle>
             <CardDescription className="text-base">
               Unlock customer insights with next-generation transaction categorization powered by semantic AI
-              <span className="block mt-1 text-sm text-muted-foreground">Release V1.2 Oct 2025; added smart travel detection system (pattern training), with double labeling.</span>
+              <Accordion type="single" collapsible className="w-full mt-2">
+                <AccordionItem value="release-notes" className="border-none">
+                  <AccordionTrigger className="text-sm text-muted-foreground py-1 hover:no-underline">
+                    Release Notes
+                  </AccordionTrigger>
+                  <AccordionContent className="text-xs text-muted-foreground space-y-2">
+                    <div className="border-l-2 border-blue-600 pl-3 py-1">
+                      <p className="font-semibold">V1.2 - October 2025</p>
+                      <p>Added smart travel detection system (pattern training) with double labeling</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V1.1 - September 2025</p>
+                      <p>Enhanced merchant categorization with improved semantic matching</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V1.0 - August 2025</p>
+                      <p>Initial release with AI-powered transaction enrichment and classification</p>
+                    </div>
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
