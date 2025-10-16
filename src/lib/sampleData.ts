@@ -1,5 +1,4 @@
-export const SAMPLE_CSV = `# Home ZIP Code: 94102
-transaction_id,merchant_name,description,mcc,amount,date,zip_code
+export const SAMPLE_CSV = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_001,STARBUCKS COFFEE #1234,Coffee and pastry purchase,5814,12.45,2025-08-15,94102
 txn_002,WHOLE FOODS MARKET,Weekly grocery shopping,5411,156.78,2025-08-16,94102
 txn_003,EQUINOX FITNESS,Monthly gym membership fee,7997,200.00,2025-08-15,94102
@@ -73,8 +72,7 @@ txn_070,DELTA AIR LINES,Return flight home,4511,480.00,2025-09-28,
 txn_071,SHELL OIL LOCAL,Gas station home,5541,49.10,2025-09-29,94102
 txn_072,STARBUCKS COFFEE,Morning coffee home,5814,6.75,2025-09-30,94102`;
 
-export const SAMPLE_CSV_SPORTS_WELLNESS = `# Home ZIP Code: 78701
-transaction_id,merchant_name,description,mcc,amount,date,zip_code
+export const SAMPLE_CSV_SPORTS_WELLNESS = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_s001,LULULEMON ATHLETICA,Yoga pants and sports bra,5655,189.00,2025-08-15,
 txn_s002,WHOLE FOODS MARKET,Organic groceries and supplements,5411,143.67,2025-08-15,78701
 txn_s003,EQUINOX AUSTIN,Monthly gym membership premium,7997,250.00,2025-08-15,
@@ -151,8 +149,7 @@ txn_s073,PICNIK AUSTIN,Breakfast and coffee,5814,16.90,2025-09-22,
 txn_s074,ATHLETA,Yoga pants and bra,5655,134.50,2025-09-23,
 txn_s075,WHOLE FOODS MARKET,Final weekly groceries,5411,145.23,2025-09-24,78701`;
 
-export const SAMPLE_CSV_FOOD_HOME = `# Home ZIP Code: 60614
-transaction_id,merchant_name,description,mcc,amount,date,zip_code
+export const SAMPLE_CSV_FOOD_HOME = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_h001,GIBSONS BAR & STEAKHOUSE,Anniversary dinner,5812,287.50,2025-08-15,60614
 txn_h002,WHOLE FOODS MARKET,Weekly grocery shopping,5411,167.89,2025-08-15,60614
 txn_h003,HOME DEPOT,Kitchen cabinet hardware,5211,156.78,2025-08-16,60614
