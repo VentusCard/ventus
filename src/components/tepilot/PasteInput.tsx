@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { FileText, Sparkles } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { FileText, Sparkles, HelpCircle } from "lucide-react";
 
 interface PasteInputProps {
   value: string;
@@ -26,10 +27,24 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
       </Alert>
 
       <div className="space-y-2">
-        <label className="text-sm font-medium flex items-center gap-1.5">
-          <Sparkles className="h-3.5 w-3.5 text-blue-600" />
-          Anchor ZIP Code (Optional)
-        </label>
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <label className="text-sm font-medium flex items-center gap-1.5 cursor-help">
+                <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+                Anchor ZIP Code (Optional)
+                <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
+              </label>
+            </TooltipTrigger>
+            <TooltipContent className="max-w-xs">
+              <p className="text-xs">
+                Your home ZIP code serves as the anchor point for AI pattern analysis. 
+                Ventus AI uses this to identify travel spending, detect location-based patterns, 
+                and provide insights into away-from-home transactions.
+              </p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <Input
           type="text"
           value={anchorZip}
@@ -38,9 +53,6 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
           maxLength={5}
           className="font-mono"
         />
-        <p className="text-xs text-muted-foreground">
-          This will be used as the home location reference for travel analysis
-        </p>
       </div>
 
       <div className="space-y-2">
