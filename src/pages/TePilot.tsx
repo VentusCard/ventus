@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { Transaction, EnrichedTransaction, Correction, Filters } from "@/types/transaction";
 import { UploadOrPasteContainer } from "@/components/tepilot/UploadOrPasteContainer";
@@ -404,6 +404,27 @@ const TePilot = () => {
               statusMessage={statusMessage}
               onCorrection={handleCorrection} 
             />
+            
+            {currentPhase === "complete" && enrichedTransactions.length > 0 && (
+              <Card className="border-primary/20 bg-primary/5">
+                <CardContent className="pt-6 flex flex-col items-center gap-4">
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold mb-2">Ready to explore insights?</h3>
+                    <p className="text-sm text-muted-foreground mb-4">
+                      View aggregated spending patterns, travel analysis, and lifestyle breakdowns
+                    </p>
+                  </div>
+                  <Button 
+                    onClick={() => setActiveTab("insights")}
+                    size="lg"
+                    className="gap-2"
+                  >
+                    View Insights
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </CardContent>
+              </Card>
+            )}
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
