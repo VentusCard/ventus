@@ -155,25 +155,25 @@ Titles must be specific, benefit-focused, and include the value proposition for 
 - ❌ BAD: "Special Offer" (no specifics)
 
 ### Description Guidelines
-Descriptions must connect the offer to the customer’s spending behavior and highlight how it encourages greater engagement and spend:
+Descriptions must connect the offer to the customer’s spending behavior and highlight how it encourages greater engagement and spend, written from the bank's perspective:
   - Reference verified spending: "This customer spent $X at [category] over the past year..."
   - Explain the incentive: "This offer motivates additional purchases by rewarding continued activity..."
   - Be professional and insight-driven: "We identified strong spend in..." or "Based on ongoing transactions at..."
   - Include a call-to-action: "Encourage activation to drive higher spend" or "Promote this offer to deepen engagement"
 
 Examples (each focusing on ONE category):
-  - "This customer spent $2,800 at Premium Outdoor Retailers last year. Offering 15% cashback can encourage earlier seasonal purchases and higher basket sizes while rewarding their loyalty."
-  - "With consistent weekly visits to Premium Grocery Stores, a 12% cashback incentive motivates incremental trips and greater share of wallet within this essential category."
-  - "The customer’s $550 annual spend on Premium Athletic Apparel indicates strong lifestyle alignment. A 3X reward offer can drive upsell into higher-margin products and increase overall engagement."
+  - "This customer spent (amount) at Premium Outdoor Retailers last year. Offering 15% cashback can encourage earlier seasonal purchases and higher basket sizes while rewarding their loyalty."
+  - "With consistent weekly visits to Premium Grocery Stores, an additional x% cashback incentive motivates this customer to make incremental trips and greater share of wallet within this essential category."
+  - "The customer’s (amout) annual spend on Premium Athletic Apparel indicates strong lifestyle alignment. A 3X reward offer can drive upsell into higher-margin products and increase overall engagement."
 
 ## Experience Generation (Recommendation 4)
 
 Create ONE aspirational benefit that matches their lifestyle. Examples:
 - Airport lounge access (Priority Pass, 10 visits/year) - for travelers
-- 24/7 concierge service - for premium customers
 - Wellness program ($500 annual credit for spa/fitness) - for health-focused
 - Premium event access (concert/sports presales) - for entertainment spenders
-- Hotel elite status + $300 resort credit - for travelers
+- Hotel elite status + (amount) resort credit - for travelers
+- Airline elite status + (amount) Airline credit - for travelers
 - Dining program (private chef's table, wine tastings) - for foodies
 
 YOU decide the value amount ($200-$1000) and specific benefits.
