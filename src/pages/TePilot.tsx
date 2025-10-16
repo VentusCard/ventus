@@ -22,6 +22,7 @@ import { OverviewMetrics } from "@/components/tepilot/insights/OverviewMetrics";
 import { TravelTimeline } from "@/components/tepilot/insights/TravelTimeline";
 import { PillarExplorer } from "@/components/tepilot/insights/PillarExplorer";
 import { BeforeAfterTransformation } from "@/components/tepilot/insights/BeforeAfterTransformation";
+import { RecommendationsModal } from "@/components/tepilot/RecommendationsModal";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
@@ -37,6 +38,9 @@ const TePilot = () => {
   const [anchorZip, setAnchorZip] = useState("");
   const [parsedTransactions, setParsedTransactions] = useState<Transaction[]>([]);
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
+  const [showRecommendationsModal, setShowRecommendationsModal] = useState(false);
+  const [recommendations, setRecommendations] = useState<any>(null);
+  const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   
   // SSE Enrichment Hook
   const {
@@ -175,6 +179,84 @@ const TePilot = () => {
   // Always apply corrections, then apply filters
   const displayTransactions = applyCorrections(enrichedTransactions, corrections);
   const filteredTransactions = applyFilters(displayTransactions, filters);
+
+  const handleGenerateRecommendations = async () => {
+    setIsGeneratingRecommendations(true);
+    try {
+      // Aggregate insights from enriched transactions
+      const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
+      const monthlyAverage = totalSpend / 12; // Approximate
+      
+      // Calculate top pillars
+      const pillarSpending = enrichedTransactions.reduce((acc, t) => {
+        const pillar = t.pillar || "Other";
+        acc[pillar] = (acc[pillar] || 0) + t.amount;
+        return acc;
+      }, {} as Record<string, number>);
+      
+      const topPillars = Object.entries(pillarSpending)
+        .map(([pillar, spend]) => ({
+          pillar,
+          spend,
+          percentage: Math.round((spend / totalSpend) * 100)
+        }))
+        .sort((a, b) => b.spend - a.spend)
+        .slice(0, 5);
+
+      // Calculate top merchants
+      const merchantData = enrichedTransactions.reduce((acc, t) => {
+        const merchant = t.merchant_name || "Unknown";
+        if (!acc[merchant]) {
+          acc[merchant] = { visits: 0, totalSpend: 0 };
+        }
+        acc[merchant].visits += 1;
+        acc[merchant].totalSpend += t.amount;
+        return acc;
+      }, {} as Record<string, { visits: number; totalSpend: number }>);
+
+      const topMerchants = Object.entries(merchantData)
+        .map(([merchant, data]) => ({
+          merchant,
+          visits: data.visits,
+          totalSpend: Math.round(data.totalSpend)
+        }))
+        .sort((a, b) => b.totalSpend - a.totalSpend)
+        .slice(0, 10);
+
+      // Determine customer segment
+      const segment = {
+        tier: totalSpend > 96000 ? "premium" : totalSpend > 36000 ? "standard" : "basic",
+        lifestyle: topPillars.filter(p => p.percentage > 15).map(p => p.pillar),
+        spendingVelocity: totalSpend > 120000 ? "high" : totalSpend > 60000 ? "medium" : "low"
+      };
+
+      const insights = {
+        totalSpend: Math.round(totalSpend),
+        monthlyAverage: Math.round(monthlyAverage),
+        topPillars,
+        topMerchants,
+        segment
+      };
+
+      console.log('Sending insights to generate-partner-recommendations:', insights);
+
+      const { data, error } = await supabase.functions.invoke('generate-partner-recommendations', {
+        body: { insights }
+      });
+
+      if (error) throw error;
+
+      console.log('Received recommendations:', data);
+      setRecommendations(data);
+      setShowRecommendationsModal(true);
+      toast.success("Generated personalized recommendations!");
+    } catch (error) {
+      console.error('Error generating recommendations:', error);
+      toast.error("Failed to generate recommendations");
+    } finally {
+      setIsGeneratingRecommendations(false);
+    }
+  };
   if (!isAuthenticated) {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
         <Card className="w-full max-w-6xl">
@@ -537,9 +619,39 @@ const TePilot = () => {
               originalTransactions={parsedTransactions}
               enrichedTransactions={displayTransactions}
             />
+            
+            <Card>
+              <CardHeader>
+                <CardTitle>Banking Partner Recommendations</CardTitle>
+                <CardDescription>
+                  Generate example deal recommendations based on spending patterns
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button 
+                  onClick={handleGenerateRecommendations}
+                  disabled={isGeneratingRecommendations}
+                  className="w-full"
+                >
+                  {isGeneratingRecommendations ? "Generating..." : "Generate Partner Recommendations"}
+                </Button>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
+
+      {recommendations && (
+        <RecommendationsModal
+          isOpen={showRecommendationsModal}
+          onClose={() => setShowRecommendationsModal(false)}
+          recommendations={recommendations.recommendations || []}
+          summary={recommendations.summary || { 
+            total_estimated_value: { monthly: 0, annual: 0 },
+            message: "No recommendations available"
+          }}
+        />
+      )}
     </div>;
 };
 export default TePilot;
