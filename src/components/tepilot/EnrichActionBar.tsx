@@ -26,7 +26,7 @@ export function EnrichActionBar({
             </div>
             <Button size="lg" onClick={onEnrich} className="w-full max-w-md" disabled={transactionCount === 0}>
               <Sparkles className="w-5 h-5 mr-2" />
-              Enrich Transactions with Ventus AI
+              Ventus AI Transaction Enrichment
             </Button>
           </div> : <div className="space-y-4">
             <div className="flex items-center justify-center gap-3">

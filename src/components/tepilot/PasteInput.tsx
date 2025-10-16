@@ -58,7 +58,7 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
         disabled={!value.trim()}
         className="w-full"
       >
-        Parse Transactions
+        Ventus AI Transaction Enrichment
       </Button>
     </div>
   );

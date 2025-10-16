@@ -117,17 +117,18 @@ const TePilot = () => {
         });
         toast.info("Please map your columns to continue");
       } else {
-        // Auto-mapping succeeded
+        // Auto-mapping succeeded - immediately start enrichment
         setParsedTransactions(result.transactions!);
-        setActiveTab("preview");
-        toast.success(`Parsed ${result.transactions!.length} transactions`);
+        toast.success(`Parsed ${result.transactions!.length} transactions - starting enrichment...`);
+        setActiveTab("results");
+        await startEnrichment(result.transactions!, anchorZip);
       }
     } catch (error: any) {
       toast.error(error.message);
     }
   };
   
-  const handleMappingConfirm = (mapping: Record<string, string>) => {
+  const handleMappingConfirm = async (mapping: Record<string, string>) => {
     try {
       if (!pendingMapping) return;
       
@@ -139,8 +140,9 @@ const TePilot = () => {
       
       setParsedTransactions(transactions);
       setPendingMapping(null);
-      setActiveTab("preview");
-      toast.success(`Parsed ${transactions.length} transactions`);
+      toast.success(`Parsed ${transactions.length} transactions - starting enrichment...`);
+      setActiveTab("results");
+      await startEnrichment(transactions, anchorZip);
     } catch (error: any) {
       toast.error(error.message);
     }
@@ -522,9 +524,8 @@ const TePilot = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-3">
             <TabsTrigger value="upload">Upload</TabsTrigger>
-            <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
             <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Results</TabsTrigger>
             <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Insights</TabsTrigger>
           </TabsList>
