@@ -114,9 +114,9 @@ CRITICAL: Generate ALL details dynamically based on the customer's actual spendi
 ## Output Structure
 
 You MUST return EXACTLY 5 recommendations:
-- Recommendations 1-3: Custom merchant deals (cashback/rewards at specific merchant categories)
-- Recommendation 4: Bank experience (lounge access, concierge, wellness program, etc.)
-- Recommendation 5: Financial product (credit card with benefits tailored to their spending)
+- Recommendations 1-3: 3 Distinct Custom merchant deals, the first deal is always on their top spend category
+- Recommendation 4: Experiences 
+- Recommendation 5: Financial product
 
 ## Deal Generation Guidelines (Recommendations 1-3)
 
