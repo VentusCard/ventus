@@ -6,7 +6,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, Upload, BarChart3 } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { toast } from "sonner";
 import { Transaction, EnrichedTransaction, Correction, Filters } from "@/types/transaction";
 import { UploadOrPasteContainer } from "@/components/tepilot/UploadOrPasteContainer";
@@ -189,97 +190,149 @@ const TePilot = () => {
               </p>
             </div>
 
-            {/* Comparison Table */}
-            <div>
-              <h3 className="font-semibold text-lg mb-3">Why Semantic AI is Different</h3>
-              <div className="border rounded-lg overflow-hidden">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="bg-muted/50">
-                      <TableHead className="font-semibold">Approach</TableHead>
-                      <TableHead className="font-semibold">Example Transaction</TableHead>
-                      <TableHead className="font-semibold">Categorization</TableHead>
-                      <TableHead className="font-semibold">Result</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    <TableRow>
-                      <TableCell className="font-medium">MCC-Based</TableCell>
-                      <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
-                      <TableCell>
-                        <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20">
-                          Events
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-sm">Too generic</TableCell>
-                    </TableRow>
-                    <TableRow>
-                      <TableCell className="font-medium">Text-Based</TableCell>
-                      <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
-                      <TableCell>
-                        <Badge variant="destructive" className="bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20">
-                          Furniture
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-muted-foreground text-sm">Completely wrong</TableCell>
-                    </TableRow>
-                    <TableRow className="bg-green-500/5">
-                      <TableCell className="font-medium">Ventus AI (Semantic)</TableCell>
-                      <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
-                      <TableCell>
-                        <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">
-                          Entertainment & Culture
-                        </Badge>
-                      </TableCell>
-                      <TableCell className="text-green-700 dark:text-green-400 font-medium text-sm flex items-center gap-1">
-                        <CheckCircle className="h-4 w-4" />
-                        Accurate and insightful
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </div>
-            </div>
+            {/* Accordion with 3 collapsible sections */}
+            <Accordion type="single" collapsible className="w-full">
+              {/* Section 1: Why Semantic AI is Different */}
+              <AccordionItem value="item-1">
+                <AccordionTrigger className="text-lg font-semibold">
+                  Why Semantic AI is Different
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="border rounded-lg overflow-hidden">
+                    <Table>
+                      <TableHeader>
+                        <TableRow className="bg-muted/50">
+                          <TableHead className="font-semibold">Approach</TableHead>
+                          <TableHead className="font-semibold">Example Transaction</TableHead>
+                          <TableHead className="font-semibold">Categorization</TableHead>
+                          <TableHead className="font-semibold">Result</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        <TableRow>
+                          <TableCell className="font-medium">MCC-Based</TableCell>
+                          <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
+                          <TableCell>
+                            <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20">
+                              Events
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground text-sm">Too generic</TableCell>
+                        </TableRow>
+                        <TableRow>
+                          <TableCell className="font-medium">Text-Based</TableCell>
+                          <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
+                          <TableCell>
+                            <Badge variant="destructive" className="bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20">
+                              Furniture
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-muted-foreground text-sm">Completely wrong</TableCell>
+                        </TableRow>
+                        <TableRow className="bg-green-500/5">
+                          <TableCell className="font-medium">Ventus AI (Semantic)</TableCell>
+                          <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
+                          <TableCell>
+                            <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">
+                              Entertainment & Culture
+                            </Badge>
+                          </TableCell>
+                          <TableCell className="text-green-700 dark:text-green-400 font-medium text-sm flex items-center gap-1">
+                            <CheckCircle className="h-4 w-4" />
+                            Accurate and insightful
+                          </TableCell>
+                        </TableRow>
+                      </TableBody>
+                    </Table>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
 
-            {/* Key Benefits */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
-                <Target className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-sm mb-1">Context-Aware</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Understands "Ticketmaster" + "Sabrina Carpenter" = concert experience
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
-                <Brain className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-sm mb-1">Semantic Intelligence</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Goes beyond keywords to understand actual intent and meaning
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
-                <Zap className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-sm mb-1">Multi-Category Mapping</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Maps to lifestyle goals, not just generic expense categories
-                  </p>
-                </div>
-              </div>
-              <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
-                <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="font-semibold text-sm mb-1">Higher Accuracy</h4>
-                  <p className="text-sm text-muted-foreground">
-                    Better confidence scores with transparent reasoning
-                  </p>
-                </div>
-              </div>
-            </div>
+              {/* Section 2: Key Features */}
+              <AccordionItem value="item-2">
+                <AccordionTrigger className="text-lg font-semibold">
+                  Key Features
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <Target className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Context-Aware</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Understands "Ticketmaster" + "Sabrina Carpenter" = concert experience
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <Brain className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Semantic Intelligence</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Goes beyond keywords to understand actual intent and meaning
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <Zap className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Multi-Category Mapping</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Maps to lifestyle goals, not just generic expense categories
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Higher Accuracy</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Better confidence scores with transparent reasoning
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              {/* Section 3: Ventus AI Workflows */}
+              <AccordionItem value="item-3">
+                <AccordionTrigger className="text-lg font-semibold">
+                  Ventus AI Workflows
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <div className="flex items-center gap-2">
+                        <Upload className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-sm">Upload & Parse</h4>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Import your transaction data via CSV, TSV, or paste directly. Our smart parser automatically detects columns and handles various formats.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <div className="flex items-center gap-2">
+                        <Brain className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-sm">AI Enrichment</h4>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Semantic AI analyzes each transaction in full context, assigning lifestyle categories and detecting travel patterns with confidence scores.
+                      </p>
+                    </div>
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <div className="flex items-center gap-2">
+                        <BarChart3 className="h-5 w-5 text-primary" />
+                        <h4 className="font-semibold text-sm">Insights & Analysis</h4>
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Explore enriched results, correct any labels, and discover spending insights across lifestyle pillars and travel destinations.
+                      </p>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+            </Accordion>
 
             <Separator />
 
