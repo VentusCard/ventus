@@ -7,15 +7,15 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { PILLAR_COLORS } from "@/lib/sampleData";
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
-
 interface BeforeAfterTransformationProps {
   originalTransactions: Transaction[];
   enrichedTransactions: EnrichedTransaction[];
 }
-
-export function BeforeAfterTransformation({ originalTransactions, enrichedTransactions }: BeforeAfterTransformationProps) {
+export function BeforeAfterTransformation({
+  originalTransactions,
+  enrichedTransactions
+}: BeforeAfterTransformationProps) {
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
-  
   const mccData = aggregateByMCC(originalTransactions).slice(0, 10);
   const pillarData = aggregateByPillarWithTravelBreakdown(enrichedTransactions);
   const sankeyData = buildSankeyFlow(enrichedTransactions);
@@ -23,23 +23,15 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
   // Get top MCCs and pillars for transformation flow
   const mccTotals = new Map<string, number>();
   const pillarTotals = new Map<string, number>();
-  
   sankeyData.links.forEach(link => {
     mccTotals.set(link.source, (mccTotals.get(link.source) || 0) + link.value);
     pillarTotals.set(link.target, (pillarTotals.get(link.target) || 0) + link.value);
   });
-  
-  const topMCCs = Array.from(mccTotals.entries())
-    .sort((a, b) => b[1] - a[1])
-    .slice(0, 10);
-    
-  const topPillars = Array.from(pillarTotals.entries())
-    .sort((a, b) => b[1] - a[1]);
-
-  return (
-    <Card>
+  const topMCCs = Array.from(mccTotals.entries()).sort((a, b) => b[1] - a[1]).slice(0, 10);
+  const topPillars = Array.from(pillarTotals.entries()).sort((a, b) => b[1] - a[1]);
+  return <Card>
       <CardHeader>
-        <CardTitle>Before vs After Transformation</CardTitle>
+        <CardTitle>MCC vs Lifestyle Pillar Visualization</CardTitle>
         <p className="text-sm text-muted-foreground">
           See how Ventus AI transforms raw MCCs into actionable lifestyle insights
         </p>
@@ -64,7 +56,7 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
                   <BarChart data={mccData}>
                     <XAxis dataKey="mcc" angle={-45} textAnchor="end" height={120} />
                     <YAxis />
-                    <Tooltip formatter={(value) => `$${Number(value).toFixed(2)}`} />
+                    <Tooltip formatter={value => `$${Number(value).toFixed(2)}`} />
                     <Bar dataKey="totalSpend" fill="#64748b" radius={[8, 8, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
@@ -80,59 +72,39 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
                   <BarChart data={pillarData}>
                     <XAxis dataKey="pillar" angle={-45} textAnchor="end" height={120} />
                     <YAxis />
-                    <Tooltip 
-                      content={({ active, payload }) => {
-                        if (active && payload && payload.length > 0) {
-                          const pillar = payload[0].payload.pillar;
-                          const data = pillarData.find(p => p.pillar === pillar);
-                          
-                          if (!data) return null;
-                          
-                          return (
-                            <div className="bg-background border rounded-lg shadow-lg p-3">
+                    <Tooltip content={({
+                    active,
+                    payload
+                  }) => {
+                    if (active && payload && payload.length > 0) {
+                      const pillar = payload[0].payload.pillar;
+                      const data = pillarData.find(p => p.pillar === pillar);
+                      if (!data) return null;
+                      return <div className="bg-background border rounded-lg shadow-lg p-3">
                               <p className="font-semibold mb-2">{pillar}</p>
                               <p className="text-sm text-muted-foreground mb-2">
                                 Total: ${data.totalSpend.toFixed(2)}
                               </p>
-                              {data.segments.length > 1 && (
-                                <div className="space-y-1 pt-2 border-t">
+                              {data.segments.length > 1 && <div className="space-y-1 pt-2 border-t">
                                   <p className="text-xs text-muted-foreground mb-1">Original Categories:</p>
-                                  {data.segments.map((seg, idx) => (
-                                    <div key={idx} className="flex items-center gap-2 text-sm">
-                                      <div 
-                                        className="w-3 h-3 rounded-sm" 
-                                        style={{ backgroundColor: seg.color }}
-                                      />
+                                  {data.segments.map((seg, idx) => <div key={idx} className="flex items-center gap-2 text-sm">
+                                      <div className="w-3 h-3 rounded-sm" style={{
+                              backgroundColor: seg.color
+                            }} />
                                       <span className="text-xs">
                                         {seg.originalPillar}: ${seg.amount.toFixed(2)}
                                       </span>
-                                    </div>
-                                  ))}
-                                </div>
-                              )}
-                            </div>
-                          );
-                        }
-                        return null;
-                      }}
-                    />
-                    {Array.from(
-                      new Set(
-                        pillarData.flatMap(p => p.segments.map(s => s.originalPillar))
-                      )
-                    ).map((originalPillar) => (
-                      <Bar 
-                        key={originalPillar}
-                        dataKey={(data: any) => {
-                          if (!data || !data.segments) return 0;
-                          const segment = data.segments.find((s: any) => s.originalPillar === originalPillar);
-                          return segment ? segment.amount : 0;
-                        }}
-                        stackId="pillar"
-                        fill={PILLAR_COLORS[originalPillar] || "#64748b"}
-                        radius={[8, 8, 0, 0]}
-                      />
-                    ))}
+                                    </div>)}
+                                </div>}
+                            </div>;
+                    }
+                    return null;
+                  }} />
+                    {Array.from(new Set(pillarData.flatMap(p => p.segments.map(s => s.originalPillar)))).map(originalPillar => <Bar key={originalPillar} dataKey={(data: any) => {
+                    if (!data || !data.segments) return 0;
+                    const segment = data.segments.find((s: any) => s.originalPillar === originalPillar);
+                    return segment ? segment.amount : 0;
+                  }} stackId="pillar" fill={PILLAR_COLORS[originalPillar] || "#64748b"} radius={[8, 8, 0, 0]} />)}
                   </BarChart>
                 </ResponsiveContainer>
                 <p className="text-xs text-muted-foreground mt-4">
@@ -149,35 +121,21 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
               <div className="space-y-2">
                 <p className="text-sm font-medium mb-4">Merchant Category Codes</p>
                 {topMCCs.map(([mcc, amount]) => {
-                  const isHighlighted = highlightedNode === mcc;
-                  const connectedLinks = sankeyData.links.filter(l => l.source === mcc);
-                  
-                  return (
-                    <div
-                      key={mcc}
-                      className={`p-3 rounded-lg border cursor-pointer transition-all ${
-                        isHighlighted ? 'bg-primary/10 border-primary shadow-lg' : 'bg-card hover:bg-accent/50'
-                      }`}
-                      onMouseEnter={() => setHighlightedNode(mcc)}
-                      onMouseLeave={() => setHighlightedNode(null)}
-                    >
+                const isHighlighted = highlightedNode === mcc;
+                const connectedLinks = sankeyData.links.filter(l => l.source === mcc);
+                return <div key={mcc} className={`p-3 rounded-lg border cursor-pointer transition-all ${isHighlighted ? 'bg-primary/10 border-primary shadow-lg' : 'bg-card hover:bg-accent/50'}`} onMouseEnter={() => setHighlightedNode(mcc)} onMouseLeave={() => setHighlightedNode(null)}>
                       <div className="flex justify-between items-start">
                         <p className="text-sm font-medium">{mcc}</p>
                         <p className="text-xs text-muted-foreground">${amount.toFixed(0)}</p>
                       </div>
-                      {isHighlighted && (
-                        <div className="mt-2 space-y-1">
-                          {connectedLinks.map((link, idx) => (
-                            <p key={idx} className="text-xs text-muted-foreground flex items-center gap-1">
+                      {isHighlighted && <div className="mt-2 space-y-1">
+                          {connectedLinks.map((link, idx) => <p key={idx} className="text-xs text-muted-foreground flex items-center gap-1">
                               <ArrowRight className="w-3 h-3" />
                               {link.target}: ${link.value.toFixed(2)}
-                            </p>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                            </p>)}
+                        </div>}
+                    </div>;
+              })}
               </div>
               
               {/* Center: Visual flow */}
@@ -189,42 +147,28 @@ export function BeforeAfterTransformation({ originalTransactions, enrichedTransa
               <div className="space-y-2">
                 <p className="text-sm font-medium mb-4">Lifestyle Pillars</p>
                 {topPillars.map(([pillar, amount]) => {
-                  const isHighlighted = highlightedNode === pillar;
-                  const connectedLinks = sankeyData.links.filter(l => l.target === pillar);
-                  const color = PILLAR_COLORS[pillar] || "#64748b";
-                  
-                  return (
-                    <div
-                      key={pillar}
-                      className={`p-3 rounded-lg border cursor-pointer transition-all ${
-                        isHighlighted ? 'shadow-lg scale-105' : 'hover:scale-102'
-                      }`}
-                      style={{
-                        backgroundColor: isHighlighted ? `${color}20` : undefined,
-                        borderColor: isHighlighted ? color : undefined
-                      }}
-                      onMouseEnter={() => setHighlightedNode(pillar)}
-                      onMouseLeave={() => setHighlightedNode(null)}
-                    >
+                const isHighlighted = highlightedNode === pillar;
+                const connectedLinks = sankeyData.links.filter(l => l.target === pillar);
+                const color = PILLAR_COLORS[pillar] || "#64748b";
+                return <div key={pillar} className={`p-3 rounded-lg border cursor-pointer transition-all ${isHighlighted ? 'shadow-lg scale-105' : 'hover:scale-102'}`} style={{
+                  backgroundColor: isHighlighted ? `${color}20` : undefined,
+                  borderColor: isHighlighted ? color : undefined
+                }} onMouseEnter={() => setHighlightedNode(pillar)} onMouseLeave={() => setHighlightedNode(null)}>
                       <div className="flex justify-between items-start">
                         <p className="text-sm font-medium">{pillar}</p>
                         <p className="text-xs text-muted-foreground">${amount.toFixed(0)}</p>
                       </div>
-                      {isHighlighted && (
-                        <div className="mt-2 space-y-1">
+                      {isHighlighted && <div className="mt-2 space-y-1">
                           <p className="text-xs text-muted-foreground">
                             From {connectedLinks.length} MCC{connectedLinks.length > 1 ? 's' : ''}
                           </p>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
+                        </div>}
+                    </div>;
+              })}
               </div>
             </div>
           </TabsContent>
         </Tabs>
       </CardContent>
-    </Card>
-  );
+    </Card>;
 }
