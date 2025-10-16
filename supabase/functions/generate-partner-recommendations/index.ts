@@ -320,19 +320,23 @@ STRATEGIC RECOMMENDATION FRAMEWORK:
    - Benefit: Increased loyalty, predictable volume
 
 MANDATORY RULES:
-1. Return EXACTLY 5 recommendations, each with DIFFERENT deal_id
-2. At least 1 must be premium upsell from current spending
-3. At least 2 must be adjacent category expansion (new to customer)
-4. At least 1 must include ticket size or frequency incentives
+1. Return EXACTLY 5 recommendations with this STRICT structure:
+   - Recommendations 1-3: From tier1_deals (premium upsell, adjacent categories, ticket/frequency)
+   - Recommendation 4: MUST be from tier2_experiences (EXP_001, EXP_002, or EXP_003)
+   - Recommendation 5: MUST be from tier3_financial (PROD_001 or PROD_002)
+2. Each recommendation must have a different ID (no duplicate deal_id/exp_id/product_id)
+3. Recommendation 1 must be premium upsell from current spending
+4. Recommendations 2-3 should prioritize adjacent category expansion or ticket/frequency incentives
 5. Lift scenarios must show 5-20% spending increases ONLY
-6. Calculate TWO values:
+6. Calculate TWO values for each recommendation:
    - Current value: Based on existing spending patterns
    - Lift value: If customer adopts premium/adjacent/larger behavior
 7. Each recommendation needs clear "why this is profitable" reasoning
-8. No duplicate deal_ids
-9. Return valid JSON only
+8. Return valid JSON only
 
 VALUE CALCULATION FORMAT:
+
+FOR DEALS (tier1_deals):
 {
   "estimated_value": {
     "current_monthly": 0,      // Often $0 for new categories
@@ -350,11 +354,47 @@ VALUE CALCULATION FORMAT:
   }
 }
 
+FOR EXPERIENCES (tier2_experiences):
+{
+  "estimated_value": {
+    "current_monthly": 0,      // Usually $0 (new benefit)
+    "current_annual": 0,
+    "lift_monthly": 62.5,      // Value amount / 12 months
+    "lift_annual": 750,        // Full experience value
+    "lift_scenario": "If you qualify for 3-month complimentary wellness club membership ($750 value)",
+    "calculation": "Experience value: $750 / 12 months = $62.50/mo equivalent. Drives wellness spending and premium engagement.",
+    "strategic_rationale": "Experience offering: High perceived value, drives category engagement, creates emotional connection, encourages spending in wellness pillar"
+  },
+  "matching_data": {
+    "current_behavior": "Minimal wellness spending currently",
+    "opportunity": "Premium experience could unlock new wellness spending category",
+    "lift_opportunity": "Experience benefit: Drives new category adoption, increases lifetime value, premium positioning"
+  }
+}
+
+FOR FINANCIAL PRODUCTS (tier3_financial):
+{
+  "estimated_value": {
+    "current_monthly": 20,      // Current rewards earning
+    "current_annual": 240,
+    "lift_monthly": 54,         // With new card (includes annual benefits)
+    "lift_annual": 650,
+    "lift_scenario": "If you upgrade to Travel Rewards Card and maintain current $1,200/mo travel & dining spend",
+    "calculation": "$1,200/mo × (3X on travel/dining @ 1¢/point = 3%) = $36/mo + $300 travel credit ($25/mo) - $95 annual fee ($7.92/mo) = $53/mo net value.",
+    "strategic_rationale": "Financial product upsell: Deepens banking relationship, increases wallet share, long-term customer retention, cross-sell success"
+  },
+  "matching_data": {
+    "current_behavior": "Spends $1,200+/month on travel and dining",
+    "opportunity": "Could maximize rewards with category-specific card",
+    "lift_opportunity": "Financial product: Wallet consolidation, deeper relationship, improved unit economics, retention driver"
+  }
+}
+
 Output structure:
 {
   "recommendations": [
     {
-      "deal_id": "DEAL_XXX",
+      "deal_id": "DEAL_XXX",  // For recommendations 1-3
       "title": "...",
       "description": "...",
       "estimated_value": { ... },
@@ -362,6 +402,26 @@ Output structure:
       "tier": "deal",
       "priority": 1,
       "lift_type": "premium_upsell" | "adjacent_category" | "ticket_expansion" | "frequency_multiplier"
+    },
+    {
+      "exp_id": "EXP_XXX",  // For recommendation 4 (MUST be experience)
+      "title": "...",
+      "description": "...",
+      "estimated_value": { ... },
+      "matching_data": { ... },
+      "tier": "experience",
+      "priority": 4,
+      "lift_type": "experience"
+    },
+    {
+      "product_id": "PROD_XXX",  // For recommendation 5 (MUST be financial product)
+      "title": "...",
+      "description": "...",
+      "estimated_value": { ... },
+      "matching_data": { ... },
+      "tier": "financial_product",
+      "priority": 5,
+      "lift_type": "financial_product"
     }
   ],
   "summary": {
@@ -371,8 +431,8 @@ Output structure:
     "strategy_mix": {
       "premium_upsells": 1,
       "adjacent_categories": 2,
-      "ticket_expansion": 1,
-      "frequency_multipliers": 1
+      "experiences": 1,
+      "financial_products": 1
     },
     "incremental_revenue_potential": "Detailed explanation of how these recommendations drive new, profitable behavior",
     "message": "Strategic summary focusing on growth and new value creation"
@@ -389,12 +449,19 @@ Output structure:
 Available Deal Catalog:
 ${JSON.stringify(DEAL_CATALOG, null, 2)}
 
-Generate exactly 5 STRATEGIC recommendations that drive INCREMENTAL, PROFITABLE behavior:
-- 1 premium upsell from existing categories
-- 2 adjacent category expansions (new to customer)
-- 1 ticket size or frequency incentive
-- 1 strategic partner direction
-Each must use a different deal_id. Focus on 5-20% lift scenarios that create NEW value, not just reward existing spending.`;
+Generate exactly 5 STRATEGIC recommendations in this STRICT ORDER:
+1. One premium upsell deal from tier1_deals based on current spending
+2. One adjacent category deal from tier1_deals (new spending opportunity)
+3. One ticket expansion OR frequency multiplier deal from tier1_deals
+4. One experience from tier2_experiences (EXP_001, EXP_002, or EXP_003) - choose based on customer profile
+5. One financial product from tier3_financial (PROD_001 or PROD_002) - choose based on spending patterns
+
+Requirements:
+- Each recommendation must have a unique ID
+- Recommendations 1-3 focus on 5-20% lift in specific categories
+- Recommendation 4 should align with customer's lifestyle/spending patterns
+- Recommendation 5 should maximize overall wallet share and relationship depth
+- All recommendations must drive INCREMENTAL, PROFITABLE behavior`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
