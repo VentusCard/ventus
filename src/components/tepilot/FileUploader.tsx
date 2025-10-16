@@ -111,6 +111,14 @@ export function FileUploader({ onFileSelect, onParse }: FileUploaderProps) {
           </Button>
         </div>
       )}
+
+      <Button 
+        onClick={onParse} 
+        disabled={!selectedFile}
+        className="w-full"
+      >
+        Parse File
+      </Button>
     </div>
   );
 }
