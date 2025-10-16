@@ -624,11 +624,11 @@ const TePilot = () => {
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-purple-500/5 pointer-events-none" />
               
               <CardHeader className="relative z-10">
-                <CardTitle className="flex items-center gap-3 text-2xl text-foreground">
+                <CardTitle className="flex items-center gap-3 text-2xl">
                   <Sparkles className="h-6 w-6 text-primary animate-pulse" />
                   AI Revenue Opportunity Recommendations
                 </CardTitle>
-                <CardDescription className="text-muted-foreground/90">
+                <CardDescription>
                   Generate example deal recommendations based on spending patterns
                 </CardDescription>
               </CardHeader>
@@ -636,7 +636,7 @@ const TePilot = () => {
                 <Button 
                   onClick={handleGenerateRecommendations}
                   disabled={isGeneratingRecommendations}
-                  className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg hover:shadow-xl transition-all duration-300 group text-primary-foreground"
+                  className="w-full bg-gradient-to-r from-primary to-purple-600 hover:from-primary/90 hover:to-purple-600/90 shadow-lg hover:shadow-xl transition-all duration-300 group"
                 >
                   <Sparkles className="h-4 w-4 mr-2 group-hover:animate-spin" />
                   {isGeneratingRecommendations ? "Generating..." : "Generate Partner Recommendations"}
