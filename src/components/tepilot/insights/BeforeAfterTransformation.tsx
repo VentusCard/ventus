@@ -3,7 +3,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Transaction, EnrichedTransaction, PillarAggregateWithSegments } from "@/types/transaction";
 import { aggregateByMCC, aggregateByPillarWithTravelBreakdown, buildSankeyFlow } from "@/lib/aggregations";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
 import { PILLAR_COLORS } from "@/lib/sampleData";
 import { useState } from "react";
 import { ArrowRight, ChevronDown, BarChart3 } from "lucide-react";
@@ -113,10 +113,6 @@ export function BeforeAfterTransformation({
                   <BarChart data={chartData}>
                     <XAxis dataKey="pillar" angle={-45} textAnchor="end" height={100} tick={{ fontSize: 12 }} interval={0} />
                     <YAxis />
-                    <Legend 
-                      wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }}
-                      iconType="square"
-                    />
                     <Tooltip content={({
                     active,
                     payload
