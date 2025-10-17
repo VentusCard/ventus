@@ -3,7 +3,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Transaction, EnrichedTransaction, PillarAggregateWithSegments } from "@/types/transaction";
 import { aggregateByMCC, aggregateByPillarWithTravelBreakdown, buildSankeyFlow } from "@/lib/aggregations";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend } from "recharts";
 import { PILLAR_COLORS } from "@/lib/sampleData";
 import { useState } from "react";
 import { ArrowRight, ChevronDown, BarChart3 } from "lucide-react";
@@ -18,7 +18,36 @@ export function BeforeAfterTransformation({
   const [isOpen, setIsOpen] = useState(false);
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   const mccData = aggregateByMCC(originalTransactions).slice(0, 10);
-  const pillarData = aggregateByPillarWithTravelBreakdown(enrichedTransactions);
+  const pillarData = aggregateByPillarWithTravelBreakdown(enrichedTransactions)
+    .sort((a, b) => b.totalSpend - a.totalSpend)
+    .slice(0, 10);
+
+  // Get all unique segment pillars in consistent order
+  const allSegmentPillars = Array.from(
+    new Set(
+      pillarData.flatMap(agg => 
+        agg.segments.map(seg => seg.originalPillar)
+      )
+    )
+  ).sort();
+
+  // Prepare chart data with consistent segment keys
+  const chartData = pillarData.map(agg => {
+    const dataPoint: any = { 
+      pillar: agg.pillar,
+      totalSpend: agg.totalSpend,
+      segments: agg.segments // Keep for tooltip
+    };
+    
+    // Initialize ALL segment keys for every bar
+    allSegmentPillars.forEach((segPillar, idx) => {
+      const segment = agg.segments.find(s => s.originalPillar === segPillar);
+      dataPoint[`segment_${idx}`] = segment ? segment.amount : 0;
+    });
+    
+    return dataPoint;
+  });
+
   const sankeyData = buildSankeyFlow(enrichedTransactions);
 
   // Get top MCCs and pillars for transformation flow
@@ -69,7 +98,7 @@ export function BeforeAfterTransformation({
                     <XAxis dataKey="mcc" angle={-45} textAnchor="end" height={100} tick={{ fontSize: 12 }} interval={0} />
                     <YAxis />
                     <Tooltip formatter={value => `$${Number(value).toFixed(2)}`} />
-                    <Bar dataKey="totalSpend" fill="#64748b" radius={[8, 8, 0, 0]} />
+                    <Bar dataKey="totalSpend" fill="#64748b" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -81,16 +110,20 @@ export function BeforeAfterTransformation({
                   AI-organized spending categories with breakdown
                 </p>
                 <ResponsiveContainer width="100%" height={350}>
-                  <BarChart data={pillarData}>
+                  <BarChart data={chartData}>
                     <XAxis dataKey="pillar" angle={-45} textAnchor="end" height={100} tick={{ fontSize: 12 }} interval={0} />
                     <YAxis />
+                    <Legend 
+                      wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }}
+                      iconType="square"
+                    />
                     <Tooltip content={({
                     active,
                     payload
                   }) => {
                     if (active && payload && payload.length > 0) {
                       const pillar = payload[0].payload.pillar;
-                      const data = pillarData.find(p => p.pillar === pillar);
+                      const data = chartData.find(p => p.pillar === pillar);
                       if (!data) return null;
                       return <div className="bg-background border rounded-lg shadow-lg p-3">
                               <p className="font-semibold mb-2">{pillar}</p>
@@ -112,11 +145,15 @@ export function BeforeAfterTransformation({
                     }
                     return null;
                   }} />
-                    {Array.from(new Set(pillarData.flatMap(p => p.segments.map(s => s.originalPillar)))).map(originalPillar => <Bar key={originalPillar} dataKey={(data: any) => {
-                    if (!data || !data.segments) return 0;
-                    const segment = data.segments.find((s: any) => s.originalPillar === originalPillar);
-                    return segment ? segment.amount : 0;
-                  }} stackId="pillar" fill={PILLAR_COLORS[originalPillar] || "#64748b"} radius={[8, 8, 0, 0]} />)}
+                    {allSegmentPillars.map((pillar, idx) => (
+                      <Bar 
+                        key={pillar}
+                        dataKey={`segment_${idx}`}
+                        stackId="pillar"
+                        fill={PILLAR_COLORS[pillar] || "#64748b"}
+                        name={pillar}
+                      />
+                    ))}
                   </BarChart>
                 </ResponsiveContainer>
                 <p className="text-xs text-muted-foreground mt-4">
