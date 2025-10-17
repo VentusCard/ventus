@@ -64,9 +64,9 @@ export function BeforeAfterTransformation({
                 <p className="text-xs text-muted-foreground mb-4">
                   Raw merchant category codes - limited insight
                 </p>
-                <ResponsiveContainer width="100%" height={400}>
+                <ResponsiveContainer width="100%" height={350}>
                   <BarChart data={mccData}>
-                    <XAxis dataKey="mcc" angle={-45} textAnchor="end" height={120} />
+                    <XAxis dataKey="mcc" angle={-45} textAnchor="end" height={100} tick={{ fontSize: 12 }} interval={0} />
                     <YAxis />
                     <Tooltip formatter={value => `$${Number(value).toFixed(2)}`} />
                     <Bar dataKey="totalSpend" fill="#64748b" radius={[8, 8, 0, 0]} />
@@ -80,9 +80,9 @@ export function BeforeAfterTransformation({
                 <p className="text-xs text-muted-foreground mb-4">
                   AI-organized spending categories with breakdown
                 </p>
-                <ResponsiveContainer width="100%" height={400}>
+                <ResponsiveContainer width="100%" height={350}>
                   <BarChart data={pillarData}>
-                    <XAxis dataKey="pillar" angle={-45} textAnchor="end" height={120} />
+                    <XAxis dataKey="pillar" angle={-45} textAnchor="end" height={100} tick={{ fontSize: 12 }} interval={0} />
                     <YAxis />
                     <Tooltip content={({
                     active,
