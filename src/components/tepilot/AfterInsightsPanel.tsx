@@ -139,7 +139,7 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                   <XAxis type="number" />
                   <YAxis type="category" dataKey="subcategory" width={200} />
                   <Legend 
-                    wrapperStyle={{ paddingTop: '20px' }}
+                    wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }}
                     iconType="square"
                   />
                   <Tooltip
@@ -178,16 +178,19 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                       return null;
                     }}
                   />
-                  {travelSegmentPillars.map((pillar, idx) => (
-                    <Bar 
-                      key={pillar}
-                      dataKey={`segment_${idx}`}
-                      stackId="travel"
-                      fill={PILLAR_COLORS[pillar] || "#64748b"}
-                      radius={[0, 2, 2, 0]}
-                      name={pillar}
-                    />
-                  ))}
+                  {travelSegmentPillars.map((pillar, idx) => {
+                    const isLast = idx === travelSegmentPillars.length - 1;
+                    return (
+                      <Bar 
+                        key={pillar}
+                        dataKey={`segment_${idx}`}
+                        stackId="travel"
+                        fill={PILLAR_COLORS[pillar] || "#64748b"}
+                        radius={isLast ? [0, 4, 4, 0] : 0}
+                        name={pillar}
+                      />
+                    );
+                  })}
                 </BarChart>
               </ResponsiveContainer>
               <p className="text-xs text-muted-foreground mt-4">
@@ -225,7 +228,7 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                 <XAxis type="number" />
                 <YAxis type="category" dataKey="pillar" width={250} />
                 <Legend 
-                  wrapperStyle={{ paddingTop: '20px' }}
+                  wrapperStyle={{ paddingTop: '20px', fontSize: '12px' }}
                   iconType="square"
                 />
                 <Tooltip
@@ -264,16 +267,19 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                     return null;
                   }}
                 />
-                {allSegmentPillars.map((pillar, idx) => (
-                  <Bar 
-                    key={pillar}
-                    dataKey={`segment_${idx}`}
-                    stackId="pillar-stack"
-                    fill={PILLAR_COLORS[pillar] || "#64748b"}
-                    radius={[0, 2, 2, 0]}
-                    name={pillar}
-                  />
-                ))}
+                {allSegmentPillars.map((pillar, idx) => {
+                  const isLast = idx === allSegmentPillars.length - 1;
+                  return (
+                    <Bar 
+                      key={pillar}
+                      dataKey={`segment_${idx}`}
+                      stackId="pillar-stack"
+                      fill={PILLAR_COLORS[pillar] || "#64748b"}
+                      radius={isLast ? [0, 4, 4, 0] : 0}
+                      name={pillar}
+                    />
+                  );
+                })}
               </BarChart>
             </ResponsiveContainer>
             <p className="text-xs text-muted-foreground mt-4">
