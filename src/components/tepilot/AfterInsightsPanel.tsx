@@ -1,6 +1,6 @@
 import { EnrichedTransaction } from "@/types/transaction";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell, Legend } from "recharts";
 import { aggregateByPillarWithTravelBreakdown, calculateMiscRate, calculateAverageConfidence } from "@/lib/aggregations";
 import { PILLAR_COLORS, LIFESTYLE_PILLARS } from "@/lib/sampleData";
 import { Plane } from "lucide-react";
@@ -46,48 +46,64 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
     travelSubcategoryMap.set(subcat, existing);
   });
 
+  // Get all unique segment pillars in sorted order
+  const travelSegmentPillars = Array.from(
+    new Set(
+      travelTransactions
+        .map(t => t.travel_context?.original_pillar || t.pillar)
+        .filter(Boolean)
+    )
+  ).sort();
+
   const travelSubcategoryData = Array.from(travelSubcategoryMap.entries())
     .map(([subcategory, data]) => {
-      const dataPoint: any = { subcategory, totalSpend: data.totalSpend };
-      const segments = Array.from(data.segments.entries())
-        .map(([originalPillar, amount]) => ({
-          originalPillar,
-          amount,
-          color: PILLAR_COLORS[originalPillar] || "#64748b"
-        }))
-        .sort((a, b) => b.amount - a.amount);
+      const dataPoint: any = { 
+        subcategory, 
+        totalSpend: data.totalSpend,
+        segments: [] // For tooltip
+      };
       
-      segments.forEach((seg, idx) => {
-        dataPoint[`segment_${idx}`] = seg.amount;
-        dataPoint[`segment_${idx}_name`] = seg.originalPillar;
-        dataPoint[`segment_${idx}_color`] = seg.color;
+      // Initialize ALL segment keys with 0 for consistency
+      travelSegmentPillars.forEach((pillar, idx) => {
+        const amount = data.segments.get(pillar) || 0;
+        dataPoint[`segment_${idx}`] = amount;
+        
+        if (amount > 0) {
+          dataPoint.segments.push({
+            originalPillar: pillar,
+            amount,
+            color: PILLAR_COLORS[pillar] || "#64748b"
+          });
+        }
       });
       
-      dataPoint.segments = segments;
       return dataPoint;
     })
     .sort((a, b) => b.totalSpend - a.totalSpend);
+  
+  // Get all unique segment pillars in consistent order
+  const allSegmentPillars = Array.from(
+    new Set(
+      pillarAggregates.flatMap(agg => 
+        agg.segments.map(seg => seg.originalPillar)
+      )
+    )
+  ).sort();
 
-  const allTravelSegmentKeys = new Set<string>();
-  travelSubcategoryData.forEach(data => {
-    data.segments.forEach((seg: any) => allTravelSegmentKeys.add(seg.originalPillar));
-  });
-  
-  // Prepare data for stacked bar chart
+  // Prepare data with consistent segment keys
   const chartData = pillarAggregates.map(agg => {
-    const dataPoint: any = { pillar: agg.pillar };
-    agg.segments.forEach((segment, idx) => {
-      dataPoint[`segment_${idx}`] = segment.amount;
-      dataPoint[`segment_${idx}_name`] = segment.originalPillar;
-      dataPoint[`segment_${idx}_color`] = segment.color;
+    const dataPoint: any = { 
+      pillar: agg.pillar,
+      segments: agg.segments // For tooltip
+    };
+    
+    // Initialize ALL segment keys for every bar
+    allSegmentPillars.forEach((segPillar, idx) => {
+      const segment = agg.segments.find(s => s.originalPillar === segPillar);
+      dataPoint[`segment_${idx}`] = segment ? segment.amount : 0;
     });
+    
     return dataPoint;
-  });
-  
-  // Get all unique original pillars for consistent segment ordering
-  const allSegmentKeys = new Set<string>();
-  pillarAggregates.forEach(agg => {
-    agg.segments.forEach(seg => allSegmentKeys.add(seg.originalPillar));
   });
 
   return (
@@ -121,8 +137,12 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
               <ResponsiveContainer width="100%" height={Math.max(300, travelSubcategoryData.length * 50)}>
                 <BarChart data={travelSubcategoryData} layout="vertical">
                   <XAxis type="number" />
-                  <YAxis type="category" dataKey="subcategory" width={150} />
-                  <Tooltip 
+                  <YAxis type="category" dataKey="subcategory" width={200} />
+                  <Legend 
+                    wrapperStyle={{ paddingTop: '20px' }}
+                    iconType="square"
+                  />
+                  <Tooltip
                     content={({ active, payload }) => {
                       if (active && payload && payload.length > 0) {
                         const subcategory = payload[0].payload.subcategory;
@@ -158,15 +178,14 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                       return null;
                     }}
                   />
-                  {Array.from(allTravelSegmentKeys).map((segmentPillar) => (
+                  {travelSegmentPillars.map((pillar, idx) => (
                     <Bar 
-                      key={segmentPillar}
-                      dataKey={(data: any) => {
-                        const segment = data.segments.find((s: any) => s.originalPillar === segmentPillar);
-                        return segment ? segment.amount : 0;
-                      }}
+                      key={pillar}
+                      dataKey={`segment_${idx}`}
                       stackId="travel"
-                      fill={PILLAR_COLORS[segmentPillar] || "#64748b"}
+                      fill={PILLAR_COLORS[pillar] || "#64748b"}
+                      radius={[0, 2, 2, 0]}
+                      name={pillar}
                     />
                   ))}
                 </BarChart>
@@ -204,8 +223,12 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
             <ResponsiveContainer width="100%" height={400}>
               <BarChart data={chartData} layout="vertical">
                 <XAxis type="number" />
-                <YAxis type="category" dataKey="pillar" width={200} />
-                <Tooltip 
+                <YAxis type="category" dataKey="pillar" width={250} />
+                <Legend 
+                  wrapperStyle={{ paddingTop: '20px' }}
+                  iconType="square"
+                />
+                <Tooltip
                   content={({ active, payload }) => {
                     if (active && payload && payload.length > 0) {
                       const pillar = payload[0].payload.pillar;
@@ -241,17 +264,14 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                     return null;
                   }}
                 />
-                {Array.from(allSegmentKeys).map((segmentPillar) => (
+                {allSegmentPillars.map((pillar, idx) => (
                   <Bar 
-                    key={segmentPillar}
-                    dataKey={(data: any) => {
-                      const agg = pillarAggregates.find(a => a.pillar === data.pillar);
-                      if (!agg) return 0;
-                      const segment = agg.segments.find(s => s.originalPillar === segmentPillar);
-                      return segment ? segment.amount : 0;
-                    }}
-                    stackId="a"
-                    fill={PILLAR_COLORS[segmentPillar] || "#64748b"}
+                    key={pillar}
+                    dataKey={`segment_${idx}`}
+                    stackId="pillar-stack"
+                    fill={PILLAR_COLORS[pillar] || "#64748b"}
+                    radius={[0, 2, 2, 0]}
+                    name={pillar}
                   />
                 ))}
               </BarChart>
