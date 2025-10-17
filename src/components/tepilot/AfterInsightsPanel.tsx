@@ -178,19 +178,15 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                       return null;
                     }}
                   />
-                  {travelSegmentPillars.map((pillar, idx) => {
-                    const isLast = idx === travelSegmentPillars.length - 1;
-                    return (
-                      <Bar 
-                        key={pillar}
-                        dataKey={`segment_${idx}`}
-                        stackId="travel"
-                        fill={PILLAR_COLORS[pillar] || "#64748b"}
-                        radius={isLast ? [0, 4, 4, 0] : 0}
-                        name={pillar}
-                      />
-                    );
-                  })}
+                  {travelSegmentPillars.map((pillar, idx) => (
+                    <Bar 
+                      key={pillar}
+                      dataKey={`segment_${idx}`}
+                      stackId="travel"
+                      fill={PILLAR_COLORS[pillar] || "#64748b"}
+                      name={pillar}
+                    />
+                  ))}
                 </BarChart>
               </ResponsiveContainer>
               <p className="text-xs text-muted-foreground mt-4">
@@ -267,19 +263,15 @@ export function AfterInsightsPanel({ transactions, allTransactions }: AfterInsig
                     return null;
                   }}
                 />
-                {allSegmentPillars.map((pillar, idx) => {
-                  const isLast = idx === allSegmentPillars.length - 1;
-                  return (
-                    <Bar 
-                      key={pillar}
-                      dataKey={`segment_${idx}`}
-                      stackId="pillar-stack"
-                      fill={PILLAR_COLORS[pillar] || "#64748b"}
-                      radius={isLast ? [0, 4, 4, 0] : 0}
-                      name={pillar}
-                    />
-                  );
-                })}
+                {allSegmentPillars.map((pillar, idx) => (
+                  <Bar 
+                    key={pillar}
+                    dataKey={`segment_${idx}`}
+                    stackId="pillar-stack"
+                    fill={PILLAR_COLORS[pillar] || "#64748b"}
+                    name={pillar}
+                  />
+                ))}
               </BarChart>
             </ResponsiveContainer>
             <p className="text-xs text-muted-foreground mt-4">
