@@ -328,6 +328,11 @@ serve(async (req) => {
       .map((m: any) => `- ${m.merchant}: ${m.visits} visits, $${m.totalSpend}`)
       .join("\n");
 
+    // Handle lifestyle interests safely
+    const lifestyleText = Array.isArray(insights.segment.lifestyle) && insights.segment.lifestyle.length > 0
+      ? insights.segment.lifestyle.join(", ")
+      : "Diversified spending across categories";
+
     const userPrompt = `Generate 5 personalized recommendations for this customer:
 
 SPENDING PROFILE:
@@ -343,7 +348,7 @@ TOP MERCHANTS:
 ${topMerchantsText}
 
 TOP LIFESTYLE INTERESTS:
-${insights.segment.lifestyle.join(", ")}
+${lifestyleText}
 
 Generate recommendations that:
 1. Maximize rewards in their dominant categories
