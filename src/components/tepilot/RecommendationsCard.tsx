@@ -92,7 +92,7 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
           <CardContent className="pt-0">
             <Accordion type="single" collapsible className="w-full">
               {recommendations.map((rec, index) => (
-                <AccordionItem key={rec.deal_id} value={`item-${index}`}>
+                <AccordionItem key={`item-${index}`} value={`item-${index}`}>
                   
                   {/* COLLAPSED TRIGGER */}
                   <AccordionTrigger className="hover:no-underline">
