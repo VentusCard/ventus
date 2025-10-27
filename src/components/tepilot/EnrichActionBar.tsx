@@ -33,7 +33,7 @@ export function EnrichActionBar({
               <Loader2 className="w-5 h-5 animate-spin text-primary" />
               <p className="text-sm font-medium">
                 {currentPhase === "classification" && "Classifying with flash-lite (fast)..."}
-                {currentPhase === "travel" && "Analyzing travel patterns with flash..."}
+                {currentPhase === "travel" && "Algo 2: Analyzing travel patterns..."}
                 {statusMessage || "Processing transactions..."}
               </p>
             </div>
