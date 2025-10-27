@@ -23,7 +23,7 @@ const AppDownload = () => {
               Download Ventus
             </h1>
             <p className="text-lg text-slate-600 mb-8">
-              Get the Ventus app on your mobile device and start maximizing your rewards today.
+              Ventus is your intelligent deals co-pilot, powered by AI that analyzes your spending patterns and lifestyle to maximize your rewards. Get personalized recommendations, instant insights, and let our AI discover and secure the best deals for you—automatically optimizing your rewards while you focus on what matters.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
