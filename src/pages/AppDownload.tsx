@@ -27,28 +27,34 @@ const AppDownload = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button
+              <Button 
                 size="lg" 
-                className="h-14 px-8 text-lg"
+                className="h-16 px-6 text-base bg-black hover:bg-gray-900 text-white rounded-xl flex items-center gap-3"
                 onClick={() => {
                   // TODO: Replace with actual App Store link
                   window.open("#", "_blank");
                 }}
               >
-                <Apple className="w-6 h-6 mr-3" />
-                Download on the App Store
+                <Apple className="w-8 h-8" />
+                <div className="flex flex-col items-start">
+                  <span className="text-[10px] leading-tight">Download on the</span>
+                  <span className="text-xl font-semibold leading-tight">App Store</span>
+                </div>
               </Button>
               
               <Button 
                 size="lg" 
-                className="h-14 px-8 text-lg"
+                className="h-16 px-6 text-base bg-black hover:bg-gray-900 text-white rounded-xl flex items-center gap-3"
                 onClick={() => {
                   // TODO: Replace with actual Play Store link
                   window.open("#", "_blank");
                 }}
               >
-                <PlayIcon className="w-6 h-6 mr-3" />
-                Get it on Google Play
+                <PlayIcon className="w-8 h-8" />
+                <div className="flex flex-col items-start">
+                  <span className="text-[10px] leading-tight">GET IT ON</span>
+                  <span className="text-xl font-semibold leading-tight">Google Play</span>
+                </div>
               </Button>
             </div>
             
