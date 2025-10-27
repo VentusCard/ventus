@@ -27,24 +27,22 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
       </Alert>
 
       <div className="space-y-2">
-        <TooltipProvider>
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <label className="text-sm font-medium flex items-center gap-1.5 cursor-help">
-                <Sparkles className="h-3.5 w-3.5 text-blue-600" />
-                Anchor ZIP Code (Optional)
-                <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
-              </label>
-            </TooltipTrigger>
-            <TooltipContent className="max-w-xs">
-              <p className="text-xs">
-                Your home ZIP code serves as the anchor point for AI pattern analysis. 
-                Ventus AI uses this to identify travel spending, detect location-based patterns, 
-                and provide insights into away-from-home transactions.
-              </p>
-            </TooltipContent>
-          </Tooltip>
-        </TooltipProvider>
+        <label className="text-sm font-medium flex items-center gap-1.5">
+          <Sparkles className="h-3.5 w-3.5 text-blue-600" />
+          Anchor ZIP Code (Optional)
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button type="button" className="inline-flex cursor-help">
+                  <HelpCircle className="h-3.5 w-3.5 text-muted-foreground" />
+                </button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p className="text-xs">Used for travel analysis</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </label>
         <Input
           type="text"
           value={anchorZip}
