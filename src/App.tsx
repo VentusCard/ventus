@@ -22,6 +22,7 @@ import Deals from "./pages/Deals";
 import SavedDeals from "./pages/SavedDeals";
 import TePilot from "./pages/TePilot";
 import NotFound from "./pages/NotFound";
+import AppDownload from "./pages/AppDownload";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
           <Route path="/ventus-ai" element={<VentusAI />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/tepilot" element={<TePilot />} />
+          <Route path="/app" element={<AppDownload />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
