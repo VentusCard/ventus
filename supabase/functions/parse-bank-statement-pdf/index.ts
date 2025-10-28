@@ -1,4 +1,5 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import PDFParser from "npm:pdf-parse@1.1.1";
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -24,7 +25,22 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    // Call Lovable AI with the PDF as base64 image
+    // Extract text from PDF
+    console.log("Extracting text from PDF...");
+    const base64Data = fileData.replace(/^data:application\/pdf;base64,/, '');
+    const pdfBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
+    
+    const pdfData = await PDFParser(pdfBuffer);
+    const extractedText = pdfData.text;
+    
+    console.log(`Extracted ${extractedText.length} characters from PDF`);
+    
+    // Validate that we got meaningful text
+    if (!extractedText || extractedText.trim().length < 50) {
+      throw new Error("Could not extract text from PDF. The file may be password-protected, corrupted, or an image-based scan. Please try a text-based PDF.");
+    }
+
+    // Call Lovable AI with the extracted text
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",
       headers: {
@@ -36,22 +52,11 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: "You are a bank statement parser. Extract all transactions from the provided bank statement PDF. Return structured data."
+            content: "You are a bank statement parser. Extract all transactions from the provided bank statement text."
           },
           {
             role: "user",
-            content: [
-              {
-                type: "text",
-                text: "Extract all transactions from this bank statement. For each transaction, identify: merchant name, transaction date, amount (as a number, negative for debits/expenses), description, and MCC code if visible. Return the data in the exact format specified by the tool."
-              },
-              {
-                type: "image_url",
-                image_url: {
-                  url: fileData // base64 data URI
-                }
-              }
-            ]
+            content: `Extract all transactions from this bank statement:\n\n${extractedText}\n\nFor each transaction, identify: merchant name, transaction date, amount (as a number, negative for debits/expenses), description, and MCC code if visible. Return the data in the exact format specified by the tool.`
           }
         ],
         tools: [
