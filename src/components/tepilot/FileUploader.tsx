@@ -16,8 +16,8 @@ export function FileUploader({ onFileSelect, onParse }: FileUploaderProps) {
 
   const handleFileSelect = (file: File) => {
     const extension = file.name.split(".").pop()?.toLowerCase();
-    if (!["csv", "json", "xlsx", "xls"].includes(extension || "")) {
-      alert("Unsupported file format. Please upload CSV, JSON, or XLSX files.");
+    if (!["csv", "json", "xlsx", "xls", "pdf"].includes(extension || "")) {
+      alert("Unsupported file format. Please upload CSV, JSON, XLSX, or PDF files.");
       return;
     }
 
@@ -56,7 +56,7 @@ export function FileUploader({ onFileSelect, onParse }: FileUploaderProps) {
       <Alert>
         <File className="h-4 w-4" />
         <AlertDescription>
-          <strong>Supported formats:</strong> CSV, JSON, XLSX (max 10MB)
+          <strong>Supported formats:</strong> CSV, JSON, XLSX, PDF (max 10MB)
         </AlertDescription>
       </Alert>
 
@@ -76,12 +76,12 @@ export function FileUploader({ onFileSelect, onParse }: FileUploaderProps) {
           Drag and drop your file here, or click to browse
         </p>
         <p className="text-xs text-muted-foreground">
-          CSV, JSON, or XLSX files up to 10MB
+          CSV, JSON, XLSX, or PDF bank statements up to 10MB
         </p>
         <input
           ref={fileInputRef}
           type="file"
-          accept=".csv,.json,.xlsx,.xls"
+          accept=".csv,.json,.xlsx,.xls,.pdf"
           onChange={(e) => {
             const file = e.target.files?.[0];
             if (file) handleFileSelect(file);

@@ -33,6 +33,8 @@ export async function parseFile(file: File): Promise<MappingResult> {
     case "xlsx":
     case "xls":
       return parseXLSX(file);
+    case "pdf":
+      return parsePDF(file);
     default:
       throw new Error(`Unsupported file format: ${extension}`);
   }
@@ -118,6 +120,68 @@ export async function parseXLSX(file: File): Promise<MappingResult> {
         resolve(result);
       } catch (error) {
         reject(new Error(`XLSX parsing failed: ${error.message}`));
+      }
+    };
+
+    reader.onerror = () => reject(new Error("Failed to read file"));
+    reader.readAsArrayBuffer(file);
+  });
+}
+
+// PDF Parser using AI
+export async function parsePDF(file: File): Promise<MappingResult> {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+
+    reader.onload = async (e) => {
+      try {
+        const arrayBuffer = e.target?.result as ArrayBuffer;
+        const base64 = btoa(
+          new Uint8Array(arrayBuffer).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ''
+          )
+        );
+        const dataUri = `data:application/pdf;base64,${base64}`;
+
+        // Call the edge function to parse PDF
+        const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+        const supabaseKey = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+        
+        const response = await fetch(
+          `${supabaseUrl}/functions/v1/parse-bank-statement-pdf`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${supabaseKey}`,
+            },
+            body: JSON.stringify({
+              fileData: dataUri,
+              fileName: file.name
+            })
+          }
+        );
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to parse PDF');
+        }
+
+        const { transactions } = await response.json();
+        
+        if (!transactions || transactions.length === 0) {
+          throw new Error("No transactions found in PDF");
+        }
+
+        console.log(`Successfully parsed ${transactions.length} transactions from PDF`);
+        
+        resolve({
+          needsMapping: false,
+          transactions
+        });
+      } catch (error) {
+        reject(new Error(`PDF parsing failed: ${error.message}`));
       }
     };
 
