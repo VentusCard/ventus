@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 
 interface FileUploaderProps {
   onFileSelect: (file: File) => void;
-  onParse: () => void;
+  onParse: (file?: File) => void;
 }
 
 export function FileUploader({ onFileSelect, onParse }: FileUploaderProps) {
@@ -28,8 +28,8 @@ export function FileUploader({ onFileSelect, onParse }: FileUploaderProps) {
 
     setSelectedFile(file);
     onFileSelect(file);
-    // Auto-trigger parse immediately
-    setTimeout(() => onParse(), 100);
+    // Auto-trigger parse immediately with file
+    setTimeout(() => onParse(file), 100);
   };
 
   const handleDrop = (e: React.DragEvent) => {

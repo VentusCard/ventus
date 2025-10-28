@@ -82,7 +82,7 @@ const TePilot = () => {
       setPassword("");
     }
   };
-  const handleParse = async () => {
+  const handleParse = async (file?: File) => {
     try {
       let result: MappingResult;
       if (inputMode === "paste") {
@@ -99,8 +99,8 @@ const TePilot = () => {
           textToParse = `# Home ZIP Code: ${zipValue}\n${textToParse}`;
         }
         result = parsePastedText(textToParse);
-      } else if (uploadedFile) {
-        result = await parseFile(uploadedFile);
+      } else if (file || uploadedFile) {
+        result = await parseFile(file || uploadedFile!);
       } else {
         toast.error("No data to parse");
         return;
@@ -539,7 +539,7 @@ const TePilot = () => {
             setRawInput(data);
             setAnchorZip(zip);
           }}>
-                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={handleParse} />}
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={(file) => handleParse(file)} />}
               </UploadOrPasteContainer>}
           </TabsContent>
 
