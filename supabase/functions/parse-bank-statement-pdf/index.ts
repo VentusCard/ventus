@@ -52,11 +52,11 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: "You are a bank statement parser. Extract all transactions from the provided bank statement text."
+            content: "You are a bank statement parser. Extract transactions from bank statements. IGNORE payment transactions (like 'PAYMENT - THANK YOU', autopay to credit card). Include purchases (positive amounts) and refunds/credits (negative amounts)."
           },
           {
             role: "user",
-            content: `Extract all transactions from this bank statement:\n\n${extractedText}\n\nFor each transaction, identify: merchant name, transaction date, amount (as a number, negative for debits/expenses), description, and MCC code if visible. Return the data in the exact format specified by the tool.`
+            content: `Extract transactions from this bank statement:\n\n${extractedText}\n\nFor each transaction:\n- SKIP payment transactions to the credit card account\n- Purchases/debits: positive amounts\n- Refunds/credits: negative amounts\n- Identify: merchant name, transaction date, amount, description, and MCC code if visible.\n\nReturn the data in the exact format specified by the tool.`
           }
         ],
         tools: [
@@ -83,7 +83,7 @@ serve(async (req) => {
                         },
                         amount: { 
                           type: "number",
-                          description: "Transaction amount as a number (negative for expenses/debits)"
+                          description: "Transaction amount: positive for purchases/debits, negative for refunds/credits"
                         },
                         description: { 
                           type: "string",
@@ -137,15 +137,29 @@ serve(async (req) => {
     }
 
     const transactions = JSON.parse(toolCall.function.arguments).transactions;
-    console.log(`Extracted ${transactions.length} transactions from PDF`);
+    
+    // Filter out payment transactions but keep refunds/credits
+    const filteredTransactions = transactions.filter((txn: any) => {
+      const merchantLower = txn.merchant_name.toLowerCase();
+      const descLower = (txn.description || '').toLowerCase();
+      
+      // Remove only payment transactions (not refunds/credits)
+      const isPayment = 
+        (merchantLower.includes('payment') && merchantLower.includes('thank you')) ||
+        merchantLower.includes('autopay');
+      
+      return !isPayment;
+    });
+    
+    console.log(`Extracted ${filteredTransactions.length} transactions from PDF (filtered ${transactions.length - filteredTransactions.length} payments)`);
 
-    // Add transaction IDs
-    const enrichedTransactions = transactions.map((txn: any, index: number) => ({
+    // Add transaction IDs and ensure correct signs
+    const enrichedTransactions = filteredTransactions.map((txn: any, index: number) => ({
       transaction_id: `pdf_${Date.now()}_${index}`,
       merchant_name: txn.merchant_name,
       description: txn.description || undefined,
       mcc: txn.mcc || undefined,
-      amount: txn.amount,
+      amount: txn.amount > 0 ? txn.amount : txn.amount, // Keep positive for purchases, negative for refunds
       date: txn.date,
       zip_code: undefined,
       home_zip: undefined
