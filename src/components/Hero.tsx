@@ -161,9 +161,9 @@ const Hero = () => {
           
           {/* Scroll cue with extremely subtle animation - always reserve space, control visibility */}
           <div className="mt-4 md:mt-6 h-6 flex flex-col items-center justify-center">
-            <div className={`animate-[float_30s_ease-in-out_infinite] transition-all duration-300 ${
+            <div className={`transition-all duration-300 ${
               videoEnded ? 'opacity-100 visible animate-fade-in' : 'opacity-0 invisible'
-            }`} style={{ animationDelay: '0s' }}>
+            }`}>
               <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
             </div>
           </div>
