@@ -258,7 +258,11 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V1.3 - Current</p>
+                      <p className="font-semibold">V1.4 - Current</p>
+                      <p>Support for PDF bank statement uploads - real bank statements can now be processed (MCCs might not be available)</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V1.3 - October 2025</p>
                       <p>Third working AI flow generating revenue opportunities based on holistic customer spending profile</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
