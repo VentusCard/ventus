@@ -32,19 +32,25 @@ const Hero = () => {
     if (videoRef.current) {
       observer.observe(videoRef.current);
       
-      // Add event listener for video end
-      const handleVideoEnd = () => {
-        setVideoEnded(true);
+      // Add event listener for video progress
+      const handleVideoProgress = () => {
+        if (videoRef.current) {
+          const progress = videoRef.current.currentTime / videoRef.current.duration;
+          // Show button when video is 75% complete
+          if (progress >= 0.75 && !videoEnded) {
+            setVideoEnded(true);
+          }
+        }
       };
       
-      videoRef.current.addEventListener('ended', handleVideoEnd);
+      videoRef.current.addEventListener('timeupdate', handleVideoProgress);
       
       // Cleanup function to remove event listener
       return () => {
         observer.disconnect();
         window.removeEventListener('resize', checkMobile);
         if (videoRef.current) {
-          videoRef.current.removeEventListener('ended', handleVideoEnd);
+          videoRef.current.removeEventListener('timeupdate', handleVideoProgress);
         }
       };
     }
