@@ -3,20 +3,17 @@ import { useState, useEffect, useRef } from "react"
 import Navbar from "@/components/Navbar"
 import Footer from "@/components/Footer"
 import Hero from "@/components/Hero"
-import Features from "@/components/Features"
 import Rewards from "@/components/Rewards"
 import Testimonials from "@/components/Testimonials"
 import CTA from "@/components/CTA"
 
 const Index = () => {
   const [visibleSections, setVisibleSections] = useState({
-    features: false,
     rewards: false,
     testimonials: false,
     cta: false
   });
   
-  const featuresRef = useRef<HTMLDivElement>(null);
   const rewardsRef = useRef<HTMLDivElement>(null);
   const testimonialsRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
@@ -26,10 +23,6 @@ const Index = () => {
       const scrollPosition = window.scrollY + window.innerHeight * 0.8; // Trigger slightly earlier
       
       // Check each section visibility
-      if (featuresRef.current && scrollPosition > featuresRef.current.offsetTop) {
-        setVisibleSections(prev => ({ ...prev, features: true }));
-      }
-      
       if (rewardsRef.current && scrollPosition > rewardsRef.current.offsetTop) {
         setVisibleSections(prev => ({ ...prev, rewards: true }));
       }
@@ -55,15 +48,6 @@ const Index = () => {
       <Navbar />
       <main className="flex flex-col">
         <Hero />
-        <div 
-          id="features" 
-          ref={featuresRef}
-          className={`transition-all duration-500 ease-out mt-0 bg-[#F8F9FA] ${
-            visibleSections.features ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
-        >
-          <Features />
-        </div>
         <div 
           id="rewards" 
           ref={rewardsRef}

@@ -23,6 +23,7 @@ import SavedDeals from "./pages/SavedDeals";
 import TePilot from "./pages/TePilot";
 import NotFound from "./pages/NotFound";
 import AppDownload from "./pages/AppDownload";
+import Archive from "./pages/Archive";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +52,7 @@ const App = () => (
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/tepilot" element={<TePilot />} />
           <Route path="/app" element={<AppDownload />} />
+          <Route path="/archive" element={<Archive />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
