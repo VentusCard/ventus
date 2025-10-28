@@ -116,6 +116,7 @@ const TePilot = () => {
       } else {
         // Auto-mapping succeeded - show preview with manual enrichment button
         setParsedTransactions(result.transactions!);
+        setRecommendations(null); // Clear old recommendations
         toast.success(`Parsed ${result.transactions!.length} transactions - ready to enrich`);
         setActiveTab("preview");
       }
@@ -128,6 +129,7 @@ const TePilot = () => {
       if (!pendingMapping) return;
       const transactions = mapColumnsWithMapping(pendingMapping.headers, pendingMapping.rows, mapping);
       setParsedTransactions(transactions);
+      setRecommendations(null); // Clear old recommendations
       setPendingMapping(null);
       toast.success(`Parsed ${transactions.length} transactions - ready to enrich`);
       setActiveTab("preview");
@@ -140,6 +142,7 @@ const TePilot = () => {
     toast.info("Column mapping cancelled");
   };
   const handleEnrich = async () => {
+    setRecommendations(null); // Clear old recommendations
     setActiveTab("results"); // Switch to results IMMEDIATELY
     await startEnrichment(parsedTransactions, anchorZip);
   };
@@ -504,6 +507,7 @@ const TePilot = () => {
 
           // Clear enrichment state
           resetEnrichment();
+          setRecommendations(null); // Clear old recommendations
 
           // Clear all input data
           setRawInput("");
