@@ -120,7 +120,7 @@ Deno.serve(async (req) => {
         };
 
         try {
-          sendEvent("status", { message: "Analyzing travel patterns with flash..." });
+          sendEvent("status", { message: "Algo 2: Analyzing travel patterns..." });
           const startTime = Date.now();
 
           // Prepare transaction summary for AI
