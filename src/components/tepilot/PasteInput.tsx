@@ -72,7 +72,7 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
         className="w-full h-[60px]"
         variant="ai"
       >
-        Ventus AI Transaction Enrichment
+        Ventus AI Transaction Enrichment (Live Service)
       </Button>
     </div>
   );
