@@ -112,7 +112,7 @@ Prioritize:
         ],
         temperature: 0.2,
         max_tokens: 2000,
-        top_p: 0.1,
+        top_p: 0.5,
         return_related_questions: false,
         search_recency_filter: "hour",
       }),
