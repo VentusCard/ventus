@@ -114,7 +114,7 @@ Prioritize:
         max_tokens: 2000,
         top_p: 0.9,
         return_related_questions: false,
-        search_recency_filter: "week",
+        search_recency_filter: "hour",
       }),
     });
 
