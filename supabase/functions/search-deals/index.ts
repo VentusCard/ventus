@@ -57,7 +57,7 @@ The dealUrl MUST be a direct product page on the OFFICIAL RETAILER'S website whe
 - Avoid seasonal collection URLs or time-limited campaign pages
 - Double-check the URL format matches the retailer's standard product page structure
 - Examples of VALID URL formats:
-  * Amazon: https://www.amazon.com/dp/B08XYZ123 or https://www.amazon.com/product-name/dp/B08XYZ123
+  * Amazon: https://www.amazon.com/dp/B08XYZ123
   * REI: https://www.rei.com/product/123456/product-name
   * Nike: https://www.nike.com/t/product-name/DJ6234-100
   * Target: https://www.target.com/p/product-name/-/A-12345678
