@@ -54,16 +54,6 @@ The dealUrl MUST be a direct product page on the OFFICIAL RETAILER'S website whe
 **URL VALIDATION - EXTREMELY IMPORTANT:**
 - VERIFY the URL is currently accessible and leads to an active product page
 - The URL MUST contain a unique product identifier (not just category names)
-- Avoid seasonal collection URLs or time-limited campaign pages
-- Double-check the URL format matches the retailer's standard product page structure
-- Examples of VALID URL formats:
-  * Amazon: https://www.amazon.com/dp/B08XYZ123
-  * REI: https://www.rei.com/product/123456/product-name
-  * Nike: https://www.nike.com/t/product-name/DJ6234-100
-  * Target: https://www.target.com/p/product-name/-/A-12345678
-  * Walmart: https://www.walmart.com/ip/product-name/123456789
-  * PGA Tour Superstore: https://www.pgatoursuperstore.com/product-name/sku-123456.jsp
-  * Golf Galaxy: https://www.golfgalaxy.com/p/product-name/12345678
 - If you cannot verify the URL leads to an active, purchase-ready product page, DO NOT include that deal
 
 **EXCLUDED SITES (DO NOT USE):**
