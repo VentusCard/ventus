@@ -73,7 +73,6 @@ Before including ANY deal, verify that:
 ✓ Major retailers: Amazon, Target, Best Buy, Walmart, REI, Dick's Sporting Goods
 ✓ Official brand sites: Nike, Adidas, Callaway, TaylorMade, Wilson, Titleist, Sony, Samsung
 ✓ Authorized specialty stores: Golf Galaxy, PGA Tour Superstore, PetSmart, Petco
-✓ Department stores: Macy's, Nordstrom, Kohl's, JCPenney
 
 **EXCLUDED SITES:**
 ✗ Deal aggregators: Slickdeals, DealNews, Ben's Bargains, Brad's Deals
@@ -83,12 +82,12 @@ Before including ANY deal, verify that:
 ✗ Any article/blog page about deals (even if on retailer sites)
 
 **DEAL QUALITY FILTERS:**
-- Minimum discount: 15% off
-- Maximum age: 7 days (prefer current deals)
+- Minimum discount: 10% off
+- Maximum age: 2 days (prefer current deals)
 - Must be in stock and immediately purchasable
 - Price must be clearly stated on the product page
 
-Return ONLY valid JSON in this exact format (no markdown, no explanation):
+Return ONLY valid JSON in this format (no markdown, no explanation):
 
 {
   "deals": [
@@ -133,7 +132,7 @@ Prioritize:
         max_tokens: 2000,
         top_p: 0.9,
         return_related_questions: false,
-        search_recency_filter: "day",
+        search_recency_filter: "week",
       }),
     });
 
