@@ -112,7 +112,6 @@ Prioritize:
 4. Recent deals (within the last week)
 5. Official retailer websites or authorized dealers
 6. Currently in-stock or available products
-7. Significant discounts (10%+ off)
 
 **Quality over quantity:** Return 3-5 deals ONLY if you can verify the URLs are valid and working. If fewer verified deals exist, return only those. Better to have 2 confirmed working deals than 5 potential 404s.`;
 
