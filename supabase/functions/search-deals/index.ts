@@ -14,8 +14,25 @@ Deno.serve(async (req) => {
   try {
     const { query, userId } = await req.json();
 
-    if (!query || !userId) {
-      return new Response(JSON.stringify({ error: "Query and userId are required" }), {
+    // Input validation
+    if (!query || typeof query !== "string") {
+      return new Response(JSON.stringify({ error: "Valid query string is required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (!userId || typeof userId !== "string") {
+      return new Response(JSON.stringify({ error: "Valid userId is required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Sanitize query: limit length and trim
+    const sanitizedQuery = query.trim().slice(0, 500);
+    if (sanitizedQuery.length === 0) {
+      return new Response(JSON.stringify({ error: "Query cannot be empty" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -37,6 +54,68 @@ Deno.serve(async (req) => {
     if (!PERPLEXITY_API_KEY) {
       throw new Error("PERPLEXITY_API_KEY not configured");
     }
+
+    // Category-specific domain mapping
+    const domainsByCategory: Record<string, string[]> = {
+      "Golf": [
+        "amazon.com",
+        "pgatoursuperstore.com",
+        "golfgalaxy.com",
+        "dickssportinggoods.com",
+        "callawaygolf.com",
+        "taylormadegolf.com",
+        "titleist.com",
+      ],
+      "Pets": [
+        "amazon.com",
+        "chewy.com",
+        "petco.com",
+        "petsmart.com",
+        "target.com",
+      ],
+      "Fitness Tech": [
+        "amazon.com",
+        "bestbuy.com",
+        "target.com",
+        "rei.com",
+        "dickssportinggoods.com",
+        "garmin.com",
+        "fitbit.com",
+      ],
+      "Snow Sports": [
+        "amazon.com",
+        "rei.com",
+        "evo.com",
+        "backcountry.com",
+        "dickssportinggoods.com",
+      ],
+      "Tennis/Racquet Sports": [
+        "amazon.com",
+        "tennis-warehouse.com",
+        "dickssportinggoods.com",
+        "wilson.com",
+        "head.com",
+      ],
+    };
+
+    // Get domains for user's selected categories
+    const getDomainFilterForUser = (categories: string[] | null | undefined): string[] | undefined => {
+      if (!categories || categories.length === 0) {
+        return undefined; // No filter if no categories
+      }
+
+      const allDomains = new Set<string>();
+      for (const category of categories) {
+        const domains = domainsByCategory[category];
+        if (domains) {
+          domains.forEach((domain) => allDomains.add(domain));
+        }
+      }
+
+      return allDomains.size > 0 ? Array.from(allDomains) : undefined;
+    };
+
+    const userDomainFilter = getDomainFilterForUser(profile?.selected_categories);
 
     const systemPrompt = `You are a real-time deal finder for Ventus Card users. The user's lifestyle goal is "${profile?.lifestyle_goal || "general"}" and their preferred categories are: ${profile?.selected_categories?.join(", ") || "various"}.
 
@@ -104,25 +183,40 @@ Prioritize:
 
 **Quality over quantity:** Return 3-5 deals ONLY if you can verify the URLs are valid and working. If fewer verified deals exist, return only those. Better to have 2 confirmed working deals than 5 potential 404s.`;
 
-    const response = await fetch("https://api.perplexity.ai/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    // Helper function to call Perplexity API
+    const callPerplexityAPI = async (domainFilter?: string[]) => {
+      const requestBody: any = {
         model: "sonar-pro",
         messages: [
           { role: "system", content: systemPrompt },
-          { role: "user", content: query },
+          { role: "user", content: sanitizedQuery },
         ],
         temperature: 0.2,
         max_tokens: 2000,
         top_p: 0.8,
         return_related_questions: false,
         search_recency_filter: "week",
-      }),
-    });
+      };
+
+      if (domainFilter && domainFilter.length > 0) {
+        requestBody.search_domain_filter = domainFilter;
+        console.log(`Searching with domain filter: ${domainFilter.join(", ")}`);
+      } else {
+        console.log("Searching without domain filter");
+      }
+
+      return await fetch("https://api.perplexity.ai/chat/completions", {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody),
+      });
+    };
+
+    // Tier 1: Try with domain filter if user has selected categories
+    let response = await callPerplexityAPI(userDomainFilter);
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -187,6 +281,41 @@ Prioritize:
         deals: [],
         message: "Unable to find verified deals at this time. Please try a different search.",
       };
+    }
+
+    // Tier 2: If no deals found with filter, retry without filter
+    if (
+      userDomainFilter &&
+      (!parsedResponse.deals || parsedResponse.deals.length === 0)
+    ) {
+      console.log("No deals found with domain filter. Retrying without filter...");
+
+      response = await callPerplexityAPI(); // No domain filter
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error("AI Gateway error on retry:", response.status, errorText);
+        throw new Error(`AI Gateway error: ${response.status}`);
+      }
+
+      const retryData = await response.json();
+      const retryResponse = retryData.choices?.[0]?.message?.content || "";
+
+      console.log("AI Response (retry without filter):", retryResponse);
+
+      try {
+        const cleanResponse = retryResponse.replace(/```json\n?|\n?```/g, "").trim();
+        parsedResponse = JSON.parse(cleanResponse);
+        parsedResponse.message = parsedResponse.message
+          ? `${parsedResponse.message} (searched all retailers)`
+          : "Found deals from various retailers";
+      } catch (parseError) {
+        console.error("Failed to parse retry response:", parseError);
+        parsedResponse = {
+          deals: [],
+          message: "Unable to find verified deals at this time. Please try a different search.",
+        };
+      }
     }
 
     // Validate URLs if we have deals
