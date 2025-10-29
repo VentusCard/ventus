@@ -82,12 +82,17 @@ Before including ANY deal, verify that:
 ✗ Any article/blog page about deals (even if on retailer sites)
 
 **DEAL QUALITY FILTERS:**
-- Minimum discount: 10% off
-- Maximum age: 2 days (prefer current deals)
+- Minimum discount: 5% off or more
+- Maximum age: 7 days (current deals only)
 - Must be in stock and immediately purchasable
 - Price must be clearly stated on the product page
+- **US RETAILERS ONLY** - All deals must ship within the United States
 
-Return ONLY valid JSON in this format (no markdown, no explanation):
+**CRITICAL:** Return ONLY a valid JSON object. Do NOT include any explanatory text, markdown formatting, or conversation before or after the JSON.
+
+Your response must start with { and end with }
+
+Return ONLY valid JSON in this exact format:
 
 {
   "deals": [
@@ -127,11 +132,17 @@ Prioritize:
           { role: "system", content: systemPrompt },
           { role: "user", content: query },
         ],
-        temperature: 0.2,
-        max_tokens: 2000,
+        temperature: 0.4,
+        max_tokens: 3000,
         top_p: 0.9,
         return_related_questions: false,
-        search_recency_filter: "week",
+        search_recency_filter: "month",
+        search_domain_filter: [
+          "amazon.com", "target.com", "bestbuy.com", "walmart.com",
+          "rei.com", "dickssportinggoods.com", "golfgalaxy.com",
+          "pgasuperstore.com", "nike.com", "adidas.com",
+          "macys.com", "nordstrom.com", "kohls.com"
+        ],
       }),
     });
 
@@ -144,55 +155,100 @@ Prioritize:
     const aiData = await response.json();
     const aiResponse = aiData.choices?.[0]?.message?.content || "";
 
-    console.log("AI Response:", aiResponse);
+    console.log("=== AI Response Received ===");
+    console.log("Query:", query);
+    console.log("User Profile:", profile);
+    console.log("Raw AI Response:", aiResponse);
 
     // Validation functions
     function hasValidUrlPattern(url: string): boolean {
       try {
         const urlObj = new URL(url);
-
+        
         // Must be HTTPS
         if (urlObj.protocol !== "https:") return false;
-
-        // URL path should contain product indicators (not just category pages)
-        const hasProductPath = /\/(product|item|p|dp|pd)\/|\/[0-9]{5,}/.test(urlObj.pathname);
-
-        // Should not contain obvious placeholder patterns
-        const hasPlaceholder = /ID\d+|PLACEHOLDER|EXAMPLE|TODO|XXX|item-name-or-sku|product-name/i.test(url);
-
-        return hasProductPath && !hasPlaceholder;
+        
+        // Only reject obvious placeholders/construction artifacts
+        const hasPlaceholder = /PLACEHOLDER|EXAMPLE|TODO|XXX|item-name-or-sku|product-name|ID\d{4,}/i.test(url);
+        
+        // Must have a meaningful path (not just domain root)
+        const hasPath = urlObj.pathname.length > 5;
+        
+        return !hasPlaceholder && hasPath;
       } catch {
         return false;
       }
     }
 
     async function validateDealUrl(url: string): Promise<boolean> {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000);
-
-        const response = await fetch(url, {
-          method: "HEAD",
-          signal: controller.signal,
-          redirect: "follow",
-        });
-
-        clearTimeout(timeoutId);
-        return response.ok;
-      } catch (error) {
-        console.error(`URL validation failed for ${url}:`, error);
-        return false;
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 8000);
+          
+          // Try HEAD first (faster)
+          let response = await fetch(url, {
+            method: "HEAD",
+            signal: controller.signal,
+            redirect: "follow",
+            headers: {
+              "User-Agent": "Mozilla/5.0 (compatible; VentusBot/1.0)"
+            }
+          });
+          
+          // If HEAD fails, try GET
+          if (!response.ok && response.status === 405) {
+            response = await fetch(url, {
+              method: "GET",
+              signal: controller.signal,
+              redirect: "follow",
+              headers: {
+                "User-Agent": "Mozilla/5.0 (compatible; VentusBot/1.0)"
+              }
+            });
+          }
+          
+          clearTimeout(timeoutId);
+          
+          if (response.ok) {
+            console.log(`✓ URL validated: ${url}`);
+            return true;
+          }
+          
+          console.log(`✗ URL returned ${response.status}: ${url}`);
+          return false;
+        } catch (error) {
+          if (attempt === 0) {
+            console.log(`Retrying URL validation for ${url} (attempt 2/2)`);
+            await new Promise(resolve => setTimeout(resolve, 2000));
+            continue;
+          }
+          console.error(`✗ URL validation failed for ${url}:`, error);
+          return false;
+        }
       }
+      return false;
     }
 
     // Parse the AI response as JSON
     let parsedResponse;
     try {
+      let cleanResponse = aiResponse.trim();
+      
       // Remove markdown code blocks if present
-      const cleanResponse = aiResponse.replace(/```json\n?|\n?```/g, "").trim();
+      cleanResponse = cleanResponse.replace(/```json\n?|\n?```/g, "");
+      
+      // Try to extract JSON if it's wrapped in text
+      const jsonMatch = cleanResponse.match(/{[\s\S]*}/);
+      if (jsonMatch) {
+        cleanResponse = jsonMatch[0];
+      }
+      
       parsedResponse = JSON.parse(cleanResponse);
+      console.log(`✓ Successfully parsed JSON with ${parsedResponse.deals?.length || 0} deals`);
     } catch (parseError) {
-      console.error("Failed to parse AI response:", parseError);
+      console.error("✗ Failed to parse AI response:", parseError);
+      console.error("Raw response was:", aiResponse);
       // Return empty deals with explanation
       parsedResponse = {
         deals: [],
@@ -233,13 +289,31 @@ Prioritize:
 
       parsedResponse.deals = validatedDeals.filter((deal) => deal !== null);
 
+      // Filter out deals below 5% discount
+      const preFilterCount = parsedResponse.deals.length;
+      parsedResponse.deals = parsedResponse.deals.filter((deal: any) => {
+        const discountPercent = deal.discount || 0;
+        if (discountPercent < 5) {
+          console.log(`✗ Filtered out ${deal.title} - only ${discountPercent}% discount`);
+          return false;
+        }
+        return true;
+      });
+      
+      if (preFilterCount > parsedResponse.deals.length) {
+        console.log(`Filtered out ${preFilterCount - parsedResponse.deals.length} deals below 5% discount`);
+      }
+
       if (rejectedUrls.length > 0) {
-        console.warn("Rejected invalid URLs:", JSON.stringify(rejectedUrls, null, 2));
+        console.warn("=== Rejected URLs ===");
+        console.warn(JSON.stringify(rejectedUrls, null, 2));
       }
 
       if (parsedResponse.deals.length === 0 && rejectedUrls.length > 0) {
         parsedResponse.message = "Found deals but couldn't verify working product links. Try refining your search.";
       }
+      
+      console.log(`=== Final Result: ${parsedResponse.deals.length} valid deals ===`);
     }
 
     return new Response(JSON.stringify(parsedResponse), {
