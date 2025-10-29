@@ -143,13 +143,19 @@ Prioritize:
         // Must be HTTPS
         if (urlObj.protocol !== "https:") return false;
 
-        // URL path should contain product indicators (not just category pages)
-        const hasProductPath = /\/(product|item|p|dp|pd)\/|\/[0-9]{5,}/.test(urlObj.pathname);
-
         // Should not contain obvious placeholder patterns
         const hasPlaceholder = /ID\d+|PLACEHOLDER|EXAMPLE|TODO|XXX|item-name-or-sku|product-name/i.test(url);
+        
+        // Reject if it has placeholders
+        if (hasPlaceholder) return false;
 
-        return hasProductPath && !hasPlaceholder;
+        // Path should have some meaningful content (not just "/" or "/shop")
+        const hasMinimalPath = urlObj.pathname.length > 5;
+        
+        // Look for product-like identifiers: alphanumeric codes, SKUs, or specific product paths
+        const hasProductIndicator = /[A-Z0-9]{4,}|\/[a-z0-9-]{10,}/.test(urlObj.pathname);
+
+        return hasMinimalPath && hasProductIndicator;
       } catch {
         return false;
       }
