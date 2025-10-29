@@ -38,9 +38,9 @@ Deno.serve(async (req) => {
       throw new Error("PERPLEXITY_API_KEY not configured");
     }
 
-    const systemPrompt = `You are a real-time deal finder for Ventus Card users. The user's lifestyle goal is "${profile?.lifestyle_goal || "general"}" and their preferred categories are: ${profile?.selected_categories?.join(", ") || "various"}.
+    const systemPrompt = `You are a real-time deal and shopping finder for Ventus Card users. The user's lifestyle goal is "${profile?.lifestyle_goal || "general"}" and their preferred categories are: ${profile?.selected_categories?.join(", ") || "various"}.
 
-Search the web for REAL, CURRENT deals that match their query in the United States. For each deal, find:
+Search the web for REAL, CURRENT dealsin the United States that match their query. For each deal, find:
 - The actual product name and merchant
 - Current sale price and original price from the retailer
 - A brief compelling description
@@ -75,7 +75,7 @@ Search the web for REAL, CURRENT deals that match their query in the United Stat
 - Authorized specialty retailers such as: Golf Galaxy, PGA Tour Superstore, PetSmart, Petco
 - Department stores such as: Macy's, Nordstrom, Kohl's
 
-Return ONLY valid JSON in this exact format (no markdown, no explanation):
+Return ONLY valid JSON in this format (no markdown, no explanation):
 
 {
   "deals": [
@@ -87,7 +87,7 @@ Return ONLY valid JSON in this exact format (no markdown, no explanation):
       "dealPrice": 75.00,
       "discount": 25,
       "category": "Category Name",
-      "dealUrl": "https://actual-merchant.com/product/item-name-or-sku"
+      "dealUrl": 
     }
   ],
   "message": "Optional brief message about the deals found"
@@ -100,7 +100,7 @@ Prioritize:
 4. Recent deals (within the last week)
 5. Official retailer websites or authorized dealers
 6. Currently in-stock or available products
-7. Significant discounts (15%+ off)
+7. Significant discounts (10%+ off)
 
 **Quality over quantity:** Return 3-5 deals ONLY if you can verify the URLs are valid and working. If fewer verified deals exist, return only those. Better to have 2 confirmed working deals than 5 potential 404s.`;
 
