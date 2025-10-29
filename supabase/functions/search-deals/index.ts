@@ -3,8 +3,7 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers":
-    "authorization, x-client-info, apikey, content-type",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
 Deno.serve(async (req) => {
@@ -16,15 +15,15 @@ Deno.serve(async (req) => {
     const { query, userId } = await req.json();
 
     if (!query || !userId) {
-      return new Response(
-        JSON.stringify({ error: "Query and userId are required" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Query and userId are required" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const supabaseClient = createClient(
       Deno.env.get("SUPABASE_URL") ?? "",
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
     );
 
     // Fetch user profile for context
@@ -74,10 +73,10 @@ The dealUrl MUST be a direct product page on the OFFICIAL RETAILER'S website whe
 - Article or blog pages about deals
 
 **ONLY USE CREDIBLE RETAILERS:**
-- Major retail chains: Amazon, Walmart, Target, Best Buy, REI, Dick's Sporting Goods
-- Official brand websites: Nike, Adidas, Callaway, TaylorMade, Wilson, Titleist
-- Authorized specialty retailers: Golf Galaxy, PGA Tour Superstore, PetSmart, Petco
-- Department stores: Macy's, Nordstrom, Kohl's
+- Major retail chains such as : Amazon,Target, Best Buy, REI, Dick's Sporting Goods
+- Official brand websites such as: Nike, Adidas, Callaway, TaylorMade, Wilson, Titleist
+- Authorized specialty retailers such as: Golf Galaxy, PGA Tour Superstore, PetSmart, Petco
+- Department stores such as: Macy's, Nordstrom, Kohl's
 
 Return ONLY valid JSON in this exact format (no markdown, no explanation):
 
@@ -108,27 +107,24 @@ Prioritize:
 
 **Quality over quantity:** Return 3-5 deals ONLY if you can verify the URLs are valid and working. If fewer verified deals exist, return only those. Better to have 2 confirmed working deals than 5 potential 404s.`;
 
-    const response = await fetch(
-      "https://api.perplexity.ai/chat/completions",
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          model: "sonar-pro",
-          messages: [
-            { role: "system", content: systemPrompt },
-            { role: "user", content: query },
-          ],
-          temperature: 0.2,
-          max_tokens: 2000,
-          return_related_questions: false,
-          search_recency_filter: "week",
-        }),
-      }
-    );
+    const response = await fetch("https://api.perplexity.ai/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${PERPLEXITY_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "sonar-pro",
+        messages: [
+          { role: "system", content: systemPrompt },
+          { role: "user", content: query },
+        ],
+        temperature: 0.2,
+        max_tokens: 2000,
+        return_related_questions: false,
+        search_recency_filter: "week",
+      }),
+    });
 
     if (!response.ok) {
       const errorText = await response.text();
@@ -172,12 +168,9 @@ Prioritize:
     });
   } catch (error) {
     console.error("Error in search-deals function:", error);
-    return new Response(
-      JSON.stringify({ error: error.message || "Internal server error" }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify({ error: error.message || "Internal server error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });
