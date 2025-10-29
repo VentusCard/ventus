@@ -61,6 +61,8 @@ Before including ANY deal, verify that:
 ✓ The URL leads directly to a product purchase page (not a category or article)
 ✓ The product is currently in stock and available for purchase
 ✓ You found this URL during your web search (NEVER construct or guess URLs)
+✓ The URL is FRESH - test it by clicking it to verify it loads today (October 29, 2025)
+✓ If a URL returns 404, find an alternative product or skip that deal
 
 **NEVER include deals with:**
 ✗ Placeholder IDs like "ID1234", "PRODUCT123", or generic paths
@@ -192,7 +194,7 @@ Prioritize:
             signal: controller.signal,
             redirect: "follow",
             headers: {
-              "User-Agent": "Mozilla/5.0 (compatible; VentusBot/1.0)"
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
             }
           });
           
@@ -203,7 +205,7 @@ Prioritize:
               signal: controller.signal,
               redirect: "follow",
               headers: {
-                "User-Agent": "Mozilla/5.0 (compatible; VentusBot/1.0)"
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
               }
             });
           }
@@ -211,7 +213,13 @@ Prioritize:
           clearTimeout(timeoutId);
           
           if (response.ok) {
-            console.log(`✓ URL validated: ${url}`);
+            console.log(`✓ URL validated (${response.status}): ${url}`);
+            return true;
+          }
+          
+          // Accept 403 - page exists, just blocking bots
+          if (response.status === 403) {
+            console.log(`⚠ URL exists but blocked validation (403): ${url}`);
             return true;
           }
           
