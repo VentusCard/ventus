@@ -46,6 +46,7 @@ Search the web for REAL, CURRENT deals that match their query. For each deal, fi
 - A brief compelling description
 - **The direct URL to the product page on the ACTUAL RETAILER'S website**
 - Calculate the discount percentage
+- confirmed deals in the last 24 hours that does not return a 404 error
 
 **CRITICAL URL REQUIREMENTS:**
 The dealUrl MUST be a direct product page on the OFFICIAL RETAILER'S website where users can immediately add to cart and purchase. The URL should contain product identifiers (SKU, product name) in the path.
