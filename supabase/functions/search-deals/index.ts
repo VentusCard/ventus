@@ -144,18 +144,9 @@ Prioritize:
         if (urlObj.protocol !== "https:") return false;
 
         // Should not contain obvious placeholder patterns
-        const hasPlaceholder = /ID\d+|PLACEHOLDER|EXAMPLE|TODO|XXX|item-name-or-sku|product-name/i.test(url);
+        const hasPlaceholder = /PLACEHOLDER|EXAMPLE|TODO|XXX|item-name-or-sku|product-name/i.test(url);
         
-        // Reject if it has placeholders
-        if (hasPlaceholder) return false;
-
-        // Path should have some meaningful content (not just "/" or "/shop")
-        const hasMinimalPath = urlObj.pathname.length > 5;
-        
-        // Look for product-like identifiers: alphanumeric codes, SKUs, or specific product paths
-        const hasProductIndicator = /[A-Z0-9]{4,}|\/[a-z0-9-]{10,}/.test(urlObj.pathname);
-
-        return hasMinimalPath && hasProductIndicator;
+        return !hasPlaceholder;
       } catch {
         return false;
       }
@@ -164,12 +155,15 @@ Prioritize:
     async function validateDealUrl(url: string): Promise<boolean> {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000);
+        const timeoutId = setTimeout(() => controller.abort(), 5000);
 
         const response = await fetch(url, {
           method: "HEAD",
           signal: controller.signal,
           redirect: "follow",
+          headers: {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
+          }
         });
 
         clearTimeout(timeoutId);
