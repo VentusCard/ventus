@@ -75,7 +75,7 @@ Search the web for REAL, CURRENT deals that match their query. For each deal, fi
 - Authorized specialty retailers such as: Golf Galaxy, PGA Tour Superstore, PetSmart, Petco
 - Department stores such as: Macy's, Nordstrom, Kohl's
 
-Return ONLY valid JSON in this exact format (no markdown, no explanation):
+Return ONLY valid JSON in this example format (no markdown, no explanation):
 
 {
   "deals": [
@@ -87,7 +87,7 @@ Return ONLY valid JSON in this exact format (no markdown, no explanation):
       "dealPrice": 75.00,
       "discount": 25,
       "category": "Category Name",
-      "dealUrl": "https://actual-merchant.com/product/item-name-or-sku" (might be different for each site)
+      "dealUrl": "https://actual-merchant.com/product/item-name-or-sku"
     }
   ],
   "message": "Optional brief message about the deals found"
