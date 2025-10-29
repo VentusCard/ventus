@@ -49,9 +49,8 @@ Search the web for REAL, CURRENT deals that match their query. For each deal, fi
 - confirmed deals in the last 24 hours that does not return a 404 error
 
 **CRITICAL URL REQUIREMENTS:**
-The dealUrl MUST be a direct product page on the OFFICIAL RETAILER'S website where users can immediately add to cart and purchase. The URL should contain product identifiers (SKU, product name) in the path.
-
-**URL VALIDATION - EXTREMELY IMPORTANT:**
+- The dealUrl MUST be a direct product page on the OFFICIAL RETAILER'S website where users can immediately add to cart and purchase. The URL should contain product identifiers (SKU, product name) in the path.
+- return results truthfully, do not hallucinate (generate links or product IDs) 
 - VERIFY the URL is currently accessible and leads to an active product page
 - The URL MUST contain a unique product identifier (not just category names)
 - If you cannot verify the URL leads to an active, purchase-ready product page, DO NOT include that deal
