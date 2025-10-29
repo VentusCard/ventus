@@ -70,7 +70,7 @@ Search the web for REAL, CURRENT deals that match their query. For each deal, fi
 - Article or blog pages about deals
 
 **ONLY USE CREDIBLE RETAILERS:**
-- Major retail chains such as : Amazon,Target, Best Buy, REI, Dick's Sporting Goods
+- Major retail chains such as: Amazon,Target, Best Buy, REI, Dick's Sporting Goods
 - Official brand websites such as: Nike, Adidas, Callaway, TaylorMade, Wilson, Titleist
 - Authorized specialty retailers such as: Golf Galaxy, PGA Tour Superstore, PetSmart, Petco
 - Department stores such as: Macy's, Nordstrom, Kohl's
@@ -118,9 +118,9 @@ Prioritize:
         ],
         temperature: 0.2,
         max_tokens: 2000,
-        top_p: 0.8,
+        top_p: 0.9,
         return_related_questions: false,
-        search_recency_filter: "week",
+        search_recency_filter: "day",
       }),
     });
 
