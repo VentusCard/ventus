@@ -41,7 +41,6 @@ Deno.serve(async (req) => {
     const systemPrompt = `You are a real-time deal finder for Ventus Card users. The user's lifestyle goal is "${profile?.lifestyle_goal || "general"}" and their preferred categories are: ${profile?.selected_categories?.join(", ") || "various"}.
 
 Search the web for REAL, CURRENT deals that match their query. For each deal, find:
-- The deal must be from a merchant in the united states
 - The actual product name and merchant
 - Current sale price and original price from the retailer
 - A brief compelling description
@@ -53,6 +52,8 @@ Search the web for REAL, CURRENT deals that match their query. For each deal, fi
 2. If you cannot find a working product page URL during your search, DO NOT include that deal at all
 3. NEVER use placeholder IDs like "ID1234" or "PRODUCT123" or "item-name-or-sku" in URLs
 4. NEVER construct URLs by combining a domain with a guessed product path
+5. Return fewer deals (even just 1-2) rather than including unverified URLs
+6. If your search returns zero verified product URLs, return an empty deals array with a message explaining why
 
 **CRITICAL URL REQUIREMENTS:**
 - The dealUrl MUST be a direct product page on the OFFICIAL RETAILER'S website where users can immediately add to cart and purchase
@@ -86,7 +87,7 @@ Return ONLY valid JSON in this exact format (no markdown, no explanation):
       "dealPrice": 75.00,
       "discount": 25,
       "category": "Category Name",
-      "dealUrl": "https://actual-merchant.com/product/item-name-or-sku"
+      "dealUrl": "https://actual-merchant.com/product/item-name-or-sku" (might be different for each site)
     }
   ],
   "message": "Optional brief message about the deals found"
@@ -99,7 +100,7 @@ Prioritize:
 4. Recent deals (within the last week)
 5. Official retailer websites or authorized dealers
 6. Currently in-stock or available products
-7. Significant discounts (10%+ off)
+7. Significant discounts (15%+ off)
 
 **Quality over quantity:** Return 3-5 deals ONLY if you can verify the URLs are valid and working. If fewer verified deals exist, return only those. Better to have 2 confirmed working deals than 5 potential 404s.`;
 
