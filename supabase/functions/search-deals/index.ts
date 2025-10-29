@@ -123,7 +123,7 @@ Prioritize:
         temperature: 0.2,
         max_tokens: 2000,
         return_related_questions: false,
-        search_recency_filter: "week",
+        search_recency_filter: "day",
       }),
     });
 
