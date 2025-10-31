@@ -344,7 +344,7 @@ export const AGE_RANGES: AgeRange[] = [
 
 // Calculate spending gaps
 export function getSpendingGaps(filters: BankwideFilters): SpendingGap[] {
-  return [
+  const gaps: SpendingGap[] = [
     {
       type: 'cross-sell',
       title: 'Travel Card Cross-Sell Opportunity',
@@ -458,6 +458,9 @@ export function getSpendingGaps(filters: BankwideFilters): SpendingGap[] {
       ]
     }
   ];
+
+  // Sort by opportunity amount (highest first)
+  return gaps.sort((a, b) => b.opportunityAmount - a.opportunityAmount);
 }
 
 // Calculate cross-sell opportunities
