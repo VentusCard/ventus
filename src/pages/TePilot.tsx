@@ -679,28 +679,22 @@ const TePilot = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                      {/* Left: Deal Recommendations (Active) */}
-                      <div>
-                        {recommendations && <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-                        total_estimated_value: {
-                          monthly: 0,
-                          annual: 0
-                        },
-                        message: "No recommendations available"
-                      }} />}
-                      </div>
-                      
-                      {/* Right: Wealth Management (Greyed Out) */}
-                      <div>
-                        <RelationshipManagementCard />
-                      </div>
-                    </div>
+                    {recommendations && <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
+                      total_estimated_value: {
+                        monthly: 0,
+                        annual: 0
+                      },
+                      message: "No recommendations available"
+                    }} />}
                     
-                    <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
-                      <Sparkles className="mr-2 h-5 w-5" />
-                      {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
-                    </Button>
+                    <div className="space-y-3">
+                      <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
+                        <Sparkles className="mr-2 h-5 w-5" />
+                        {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
+                      </Button>
+                      
+                      <RelationshipManagementCard />
+                    </div>
                   </CardContent>
                 </Card>
               </>
