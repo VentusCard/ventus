@@ -37,7 +37,14 @@ export function CrossSellMatrix({ matrixData }: CrossSellMatrixProps) {
     }
   };
 
-  const cardProducts = matrixData.map(row => row[0].fromCard);
+  // Extract row headers from first cell of each row
+  const rowHeaders = matrixData.map(row => row[0].fromCard);
+
+  // Extract column headers from all cells in the first row
+  const columnHeaders = matrixData.length > 0 
+    ? matrixData[0].map(cell => cell.toCard)
+    : [];
+
   const totalOpportunity = matrixData.flat().reduce((sum, cell) => sum + cell.annualOpportunity, 0);
 
   return (
@@ -61,14 +68,14 @@ export function CrossSellMatrix({ matrixData }: CrossSellMatrixProps) {
       </CardHeader>
       <CardContent>
         <div className="overflow-x-auto">
-          <div className="grid grid-cols-7 gap-0 border rounded-lg overflow-hidden min-w-[900px]">
+          <div className="grid gap-0 border rounded-lg overflow-hidden min-w-[900px]" style={{ gridTemplateColumns: `auto repeat(${columnHeaders.length}, 1fr)` }}>
             {/* Top-left empty corner */}
             <div className="bg-muted p-4 border-r border-b font-semibold text-sm">
               From / To
             </div>
             
             {/* Column headers (target cards) */}
-            {cardProducts.map((product) => (
+            {columnHeaders.map((product) => (
               <div 
                 key={`col-${product}`}
                 className="bg-muted p-3 border-r border-b font-semibold text-xs text-center"
@@ -85,7 +92,7 @@ export function CrossSellMatrix({ matrixData }: CrossSellMatrixProps) {
                   key={`row-${rowIndex}`}
                   className="bg-muted p-3 border-r border-b font-semibold text-xs flex items-center"
                 >
-                  {cardProducts[rowIndex]}
+                  {rowHeaders[rowIndex]}
                 </div>
                 
                 {/* Matrix cells */}
