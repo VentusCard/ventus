@@ -617,23 +617,46 @@ const TePilot = () => {
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            {/* View Toggle */}
-            <Card className="p-4">
-              <div className="flex items-center justify-center gap-2">
-                <Button
-                  variant={analyticsView === "single" ? "default" : "outline"}
-                  onClick={() => setAnalyticsView("single")}
-                  className="flex-1 max-w-xs"
-                >
-                  Single Customer View
-                </Button>
-                <Button
-                  variant={analyticsView === "bankwide" ? "default" : "outline"}
-                  onClick={() => setAnalyticsView("bankwide")}
-                  className="flex-1 max-w-xs"
-                >
-                  Bank-wide View (Example)
-                </Button>
+            {/* View Header */}
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <h2 className="text-2xl font-bold">
+                    {analyticsView === "single" ? "Single Customer Insights" : "Bank-wide Analytics"}
+                  </h2>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {analyticsView === "single" 
+                      ? "Detailed analysis of individual spending patterns and opportunities"
+                      : "Aggregated portfolio insights across 70M accounts • 45M users • $180B"}
+                  </p>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span className="text-sm text-muted-foreground">
+                    {analyticsView === "single" ? "Customer View" : "Bank-wide"}
+                  </span>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setAnalyticsView(analyticsView === "single" ? "bankwide" : "single")}
+                    className="gap-2"
+                  >
+                    {analyticsView === "single" ? (
+                      <>
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                        </svg>
+                        View Bank-wide
+                      </>
+                    ) : (
+                      <>
+                        <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                        </svg>
+                        View Customer
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </Card>
 
