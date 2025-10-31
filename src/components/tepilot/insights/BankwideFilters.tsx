@@ -42,77 +42,141 @@ export function BankwideFilters({ filters, onChange }: BankwideFiltersProps) {
     filters.ageRanges.length > 0;
 
   return (
-    <Card className="p-4">
-      <div className="flex items-center gap-3 flex-wrap">
-        <span className="text-sm font-semibold whitespace-nowrap">Filters:</span>
-        
-        {/* All Pills */}
-        <div className="flex flex-wrap gap-2 flex-1">
-          {CARD_PRODUCTS.map((product) => {
-            const isActive = filters.cardProducts.includes(product.name);
-            return (
-              <button
-                key={product.name}
-                onClick={() => toggleCardProduct(product.name)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
-                }`}
-              >
-                {product.name}
-              </button>
-            );
-          })}
-          
-          {GEOGRAPHIC_REGIONS.map((region) => {
-            const isActive = filters.regions.includes(region.name);
-            return (
-              <button
-                key={region.name}
-                onClick={() => toggleRegion(region.name)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
-                }`}
-              >
-                {region.name}
-              </button>
-            );
-          })}
-          
-          {AGE_RANGES.map((ageRange) => {
-            const isActive = filters.ageRanges.includes(ageRange.range);
-            return (
-              <button
-                key={ageRange.range}
-                onClick={() => toggleAgeRange(ageRange.range)}
-                className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
-                  isActive
-                    ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
-                    : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
-                }`}
-              >
-                {ageRange.range}
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Reset Button */}
+    <Card className="p-6 space-y-4">
+      <div className="flex items-center justify-between">
+        <h3 className="text-lg font-semibold">Filters</h3>
         {hasActiveFilters && (
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={resetFilters}
-            className="h-8 ml-auto"
+            className="h-8"
           >
-            <X className="h-4 w-4 mr-1" />
-            Reset
+            <X className="h-4 w-4 mr-2" />
+            Reset All
           </Button>
         )}
       </div>
+
+      {/* Card Products */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-muted-foreground min-w-[120px]">
+            Card Products:
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {CARD_PRODUCTS.map((product) => {
+              const isActive = filters.cardProducts.includes(product.name);
+              return (
+                <button
+                  key={product.name}
+                  onClick={() => toggleCardProduct(product.name)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
+                  }`}
+                >
+                  {product.name}
+                  {isActive && (
+                    <span className="ml-1.5 opacity-70">
+                      ({(product.accountCount / 1_000_000).toFixed(0)}M)
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Geographic Regions */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-muted-foreground min-w-[120px]">
+            Regions:
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {GEOGRAPHIC_REGIONS.map((region) => {
+              const isActive = filters.regions.includes(region.name);
+              return (
+                <button
+                  key={region.name}
+                  onClick={() => toggleRegion(region.name)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
+                  }`}
+                >
+                  {region.name}
+                  {isActive && (
+                    <span className="ml-1.5 opacity-70">
+                      ({(region.userCount / 1_000_000).toFixed(0)}M)
+                    </span>
+                  )}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Age Ranges */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2">
+          <span className="text-sm font-medium text-muted-foreground min-w-[120px]">
+            Age Ranges:
+          </span>
+          <div className="flex flex-wrap gap-2">
+            {AGE_RANGES.map((ageRange) => {
+              const isActive = filters.ageRanges.includes(ageRange.range);
+              return (
+                <button
+                  key={ageRange.range}
+                  onClick={() => toggleAgeRange(ageRange.range)}
+                  className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all duration-200 ${
+                    isActive
+                      ? 'bg-primary text-primary-foreground shadow-md hover:bg-primary/90'
+                      : 'bg-muted text-muted-foreground hover:bg-muted/80 hover:text-foreground'
+                  }`}
+                >
+                  {ageRange.range}
+                  <span className={`ml-1.5 text-xs ${isActive ? 'opacity-70' : ''}`}>
+                    {ageRange.label}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Active Filters Summary */}
+      {hasActiveFilters && (
+        <div className="pt-2 border-t">
+          <div className="flex items-center gap-2 text-xs text-muted-foreground">
+            <span>Active:</span>
+            <div className="flex flex-wrap gap-1">
+              {filters.cardProducts.length > 0 && (
+                <Badge variant="secondary" className="text-xs">
+                  {filters.cardProducts.length} Card{filters.cardProducts.length !== 1 ? 's' : ''}
+                </Badge>
+              )}
+              {filters.regions.length > 0 && (
+                <Badge variant="secondary" className="text-xs">
+                  {filters.regions.length} Region{filters.regions.length !== 1 ? 's' : ''}
+                </Badge>
+              )}
+              {filters.ageRanges.length > 0 && (
+                <Badge variant="secondary" className="text-xs">
+                  {filters.ageRanges.length} Age Range{filters.ageRanges.length !== 1 ? 's' : ''}
+                </Badge>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </Card>
   );
 }
