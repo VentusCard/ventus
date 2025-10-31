@@ -288,7 +288,11 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V1.4 - Current</p>
+                      <p className="font-semibold">V2.0 - Current</p>
+                      <p>Added bank-wide macro analytics tool. Now allows user to upload multiple files to process.</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V1.4 - October 2025</p>
                       <p>Support for multiple file uploads including PDF bank statements (MCCs might not be available in PDFs)</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
