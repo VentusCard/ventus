@@ -4,6 +4,24 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowUpDown } from "lucide-react";
 import { useState } from "react";
 import type { CardProduct } from "@/types/bankwide";
+import { PILLAR_COLORS } from "@/lib/sampleData";
+
+// Extended pillar colors for all pillars used in bankwide data
+const PILLAR_COLOR_MAP: Record<string, string> = {
+  "Food & Dining": "#f59e0b",
+  "Travel & Exploration": "#8b5cf6",
+  "Style & Beauty": "#f43f5e",
+  "Home & Living": "#ec4899",
+  "Entertainment & Culture": "#6366f1",
+  "Health & Wellness": "#10b981",
+  "Learning & Growth": "#3b82f6",
+  "Family & Relationships": "#14b8a6",
+  "Professional & Career": "#a855f7",
+  "Technology & Innovation": "#ef4444",
+  "Transportation": "#06b6d4",
+  "Miscellaneous & Unclassified": "#64748b",
+  ...PILLAR_COLORS
+};
 
 interface CardProductMatrixProps {
   products: CardProduct[];
@@ -112,7 +130,15 @@ export function CardProductMatrix({ products }: CardProductMatrixProps) {
                   </TableCell>
                   <TableCell>{formatCurrency(product.avgSpendPerAccount)}</TableCell>
                   <TableCell>
-                    <Badge variant="outline">{product.topPillar}</Badge>
+                    <Badge 
+                      variant="outline"
+                      style={{ 
+                        borderColor: PILLAR_COLOR_MAP[product.topPillar] || "#64748b",
+                        color: PILLAR_COLOR_MAP[product.topPillar] || "#64748b"
+                      }}
+                    >
+                      {product.topPillar}
+                    </Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
