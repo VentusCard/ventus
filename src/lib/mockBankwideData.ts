@@ -414,6 +414,48 @@ export function getSpendingGaps(filters: BankwideFilters): SpendingGap[] {
         'Bundle offer: Travel + Hotel cards with joint benefits',
         'Show hotel spending analysis in app'
       ]
+    },
+    {
+      type: 'pillar',
+      title: 'Dining & Entertainment Rewards Gap',
+      currentState: 'Only 22% of users maximize dining rewards potential',
+      potentialState: 'Increase dining category penetration to 40%',
+      opportunityAmount: 2_100_000_000,
+      affectedUsers: 18_500_000,
+      priority: 'high',
+      recommendations: [
+        'Partner with popular restaurant chains for exclusive offers',
+        'Launch dining rewards multiplier program',
+        'Create food delivery service partnerships'
+      ]
+    },
+    {
+      type: 'pillar',
+      title: 'Sports & Active Living Underutilization',
+      currentState: '12% of customers actively use cards for sports/fitness',
+      potentialState: 'Expand to 25% with targeted sports partnerships',
+      opportunityAmount: 1_600_000_000,
+      affectedUsers: 9_750_000,
+      priority: 'medium',
+      recommendations: [
+        'Partner with sporting goods retailers',
+        'Offer enhanced rewards for fitness memberships',
+        'Create athlete endorsement programs'
+      ]
+    },
+    {
+      type: 'demographic',
+      title: 'Family & Childcare Spending Opportunity',
+      currentState: 'Only 8% penetration in family/childcare categories',
+      potentialState: 'Target families with dedicated rewards program',
+      opportunityAmount: 1_950_000_000,
+      affectedUsers: 12_000_000,
+      priority: 'low',
+      recommendations: [
+        'Launch family-focused cashback card',
+        'Partner with childcare providers and education services',
+        'Create back-to-school bonus categories'
+      ]
     }
   ];
 }
