@@ -77,11 +77,3 @@ export interface PillarDetail {
   topRegions: Array<{ name: string; spend: number }>;
   ageBreakdown: Record<string, number>;
 }
-
-export interface CrossSellMatrixCell {
-  fromCard: string;
-  toCard: string;
-  annualOpportunity: number;
-  potentialUsers: number;
-  opportunityLevel: 'high' | 'medium' | 'low' | 'none';
-}
