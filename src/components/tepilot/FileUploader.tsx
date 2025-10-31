@@ -1,8 +1,15 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, File, X } from "lucide-react";
+import { Upload, File, X, Sparkles, HelpCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 interface FileUploaderProps {
   onFileSelect: (file: File) => void;
@@ -62,22 +69,30 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
         </AlertDescription>
       </Alert>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium">
-          Home ZIP Code (Optional)
-        </label>
-        <input
-          type="text"
-          placeholder="e.g., 10001"
-          value={anchorZip}
-          onChange={(e) => onAnchorZipChange(e.target.value)}
-          maxLength={5}
-          className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-        />
-        <p className="text-xs text-muted-foreground">
-          Your primary residence ZIP code for travel detection
-        </p>
-      </div>
+      <TooltipProvider>
+        <div className="space-y-2">
+          <label className="text-sm font-medium flex items-center gap-2">
+            <Sparkles className="h-4 w-4" />
+            Anchor ZIP Code (Optional)
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Used for travel analysis</p>
+              </TooltipContent>
+            </Tooltip>
+          </label>
+          <Input
+            type="text"
+            placeholder="e.g., 94102"
+            value={anchorZip}
+            onChange={(e) => onAnchorZipChange(e.target.value)}
+            maxLength={5}
+            className="font-mono"
+          />
+        </div>
+      </TooltipProvider>
 
       <div
         className={cn(
