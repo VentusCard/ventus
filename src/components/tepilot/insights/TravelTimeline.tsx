@@ -9,7 +9,7 @@ interface TravelTimelineProps {
 export function TravelTimeline({
   transactions
 }: TravelTimelineProps) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const travelTransactions = transactions.filter(t => t.travel_context?.is_travel_related);
   const travelSpend = travelTransactions.reduce((sum, t) => sum + t.amount, 0);
   const reclassifiedCount = travelTransactions.filter(t => t.travel_context?.original_pillar !== "Travel & Experiences").length;
