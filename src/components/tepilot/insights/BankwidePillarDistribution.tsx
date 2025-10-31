@@ -1,22 +1,27 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { PILLAR_COLORS } from "@/lib/sampleData";
 
 interface BankwidePillarDistributionProps {
   distribution: Record<string, number>;
 }
 
-const COLORS = [
-  'hsl(var(--chart-1))',
-  'hsl(var(--chart-2))',
-  'hsl(var(--chart-3))',
-  'hsl(var(--chart-4))',
-  'hsl(var(--chart-5))',
-  'hsl(var(--primary))',
-  'hsl(var(--secondary))',
-  'hsl(var(--accent))',
-  'hsl(var(--muted))',
-  'hsl(var(--destructive))',
-];
+// Extended pillar colors to include all pillars used in bankwide data
+const PILLAR_COLOR_MAP: Record<string, string> = {
+  "Food & Dining": "#f59e0b",
+  "Travel & Exploration": "#8b5cf6",
+  "Style & Beauty": "#f43f5e",
+  "Home & Living": "#ec4899",
+  "Entertainment & Culture": "#6366f1",
+  "Health & Wellness": "#10b981",
+  "Learning & Growth": "#3b82f6",
+  "Family & Relationships": "#14b8a6",
+  "Professional & Career": "#a855f7",
+  "Technology & Innovation": "#ef4444",
+  "Transportation": "#06b6d4",
+  "Miscellaneous & Unclassified": "#64748b",
+  ...PILLAR_COLORS
+};
 
 export function BankwidePillarDistribution({ distribution }: BankwidePillarDistributionProps) {
   const chartData = Object.entries(distribution)
@@ -74,7 +79,7 @@ export function BankwidePillarDistribution({ distribution }: BankwidePillarDistr
               {chartData.map((entry, index) => (
                 <Cell 
                   key={`cell-${index}`} 
-                  fill={COLORS[index % COLORS.length]}
+                  fill={PILLAR_COLOR_MAP[entry.name] || "#64748b"}
                   className="hover:opacity-80 transition-opacity"
                 />
               ))}
