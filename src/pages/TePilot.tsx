@@ -325,7 +325,7 @@ const TePilot = () => {
                         <h4 className="font-semibold text-sm">AI Pattern Analysis</h4>
                       </div>
                       <p className="text-sm text-muted-foreground">
-                        Uncover hidden spending behaviors and trends across lifestyle pillars, merchant patterns, and travel behaviors for deeper customer understanding. <strong className="text-primary">Prediction capabilities coming soon.</strong>
+                        Uncover hidden spending behaviors and trends across lifestyle pillars, merchant patterns, and travel behaviors for deeper customer understanding. <span className="text-primary">Prediction capabilities coming soon.</span>
                       </p>
                     </div>
                     <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
