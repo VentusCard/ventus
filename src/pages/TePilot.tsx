@@ -25,6 +25,7 @@ import { PillarExplorer } from "@/components/tepilot/insights/PillarExplorer";
 import { BeforeAfterTransformation } from "@/components/tepilot/insights/BeforeAfterTransformation";
 import { BankwideView } from "@/components/tepilot/insights/BankwideView";
 import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
+import { RelationshipManagementCard } from "@/components/tepilot/RelationshipManagementCard";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
@@ -674,21 +675,36 @@ const TePilot = () => {
                   <CardHeader>
                     <CardTitle>Ventus AI Revenue Opportunity Recommendations</CardTitle>
                     <CardDescription>
-                      Generate example deal recommendations based on spending patterns
+                      Generate deal recommendations and view wealth management analysis
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {recommendations && <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-                    total_estimated_value: {
-                      monthly: 0,
-                      annual: 0
-                    },
-                    message: "No recommendations available"
-                  }} />}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                      {/* Left: Deal Recommendations (Active) */}
+                      <div>
+                        {recommendations && <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
+                        total_estimated_value: {
+                          monthly: 0,
+                          annual: 0
+                        },
+                        message: "No recommendations available"
+                      }} />}
+                      </div>
+                      
+                      {/* Right: Wealth Management (Greyed Out) */}
+                      <div>
+                        <RelationshipManagementCard />
+                      </div>
+                    </div>
                     
-                    <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
-                      {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
-                    </Button>
+                    <div className="space-y-2">
+                      <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
+                        {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
+                      </Button>
+                      <p className="text-xs text-center text-muted-foreground">
+                        💡 Wealth Management Analysis requires custom edge function (coming soon)
+                      </p>
+                    </div>
                   </CardContent>
                 </Card>
               </>
