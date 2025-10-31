@@ -100,7 +100,7 @@ const TePilot = () => {
         }
         result = parsePastedText(textToParse);
       } else if (file || uploadedFile) {
-        result = await parseFile(file || uploadedFile!);
+        result = await parseFile(file || uploadedFile!, anchorZip);
       } else {
         toast.error("No data to parse");
         return;
@@ -546,7 +546,7 @@ const TePilot = () => {
             setRawInput(data);
             setAnchorZip(zip);
           }}>
-                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={file => handleParse(file)} />}
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={file => handleParse(file)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} />}
               </UploadOrPasteContainer>}
           </TabsContent>
 

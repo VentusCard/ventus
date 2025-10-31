@@ -22,33 +22,33 @@ export interface MappingResult {
 }
 
 // Main parser dispatcher
-export async function parseFile(file: File): Promise<MappingResult> {
+export async function parseFile(file: File, homeZip?: string): Promise<MappingResult> {
   const extension = file.name.split(".").pop()?.toLowerCase();
 
   switch (extension) {
     case "csv":
-      return parseCSV(file);
+      return parseCSV(file, homeZip);
     case "json":
-      return parseJSON(file);
+      return parseJSON(file, homeZip);
     case "xlsx":
     case "xls":
-      return parseXLSX(file);
+      return parseXLSX(file, homeZip);
     case "pdf":
-      return parsePDF(file);
+      return parsePDF(file, homeZip);
     default:
       throw new Error(`Unsupported file format: ${extension}`);
   }
 }
 
 // CSV Parser using Papa Parse
-export async function parseCSV(file: File): Promise<MappingResult> {
+export async function parseCSV(file: File, homeZip?: string): Promise<MappingResult> {
   return new Promise((resolve, reject) => {
     Papa.parse(file, {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
         try {
-          const result = mapColumns(results.meta.fields || [], results.data);
+          const result = mapColumns(results.meta.fields || [], results.data, homeZip);
           resolve(result);
         } catch (error) {
           reject(error);
@@ -62,7 +62,7 @@ export async function parseCSV(file: File): Promise<MappingResult> {
 }
 
 // JSON Parser
-export async function parseJSON(file: File): Promise<MappingResult> {
+export async function parseJSON(file: File, homeZip?: string): Promise<MappingResult> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     
@@ -77,7 +77,7 @@ export async function parseJSON(file: File): Promise<MappingResult> {
         }
 
         const headers = Object.keys(data[0] || {});
-        const result = mapColumns(headers, data);
+        const result = mapColumns(headers, data, homeZip);
         resolve(result);
       } catch (error) {
         reject(new Error(`JSON parsing failed: ${error.message}`));
@@ -90,7 +90,7 @@ export async function parseJSON(file: File): Promise<MappingResult> {
 }
 
 // XLSX Parser using SheetJS
-export async function parseXLSX(file: File): Promise<MappingResult> {
+export async function parseXLSX(file: File, homeZip?: string): Promise<MappingResult> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -116,7 +116,7 @@ export async function parseXLSX(file: File): Promise<MappingResult> {
           return obj;
         });
 
-        const result = mapColumns(headers, rows);
+        const result = mapColumns(headers, rows, homeZip);
         resolve(result);
       } catch (error) {
         reject(new Error(`XLSX parsing failed: ${error.message}`));
@@ -129,7 +129,7 @@ export async function parseXLSX(file: File): Promise<MappingResult> {
 }
 
 // PDF Parser using AI
-export async function parsePDF(file: File): Promise<MappingResult> {
+export async function parsePDF(file: File, homeZip?: string): Promise<MappingResult> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
 
@@ -158,7 +158,8 @@ export async function parsePDF(file: File): Promise<MappingResult> {
             },
             body: JSON.stringify({
               fileData: dataUri,
-              fileName: file.name
+              fileName: file.name,
+              homeZip: homeZip
             })
           }
         );

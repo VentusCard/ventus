@@ -7,9 +7,11 @@ import { cn } from "@/lib/utils";
 interface FileUploaderProps {
   onFileSelect: (file: File) => void;
   onParse: (file?: File) => void;
+  anchorZip: string;
+  onAnchorZipChange: (value: string) => void;
 }
 
-export function FileUploader({ onFileSelect, onParse }: FileUploaderProps) {
+export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChange }: FileUploaderProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -59,6 +61,23 @@ export function FileUploader({ onFileSelect, onParse }: FileUploaderProps) {
           <strong>Supported formats:</strong> CSV, JSON, XLSX, PDF (max 10MB)
         </AlertDescription>
       </Alert>
+
+      <div className="space-y-2">
+        <label className="text-sm font-medium">
+          Home ZIP Code (Optional)
+        </label>
+        <input
+          type="text"
+          placeholder="e.g., 10001"
+          value={anchorZip}
+          onChange={(e) => onAnchorZipChange(e.target.value)}
+          maxLength={5}
+          className="w-full px-3 py-2 border border-border rounded-lg bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+        />
+        <p className="text-xs text-muted-foreground">
+          Your primary residence ZIP code for travel detection
+        </p>
+      </div>
 
       <div
         className={cn(
