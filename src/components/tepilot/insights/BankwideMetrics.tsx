@@ -51,9 +51,9 @@ export function BankwideMetrics({ metrics }: BankwideMetricsProps) {
       bgColor: "bg-orange-50"
     },
     {
-      title: "Cross-Sell Rate",
-      value: `${metrics.crossSellRate.toFixed(1)}%`,
-      subtitle: "Users with 2+ products",
+      title: "Avg Transaction Amount",
+      value: `$${((metrics.totalAnnualSpend / (metrics.avgTransactionsPerAccount * metrics.totalAccounts)) / 12).toFixed(0)}`,
+      subtitle: "Per transaction",
       icon: Target,
       color: "text-pink-600",
       bgColor: "bg-pink-50"
