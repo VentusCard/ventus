@@ -67,7 +67,7 @@ export function SpendingGapsAnalysis({ gaps }: SpendingGapsAnalysisProps) {
         </p>
       </div>
 
-      <Accordion type="multiple" className="space-y-2">
+      <Accordion type="multiple" className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {gaps.map((gap, index) => {
           const Icon = getIcon(gap.type);
           return (
