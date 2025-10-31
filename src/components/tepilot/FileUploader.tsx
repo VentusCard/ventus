@@ -199,7 +199,7 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
             size="lg"
           >
             <Scan className="w-4 h-4 mr-2" />
-            Parse {selectedFiles.length} File{selectedFiles.length > 1 ? 's' : ''}
+            Process and Preview
           </Button>
         </div>
       )}
