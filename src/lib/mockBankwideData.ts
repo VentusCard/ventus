@@ -683,7 +683,7 @@ export function getCrossSellMatrix(filters: BankwideFilters = { cardProducts: []
 
       // Estimate users with fromCard but not toCard (15-40% depending on card compatibility)
       const pillarOverlap = calculatePillarOverlap(fromProduct, toProduct);
-      const crossSellRate = 0.15 + (pillarOverlap * 0.25); // 15% to 40% based on pillar alignment
+      const crossSellRate = 0.02 + (pillarOverlap * 0.06); // 2% to 8% based on pillar alignment
       const potentialUsers = Math.floor(fromProduct.uniqueUsers * crossSellRate * userMultiplier);
 
       // Calculate annual opportunity based on incremental spend (20% of toCard's average spend)
@@ -692,9 +692,9 @@ export function getCrossSellMatrix(filters: BankwideFilters = { cardProducts: []
 
       // Determine opportunity level (adjusted for incremental spend)
       let opportunityLevel: 'high' | 'medium' | 'low' | 'none';
-      if (annualOpportunity > 300_000_000 || potentialUsers > 5_000_000) {
+      if (annualOpportunity > 50_000_000 || potentialUsers > 800_000) {
         opportunityLevel = 'high';
-      } else if (annualOpportunity > 100_000_000 || potentialUsers > 2_000_000) {
+      } else if (annualOpportunity > 20_000_000 || potentialUsers > 400_000) {
         opportunityLevel = 'medium';
       } else {
         opportunityLevel = 'low';
