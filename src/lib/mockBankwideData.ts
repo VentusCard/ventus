@@ -35,11 +35,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
       'Home & Living': 11,
       'Entertainment & Culture': 10,
       'Health & Wellness': 8,
-      'Learning & Growth': 4,
-      'Family & Relationships': 5,
-      'Professional & Career': 3,
-      'Technology & Innovation': 5,
-      'Transportation': 12,
+      'Financial & Aspirational': 4,
+      'Family & Community': 5,
+      'Sports & Active Living': 3,
+      'Technology & Digital Life': 5,
+      'Pets': 12,
       'Miscellaneous & Unclassified': 4
     },
     crossSellScore: 8.2
@@ -59,11 +59,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
       'Home & Living': 12,
       'Entertainment & Culture': 9,
       'Health & Wellness': 7,
-      'Learning & Growth': 5,
-      'Family & Relationships': 6,
-      'Professional & Career': 4,
-      'Technology & Innovation': 6,
-      'Transportation': 11,
+      'Financial & Aspirational': 5,
+      'Family & Community': 6,
+      'Sports & Active Living': 4,
+      'Technology & Digital Life': 6,
+      'Pets': 11,
       'Miscellaneous & Unclassified': 5
     },
     crossSellScore: 7.5
@@ -83,11 +83,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
       'Home & Living': 6,
       'Entertainment & Culture': 13,
       'Health & Wellness': 5,
-      'Learning & Growth': 4,
-      'Family & Relationships': 3,
-      'Professional & Career': 2,
-      'Technology & Innovation': 4,
-      'Transportation': 9,
+      'Financial & Aspirational': 4,
+      'Family & Community': 3,
+      'Sports & Active Living': 2,
+      'Technology & Digital Life': 4,
+      'Pets': 9,
       'Miscellaneous & Unclassified': 3
     },
     crossSellScore: 6.8
@@ -107,11 +107,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
       'Home & Living': 4,
       'Entertainment & Culture': 11,
       'Health & Wellness': 4,
-      'Learning & Growth': 3,
-      'Family & Relationships': 2,
-      'Professional & Career': 3,
-      'Technology & Innovation': 3,
-      'Transportation': 10,
+      'Financial & Aspirational': 3,
+      'Family & Community': 2,
+      'Sports & Active Living': 3,
+      'Technology & Digital Life': 3,
+      'Pets': 10,
       'Miscellaneous & Unclassified': 2
     },
     crossSellScore: 5.4
@@ -131,11 +131,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
       'Home & Living': 5,
       'Entertainment & Culture': 12,
       'Health & Wellness': 4,
-      'Learning & Growth': 3,
-      'Family & Relationships': 2,
-      'Professional & Career': 2,
-      'Technology & Innovation': 3,
-      'Transportation': 9,
+      'Financial & Aspirational': 3,
+      'Family & Community': 2,
+      'Sports & Active Living': 2,
+      'Technology & Digital Life': 3,
+      'Pets': 9,
       'Miscellaneous & Unclassified': 3
     },
     crossSellScore: 4.9
@@ -155,11 +155,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
       'Home & Living': 5,
       'Entertainment & Culture': 11,
       'Health & Wellness': 5,
-      'Learning & Growth': 4,
-      'Family & Relationships': 3,
-      'Professional & Career': 3,
-      'Technology & Innovation': 4,
-      'Transportation': 7,
+      'Financial & Aspirational': 4,
+      'Family & Community': 3,
+      'Sports & Active Living': 3,
+      'Technology & Digital Life': 4,
+      'Pets': 7,
       'Miscellaneous & Unclassified': 3
     },
     crossSellScore: 3.2
@@ -257,7 +257,7 @@ export const AGE_RANGES: AgeRange[] = [
       'Style & Beauty': 32,
       'Food & Dining': 24,
       'Entertainment & Culture': 18,
-      'Transportation': 12,
+      'Pets': 12,
       'Health & Wellness': 6,
       'Miscellaneous & Unclassified': 8
     }
@@ -273,7 +273,7 @@ export const AGE_RANGES: AgeRange[] = [
       'Food & Dining': 22,
       'Travel & Exploration': 18,
       'Entertainment & Culture': 12,
-      'Transportation': 10,
+      'Pets': 10,
       'Health & Wellness': 5,
       'Miscellaneous & Unclassified': 5
     }
@@ -289,7 +289,7 @@ export const AGE_RANGES: AgeRange[] = [
       'Travel & Exploration': 22,
       'Food & Dining': 20,
       'Home & Living': 12,
-      'Transportation': 10,
+      'Pets': 10,
       'Health & Wellness': 5,
       'Miscellaneous & Unclassified': 5
     }
