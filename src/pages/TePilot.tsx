@@ -251,7 +251,7 @@ const TePilot = () => {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
         <Card className="w-full max-w-6xl">
           <CardHeader>
-            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment Core</CardTitle>
+            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment & Analytics Tool</CardTitle>
             <CardDescription className="text-base">
               Unlock deep customer insights from existing data with next-generation contextual AI
               <Accordion type="single" collapsible className="w-full mt-2">
