@@ -575,12 +575,6 @@ export function getBankwideMetrics(filters: BankwideFilters): BankwideMetrics {
 
 // Get pillar distribution based on filters
 export function getPillarDistribution(filters: BankwideFilters): Record<string, number> {
-  // Initialize all pillars with 0
-  const distribution: Record<string, number> = {};
-  PILLARS.forEach(pillar => {
-    distribution[pillar] = 0;
-  });
-  
   let productsToAggregate = CARD_PRODUCTS;
   if (filters.cardProducts.length > 0) {
     productsToAggregate = CARD_PRODUCTS.filter(p => 
@@ -590,21 +584,35 @@ export function getPillarDistribution(filters: BankwideFilters): Record<string, 
 
   // If no products match filters, return empty distribution
   if (productsToAggregate.length === 0) {
-    return distribution;
+    const emptyDistribution: Record<string, number> = {};
+    PILLARS.forEach(pillar => {
+      emptyDistribution[pillar] = 0;
+    });
+    return emptyDistribution;
   }
 
-  // Weighted average based on account count
-  const totalAccounts = productsToAggregate.reduce((sum, p) => sum + p.accountCount, 0);
+  // Calculate actual dollar amounts for each pillar
+  const pillarSpending: Record<string, number> = {};
+  let totalSpend = 0;
   
-  PILLARS.forEach(pillar => {
-    distribution[pillar] = productsToAggregate.reduce((sum, product) => {
-      const weight = product.accountCount / totalAccounts;
-      const pillarValue = product.pillarDistribution[pillar] || 0;
-      return sum + (pillarValue * weight);
-    }, 0);
+  productsToAggregate.forEach(card => {
+    const cardTotalSpend = card.accountCount * card.avgSpendPerAccount;
+    totalSpend += cardTotalSpend;
+    
+    Object.entries(card.pillarDistribution).forEach(([pillar, percentage]) => {
+      const pillarAmount = cardTotalSpend * (percentage / 100);
+      pillarSpending[pillar] = (pillarSpending[pillar] || 0) + pillarAmount;
+    });
   });
 
-  return distribution;
+  // Convert dollar amounts to percentages
+  const pillarPercentages: Record<string, number> = {};
+  PILLARS.forEach(pillar => {
+    const amount = pillarSpending[pillar] || 0;
+    pillarPercentages[pillar] = totalSpend > 0 ? (amount / totalSpend) * 100 : 0;
+  });
+
+  return pillarPercentages;
 }
 
 // Get filtered card products
