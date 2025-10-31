@@ -251,7 +251,7 @@ const TePilot = () => {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
         <Card className="w-full max-w-6xl">
           <CardHeader>
-            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment Pilot</CardTitle>
+            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment Core</CardTitle>
             <CardDescription className="text-base">
               Unlock customer insights with next-generation transaction categorization powered by semantic AI
               <Accordion type="single" collapsible className="w-full mt-2">
@@ -546,7 +546,7 @@ const TePilot = () => {
             setRawInput(data);
             setAnchorZip(zip);
           }}>
-                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={(file) => handleParse(file)} />}
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={file => handleParse(file)} />}
               </UploadOrPasteContainer>}
           </TabsContent>
 
@@ -602,18 +602,13 @@ const TePilot = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
-                {recommendations && (
-                  <RecommendationsCard 
-                    recommendations={recommendations.recommendations || []} 
-                    summary={recommendations.summary || {
-                      total_estimated_value: {
-                        monthly: 0,
-                        annual: 0
-                      },
-                      message: "No recommendations available"
-                    }} 
-                  />
-                )}
+                {recommendations && <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
+                total_estimated_value: {
+                  monthly: 0,
+                  annual: 0
+                },
+                message: "No recommendations available"
+              }} />}
                 
                 <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
                   {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
