@@ -622,7 +622,7 @@ const TePilot = () => {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-bold">
-                    {analyticsView === "single" ? "Single Customer Insights" : "Bank-wide Analytics"}
+                    {analyticsView === "single" ? "Customer Lifestyle Dashboard" : "Bank-wide Analytics"}
                   </h2>
                   <p className="text-sm text-muted-foreground mt-1">
                     {analyticsView === "single" 
