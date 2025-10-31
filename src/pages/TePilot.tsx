@@ -313,7 +313,7 @@ const TePilot = () => {
                     <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
                       <div className="flex items-center gap-2">
                         <Brain className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">AI Enrichment</h4>
+                        <h4 className="font-semibold text-sm">Transaction Enrichment</h4>
                       </div>
                       <p className="text-sm text-muted-foreground">
                         Semantic AI enriches raw transaction data with lifestyle categories, merchant context, and travel indicators, each tagged with confidence scores and explanations for quality assurance.
@@ -322,7 +322,7 @@ const TePilot = () => {
                     <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
                       <div className="flex items-center gap-2">
                         <TrendingUp className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">AI Pattern Analysis</h4>
+                        <h4 className="font-semibold text-sm">Pattern Analysis & Prediction</h4>
                       </div>
                       <p className="text-sm text-muted-foreground">
                         Uncover hidden spending behaviors and trends across lifestyle pillars, merchant patterns, and travel behaviors for deeper customer understanding. <span className="text-primary">Prediction capabilities coming soon.</span>
@@ -331,7 +331,7 @@ const TePilot = () => {
                     <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
                       <div className="flex items-center gap-2">
                         <Sparkles className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">AI Recommendations</h4>
+                        <h4 className="font-semibold text-sm">Insights and Recommendation</h4>
                       </div>
                       <p className="text-sm text-muted-foreground">
                         Transform insights into actionable marketing signals and reward engine parameters, ready for seamless integration into your customer engagement platforms.
