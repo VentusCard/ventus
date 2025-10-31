@@ -12,13 +12,78 @@ export interface MappingResult {
   transactions?: Transaction[];
 }
 
-// Column mapping result type
-export interface MappingResult {
-  needsMapping: boolean;
-  headers?: string[];
-  rows?: any[];
-  suggestedMapping?: Record<string, string | null>;
-  transactions?: Transaction[];
+// Multi-file parser with progress tracking
+export async function parseMultipleFiles(
+  files: File[], 
+  homeZip?: string,
+  onProgress?: (current: number, total: number, fileName: string) => void
+): Promise<MappingResult> {
+  if (files.length === 0) {
+    throw new Error("No files provided");
+  }
+
+  // If single file, just use regular parser
+  if (files.length === 1) {
+    return parseFile(files[0], homeZip);
+  }
+
+  const allTransactions: Transaction[] = [];
+  const errors: string[] = [];
+  let needsMappingFile: { file: File; result: MappingResult } | null = null;
+
+  for (let i = 0; i < files.length; i++) {
+    const file = files[i];
+    
+    try {
+      onProgress?.(i + 1, files.length, file.name);
+      
+      const result = await parseFile(file, homeZip);
+      
+      if (result.needsMapping) {
+        // Store the first file that needs mapping
+        if (!needsMappingFile) {
+          needsMappingFile = { file, result };
+        }
+        continue;
+      }
+
+      if (result.transactions) {
+        // Add source file metadata to transactions
+        const transactionsWithSource = result.transactions.map((t, idx) => ({
+          ...t,
+          transaction_id: `${file.name}_${t.transaction_id || idx}`,
+        }));
+        allTransactions.push(...transactionsWithSource);
+      }
+    } catch (error: any) {
+      errors.push(`${file.name}: ${error.message}`);
+    }
+  }
+
+  // If any file needs mapping, return the first one
+  if (needsMappingFile) {
+    return {
+      ...needsMappingFile.result,
+      // Add note about pending files
+      headers: needsMappingFile.result.headers,
+      rows: needsMappingFile.result.rows,
+      suggestedMapping: needsMappingFile.result.suggestedMapping
+    };
+  }
+
+  // Show errors if any
+  if (errors.length > 0) {
+    console.warn("Some files failed to parse:", errors);
+  }
+
+  if (allTransactions.length === 0) {
+    throw new Error(`Failed to parse any transactions. Errors: ${errors.join("; ")}`);
+  }
+
+  return {
+    needsMapping: false,
+    transactions: allTransactions
+  };
 }
 
 // Main parser dispatcher

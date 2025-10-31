@@ -24,7 +24,7 @@ import { PillarExplorer } from "@/components/tepilot/insights/PillarExplorer";
 import { BeforeAfterTransformation } from "@/components/tepilot/insights/BeforeAfterTransformation";
 import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
-import { parseFile, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
+import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
 import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
@@ -34,7 +34,7 @@ const TePilot = () => {
   const [activeTab, setActiveTab] = useState("upload");
   const [inputMode, setInputMode] = useState<"paste" | "upload">("paste");
   const [rawInput, setRawInput] = useState("");
-  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [anchorZip, setAnchorZip] = useState("");
   const [parsedTransactions, setParsedTransactions] = useState<Transaction[]>([]);
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
@@ -82,7 +82,7 @@ const TePilot = () => {
       setPassword("");
     }
   };
-  const handleParse = async (file?: File) => {
+  const handleParse = async (files?: File[]) => {
     try {
       let result: MappingResult;
       if (inputMode === "paste") {
@@ -99,8 +99,32 @@ const TePilot = () => {
           textToParse = `# Home ZIP Code: ${zipValue}\n${textToParse}`;
         }
         result = parsePastedText(textToParse);
-      } else if (file || uploadedFile) {
-        result = await parseFile(file || uploadedFile!, anchorZip);
+      } else if (files && files.length > 0) {
+        // Multi-file parsing with progress
+        const progressToast = toast.loading("Processing files...");
+        
+        result = await parseMultipleFiles(
+          files, 
+          anchorZip,
+          (current, total, fileName) => {
+            toast.loading(`Processing ${current} of ${total}: ${fileName}`, { id: progressToast });
+          }
+        );
+        
+        toast.dismiss(progressToast);
+      } else if (uploadedFiles.length > 0) {
+        // Use stored files
+        const progressToast = toast.loading("Processing files...");
+        
+        result = await parseMultipleFiles(
+          uploadedFiles, 
+          anchorZip,
+          (current, total, fileName) => {
+            toast.loading(`Processing ${current} of ${total}: ${fileName}`, { id: progressToast });
+          }
+        );
+        
+        toast.dismiss(progressToast);
       } else {
         toast.error("No data to parse");
         return;
@@ -511,7 +535,7 @@ const TePilot = () => {
 
           // Clear all input data
           setRawInput("");
-          setUploadedFile(null);
+          setUploadedFiles([]);
           setPendingMapping(null);
           setAnchorZip("");
 
@@ -546,7 +570,7 @@ const TePilot = () => {
             setRawInput(data);
             setAnchorZip(zip);
           }}>
-                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFile} onParse={file => handleParse(file)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} />}
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} />}
               </UploadOrPasteContainer>}
           </TabsContent>
 
