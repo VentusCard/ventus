@@ -72,7 +72,7 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
       <TooltipProvider>
         <div className="space-y-2">
           <label className="text-sm font-medium flex items-center gap-2">
-            <Sparkles className="h-4 w-4" />
+            <Sparkles className="h-4 w-4 text-blue-600" />
             Anchor ZIP Code (Optional)
             <Tooltip>
               <TooltipTrigger asChild>
