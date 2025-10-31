@@ -494,7 +494,7 @@ const TePilot = () => {
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment and Analytics Tool</h1>
-            <p className="text-muted-foreground mt-2">Discover how Ventus understands spending beyond MCC codes</p>
+            <p className="text-muted-foreground mt-2">Unlock deep customer insights from existing data with next-generation contextual AI</p>
           </div>
         <Button variant="outline" onClick={() => {
           // Clear authentication
