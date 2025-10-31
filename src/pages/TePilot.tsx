@@ -538,7 +538,7 @@ const TePilot = () => {
             <TabsTrigger value="upload">Upload</TabsTrigger>
             <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
             <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Enrichment</TabsTrigger>
-            <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Insights</TabsTrigger>
+            <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Analytics</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">
