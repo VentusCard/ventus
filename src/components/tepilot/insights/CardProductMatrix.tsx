@@ -106,15 +106,6 @@ export function CardProductMatrix({ products }: CardProductMatrixProps) {
                   </div>
                 </TableHead>
                 <TableHead className="font-semibold">Top Pillar</TableHead>
-                <TableHead 
-                  className="cursor-pointer hover:bg-muted/50 font-semibold"
-                  onClick={() => handleSort('crossSellScore')}
-                >
-                  <div className="flex items-center gap-1">
-                    Cross-Sell Score
-                    <ArrowUpDown className="h-3 w-3" />
-                  </div>
-                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -139,19 +130,6 @@ export function CardProductMatrix({ products }: CardProductMatrixProps) {
                     >
                       {product.topPillar}
                     </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center gap-2">
-                      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                        <div 
-                          className="h-full bg-primary" 
-                          style={{ width: `${(product.crossSellScore / 10) * 100}%` }}
-                        />
-                      </div>
-                      <span className="text-sm text-muted-foreground">
-                        {product.crossSellScore.toFixed(1)}
-                      </span>
-                    </div>
                   </TableCell>
                 </TableRow>
               ))}
