@@ -692,9 +692,9 @@ export function getCrossSellMatrix(filters: BankwideFilters = { cardProducts: []
 
       // Determine opportunity level (adjusted for incremental spend)
       let opportunityLevel: 'high' | 'medium' | 'low' | 'none';
-      if (annualOpportunity > 2_000_000_000 || potentialUsers > 800_000) {
+      if (annualOpportunity >= 2_000_000_000) {
         opportunityLevel = 'high';
-      } else if (annualOpportunity > 1_000_000_000 || potentialUsers > 400_000) {
+      } else if (annualOpportunity >= 1_000_000_000) {
         opportunityLevel = 'medium';
       } else {
         opportunityLevel = 'low';
