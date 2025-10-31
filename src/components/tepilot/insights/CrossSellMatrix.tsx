@@ -127,15 +127,15 @@ export function CrossSellMatrix({ matrixData }: CrossSellMatrixProps) {
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-red-100 border border-red-200 rounded" />
-              <span className="text-xs text-muted-foreground">High (&gt;$1.5B or &gt;5M users)</span>
+              <span className="text-xs text-muted-foreground">$2B and above</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-yellow-100 border border-yellow-200 rounded" />
-              <span className="text-xs text-muted-foreground">Medium ($500M-$1.5B or 2M-5M users)</span>
+              <span className="text-xs text-muted-foreground">$1-2B</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 bg-gray-100 border border-gray-200 rounded" />
-              <span className="text-xs text-muted-foreground">Low (&lt;$500M or &lt;2M users)</span>
+              <span className="text-xs text-muted-foreground">Below $1B</span>
             </div>
           </div>
         </div>
