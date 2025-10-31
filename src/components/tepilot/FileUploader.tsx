@@ -1,7 +1,7 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, File, X, Sparkles, HelpCircle } from "lucide-react";
+import { Upload, File, X, Sparkles, HelpCircle, Scan } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 import {
@@ -59,8 +59,6 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
       const updatedFiles = [...selectedFiles, ...validFiles];
       setSelectedFiles(updatedFiles);
       onFileSelect(updatedFiles);
-      // Auto-trigger parse immediately with all files
-      setTimeout(() => onParse(updatedFiles), 100);
     }
   };
 
@@ -195,6 +193,14 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
               </div>
             ))}
           </div>
+          <Button 
+            onClick={() => onParse(selectedFiles)} 
+            className="w-full"
+            size="lg"
+          >
+            <Scan className="w-4 h-4 mr-2" />
+            Parse {selectedFiles.length} File{selectedFiles.length > 1 ? 's' : ''}
+          </Button>
         </div>
       )}
     </div>
