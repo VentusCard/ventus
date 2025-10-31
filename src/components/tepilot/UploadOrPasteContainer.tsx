@@ -22,7 +22,7 @@ export function UploadOrPasteContainer({
           <div>
             <CardTitle>Transaction Enrichment Setup</CardTitle>
             <CardDescription>
-              Upload a file or paste your transaction data to get started
+              Upload files or paste your transaction data to get started
             </CardDescription>
           </div>
           <DropdownMenu>
@@ -52,7 +52,7 @@ export function UploadOrPasteContainer({
           </Button>
           <Button variant={mode === "upload" ? "default" : "outline"} size="sm" onClick={() => onModeChange("upload")} className="flex-1">
             <Upload className="w-4 h-4 mr-2" />
-            Upload File
+            Upload Files
           </Button>
         </div>
       </CardHeader>

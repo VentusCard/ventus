@@ -286,7 +286,7 @@ const TePilot = () => {
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
                       <p className="font-semibold">V1.4 - Current</p>
-                      <p>Support for PDF bank statement uploads - real bank statements can now be processed (MCCs might not be available)</p>
+                      <p>Support for multiple file uploads including PDF bank statements (MCCs might not be available in PDFs)</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
                       <p className="font-semibold">V1.3 - October 2025</p>
