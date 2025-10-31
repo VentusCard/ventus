@@ -697,14 +697,10 @@ const TePilot = () => {
                       </div>
                     </div>
                     
-                    <div className="space-y-2">
-                      <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
-                        {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
-                      </Button>
-                      <p className="text-xs text-center text-muted-foreground">
-                        💡 Wealth Management Analysis requires custom edge function (coming soon)
-                      </p>
-                    </div>
+                    <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
+                      <Sparkles className="mr-2 h-5 w-5" />
+                      {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
+                    </Button>
                   </CardContent>
                 </Card>
               </>
