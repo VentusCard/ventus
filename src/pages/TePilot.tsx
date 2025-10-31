@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Target, Brain, Zap, CheckCircle, ArrowRight, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
 import { Transaction, EnrichedTransaction, Correction, Filters } from "@/types/transaction";
 import { UploadOrPasteContainer } from "@/components/tepilot/UploadOrPasteContainer";
@@ -22,6 +23,7 @@ import { OverviewMetrics } from "@/components/tepilot/insights/OverviewMetrics";
 import { TravelTimeline } from "@/components/tepilot/insights/TravelTimeline";
 import { PillarExplorer } from "@/components/tepilot/insights/PillarExplorer";
 import { BeforeAfterTransformation } from "@/components/tepilot/insights/BeforeAfterTransformation";
+import { BankwideView } from "@/components/tepilot/insights/BankwideView";
 import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
@@ -40,6 +42,7 @@ const TePilot = () => {
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
   const [recommendations, setRecommendations] = useState<any>(null);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
+  const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
 
   // SSE Enrichment Hook
   const {
@@ -610,35 +613,73 @@ const TePilot = () => {
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            <OverviewMetrics originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
-            
-            <PillarExplorer transactions={displayTransactions} />
-            
-            <TravelTimeline transactions={displayTransactions} />
-            
-            <BeforeAfterTransformation originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
-            
-            <Card>
-              <CardHeader>
-                <CardTitle>Ventus AI Revenue Opportunity Recommendations</CardTitle>
-                <CardDescription>
-                  Generate example deal recommendations based on spending patterns
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {recommendations && <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-                total_estimated_value: {
-                  monthly: 0,
-                  annual: 0
-                },
-                message: "No recommendations available"
-              }} />}
-                
-                <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
-                  {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
+            {/* View Toggle */}
+            <Card className="p-4">
+              <div className="flex items-center justify-center gap-2">
+                <Button
+                  variant={analyticsView === "single" ? "default" : "outline"}
+                  onClick={() => setAnalyticsView("single")}
+                  className="flex-1 max-w-xs"
+                >
+                  Single Customer View
                 </Button>
-              </CardContent>
+                <Button
+                  variant={analyticsView === "bankwide" ? "default" : "outline"}
+                  onClick={() => setAnalyticsView("bankwide")}
+                  className="flex-1 max-w-xs"
+                >
+                  Bank-wide View (Example)
+                </Button>
+              </div>
             </Card>
+
+            {analyticsView === "single" ? (
+              <>
+                <OverviewMetrics originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
+                
+                <PillarExplorer transactions={displayTransactions} />
+                
+                <TravelTimeline transactions={displayTransactions} />
+                
+                <BeforeAfterTransformation originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
+                
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Ventus AI Revenue Opportunity Recommendations</CardTitle>
+                    <CardDescription>
+                      Generate example deal recommendations based on spending patterns
+                    </CardDescription>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    {recommendations && <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
+                    total_estimated_value: {
+                      monthly: 0,
+                      annual: 0
+                    },
+                    message: "No recommendations available"
+                  }} />}
+                    
+                    <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
+                      {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
+                    </Button>
+                  </CardContent>
+                </Card>
+              </>
+            ) : (
+              <Accordion type="single" collapsible defaultValue="bankwide">
+                <AccordionItem value="bankwide">
+                  <AccordionTrigger className="text-lg hover:no-underline">
+                    <div className="flex items-center justify-between w-full pr-4">
+                      <span className="font-semibold">🏦 Bank-wide Analytics Dashboard</span>
+                      <span className="text-sm text-muted-foreground">70M accounts • 45M users • $180B portfolio</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent>
+                    <BankwideView />
+                  </AccordionContent>
+                </AccordionItem>
+              </Accordion>
+            )}
           </TabsContent>
         </Tabs>
       </div>

@@ -1,0 +1,66 @@
+export interface CardProduct {
+  name: string;
+  accountCount: number;
+  uniqueUsers: number;
+  penetrationRate: number;
+  avgSpendPerAccount: number;
+  avgSpendPerUser: number;
+  topPillar: string;
+  pillarDistribution: Record<string, number>;
+  crossSellScore: number;
+}
+
+export interface GeographicRegion {
+  name: string;
+  type: 'region' | 'state';
+  userCount: number;
+  accountCount: number;
+  avgAccountsPerUser: number;
+  totalSpend: number;
+  children?: GeographicRegion[];
+}
+
+export interface AgeRange {
+  range: string;
+  label: string;
+  userCount: number;
+  accountCount: number;
+  avgSpendPerAccount: number;
+  pillarSpending: Record<string, number>;
+}
+
+export interface SpendingGap {
+  type: 'pillar' | 'geographic' | 'demographic' | 'cross-sell';
+  title: string;
+  currentState: string;
+  potentialState: string;
+  opportunityAmount: number;
+  affectedUsers: number;
+  priority: 'high' | 'medium' | 'low';
+  recommendations: string[];
+}
+
+export interface BankwideFilters {
+  cardProducts: string[];
+  regions: string[];
+  ageRanges: string[];
+}
+
+export interface BankwideMetrics {
+  totalAccounts: number;
+  totalUsers: number;
+  avgAccountsPerUser: number;
+  totalAnnualSpend: number;
+  activeAccountRate: number;
+  crossSellRate: number;
+  avgTransactionsPerAccount: number;
+  topSpendingPillar: string;
+}
+
+export interface CrossSellOpportunity {
+  currentCard: string;
+  recommendedCard: string;
+  userCount: number;
+  estimatedAnnualIncrease: number;
+  conversionProbability: number;
+}
