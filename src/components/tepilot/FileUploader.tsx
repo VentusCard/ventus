@@ -193,16 +193,18 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
               </div>
             ))}
           </div>
-          <Button 
-            onClick={() => onParse(selectedFiles)} 
-            className="w-full"
-            size="lg"
-          >
-            <Scan className="w-4 h-4 mr-2" />
-            Process and Preview
-          </Button>
         </div>
       )}
+      
+      <Button 
+        onClick={() => onParse(selectedFiles)} 
+        className="w-full"
+        size="lg"
+        disabled={selectedFiles.length === 0}
+      >
+        <Scan className="w-4 h-4 mr-2" />
+        Process and Preview
+      </Button>
     </div>
   );
 }
