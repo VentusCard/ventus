@@ -51,9 +51,9 @@ export function BankwideMetrics({ metrics }: BankwideMetricsProps) {
       bgColor: "bg-orange-50"
     },
     {
-      title: "Avg Transaction Amount",
-      value: `$${((metrics.totalAnnualSpend / (metrics.avgTransactionsPerAccount * metrics.totalAccounts)) / 12).toFixed(0)}`,
-      subtitle: "Per transaction",
+      title: "Avg Spending per Year",
+      value: `$${(metrics.totalAnnualSpend / metrics.totalUsers).toFixed(0)}`,
+      subtitle: "Per user annually",
       icon: Target,
       color: "text-pink-600",
       bgColor: "bg-pink-50"
