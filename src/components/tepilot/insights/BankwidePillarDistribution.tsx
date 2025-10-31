@@ -1,5 +1,5 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LabelList } from "recharts";
 import { PILLAR_COLORS } from "@/lib/sampleData";
 
 interface BankwidePillarDistributionProps {
@@ -69,6 +69,12 @@ export function BankwidePillarDistribution({ distribution }: BankwidePillarDistr
                   className="hover:opacity-80 transition-opacity"
                 />
               ))}
+              <LabelList 
+                dataKey="value" 
+                position="top" 
+                formatter={(value: number) => `${value}%`}
+                style={{ fill: 'hsl(var(--foreground))', fontSize: '12px', fontWeight: '500' }}
+              />
             </Bar>
           </BarChart>
         </ResponsiveContainer>
