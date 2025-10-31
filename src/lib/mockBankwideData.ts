@@ -5,22 +5,13 @@ import type {
   BankwideMetrics,
   SpendingGap,
   CrossSellOpportunity,
-  BankwideFilters
+  BankwideFilters,
+  PillarDetail,
 } from '@/types/bankwide';
+import { PILLAR_COLORS, LIFESTYLE_PILLARS } from '@/lib/sampleData';
 
-// Lifestyle pillars
-const PILLARS = [
-  'Dining & Experiences',
-  'Travel & Exploration',
-  'Shopping & Retail',
-  'Health & Wellness',
-  'Entertainment',
-  'Transportation',
-  'Home & Living',
-  'Professional Services',
-  'Education',
-  'Other'
-];
+// Lifestyle pillars (12 pillars matching the single customer view)
+const PILLARS = LIFESTYLE_PILLARS;
 
 // Base data for 70M accounts from 45M users
 const TOTAL_ACCOUNTS = 70_000_000;
@@ -36,15 +27,15 @@ export const CARD_PRODUCTS: CardProduct[] = [
     penetrationRate: 41.1,
     avgSpendPerAccount: 2_800,
     avgSpendPerUser: 3_300,
-    topPillar: 'Shopping & Retail',
+    topPillar: 'Style & Beauty',
     pillarDistribution: {
-      'Shopping & Retail': 35,
-      'Dining & Experiences': 20,
+      'Food & Dining': 28,
+      'Style & Beauty': 35,
       'Transportation': 15,
-      'Home & Living': 12,
-      'Entertainment': 8,
-      'Health & Wellness': 5,
-      'Other': 5
+      'Home & Living': 10,
+      'Entertainment & Culture': 6,
+      'Health & Wellness': 4,
+      'Miscellaneous & Unclassified': 2
     },
     crossSellScore: 8.2
   },
@@ -55,15 +46,15 @@ export const CARD_PRODUCTS: CardProduct[] = [
     penetrationRate: 33.8,
     avgSpendPerAccount: 2_400,
     avgSpendPerUser: 2_800,
-    topPillar: 'Shopping & Retail',
+    topPillar: 'Style & Beauty',
     pillarDistribution: {
-      'Shopping & Retail': 38,
-      'Dining & Experiences': 18,
+      'Style & Beauty': 38,
+      'Food & Dining': 25,
       'Transportation': 14,
-      'Home & Living': 13,
-      'Entertainment': 9,
-      'Health & Wellness': 4,
-      'Other': 4
+      'Home & Living': 11,
+      'Entertainment & Culture': 7,
+      'Health & Wellness': 3,
+      'Miscellaneous & Unclassified': 2
     },
     crossSellScore: 7.5
   },
@@ -77,11 +68,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
     topPillar: 'Travel & Exploration',
     pillarDistribution: {
       'Travel & Exploration': 42,
-      'Dining & Experiences': 25,
-      'Shopping & Retail': 15,
-      'Entertainment': 10,
-      'Transportation': 5,
-      'Other': 3
+      'Food & Dining': 25,
+      'Style & Beauty': 12,
+      'Entertainment & Culture': 10,
+      'Transportation': 7,
+      'Miscellaneous & Unclassified': 4
     },
     crossSellScore: 6.8
   },
@@ -95,11 +86,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
     topPillar: 'Travel & Exploration',
     pillarDistribution: {
       'Travel & Exploration': 55,
-      'Dining & Experiences': 18,
-      'Shopping & Retail': 12,
-      'Entertainment': 8,
-      'Transportation': 4,
-      'Other': 3
+      'Food & Dining': 18,
+      'Style & Beauty': 9,
+      'Entertainment & Culture': 8,
+      'Transportation': 7,
+      'Miscellaneous & Unclassified': 3
     },
     crossSellScore: 5.4
   },
@@ -113,11 +104,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
     topPillar: 'Travel & Exploration',
     pillarDistribution: {
       'Travel & Exploration': 48,
-      'Dining & Experiences': 22,
-      'Shopping & Retail': 13,
-      'Entertainment': 9,
-      'Transportation': 5,
-      'Other': 3
+      'Food & Dining': 22,
+      'Style & Beauty': 11,
+      'Entertainment & Culture': 9,
+      'Transportation': 7,
+      'Miscellaneous & Unclassified': 3
     },
     crossSellScore: 4.9
   },
@@ -131,11 +122,11 @@ export const CARD_PRODUCTS: CardProduct[] = [
     topPillar: 'Travel & Exploration',
     pillarDistribution: {
       'Travel & Exploration': 52,
-      'Dining & Experiences': 28,
-      'Shopping & Retail': 10,
-      'Entertainment': 6,
-      'Professional Services': 2,
-      'Other': 2
+      'Food & Dining': 28,
+      'Style & Beauty': 8,
+      'Entertainment & Culture': 6,
+      'Financial & Aspirational': 4,
+      'Miscellaneous & Unclassified': 2
     },
     crossSellScore: 3.2
   }
@@ -229,12 +220,12 @@ export const AGE_RANGES: AgeRange[] = [
     accountCount: 6_000_000,
     avgSpendPerAccount: 1_800,
     pillarSpending: {
-      'Shopping & Retail': 32,
-      'Dining & Experiences': 24,
-      'Entertainment': 18,
+      'Style & Beauty': 32,
+      'Food & Dining': 24,
+      'Entertainment & Culture': 18,
       'Transportation': 12,
       'Health & Wellness': 6,
-      'Other': 8
+      'Miscellaneous & Unclassified': 8
     }
   },
   {
@@ -244,13 +235,13 @@ export const AGE_RANGES: AgeRange[] = [
     accountCount: 18_000_000,
     avgSpendPerAccount: 2_600,
     pillarSpending: {
-      'Shopping & Retail': 28,
-      'Dining & Experiences': 22,
+      'Style & Beauty': 28,
+      'Food & Dining': 22,
       'Travel & Exploration': 18,
-      'Entertainment': 12,
+      'Entertainment & Culture': 12,
       'Transportation': 10,
       'Health & Wellness': 5,
-      'Other': 5
+      'Miscellaneous & Unclassified': 5
     }
   },
   {
@@ -260,13 +251,13 @@ export const AGE_RANGES: AgeRange[] = [
     accountCount: 16_000_000,
     avgSpendPerAccount: 3_200,
     pillarSpending: {
-      'Shopping & Retail': 26,
+      'Style & Beauty': 26,
       'Travel & Exploration': 22,
-      'Dining & Experiences': 20,
+      'Food & Dining': 20,
       'Home & Living': 12,
       'Transportation': 10,
       'Health & Wellness': 5,
-      'Other': 5
+      'Miscellaneous & Unclassified': 5
     }
   },
   {
@@ -277,12 +268,12 @@ export const AGE_RANGES: AgeRange[] = [
     avgSpendPerAccount: 3_400,
     pillarSpending: {
       'Travel & Exploration': 28,
-      'Shopping & Retail': 24,
-      'Dining & Experiences': 18,
+      'Style & Beauty': 24,
+      'Food & Dining': 18,
       'Home & Living': 12,
       'Health & Wellness': 8,
-      'Professional Services': 5,
-      'Other': 5
+      'Financial & Aspirational': 5,
+      'Miscellaneous & Unclassified': 5
     }
   },
   {
@@ -293,11 +284,11 @@ export const AGE_RANGES: AgeRange[] = [
     avgSpendPerAccount: 2_900,
     pillarSpending: {
       'Travel & Exploration': 32,
-      'Shopping & Retail': 22,
-      'Dining & Experiences': 16,
+      'Style & Beauty': 22,
+      'Food & Dining': 16,
       'Health & Wellness': 12,
       'Home & Living': 10,
-      'Other': 8
+      'Miscellaneous & Unclassified': 8
     }
   },
   {
@@ -307,12 +298,12 @@ export const AGE_RANGES: AgeRange[] = [
     accountCount: 5_000_000,
     avgSpendPerAccount: 2_200,
     pillarSpending: {
-      'Shopping & Retail': 28,
+      'Style & Beauty': 28,
       'Health & Wellness': 24,
-      'Dining & Experiences': 18,
+      'Food & Dining': 18,
       'Travel & Exploration': 14,
       'Home & Living': 10,
-      'Other': 6
+      'Miscellaneous & Unclassified': 6
     }
   }
 ];
@@ -498,7 +489,7 @@ export function getBankwideMetrics(filters: BankwideFilters): BankwideMetrics {
     activeAccountRate: 78.5,
     crossSellRate: ((filteredAccounts - filteredUsers) / filteredUsers) * 100,
     avgTransactionsPerAccount: 42,
-    topSpendingPillar: 'Shopping & Retail'
+    topSpendingPillar: 'Style & Beauty'
   };
 }
 
@@ -550,4 +541,71 @@ export function getFilteredAgeRanges(filters: BankwideFilters): AgeRange[] {
     return AGE_RANGES;
   }
   return AGE_RANGES.filter(a => filters.ageRanges.includes(a.range));
+}
+
+// Get detailed pillar data based on filters
+export function getPillarDetails(filters: BankwideFilters): PillarDetail[] {
+  const filteredProducts = getFilteredCardProducts(filters);
+  const products = filteredProducts.length > 0 ? filteredProducts : CARD_PRODUCTS;
+  
+  const totalSpendAcrossProducts = products.reduce((sum, p) => sum + (p.accountCount * p.avgSpendPerAccount), 0);
+  
+  return PILLARS.map(pillarName => {
+    // Calculate total spend in this pillar across filtered products
+    const pillarSpend = products.reduce((sum, product) => {
+      const pillarPercentage = (product.pillarDistribution[pillarName] || 0) / 100;
+      const productTotalSpend = product.accountCount * product.avgSpendPerAccount;
+      return sum + (productTotalSpend * pillarPercentage);
+    }, 0);
+    
+    // Estimate account count (assuming 70% of accounts have some spend in each pillar)
+    const totalAccounts = products.reduce((sum, p) => sum + p.accountCount, 0);
+    const accountCount = Math.floor(totalAccounts * 0.70 * (pillarSpend / totalSpendAcrossProducts));
+    
+    // Estimate transaction count (avg 12 transactions per account per year in each pillar)
+    const transactionCount = Math.floor(accountCount * 12);
+    
+    const percentageOfTotal = (pillarSpend / totalSpendAcrossProducts) * 100;
+    const avgSpendPerAccount = accountCount > 0 ? pillarSpend / accountCount : 0;
+    
+    // Get top 3 card products for this pillar
+    const productsByPillar = products
+      .map(p => ({
+        name: p.name,
+        spend: (p.accountCount * p.avgSpendPerAccount) * ((p.pillarDistribution[pillarName] || 0) / 100)
+      }))
+      .filter(p => p.spend > 0)
+      .sort((a, b) => b.spend - a.spend)
+      .slice(0, 3);
+    
+    // Get top 3 regions (mock data - could be filtered by regions later)
+    const topRegions = [
+      { name: "West", spend: pillarSpend * 0.28 },
+      { name: "Northeast", spend: pillarSpend * 0.24 },
+      { name: "Southeast", spend: pillarSpend * 0.22 },
+    ];
+    
+    // Age breakdown (mock percentages)
+    const ageBreakdown: Record<string, number> = {
+      "18-24": 8,
+      "25-34": 28,
+      "35-44": 24,
+      "45-54": 20,
+      "55-64": 13,
+      "65+": 7,
+    };
+    
+    return {
+      pillarName,
+      totalSpend: pillarSpend,
+      accountCount,
+      transactionCount,
+      percentageOfTotal,
+      avgSpendPerAccount,
+      color: PILLAR_COLORS[pillarName] || '#64748b',
+      topCardProducts: productsByPillar,
+      topRegions,
+      ageBreakdown,
+    };
+  }).sort((a, b) => b.totalSpend - a.totalSpend);
 }

@@ -64,3 +64,16 @@ export interface CrossSellOpportunity {
   estimatedAnnualIncrease: number;
   conversionProbability: number;
 }
+
+export interface PillarDetail {
+  pillarName: string;
+  totalSpend: number;
+  accountCount: number;
+  transactionCount: number;
+  percentageOfTotal: number;
+  avgSpendPerAccount: number;
+  color: string;
+  topCardProducts: Array<{ name: string; spend: number }>;
+  topRegions: Array<{ name: string; spend: number }>;
+  ageBreakdown: Record<string, number>;
+}

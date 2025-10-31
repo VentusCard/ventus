@@ -2,6 +2,7 @@ import { useState } from "react";
 import { BankwideFilters } from "./BankwideFilters";
 import { BankwideMetrics } from "./BankwideMetrics";
 import { CardProductMatrix } from "./CardProductMatrix";
+import { BankwidePillarExplorer } from "./BankwidePillarExplorer";
 import { BankwidePillarDistribution } from "./BankwidePillarDistribution";
 import { DemographicBreakdown } from "./DemographicBreakdown";
 import { SpendingGapsAnalysis } from "./SpendingGapsAnalysis";
@@ -53,6 +54,9 @@ export function BankwideView() {
 
       {/* Card Product Matrix */}
       <CardProductMatrix products={cardProducts} />
+
+      {/* 12-Pillar Interactive Grid */}
+      <BankwidePillarExplorer filters={filters} />
 
       {/* Pillar Distribution */}
       <BankwidePillarDistribution distribution={pillarDistribution} />
