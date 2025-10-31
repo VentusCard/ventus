@@ -5,6 +5,7 @@ import type {
   BankwideMetrics,
   SpendingGap,
   CrossSellOpportunity,
+  CrossSellMatrixCell,
   BankwideFilters,
   PillarDetail,
 } from '@/types/bankwide';
@@ -628,6 +629,81 @@ export function getFilteredAgeRanges(filters: BankwideFilters): AgeRange[] {
     return AGE_RANGES;
   }
   return AGE_RANGES.filter(a => filters.ageRanges.includes(a.range));
+}
+
+// Get cross-sell matrix (6x6 grid)
+export function getCrossSellMatrix(filters: BankwideFilters = { cardProducts: [], regions: [], ageRanges: [] }): CrossSellMatrixCell[][] {
+  const products = CARD_PRODUCTS;
+  const matrix: CrossSellMatrixCell[][] = [];
+
+  products.forEach((fromProduct, fromIndex) => {
+    const row: CrossSellMatrixCell[] = [];
+    
+    products.forEach((toProduct, toIndex) => {
+      // Diagonal cells (same card) = none
+      if (fromIndex === toIndex) {
+        row.push({
+          fromCard: fromProduct.name,
+          toCard: toProduct.name,
+          annualOpportunity: 0,
+          potentialUsers: 0,
+          opportunityLevel: 'none'
+        });
+        return;
+      }
+
+      // Calculate realistic cross-sell opportunities based on:
+      // 1. Users with fromCard who don't have toCard
+      // 2. Spending pattern alignment (pillar overlap)
+      // 3. Average spend increase potential
+
+      // Estimate users with fromCard but not toCard (15-40% depending on card compatibility)
+      const pillarOverlap = calculatePillarOverlap(fromProduct, toProduct);
+      const crossSellRate = 0.15 + (pillarOverlap * 0.25); // 15% to 40% based on pillar alignment
+      const potentialUsers = Math.floor(fromProduct.uniqueUsers * crossSellRate);
+
+      // Calculate annual opportunity based on toCard's average spend
+      const annualOpportunity = potentialUsers * toProduct.avgSpendPerAccount;
+
+      // Determine opportunity level
+      let opportunityLevel: 'high' | 'medium' | 'low' | 'none';
+      if (annualOpportunity > 1_500_000_000 || potentialUsers > 5_000_000) {
+        opportunityLevel = 'high';
+      } else if (annualOpportunity > 500_000_000 || potentialUsers > 2_000_000) {
+        opportunityLevel = 'medium';
+      } else {
+        opportunityLevel = 'low';
+      }
+
+      row.push({
+        fromCard: fromProduct.name,
+        toCard: toProduct.name,
+        annualOpportunity,
+        potentialUsers,
+        opportunityLevel
+      });
+    });
+    
+    matrix.push(row);
+  });
+
+  return matrix;
+}
+
+// Helper function to calculate pillar distribution overlap between two cards
+function calculatePillarOverlap(card1: CardProduct, card2: CardProduct): number {
+  const pillars = Object.keys(card1.pillarDistribution);
+  let totalOverlap = 0;
+  
+  pillars.forEach(pillar => {
+    const val1 = card1.pillarDistribution[pillar] || 0;
+    const val2 = card2.pillarDistribution[pillar] || 0;
+    // Use minimum of the two percentages as the overlap
+    totalOverlap += Math.min(val1, val2);
+  });
+  
+  // Normalize to 0-1 scale (max possible overlap is 100)
+  return totalOverlap / 100;
 }
 
 // Get detailed pillar data based on filters

@@ -1,14 +1,12 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
 import { TrendingUp } from "lucide-react";
-import type { CrossSellOpportunity } from "@/types/bankwide";
+import type { CrossSellMatrixCell } from "@/types/bankwide";
 
 interface CrossSellMatrixProps {
-  opportunities: CrossSellOpportunity[];
+  matrixData: CrossSellMatrixCell[][];
 }
 
-export function CrossSellMatrix({ opportunities }: CrossSellMatrixProps) {
+export function CrossSellMatrix({ matrixData }: CrossSellMatrixProps) {
   const formatNumber = (num: number): string => {
     if (num >= 1_000_000) {
       return `${(num / 1_000_000).toFixed(1)}M`;
@@ -26,16 +24,21 @@ export function CrossSellMatrix({ opportunities }: CrossSellMatrixProps) {
     return `$${num.toLocaleString()}`;
   };
 
-  const getProbabilityColor = (probability: number) => {
-    if (probability >= 15) return 'bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20';
-    if (probability >= 10) return 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20';
-    return 'bg-blue-500/10 text-blue-700 dark:text-blue-400 border-blue-500/20';
+  const getColorClass = (level: string): string => {
+    switch (level) {
+      case 'high':
+        return 'bg-red-100 dark:bg-red-950/30 border-red-200 dark:border-red-900/50 hover:bg-red-200 dark:hover:bg-red-950/50';
+      case 'medium':
+        return 'bg-yellow-100 dark:bg-yellow-950/30 border-yellow-200 dark:border-yellow-900/50 hover:bg-yellow-200 dark:hover:bg-yellow-950/50';
+      case 'low':
+        return 'bg-gray-100 dark:bg-gray-900/30 border-gray-200 dark:border-gray-800 hover:bg-gray-200 dark:hover:bg-gray-900/50';
+      default: // none
+        return 'bg-gray-50 dark:bg-gray-950/20 border-gray-200 dark:border-gray-800';
+    }
   };
 
-  // Sort by estimated annual increase (highest opportunity first)
-  const sortedOpportunities = [...opportunities].sort(
-    (a, b) => b.estimatedAnnualIncrease - a.estimatedAnnualIncrease
-  );
+  const cardProducts = matrixData.map(row => row[0].fromCard);
+  const totalOpportunity = matrixData.flat().reduce((sum, cell) => sum + cell.annualOpportunity, 0);
 
   return (
     <Card>
@@ -47,63 +50,87 @@ export function CrossSellMatrix({ opportunities }: CrossSellMatrixProps) {
               Cross-Sell Opportunity Matrix
             </CardTitle>
             <CardDescription className="mt-1">
-              Identify high-value product combinations and upsell potential
+              Annual opportunity and potential users for cross-selling from current card (rows) to target card (columns)
             </CardDescription>
           </div>
-          <Badge variant="secondary" className="text-base px-3 py-1">
-            {formatCurrency(
-              opportunities.reduce((sum, opp) => sum + opp.estimatedAnnualIncrease, 0)
-            )}
-            <span className="text-xs ml-1">total opportunity</span>
-          </Badge>
+          <div className="text-right">
+            <div className="text-2xl font-bold text-primary">{formatCurrency(totalOpportunity)}</div>
+            <div className="text-xs text-muted-foreground">Total Opportunity</div>
+          </div>
         </div>
       </CardHeader>
       <CardContent>
-        <div className="rounded-md border overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-semibold">Current Card</TableHead>
-                <TableHead className="font-semibold">Recommended Add-On</TableHead>
-                <TableHead className="font-semibold text-right">Potential Users</TableHead>
-                <TableHead className="font-semibold text-right">Annual Opportunity</TableHead>
-                <TableHead className="font-semibold text-right">Conversion Rate</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sortedOpportunities.map((opp, index) => (
-                <TableRow key={index} className="hover:bg-muted/30">
-                  <TableCell className="font-medium">{opp.currentCard}</TableCell>
-                  <TableCell>
-                    <Badge variant="outline" className="font-normal">
-                      {opp.recommendedCard}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="text-right">
-                    {formatNumber(opp.userCount)} users
-                  </TableCell>
-                  <TableCell className="text-right font-semibold text-primary">
-                    {formatCurrency(opp.estimatedAnnualIncrease)}
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Badge 
-                      variant="secondary" 
-                      className={getProbabilityColor(opp.conversionProbability)}
-                    >
-                      {opp.conversionProbability.toFixed(1)}%
-                    </Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <div className="overflow-x-auto">
+          <div className="grid grid-cols-7 gap-0 border rounded-lg overflow-hidden min-w-[900px]">
+            {/* Top-left empty corner */}
+            <div className="bg-muted p-4 border-r border-b font-semibold text-sm">
+              From / To
+            </div>
+            
+            {/* Column headers (target cards) */}
+            {cardProducts.map((product) => (
+              <div 
+                key={`col-${product}`}
+                className="bg-muted p-3 border-r border-b font-semibold text-xs text-center"
+              >
+                {product}
+              </div>
+            ))}
+            
+            {/* Matrix rows */}
+            {matrixData.map((row, rowIndex) => (
+              <>
+                {/* Row header (source card) */}
+                <div 
+                  key={`row-${rowIndex}`}
+                  className="bg-muted p-3 border-r border-b font-semibold text-xs flex items-center"
+                >
+                  {cardProducts[rowIndex]}
+                </div>
+                
+                {/* Matrix cells */}
+                {row.map((cell, colIndex) => (
+                  <div 
+                    key={`cell-${rowIndex}-${colIndex}`}
+                    className={`p-3 border-r border-b transition-colors ${getColorClass(cell.opportunityLevel)}`}
+                  >
+                    {cell.opportunityLevel === 'none' ? (
+                      <div className="text-muted-foreground text-center text-sm">N/A</div>
+                    ) : (
+                      <div className="space-y-1">
+                        <div className="text-sm font-bold">
+                          {formatCurrency(cell.annualOpportunity)}
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {formatNumber(cell.potentialUsers)} users
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </>
+            ))}
+          </div>
         </div>
         
         <div className="mt-4 p-4 bg-muted/30 rounded-lg">
-          <p className="text-sm text-muted-foreground">
-            <strong>Note:</strong> Conversion rates are based on historical data and spending patterns. 
-            Users showing high engagement in relevant spending categories have higher conversion probability.
-          </p>
+          <div className="flex items-start gap-4 flex-wrap">
+            <div className="text-sm text-muted-foreground">
+              <strong>Color Legend:</strong>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-red-100 border border-red-200 rounded" />
+              <span className="text-xs text-muted-foreground">High (&gt;$1.5B or &gt;5M users)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-yellow-100 border border-yellow-200 rounded" />
+              <span className="text-xs text-muted-foreground">Medium ($500M-$1.5B or 2M-5M users)</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <div className="w-4 h-4 bg-gray-100 border border-gray-200 rounded" />
+              <span className="text-xs text-muted-foreground">Low (&lt;$500M or &lt;2M users)</span>
+            </div>
+          </div>
         </div>
       </CardContent>
     </Card>

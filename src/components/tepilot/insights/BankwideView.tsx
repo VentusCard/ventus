@@ -13,7 +13,7 @@ import {
   getFilteredCardProducts,
   getFilteredAgeRanges,
   getSpendingGaps,
-  getCrossSellOpportunities,
+  getCrossSellMatrix,
 } from "@/lib/mockBankwideData";
 import type { BankwideFilters as Filters } from "@/types/bankwide";
 
@@ -29,7 +29,7 @@ export function BankwideView() {
   const cardProducts = getFilteredCardProducts(filters);
   const ageRanges = getFilteredAgeRanges(filters);
   const spendingGaps = getSpendingGaps(filters);
-  const crossSellOpportunities = getCrossSellOpportunities(filters);
+  const crossSellMatrix = getCrossSellMatrix(filters);
 
   return (
     <div className="space-y-6">
@@ -65,7 +65,7 @@ export function BankwideView() {
       <SpendingGapsAnalysis gaps={spendingGaps} />
 
       {/* Cross-Sell Matrix */}
-      <CrossSellMatrix opportunities={crossSellOpportunities} />
+      <CrossSellMatrix matrixData={crossSellMatrix} />
     </div>
   );
 }

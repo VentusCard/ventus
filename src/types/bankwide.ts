@@ -65,6 +65,14 @@ export interface CrossSellOpportunity {
   conversionProbability: number;
 }
 
+export interface CrossSellMatrixCell {
+  fromCard: string;
+  toCard: string;
+  annualOpportunity: number;
+  potentialUsers: number;
+  opportunityLevel: 'high' | 'medium' | 'low' | 'none';
+}
+
 export interface PillarDetail {
   pillarName: string;
   totalSpend: number;
