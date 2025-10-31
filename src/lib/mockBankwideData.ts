@@ -7,6 +7,7 @@ import type {
   CrossSellOpportunity,
   BankwideFilters,
   PillarDetail,
+  CrossSellMatrixCell,
 } from '@/types/bankwide';
 import { PILLAR_COLORS, LIFESTYLE_PILLARS } from '@/lib/sampleData';
 
@@ -695,4 +696,94 @@ export function getPillarDetails(filters: BankwideFilters): PillarDetail[] {
       ageBreakdown,
     };
   }).sort((a, b) => b.totalSpend - a.totalSpend);
+}
+
+// Generate cross-sell matrix for card products
+export function getCrossSellMatrix(): CrossSellMatrixCell[][] {
+  const cardNames = CARD_PRODUCTS.map(p => p.name);
+  
+  // Define cross-sell opportunities with realistic data
+  const opportunities: Record<string, Record<string, { annual: number; users: number }>> = {
+    'Cashback Card': {
+      'Travel Card': { annual: 2_400_000_000, users: 8_200_000 },
+      'Airline Card': { annual: 720_000_000, users: 2_800_000 },
+      'Custom Cashback Card': { annual: 480_000_000, users: 3_500_000 },
+      'Hotel Card': { annual: 340_000_000, users: 1_400_000 },
+      'Premium Travel Card': { annual: 180_000_000, users: 650_000 }
+    },
+    'Custom Cashback Card': {
+      'Travel Card': { annual: 1_100_000_000, users: 4_500_000 },
+      'Cashback Card': { annual: 650_000_000, users: 4_800_000 },
+      'Airline Card': { annual: 420_000_000, users: 1_800_000 },
+      'Hotel Card': { annual: 280_000_000, users: 1_100_000 },
+      'Premium Travel Card': { annual: 160_000_000, users: 580_000 }
+    },
+    'Travel Card': {
+      'Premium Travel Card': { annual: 980_000_000, users: 1_200_000 },
+      'Hotel Card': { annual: 890_000_000, users: 3_100_000 },
+      'Airline Card': { annual: 560_000_000, users: 2_400_000 },
+      'Cashback Card': { annual: 320_000_000, users: 1_900_000 },
+      'Custom Cashback Card': { annual: 240_000_000, users: 1_500_000 }
+    },
+    'Airline Card': {
+      'Hotel Card': { annual: 450_000_000, users: 1_800_000 },
+      'Premium Travel Card': { annual: 380_000_000, users: 920_000 },
+      'Travel Card': { annual: 290_000_000, users: 1_400_000 },
+      'Cashback Card': { annual: 180_000_000, users: 1_200_000 },
+      'Custom Cashback Card': { annual: 120_000_000, users: 850_000 }
+    },
+    'Hotel Card': {
+      'Premium Travel Card': { annual: 420_000_000, users: 1_100_000 },
+      'Airline Card': { annual: 340_000_000, users: 1_500_000 },
+      'Travel Card': { annual: 280_000_000, users: 1_300_000 },
+      'Cashback Card': { annual: 150_000_000, users: 980_000 },
+      'Custom Cashback Card': { annual: 110_000_000, users: 720_000 }
+    },
+    'Premium Travel Card': {
+      'Hotel Card': { annual: 320_000_000, users: 850_000 },
+      'Airline Card': { annual: 280_000_000, users: 780_000 },
+      'Travel Card': { annual: 180_000_000, users: 650_000 },
+      'Cashback Card': { annual: 95_000_000, users: 520_000 },
+      'Custom Cashback Card': { annual: 75_000_000, users: 420_000 }
+    }
+  };
+
+  // Generate matrix
+  return cardNames.map(fromCard => {
+    return cardNames.map(toCard => {
+      // Diagonal (same card) = none
+      if (fromCard === toCard) {
+        return {
+          fromCard,
+          toCard,
+          annualOpportunity: 0,
+          potentialUsers: 0,
+          opportunityLevel: 'none' as const
+        };
+      }
+
+      // Get opportunity data
+      const oppData = opportunities[fromCard]?.[toCard] || { annual: 0, users: 0 };
+      
+      // Determine opportunity level based on thresholds
+      let opportunityLevel: 'high' | 'medium' | 'low' | 'none';
+      if (oppData.annual >= 1_500_000_000 || oppData.users >= 5_000_000) {
+        opportunityLevel = 'high';
+      } else if (oppData.annual >= 500_000_000 || oppData.users >= 2_000_000) {
+        opportunityLevel = 'medium';
+      } else if (oppData.annual > 0) {
+        opportunityLevel = 'low';
+      } else {
+        opportunityLevel = 'none';
+      }
+
+      return {
+        fromCard,
+        toCard,
+        annualOpportunity: oppData.annual,
+        potentialUsers: oppData.users,
+        opportunityLevel
+      };
+    });
+  });
 }

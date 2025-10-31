@@ -14,6 +14,7 @@ import {
   getFilteredAgeRanges,
   getSpendingGaps,
   getCrossSellOpportunities,
+  getCrossSellMatrix,
 } from "@/lib/mockBankwideData";
 import type { BankwideFilters as Filters } from "@/types/bankwide";
 
@@ -30,6 +31,7 @@ export function BankwideView() {
   const ageRanges = getFilteredAgeRanges(filters);
   const spendingGaps = getSpendingGaps(filters);
   const crossSellOpportunities = getCrossSellOpportunities(filters);
+  const crossSellMatrix = getCrossSellMatrix();
 
   return (
     <div className="space-y-6">
@@ -50,7 +52,7 @@ export function BankwideView() {
       <BankwideMetrics metrics={metrics} />
 
       {/* Card Product Matrix */}
-      <CardProductMatrix products={cardProducts} />
+      <CardProductMatrix matrixData={crossSellMatrix} />
 
       {/* 12-Pillar Interactive Grid */}
       <BankwidePillarExplorer filters={filters} />
