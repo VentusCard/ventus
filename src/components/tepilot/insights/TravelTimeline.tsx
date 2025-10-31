@@ -9,9 +9,8 @@ interface TravelTimelineProps {
 export function TravelTimeline({
   transactions
 }: TravelTimelineProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const travelTransactions = transactions.filter(t => t.travel_context?.is_travel_related);
-  if (travelTransactions.length === 0) return null;
   const travelSpend = travelTransactions.reduce((sum, t) => sum + t.amount, 0);
   const reclassifiedCount = travelTransactions.filter(t => t.travel_context?.original_pillar !== "Travel & Experiences").length;
 
@@ -44,12 +43,19 @@ export function TravelTimeline({
         
         <CollapsibleContent>
           <CardContent className="pt-0">
-            <div className="space-y-4">
-              {/* Timeline */}
-              <div className="relative">
-                <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border" />
-                
-                {sortedDates.map((date, idx) => {
+            {travelTransactions.length === 0 ? (
+              <div className="text-center py-8 text-muted-foreground">
+                <MapPin className="w-12 h-12 mx-auto mb-3 opacity-50" />
+                <p className="font-medium mb-1">No travel patterns detected</p>
+                <p className="text-sm">Travel Intelligence uses AI pattern recognition to identify and contextualize travel-related spending across all transaction categories.</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {/* Timeline */}
+                <div className="relative">
+                  <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border" />
+                  
+                  {sortedDates.map((date, idx) => {
                 const dayTransactions = dateGroups[date];
                 const daySpend = dayTransactions.reduce((sum, t) => sum + t.amount, 0);
                 return <div key={date} className="relative pl-10 pb-6">
@@ -75,10 +81,11 @@ export function TravelTimeline({
                             +{dayTransactions.length - 3} more transactions
                           </p>}
                       </div>
-                    </div>;
-              })}
+                     </div>;
+               })}
+                </div>
               </div>
-            </div>
+            )}
           </CardContent>
         </CollapsibleContent>
       </Card>
