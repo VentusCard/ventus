@@ -457,6 +457,36 @@ export function getSpendingGaps(filters: BankwideFilters): SpendingGap[] {
         'Partner with childcare providers and education services',
         'Create back-to-school bonus categories'
       ]
+    },
+    {
+      type: 'demographic',
+      title: 'Gen X Home & Living Underutilization',
+      currentState: 'Gen X (35-54) only spends 12% on Home & Living vs 18% potential',
+      potentialState: 'Increase Home & Living penetration among homeowners',
+      opportunityAmount: 2_850_000_000,
+      affectedUsers: 19_000_000,
+      priority: 'high',
+      recommendations: [
+        'Partner with home improvement retailers (Home Depot, Lowe\'s)',
+        'Create home renovation bonus category program',
+        'Offer elevated rewards on furniture and home decor',
+        'Launch smart home technology cashback partnerships'
+      ]
+    },
+    {
+      type: 'geographic',
+      title: 'Millennial Travel Spending - Northeast Region',
+      currentState: 'Millennials in Northeast spend 14% on travel vs 22% national avg',
+      potentialState: 'Align Northeast millennial travel spend with national patterns',
+      opportunityAmount: 1_680_000_000,
+      affectedUsers: 2_400_000,
+      priority: 'medium',
+      recommendations: [
+        'Launch Northeast-specific travel card with regional airline partnerships',
+        'Partner with Amtrak and regional travel providers',
+        'Create NYC/Boston weekend getaway bonus categories',
+        'Target high-income millennial professionals with travel benefits'
+      ]
     }
   ];
 
