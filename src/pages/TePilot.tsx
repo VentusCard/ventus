@@ -253,7 +253,7 @@ const TePilot = () => {
           <CardHeader>
             <CardTitle className="text-3xl">Ventus AI Transaction Enrichment Core</CardTitle>
             <CardDescription className="text-base">
-              Unlock customer insights with next-generation transaction categorization powered by semantic AI
+              Unlock deep customer insights from existing data with next-generation contextual AI
               <Accordion type="single" collapsible className="w-full mt-2">
                 <AccordionItem value="release-notes" className="border-none">
                   <AccordionTrigger className="text-sm text-muted-foreground py-1 hover:no-underline">
