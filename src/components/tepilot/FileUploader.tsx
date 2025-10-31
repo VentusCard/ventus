@@ -85,7 +85,7 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
       <Alert>
         <File className="h-4 w-4" />
         <AlertDescription>
-          <strong>Supported formats:</strong> CSV, JSON, XLSX, PDF (max 10MB)
+          <strong>Supported formats:</strong> CSV, JSON, XLSX, PDF (max 50MB)
         </AlertDescription>
       </Alert>
 
