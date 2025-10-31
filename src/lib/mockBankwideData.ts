@@ -633,15 +633,39 @@ export function getFilteredAgeRanges(filters: BankwideFilters): AgeRange[] {
 
 // Get cross-sell matrix (6x6 grid)
 export function getCrossSellMatrix(filters: BankwideFilters = { cardProducts: [], regions: [], ageRanges: [] }): CrossSellMatrixCell[][] {
-  const products = CARD_PRODUCTS;
+  // Row products = filtered by user selection (or all if no filter)
+  const rowProducts = filters.cardProducts.length > 0
+    ? CARD_PRODUCTS.filter(p => filters.cardProducts.includes(p.name))
+    : CARD_PRODUCTS;
+  
+  // Column products = ALWAYS all 6 cards
+  const colProducts = CARD_PRODUCTS;
+  
+  // Calculate filter multiplier based on regions and age ranges
+  let userMultiplier = 1.0;
+  
+  if (filters.regions.length > 0) {
+    const selectedRegions = GEOGRAPHIC_REGIONS.filter(r => filters.regions.includes(r.name));
+    const totalBankUsers = GEOGRAPHIC_REGIONS.reduce((sum, r) => sum + r.userCount, 0);
+    const regionUsers = selectedRegions.reduce((sum, r) => sum + r.userCount, 0);
+    userMultiplier *= (regionUsers / totalBankUsers);
+  }
+  
+  if (filters.ageRanges.length > 0) {
+    const selectedAges = AGE_RANGES.filter(a => filters.ageRanges.includes(a.range));
+    const totalBankUsers = AGE_RANGES.reduce((sum, a) => sum + a.userCount, 0);
+    const ageUsers = selectedAges.reduce((sum, a) => sum + a.userCount, 0);
+    userMultiplier *= (ageUsers / totalBankUsers);
+  }
+  
   const matrix: CrossSellMatrixCell[][] = [];
 
-  products.forEach((fromProduct, fromIndex) => {
+  rowProducts.forEach((fromProduct) => {
     const row: CrossSellMatrixCell[] = [];
     
-    products.forEach((toProduct, toIndex) => {
-      // Diagonal cells (same card) = none
-      if (fromIndex === toIndex) {
+    colProducts.forEach((toProduct) => {
+      // Diagonal cells (same card by name) = none
+      if (fromProduct.name === toProduct.name) {
         row.push({
           fromCard: fromProduct.name,
           toCard: toProduct.name,
@@ -660,7 +684,7 @@ export function getCrossSellMatrix(filters: BankwideFilters = { cardProducts: []
       // Estimate users with fromCard but not toCard (15-40% depending on card compatibility)
       const pillarOverlap = calculatePillarOverlap(fromProduct, toProduct);
       const crossSellRate = 0.15 + (pillarOverlap * 0.25); // 15% to 40% based on pillar alignment
-      const potentialUsers = Math.floor(fromProduct.uniqueUsers * crossSellRate);
+      const potentialUsers = Math.floor(fromProduct.uniqueUsers * crossSellRate * userMultiplier);
 
       // Calculate annual opportunity based on incremental spend (20% of toCard's average spend)
       const incrementalSpendRate = 0.20; // 20% incremental spend assumption
