@@ -662,14 +662,15 @@ export function getCrossSellMatrix(filters: BankwideFilters = { cardProducts: []
       const crossSellRate = 0.15 + (pillarOverlap * 0.25); // 15% to 40% based on pillar alignment
       const potentialUsers = Math.floor(fromProduct.uniqueUsers * crossSellRate);
 
-      // Calculate annual opportunity based on toCard's average spend
-      const annualOpportunity = potentialUsers * toProduct.avgSpendPerAccount;
+      // Calculate annual opportunity based on incremental spend (20% of toCard's average spend)
+      const incrementalSpendRate = 0.20; // 20% incremental spend assumption
+      const annualOpportunity = potentialUsers * toProduct.avgSpendPerAccount * incrementalSpendRate;
 
-      // Determine opportunity level
+      // Determine opportunity level (adjusted for incremental spend)
       let opportunityLevel: 'high' | 'medium' | 'low' | 'none';
-      if (annualOpportunity > 1_500_000_000 || potentialUsers > 5_000_000) {
+      if (annualOpportunity > 300_000_000 || potentialUsers > 5_000_000) {
         opportunityLevel = 'high';
-      } else if (annualOpportunity > 500_000_000 || potentialUsers > 2_000_000) {
+      } else if (annualOpportunity > 100_000_000 || potentialUsers > 2_000_000) {
         opportunityLevel = 'medium';
       } else {
         opportunityLevel = 'low';
