@@ -7,7 +7,6 @@ import { BankwidePillarDistribution } from "./BankwidePillarDistribution";
 import { DemographicBreakdown } from "./DemographicBreakdown";
 import { SpendingGapsAnalysis } from "./SpendingGapsAnalysis";
 import { CrossSellMatrix } from "./CrossSellMatrix";
-import { ComparisonView } from "./ComparisonView";
 import {
   getBankwideMetrics,
   getPillarDistribution,
@@ -17,8 +16,6 @@ import {
   getCrossSellOpportunities,
 } from "@/lib/mockBankwideData";
 import type { BankwideFilters as Filters } from "@/types/bankwide";
-
-const BANK_AVERAGE_METRICS = getBankwideMetrics({ cardProducts: [], regions: [], ageRanges: [] });
 
 export function BankwideView() {
   const [filters, setFilters] = useState<Filters>({
@@ -69,12 +66,6 @@ export function BankwideView() {
 
       {/* Cross-Sell Matrix */}
       <CrossSellMatrix opportunities={crossSellOpportunities} />
-
-      {/* Comparison View */}
-      <ComparisonView 
-        selectedMetrics={metrics} 
-        bankAverageMetrics={BANK_AVERAGE_METRICS} 
-      />
     </div>
   );
 }
