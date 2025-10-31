@@ -495,14 +495,22 @@ export function getBankwideMetrics(filters: BankwideFilters): BankwideMetrics {
 
 // Get pillar distribution based on filters
 export function getPillarDistribution(filters: BankwideFilters): Record<string, number> {
-  // Aggregate across all selected products
+  // Initialize all pillars with 0
   const distribution: Record<string, number> = {};
+  PILLARS.forEach(pillar => {
+    distribution[pillar] = 0;
+  });
   
   let productsToAggregate = CARD_PRODUCTS;
   if (filters.cardProducts.length > 0) {
     productsToAggregate = CARD_PRODUCTS.filter(p => 
       filters.cardProducts.includes(p.name)
     );
+  }
+
+  // If no products match filters, return empty distribution
+  if (productsToAggregate.length === 0) {
+    return distribution;
   }
 
   // Weighted average based on account count
