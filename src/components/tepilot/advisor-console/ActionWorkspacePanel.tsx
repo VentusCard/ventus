@@ -5,21 +5,12 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Calendar, Users, Plus, FileText, Download, ImagePlus, CheckCircle } from "lucide-react";
 import { sampleMeeting, sampleDocumentBlocks, sampleEngagementData, DocumentBlock } from "./sampleData";
-
 export function ActionWorkspacePanel() {
   const [documentBlocks, setDocumentBlocks] = useState<DocumentBlock[]>(sampleDocumentBlocks);
   const [previewMode, setPreviewMode] = useState<'advisor' | 'client'>('advisor');
-
-  const engagementColor = 
-    sampleEngagementData.status === 'high' ? 'bg-green-500' :
-    sampleEngagementData.status === 'medium' ? 'bg-yellow-500' : 'bg-red-500';
-
-  const engagementText = 
-    sampleEngagementData.status === 'high' ? 'Strong' :
-    sampleEngagementData.status === 'medium' ? 'Moderate' : 'Needs Attention';
-
-  return (
-    <div className="h-full flex flex-col bg-slate-50">
+  const engagementColor = sampleEngagementData.status === 'high' ? 'bg-green-500' : sampleEngagementData.status === 'medium' ? 'bg-yellow-500' : 'bg-red-500';
+  const engagementText = sampleEngagementData.status === 'high' ? 'Strong' : sampleEngagementData.status === 'medium' ? 'Moderate' : 'Needs Attention';
+  return <div className="h-full flex flex-col bg-slate-50">
       {/* Meeting & Engagement Section */}
       <div className="border-b bg-white p-3 space-y-3 flex-shrink-0">
         <div>
@@ -38,9 +29,7 @@ export function ActionWorkspacePanel() {
                 <p className="text-xs text-slate-600">{sampleMeeting.time} • {sampleMeeting.duration} min</p>
                 <div className="flex items-center gap-1 mt-1 flex-wrap">
                   <Users className="w-3 h-3 text-slate-400" />
-                  {sampleMeeting.participants.slice(0, 2).map((p, idx) => (
-                    <span key={idx} className="text-xs text-slate-600">{p}{idx < 1 ? ',' : ''}</span>
-                  ))}
+                  {sampleMeeting.participants.slice(0, 2).map((p, idx) => <span key={idx} className="text-xs text-slate-600">{p}{idx < 1 ? ',' : ''}</span>)}
                 </div>
               </div>
             </div>
@@ -64,7 +53,7 @@ export function ActionWorkspacePanel() {
             <h3 className="text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide">
               Client Brief Builder
             </h3>
-            <Tabs value={previewMode} onValueChange={(v) => setPreviewMode(v as 'advisor' | 'client')}>
+            <Tabs value={previewMode} onValueChange={v => setPreviewMode(v as 'advisor' | 'client')}>
               <TabsList className="h-8">
                 <TabsTrigger value="advisor" className="text-xs">Advisor Draft</TabsTrigger>
                 <TabsTrigger value="client" className="text-xs">Client Handout</TabsTrigger>
@@ -74,10 +63,7 @@ export function ActionWorkspacePanel() {
 
           {/* Document Workspace - Scrollable */}
           <Card className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3 mb-2">
-            {documentBlocks
-              .sort((a, b) => a.order - b.order)
-              .map((block) => (
-                <div key={block.id} className="border border-slate-200 rounded-lg p-2 bg-white hover:border-primary/50 transition-colors">
+            {documentBlocks.sort((a, b) => a.order - b.order).map(block => <div key={block.id} className="border border-slate-200 rounded-lg p-2 bg-white hover:border-primary/50 transition-colors">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-sm text-slate-900">{block.title}</h4>
                     <Badge variant="outline" className="text-xs">{block.type}</Badge>
@@ -86,15 +72,14 @@ export function ActionWorkspacePanel() {
                     {block.content}
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
-                    Last edited: {new Date(block.lastEdited).toLocaleString('en-US', { 
-                      month: 'short', 
-                      day: 'numeric', 
-                      hour: 'numeric', 
-                      minute: '2-digit' 
-                    })}
+                    Last edited: {new Date(block.lastEdited).toLocaleString('en-US', {
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit'
+              })}
                   </p>
-                </div>
-              ))}
+                </div>)}
           </Card>
 
           {/* Action Buttons */}
@@ -113,13 +98,9 @@ export function ActionWorkspacePanel() {
                 Generate PDF
               </Button>
             </div>
-            <p className="text-xs text-slate-500 text-center">
-              <CheckCircle className="w-3 h-3 inline mr-1 text-green-600" />
-              Auto-saved
-            </p>
+            
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
