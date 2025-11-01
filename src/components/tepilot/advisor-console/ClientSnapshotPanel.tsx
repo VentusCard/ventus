@@ -31,9 +31,10 @@ export function ClientSnapshotPanel({ onAskVentus }: ClientSnapshotPanelProps) {
   };
 
   return (
-    <div className="h-full overflow-y-auto bg-slate-50 p-4 space-y-4">
-      {/* Client Header Card */}
-      <Card className="p-4 border-l-4 border-l-primary">
+    <div className="h-full flex flex-col bg-slate-50">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {/* Client Header Card */}
+        <Card className="p-4 border-l-4 border-l-primary">
         <div className="flex items-start justify-between mb-2">
           <div>
             <h2 className="text-xl font-semibold text-slate-900">{sampleClientData.name}</h2>
@@ -203,14 +204,15 @@ export function ClientSnapshotPanel({ onAskVentus }: ClientSnapshotPanelProps) {
         )}
       </Card>
 
-      {/* Ask Ventus Button */}
-      <Button 
-        onClick={() => onAskVentus?.("Client snapshot context")}
-        className="w-full"
-        variant="outline"
-      >
-        <span className="text-primary font-medium">Ask Ventus</span>
-      </Button>
+        {/* Ask Ventus Button */}
+        <Button 
+          onClick={() => onAskVentus?.("Client snapshot context")}
+          className="w-full"
+          variant="outline"
+        >
+          <span className="text-primary font-medium">Ask Ventus</span>
+        </Button>
+      </div>
     </div>
   );
 }

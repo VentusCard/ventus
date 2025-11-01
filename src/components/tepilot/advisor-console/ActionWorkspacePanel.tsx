@@ -34,7 +34,7 @@ export function ActionWorkspacePanel() {
   return (
     <div className="h-full flex flex-col bg-slate-50">
       {/* Tasks Section (30%) */}
-      <div className="border-b bg-white p-4 space-y-4" style={{ height: '30%' }}>
+      <div className="border-b bg-white p-4 space-y-4 flex-shrink-0" style={{ flexBasis: '30%', minHeight: '250px', maxHeight: '35%' }}>
         <div>
           <h3 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide">
             Next Interaction & Tasks
@@ -94,7 +94,7 @@ export function ActionWorkspacePanel() {
       </div>
 
       {/* Document Builder Section (70%) */}
-      <div className="flex-1 overflow-hidden p-4">
+      <div className="flex-1 min-h-0 overflow-hidden p-4">
         <div className="h-full flex flex-col">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wide">
@@ -109,7 +109,7 @@ export function ActionWorkspacePanel() {
           </div>
 
           {/* Document Workspace - Scrollable */}
-          <Card className="flex-1 overflow-y-auto p-4 space-y-4 mb-3">
+          <Card className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 mb-3">
             {documentBlocks
               .sort((a, b) => a.order - b.order)
               .map((block) => (

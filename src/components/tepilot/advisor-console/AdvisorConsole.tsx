@@ -24,7 +24,7 @@ export function AdvisorConsole() {
   };
 
   return (
-    <div className="h-[calc(100vh-200px)] w-full bg-white">
+    <div className="flex flex-col w-full bg-white" style={{ height: 'calc(100vh - 200px)' }}>
       {/* Header with BofA/Merrill/Ventus branding */}
       <div className="border-b px-6 py-4 flex items-center justify-between bg-gradient-to-r from-white to-slate-50">
         <div>
@@ -45,13 +45,13 @@ export function AdvisorConsole() {
       </div>
 
       {/* 3-Panel Resizable Layout */}
-      <ResizablePanelGroup direction="horizontal" className="h-full">
+      <ResizablePanelGroup direction="horizontal" className="flex-1 min-h-0">
         {/* Left Panel: Client Snapshot */}
         <ResizablePanel defaultSize={22} minSize={15} maxSize={30}>
           <ClientSnapshotPanel onAskVentus={handleAskVentus} />
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
+        <ResizableHandle withHandle className="hover:bg-primary/20 transition-colors" />
 
         {/* Center Panel: Chat */}
         <ResizablePanel defaultSize={48} minSize={35} maxSize={60}>
@@ -62,7 +62,7 @@ export function AdvisorConsole() {
           />
         </ResizablePanel>
 
-        <ResizableHandle withHandle />
+        <ResizableHandle withHandle className="hover:bg-primary/20 transition-colors" />
 
         {/* Right Panel: Action Workspace */}
         <ResizablePanel defaultSize={30} minSize={25} maxSize={40}>
