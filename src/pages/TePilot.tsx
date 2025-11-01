@@ -26,6 +26,7 @@ import { BeforeAfterTransformation } from "@/components/tepilot/insights/BeforeA
 import { BankwideView } from "@/components/tepilot/insights/BankwideView";
 import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { RelationshipManagementCard } from "@/components/tepilot/RelationshipManagementCard";
+import { AdvisorConsole } from "@/components/tepilot/advisor-console/AdvisorConsole";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
@@ -734,26 +735,8 @@ const TePilot = () => {
           </TabsContent>
 
           {isRelationshipUnlocked && (
-            <TabsContent value="relationship" className="space-y-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Wealth Management Relationship Analysis</CardTitle>
-                  <CardDescription>
-                    Advanced relationship management tools and insights (Coming Soon)
-                  </CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex flex-col items-center justify-center py-12 text-center">
-                    <div className="text-6xl mb-4">🏦</div>
-                    <h3 className="text-xl font-semibold mb-2">Content Coming Soon</h3>
-                    <p className="text-muted-foreground max-w-md">
-                      This section will display wealth management relationship analysis,
-                      including client segmentation, investment opportunities, and 
-                      relationship manager recommendations.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
+            <TabsContent value="relationship" className="space-y-0 p-0">
+              <AdvisorConsole />
             </TabsContent>
           )}
         </Tabs>
