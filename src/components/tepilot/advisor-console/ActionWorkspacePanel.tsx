@@ -93,9 +93,13 @@ export function ActionWorkspacePanel() {
                 <Mail className="w-3 h-3 mr-1" />
                 Email
               </Button>
+              <Button size="sm" variant="outline" className="text-xs">
+                <Calendar className="w-3 h-3 mr-1" />
+                Schedule
+              </Button>
               <Button size="sm" className="flex-1 text-xs">
                 <Download className="w-3 h-3 mr-1" />
-                Generate PDF
+                PDF
               </Button>
             </div>
             
