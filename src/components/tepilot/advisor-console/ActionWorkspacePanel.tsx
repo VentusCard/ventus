@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Users, Plus, FileText, Download, ImagePlus, CheckCircle, Phone } from "lucide-react";
+import { Calendar, Users, Plus, FileText, Download, ImagePlus, CheckCircle, Phone, Mail } from "lucide-react";
 import { sampleMeeting, sampleDocumentBlocks, sampleEngagementData, DocumentBlock } from "./sampleData";
 export function ActionWorkspacePanel() {
   const [documentBlocks, setDocumentBlocks] = useState<DocumentBlock[]>(sampleDocumentBlocks);
@@ -90,8 +90,8 @@ export function ActionWorkspacePanel() {
                 Call
               </Button>
               <Button size="sm" variant="outline" className="text-xs">
-                <ImagePlus className="w-3 h-3 mr-1" />
-                Chart
+                <Mail className="w-3 h-3 mr-1" />
+                Email
               </Button>
               <Button size="sm" className="flex-1 text-xs">
                 <Download className="w-3 h-3 mr-1" />
