@@ -5,11 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
 import { sampleClientData, sampleLifestyleSignals, sampleLifeTriggers, sampleComplianceData, sampleMilestones } from "./sampleData";
 import { useState } from "react";
-
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
 }
-
 const iconMap: Record<string, any> = {
   Plane,
   Users,
@@ -17,21 +15,19 @@ const iconMap: Record<string, any> = {
   UtensilsCrossed,
   Activity
 };
-
-export function ClientSnapshotPanel({ onAskVentus }: ClientSnapshotPanelProps) {
+export function ClientSnapshotPanel({
+  onAskVentus
+}: ClientSnapshotPanelProps) {
   const [timelineExpanded, setTimelineExpanded] = useState(false);
-
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
       currency: 'USD',
       minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
+      maximumFractionDigits: 0
     }).format(amount);
   };
-
-  return (
-    <div className="h-full flex flex-col bg-slate-50">
+  return <div className="h-full flex flex-col bg-slate-50">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* Client Header Card */}
         <Card className="p-4 border-l-4 border-l-primary">
@@ -115,27 +111,21 @@ export function ClientSnapshotPanel({ onAskVentus }: ClientSnapshotPanelProps) {
       <Card className="p-4">
         <h3 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide">Lifestyle Signals</h3>
         <div className="space-y-3">
-          {sampleLifestyleSignals.map((signal) => {
+          {sampleLifestyleSignals.map(signal => {
             const IconComponent = iconMap[signal.icon];
-            return (
-              <div key={signal.category} className="space-y-1">
+            return <div key={signal.category} className="space-y-1">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {IconComponent && <IconComponent className="w-4 h-4 text-slate-600" />}
                     <span className="text-sm text-slate-700">{signal.category}</span>
-                    <span className={`text-sm font-semibold ${
-                      signal.trend === 'up' ? 'text-green-600' : 
-                      signal.trend === 'down' ? 'text-red-600' : 
-                      'text-slate-600'
-                    }`}>
+                    <span className={`text-sm font-semibold ${signal.trend === 'up' ? 'text-green-600' : signal.trend === 'down' ? 'text-red-600' : 'text-slate-600'}`}>
                       {signal.trend === 'up' ? '↑' : signal.trend === 'down' ? '↓' : '→'} {Math.abs(signal.change)}%
                     </span>
                   </div>
                   <span className="text-xs text-slate-500">{signal.confidence}%</span>
                 </div>
                 <Progress value={signal.confidence} className="h-1" />
-              </div>
-            );
+              </div>;
           })}
         </div>
       </Card>
@@ -144,15 +134,16 @@ export function ClientSnapshotPanel({ onAskVentus }: ClientSnapshotPanelProps) {
       <Card className="p-4">
         <h3 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide">Recent Life Triggers</h3>
         <div className="space-y-2">
-          {sampleLifeTriggers.map((trigger, idx) => (
-            <div key={idx} className="flex gap-2 text-sm">
-              <div className="flex-shrink-0 w-20 text-slate-500 text-xs">{new Date(trigger.date).toLocaleDateString('en-US', { month: 'short', year: 'numeric' })}</div>
+          {sampleLifeTriggers.map((trigger, idx) => <div key={idx} className="flex gap-2 text-sm">
+              <div className="flex-shrink-0 w-20 text-slate-500 text-xs">{new Date(trigger.date).toLocaleDateString('en-US', {
+                month: 'short',
+                year: 'numeric'
+              })}</div>
               <div className="flex-1">
                 <p className="font-medium text-slate-900">{trigger.event}</p>
                 <p className="text-xs text-slate-600">{trigger.description}</p>
               </div>
-            </div>
-          ))}
+            </div>)}
         </div>
       </Card>
 
@@ -184,35 +175,21 @@ export function ClientSnapshotPanel({ onAskVentus }: ClientSnapshotPanelProps) {
 
       {/* Milestones Timeline */}
       <Card className="p-4">
-        <button
-          onClick={() => setTimelineExpanded(!timelineExpanded)}
-          className="w-full flex items-center justify-between text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide hover:text-primary transition-colors"
-        >
+        <button onClick={() => setTimelineExpanded(!timelineExpanded)} className="w-full flex items-center justify-between text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide hover:text-primary transition-colors">
           <span>Milestones Timeline</span>
           {timelineExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
         
-        {timelineExpanded && (
-          <div className="space-y-2 mt-3 border-l-2 border-slate-200 pl-3">
-            {sampleMilestones.map((milestone, idx) => (
-              <div key={idx} className="text-sm">
+        {timelineExpanded && <div className="space-y-2 mt-3 border-l-2 border-slate-200 pl-3">
+            {sampleMilestones.map((milestone, idx) => <div key={idx} className="text-sm">
                 <p className="text-slate-500 text-xs">{milestone.date}</p>
                 <p className="font-medium text-slate-900">{milestone.event}</p>
-              </div>
-            ))}
-          </div>
-        )}
+              </div>)}
+          </div>}
       </Card>
 
         {/* Ask Ventus Button */}
-        <Button 
-          onClick={() => onAskVentus?.("Client snapshot context")}
-          className="w-full"
-          variant="outline"
-        >
-          <span className="text-primary font-medium">Ask Ventus</span>
-        </Button>
+        
       </div>
-    </div>
-  );
+    </div>;
 }
