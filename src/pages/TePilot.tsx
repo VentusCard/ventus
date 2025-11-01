@@ -44,6 +44,7 @@ const TePilot = () => {
   const [recommendations, setRecommendations] = useState<any>(null);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
+  const [isRelationshipUnlocked, setIsRelationshipUnlocked] = useState(false);
 
   // SSE Enrichment Hook
   const {
@@ -74,6 +75,9 @@ const TePilot = () => {
   useEffect(() => {
     const auth = sessionStorage.getItem("tepilot_auth");
     if (auth === "authenticated") setIsAuthenticated(true);
+    
+    const relationshipAuth = sessionStorage.getItem("tepilot_relationship_auth");
+    if (relationshipAuth === "unlocked") setIsRelationshipUnlocked(true);
   }, []);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -531,7 +535,9 @@ const TePilot = () => {
         <Button variant="outline" onClick={() => {
           // Clear authentication
           sessionStorage.removeItem("tepilot_auth");
+          sessionStorage.removeItem("tepilot_relationship_auth");
           setIsAuthenticated(false);
+          setIsRelationshipUnlocked(false);
 
           // Clear all transaction data
           setParsedTransactions([]);
@@ -566,11 +572,16 @@ const TePilot = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className={`grid w-full ${isRelationshipUnlocked ? 'grid-cols-5' : 'grid-cols-4'}`}>
             <TabsTrigger value="upload">Setup</TabsTrigger>
             <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
             <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Enrichment</TabsTrigger>
             <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Analytics</TabsTrigger>
+            {isRelationshipUnlocked && (
+              <TabsTrigger value="relationship" disabled={enrichedTransactions.length === 0}>
+                Relationship
+              </TabsTrigger>
+            )}
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">
@@ -693,7 +704,14 @@ const TePilot = () => {
                         {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                       </Button>
                       
-                      <RelationshipManagementCard />
+                      <RelationshipManagementCard 
+                        onUnlock={() => {
+                          setIsRelationshipUnlocked(true);
+                          sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
+                          setActiveTab("relationship");
+                        }}
+                        isUnlocked={isRelationshipUnlocked}
+                      />
                     </div>
                   </CardContent>
                 </Card>
@@ -714,6 +732,30 @@ const TePilot = () => {
               </Accordion>
             )}
           </TabsContent>
+
+          {isRelationshipUnlocked && (
+            <TabsContent value="relationship" className="space-y-6">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Wealth Management Relationship Analysis</CardTitle>
+                  <CardDescription>
+                    Advanced relationship management tools and insights (Coming Soon)
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="flex flex-col items-center justify-center py-12 text-center">
+                    <div className="text-6xl mb-4">🏦</div>
+                    <h3 className="text-xl font-semibold mb-2">Content Coming Soon</h3>
+                    <p className="text-muted-foreground max-w-md">
+                      This section will display wealth management relationship analysis,
+                      including client segmentation, investment opportunities, and 
+                      relationship manager recommendations.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          )}
         </Tabs>
       </div>
     </div>;
