@@ -35,42 +35,42 @@ export function ClientSnapshotPanel({
     }).format(amount);
   };
   return <div className="h-full flex flex-col bg-slate-50">
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
         {/* Client Header Card */}
-        <Card className="p-4 border-l-4 border-l-primary">
+        <Card className="p-3 border-l-4 border-l-primary">
         <div className="flex items-start justify-between mb-2">
           <div>
-            <h2 className="text-xl font-semibold text-slate-900">{sampleClientData.name}</h2>
-            <p className="text-sm text-slate-600">{sampleClientData.demographics.occupation}</p>
+            <h2 className="text-lg font-semibold text-slate-900">{sampleClientData.name}</h2>
+            <p className="text-xs text-slate-600">{sampleClientData.demographics.occupation}</p>
           </div>
-          <Badge className="bg-slate-900 text-white hover:bg-slate-800">
+          <Badge className="bg-slate-900 text-white hover:bg-slate-800 text-[10px]">
             {sampleClientData.segment}
           </Badge>
         </div>
         
-        <div className="grid grid-cols-2 gap-3 mt-4 text-sm">
+        <div className="grid grid-cols-2 gap-2 mt-2">
           <div>
-            <p className="text-slate-500 text-xs uppercase tracking-wide">AUM</p>
-            <p className="font-semibold text-slate-900">{sampleClientData.aum}</p>
+            <p className="text-slate-500 text-[10px] uppercase tracking-wider">AUM</p>
+            <p className="font-medium text-sm text-slate-900">{sampleClientData.aum}</p>
           </div>
           <div>
-            <p className="text-slate-500 text-xs uppercase tracking-wide">Tenure</p>
-            <p className="font-semibold text-slate-900">{sampleClientData.tenure}</p>
+            <p className="text-slate-500 text-[10px] uppercase tracking-wider">Tenure</p>
+            <p className="font-medium text-sm text-slate-900">{sampleClientData.tenure}</p>
           </div>
           <div>
-            <p className="text-slate-500 text-xs uppercase tracking-wide">Advisor</p>
-            <p className="font-semibold text-slate-900">{sampleClientData.advisor}</p>
+            <p className="text-slate-500 text-[10px] uppercase tracking-wider">Advisor</p>
+            <p className="font-medium text-sm text-slate-900">{sampleClientData.advisor}</p>
           </div>
           <div>
-            <p className="text-slate-500 text-xs uppercase tracking-wide">Location</p>
-            <p className="font-semibold text-slate-900">{sampleClientData.contact.address}</p>
+            <p className="text-slate-500 text-[10px] uppercase tracking-wider">Location</p>
+            <p className="font-medium text-sm text-slate-900">{sampleClientData.contact.address}</p>
           </div>
         </div>
       </Card>
 
       {/* Holdings Overview */}
-      <Card className="p-4">
-        <h3 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide">Holdings Overview</h3>
+      <Card className="p-3">
+        <h3 className="text-xs font-semibold text-slate-900 mb-2 uppercase tracking-wide">Holdings Overview</h3>
         <div className="space-y-2">
           {/* Deposit Accounts */}
           <Collapsible open={expandedHolding === 'deposit'} onOpenChange={() => toggleHolding('deposit')}>
@@ -94,13 +94,13 @@ export function ClientSnapshotPanel({
                       <p className="text-xs font-medium text-slate-900">{account.name}</p>
                       <p className="text-xs text-slate-500">{account.accountNumber}</p>
                     </div>
-                    <Badge variant="outline" className="text-xs">{account.type}</Badge>
+                    <Badge variant="outline" className="text-[10px]">{account.type}</Badge>
                   </div>
                   <div className="flex items-center justify-between text-xs">
                     <span className="text-slate-600">Balance: {formatCurrency(account.balance)}</span>
                     {account.apy && <span className="text-green-600 font-medium">APY: {account.apy}%</span>}
                   </div>
-                  <p className="text-xs text-slate-500">Opened: {account.opened}</p>
+                  <p className="text-[10px] text-slate-500">Opened: {account.opened}</p>
                 </div>
               ))}
             </CollapsibleContent>
@@ -130,7 +130,7 @@ export function ClientSnapshotPanel({
                         <p className="text-xs font-medium text-slate-900">{card.name}</p>
                         <p className="text-xs text-slate-500">{card.accountNumber}</p>
                       </div>
-                      <Badge variant="outline" className="text-xs">{card.type}</Badge>
+                      <Badge variant="outline" className="text-[10px]">{card.type}</Badge>
                     </div>
                     <div className="text-xs space-y-1">
                       <div className="flex justify-between">
@@ -149,7 +149,7 @@ export function ClientSnapshotPanel({
                         <Progress value={utilization} className="h-1" />
                       </div>
                       {card.rewards && <p className="text-slate-600">{card.rewards}</p>}
-                      <p className="text-slate-500">Opened: {card.opened}</p>
+                      <p className="text-[10px] text-slate-500">Opened: {card.opened}</p>
                     </div>
                   </div>
                 );
@@ -179,7 +179,7 @@ export function ClientSnapshotPanel({
                       <p className="text-xs font-medium text-slate-900">{loan.name}</p>
                       <p className="text-xs text-slate-500">{loan.accountNumber}</p>
                     </div>
-                    <Badge variant="outline" className="text-xs">{loan.type}</Badge>
+                    <Badge variant="outline" className="text-[10px]">{loan.type}</Badge>
                   </div>
                   <p className="text-xs text-slate-600 font-medium">{loan.property}</p>
                   <div className="text-xs space-y-1">
@@ -199,7 +199,7 @@ export function ClientSnapshotPanel({
                       <span className="text-slate-600">Term:</span>
                       <span className="text-slate-900">{loan.term}</span>
                     </div>
-                    <p className="text-slate-500">Originated: {loan.originated}</p>
+                    <p className="text-[10px] text-slate-500">Originated: {loan.originated}</p>
                   </div>
                 </div>
               ))}
@@ -228,7 +228,7 @@ export function ClientSnapshotPanel({
                       <p className="text-xs font-medium text-slate-900">{account.name}</p>
                       <p className="text-xs text-slate-500">{account.accountNumber}</p>
                     </div>
-                    <Badge variant="outline" className="text-xs">{account.type}</Badge>
+                    <Badge variant="outline" className="text-[10px]">{account.type}</Badge>
                   </div>
                   <div className="text-xs space-y-1">
                     <div className="flex justify-between">
@@ -252,7 +252,7 @@ export function ClientSnapshotPanel({
                         </div>
                       </div>
                     )}
-                    <p className="text-slate-500">Opened: {account.opened}</p>
+                    <p className="text-[10px] text-slate-500">Opened: {account.opened}</p>
                   </div>
                 </div>
               ))}
@@ -262,17 +262,17 @@ export function ClientSnapshotPanel({
       </Card>
 
       {/* Lifestyle Signals */}
-      <Card className="p-4">
-        <h3 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide">Lifestyle Signals</h3>
-        <div className="space-y-3">
+      <Card className="p-3">
+        <h3 className="text-xs font-semibold text-slate-900 mb-2 uppercase tracking-wide">Lifestyle Signals</h3>
+        <div className="space-y-2">
           {sampleLifestyleSignals.map(signal => {
             const IconComponent = iconMap[signal.icon];
             return <div key={signal.category} className="space-y-1">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
                     {IconComponent && <IconComponent className="w-4 h-4 text-slate-600" />}
-                    <span className="text-sm text-slate-700">{signal.category}</span>
-                    <span className={`text-sm font-semibold ${signal.trend === 'up' ? 'text-green-600' : signal.trend === 'down' ? 'text-red-600' : 'text-slate-600'}`}>
+                    <span className="text-xs text-slate-700">{signal.category}</span>
+                    <span className={`text-xs font-semibold ${signal.trend === 'up' ? 'text-green-600' : signal.trend === 'down' ? 'text-red-600' : 'text-slate-600'}`}>
                       {signal.trend === 'up' ? '↑' : signal.trend === 'down' ? '↓' : '→'} {Math.abs(signal.change)}%
                     </span>
                   </div>
@@ -285,16 +285,16 @@ export function ClientSnapshotPanel({
       </Card>
 
       {/* Recent Life Triggers */}
-      <Card className="p-4">
-        <h3 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide">Recent Life Triggers</h3>
+      <Card className="p-3">
+        <h3 className="text-xs font-semibold text-slate-900 mb-2 uppercase tracking-wide">Recent Life Triggers</h3>
         <div className="space-y-2">
-          {sampleLifeTriggers.map((trigger, idx) => <div key={idx} className="flex gap-2 text-sm">
-              <div className="flex-shrink-0 w-20 text-slate-500 text-xs">{new Date(trigger.date).toLocaleDateString('en-US', {
+          {sampleLifeTriggers.map((trigger, idx) => <div key={idx} className="flex gap-2">
+              <div className="flex-shrink-0 w-16 text-slate-500 text-[10px]">{new Date(trigger.date).toLocaleDateString('en-US', {
                 month: 'short',
                 year: 'numeric'
               })}</div>
               <div className="flex-1">
-                <p className="font-medium text-slate-900">{trigger.event}</p>
+                <p className="font-medium text-xs text-slate-900">{trigger.event}</p>
                 <p className="text-xs text-slate-600">{trigger.description}</p>
               </div>
             </div>)}
@@ -302,15 +302,15 @@ export function ClientSnapshotPanel({
       </Card>
 
       {/* Risk/Compliance */}
-      <Card className="p-4 border-l-4 border-l-amber-500">
+      <Card className="p-3 border-l-4 border-l-amber-500">
         <div className="flex items-start gap-2">
           <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5" />
           <div className="flex-1">
-            <h3 className="text-sm font-semibold text-slate-900 mb-2">Compliance</h3>
-            <div className="space-y-1 text-sm">
+            <h3 className="text-xs font-semibold text-slate-900 mb-2">Compliance</h3>
+            <div className="space-y-1 text-xs">
               <div className="flex justify-between">
                 <span className="text-slate-600">KYC Status:</span>
-                <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
+                <Badge variant="outline" className="text-[10px] bg-green-50 text-green-700 border-green-200">
                   {sampleComplianceData.kycStatus}
                 </Badge>
               </div>
@@ -328,15 +328,15 @@ export function ClientSnapshotPanel({
       </Card>
 
       {/* Milestones Timeline */}
-      <Card className="p-4">
-        <button onClick={() => setTimelineExpanded(!timelineExpanded)} className="w-full flex items-center justify-between text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide hover:text-primary transition-colors">
+      <Card className="p-3">
+        <button onClick={() => setTimelineExpanded(!timelineExpanded)} className="w-full flex items-center justify-between text-xs font-semibold text-slate-900 mb-2 uppercase tracking-wide hover:text-primary transition-colors">
           <span>Milestones Timeline</span>
           {timelineExpanded ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
         </button>
         
-        {timelineExpanded && <div className="space-y-2 mt-3 border-l-2 border-slate-200 pl-3">
-            {sampleMilestones.map((milestone, idx) => <div key={idx} className="text-sm">
-                <p className="text-slate-500 text-xs">{milestone.date}</p>
+        {timelineExpanded && <div className="space-y-2 mt-2 border-l-2 border-slate-200 pl-2">
+            {sampleMilestones.map((milestone, idx) => <div key={idx} className="text-xs">
+                <p className="text-slate-500 text-[10px]">{milestone.date}</p>
                 <p className="font-medium text-slate-900">{milestone.event}</p>
               </div>)}
           </div>}
