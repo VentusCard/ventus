@@ -34,14 +34,14 @@ export function ActionWorkspacePanel() {
   return (
     <div className="h-full flex flex-col bg-slate-50">
       {/* Tasks Section (30%) */}
-      <div className="border-b bg-white p-4 space-y-4 flex-shrink-0" style={{ flexBasis: '30%', minHeight: '250px', maxHeight: '35%' }}>
+      <div className="border-b bg-white p-3 space-y-3 flex-shrink-0" style={{ flexBasis: '25%', minHeight: '200px', maxHeight: '30%' }}>
         <div>
-          <h3 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide">
+          <h3 className="text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide">
             Next Interaction & Tasks
           </h3>
 
           {/* Upcoming Meeting Card */}
-          <Card className="p-3 mb-4 border-l-4 border-l-primary hover:shadow-md transition-shadow">
+          <Card className="p-2 mb-3 border-l-4 border-l-primary hover:shadow-md transition-shadow">
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                 <Calendar className="w-4 h-4 text-primary" />
@@ -69,7 +69,7 @@ export function ActionWorkspacePanel() {
           </div>
 
           {/* To-Do List - Scrollable */}
-          <div className="space-y-2 max-h-32 overflow-y-auto">
+          <div className="space-y-1 max-h-40 overflow-y-auto">
             {todayTasks.length > 0 && (
               <div>
                 <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Today</p>
@@ -94,10 +94,10 @@ export function ActionWorkspacePanel() {
       </div>
 
       {/* Document Builder Section (70%) */}
-      <div className="flex-1 min-h-0 overflow-hidden p-4">
+      <div className="flex-1 min-h-0 overflow-hidden p-3">
         <div className="h-full flex flex-col">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wide">
+            <h3 className="text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide">
               Client Brief Builder
             </h3>
             <Tabs value={previewMode} onValueChange={(v) => setPreviewMode(v as 'advisor' | 'client')}>
@@ -109,16 +109,16 @@ export function ActionWorkspacePanel() {
           </div>
 
           {/* Document Workspace - Scrollable */}
-          <Card className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 mb-3">
+          <Card className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3 mb-2">
             {documentBlocks
               .sort((a, b) => a.order - b.order)
               .map((block) => (
-                <div key={block.id} className="border border-slate-200 rounded-lg p-3 bg-white hover:border-primary/50 transition-colors">
+                <div key={block.id} className="border border-slate-200 rounded-lg p-2 bg-white hover:border-primary/50 transition-colors">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-sm text-slate-900">{block.title}</h4>
                     <Badge variant="outline" className="text-xs">{block.type}</Badge>
                   </div>
-                  <div className="text-xs text-slate-700 whitespace-pre-wrap line-clamp-4">
+                  <div className="text-xs text-slate-700 whitespace-pre-wrap line-clamp-3">
                     {block.content}
                   </div>
                   <p className="text-xs text-slate-400 mt-2">
@@ -135,33 +135,23 @@ export function ActionWorkspacePanel() {
 
           {/* Action Buttons */}
           <div className="space-y-2">
-            <div className="flex gap-2">
-              <Button size="sm" variant="outline" className="flex-1 text-xs">
+            <div className="flex flex-wrap gap-2">
+              <Button size="sm" variant="outline" className="text-xs">
                 <FileText className="w-3 h-3 mr-1" />
-                Insert from Chat
+                Insert
               </Button>
-              <Button size="sm" variant="outline" className="flex-1 text-xs">
+              <Button size="sm" variant="outline" className="text-xs">
                 <ImagePlus className="w-3 h-3 mr-1" />
-                Insert Chart
-              </Button>
-            </div>
-            <div className="flex gap-2">
-              <Button size="sm" variant="outline" className="text-xs">
-                <Printer className="w-3 h-3 mr-1" />
-                Print
-              </Button>
-              <Button size="sm" variant="outline" className="text-xs">
-                <Save className="w-3 h-3 mr-1" />
-                Save to CRM
+                Chart
               </Button>
               <Button size="sm" className="flex-1 text-xs">
                 <Download className="w-3 h-3 mr-1" />
                 Generate PDF
               </Button>
             </div>
-            <p className="text-xs text-slate-500 text-center flex items-center justify-center gap-1">
-              <CheckCircle className="w-3 h-3 text-green-600" />
-              Auto-saved at {new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+            <p className="text-xs text-slate-500 text-center">
+              <CheckCircle className="w-3 h-3 inline mr-1 text-green-600" />
+              Auto-saved
             </p>
           </div>
         </div>
