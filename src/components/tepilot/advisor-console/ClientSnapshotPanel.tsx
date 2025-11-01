@@ -2,7 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Landmark, CreditCard, Home, TrendingUp, Gift, Plane, Users, Heart, UtensilsCrossed, Activity, ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
+import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
 import { sampleClientData, sampleLifestyleSignals, sampleLifeTriggers, sampleComplianceData, sampleMilestones } from "./sampleData";
 import { useState } from "react";
 
@@ -107,18 +107,6 @@ export function ClientSnapshotPanel({ onAskVentus }: ClientSnapshotPanelProps) {
             </div>
             <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.merrill)}</span>
           </div>
-          
-          {sampleClientData.holdings.ventusRewards && (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Gift className="w-4 h-4 text-primary" />
-                </div>
-                <span className="text-sm text-slate-700">Ventus Rewards</span>
-              </div>
-              <Badge variant="outline" className="text-xs">Active</Badge>
-            </div>
-          )}
         </div>
       </Card>
 

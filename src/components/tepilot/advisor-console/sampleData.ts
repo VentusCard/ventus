@@ -12,7 +12,6 @@ export interface ClientData {
     mortgage: boolean;
     mortgageAmount?: number;
     merrill: number;
-    ventusRewards: boolean;
   };
   contact: {
     email: string;
@@ -118,8 +117,7 @@ export const sampleClientData: ClientData = {
     credit: 15000,
     mortgage: true,
     mortgageAmount: 680000,
-    merrill: 1850000,
-    ventusRewards: true
+    merrill: 1850000
   },
   contact: {
     email: "emma.r@email.com",
@@ -230,11 +228,6 @@ export const sampleMilestones: Milestone[] = [
     date: "January 2022",
     event: "Private Banking Upgrade",
     category: "account"
-  },
-  {
-    date: "June 2023",
-    event: "Ventus Rewards Enrollment",
-    category: "rewards"
   },
   {
     date: "December 2023",
@@ -425,7 +418,6 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
 • Credit Facilities: $15,000 utilization
 • Mortgage: $680,000 (3.2% fixed, refinanced 2023)
 • Merrill Investment Portfolio: $1,850,000
-• Ventus Rewards: Active member since June 2023
 
 *Advisor:* Michael Chen, Senior Wealth Advisor
 *Risk Profile:* Moderate-Aggressive (suitable for 80/20 equity/fixed allocation)
