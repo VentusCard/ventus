@@ -3,10 +3,17 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/componen
 import { ClientSnapshotPanel } from "./ClientSnapshotPanel";
 import { VentusChatPanel } from "./VentusChatPanel";
 import { ActionWorkspacePanel } from "./ActionWorkspacePanel";
-import { ChatMessage } from "./sampleData";
+import { ChatMessage, Task, sampleTasks } from "./sampleData";
 
 export function AdvisorConsole() {
   const [selectedLifestyleChip, setSelectedLifestyleChip] = useState<string | null>(null);
+  const [tasks, setTasks] = useState<Task[]>(sampleTasks);
+
+  const toggleTask = (taskId: string) => {
+    setTasks(tasks.map(task => 
+      task.id === taskId ? { ...task, completed: !task.completed } : task
+    ));
+  };
 
   const handleAskVentus = (context: string) => {
     console.log("Ask Ventus with context:", context);
@@ -59,6 +66,8 @@ export function AdvisorConsole() {
             selectedLifestyleChip={selectedLifestyleChip}
             onSaveToDocument={handleSaveToDocument}
             onAddToTodo={handleAddToTodo}
+            tasks={tasks}
+            onToggleTask={toggleTask}
           />
         </ResizablePanel>
 

@@ -1,27 +1,14 @@
 import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Calendar, Users, Plus, FileText, Printer, Save, Download, ImagePlus, CheckCircle, Circle, Clock } from "lucide-react";
-import { sampleTasks, sampleMeeting, sampleDocumentBlocks, sampleEngagementData, Task, DocumentBlock } from "./sampleData";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Calendar, Users, Plus, FileText, Download, ImagePlus, CheckCircle } from "lucide-react";
+import { sampleMeeting, sampleDocumentBlocks, sampleEngagementData, DocumentBlock } from "./sampleData";
 
 export function ActionWorkspacePanel() {
-  const [tasks, setTasks] = useState<Task[]>(sampleTasks);
   const [documentBlocks, setDocumentBlocks] = useState<DocumentBlock[]>(sampleDocumentBlocks);
   const [previewMode, setPreviewMode] = useState<'advisor' | 'client'>('advisor');
-
-  const toggleTask = (taskId: string) => {
-    setTasks(tasks.map(task => 
-      task.id === taskId ? { ...task, completed: !task.completed } : task
-    ));
-  };
-
-  const todayTasks = tasks.filter(t => t.category === 'today');
-  const weekTasks = tasks.filter(t => t.category === 'this-week');
-  const laterTasks = tasks.filter(t => t.category === 'later');
 
   const engagementColor = 
     sampleEngagementData.status === 'high' ? 'bg-green-500' :
@@ -33,11 +20,11 @@ export function ActionWorkspacePanel() {
 
   return (
     <div className="h-full flex flex-col bg-slate-50">
-      {/* Tasks Section (30%) */}
-      <div className="border-b bg-white p-3 space-y-3 flex-shrink-0" style={{ flexBasis: '25%', minHeight: '200px', maxHeight: '30%' }}>
+      {/* Meeting & Engagement Section */}
+      <div className="border-b bg-white p-3 space-y-3 flex-shrink-0">
         <div>
           <h3 className="text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide">
-            Next Interaction & Tasks
+            Next Interaction
           </h3>
 
           {/* Upcoming Meeting Card */}
@@ -60,36 +47,13 @@ export function ActionWorkspacePanel() {
           </Card>
 
           {/* Engagement Health */}
-          <div className="flex items-center justify-between mb-3 px-1">
+          <div className="flex items-center justify-between px-1">
             <span className="text-xs text-slate-600">Engagement Health</span>
             <div className="flex items-center gap-2">
               <div className={`w-2 h-2 rounded-full ${engagementColor}`} />
               <span className="text-xs font-medium text-slate-900">{engagementText}</span>
             </div>
           </div>
-
-          {/* To-Do List - Scrollable */}
-          <div className="space-y-1 max-h-40 overflow-y-auto">
-            {todayTasks.length > 0 && (
-              <div>
-                <p className="text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">Today</p>
-                {todayTasks.map(task => (
-                  <TaskItem key={task.id} task={task} onToggle={toggleTask} />
-                ))}
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="flex gap-2">
-          <Button size="sm" variant="outline" className="flex-1 text-xs">
-            <Plus className="w-3 h-3 mr-1" />
-            Add Task
-          </Button>
-          <Button size="sm" variant="outline" className="flex-1 text-xs">
-            <FileText className="w-3 h-3 mr-1" />
-            Export Prep
-          </Button>
         </div>
       </div>
 
@@ -155,35 +119,6 @@ export function ActionWorkspacePanel() {
             </p>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function TaskItem({ task, onToggle }: { task: Task; onToggle: (id: string) => void }) {
-  const priorityColor = 
-    task.priority === 'high' ? 'text-red-600' :
-    task.priority === 'medium' ? 'text-yellow-600' : 'text-slate-600';
-
-  return (
-    <div className="flex items-start gap-2 py-1.5 px-2 rounded hover:bg-slate-50 transition-colors">
-      <Checkbox
-        checked={task.completed}
-        onCheckedChange={() => onToggle(task.id)}
-        className="mt-0.5"
-      />
-      <div className="flex-1 min-w-0">
-        <p className={`text-xs ${task.completed ? 'line-through text-slate-400' : 'text-slate-900'}`}>
-          {task.title}
-        </p>
-        {task.dueDate && (
-          <div className="flex items-center gap-1 mt-0.5">
-            <Clock className={`w-3 h-3 ${priorityColor}`} />
-            <span className={`text-xs ${priorityColor}`}>
-              {new Date(task.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
-            </span>
-          </div>
-        )}
       </div>
     </div>
   );

@@ -3,24 +3,35 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Mic, Send, Save, ListTodo, CheckCircle } from "lucide-react";
-import { sampleChatMessages, ChatMessage } from "./sampleData";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Mic, Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock } from "lucide-react";
+import { sampleChatMessages, ChatMessage, Task } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
   onSaveToDocument?: (message: ChatMessage) => void;
   onAddToTodo?: (message: ChatMessage) => void;
+  tasks: Task[];
+  onToggleTask: (taskId: string) => void;
 }
 
 export function VentusChatPanel({ 
   selectedLifestyleChip,
   onSaveToDocument,
-  onAddToTodo 
+  onAddToTodo,
+  tasks,
+  onToggleTask
 }: VentusChatPanelProps) {
   const [messages] = useState<ChatMessage[]>(sampleChatMessages);
   const [inputValue, setInputValue] = useState("");
+  const [todoOpen, setTodoOpen] = useState(true);
   const { toast } = useToast();
+
+  const todayTasks = tasks.filter(t => t.category === 'today');
+  const incompleteTasks = todayTasks.filter(t => !t.completed);
+  const completedTasks = todayTasks.filter(t => t.completed);
 
   const smartChips = [
     "Meeting Prep",
@@ -61,6 +72,36 @@ export function VentusChatPanel({
         </h2>
         <p className="text-sm text-slate-600 mt-1">Powered by Ventus Intelligence</p>
       </div>
+
+      {/* To-Do List */}
+      <Collapsible open={todoOpen} onOpenChange={setTodoOpen} className="border-b">
+        <CollapsibleTrigger className="w-full px-6 py-3 bg-slate-50 hover:bg-slate-100 transition-colors">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <ListTodo className="w-4 h-4 text-primary" />
+              <h3 className="text-sm font-semibold text-slate-900">Today's Tasks</h3>
+              <Badge variant="outline" className="text-xs">
+                {incompleteTasks.length} pending
+              </Badge>
+            </div>
+            {todoOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </div>
+        </CollapsibleTrigger>
+        <CollapsibleContent className="px-6 py-3 bg-white space-y-1 max-h-48 overflow-y-auto">
+          {incompleteTasks.length === 0 && completedTasks.length === 0 ? (
+            <p className="text-xs text-slate-500 text-center py-2">No tasks for today</p>
+          ) : (
+            <>
+              {incompleteTasks.map(task => (
+                <TaskItem key={task.id} task={task} onToggle={onToggleTask} />
+              ))}
+              {completedTasks.map(task => (
+                <TaskItem key={task.id} task={task} onToggle={onToggleTask} />
+              ))}
+            </>
+          )}
+        </CollapsibleContent>
+      </Collapsible>
 
       {/* Smart Chips */}
       <div className="border-b px-6 py-3 bg-slate-50">
@@ -207,6 +248,35 @@ export function VentusChatPanel({
             <Send className="w-4 h-4" />
           </Button>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function TaskItem({ task, onToggle }: { task: Task; onToggle: (id: string) => void }) {
+  const priorityColor = 
+    task.priority === 'high' ? 'text-red-600' :
+    task.priority === 'medium' ? 'text-yellow-600' : 'text-slate-600';
+
+  return (
+    <div className="flex items-start gap-2 py-1.5 px-2 rounded hover:bg-slate-50 transition-colors">
+      <Checkbox
+        checked={task.completed}
+        onCheckedChange={() => onToggle(task.id)}
+        className="mt-0.5"
+      />
+      <div className="flex-1 min-w-0">
+        <p className={`text-xs ${task.completed ? 'line-through text-slate-400' : 'text-slate-900'}`}>
+          {task.title}
+        </p>
+        {task.dueDate && (
+          <div className="flex items-center gap-1 mt-0.5">
+            <Clock className={`w-3 h-3 ${priorityColor}`} />
+            <span className={`text-xs ${priorityColor}`}>
+              {new Date(task.dueDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+            </span>
+          </div>
+        )}
       </div>
     </div>
   );
