@@ -2,8 +2,9 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, ChevronDown, ChevronUp, AlertCircle } from "lucide-react";
-import { sampleClientData, sampleLifestyleSignals, sampleLifeTriggers, sampleComplianceData, sampleMilestones } from "./sampleData";
+import { sampleClientData, sampleLifestyleSignals, sampleLifeTriggers, sampleComplianceData, sampleMilestones, sampleHoldingsDetails } from "./sampleData";
 import { useState } from "react";
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
@@ -19,6 +20,12 @@ export function ClientSnapshotPanel({
   onAskVentus
 }: ClientSnapshotPanelProps) {
   const [timelineExpanded, setTimelineExpanded] = useState(false);
+  const [expandedHolding, setExpandedHolding] = useState<string | null>(null);
+  
+  const toggleHolding = (holding: string) => {
+    setExpandedHolding(expandedHolding === holding ? null : holding);
+  };
+  
   const formatCurrency = (amount: number) => {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -64,46 +71,193 @@ export function ClientSnapshotPanel({
       {/* Holdings Overview */}
       <Card className="p-4">
         <h3 className="text-sm font-semibold text-slate-900 mb-3 uppercase tracking-wide">Holdings Overview</h3>
-        <div className="space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <Landmark className="w-4 h-4 text-primary" />
+        <div className="space-y-2">
+          {/* Deposit Accounts */}
+          <Collapsible open={expandedHolding === 'deposit'} onOpenChange={() => toggleHolding('deposit')}>
+            <CollapsibleTrigger className="w-full flex items-center justify-between hover:bg-slate-50 p-2 rounded-lg transition-colors">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Landmark className="w-4 h-4 text-primary" />
+                </div>
+                <span className="text-sm text-slate-700">Deposit</span>
               </div>
-              <span className="text-sm text-slate-700">Deposit</span>
-            </div>
-            <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.deposit)}</span>
-          </div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.deposit)}</span>
+                {expandedHolding === 'deposit' ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-2 ml-10 space-y-2">
+              {sampleHoldingsDetails.deposits.map(account => (
+                <div key={account.id} className="bg-slate-50 p-2 rounded-lg space-y-1">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-slate-900">{account.name}</p>
+                      <p className="text-xs text-slate-500">{account.accountNumber}</p>
+                    </div>
+                    <Badge variant="outline" className="text-xs">{account.type}</Badge>
+                  </div>
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-slate-600">Balance: {formatCurrency(account.balance)}</span>
+                    {account.apy && <span className="text-green-600 font-medium">APY: {account.apy}%</span>}
+                  </div>
+                  <p className="text-xs text-slate-500">Opened: {account.opened}</p>
+                </div>
+              ))}
+            </CollapsibleContent>
+          </Collapsible>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <CreditCard className="w-4 h-4 text-primary" />
+          {/* Credit Products */}
+          <Collapsible open={expandedHolding === 'credit'} onOpenChange={() => toggleHolding('credit')}>
+            <CollapsibleTrigger className="w-full flex items-center justify-between hover:bg-slate-50 p-2 rounded-lg transition-colors">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <CreditCard className="w-4 h-4 text-primary" />
+                </div>
+                <span className="text-sm text-slate-700">Credit</span>
               </div>
-              <span className="text-sm text-slate-700">Credit</span>
-            </div>
-            <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.credit)}</span>
-          </div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.credit)}</span>
+                {expandedHolding === 'credit' ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-2 ml-10 space-y-2">
+              {sampleHoldingsDetails.credit.map(card => {
+                const utilization = (card.balance / card.creditLimit) * 100;
+                return (
+                  <div key={card.id} className="bg-slate-50 p-2 rounded-lg space-y-1">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <p className="text-xs font-medium text-slate-900">{card.name}</p>
+                        <p className="text-xs text-slate-500">{card.accountNumber}</p>
+                      </div>
+                      <Badge variant="outline" className="text-xs">{card.type}</Badge>
+                    </div>
+                    <div className="text-xs space-y-1">
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">Balance / Limit:</span>
+                        <span className="font-medium text-slate-900">{formatCurrency(card.balance)} / {formatCurrency(card.creditLimit)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">APR:</span>
+                        <span className="text-slate-900">{card.apr}%</span>
+                      </div>
+                      <div className="space-y-0.5">
+                        <div className="flex justify-between">
+                          <span className="text-slate-600">Utilization:</span>
+                          <span className={`font-medium ${utilization > 30 ? 'text-amber-600' : 'text-green-600'}`}>{utilization.toFixed(1)}%</span>
+                        </div>
+                        <Progress value={utilization} className="h-1" />
+                      </div>
+                      {card.rewards && <p className="text-slate-600">{card.rewards}</p>}
+                      <p className="text-slate-500">Opened: {card.opened}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </CollapsibleContent>
+          </Collapsible>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                <Home className="w-4 h-4 text-primary" />
+          {/* Mortgage */}
+          <Collapsible open={expandedHolding === 'mortgage'} onOpenChange={() => toggleHolding('mortgage')}>
+            <CollapsibleTrigger className="w-full flex items-center justify-between hover:bg-slate-50 p-2 rounded-lg transition-colors">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Home className="w-4 h-4 text-primary" />
+                </div>
+                <span className="text-sm text-slate-700">Mortgage</span>
               </div>
-              <span className="text-sm text-slate-700">Mortgage</span>
-            </div>
-            <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.mortgageAmount || 0)}</span>
-          </div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.mortgageAmount || 0)}</span>
+                {expandedHolding === 'mortgage' ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-2 ml-10 space-y-2">
+              {sampleHoldingsDetails.mortgages.map(loan => (
+                <div key={loan.id} className="bg-slate-50 p-2 rounded-lg space-y-1">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-slate-900">{loan.name}</p>
+                      <p className="text-xs text-slate-500">{loan.accountNumber}</p>
+                    </div>
+                    <Badge variant="outline" className="text-xs">{loan.type}</Badge>
+                  </div>
+                  <p className="text-xs text-slate-600 font-medium">{loan.property}</p>
+                  <div className="text-xs space-y-1">
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Balance / Original:</span>
+                      <span className="font-medium text-slate-900">{formatCurrency(loan.balance)} / {formatCurrency(loan.originalAmount)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Rate:</span>
+                      <span className="text-green-600 font-medium">{loan.rate}%</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Monthly Payment:</span>
+                      <span className="text-slate-900">{formatCurrency(loan.monthlyPayment)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Term:</span>
+                      <span className="text-slate-900">{loan.term}</span>
+                    </div>
+                    <p className="text-slate-500">Originated: {loan.originated}</p>
+                  </div>
+                </div>
+              ))}
+            </CollapsibleContent>
+          </Collapsible>
           
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                <TrendingUp className="w-4 h-4 text-green-700" />
+          {/* Merrill Investments */}
+          <Collapsible open={expandedHolding === 'merrill'} onOpenChange={() => toggleHolding('merrill')}>
+            <CollapsibleTrigger className="w-full flex items-center justify-between hover:bg-slate-50 p-2 rounded-lg transition-colors">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                  <TrendingUp className="w-4 h-4 text-green-700" />
+                </div>
+                <span className="text-sm text-slate-700">Merrill</span>
               </div>
-              <span className="text-sm text-slate-700">Merrill</span>
-            </div>
-            <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.merrill)}</span>
-          </div>
+              <div className="flex items-center gap-2">
+                <span className="font-semibold text-slate-900">{formatCurrency(sampleClientData.holdings.merrill)}</span>
+                {expandedHolding === 'merrill' ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+              </div>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-2 ml-10 space-y-2">
+              {sampleHoldingsDetails.merrill.map(account => (
+                <div key={account.id} className="bg-slate-50 p-2 rounded-lg space-y-1">
+                  <div className="flex items-start justify-between">
+                    <div className="flex-1">
+                      <p className="text-xs font-medium text-slate-900">{account.name}</p>
+                      <p className="text-xs text-slate-500">{account.accountNumber}</p>
+                    </div>
+                    <Badge variant="outline" className="text-xs">{account.type}</Badge>
+                  </div>
+                  <div className="text-xs space-y-1">
+                    <div className="flex justify-between">
+                      <span className="text-slate-600">Balance:</span>
+                      <span className="font-medium text-slate-900">{formatCurrency(account.balance)}</span>
+                    </div>
+                    {account.ytdReturn !== undefined && (
+                      <div className="flex justify-between">
+                        <span className="text-slate-600">YTD Return:</span>
+                        <span className="text-green-600 font-medium">+{account.ytdReturn}%</span>
+                      </div>
+                    )}
+                    {account.assetAllocation && (
+                      <div className="space-y-0.5 pt-1">
+                        <p className="text-slate-600 font-medium">Asset Allocation:</p>
+                        <div className="grid grid-cols-2 gap-x-2 gap-y-0.5">
+                          <span className="text-slate-600">Stocks: {account.assetAllocation.stocks}%</span>
+                          <span className="text-slate-600">Bonds: {account.assetAllocation.bonds}%</span>
+                          <span className="text-slate-600">Cash: {account.assetAllocation.cash}%</span>
+                          {account.assetAllocation.other > 0 && <span className="text-slate-600">Other: {account.assetAllocation.other}%</span>}
+                        </div>
+                      </div>
+                    )}
+                    <p className="text-slate-500">Opened: {account.opened}</p>
+                  </div>
+                </div>
+              ))}
+            </CollapsibleContent>
+          </Collapsible>
         </div>
       </Card>
 

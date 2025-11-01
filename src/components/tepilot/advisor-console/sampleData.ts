@@ -105,6 +105,65 @@ export interface EngagementHealth {
   };
 }
 
+export interface DepositProduct {
+  id: string;
+  type: 'checking' | 'savings' | 'money-market' | 'cd';
+  name: string;
+  accountNumber: string;
+  balance: number;
+  apy?: number;
+  opened: string;
+}
+
+export interface CreditProduct {
+  id: string;
+  type: 'credit-card' | 'line-of-credit';
+  name: string;
+  accountNumber: string;
+  balance: number;
+  creditLimit: number;
+  apr: number;
+  rewards?: string;
+  opened: string;
+}
+
+export interface MortgageProduct {
+  id: string;
+  type: 'primary' | 'investment';
+  name: string;
+  accountNumber: string;
+  balance: number;
+  originalAmount: number;
+  rate: number;
+  term: string;
+  monthlyPayment: number;
+  originated: string;
+  property: string;
+}
+
+export interface MerrillProduct {
+  id: string;
+  type: 'brokerage' | 'ira' | 'roth-ira' | '401k';
+  name: string;
+  accountNumber: string;
+  balance: number;
+  assetAllocation?: {
+    stocks: number;
+    bonds: number;
+    cash: number;
+    other: number;
+  };
+  ytdReturn?: number;
+  opened: string;
+}
+
+export interface HoldingsDetails {
+  deposits: DepositProduct[];
+  credit: CreditProduct[];
+  mortgages: MortgageProduct[];
+  merrill: MerrillProduct[];
+}
+
 // Sample Client Profile Data
 export const sampleClientData: ClientData = {
   name: "Emma R.",
@@ -546,4 +605,122 @@ export const sampleEngagementData: EngagementHealth = {
     reviewFrequency: "Quarterly",
     proactiveInquiries: 3
   }
+};
+
+// Holdings Details
+export const sampleHoldingsDetails: HoldingsDetails = {
+  deposits: [
+    {
+      id: 'dep-1',
+      type: 'checking',
+      name: 'Private Banking Checking',
+      accountNumber: '****3847',
+      balance: 85000,
+      opened: 'March 2020'
+    },
+    {
+      id: 'dep-2',
+      type: 'savings',
+      name: 'Premium Savings',
+      accountNumber: '****4921',
+      balance: 250000,
+      apy: 4.5,
+      opened: 'March 2020'
+    },
+    {
+      id: 'dep-3',
+      type: 'money-market',
+      name: 'Money Market Account',
+      accountNumber: '****5612',
+      balance: 115000,
+      apy: 4.8,
+      opened: 'June 2021'
+    }
+  ],
+  credit: [
+    {
+      id: 'cred-1',
+      type: 'credit-card',
+      name: 'Premium Rewards Card',
+      accountNumber: '****8294',
+      balance: 8500,
+      creditLimit: 50000,
+      apr: 18.99,
+      rewards: '2x points on all purchases',
+      opened: 'March 2020'
+    },
+    {
+      id: 'cred-2',
+      type: 'credit-card',
+      name: 'Business Platinum Card',
+      accountNumber: '****2103',
+      balance: 6500,
+      creditLimit: 75000,
+      apr: 19.99,
+      rewards: '3x points on business expenses',
+      opened: 'January 2022'
+    }
+  ],
+  mortgages: [
+    {
+      id: 'mtg-1',
+      type: 'primary',
+      name: 'Primary Residence Mortgage',
+      accountNumber: '****7845',
+      balance: 680000,
+      originalAmount: 860000,
+      rate: 3.2,
+      term: '30-year fixed',
+      monthlyPayment: 3680,
+      originated: 'August 2023',
+      property: '1248 Highland Ave, Bellevue WA'
+    }
+  ],
+  merrill: [
+    {
+      id: 'mer-1',
+      type: 'brokerage',
+      name: 'Individual Brokerage Account',
+      accountNumber: '****9102',
+      balance: 1250000,
+      assetAllocation: {
+        stocks: 68,
+        bonds: 20,
+        cash: 10,
+        other: 2
+      },
+      ytdReturn: 8.5,
+      opened: 'May 2020'
+    },
+    {
+      id: 'mer-2',
+      type: 'roth-ira',
+      name: 'Roth IRA',
+      accountNumber: '****3456',
+      balance: 425000,
+      assetAllocation: {
+        stocks: 85,
+        bonds: 10,
+        cash: 5,
+        other: 0
+      },
+      ytdReturn: 9.2,
+      opened: 'May 2020'
+    },
+    {
+      id: 'mer-3',
+      type: 'ira',
+      name: 'Traditional IRA',
+      accountNumber: '****7821',
+      balance: 175000,
+      assetAllocation: {
+        stocks: 75,
+        bonds: 20,
+        cash: 5,
+        other: 0
+      },
+      ytdReturn: 7.8,
+      opened: 'January 2021'
+    }
+  ]
 };
