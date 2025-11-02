@@ -46,6 +46,7 @@ const TePilot = () => {
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [isRelationshipUnlocked, setIsRelationshipUnlocked] = useState(false);
+  const [insightType, setInsightType] = useState<'revenue' | 'relationship' | null>(null);
 
   // SSE Enrichment Hook
   const {
@@ -272,11 +273,8 @@ const TePilot = () => {
       if (error) throw error;
       console.log('Received recommendations:', data);
       setRecommendations(data);
-      
-      // Store in sessionStorage and open new tab
-      sessionStorage.setItem("tepilot_recommendations", JSON.stringify(data));
-      window.open('/tepilot/recommendations', '_blank');
-      
+      setInsightType('revenue');
+      setActiveTab('insights-results');
       toast.success("Generated personalized recommendations!");
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -578,14 +576,14 @@ const TePilot = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className={`grid w-full ${isRelationshipUnlocked ? 'grid-cols-5' : 'grid-cols-4'}`}>
+          <TabsList className={`grid w-full ${insightType ? 'grid-cols-5' : 'grid-cols-4'}`}>
             <TabsTrigger value="upload">Setup</TabsTrigger>
             <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
             <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Enrichment</TabsTrigger>
             <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Analytics</TabsTrigger>
-            {isRelationshipUnlocked && (
-              <TabsTrigger value="relationship" disabled={enrichedTransactions.length === 0}>
-                Relationship
+            {insightType && (
+              <TabsTrigger value="insights-results">
+                Insights Results
               </TabsTrigger>
             )}
           </TabsList>
@@ -696,14 +694,6 @@ const TePilot = () => {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
-                    {recommendations && <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-                      total_estimated_value: {
-                        monthly: 0,
-                        annual: 0
-                      },
-                      message: "No recommendations available"
-                    }} />}
-                    
                     <div className="space-y-3">
                       <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
                         <Sparkles className="mr-2 h-5 w-5" />
@@ -713,6 +703,8 @@ const TePilot = () => {
                       <RelationshipManagementCard 
                         onUnlock={() => {
                           setIsRelationshipUnlocked(true);
+                          setInsightType('relationship');
+                          setActiveTab('insights-results');
                         }}
                         isUnlocked={isRelationshipUnlocked}
                       />
@@ -737,9 +729,37 @@ const TePilot = () => {
             )}
           </TabsContent>
 
-          {isRelationshipUnlocked && (
-            <TabsContent value="relationship" className="space-y-0 p-0">
-              <AdvisorConsole />
+          {insightType && (
+            <TabsContent value="insights-results" className="space-y-6">
+              {insightType === 'revenue' && recommendations && (
+                <RecommendationsCard 
+                  recommendations={recommendations.recommendations || []} 
+                  summary={recommendations.summary || {
+                    total_estimated_value: {
+                      monthly: 0,
+                      annual: 0
+                    },
+                    message: "No recommendations available"
+                  }} 
+                />
+              )}
+              
+              {insightType === 'relationship' && (
+                <div className="space-y-0 p-0">
+                  <AdvisorConsole />
+                </div>
+              )}
+              
+              {!insightType && (
+                <Card>
+                  <CardHeader>
+                    <CardTitle>No Insights Selected</CardTitle>
+                    <CardDescription>
+                      Generate insights from the Analytics tab to view them here
+                    </CardDescription>
+                  </CardHeader>
+                </Card>
+              )}
             </TabsContent>
           )}
         </Tabs>
