@@ -181,9 +181,17 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
               });
               return updated;
             });
-            setStatusMessage('Travel context added!');
-            toast.success('Travel patterns detected!');
-            console.log('[Travel Updates]', data.travel_updates.length, 'travel updates applied');
+            
+            // Only show success toast if actual travel patterns were detected
+            const travelCount = data.travel_updates.filter((u: any) => u.is_travel_related === true).length;
+            if (travelCount > 0) {
+              setStatusMessage(`${travelCount} travel pattern${travelCount > 1 ? 's' : ''} detected!`);
+              toast.success(`${travelCount} travel pattern${travelCount > 1 ? 's' : ''} detected!`);
+              console.log('[Travel Updates]', travelCount, 'travel patterns detected');
+            } else {
+              setStatusMessage('No travel patterns detected');
+              console.log('[Travel Updates]', 'No travel patterns detected');
+            }
             break;
 
           case 'done':
