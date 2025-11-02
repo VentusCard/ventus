@@ -28,7 +28,6 @@ import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { RelationshipManagementCard } from "@/components/tepilot/RelationshipManagementCard";
 import { AdvisorConsole } from "@/components/tepilot/advisor-console/AdvisorConsole";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
-import { PILLAR_COLORS } from "@/lib/sampleData";
 import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
@@ -44,13 +43,6 @@ const TePilot = () => {
   const [parsedTransactions, setParsedTransactions] = useState<Transaction[]>([]);
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
   const [recommendations, setRecommendations] = useState<any>(null);
-  const [topSubcategories, setTopSubcategories] = useState<Array<{
-    pillar: string;
-    subcategory: string;
-    spend: number;
-    transactionCount: number;
-    percentage: number;
-  }>>([]);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [isRelationshipUnlocked, setIsRelationshipUnlocked] = useState(false);
@@ -85,7 +77,6 @@ const TePilot = () => {
   useEffect(() => {
     const auth = sessionStorage.getItem("tepilot_auth");
     if (auth === "authenticated") setIsAuthenticated(true);
-    
     const relationshipAuth = sessionStorage.getItem("tepilot_relationship_auth");
     if (relationshipAuth === "unlocked") setIsRelationshipUnlocked(true);
   }, []);
@@ -120,28 +111,20 @@ const TePilot = () => {
       } else if (files && files.length > 0) {
         // Multi-file parsing with progress
         const progressToast = toast.loading("Processing files...");
-        
-        result = await parseMultipleFiles(
-          files, 
-          anchorZip,
-          (current, total, fileName) => {
-            toast.loading(`Processing ${current} of ${total}: ${fileName}`, { id: progressToast });
-          }
-        );
-        
+        result = await parseMultipleFiles(files, anchorZip, (current, total, fileName) => {
+          toast.loading(`Processing ${current} of ${total}: ${fileName}`, {
+            id: progressToast
+          });
+        });
         toast.dismiss(progressToast);
       } else if (uploadedFiles.length > 0) {
         // Use stored files
         const progressToast = toast.loading("Processing files...");
-        
-        result = await parseMultipleFiles(
-          uploadedFiles, 
-          anchorZip,
-          (current, total, fileName) => {
-            toast.loading(`Processing ${current} of ${total}: ${fileName}`, { id: progressToast });
-          }
-        );
-        
+        result = await parseMultipleFiles(uploadedFiles, anchorZip, (current, total, fileName) => {
+          toast.loading(`Processing ${current} of ${total}: ${fileName}`, {
+            id: progressToast
+          });
+        });
         toast.dismiss(progressToast);
       } else {
         toast.error("No data to parse");
@@ -256,41 +239,6 @@ const TePilot = () => {
         totalSpend: Math.round(data.totalSpend)
       })).sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 10);
 
-      // Calculate top subcategories
-      const subcategorySpending = enrichedTransactions.reduce((acc, t) => {
-        const subcategory = t.subcategory || "Unknown";
-        const pillar = t.pillar || "Other";
-        const key = `${pillar}::${subcategory}`;
-        
-        if (!acc[key]) {
-          acc[key] = {
-            pillar,
-            subcategory,
-            totalSpend: 0,
-            transactionCount: 0
-          };
-        }
-        
-        acc[key].totalSpend += t.amount;
-        acc[key].transactionCount += 1;
-        return acc;
-      }, {} as Record<string, { pillar: string; subcategory: string; totalSpend: number; transactionCount: number }>);
-
-      const topSubcategoriesData = Object.values(subcategorySpending)
-        .filter(data => data.subcategory !== "General" && data.subcategory !== "Unknown")
-        .map(data => ({
-          pillar: data.pillar,
-          subcategory: data.subcategory,
-          spend: Math.round(data.totalSpend),
-          transactionCount: data.transactionCount,
-          percentage: Math.round(data.totalSpend / totalSpend * 100)
-        }))
-        .sort((a, b) => b.spend - a.spend)
-        .slice(0, 5);
-
-      // Save to state
-      setTopSubcategories(topSubcategoriesData);
-
       // Determine customer segment
       const segment = {
         tier: totalSpend > 96000 ? "premium" : totalSpend > 36000 ? "standard" : "basic",
@@ -316,8 +264,8 @@ const TePilot = () => {
       if (error) throw error;
       console.log('Received recommendations:', data);
       setRecommendations(data);
-    setInsightType('revenue');
-    setActiveTab('insights');
+      setInsightType('revenue');
+      setActiveTab('insights');
       toast.success("Generated personalized recommendations!");
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -340,11 +288,7 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V2.1 - Current</p>
-                      <p>Added subcategory categorization tool, optimized travel detection algo, drafted UX for relationship management tool.</p>
-                    </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V2.0 - November 2025</p>
+                      <p className="font-semibold">V2.0 - Current</p>
                       <p>Added bank-wide macro analytics tool. Now allows user to upload multiple files to process.</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
@@ -684,43 +628,31 @@ const TePilot = () => {
                     {analyticsView === "single" ? "Customer Lifestyle Dashboard" : "Bank-wide Analytics"}
                   </h2>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {analyticsView === "single" 
-                      ? "Detailed analysis of individual spending patterns and opportunities"
-                      : "Aggregated portfolio insights across 70M accounts • 45M users • $180B"}
+                    {analyticsView === "single" ? "Detailed analysis of individual spending patterns and opportunities" : "Aggregated portfolio insights across 70M accounts • 45M users • $180B"}
                   </p>
                 </div>
                 <div className="flex items-center gap-3">
                   <span className="text-sm text-muted-foreground">
                     {analyticsView === "single" ? "Customer View" : "Bank-wide"}
                   </span>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => setAnalyticsView(analyticsView === "single" ? "bankwide" : "single")}
-                    className="gap-2"
-                  >
-                    {analyticsView === "single" ? (
-                      <>
+                  <Button variant="outline" size="sm" onClick={() => setAnalyticsView(analyticsView === "single" ? "bankwide" : "single")} className="gap-2">
+                    {analyticsView === "single" ? <>
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                         </svg>
                         Bank-wide View
-                      </>
-                    ) : (
-                      <>
+                      </> : <>
                         <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                         </svg>
                         Customer View
-                      </>
-                    )}
+                      </>}
                   </Button>
                 </div>
               </div>
             </Card>
 
-            {analyticsView === "single" ? (
-              <>
+            {analyticsView === "single" ? <>
                 <OverviewMetrics originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
                 
                 <PillarExplorer transactions={displayTransactions} />
@@ -743,20 +675,15 @@ const TePilot = () => {
                         {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                       </Button>
                       
-                      <RelationshipManagementCard 
-                        onUnlock={() => {
-                          setIsRelationshipUnlocked(true);
-                          setInsightType('relationship');
-                          setActiveTab('insights');
-                        }}
-                        isUnlocked={isRelationshipUnlocked}
-                      />
+                      <RelationshipManagementCard onUnlock={() => {
+                    setIsRelationshipUnlocked(true);
+                    setInsightType('relationship');
+                    setActiveTab('insights');
+                  }} isUnlocked={isRelationshipUnlocked} />
                     </div>
                   </CardContent>
                 </Card>
-              </>
-            ) : (
-              <Accordion type="single" collapsible defaultValue="bankwide">
+              </> : <Accordion type="single" collapsible defaultValue="bankwide">
                 <AccordionItem value="bankwide">
                   <AccordionTrigger className="text-lg hover:no-underline">
                     <div className="flex items-center justify-between w-full pr-4">
@@ -768,99 +695,38 @@ const TePilot = () => {
                     <BankwideView />
                   </AccordionContent>
                 </AccordionItem>
-              </Accordion>
-            )}
+              </Accordion>}
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            {!insightType && (
-              <Card className="p-12 text-center">
+            {!insightType && <Card className="p-12 text-center">
                 <p className="text-muted-foreground mb-4">
                   No insights generated yet. Go to Analytics to generate recommendations or access relationship analysis.
                 </p>
-                <Button onClick={() => setActiveTab("analytics")}>
-                  Go to Analytics
-                </Button>
-              </Card>
-            )}
+                <Button onClick={() => setActiveTab("analytics")}>Ventus AI Opportunity Recommendations</Button>
+              </Card>}
 
-            {insightType === 'revenue' && recommendations && (
-              <div className="space-y-6">
+            {insightType === 'revenue' && recommendations && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
-                  <Button
-                    variant="outline"
-                    onClick={() => setActiveTab("analytics")}
-                  >
+                  <Button variant="outline" onClick={() => setActiveTab("analytics")}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Analytics
                   </Button>
                 </div>
+                <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
+              total_estimated_value: {
+                monthly: 0,
+                annual: 0
+              },
+              message: "No recommendations available"
+            }} />
+              </div>}
 
-                {/* Display top subcategories */}
-                {topSubcategories.length > 0 && (
-                  <Card>
-                    <CardHeader>
-                      <CardTitle className="text-xl">Top 5 Spending Subcategories</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-5 gap-4">
-                        {topSubcategories.map((data, index) => {
-                          const pillarColor = PILLAR_COLORS[data.pillar] || "#64748b";
-                          return (
-                            <div
-                              key={`subcategory-${index}`}
-                              className="flex flex-col items-center text-center p-4 rounded-lg border bg-card"
-                              style={{ borderTopColor: pillarColor, borderTopWidth: '3px' }}
-                            >
-                              <Badge 
-                                variant="outline" 
-                                className="font-semibold mb-2"
-                                style={{ 
-                                  backgroundColor: `${pillarColor}15`, 
-                                  borderColor: pillarColor,
-                                  color: pillarColor 
-                                }}
-                              >
-                                #{index + 1}
-                              </Badge>
-                              <p className="font-semibold text-sm mb-1">{data.subcategory}</p>
-                              <p className="text-xs mb-2" style={{ color: pillarColor }}>
-                                {data.pillar}
-                              </p>
-                              <p className="font-semibold text-lg">${data.spend.toLocaleString()}</p>
-                              <p className="text-xs text-muted-foreground">
-                                {data.percentage}%
-                              </p>
-                            </div>
-                          );
-                        })}
-                      </div>
-                    </CardContent>
-                  </Card>
-                )}
-
-                <RecommendationsCard 
-                  recommendations={recommendations.recommendations || []} 
-                  summary={recommendations.summary || {
-                    total_estimated_value: {
-                      monthly: 0,
-                      annual: 0
-                    },
-                    message: "No recommendations available"
-                  }} 
-                />
-              </div>
-            )}
-
-            {insightType === 'relationship' && (
-              <div className="space-y-6">
+            {insightType === 'relationship' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Wealth Management Relationship Analysis</h2>
-                  <Button
-                    variant="outline"
-                    onClick={() => setActiveTab("analytics")}
-                  >
+                  <Button variant="outline" onClick={() => setActiveTab("analytics")}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Analytics
                   </Button>
@@ -868,8 +734,7 @@ const TePilot = () => {
                 <div className="space-y-0 p-0">
                   <AdvisorConsole />
                 </div>
-              </div>
-            )}
+              </div>}
           </TabsContent>
         </Tabs>
       </div>
