@@ -46,10 +46,10 @@ export function UploadOrPasteContainer({
                 Dataset 4 (12 months - Family)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_NYC_SPORTS_HOME_12, "10003")}>
-                Dataset 5 (12 months - Sports/Home)
+                Dataset 5 (12 months)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_CHICAGO_TENNIS_WELLNESS_12, "60610")}>
-                Dataset 6 (12 months - Tennis/Wellness)
+                Dataset 6 (12 months)
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
