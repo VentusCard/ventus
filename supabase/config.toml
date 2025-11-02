@@ -6,7 +6,7 @@ verify_jwt = true
 [functions.classify-transactions]
 verify_jwt = false
 
-[functions.enrich-transactions]
+[functions.travel-detection]
 verify_jwt = false
 
 [functions.send-feedback]

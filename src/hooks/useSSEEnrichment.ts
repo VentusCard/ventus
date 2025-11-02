@@ -100,7 +100,7 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
 
   const callEnrichTransactions = useCallback(async (classifiedTransactions: EnrichedTransaction[], homeZip: string) => {
     const projectId = 'theaknjrmfsyauxxvhmk';
-    const url = `https://${projectId}.supabase.co/functions/v1/enrich-transactions`;
+    const url = `https://${projectId}.supabase.co/functions/v1/travel-detection`;
     const anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZWFrbmpybWZzeWF1eHh2aG1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5MzQwMzAsImV4cCI6MjA3NTUxMDAzMH0.UumEOhlgamn23eVhoKWYKgHSTlu1IoseiTrxu3GAzIk';
 
     // Pre-filter: only send travel candidates to AI
