@@ -127,7 +127,7 @@ Deno.serve(async (req) => {
               "Authorization": `Bearer ${LOVABLE_API_KEY}`,
             },
             body: JSON.stringify({
-              model: "google/gemini-2.5-flash-lite",
+              model: "google/gemini-2.5-flash",
               max_tokens: 3000,
               messages: [
                 { role: "system", content: TRAVEL_DETECTION_PROMPT.replace("{homeZip}", homeZip) },
@@ -147,15 +147,30 @@ Deno.serve(async (req) => {
           const travelData = await travelResponse.json();
           console.log('[Travel Detection] Raw AI response:', JSON.stringify(travelData, null, 2));
           
-          const travelToolCalls = travelData.choices?.[0]?.message?.tool_calls;
+          // Check for API errors first
+          const choice = travelData.choices?.[0];
+          if (choice?.error) {
+            console.error('[Travel Detection] AI API error:', choice.error);
+            throw new Error(`AI API error: ${choice.error.message || 'Unknown error'}`);
+          }
           
+          const travelToolCalls = choice?.message?.tool_calls;
           let travelUpdates: any[] = [];
           
           if (travelToolCalls && travelToolCalls.length > 0) {
-            const travelResults = JSON.parse(travelToolCalls[0].function.arguments);
-            travelUpdates = travelResults.travel_updates || [];
-            const elapsed = Date.now() - startTime;
-            console.log(`[Travel Detection] Found ${travelUpdates.length} travel updates in ${elapsed}ms`);
+            try {
+              const args = travelToolCalls[0].function.arguments;
+              console.log('[Travel Detection] Raw arguments:', args);
+              
+              // Check if arguments is already an object or needs parsing
+              const travelResults = typeof args === 'string' ? JSON.parse(args) : args;
+              travelUpdates = travelResults.travel_updates || [];
+              const elapsed = Date.now() - startTime;
+              console.log(`[Travel Detection] Found ${travelUpdates.length} travel updates in ${elapsed}ms`);
+            } catch (parseError: any) {
+              console.error('[Travel Detection] Failed to parse tool call arguments:', parseError.message);
+              console.warn('[Travel Detection] Falling back to manual detection');
+            }
           } else {
             console.warn("[Travel Detection] No travel detection results returned");
           }
