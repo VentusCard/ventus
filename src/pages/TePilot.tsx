@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -273,8 +273,8 @@ const TePilot = () => {
       if (error) throw error;
       console.log('Received recommendations:', data);
       setRecommendations(data);
-      setInsightType('revenue');
-      setActiveTab('insights-results');
+    setInsightType('revenue');
+    setActiveTab('insights');
       toast.success("Generated personalized recommendations!");
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -576,16 +576,12 @@ const TePilot = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className={`grid w-full ${insightType ? 'grid-cols-5' : 'grid-cols-4'}`}>
+          <TabsList className="grid w-full grid-cols-5">
             <TabsTrigger value="upload">Setup</TabsTrigger>
             <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
             <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Enrichment</TabsTrigger>
-            <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Analytics</TabsTrigger>
-            {insightType && (
-              <TabsTrigger value="insights-results">
-                Insights Results
-              </TabsTrigger>
-            )}
+            <TabsTrigger value="analytics" disabled={enrichedTransactions.length === 0}>Analytics</TabsTrigger>
+            <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Insights</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">
@@ -624,7 +620,7 @@ const TePilot = () => {
                       View aggregated spending patterns, travel analysis, and lifestyle breakdowns
                     </p>
                   </div>
-                  <Button onClick={() => setActiveTab("insights")} size="lg" className="gap-2">
+                  <Button onClick={() => setActiveTab("analytics")} size="lg" className="gap-2">
                     View Insights
                     <ArrowRight className="h-4 w-4" />
                   </Button>
@@ -632,7 +628,7 @@ const TePilot = () => {
               </Card>}
           </TabsContent>
 
-          <TabsContent value="insights" className="space-y-6">
+          <TabsContent value="analytics" className="space-y-6">
             {/* View Header */}
             <Card className="p-6">
               <div className="flex items-center justify-between">
@@ -704,7 +700,7 @@ const TePilot = () => {
                         onUnlock={() => {
                           setIsRelationshipUnlocked(true);
                           setInsightType('relationship');
-                          setActiveTab('insights-results');
+                          setActiveTab('insights');
                         }}
                         isUnlocked={isRelationshipUnlocked}
                       />
@@ -729,9 +725,30 @@ const TePilot = () => {
             )}
           </TabsContent>
 
-          {insightType && (
-            <TabsContent value="insights-results" className="space-y-6">
-              {insightType === 'revenue' && recommendations && (
+          <TabsContent value="insights" className="space-y-6">
+            {!insightType && (
+              <Card className="p-12 text-center">
+                <p className="text-muted-foreground mb-4">
+                  No insights generated yet. Go to Analytics to generate recommendations or access relationship analysis.
+                </p>
+                <Button onClick={() => setActiveTab("analytics")}>
+                  Go to Analytics
+                </Button>
+              </Card>
+            )}
+
+            {insightType === 'revenue' && recommendations && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
+                  <Button
+                    variant="outline"
+                    onClick={() => setActiveTab("analytics")}
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Analytics
+                  </Button>
+                </div>
                 <RecommendationsCard 
                   recommendations={recommendations.recommendations || []} 
                   summary={recommendations.summary || {
@@ -742,26 +759,27 @@ const TePilot = () => {
                     message: "No recommendations available"
                   }} 
                 />
-              )}
-              
-              {insightType === 'relationship' && (
+              </div>
+            )}
+
+            {insightType === 'relationship' && (
+              <div className="space-y-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold">Wealth Management Relationship Analysis</h2>
+                  <Button
+                    variant="outline"
+                    onClick={() => setActiveTab("analytics")}
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Analytics
+                  </Button>
+                </div>
                 <div className="space-y-0 p-0">
                   <AdvisorConsole />
                 </div>
-              )}
-              
-              {!insightType && (
-                <Card>
-                  <CardHeader>
-                    <CardTitle>No Insights Selected</CardTitle>
-                    <CardDescription>
-                      Generate insights from the Analytics tab to view them here
-                    </CardDescription>
-                  </CardHeader>
-                </Card>
-              )}
-            </TabsContent>
-          )}
+              </div>
+            )}
+          </TabsContent>
         </Tabs>
       </div>
     </div>;
