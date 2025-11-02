@@ -8,24 +8,27 @@ const corsHeaders = {
 };
 
 // Simplified Travel Detection Prompt (for pre-filtered candidates)
-const TRAVEL_DETECTION_PROMPT = `You are analyzing PRE-FILTERED transactions that occur AWAY from home (home zip: {homeZip}).
-
-These transactions were selected because they either:
-1. Have zip codes different from home
+const TRAVEL_DETECTION_PROMPT = `You are analyzing PRE-FILTERED transactions that were flagged as potential travel because they:
+1. Have zip codes different from home (home zip: {homeZip})
 2. Are travel anchors (hotels, flights, car rentals)
 3. Occur within ±5 days of travel anchors
 
-YOUR JOB: Identify travel windows and reclassify physical transactions within those periods.
+ASSUMPTION: Most of these ARE travel-related unless clearly not (e.g., online subscription in the middle of a trip).
 
-TRAVEL WINDOW: For each hotel/flight booking, create ±3 day window.
+YOUR JOB:
+1. Identify travel windows (±3 days around hotels/flights)
+2. Mark ALL transactions in those windows as travel-related
+3. Reclassify physical spending categories:
+   - Gas stations → "Travel Transportation"
+   - Restaurants → "Dining Away"
+   - Rideshares/Uber → "Local Transportation"
+   - Grocery/convenience stores → "Travel Essentials"
 
-RECLASSIFY within travel windows:
-- Gas stations → "Travel Transportation"
-- Restaurants → "Dining Away"
-- Rideshares → "Local Transportation"
-- Convenience stores → "Travel Essentials"
+KEEP ORIGINAL: Online subscriptions (Netflix, Spotify, etc.)
 
-KEEP ORIGINAL: Online purchases (Netflix, Amazon, etc.)
+EXAMPLE:
+Input: Hotel in Miami (33139), restaurant in Miami same day, gas station next day
+Output: All 3 marked is_travel_related=true, restaurant→"Dining Away", gas→"Travel Transportation"
 
 OUTPUT:
 For each transaction, provide:
@@ -106,11 +109,13 @@ Deno.serve(async (req) => {
           sendEvent("status", { message: "Algo 2: Analyzing travel patterns..." });
           const startTime = Date.now();
 
-          // Minimal payload: only essential fields for travel detection
+          // Enhanced payload with amount and description for better context
           const transactionSummary = transactions.map((t) => ({
             id: t.transaction_id,
             date: t.date,
             merchant: t.normalized_merchant || t.merchant_name,
+            description: t.description || '',
+            amount: t.amount,
             pillar: t.pillar,
             zip: t.zip_code || 'unknown'
           }));
@@ -123,7 +128,7 @@ Deno.serve(async (req) => {
             },
             body: JSON.stringify({
               model: "google/gemini-2.5-flash-lite",
-              max_tokens: 1500,
+              max_tokens: 3000,
               messages: [
                 { role: "system", content: TRAVEL_DETECTION_PROMPT.replace("{homeZip}", homeZip) },
                 { role: "user", content: `Analyze these PRE-FILTERED travel candidates:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
@@ -140,6 +145,8 @@ Deno.serve(async (req) => {
           }
 
           const travelData = await travelResponse.json();
+          console.log('[Travel Detection] Raw AI response:', JSON.stringify(travelData, null, 2));
+          
           const travelToolCalls = travelData.choices?.[0]?.message?.tool_calls;
           
           let travelUpdates: any[] = [];
@@ -151,6 +158,22 @@ Deno.serve(async (req) => {
             console.log(`[Travel Detection] Found ${travelUpdates.length} travel updates in ${elapsed}ms`);
           } else {
             console.warn("[Travel Detection] No travel detection results returned");
+          }
+
+          // Fallback: If AI returns no updates but we have travel candidates, mark them manually
+          if (travelUpdates.length === 0 && transactions.length > 0) {
+            console.warn('[Travel Detection] AI returned no updates, applying fallback logic');
+            travelUpdates = transactions.map(t => ({
+              transaction_id: t.transaction_id,
+              is_travel_related: true,
+              travel_period_start: null,
+              travel_period_end: null,
+              travel_destination: null,
+              original_pillar: t.pillar,
+              reclassified_pillar: null,
+              reclassified_subcategory: null,
+              reclassification_reason: 'Flagged as travel candidate by pre-filter'
+            }));
           }
 
           // Send travel updates
