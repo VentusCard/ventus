@@ -7,19 +7,48 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Simplified Classification Prompt
-const CLASSIFICATION_PROMPT = `Classify transactions into lifestyle pillars based on merchant names.
+// Classification Prompt with Subcategories
+const CLASSIFICATION_PROMPT = `Classify transactions into lifestyle pillars and specific subcategories based on merchant names.
 
-PILLARS: Sports & Active Living | Health & Wellness | Food & Dining | Travel & Exploration | Home & Living (include local commuting such as train tickets and gas) | Style & Beauty | Pets | Entertainment & Culture | Technology & Digital Life | Family & Community | Financial & Aspirational | Miscellaneous & Unclassified
+PILLARS & SUBCATEGORIES:
+
+1. Sports & Active Living: Gym & Fitness, Outdoor Recreation, Sports Equipment, Athletic Apparel, Fitness Classes, Team Sports & Leagues, General
+
+2. Health & Wellness: Medical & Doctor Visits, Pharmacy & Prescriptions, Mental Health & Therapy, Spa & Massage, Vitamins & Supplements, Health Insurance, General
+
+3. Food & Dining: Grocery, Dining Out, Delivery & Takeout, Coffee & Cafes, Fast Food, Meal Kits & Subscriptions, General
+
+4. Travel & Exploration: Flights, Hotels & Lodging, Car Rentals, Travel Transportation, Tours & Activities, Travel Insurance, General
+
+5. Home & Living: Rent & Mortgage, Utilities, Home Improvement, Furniture & Decor, Household Supplies, Local Commuting (Gas, Parking, Transit), General
+
+6. Style & Beauty: Clothing, Shoes & Accessories, Beauty Products, Hair Salon, Nail Salon, Jewelry, General
+
+7. Pets: Pet Food, Veterinary Care, Pet Supplies, Grooming, Pet Insurance, Pet Services, General
+
+8. Entertainment & Culture: Movies & Theater, Concerts & Events, Museums & Exhibitions, Books & Magazines, Hobbies & Crafts, Gaming, General
+
+9. Technology & Digital Life: Electronics & Devices, Software & Apps, Streaming Services, Internet & Phone, Cloud Storage, Tech Accessories, General
+
+10. Family & Community: Childcare & Education, Gifts & Donations, Religious Organizations, Community Events, Kids Activities, Elder Care, General
+
+11. Financial & Aspirational: Investments, Savings & Deposits, Insurance, Professional Development, Courses & Certifications, Financial Services, General
+
+12. Miscellaneous & Unclassified: Unclear Merchants, General Services, One-Time Purchases, Unknown, Mixed Categories, General
 
 MERCHANT PARSING:
 • Remove payment prefixes: Apple Pay, PayPal, Venmo, SQ, Cash App, Zelle
 • Extract true merchant (e.g., "SQ *Chipotle" → "Chipotle")
 
+SUBCATEGORY GUIDANCE:
+• Choose the most specific subcategory that matches the transaction
+• Use "General" only when none of the specific subcategories fit
+• For ambiguous cases, prefer a specific subcategory over "General"
+
 CONFIDENCE LEVELS:
-• High (0.9): Clear merchants (Nike, Starbucks, Delta)
-• Moderate (0.6): Ambiguous merchants
-• Low (0.3): Use Miscellaneous & Unclassified`;
+• High (0.9): Clear merchants with obvious subcategories (Nike→Athletic Apparel, Starbucks→Coffee & Cafes)
+• Moderate (0.6): Ambiguous merchants but reasonable subcategory inference
+• Low (0.3): Use "General" within appropriate pillar or Miscellaneous & Unclassified`;
 
 // Classification Tool Schema
 const CLASSIFICATION_TOOL = [
@@ -213,7 +242,7 @@ Deno.serve(async (req) => {
                 ...original,
                 normalized_merchant: original.merchant_name,
                 pillar: "Miscellaneous & Unclassified",
-                subcategory: "Unknown",
+                subcategory: "General",
                 confidence: 0.1,
                 explanation: "Classification failed",
                 enriched_at: new Date().toISOString(),
