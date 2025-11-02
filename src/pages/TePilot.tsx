@@ -28,6 +28,7 @@ import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { RelationshipManagementCard } from "@/components/tepilot/RelationshipManagementCard";
 import { AdvisorConsole } from "@/components/tepilot/advisor-console/AdvisorConsole";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
+import { PILLAR_COLORS } from "@/lib/sampleData";
 import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
@@ -804,22 +805,36 @@ const TePilot = () => {
                     </CardHeader>
                     <CardContent>
                       <div className="grid grid-cols-5 gap-4">
-                        {topSubcategories.map((data, index) => (
-                          <div
-                            key={`subcategory-${index}`}
-                            className="flex flex-col items-center text-center p-4 rounded-lg border bg-card"
-                          >
-                            <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-700 font-semibold mb-2">
-                              #{index + 1}
-                            </Badge>
-                            <p className="font-semibold text-sm mb-1">{data.subcategory}</p>
-                            <p className="text-xs text-muted-foreground mb-2">{data.pillar}</p>
-                            <p className="font-semibold text-lg">${data.spend.toLocaleString()}</p>
-                            <p className="text-xs text-muted-foreground">
-                              {data.percentage}%
-                            </p>
-                          </div>
-                        ))}
+                        {topSubcategories.map((data, index) => {
+                          const pillarColor = PILLAR_COLORS[data.pillar] || "#64748b";
+                          return (
+                            <div
+                              key={`subcategory-${index}`}
+                              className="flex flex-col items-center text-center p-4 rounded-lg border bg-card"
+                              style={{ borderTopColor: pillarColor, borderTopWidth: '3px' }}
+                            >
+                              <Badge 
+                                variant="outline" 
+                                className="font-semibold mb-2"
+                                style={{ 
+                                  backgroundColor: `${pillarColor}15`, 
+                                  borderColor: pillarColor,
+                                  color: pillarColor 
+                                }}
+                              >
+                                #{index + 1}
+                              </Badge>
+                              <p className="font-semibold text-sm mb-1">{data.subcategory}</p>
+                              <p className="text-xs mb-2" style={{ color: pillarColor }}>
+                                {data.pillar}
+                              </p>
+                              <p className="font-semibold text-lg">${data.spend.toLocaleString()}</p>
+                              <p className="text-xs text-muted-foreground">
+                                {data.percentage}%
+                              </p>
+                            </div>
+                          );
+                        })}
                       </div>
                     </CardContent>
                   </Card>
