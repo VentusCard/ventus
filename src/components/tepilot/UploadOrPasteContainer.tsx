@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Upload, FileText } from "lucide-react";
-import { SAMPLE_CSV, SAMPLE_CSV_SPORTS_WELLNESS, SAMPLE_CSV_FOOD_HOME, SAMPLE_CSV_TRAVEL_FAMILY_12, SAMPLE_CSV_NYC_SPORTS_HOME_12 } from "@/lib/sampleData";
+import { SAMPLE_CSV, SAMPLE_CSV_SPORTS_WELLNESS, SAMPLE_CSV_FOOD_HOME, SAMPLE_CSV_TRAVEL_FAMILY_12, SAMPLE_CSV_NYC_SPORTS_HOME_12, SAMPLE_CSV_CHICAGO_TENNIS_WELLNESS_12 } from "@/lib/sampleData";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { ChevronDown } from "lucide-react";
 interface UploadOrPasteContainerProps {
@@ -47,6 +47,9 @@ export function UploadOrPasteContainer({
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_NYC_SPORTS_HOME_12, "10003")}>
                 Dataset 5 (12 months - Sports/Home)
+              </DropdownMenuItem>
+              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_CHICAGO_TENNIS_WELLNESS_12, "60610")}>
+                Dataset 6 (12 months - Tennis/Wellness)
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
