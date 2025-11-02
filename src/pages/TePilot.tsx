@@ -297,7 +297,11 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V2.0 - Current</p>
+                      <p className="font-semibold">V2.1 - Current</p>
+                      <p>Added subcategory categorization tool, optimized travel detection algo, drafted UX for relationship management tool.</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V2.0 - November 2025</p>
                       <p>Added bank-wide macro analytics tool. Now allows user to upload multiple files to process.</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
