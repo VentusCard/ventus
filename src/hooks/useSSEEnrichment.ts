@@ -116,6 +116,10 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     if (travelCandidates.length === 0) {
       console.log('[Travel Detection] No travel candidates found, skipping AI call');
       setEnrichedTransactions(classifiedTransactions);
+      setStatusMessage('Classification complete (no travel detected)');
+      setCurrentPhase('complete');
+      setIsProcessing(false);
+      toast.success(`${classifiedTransactions.length} transactions classified!`);
       return;
     }
 
