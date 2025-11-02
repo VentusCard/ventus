@@ -43,6 +43,13 @@ const TePilot = () => {
   const [parsedTransactions, setParsedTransactions] = useState<Transaction[]>([]);
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
   const [recommendations, setRecommendations] = useState<any>(null);
+  const [topSubcategories, setTopSubcategories] = useState<Array<{
+    pillar: string;
+    subcategory: string;
+    spend: number;
+    transactionCount: number;
+    percentage: number;
+  }>>([]);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [isRelationshipUnlocked, setIsRelationshipUnlocked] = useState(false);
@@ -247,6 +254,41 @@ const TePilot = () => {
         visits: data.visits,
         totalSpend: Math.round(data.totalSpend)
       })).sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 10);
+
+      // Calculate top subcategories
+      const subcategorySpending = enrichedTransactions.reduce((acc, t) => {
+        const subcategory = t.subcategory || "Unknown";
+        const pillar = t.pillar || "Other";
+        const key = `${pillar}::${subcategory}`;
+        
+        if (!acc[key]) {
+          acc[key] = {
+            pillar,
+            subcategory,
+            totalSpend: 0,
+            transactionCount: 0
+          };
+        }
+        
+        acc[key].totalSpend += t.amount;
+        acc[key].transactionCount += 1;
+        return acc;
+      }, {} as Record<string, { pillar: string; subcategory: string; totalSpend: number; transactionCount: number }>);
+
+      const topSubcategoriesData = Object.values(subcategorySpending)
+        .filter(data => data.subcategory !== "General" && data.subcategory !== "Unknown")
+        .map(data => ({
+          pillar: data.pillar,
+          subcategory: data.subcategory,
+          spend: Math.round(data.totalSpend),
+          transactionCount: data.transactionCount,
+          percentage: Math.round(data.totalSpend / totalSpend * 100)
+        }))
+        .sort((a, b) => b.spend - a.spend)
+        .slice(0, 5);
+
+      // Save to state
+      setTopSubcategories(topSubcategoriesData);
 
       // Determine customer segment
       const segment = {
@@ -753,6 +795,45 @@ const TePilot = () => {
                     Back to Analytics
                   </Button>
                 </div>
+
+                {/* Display top subcategories */}
+                {topSubcategories.length > 0 && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-xl">Top 5 Spending Subcategories</CardTitle>
+                      <CardDescription>
+                        High-priority customer lifestyle segments identified from transaction data
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {topSubcategories.map((data, index) => (
+                          <div
+                            key={`subcategory-${index}`}
+                            className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/5 transition-colors"
+                          >
+                            <div className="flex items-center gap-3">
+                              <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-700 font-semibold">
+                                #{index + 1}
+                              </Badge>
+                              <div>
+                                <p className="font-semibold">{data.subcategory}</p>
+                                <p className="text-sm text-muted-foreground">{data.pillar}</p>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <p className="font-semibold text-lg">${data.spend.toLocaleString()}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {data.percentage}% • {data.transactionCount} transactions
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
                 <RecommendationsCard 
                   recommendations={recommendations.recommendations || []} 
                   summary={recommendations.summary || {
