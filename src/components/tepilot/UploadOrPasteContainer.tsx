@@ -34,13 +34,13 @@ export function UploadOrPasteContainer({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-48 bg-background">
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV, "94102")}>
-                Dataset 1
+                Dataset 1 (1 month)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_SPORTS_WELLNESS, "78701")}>
-                Dataset 2
+                Dataset 2 (1 month)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_FOOD_HOME, "60614")}>
-                Dataset 3
+                Dataset 3 (1 month)
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
