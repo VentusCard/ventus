@@ -20,6 +20,11 @@ export function RelationshipManagementCard({ onUnlock, isUnlocked }: Relationshi
       onUnlock();
       setShowDialog(false);
       setPassword("");
+      
+      // Store unlock status and open new tab
+      sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
+      window.open('/tepilot/advisor-console', '_blank');
+      
       toast.success("Relationship Management unlocked!");
     } else {
       toast.error("Incorrect password");

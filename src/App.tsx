@@ -24,6 +24,8 @@ import TePilot from "./pages/TePilot";
 import NotFound from "./pages/NotFound";
 import AppDownload from "./pages/AppDownload";
 import Archive from "./pages/Archive";
+import RecommendationsPage from "./pages/RecommendationsPage";
+import AdvisorConsolePage from "./pages/AdvisorConsolePage";
 
 const queryClient = new QueryClient();
 
@@ -51,6 +53,8 @@ const App = () => (
           <Route path="/ventus-ai" element={<VentusAI />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/tepilot" element={<TePilot />} />
+          <Route path="/tepilot/recommendations" element={<RecommendationsPage />} />
+          <Route path="/tepilot/advisor-console" element={<AdvisorConsolePage />} />
           <Route path="/app" element={<AppDownload />} />
           <Route path="/archive" element={<Archive />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

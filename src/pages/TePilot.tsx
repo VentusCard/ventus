@@ -272,6 +272,11 @@ const TePilot = () => {
       if (error) throw error;
       console.log('Received recommendations:', data);
       setRecommendations(data);
+      
+      // Store in sessionStorage and open new tab
+      sessionStorage.setItem("tepilot_recommendations", JSON.stringify(data));
+      window.open('/tepilot/recommendations', '_blank');
+      
       toast.success("Generated personalized recommendations!");
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -708,8 +713,6 @@ const TePilot = () => {
                       <RelationshipManagementCard 
                         onUnlock={() => {
                           setIsRelationshipUnlocked(true);
-                          sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
-                          setActiveTab("relationship");
                         }}
                         isUnlocked={isRelationshipUnlocked}
                       />
