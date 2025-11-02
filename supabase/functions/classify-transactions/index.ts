@@ -7,7 +7,7 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Classification Prompt with Subcategories
+// Classification Prompt with Examples
 const CLASSIFICATION_PROMPT = `Classify transactions into lifestyle pillars and specific subcategories based on merchant names.
 
 PILLARS & SUBCATEGORIES:
@@ -36,19 +36,124 @@ PILLARS & SUBCATEGORIES:
 
 12. Miscellaneous & Unclassified: Unclear Merchants, General Services, One-Time Purchases, Unknown, Mixed Categories, General
 
+CLASSIFICATION EXAMPLES (use these patterns):
+
+Sports & Active Living:
+- "EQUINOX" → Gym & Fitness
+- "24 HOUR FITNESS" → Gym & Fitness
+- "LULULEMON" → Athletic Apparel
+- "NIKE STORE" → Athletic Apparel
+- "REI CO-OP" → Outdoor Recreation
+- "DICK'S SPORTING GOODS" → Sports Equipment
+- "ORANGETHEORY" → Fitness Classes
+- "BARRYS BOOTCAMP" → Fitness Classes
+
+Health & Wellness:
+- "CVS PHARMACY" → Pharmacy & Prescriptions
+- "WALGREENS" → Pharmacy & Prescriptions
+- "GNC" → Vitamins & Supplements
+- "VITAMIN SHOPPE" → Vitamins & Supplements
+- "MASSAGE ENVY" → Spa & Massage
+- "DRY BAR" → Spa & Massage
+- "TALKSPACE" → Mental Health & Therapy
+- "BLUE CROSS" → Health Insurance
+
+Food & Dining:
+- "WHOLE FOODS" → Grocery
+- "TRADER JOES" → Grocery
+- "SAFEWAY" → Grocery
+- "KROGER" → Grocery
+- "STARBUCKS" → Coffee & Cafes
+- "DUNKIN" → Coffee & Cafes
+- "CHIPOTLE" → Dining Out
+- "UBER EATS" → Delivery & Takeout
+- "DOORDASH" → Delivery & Takeout
+- "MCDONALDS" → Fast Food
+- "HELLO FRESH" → Meal Kits & Subscriptions
+
+Travel & Exploration:
+- "DELTA AIR LINES" → Flights
+- "UNITED AIRLINES" → Flights
+- "MARRIOTT" → Hotels & Lodging
+- "HILTON" → Hotels & Lodging
+- "HERTZ" → Car Rentals
+- "ENTERPRISE" → Car Rentals
+- "UBER" → Travel Transportation
+- "LYFT" → Travel Transportation
+
+Home & Living:
+- "HOME DEPOT" → Home Improvement
+- "LOWES" → Home Improvement
+- "IKEA" → Furniture & Decor
+- "TARGET" → Household Supplies
+- "SHELL" → Local Commuting (Gas, Parking, Transit)
+- "CHEVRON" → Local Commuting (Gas, Parking, Transit)
+- "METRO TRANSIT" → Local Commuting (Gas, Parking, Transit)
+- "PG&E" → Utilities
+
+Style & Beauty:
+- "ZARA" → Clothing
+- "H&M" → Clothing
+- "NORDSTROM" → Clothing
+- "SEPHORA" → Beauty Products
+- "ULTA" → Beauty Products
+- "SUPERCUTS" → Hair Salon
+- "DRYBAR" → Hair Salon
+- "TIFFANY & CO" → Jewelry
+
+Pets:
+- "PETCO" → Pet Supplies
+- "PETSMART" → Pet Supplies
+- "CHEWY.COM" → Pet Food
+- "VCA ANIMAL HOSPITAL" → Veterinary Care
+- "BANFIELD PET HOSPITAL" → Veterinary Care
+
+Entertainment & Culture:
+- "AMC THEATRES" → Movies & Theater
+- "NETFLIX" → Streaming Services (should be Tech)
+- "TICKETMASTER" → Concerts & Events
+- "BARNES & NOBLE" → Books & Magazines
+- "STEAM GAMES" → Gaming
+- "PLAYSTATION STORE" → Gaming
+
+Technology & Digital Life:
+- "APPLE.COM" → Electronics & Devices
+- "BEST BUY" → Electronics & Devices
+- "MICROSOFT" → Software & Apps
+- "ADOBE" → Software & Apps
+- "SPOTIFY" → Streaming Services
+- "NETFLIX" → Streaming Services
+- "VERIZON" → Internet & Phone
+- "COMCAST" → Internet & Phone
+
+Family & Community:
+- "KINDERCARE" → Childcare & Education
+- "YMCA" → Community Events
+- "RED CROSS" → Gifts & Donations
+- "GOFUNDME" → Gifts & Donations
+- "COURSERA" → Professional Development (should be Financial)
+
+Financial & Aspirational:
+- "VANGUARD" → Investments
+- "FIDELITY" → Investments
+- "UDEMY" → Courses & Certifications
+- "LINKEDIN LEARNING" → Courses & Certifications
+- "GEICO" → Insurance
+- "STATE FARM" → Insurance
+
 MERCHANT PARSING:
 • Remove payment prefixes: Apple Pay, PayPal, Venmo, SQ, Cash App, Zelle
 • Extract true merchant (e.g., "SQ *Chipotle" → "Chipotle")
 
-SUBCATEGORY GUIDANCE:
-• Choose the most specific subcategory that matches the transaction
-• Use "General" only when none of the specific subcategories fit
-• For ambiguous cases, prefer a specific subcategory over "General"
+SUBCATEGORY RULES:
+• Match merchants to the MOST SPECIFIC subcategory shown in examples
+• Only use "General" when the merchant doesn't fit any specific subcategory
+• Be decisive - choose the best match even if not 100% certain
 
 CONFIDENCE LEVELS:
-• High (0.9): Clear merchants with obvious subcategories (Nike→Athletic Apparel, Starbucks→Coffee & Cafes)
-• Moderate (0.6): Ambiguous merchants but reasonable subcategory inference
-• Low (0.3): Use "General" within appropriate pillar or Miscellaneous & Unclassified`;
+• High (0.9): Merchant matches examples or is clearly in a specific subcategory
+• Moderate (0.6): Reasonable inference based on merchant name
+• Low (0.3): Ambiguous - use "General" within appropriate pillar`;
 
 // Classification Tool Schema
 const CLASSIFICATION_TOOL = [
