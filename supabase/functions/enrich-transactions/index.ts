@@ -7,42 +7,25 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-// Travel Pattern Detection
-const TRAVEL_DETECTION_PROMPT = `You are Ventus's travel pattern detector. Analyze transaction sequences to identify travel periods and reclassify transactions accordingly.
+// Simplified Travel Detection Prompt (for pre-filtered candidates)
+const TRAVEL_DETECTION_PROMPT = `You are analyzing PRE-FILTERED transactions that occur AWAY from home (home zip: {homeZip}).
 
-HOME ZIP CODE: The user's home ZIP code will be provided. Use this to easily identify when transactions occur away from home.
+These transactions were selected because they either:
+1. Have zip codes different from home
+2. Are travel anchors (hotels, flights, car rentals)
+3. Occur within ±5 days of travel anchors
 
-TRAVEL ANCHOR DETECTION:
-Identify these key travel indicators:
-- Hotels: Marriott, Hilton, Hyatt, Holiday Inn, Airbnb, VRBO (MCC 7011)
-- Flights: Delta, Southwest, United, American Airlines (MCC 4511)
-- Car Rentals: Enterprise, Hertz, Budget, Avis
+YOUR JOB: Identify travel windows and reclassify physical transactions within those periods.
 
-ZIP CODE ANALYSIS (for physical locations only):
-- Many online/digital transactions (Netflix, Amazon, PayPal purchases) will NOT have ZIP codes - this is normal
-- Only compare ZIP codes for physical merchant transactions (gas stations, restaurants, stores)
-- Different ZIP codes (especially different first 3 digits) indicate travel
-- Sequential physical transactions with consistent non-home ZIP codes indicate a travel period
-- Missing ZIP codes should NOT affect travel detection - rely on merchant names and temporal patterns
+TRAVEL WINDOW: For each hotel/flight booking, create ±3 day window.
 
-TRAVEL WINDOW LOGIC:
-For each travel anchor (hotel/flight) OR cluster of non-home ZIP codes in physical transactions, create a travel window of ±3 days.
+RECLASSIFY within travel windows:
+- Gas stations → "Travel Transportation"
+- Restaurants → "Dining Away"
+- Rideshares → "Local Transportation"
+- Convenience stores → "Travel Essentials"
 
-RECLASSIFICATION RULES:
-Within travel windows, reclassify these PHYSICAL transactions to "Travel & Exploration":
-1. Gas Stations → "Travel Transportation" (e.g., Shell, Exxon)
-2. Restaurants/Coffee (unfamiliar) → "Dining Away" (e.g., "Joe's Cafe NYC")
-3. Rideshares → "Local Transportation" (Uber, Lyft)
-4. Convenience Stores → "Travel Essentials" (7-Eleven, CVS during travel)
-
-IMPORTANT: Online purchases during travel (Netflix, Amazon) should STAY in their original categories.
-
-GEOGRAPHIC SIGNALS:
-- Merchant names with city/state suffixes (e.g., "Starbucks NYC")
-- Multiple unfamiliar physical merchants in short timeframe
-- Location patterns different from typical behavior
-- ZIP codes different from home ZIP code (when available)
-- Temporal clustering of travel-related merchants
+KEEP ORIGINAL: Online purchases (Netflix, Amazon, etc.)
 
 OUTPUT:
 For each transaction, provide:
@@ -123,15 +106,13 @@ Deno.serve(async (req) => {
           sendEvent("status", { message: "Algo 2: Analyzing travel patterns..." });
           const startTime = Date.now();
 
-          // Prepare transaction summary for AI
+          // Minimal payload: only essential fields for travel detection
           const transactionSummary = transactions.map((t) => ({
             id: t.transaction_id,
             date: t.date,
             merchant: t.normalized_merchant || t.merchant_name,
-            amount: t.amount,
             pillar: t.pillar,
-            subcategory: t.subcategory,
-            ...(t.zip_code && { zip: t.zip_code })
+            zip: t.zip_code || 'unknown'
           }));
 
           const travelResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -141,10 +122,11 @@ Deno.serve(async (req) => {
               "Authorization": `Bearer ${LOVABLE_API_KEY}`,
             },
             body: JSON.stringify({
-              model: "google/gemini-2.5-flash",
+              model: "google/gemini-2.5-flash-lite",
+              max_tokens: 1500,
               messages: [
-                { role: "system", content: TRAVEL_DETECTION_PROMPT },
-                { role: "user", content: `HOME ZIP CODE: ${homeZip}\n\nAnalyze these transactions for travel patterns (sorted by date):\n\n${JSON.stringify(transactionSummary, null, 2)}` }
+                { role: "system", content: TRAVEL_DETECTION_PROMPT.replace("{homeZip}", homeZip) },
+                { role: "user", content: `Analyze these PRE-FILTERED travel candidates:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
               ],
               tools: TRAVEL_DETECTION_TOOL,
               tool_choice: { type: "function", function: { name: "detect_travel_patterns" } }

@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { Transaction, EnrichedTransaction } from '@/types/transaction';
 import { toast } from 'sonner';
+import { preFilterTravelCandidates } from '@/lib/travelPreFilter';
 
 interface UseSSEEnrichmentReturn {
   enrichedTransactions: EnrichedTransaction[];
@@ -97,10 +98,26 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     return classifiedTransactions;
   }, []);
 
-  const callEnrichTransactions = useCallback(async (classifiedTransactions: EnrichedTransaction[]) => {
+  const callEnrichTransactions = useCallback(async (classifiedTransactions: EnrichedTransaction[], homeZip: string) => {
     const projectId = 'theaknjrmfsyauxxvhmk';
     const url = `https://${projectId}.supabase.co/functions/v1/enrich-transactions`;
     const anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZWFrbmpybWZzeWF1eHh2aG1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5MzQwMzAsImV4cCI6MjA3NTUxMDAzMH0.UumEOhlgamn23eVhoKWYKgHSTlu1IoseiTrxu3GAzIk';
+
+    // Pre-filter: only send travel candidates to AI
+    const { homeZone, travelCandidates, stats } = preFilterTravelCandidates(
+      classifiedTransactions,
+      homeZip
+    );
+
+    console.log(`[Pre-filter] Reduced payload by ${stats.reduction}%: ${stats.home} home → ${stats.candidates} candidates`);
+    setStatusMessage(`Pre-filtered: ${stats.candidates} travel candidates (${stats.reduction}% reduction)`);
+
+    // If no candidates, skip AI call entirely
+    if (travelCandidates.length === 0) {
+      console.log('[Travel Detection] No travel candidates found, skipping AI call');
+      setEnrichedTransactions(classifiedTransactions);
+      return;
+    }
 
     const response = await fetch(url, {
       method: 'POST',
@@ -109,7 +126,10 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
         'Authorization': `Bearer ${anonKey}`,
         'apikey': anonKey
       },
-      body: JSON.stringify({ transactions: classifiedTransactions })
+      body: JSON.stringify({ 
+        transactions: travelCandidates.map(c => c.transaction),
+        homeZip 
+      })
     });
 
     if (!response.ok) {
@@ -153,6 +173,11 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
 
           case 'travel_updates':
             setEnrichedTransactions(prev => {
+              // Merge: home zone unchanged + enriched travel candidates
+              const homeZone = prev.filter(tx => 
+                !travelCandidates.some(c => c.transaction.transaction_id === tx.transaction_id)
+              );
+              
               const updated = [...prev];
               data.travel_updates.forEach((travelUpdate: any) => {
                 const idx = updated.findIndex(t => t.transaction_id === travelUpdate.transaction_id);
@@ -223,11 +248,11 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
       const hasValidHomeZip = homeZip && homeZip.trim() !== "" && homeZip.trim() !== "N/A";
       
       if (hasValidHomeZip) {
-        // Add travel detection with flash
-        console.log('[Enrichment] Starting travel detection...');
+        // Add travel detection with ZIP-first pre-filtering
+        console.log('[Enrichment] Starting ZIP-first travel detection...');
         setCurrentPhase("travel");
-        setStatusMessage('Analyzing travel patterns...');
-        await callEnrichTransactions(classifiedTransactions);
+        setStatusMessage('Pre-filtering travel candidates...');
+        await callEnrichTransactions(classifiedTransactions, homeZip!);
       } else {
         // Skip travel detection if no valid home ZIP
         console.log('[Enrichment] Skipping travel detection (no home ZIP provided)');
