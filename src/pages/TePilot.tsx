@@ -801,32 +801,23 @@ const TePilot = () => {
                   <Card>
                     <CardHeader>
                       <CardTitle className="text-xl">Top 5 Spending Subcategories</CardTitle>
-                      <CardDescription>
-                        High-priority customer lifestyle segments identified from transaction data
-                      </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="space-y-3">
+                      <div className="grid grid-cols-5 gap-4">
                         {topSubcategories.map((data, index) => (
                           <div
                             key={`subcategory-${index}`}
-                            className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/5 transition-colors"
+                            className="flex flex-col items-center text-center p-4 rounded-lg border bg-card"
                           >
-                            <div className="flex items-center gap-3">
-                              <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-700 font-semibold">
-                                #{index + 1}
-                              </Badge>
-                              <div>
-                                <p className="font-semibold">{data.subcategory}</p>
-                                <p className="text-sm text-muted-foreground">{data.pillar}</p>
-                              </div>
-                            </div>
-                            <div className="text-right">
-                              <p className="font-semibold text-lg">${data.spend.toLocaleString()}</p>
-                              <p className="text-sm text-muted-foreground">
-                                {data.percentage}% • {data.transactionCount} transactions
-                              </p>
-                            </div>
+                            <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-700 font-semibold mb-2">
+                              #{index + 1}
+                            </Badge>
+                            <p className="font-semibold text-sm mb-1">{data.subcategory}</p>
+                            <p className="text-xs text-muted-foreground mb-2">{data.pillar}</p>
+                            <p className="font-semibold text-lg">${data.spend.toLocaleString()}</p>
+                            <p className="text-xs text-muted-foreground">
+                              {data.percentage}%
+                            </p>
                           </div>
                         ))}
                       </div>
