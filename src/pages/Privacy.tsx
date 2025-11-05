@@ -4,25 +4,69 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
 const Privacy = () => {
   const sections = [{
     icon: Shield,
     title: "Information We Collect",
-    content: ["Personal Information: Name, email address, phone number, and address when you join our waitlist or contact us.", "Financial Information: When Ventus launches, we will collect payment card information and transaction data to provide our services.", "Location Information: City, state, and zip code that you manually provide to personalize local offers and find nearby facilities.", "Interests: Your selected interests and subcategories to customize your deal recommendations.", "Offer Interaction Data: Offers you view, click, save to wishlist, and redeem to improve personalization.", "Usage Information: How you interact with our website and services, including pages visited and features used.", "Device Information: Information about your device, browser, operating system, and mobile app version."]
+    content: {
+      personal: [
+        "Name and email address when you create an account",
+        "Preferences and interests you select (sports, activities, lifestyle categories)",
+        "Location information (city, state, zip code - manually entered by you for local deals)"
+      ],
+      usage: [
+        "Search queries you enter in our AI chatbot",
+        "Deals you view, save, or interact with",
+        "Categories you browse",
+        "Wishlist items you save",
+        "App usage patterns and features you use"
+      ],
+      device: [
+        "Device type, operating system, and app version",
+        "IP address and general location data",
+        "Mobile device identifiers"
+      ]
+    }
   }, {
     icon: Eye,
     title: "How We Use Your Information",
-    content: ["To provide and improve our services, including personalized rewards and recommendations.", "To provide personalized deal recommendations based on your interests and location.", "To improve our mobile app and services.", "To communicate with you about our services, updates, and promotional offers.", "To process transactions and maintain account security.", "To comply with legal obligations and prevent fraud.", "To analyze usage patterns and improve our website and services."]
+    content: [
+      "Provide personalized deal recommendations based on your interests",
+      "Process your AI chatbot search queries to find relevant deals",
+      "Show you deals from categories matching your preferences",
+      "Display location-specific deals from your area",
+      "Improve our AI chatbot responses and deal matching",
+      "Send you notifications about new deals (if you enable notifications)",
+      "Analyze app usage to improve our services",
+      "Maintain account security"
+    ]
   }, {
     icon: Lock,
-    title: "Information Sharing",
-    content: ["Service Providers: We may share information with trusted third-party service providers who assist in operating our business.", "Merchant Partners: With your consent, we may share relevant information with merchant partners to provide personalized offers.", "Legal Requirements: We may disclose information when required by law or to protect our rights and safety.", "Business Transfers: In the event of a merger or acquisition, your information may be transferred to the new entity."]
+    title: "How We Share Your Information",
+    content: {
+      serviceProviders: [
+        "Database and authentication services (Supabase)",
+        "AI and natural language processing",
+        "Analytics and app performance monitoring"
+      ],
+      merchants: "When you click on deals, you are directed to external merchant websites to view products and complete purchases. These merchant websites have their own privacy policies which govern how they collect and use your information. We are not responsible for merchant privacy practices.\n\nWe do NOT share your personal information with merchants. When you visit merchant sites, they may collect their own data about your visit.",
+      legal: "We may disclose information when required by law, to protect our rights and safety, or in connection with legal proceedings."
+    }
   }, {
     icon: Users,
     title: "Your Rights and Choices",
-    content: ["Access: You can request access to the personal information we have about you.", "Correction: You can request that we correct any inaccurate information.", "Deletion: You can request that we delete your personal information by contacting hello@ventuscard.com. We will delete your data within 30 days of your request, subject to legal retention requirements.", "Opt-out: You can opt out of marketing communications at any time.", "Data Portability: You can request a copy of your data in a portable format."]
+    content: [
+      "Access the personal information we have about you",
+      "Correct any inaccurate information",
+      "Request deletion of your account and data",
+      "Opt out of marketing communications",
+      "Request a copy of your data in a portable format"
+    ]
   }];
-  return <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-blue-50">
       <Navbar />
       
       {/* Hero Section */}
@@ -34,7 +78,7 @@ const Privacy = () => {
           <p className="text-xl text-slate-600 leading-relaxed max-w-3xl mx-auto">
             Your privacy is important to us. This policy explains how we collect, use, and protect your information.
           </p>
-          <p className="text-sm text-slate-500 mt-4">Last updated: November 4, 2025</p>
+          <p className="text-sm text-slate-500 mt-4">Last updated: November 5, 2025</p>
         </div>
       </div>
 
@@ -48,10 +92,22 @@ const Privacy = () => {
             </CardHeader>
             <CardContent className="text-slate-600 space-y-3 text-lg leading-relaxed pt-0">
               <p>
-                Ventus Card ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you visit our website, use our mobile application (iOS and Android), or use our services.
+                Ventus ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application or services.
               </p>
               <p>
-                Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not access the site or use our services.
+                Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not use our services.
+              </p>
+            </CardContent>
+          </Card>
+
+          {/* About Ventus Section */}
+          <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm mb-8">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-2xl font-bold text-slate-900">About Ventus</CardTitle>
+            </CardHeader>
+            <CardContent className="text-slate-600 space-y-3 text-lg leading-relaxed pt-0">
+              <p>
+                Ventus is a shopping assistant mobile application that helps you discover personalized deals and discounts from retailers. Our AI-powered chatbot allows you to search for deals using natural language, and we provide daily curated recommendations based on your interests.
               </p>
             </CardContent>
           </Card>
@@ -96,7 +152,8 @@ const Privacy = () => {
 
           {/* Privacy Sections */}
           <div className="grid grid-cols-1 gap-6 mb-8">
-            {sections.map((section, index) => <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
+            {sections.map((section, index) => (
+              <Card key={index} className="border-0 shadow-lg bg-white/95 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardHeader className="pb-3">
                   <div className="flex items-center gap-3 mb-2">
                     <div className="p-2 bg-blue-100 rounded-lg">
@@ -106,14 +163,109 @@ const Privacy = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="pt-0">
-                  <ul className="space-y-2">
-                    {section.content.map((item, itemIndex) => <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start">
-                        <span className="text-blue-600 mr-2 mt-1">•</span>
-                        <span>{item}</span>
-                      </li>)}
-                  </ul>
+                  {section.title === "Information We Collect" && typeof section.content === 'object' && 'personal' in section.content ? (
+                    <div className="space-y-4">
+                      <div>
+                        <p className="font-semibold text-slate-700 mb-2">Personal Information:</p>
+                        <ul className="space-y-2">
+                          {section.content.personal.map((item, itemIndex) => (
+                            <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start ml-4">
+                              <span className="text-blue-600 mr-2 mt-1">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-700 mb-2">Usage Information:</p>
+                        <ul className="space-y-2">
+                          {section.content.usage.map((item, itemIndex) => (
+                            <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start ml-4">
+                              <span className="text-blue-600 mr-2 mt-1">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-700 mb-2">Device Information:</p>
+                        <ul className="space-y-2">
+                          {section.content.device.map((item, itemIndex) => (
+                            <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start ml-4">
+                              <span className="text-blue-600 mr-2 mt-1">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  ) : section.title === "How We Use Your Information" && Array.isArray(section.content) ? (
+                    <div className="space-y-4">
+                      <p className="text-slate-600 leading-relaxed mb-3">We use your information to:</p>
+                      <ul className="space-y-2">
+                        {section.content.map((item, itemIndex) => (
+                          <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start">
+                            <span className="text-blue-600 mr-2 mt-1">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <div className="mt-4 pt-4 border-t border-slate-200">
+                        <p className="font-semibold text-slate-700 mb-2">AI Chatbot:</p>
+                        <p className="text-slate-600 leading-relaxed">
+                          Our AI chatbot processes your natural language queries to search our deal database. Your search queries are stored to improve our service and provide better recommendations, but are not shared with third parties for marketing purposes.
+                        </p>
+                      </div>
+                    </div>
+                  ) : section.title === "How We Share Your Information" && typeof section.content === 'object' && 'serviceProviders' in section.content ? (
+                    <div className="space-y-4">
+                      <div>
+                        <p className="font-semibold text-slate-700 mb-2">Service Providers:</p>
+                        <p className="text-slate-600 leading-relaxed mb-2">We use trusted third-party service providers for:</p>
+                        <ul className="space-y-2">
+                          {section.content.serviceProviders.map((item, itemIndex) => (
+                            <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start ml-4">
+                              <span className="text-blue-600 mr-2 mt-1">•</span>
+                              <span>{item}</span>
+                            </li>
+                          ))}
+                        </ul>
+                        <p className="text-slate-600 leading-relaxed mt-2">
+                          These providers process data in accordance with their own privacy policies and industry-standard security practices.
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-700 mb-2">External Merchant Websites:</p>
+                        <p className="text-slate-600 leading-relaxed whitespace-pre-line">
+                          {section.content.merchants}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="font-semibold text-slate-700 mb-2">Legal Requirements:</p>
+                        <p className="text-slate-600 leading-relaxed">
+                          {section.content.legal}
+                        </p>
+                      </div>
+                    </div>
+                  ) : section.title === "Your Rights and Choices" && Array.isArray(section.content) ? (
+                    <div className="space-y-4">
+                      <p className="text-slate-600 leading-relaxed mb-3">You have the right to:</p>
+                      <ul className="space-y-2">
+                        {section.content.map((item, itemIndex) => (
+                          <li key={itemIndex} className="text-slate-600 leading-relaxed flex items-start">
+                            <span className="text-blue-600 mr-2 mt-1">•</span>
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                      <p className="text-slate-600 leading-relaxed mt-4">
+                        To exercise these rights, contact us at hello@ventuscard.com. We will process deletion requests within 30 days, subject to legal retention requirements.
+                      </p>
+                    </div>
+                  ) : null}
                 </CardContent>
-              </Card>)}
+              </Card>
+            ))}
           </div>
 
           {/* Additional Sections */}
@@ -124,7 +276,7 @@ const Privacy = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 leading-relaxed">
-                  We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. When Ventus launches, all accounts will be FDIC-insured.
+                  We implement appropriate technical and organizational security measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure.
                 </p>
               </CardContent>
             </Card>
@@ -135,7 +287,7 @@ const Privacy = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 leading-relaxed">
-                  We retain your personal information only as long as necessary to fulfill the purposes outlined in this privacy policy, unless a longer retention period is required by law.
+                  We retain your personal information only as long as necessary to provide our services and fulfill the purposes outlined in this privacy policy, unless a longer retention period is required by law.
                 </p>
               </CardContent>
             </Card>
@@ -146,7 +298,18 @@ const Privacy = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 leading-relaxed">
-                  Our services are not intended for individuals under the age of 18. We do not knowingly collect personal information from children under 18.
+                  Our services are intended for users aged 13 and older. We do not knowingly collect personal information from children under 13. If you believe we have collected information from a child under 13, please contact us immediately.
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-0 shadow-lg bg-white/95 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-xl font-semibold text-slate-900">Third-Party Links</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 leading-relaxed">
+                  Our app contains links to external merchant websites. We are not responsible for the privacy practices or content of these third-party sites. We encourage you to read their privacy policies before providing any information.
                 </p>
               </CardContent>
             </Card>
@@ -157,7 +320,10 @@ const Privacy = () => {
               </CardHeader>
               <CardContent>
                 <p className="text-slate-600 leading-relaxed">
-                  We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy on this page with an updated "Last updated" date. For mobile app users, we may also notify you via in-app notification or email.
+                  We may update this privacy policy from time to time. We will notify you of any changes by posting the new policy with an updated "Last updated" date. For significant changes, we may also notify you via email or in-app notification.
+                </p>
+                <p className="text-slate-600 leading-relaxed mt-3">
+                  Your continued use of our services after changes constitutes acceptance of the updated policy.
                 </p>
               </CardContent>
             </Card>
@@ -180,12 +346,18 @@ const Privacy = () => {
                   Website: <a href="https://www.ventuscard.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700">https://www.ventuscard.com</a>
                 </p>
               </div>
+              <p className="text-slate-500 text-sm mt-4">
+                Ventus<br />
+                Smart shopping with AI-powered deal discovery
+              </p>
             </CardContent>
           </Card>
         </div>
       </div>
 
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default Privacy;
