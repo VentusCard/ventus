@@ -14,6 +14,7 @@ import BenefitsPage from "./pages/BenefitsPage";
 import GolfDemo from "./pages/GolfDemo";
 import Gallery from "./pages/Gallery";
 import Privacy from "./pages/Privacy";
+import TermsOfService from "./pages/TermsOfService";
 import VentusAI from "./pages/VentusAI";
 import Login from "./pages/Login";
 import ResetPassword from "./pages/ResetPassword";
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/demo/golf" element={<GolfDemo />} />
           <Route path="/ventus-ai" element={<VentusAI />} />
           <Route path="/privacy" element={<Privacy />} />
+          <Route path="/terms" element={<TermsOfService />} />
           <Route path="/tepilot" element={<TePilot />} />
           <Route path="/tepilot/recommendations" element={<RecommendationsPage />} />
           <Route path="/tepilot/advisor-console" element={<AdvisorConsolePage />} />
