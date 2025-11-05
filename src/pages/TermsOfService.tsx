@@ -152,7 +152,7 @@ const TermsOfService = () => {
           </CardHeader>
           <CardContent className="text-slate-600 space-y-4 text-lg leading-relaxed pt-0">
             <p>
-              Welcome to Ventus. These Terms of Service ("Terms") govern your access to and use of the Ventus mobile application and services (collectively, "Services").
+              Welcome to Ventus Financial Technologies Inc. ("Ventus," "we," "our," or "us"). These Terms of Service ("Terms") govern your access to and use of the Ventus mobile application and services (collectively, "Services").
             </p>
             <p>
               By accessing or using our Services, you agree to be bound by these Terms. If you do not agree to these Terms, you may not use our Services.

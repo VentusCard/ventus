@@ -92,7 +92,7 @@ const Privacy = () => {
             </CardHeader>
             <CardContent className="text-slate-600 space-y-3 text-lg leading-relaxed pt-0">
               <p>
-                Ventus ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application or services.
+                Ventus Financial Technologies Inc. ("Ventus," "we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile application or services.
               </p>
               <p>
                 Please read this privacy policy carefully. If you do not agree with the terms of this privacy policy, please do not use our services.
