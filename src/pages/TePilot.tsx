@@ -286,7 +286,7 @@ const TePilot = () => {
               Unlock deep customer insights from existing data with next-generation contextual AI
               <Accordion type="single" collapsible className="w-full mt-2">
                 <AccordionItem value="release-notes" className="border-none">
-                  <AccordionTrigger className="text-sm text-muted-foreground py-1 hover:no-underline">
+                  <AccordionTrigger className="text-sm text-muted-foreground py-1 hover:no-underline font-semibold">
                     Release Notes ({CURRENT_VERSION})
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
