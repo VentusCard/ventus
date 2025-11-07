@@ -206,12 +206,7 @@ export function VentusChatPanel({
       {/* To-Do List */}
       <Collapsible open={todoOpen} onOpenChange={setTodoOpen} className="border-b">
         
-        <CollapsibleContent className="px-6 py-3 bg-white space-y-1 max-h-48 overflow-y-auto">
-          {incompleteTasks.length === 0 && completedTasks.length === 0 ? <p className="text-xs text-slate-500 text-center py-2">No tasks for today</p> : <>
-              {incompleteTasks.map(task => <TaskItem key={task.id} task={task} onToggle={onToggleTask} />)}
-              {completedTasks.map(task => <TaskItem key={task.id} task={task} onToggle={onToggleTask} />)}
-            </>}
-        </CollapsibleContent>
+        
       </Collapsible>
 
       {/* Smart Chips */}
