@@ -128,7 +128,7 @@ export function VentusChatPanel({
   const visibleEvents = aiInsights?.detected_events.filter(event => !dismissedEvents.has(event.event_name)) || [];
   return <div className="h-full flex flex-col bg-white">
       {/* Header */}
-      <div className="border-b px-6 py-4 bg-gradient-to-r from-white to-slate-50">
+      <div className="border-b px-6 py-2 bg-gradient-to-r from-white to-slate-50">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-slate-900">
             Ventus AI Advisor Chat
@@ -141,13 +141,13 @@ export function VentusChatPanel({
       </div>
 
       {/* Contextual Insight Cards */}
-      {enrichedTransactions.length > 0 && <div className="px-6 py-4 border-b">
+      {enrichedTransactions.length > 0 && <div className="px-6 py-2 border-b">
           
         </div>}
 
       {/* AI Insights Section */}
       {visibleEvents.length > 0 && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
-          <CollapsibleTrigger className="w-full px-6 py-4 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
+          <CollapsibleTrigger className="w-full px-6 py-2 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-primary" />
@@ -158,7 +158,7 @@ export function VentusChatPanel({
             </div>
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="px-6 py-4 bg-gradient-to-b from-primary/5 to-transparent">
+          <CollapsibleContent className="px-6 py-2 bg-gradient-to-b from-primary/5 to-transparent">
             <div className="space-y-3 mb-4">
               {visibleEvents.map(event => <LifeEventCard key={event.event_name} event={event} onViewDetails={() => handleViewEventDetails(event)} onDismiss={() => handleDismissEvent(event.event_name)} />)}
             </div>
@@ -189,7 +189,7 @@ export function VentusChatPanel({
 
       {/* Empty State when no events detected */}
       {!isLoadingInsights && (!aiInsights || visibleEvents.length === 0) && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
-          <CollapsibleTrigger className="w-full px-6 py-4 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
+          <CollapsibleTrigger className="w-full px-6 py-2 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-primary" />
@@ -200,9 +200,9 @@ export function VentusChatPanel({
             </div>
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="px-6 py-8">
+          <CollapsibleContent className="px-6 py-4">
             <Card className="border-dashed">
-              <div className="p-8 text-center">
+              <div className="p-4 text-center">
                 <Brain className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
                 <h3 className="font-semibold mb-2">No Significant Life Events Detected</h3>
                 <p className="text-sm text-muted-foreground mb-4">
@@ -223,12 +223,12 @@ export function VentusChatPanel({
       </Collapsible>
 
       {/* Smart Chips */}
-      <div className="border-b px-6 py-3 bg-slate-50">
+      <div className="border-b px-6 py-2 bg-slate-50">
         
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 min-h-0 overflow-y-auto px-6 py-4 space-y-4">
+      <div className="flex-1 min-h-0 overflow-y-auto px-6 py-2 space-y-2">
         {messages.length === 0 && <div className="text-center py-12">
             
             <h3 className="font-semibold mb-2">Start a Conversation</h3>
@@ -242,7 +242,7 @@ export function VentusChatPanel({
             </div>
           </div>}
         
-        {messages.map((message, idx) => <Card key={idx} className={`p-4 ${message.role === 'assistant' ? 'bg-slate-50 border-slate-200' : 'bg-primary/5 border-primary/20'}`}>
+        {messages.map((message, idx) => <Card key={idx} className={`p-3 ${message.role === 'assistant' ? 'bg-slate-50 border-slate-200' : 'bg-primary/5 border-primary/20'}`}>
             <div className="flex items-start gap-3">
               <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${message.role === 'assistant' ? 'bg-primary text-white' : 'bg-slate-900 text-white'}`}>
                 {message.role === 'assistant' ? 'V' : 'You'}
@@ -281,7 +281,7 @@ export function VentusChatPanel({
             </div>
           </Card>)}
         
-        {isChatLoading && <Card className="p-4 bg-slate-50 border-slate-200">
+        {isChatLoading && <Card className="p-3 bg-slate-50 border-slate-200">
             <div className="flex items-start gap-3">
               <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold bg-primary text-white">
                 V
@@ -298,7 +298,7 @@ export function VentusChatPanel({
       </div>
 
       {/* Input Area */}
-      <div className="border-t px-6 py-4 bg-slate-50">
+      <div className="border-t px-6 py-2 bg-slate-50">
         <div className="flex gap-2">
           <Input value={inputValue} onChange={e => setInputValue(e.target.value)} placeholder="Ask about spending patterns, life events, product recommendations..." className="flex-1" onKeyDown={e => {
           if (e.key === 'Enter' && !e.shiftKey) {
