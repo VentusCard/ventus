@@ -69,7 +69,6 @@ export function AdvisorConsole({
         <ResizablePanel defaultSize={22} minSize={15} maxSize={30}>
           <ClientSnapshotPanel 
             onAskVentus={handleAskVentus}
-            hasEnrichedTransactions={enrichedTransactions && enrichedTransactions.length > 0}
           />
         </ResizablePanel>
 

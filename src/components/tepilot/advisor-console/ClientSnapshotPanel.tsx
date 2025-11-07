@@ -8,7 +8,6 @@ import { useState } from "react";
 
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
-  hasEnrichedTransactions?: boolean;
 }
 
 const iconMap: Record<string, any> = {
@@ -19,57 +18,249 @@ const iconMap: Record<string, any> = {
   Activity
 };
 
+const placeholderClientData = {
+  name: "Firstname Lastname",
+  segment: "Client Segment",
+  aum: "$X,XXX,XXX",
+  tenure: "X.X years",
+  advisor: "Advisor Name",
+  contact: {
+    email: "email@example.com",
+    phone: "(XXX) XXX-XXXX",
+    address: "City, State ZIP"
+  },
+  demographics: {
+    age: "XX",
+    occupation: "Occupation Title",
+    familyStatus: "Family Status"
+  },
+  holdings: {
+    deposit: "XXX,XXX",
+    credit: "XX,XXX",
+    mortgage: "XXX,XXX",
+    investments: "X,XXX,XXX"
+  }
+};
+
+const placeholderLifestyleSignals = [
+  { category: "Travel", trend: "up" as const, change: 0, icon: "Plane" },
+  { category: "Family", trend: "stable" as const, change: 0, icon: "Users" },
+  { category: "Philanthropy", trend: "up" as const, change: 0, icon: "Heart" },
+  { category: "Dining", trend: "up" as const, change: 0, icon: "UtensilsCrossed" },
+  { category: "Health", trend: "stable" as const, change: 0, icon: "Activity" }
+];
+
+const placeholderLifeTriggers = [
+  { date: "YYYY-MM-DD", event: "Life Event Name", type: "financial" as const },
+  { date: "YYYY-MM-DD", event: "Life Event Name", type: "family" as const },
+  { date: "YYYY-MM-DD", event: "Life Event Name", type: "lifestyle" as const }
+];
+
 export function ClientSnapshotPanel({
-  onAskVentus,
-  hasEnrichedTransactions = false
+  onAskVentus
 }: ClientSnapshotPanelProps) {
   return (
     <div className="h-full flex flex-col bg-slate-50">
-      {!hasEnrichedTransactions ? (
-        // Empty State
-        <div className="h-full flex items-center justify-center p-6">
-          <Card className="max-w-md p-6 text-center">
-            <div className="mb-4">
-              <div className="mx-auto w-16 h-16 rounded-full bg-slate-100 flex items-center justify-center mb-4">
-                <Users className="w-8 h-8 text-slate-400" />
+      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+        {/* Client Header Card */}
+        <Card className="bg-white">
+          <div className="p-4">
+            <div className="flex items-start justify-between mb-3">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-700">
+                  {placeholderClientData.name}
+                </h2>
+                <Badge variant="outline" className="mt-1">
+                  {placeholderClientData.segment}
+                </Badge>
               </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                No Client Data Available
-              </h3>
-              <p className="text-sm text-slate-600 mb-4">
-                Upload transaction data in the main panel to populate the client snapshot with financial insights, holdings, and lifestyle signals.
-              </p>
             </div>
-            <div className="space-y-2 text-xs text-left bg-slate-50 p-4 rounded">
-              <p className="font-medium text-slate-700 mb-2">When you upload data, you'll see:</p>
-              <ul className="space-y-1 text-slate-600">
-                <li>• Client financial overview</li>
-                <li>• Holdings breakdown</li>
-                <li>• Spending patterns & lifestyle signals</li>
-                <li>• AI-detected life events</li>
-                <li>• Actionable recommendations</li>
-              </ul>
-            </div>
-          </Card>
-        </div>
-      ) : (
-        // Future: Dynamic client data from enriched transactions
-        <div className="h-full flex items-center justify-center p-6">
-          <Card className="max-w-md p-6 text-center">
-            <div className="mb-4">
-              <div className="mx-auto w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                <Users className="w-8 h-8 text-primary" />
+            
+            <div className="grid grid-cols-2 gap-3 text-xs mb-3">
+              <div>
+                <div className="text-slate-500">AUM</div>
+                <div className="font-semibold text-slate-700">
+                  {placeholderClientData.aum}
+                </div>
               </div>
-              <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                Client Data Processing
-              </h3>
-              <p className="text-sm text-slate-600">
-                Transaction data has been uploaded. Client snapshot features are being built and will display aggregated insights here.
-              </p>
+              <div>
+                <div className="text-slate-500">Tenure</div>
+                <div className="font-semibold text-slate-700">
+                  {placeholderClientData.tenure}
+                </div>
+              </div>
             </div>
-          </Card>
-        </div>
-      )}
+
+            <div className="text-xs space-y-1 pt-3 border-t">
+              <div className="text-slate-500">Contact</div>
+              <div className="text-slate-700">{placeholderClientData.contact.email}</div>
+              <div className="text-slate-700">{placeholderClientData.contact.phone}</div>
+              <div className="text-slate-700">{placeholderClientData.contact.address}</div>
+            </div>
+
+            <div className="text-xs space-y-1 pt-3 border-t mt-3">
+              <div className="text-slate-500">Demographics</div>
+              <div className="text-slate-700">Age: {placeholderClientData.demographics.age}</div>
+              <div className="text-slate-700">{placeholderClientData.demographics.occupation}</div>
+              <div className="text-slate-700">{placeholderClientData.demographics.familyStatus}</div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Holdings Overview Card */}
+        <Card className="bg-white">
+          <div className="p-4">
+            <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center">
+              <Landmark className="w-4 h-4 mr-2" />
+              Holdings Overview
+            </h3>
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center justify-between py-2 border-b">
+                <span className="flex items-center text-slate-600">
+                  <Landmark className="w-3 h-3 mr-2" />
+                  Deposits
+                </span>
+                <span className="font-semibold text-slate-700">
+                  ${placeholderClientData.holdings.deposit}
+                </span>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b">
+                <span className="flex items-center text-slate-600">
+                  <CreditCard className="w-3 h-3 mr-2" />
+                  Credit
+                </span>
+                <span className="font-semibold text-slate-700">
+                  ${placeholderClientData.holdings.credit}
+                </span>
+              </div>
+              <div className="flex items-center justify-between py-2 border-b">
+                <span className="flex items-center text-slate-600">
+                  <Home className="w-3 h-3 mr-2" />
+                  Mortgage
+                </span>
+                <span className="font-semibold text-slate-700">
+                  ${placeholderClientData.holdings.mortgage}
+                </span>
+              </div>
+              <div className="flex items-center justify-between py-2">
+                <span className="flex items-center text-slate-600">
+                  <TrendingUp className="w-3 h-3 mr-2" />
+                  Investments
+                </span>
+                <span className="font-semibold text-slate-700">
+                  ${placeholderClientData.holdings.investments}
+                </span>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Lifestyle Signals Card */}
+        <Card className="bg-white">
+          <div className="p-4">
+            <h3 className="text-sm font-semibold text-slate-900 mb-3">
+              Lifestyle Signals
+            </h3>
+            <div className="space-y-2">
+              {placeholderLifestyleSignals.map((signal, idx) => {
+                const Icon = iconMap[signal.icon];
+                return (
+                  <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
+                    <div className="flex items-center gap-2">
+                      <Icon className="w-4 h-4 text-slate-400" />
+                      <span className="text-xs text-slate-700">{signal.category}</span>
+                    </div>
+                    <Badge variant="outline" className="text-xs">
+                      {signal.trend === 'up' ? '↑' : signal.trend === 'stable' ? '→' : '↓'} 
+                      {signal.change}%
+                    </Badge>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </Card>
+
+        {/* Life Triggers Card */}
+        <Card className="bg-white">
+          <div className="p-4">
+            <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center">
+              <AlertCircle className="w-4 h-4 mr-2" />
+              Recent Life Events
+            </h3>
+            <div className="space-y-3">
+              {placeholderLifeTriggers.map((trigger, idx) => (
+                <div key={idx} className="text-xs border-l-2 border-slate-300 pl-3">
+                  <div className="font-semibold text-slate-700">{trigger.event}</div>
+                  <div className="text-slate-500 mt-1">{trigger.date}</div>
+                  <Badge variant="outline" className="mt-1 text-xs">
+                    {trigger.type}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+          </div>
+        </Card>
+
+        {/* Compliance & Risk Card */}
+        <Card className="bg-white">
+          <div className="p-4">
+            <h3 className="text-sm font-semibold text-slate-900 mb-3">
+              Compliance & Risk
+            </h3>
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between py-1">
+                <span className="text-slate-600">KYC Status</span>
+                <Badge variant="outline">Current</Badge>
+              </div>
+              <div className="flex justify-between py-1">
+                <span className="text-slate-600">Last Review</span>
+                <span className="text-slate-700">Month DD, YYYY</span>
+              </div>
+              <div className="flex justify-between py-1">
+                <span className="text-slate-600">Next Review</span>
+                <span className="text-slate-700">Month DD, YYYY</span>
+              </div>
+              <div className="flex justify-between py-1">
+                <span className="text-slate-600">Risk Profile</span>
+                <span className="text-slate-700">Risk Level</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Milestones Timeline Card */}
+        <Card className="bg-white">
+          <div className="p-4">
+            <h3 className="text-sm font-semibold text-slate-900 mb-3">
+              Relationship Milestones
+            </h3>
+            <div className="space-y-3">
+              <div className="text-xs border-l-2 border-primary pl-3">
+                <div className="font-semibold text-slate-700">Milestone Event</div>
+                <div className="text-slate-500 mt-1">Month YYYY</div>
+              </div>
+              <div className="text-xs border-l-2 border-primary pl-3">
+                <div className="font-semibold text-slate-700">Milestone Event</div>
+                <div className="text-slate-500 mt-1">Month YYYY</div>
+              </div>
+              <div className="text-xs border-l-2 border-primary pl-3">
+                <div className="font-semibold text-slate-700">Milestone Event</div>
+                <div className="text-slate-500 mt-1">Month YYYY</div>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Helper Text at Bottom */}
+        <Card className="bg-blue-50 border-blue-200">
+          <div className="p-3">
+            <p className="text-xs text-blue-900">
+              <strong>Note:</strong> This panel shows placeholder data. Upload transaction data to populate with real client insights.
+            </p>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }
