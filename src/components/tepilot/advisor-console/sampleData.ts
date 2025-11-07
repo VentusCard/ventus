@@ -3,7 +3,7 @@ import { AIInsights } from "@/types/lifestyle-signals";
 
 export interface ClientData {
   name: string;
-  segment: 'Preferred' | 'Private' | 'Merrill';
+  segment: 'Preferred' | 'Private' | 'Premium';
   aum: string;
   tenure: string;
   advisor: string;
@@ -12,7 +12,7 @@ export interface ClientData {
     credit: number;
     mortgage: boolean;
     mortgageAmount?: number;
-    merrill: number;
+    investments: number;
   };
   contact: {
     email: string;
@@ -142,7 +142,7 @@ export interface MortgageProduct {
   property: string;
 }
 
-export interface MerrillProduct {
+export interface InvestmentProduct {
   id: string;
   type: 'brokerage' | 'ira' | 'roth-ira' | '401k';
   name: string;
@@ -162,7 +162,7 @@ export interface HoldingsDetails {
   deposits: DepositProduct[];
   credit: CreditProduct[];
   mortgages: MortgageProduct[];
-  merrill: MerrillProduct[];
+  investments: InvestmentProduct[];
 }
 
 // Sample Client Profile Data
@@ -177,7 +177,7 @@ export const sampleClientData: ClientData = {
     credit: 15000,
     mortgage: true,
     mortgageAmount: 680000,
-    merrill: 1850000
+    investments: 1850000
   },
   contact: {
     email: "emma.r@email.com",
@@ -276,7 +276,7 @@ export const sampleMilestones: Milestone[] = [
   },
   {
     date: "May 2020",
-    event: "First Merrill Investment ($850K)",
+    event: "First Investment Portfolio Funding ($850K)",
     category: "investment"
   },
   {
@@ -456,7 +456,7 @@ export const sampleMeeting: Meeting = {
     "529 Education Savings Plan Recommendation ($10K initial + $500/mo)",
     "Donor-Advised Fund for Philanthropic Giving Strategy",
     "Tax-Loss Harvesting Opportunities (~$12K potential savings)",
-    "Merrill Portfolio Rebalancing (Reduce tech concentration)",
+    "Investment Portfolio Rebalancing (Reduce tech concentration)",
     "Mortgage Refinancing Review (Current rates vs. Emma's 3.2%)"
   ],
   status: "upcoming"
@@ -477,7 +477,7 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
 • Deposit Accounts: $450,000
 • Credit Facilities: $15,000 utilization
 • Mortgage: $680,000 (3.2% fixed, refinanced 2023)
-• Merrill Investment Portfolio: $1,850,000
+• Investment Portfolio: $1,850,000
 
 *Advisor:* Michael Chen, Senior Wealth Advisor
 *Risk Profile:* Moderate-Aggressive (suitable for 80/20 equity/fixed allocation)
@@ -514,7 +514,7 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
     id: "block-3",
     type: "portfolio-snapshot",
     title: "Portfolio Performance Snapshot",
-    content: `**Merrill Investment Portfolio — Q1 2024 Performance**
+    content: `**Investment Portfolio — Q1 2024 Performance**
 
 *Current Market Value:* $1,850,000 (+$140,000 YTD)
 
@@ -677,9 +677,9 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       property: '1248 Highland Ave, Bellevue WA'
     }
   ],
-  merrill: [
+  investments: [
     {
-      id: 'mer-1',
+      id: 'inv-1',
       type: 'brokerage',
       name: 'Individual Brokerage Account',
       accountNumber: '****9102',
@@ -694,7 +694,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       opened: 'May 2020'
     },
     {
-      id: 'mer-2',
+      id: 'inv-2',
       type: 'roth-ira',
       name: 'Roth IRA',
       accountNumber: '****3456',
@@ -709,7 +709,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       opened: 'May 2020'
     },
     {
-      id: 'mer-3',
+      id: 'inv-3',
       type: 'ira',
       name: 'Traditional IRA',
       accountNumber: '****7821',

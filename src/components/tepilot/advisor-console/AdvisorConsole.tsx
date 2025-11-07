@@ -47,10 +47,10 @@ export function AdvisorConsole({
       {/* Header with BofA/Merrill/Ventus branding */}
       <div className="border-b px-6 py-4 flex items-center justify-between bg-gradient-to-r from-white to-slate-50">
         <div>
-          <h1 className="text-2xl font-semibold text-slate-900">
-            BofA / Merrill Advisor Console{" "}
-            <span className="text-primary">Powered by Ventus</span>
-          </h1>
+        <h1 className="text-2xl font-semibold text-slate-900">
+          Wealth Management Advisor Console{" "}
+          <span className="text-primary">Powered by Ventus</span>
+        </h1>
           <p className="text-sm text-slate-600 mt-1">
             AI-powered relationship intelligence and client engagement platform
           </p>
