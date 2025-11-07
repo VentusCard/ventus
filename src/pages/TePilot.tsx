@@ -266,6 +266,31 @@ const TePilot = () => {
         totalSpend: Math.round(data.totalSpend)
       })).sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 10);
 
+      // Calculate top subcategories
+      const subcategoryData = enrichedTransactions.reduce((acc, t) => {
+        const subcat = t.subcategory || "Other";
+        if (!acc[subcat]) {
+          acc[subcat] = {
+            visits: 0,
+            totalSpend: 0,
+            pillar: t.pillar || "Other"
+          };
+        }
+        acc[subcat].visits += 1;
+        acc[subcat].totalSpend += t.amount;
+        return acc;
+      }, {} as Record<string, { visits: number; totalSpend: number; pillar: string }>);
+
+      const topSubcategories = Object.entries(subcategoryData)
+        .map(([subcategory, data]) => ({
+          subcategory,
+          pillar: data.pillar,
+          visits: data.visits,
+          totalSpend: Math.round(data.totalSpend)
+        }))
+        .sort((a, b) => b.totalSpend - a.totalSpend)
+        .slice(0, 5);
+
       // Determine customer segment
       const segment = {
         tier: totalSpend > 96000 ? "premium" : totalSpend > 36000 ? "standard" : "basic",
@@ -277,6 +302,7 @@ const TePilot = () => {
         monthlyAverage: Math.round(monthlyAverage),
         topPillars,
         topMerchants,
+        topSubcategories,
         segment
       };
       console.log('Sending insights to generate-partner-recommendations:', insights);
@@ -290,7 +316,12 @@ const TePilot = () => {
       });
       if (error) throw error;
       console.log('Received recommendations:', data);
-      setRecommendations(data);
+      const recommendationsWithSubcategories = {
+        ...data,
+        topSubcategories
+      };
+      setRecommendations(recommendationsWithSubcategories);
+      sessionStorage.setItem("tepilot_recommendations", JSON.stringify(recommendationsWithSubcategories));
       setInsightType('revenue');
       setActiveTab('insights');
       toast.success("Generated personalized recommendations!");
