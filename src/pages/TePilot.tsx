@@ -58,7 +58,19 @@ const TePilot = () => {
 
   const navigate = useNavigate();
 
-  const handleNavigateToAdvisorConsole = () => {
+  const handleNavigateToAdvisorConsole = async () => {
+    // Ensure analysis runs before navigating if not already done
+    if (!lifestyleSignals && enrichedTransactions.length > 0) {
+      toast.info('Running lifestyle analysis...');
+      await fetchLifestyleSignals();
+    }
+    
+    // Store context before navigating
+    sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
+      enrichedTransactions: enrichedTransactions,
+      aiInsights: lifestyleSignals
+    }));
+    
     navigate('/tepilot/advisor-console');
   };
 
@@ -388,6 +400,13 @@ const TePilot = () => {
       }
 
       setLifestyleSignals(data);
+
+      // Store context for AdvisorConsole page
+      sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
+        enrichedTransactions: enrichedTransactions,
+        aiInsights: data
+      }));
+
       toast.success(`Analysis complete! Detected ${data.detected_events?.length || 0} life events`);
     } catch (error) {
       console.error('Error:', error);
@@ -798,13 +817,15 @@ const TePilot = () => {
                         {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                       </Button>
                       
-                      <RelationshipManagementCard 
-                        onUnlock={() => {
-                          setIsRelationshipUnlocked(true);
-                        }} 
-                        isUnlocked={isRelationshipUnlocked}
-                        onNavigate={handleNavigateToAdvisorConsole}
-                      />
+            <RelationshipManagementCard 
+              onUnlock={async () => {
+                setIsRelationshipUnlocked(true);
+                toast.info('Analyzing lifestyle signals...');
+                await fetchLifestyleSignals();
+              }} 
+              isUnlocked={isRelationshipUnlocked}
+              onNavigate={handleNavigateToAdvisorConsole}
+            />
                     </div>
                   </CardContent>
                 </Card>
