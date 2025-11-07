@@ -67,7 +67,10 @@ export function AdvisorConsole({
       <ResizablePanelGroup direction="horizontal" className="flex-1 min-h-0">
         {/* Left Panel: Client Snapshot */}
         <ResizablePanel defaultSize={22} minSize={15} maxSize={30}>
-          <ClientSnapshotPanel onAskVentus={handleAskVentus} />
+          <ClientSnapshotPanel 
+            onAskVentus={handleAskVentus}
+            hasEnrichedTransactions={enrichedTransactions && enrichedTransactions.length > 0}
+          />
         </ResizablePanel>
 
         <ResizableHandle withHandle className="hover:bg-primary/20 transition-colors" />
