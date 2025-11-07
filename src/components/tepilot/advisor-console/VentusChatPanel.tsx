@@ -230,7 +230,7 @@ export function VentusChatPanel({
       {/* Chat Messages */}
       <div className="flex-1 min-h-0 overflow-y-auto px-6 py-4 space-y-4">
         {messages.length === 0 && <div className="text-center py-12">
-            <Brain className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
+            
             <h3 className="font-semibold mb-2">Start a Conversation</h3>
             <p className="text-sm text-muted-foreground mb-4">
               Ask me anything about the client's spending patterns, life events, or get recommendations
