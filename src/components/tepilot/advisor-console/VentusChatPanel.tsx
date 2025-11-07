@@ -188,20 +188,33 @@ export function VentusChatPanel({
         </Collapsible>}
 
       {/* Empty State when no events detected */}
-      {!isLoadingInsights && (!aiInsights || visibleEvents.length === 0) && <div className="border-b px-6 py-8">
-          <Card className="border-dashed">
-            <div className="p-8 text-center">
-              <Brain className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
-              <h3 className="font-semibold mb-2">No Significant Life Events Detected</h3>
-              <p className="text-sm text-muted-foreground mb-4">
-                Based on the current transaction data, we didn't find strong patterns indicating major life events.
-              </p>
-              <p className="text-xs text-muted-foreground">
-                Try enriching more transactions or transactions from different time periods for better analysis.
-              </p>
+      {!isLoadingInsights && (!aiInsights || visibleEvents.length === 0) && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
+          <CollapsibleTrigger className="w-full px-6 py-4 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-primary" />
+                <h3 className="font-semibold text-foreground">AI-Detected Life Events</h3>
+                <Badge variant="secondary">0</Badge>
+              </div>
+              {lifeEventsOpen ? <ChevronUp className="w-5 h-5 text-slate-600" /> : <ChevronDown className="w-5 h-5 text-slate-600" />}
             </div>
-          </Card>
-        </div>}
+          </CollapsibleTrigger>
+          
+          <CollapsibleContent className="px-6 py-8">
+            <Card className="border-dashed">
+              <div className="p-8 text-center">
+                <Brain className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
+                <h3 className="font-semibold mb-2">No Significant Life Events Detected</h3>
+                <p className="text-sm text-muted-foreground mb-4">
+                  Based on the current transaction data, we didn't find strong patterns indicating major life events.
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Try enriching more transactions or transactions from different time periods for better analysis.
+                </p>
+              </div>
+            </Card>
+          </CollapsibleContent>
+        </Collapsible>}
 
       {/* To-Do List */}
       <Collapsible open={todoOpen} onOpenChange={setTodoOpen} className="border-b">
