@@ -12,10 +12,18 @@ export function ContextualInsightCards({ enrichedTransactions }: ContextualInsig
     return null;
   }
 
+  // Calculate date ranges
+  const now = new Date();
+  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+  const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
+
   // Compute metrics
   const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
-  const pillarAggregates = aggregateByPillar(enrichedTransactions);
-  const topPillar = pillarAggregates.sort((a, b) => b.totalSpend - a.totalSpend)[0];
+  
+  // Get most recent pillar data (last 30 days)
+  const recentTransactions = enrichedTransactions.filter(t => new Date(t.date) >= thirtyDaysAgo);
+  const recentPillarAggregates = aggregateByPillar(recentTransactions);
+  const topRecentPillar = recentPillarAggregates.sort((a, b) => b.totalSpend - a.totalSpend)[0];
   
   const travelTransactions = enrichedTransactions.filter(
     t => t.travel_context?.is_travel_related
@@ -31,9 +39,6 @@ export function ContextualInsightCards({ enrichedTransactions }: ContextualInsig
   const travelTrips = uniqueTripPeriods.size;
 
   // Calculate trend (compare last 30 days vs previous 30 days)
-  const now = new Date();
-  const thirtyDaysAgo = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
-  const sixtyDaysAgo = new Date(now.getTime() - 60 * 24 * 60 * 60 * 1000);
   
   const recentSpend = enrichedTransactions
     .filter(t => new Date(t.date) >= thirtyDaysAgo)
@@ -59,9 +64,9 @@ export function ContextualInsightCards({ enrichedTransactions }: ContextualInsig
     },
     {
       icon: ShoppingBag,
-      label: "Top Category",
-      value: topPillar?.pillar || "N/A",
-      subtitle: `$${topPillar?.totalSpend.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) || 0}`,
+      label: "Recent Top Category",
+      value: topRecentPillar?.pillar || "N/A",
+      subtitle: `$${topRecentPillar?.totalSpend.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 0 }) || 0} (30 days)`,
       color: "text-green-600",
       bgColor: "bg-green-50",
       borderColor: "border-green-600"
