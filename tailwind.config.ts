@@ -126,6 +126,16 @@ export default {
 					to: { height: '0' }
 				},
 
+				// Collapsible Animations
+				'collapsible-down': {
+					from: { height: '0' },
+					to: { height: 'var(--radix-collapsible-content-height)' }
+				},
+				'collapsible-up': {
+					from: { height: 'var(--radix-collapsible-content-height)' },
+					to: { height: '0' }
+				},
+
 				// Enhanced Entrance Animations
 				'unleashed': {
 					'0%': { transform: 'scale(0.98) translateY(3px)', opacity: '0' },
@@ -183,6 +193,8 @@ export default {
 				// Core Animations
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
+				'collapsible-down': 'collapsible-down 0.2s ease-out',
+				'collapsible-up': 'collapsible-up 0.2s ease-out',
 				
 				// Entrance Animations
 				'unleashed': 'unleashed 1.2s ease-out',
