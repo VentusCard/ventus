@@ -82,6 +82,7 @@ export function AdvisorConsole({
             onToggleTask={toggleTask}
             aiInsights={propAiInsights}
             isLoadingInsights={isLoadingInsights}
+            enrichedTransactions={enrichedTransactions}
           />
         </ResizablePanel>
 

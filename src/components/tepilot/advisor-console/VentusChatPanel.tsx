@@ -14,6 +14,9 @@ import { ProductRecommendationCard } from "./ProductRecommendationCard";
 import { EducationalContentPanel } from "./EducationalContentPanel";
 import { TalkingPointsSection } from "./TalkingPointsSection";
 import { ActionItemsChecklist } from "./ActionItemsChecklist";
+import { ContextualInsightCards } from "./ContextualInsightCards";
+import { EnrichedTransaction } from "@/types/transaction";
+
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
   onSaveToDocument?: (message: ChatMessage) => void;
@@ -22,6 +25,7 @@ interface VentusChatPanelProps {
   onToggleTask: (taskId: string) => void;
   aiInsights: AIInsights | null;
   isLoadingInsights: boolean;
+  enrichedTransactions?: EnrichedTransaction[];
 }
 export function VentusChatPanel({
   selectedLifestyleChip,
@@ -30,7 +34,8 @@ export function VentusChatPanel({
   tasks,
   onToggleTask,
   aiInsights,
-  isLoadingInsights
+  isLoadingInsights,
+  enrichedTransactions = []
 }: VentusChatPanelProps) {
   const [messages] = useState<ChatMessage[]>(sampleChatMessages);
   const [inputValue, setInputValue] = useState("");
@@ -104,6 +109,13 @@ export function VentusChatPanel({
           )}
         </div>
       </div>
+
+      {/* Contextual Insight Cards */}
+      {enrichedTransactions.length > 0 && (
+        <div className="px-6 py-4 border-b">
+          <ContextualInsightCards enrichedTransactions={enrichedTransactions} />
+        </div>
+      )}
 
       {/* AI Insights Section */}
       {visibleEvents.length > 0 && (
