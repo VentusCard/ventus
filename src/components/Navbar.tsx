@@ -4,6 +4,7 @@ import { Menu, X, User, LogOut, LayoutDashboard, Tag, Heart } from "lucide-react
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { User as SupabaseUser } from "@supabase/supabase-js";
+import ventusLogo from "@/assets/ventus-logo.png";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -60,14 +61,12 @@ const Navbar = () => {
       <div className="flex h-16 md:h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
         {/* Logo/Brand */}
         <div className="flex items-center flex-1 md:flex-initial">
-          <Link to="/" onClick={closeMobileMenu}>
-            <h1 className="text-base md:text-lg tracking-[0.15em] font-sans font-medium text-white/95 relative cursor-pointer hover:text-white transition-colors duration-300">
-              <span className="relative inline-block">
-                VENTUS CARD
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent opacity-40 blur-[1px]"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent"></div>
-              </span>
-            </h1>
+          <Link to="/" onClick={closeMobileMenu} className="group">
+            <img 
+              src={ventusLogo} 
+              alt="Ventus Card" 
+              className="h-8 md:h-10 w-auto transition-opacity duration-300 group-hover:opacity-90"
+            />
           </Link>
         </div>
         
