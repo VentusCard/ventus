@@ -1,13 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { ClientSnapshotPanel } from "./ClientSnapshotPanel";
 import { VentusChatPanel } from "./VentusChatPanel";
 import { ActionWorkspacePanel } from "./ActionWorkspacePanel";
-import { ChatMessage, Task, sampleTasks } from "./sampleData";
+import { ChatMessage, Task, sampleTasks, sampleClientData, sampleAIInsights } from "./sampleData";
+import { AIInsights } from "@/types/lifestyle-signals";
 
 export function AdvisorConsole() {
   const [selectedLifestyleChip, setSelectedLifestyleChip] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>(sampleTasks);
+  const [aiInsights, setAiInsights] = useState<AIInsights | null>(sampleAIInsights);
+  const [isLoadingInsights, setIsLoadingInsights] = useState(false);
+
+  // Fetch lifestyle signals on mount (using sample data for now)
+  useEffect(() => {
+    // In production, this would call the edge function
+    // For now, we use the sample data
+    setAiInsights(sampleAIInsights);
+  }, []);
 
   const toggleTask = (taskId: string) => {
     setTasks(tasks.map(task => 
@@ -68,6 +78,8 @@ export function AdvisorConsole() {
             onAddToTodo={handleAddToTodo}
             tasks={tasks}
             onToggleTask={toggleTask}
+            aiInsights={aiInsights}
+            isLoadingInsights={isLoadingInsights}
           />
         </ResizablePanel>
 

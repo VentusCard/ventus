@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.parse-bank-statement-pdf]
 verify_jwt = false
+
+[functions.analyze-lifestyle-signals]
+verify_jwt = false

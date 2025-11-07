@@ -4,30 +4,40 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Mic, Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock } from "lucide-react";
+import { Mic, Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2 } from "lucide-react";
 import { sampleChatMessages, ChatMessage, Task } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { AIInsights, LifeEvent } from "@/types/lifestyle-signals";
+import { LifeEventCard } from "./LifeEventCard";
+import { ProductRecommendationCard } from "./ProductRecommendationCard";
+import { EducationalContentPanel } from "./EducationalContentPanel";
+import { TalkingPointsSection } from "./TalkingPointsSection";
+import { ActionItemsChecklist } from "./ActionItemsChecklist";
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
   onSaveToDocument?: (message: ChatMessage) => void;
   onAddToTodo?: (message: ChatMessage) => void;
   tasks: Task[];
   onToggleTask: (taskId: string) => void;
+  aiInsights: AIInsights | null;
+  isLoadingInsights: boolean;
 }
 export function VentusChatPanel({
   selectedLifestyleChip,
   onSaveToDocument,
   onAddToTodo,
   tasks,
-  onToggleTask
+  onToggleTask,
+  aiInsights,
+  isLoadingInsights
 }: VentusChatPanelProps) {
   const [messages] = useState<ChatMessage[]>(sampleChatMessages);
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
-  const {
-    toast
-  } = useToast();
+  const [selectedEvent, setSelectedEvent] = useState<LifeEvent | null>(null);
+  const [dismissedEvents, setDismissedEvents] = useState<Set<string>>(new Set());
+  const { toast } = useToast();
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
@@ -51,14 +61,104 @@ export function VentusChatPanel({
       duration: 2000
     });
   };
+
+  const handleViewEventDetails = (event: LifeEvent) => {
+    setSelectedEvent(event);
+  };
+
+  const handleDismissEvent = (eventName: string) => {
+    setDismissedEvents(prev => new Set(prev).add(eventName));
+    if (selectedEvent?.event_name === eventName) {
+      setSelectedEvent(null);
+    }
+    toast({
+      title: "Event dismissed",
+      description: "Life event removed from view",
+      duration: 2000
+    });
+  };
+
+  const handleAddToAgenda = () => {
+    toast({
+      title: "✓ Added to Meeting Agenda",
+      description: "Product recommendation added to upcoming meeting",
+      duration: 2000
+    });
+  };
+
+  const visibleEvents = aiInsights?.detected_events.filter(
+    event => !dismissedEvents.has(event.event_name)
+  ) || [];
   return <div className="h-full flex flex-col bg-white">
       {/* Header */}
       <div className="border-b px-6 py-4 bg-gradient-to-r from-white to-slate-50">
-        <h2 className="text-xl font-semibold text-slate-900">
-          Ventus AI Advisor Chat
-        </h2>
-        
+        <div className="flex items-center justify-between">
+          <h2 className="text-xl font-semibold text-slate-900">
+            Ventus AI Advisor Chat
+          </h2>
+          {isLoadingInsights && (
+            <div className="flex items-center gap-2 text-sm text-muted-foreground">
+              <Loader2 className="w-4 h-4 animate-spin" />
+              <span>Analyzing lifestyle signals...</span>
+            </div>
+          )}
+        </div>
       </div>
+
+      {/* AI Insights Section */}
+      {visibleEvents.length > 0 && (
+        <div className="border-b px-6 py-4 bg-gradient-to-b from-primary/5 to-transparent">
+          <div className="flex items-center gap-2 mb-3">
+            <Sparkles className="w-5 h-5 text-primary" />
+            <h3 className="font-semibold text-foreground">AI-Detected Life Events</h3>
+            <Badge variant="secondary">{visibleEvents.length}</Badge>
+          </div>
+          
+          <div className="space-y-3 mb-4">
+            {visibleEvents.map((event) => (
+              <LifeEventCard
+                key={event.event_name}
+                event={event}
+                onViewDetails={() => handleViewEventDetails(event)}
+                onDismiss={() => handleDismissEvent(event.event_name)}
+              />
+            ))}
+          </div>
+
+          {/* Selected Event Details */}
+          {selectedEvent && (
+            <div className="space-y-3 mt-4 border-t pt-4">
+              <h4 className="font-semibold text-foreground mb-3">
+                Recommendations for: {selectedEvent.event_name}
+              </h4>
+              
+              {/* Product Recommendations */}
+              <div className="space-y-2">
+                <p className="text-xs font-medium text-muted-foreground mb-2">Financial Products</p>
+                {selectedEvent.products.map((product, idx) => (
+                  <ProductRecommendationCard
+                    key={idx}
+                    product={product}
+                    onAddToAgenda={handleAddToAgenda}
+                  />
+                ))}
+              </div>
+
+              {/* Educational Content */}
+              <EducationalContentPanel
+                education={selectedEvent.education}
+                eventName={selectedEvent.event_name}
+              />
+
+              {/* Talking Points */}
+              <TalkingPointsSection talkingPoints={selectedEvent.talking_points} />
+
+              {/* Action Items */}
+              <ActionItemsChecklist items={selectedEvent.action_items} />
+            </div>
+          )}
+        </div>
+      )}
 
       {/* To-Do List */}
       <Collapsible open={todoOpen} onOpenChange={setTodoOpen} className="border-b">
