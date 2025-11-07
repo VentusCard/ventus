@@ -287,7 +287,7 @@ const TePilot = () => {
               <Accordion type="single" collapsible className="w-full mt-2">
                 <AccordionItem value="release-notes" className="border-none">
                   <AccordionTrigger className="text-sm text-muted-foreground py-1 hover:no-underline">
-                    Release Notes <span className="text-blue-600 font-semibold">({CURRENT_VERSION})</span>
+                    Release Notes ({CURRENT_VERSION})
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
