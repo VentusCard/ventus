@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.analyze-lifestyle-signals]
 verify_jwt = false
+
+[functions.advisor-chat]
+verify_jwt = false

@@ -6,17 +6,20 @@ import { ActionWorkspacePanel } from "./ActionWorkspacePanel";
 import { ChatMessage, Task, sampleTasks, sampleClientData } from "./sampleData";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { EnrichedTransaction } from "@/types/transaction";
+import { AdvisorContext } from "@/lib/advisorContextBuilder";
 
 interface AdvisorConsoleProps {
   aiInsights?: AIInsights | null;
   isLoadingInsights?: boolean;
   enrichedTransactions?: EnrichedTransaction[];
+  advisorContext?: AdvisorContext;
 }
 
 export function AdvisorConsole({ 
   aiInsights: propAiInsights, 
   isLoadingInsights = false,
-  enrichedTransactions = []
+  enrichedTransactions = [],
+  advisorContext
 }: AdvisorConsoleProps) {
   const [selectedLifestyleChip, setSelectedLifestyleChip] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>(sampleTasks);
@@ -85,6 +88,7 @@ export function AdvisorConsole({
             aiInsights={propAiInsights}
             isLoadingInsights={isLoadingInsights}
             enrichedTransactions={enrichedTransactions}
+            advisorContext={advisorContext}
           />
         </ResizablePanel>
 

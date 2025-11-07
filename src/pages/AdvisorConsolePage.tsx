@@ -4,15 +4,43 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { AdvisorConsole } from "@/components/tepilot/advisor-console/AdvisorConsole";
 import { ArrowLeft, Lock } from "lucide-react";
+import { EnrichedTransaction } from "@/types/transaction";
+import { AIInsights } from "@/types/lifestyle-signals";
+import { buildAdvisorContext, AdvisorContext } from "@/lib/advisorContextBuilder";
 
 const AdvisorConsolePage = () => {
   const navigate = useNavigate();
   const [isUnlocked, setIsUnlocked] = useState(false);
+  const [advisorContext, setAdvisorContext] = useState<AdvisorContext | undefined>(undefined);
+  const [enrichedTransactions, setEnrichedTransactions] = useState<EnrichedTransaction[]>([]);
+  const [aiInsights, setAiInsights] = useState<AIInsights | null>(null);
 
   useEffect(() => {
     // Check if unlocked in sessionStorage
     const unlocked = sessionStorage.getItem("tepilot_relationship_auth");
     setIsUnlocked(unlocked === "unlocked");
+
+    // Load advisor context from sessionStorage
+    if (unlocked === "unlocked") {
+      const contextStr = sessionStorage.getItem("tepilot_advisor_context");
+      if (contextStr) {
+        try {
+          const contextData = JSON.parse(contextStr);
+          setEnrichedTransactions(contextData.enrichedTransactions || []);
+          setAiInsights(contextData.aiInsights || null);
+          
+          // Build advisor context
+          const context = buildAdvisorContext(
+            contextData.enrichedTransactions || [],
+            contextData.aiInsights || null
+          );
+          setAdvisorContext(context);
+          console.log("Loaded advisor context from sessionStorage", context);
+        } catch (error) {
+          console.error("Error loading advisor context:", error);
+        }
+      }
+    }
   }, []);
 
   if (!isUnlocked) {
@@ -65,7 +93,11 @@ const AdvisorConsolePage = () => {
       </div>
 
       {/* Full Advisor Console */}
-      <AdvisorConsole />
+      <AdvisorConsole 
+        enrichedTransactions={enrichedTransactions}
+        aiInsights={aiInsights}
+        advisorContext={advisorContext}
+      />
     </div>
   );
 };

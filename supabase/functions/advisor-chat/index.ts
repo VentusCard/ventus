@@ -1,0 +1,274 @@
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+
+const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
+
+const corsHeaders = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+};
+
+interface Message {
+  role: "user" | "assistant";
+  content: string;
+}
+
+interface AdvisorContext {
+  overview: {
+    totalTransactions: number;
+    totalSpend: number;
+    dateRange: { start: string; end: string };
+    avgTransactionAmount: number;
+  };
+  topPillars: Array<{
+    pillar: string;
+    totalSpend: number;
+    percentage: number;
+    transactionCount: number;
+    topSubcategories: Array<{ name: string; spend: number }>;
+  }>;
+  travelAnalysis?: {
+    totalTravelSpend: number;
+    travelTransactions: number;
+    destinations: string[];
+    travelPeriods: Array<{ start: string; end: string; destination: string }>;
+  };
+  lifeEvents: Array<{
+    event: string;
+    confidence: number;
+    evidenceCount: number;
+    products: string[];
+    keyInsights: string[];
+  }>;
+  topMerchants: Array<{
+    merchant: string;
+    totalSpend: number;
+    visits: number;
+    category: string;
+  }>;
+  sampleTransactions: Array<{
+    date: string;
+    merchant: string;
+    amount: number;
+    category: string;
+    subcategory: string;
+  }>;
+  spendingTrends?: {
+    monthlyAverage: number;
+    highestSpendMonth?: string;
+  };
+}
+
+const SYSTEM_PROMPT = `You are Ventus AI, an expert wealth management advisor assistant for financial advisors at major banks and wealth management firms.
+
+Your role is to help advisors:
+- Analyze client portfolios and spending patterns
+- Identify opportunities for product recommendations
+- Prepare for client meetings with actionable talking points
+- Understand lifestyle signals and life events
+- Draft professional communications
+- Suggest next best actions
+
+You have access to comprehensive client data including:
+- Complete enriched transaction history with AI categorization
+- Spending breakdowns by category, subcategory, and merchant
+- Travel patterns and destinations
+- AI-detected life events with confidence scores
+- Product recommendations based on life events
+- Portfolio holdings and relationship data
+
+Communication style:
+- Professional but conversational
+- Concise and actionable
+- Always cite specific data when making recommendations (e.g., "Based on $15,234 in travel spending...")
+- Focus on business impact and client value
+- Use bullet points for clarity when appropriate
+
+When answering questions:
+1. Reference specific numbers, dates, merchants, or categories from the data
+2. Explain the "why" behind recommendations
+3. Consider the client's full financial picture
+4. Suggest specific next steps or actions
+5. Keep responses focused and under 300 words unless more detail is requested
+
+You are speaking to a financial advisor who needs quick, actionable insights to serve their client better.`;
+
+function formatContextForPrompt(context: AdvisorContext): string {
+  let prompt = `\n\n=== CLIENT DATA SUMMARY ===\n\n`;
+
+  // Overview
+  prompt += `OVERVIEW:\n`;
+  prompt += `- Total Transactions: ${context.overview.totalTransactions}\n`;
+  prompt += `- Total Spend: $${context.overview.totalSpend.toLocaleString()}\n`;
+  prompt += `- Date Range: ${context.overview.dateRange.start} to ${context.overview.dateRange.end}\n`;
+  prompt += `- Avg Transaction: $${context.overview.avgTransactionAmount}\n\n`;
+
+  // Top Spending Categories
+  prompt += `TOP SPENDING CATEGORIES:\n`;
+  context.topPillars.slice(0, 5).forEach((p, i) => {
+    prompt += `${i + 1}. ${p.pillar}: $${p.totalSpend.toLocaleString()} (${p.percentage}%, ${p.transactionCount} transactions)\n`;
+    if (p.topSubcategories.length > 0) {
+      prompt += `   Top subcategories: ${p.topSubcategories.map(s => `${s.name} ($${s.spend.toLocaleString()})`).join(", ")}\n`;
+    }
+  });
+  prompt += `\n`;
+
+  // Travel Analysis
+  if (context.travelAnalysis && context.travelAnalysis.travelTransactions > 0) {
+    prompt += `TRAVEL ANALYSIS:\n`;
+    prompt += `- Total Travel Spend: $${context.travelAnalysis.totalTravelSpend.toLocaleString()}\n`;
+    prompt += `- Travel Transactions: ${context.travelAnalysis.travelTransactions}\n`;
+    prompt += `- Destinations: ${context.travelAnalysis.destinations.join(", ")}\n`;
+    if (context.travelAnalysis.travelPeriods.length > 0) {
+      prompt += `- Travel Periods:\n`;
+      context.travelAnalysis.travelPeriods.forEach(period => {
+        prompt += `  * ${period.start} to ${period.end}: ${period.destination}\n`;
+      });
+    }
+    prompt += `\n`;
+  }
+
+  // Life Events
+  if (context.lifeEvents.length > 0) {
+    prompt += `AI-DETECTED LIFE EVENTS:\n`;
+    context.lifeEvents.forEach((event, i) => {
+      prompt += `${i + 1}. ${event.event} (${event.confidence}% confidence)\n`;
+      prompt += `   - Evidence: ${event.evidenceCount} indicators\n`;
+      prompt += `   - Recommended Products: ${event.products.join(", ")}\n`;
+      if (event.keyInsights.length > 0) {
+        prompt += `   - Key Insights: ${event.keyInsights.join("; ")}\n`;
+      }
+    });
+    prompt += `\n`;
+  }
+
+  // Top Merchants
+  if (context.topMerchants.length > 0) {
+    prompt += `TOP MERCHANTS:\n`;
+    context.topMerchants.slice(0, 10).forEach((m, i) => {
+      prompt += `${i + 1}. ${m.merchant}: $${m.totalSpend.toLocaleString()} (${m.visits} visits) - ${m.category}\n`;
+    });
+    prompt += `\n`;
+  }
+
+  // Sample Significant Transactions
+  if (context.sampleTransactions.length > 0) {
+    prompt += `SAMPLE SIGNIFICANT TRANSACTIONS (Top 10):\n`;
+    context.sampleTransactions.slice(0, 10).forEach((t, i) => {
+      prompt += `${i + 1}. ${t.date} - ${t.merchant}: $${t.amount.toLocaleString()} [${t.category} - ${t.subcategory}]\n`;
+    });
+    prompt += `\n`;
+  }
+
+  // Spending Trends
+  if (context.spendingTrends) {
+    prompt += `SPENDING TRENDS:\n`;
+    prompt += `- Monthly Average: $${context.spendingTrends.monthlyAverage.toLocaleString()}\n`;
+    if (context.spendingTrends.highestSpendMonth) {
+      prompt += `- Highest Spend Month: ${context.spendingTrends.highestSpendMonth}\n`;
+    }
+  }
+
+  return prompt;
+}
+
+serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response(null, { headers: corsHeaders });
+  }
+
+  try {
+    const { message, conversationHistory, context } = await req.json();
+
+    if (!LOVABLE_API_KEY) {
+      throw new Error("LOVABLE_API_KEY not configured");
+    }
+
+    // Build messages array
+    const messages: Array<{ role: string; content: string }> = [
+      { role: "system", content: SYSTEM_PROMPT },
+    ];
+
+    // Add context as system message
+    if (context) {
+      const contextPrompt = formatContextForPrompt(context);
+      messages.push({
+        role: "system",
+        content: contextPrompt,
+      });
+    }
+
+    // Add conversation history (last 10 messages)
+    const recentHistory = (conversationHistory || []).slice(-10);
+    messages.push(...recentHistory);
+
+    // Add current user message
+    messages.push({
+      role: "user",
+      content: message,
+    });
+
+    console.log("Calling Lovable AI with context...");
+
+    const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "google/gemini-2.5-flash",
+        messages,
+        temperature: 0.7,
+        max_tokens: 1000,
+      }),
+    });
+
+    if (!response.ok) {
+      if (response.status === 429) {
+        return new Response(
+          JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }),
+          {
+            status: 429,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+      if (response.status === 402) {
+        return new Response(
+          JSON.stringify({ error: "AI credits depleted. Please add credits to continue." }),
+          {
+            status: 402,
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          }
+        );
+      }
+
+      const errorText = await response.text();
+      console.error("Lovable AI error:", response.status, errorText);
+      throw new Error(`AI gateway error: ${response.status}`);
+    }
+
+    const data = await response.json();
+    const aiMessage = data.choices?.[0]?.message?.content;
+
+    if (!aiMessage) {
+      throw new Error("No response from AI");
+    }
+
+    return new Response(
+      JSON.stringify({ message: aiMessage }),
+      {
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
+    );
+  } catch (error) {
+    console.error("Advisor chat error:", error);
+    return new Response(
+      JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }),
+      {
+        status: 500,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      }
+    );
+  }
+});

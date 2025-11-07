@@ -16,6 +16,8 @@ import { TalkingPointsSection } from "./TalkingPointsSection";
 import { ActionItemsChecklist } from "./ActionItemsChecklist";
 import { ContextualInsightCards } from "./ContextualInsightCards";
 import { EnrichedTransaction } from "@/types/transaction";
+import { useAdvisorChat } from "@/hooks/useAdvisorChat";
+import { AdvisorContext } from "@/lib/advisorContextBuilder";
 
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
@@ -26,6 +28,7 @@ interface VentusChatPanelProps {
   aiInsights: AIInsights | null;
   isLoadingInsights: boolean;
   enrichedTransactions?: EnrichedTransaction[];
+  advisorContext?: AdvisorContext;
 }
 export function VentusChatPanel({
   selectedLifestyleChip,
@@ -35,31 +38,64 @@ export function VentusChatPanel({
   onToggleTask,
   aiInsights,
   isLoadingInsights,
-  enrichedTransactions = []
+  enrichedTransactions = [],
+  advisorContext
 }: VentusChatPanelProps) {
-  const [messages] = useState<ChatMessage[]>(sampleChatMessages);
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<LifeEvent | null>(null);
   const [dismissedEvents, setDismissedEvents] = useState<Set<string>>(new Set());
   const { toast } = useToast();
+  
+  // Use advisor chat hook for live AI conversations
+  const { messages, isLoading: isChatLoading, sendMessage } = useAdvisorChat({ 
+    advisorContext 
+  });
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const smartChips = ["Meeting Prep", "Lifestyle Summary", "Generate FAQ", "Record Note", "Add Task"];
+  const smartChips = ["Meeting Prep", "Product Recommendations", "Spending Analysis", "Life Events Summary", "Draft Email"];
+  
   const handleChipClick = (chip: string) => {
-    setInputValue(`[${chip}] `);
+    let prompt = "";
+    switch (chip) {
+      case "Meeting Prep":
+        prompt = "Prepare 5 key talking points for my upcoming client meeting";
+        break;
+      case "Product Recommendations":
+        prompt = "What financial products should I recommend based on their spending patterns?";
+        break;
+      case "Spending Analysis":
+        prompt = "Analyze spending patterns and identify any concerns or opportunities";
+        break;
+      case "Life Events Summary":
+        prompt = "Summarize detected life events and recommended actions";
+        break;
+      case "Draft Email":
+        prompt = "Draft a professional email to the client about our upcoming meeting";
+        break;
+      default:
+        prompt = `[${chip}] `;
+    }
+    setInputValue(prompt);
   };
-  const handleSaveToDoc = (message: ChatMessage) => {
-    onSaveToDocument?.(message);
+
+  const handleSendMessage = async () => {
+    if (!inputValue.trim() || isChatLoading) return;
+    
+    const message = inputValue.trim();
+    setInputValue("");
+    await sendMessage(message);
+  };
+  const handleSaveToDoc = (content: string) => {
     toast({
       title: "✓ Saved to Document",
       description: "Message added to Client Brief Builder",
       duration: 2000
     });
   };
-  const handleAddToTodo = (message: ChatMessage) => {
-    onAddToTodo?.(message);
+  
+  const handleAddToTodoFromMessage = (content: string) => {
     toast({
       title: "✓ Added to Tasks",
       description: "New task created from message",
@@ -223,80 +259,140 @@ export function VentusChatPanel({
 
       {/* Chat Messages */}
       <div className="flex-1 min-h-0 overflow-y-auto px-6 py-4 space-y-4">
-        {messages.map(message => {
-        const isHighlighted = selectedLifestyleChip && message.relatedLifestyleChip === selectedLifestyleChip;
-        return <Card key={message.id} className={`p-4 ${message.role === 'ai' ? 'bg-slate-50 border-slate-200' : 'bg-primary/5 border-primary/20'} ${isHighlighted ? 'ring-2 ring-primary animate-pulse' : ''} transition-all duration-300`}>
-              <div className="flex items-start gap-3">
-                <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${message.role === 'ai' ? 'bg-primary text-white' : 'bg-slate-900 text-white'}`}>
-                  {message.role === 'ai' ? 'V' : 'MC'}
+        {messages.length === 0 && (
+          <div className="text-center py-12">
+            <Brain className="w-16 h-16 mx-auto text-muted-foreground/50 mb-4" />
+            <h3 className="font-semibold mb-2">Start a Conversation</h3>
+            <p className="text-sm text-muted-foreground mb-4">
+              Ask me anything about the client's spending patterns, life events, or get recommendations
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center">
+              {smartChips.map(chip => (
+                <Button 
+                  key={chip} 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => handleChipClick(chip)}
+                >
+                  {chip}
+                </Button>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {messages.map((message, idx) => (
+          <Card 
+            key={idx} 
+            className={`p-4 ${
+              message.role === 'assistant' 
+                ? 'bg-slate-50 border-slate-200' 
+                : 'bg-primary/5 border-primary/20'
+            }`}
+          >
+            <div className="flex items-start gap-3">
+              <div 
+                className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold ${
+                  message.role === 'assistant' 
+                    ? 'bg-primary text-white' 
+                    : 'bg-slate-900 text-white'
+                }`}
+              >
+                {message.role === 'assistant' ? 'V' : 'You'}
+              </div>
+              
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="font-semibold text-slate-900">
+                    {message.role === 'assistant' ? 'Ventus AI' : 'Advisor'}
+                  </span>
+                  <span className="text-xs text-slate-500">
+                    {message.timestamp.toLocaleTimeString('en-US', {
+                      hour: 'numeric',
+                      minute: '2-digit'
+                    })}
+                  </span>
                 </div>
                 
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="font-semibold text-slate-900">
-                      {message.role === 'ai' ? 'Ventus AI' : 'Michael Chen'}
-                    </span>
-                    <span className="text-xs text-slate-500">
-                      {message.timestamp.toLocaleTimeString('en-US', {
-                    hour: 'numeric',
-                    minute: '2-digit'
-                  })}
-                    </span>
-                    {message.relatedLifestyleChip && <Badge variant="outline" className="text-xs">
-                        {message.relatedLifestyleChip}
-                      </Badge>}
+                <p className="text-sm text-slate-700 whitespace-pre-wrap">
+                  {message.content}
+                </p>
+
+                {/* Action Buttons for AI messages */}
+                {message.role === 'assistant' && (
+                  <div className="flex gap-2 mt-3">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => handleSaveToDoc(message.content)} 
+                      className="text-xs"
+                    >
+                      <Save className="w-3 h-3 mr-1" />
+                      Save to Document
+                    </Button>
+                    
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      onClick={() => handleAddToTodoFromMessage(message.content)} 
+                      className="text-xs"
+                    >
+                      <ListTodo className="w-3 h-3 mr-1" />
+                      Add to To-Do
+                    </Button>
                   </div>
-                  
-                  <p className="text-sm text-slate-700 whitespace-pre-wrap">
-                    {message.content}
-                  </p>
-
-                  {/* Action Buttons */}
-                  {message.role === 'ai' && <div className="flex gap-2 mt-3">
-                      <Button variant="ghost" size="sm" onClick={() => handleSaveToDoc(message)} className="text-xs" disabled={message.actions?.savedToDoc}>
-                        {message.actions?.savedToDoc ? <>
-                            <CheckCircle className="w-3 h-3 mr-1 text-green-600" />
-                            Saved
-                          </> : <>
-                            <Save className="w-3 h-3 mr-1" />
-                            Save to Document
-                          </>}
-                      </Button>
-                      
-                      <Button variant="ghost" size="sm" onClick={() => handleAddToTodo(message)} className="text-xs" disabled={message.actions?.addedToTodo}>
-                        {message.actions?.addedToTodo ? <>
-                            <CheckCircle className="w-3 h-3 mr-1 text-green-600" />
-                            Added
-                          </> : <>
-                            <ListTodo className="w-3 h-3 mr-1" />
-                            Add to To-Do
-                          </>}
-                      </Button>
-
-                      {message.actions?.completed && <Badge variant="outline" className="text-xs bg-green-50 text-green-700 border-green-200">
-                          <CheckCircle className="w-3 h-3 mr-1" />
-                          Completed
-                        </Badge>}
-                    </div>}
-                </div>
+                )}
               </div>
-            </Card>;
-      })}
+            </div>
+          </Card>
+        ))}
+        
+        {isChatLoading && (
+          <Card className="p-4 bg-slate-50 border-slate-200">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-xs font-semibold bg-primary text-white">
+                V
+              </div>
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="font-semibold text-slate-900">Ventus AI</span>
+                  <Loader2 className="w-4 h-4 animate-spin text-primary" />
+                </div>
+                <p className="text-sm text-slate-500">Analyzing context and preparing response...</p>
+              </div>
+            </div>
+          </Card>
+        )}
       </div>
 
       {/* Input Area */}
       <div className="border-t px-6 py-4 bg-slate-50">
         <div className="flex gap-2">
-          <Input value={inputValue} onChange={e => setInputValue(e.target.value)} placeholder="Type a message or select a smart action..." className="flex-1" onKeyDown={e => {
-          if (e.key === 'Enter') {
-            // Handle send
-            setInputValue("");
-          }
-        }} />
-          <Button variant="outline" size="icon">
+          <Input 
+            value={inputValue} 
+            onChange={e => setInputValue(e.target.value)} 
+            placeholder="Ask about spending patterns, life events, product recommendations..." 
+            className="flex-1" 
+            onKeyDown={e => {
+              if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                handleSendMessage();
+              }
+            }}
+            disabled={isChatLoading}
+          />
+          <Button 
+            variant="outline" 
+            size="icon"
+            disabled={isChatLoading}
+          >
             <Mic className="w-4 h-4" />
           </Button>
-          <Button size="icon">
+          <Button 
+            size="icon"
+            onClick={handleSendMessage}
+            disabled={isChatLoading || !inputValue.trim()}
+          >
             <Send className="w-4 h-4" />
           </Button>
         </div>
