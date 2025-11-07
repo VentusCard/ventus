@@ -2,9 +2,8 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, ChevronDown, ChevronUp, AlertCircle, Upload } from "lucide-react";
-import { useState } from "react";
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
+import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, Upload } from "lucide-react";
 
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
@@ -62,7 +61,7 @@ export function ClientSnapshotPanel({
   return (
     <div className="h-full flex flex-col bg-slate-50">
       <div className="flex-1 overflow-y-auto p-3 space-y-3">
-        {/* Client Header Card */}
+        {/* Client Header Card - Always Visible */}
         <Card className="bg-white">
           <div className="p-4">
             <div className="flex items-start justify-between mb-3">
@@ -107,152 +106,168 @@ export function ClientSnapshotPanel({
           </div>
         </Card>
 
-        {/* Holdings Overview Card */}
-        <Card className="bg-white">
-          <div className="p-4">
-            <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center">
-              <Landmark className="w-4 h-4 mr-2" />
-              Holdings Overview
-            </h3>
-            <div className="space-y-2 text-xs">
-              <div className="flex items-center justify-between py-2 border-b">
-                <span className="flex items-center text-slate-600">
-                  <Landmark className="w-3 h-3 mr-2" />
-                  Deposits
-                </span>
-                <span className="font-semibold text-slate-700">
-                  ${placeholderClientData.holdings.deposit}
-                </span>
+        {/* Accordion Sections - All Collapsed by Default */}
+        <Accordion type="multiple" className="space-y-2">
+          {/* Holdings Overview */}
+          <AccordionItem value="holdings" className="bg-white rounded-lg border">
+            <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
+              <div className="flex items-center gap-2">
+                <Landmark className="w-4 h-4" />
+                <span className="text-sm font-semibold">Holdings Overview</span>
               </div>
-              <div className="flex items-center justify-between py-2 border-b">
-                <span className="flex items-center text-slate-600">
-                  <CreditCard className="w-3 h-3 mr-2" />
-                  Credit
-                </span>
-                <span className="font-semibold text-slate-700">
-                  ${placeholderClientData.holdings.credit}
-                </span>
+            </AccordionTrigger>
+            <AccordionContent className="px-4">
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center justify-between py-2 border-b">
+                  <span className="flex items-center text-slate-600">
+                    <Landmark className="w-3 h-3 mr-2" />
+                    Deposits
+                  </span>
+                  <span className="font-semibold text-slate-700">
+                    ${placeholderClientData.holdings.deposit}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b">
+                  <span className="flex items-center text-slate-600">
+                    <CreditCard className="w-3 h-3 mr-2" />
+                    Credit
+                  </span>
+                  <span className="font-semibold text-slate-700">
+                    ${placeholderClientData.holdings.credit}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-2 border-b">
+                  <span className="flex items-center text-slate-600">
+                    <Home className="w-3 h-3 mr-2" />
+                    Mortgage
+                  </span>
+                  <span className="font-semibold text-slate-700">
+                    ${placeholderClientData.holdings.mortgage}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between py-2">
+                  <span className="flex items-center text-slate-600">
+                    <TrendingUp className="w-3 h-3 mr-2" />
+                    Investments
+                  </span>
+                  <span className="font-semibold text-slate-700">
+                    ${placeholderClientData.holdings.investments}
+                  </span>
+                </div>
               </div>
-              <div className="flex items-center justify-between py-2 border-b">
-                <span className="flex items-center text-slate-600">
-                  <Home className="w-3 h-3 mr-2" />
-                  Mortgage
-                </span>
-                <span className="font-semibold text-slate-700">
-                  ${placeholderClientData.holdings.mortgage}
-                </span>
-              </div>
-              <div className="flex items-center justify-between py-2">
-                <span className="flex items-center text-slate-600">
-                  <TrendingUp className="w-3 h-3 mr-2" />
-                  Investments
-                </span>
-                <span className="font-semibold text-slate-700">
-                  ${placeholderClientData.holdings.investments}
-                </span>
-              </div>
-            </div>
-          </div>
-        </Card>
+            </AccordionContent>
+          </AccordionItem>
 
-        {/* Lifestyle Signals Card */}
-        <Card className="bg-white">
-          <div className="p-4">
-            <h3 className="text-sm font-semibold text-slate-900 mb-3">
-              Lifestyle Signals
-            </h3>
-            <div className="space-y-2">
-              {placeholderLifestyleSignals.map((signal, idx) => {
-                const Icon = iconMap[signal.icon];
-                return (
-                  <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
-                    <div className="flex items-center gap-2">
-                      <Icon className="w-4 h-4 text-slate-400" />
-                      <span className="text-xs text-slate-700">{signal.category}</span>
+          {/* Lifestyle Signals */}
+          <AccordionItem value="lifestyle" className="bg-white rounded-lg border">
+            <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
+              <div className="flex items-center gap-2">
+                <Activity className="w-4 h-4" />
+                <span className="text-sm font-semibold">Lifestyle Signals</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-4">
+              <div className="space-y-2">
+                {placeholderLifestyleSignals.map((signal, idx) => {
+                  const Icon = iconMap[signal.icon];
+                  return (
+                    <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
+                      <div className="flex items-center gap-2">
+                        <Icon className="w-4 h-4 text-slate-400" />
+                        <span className="text-xs text-slate-700">{signal.category}</span>
+                      </div>
+                      <Badge variant="outline" className="text-xs">
+                        {signal.trend === 'up' ? '↑' : signal.trend === 'stable' ? '→' : '↓'} 
+                        {signal.change}%
+                      </Badge>
                     </div>
-                    <Badge variant="outline" className="text-xs">
-                      {signal.trend === 'up' ? '↑' : signal.trend === 'stable' ? '→' : '↓'} 
-                      {signal.change}%
+                  );
+                })}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
+          {/* Recent Life Events */}
+          <AccordionItem value="events" className="bg-white rounded-lg border">
+            <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4" />
+                <span className="text-sm font-semibold">Recent Life Events</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-4">
+              <div className="space-y-3">
+                {placeholderLifeTriggers.map((trigger, idx) => (
+                  <div key={idx} className="text-xs border-l-2 border-slate-300 pl-3">
+                    <div className="font-semibold text-slate-700">{trigger.event}</div>
+                    <div className="text-slate-500 mt-1">{trigger.date}</div>
+                    <Badge variant="outline" className="mt-1 text-xs">
+                      {trigger.type}
                     </Badge>
                   </div>
-                );
-              })}
-            </div>
-          </div>
-        </Card>
+                ))}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-        {/* Life Triggers Card */}
-        <Card className="bg-white">
-          <div className="p-4">
-            <h3 className="text-sm font-semibold text-slate-900 mb-3 flex items-center">
-              <AlertCircle className="w-4 h-4 mr-2" />
-              Recent Life Events
-            </h3>
-            <div className="space-y-3">
-              {placeholderLifeTriggers.map((trigger, idx) => (
-                <div key={idx} className="text-xs border-l-2 border-slate-300 pl-3">
-                  <div className="font-semibold text-slate-700">{trigger.event}</div>
-                  <div className="text-slate-500 mt-1">{trigger.date}</div>
-                  <Badge variant="outline" className="mt-1 text-xs">
-                    {trigger.type}
-                  </Badge>
+          {/* Compliance & Risk */}
+          <AccordionItem value="compliance" className="bg-white rounded-lg border">
+            <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4" />
+                <span className="text-sm font-semibold">Compliance & Risk</span>
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-4">
+              <div className="space-y-2 text-xs">
+                <div className="flex justify-between py-1">
+                  <span className="text-slate-600">KYC Status</span>
+                  <Badge variant="outline">Current</Badge>
                 </div>
-              ))}
-            </div>
-          </div>
-        </Card>
+                <div className="flex justify-between py-1">
+                  <span className="text-slate-600">Last Review</span>
+                  <span className="text-slate-700">Month DD, YYYY</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span className="text-slate-600">Next Review</span>
+                  <span className="text-slate-700">Month DD, YYYY</span>
+                </div>
+                <div className="flex justify-between py-1">
+                  <span className="text-slate-600">Risk Profile</span>
+                  <span className="text-slate-700">Risk Level</span>
+                </div>
+              </div>
+            </AccordionContent>
+          </AccordionItem>
 
-        {/* Compliance & Risk Card */}
-        <Card className="bg-white">
-          <div className="p-4">
-            <h3 className="text-sm font-semibold text-slate-900 mb-3">
-              Compliance & Risk
-            </h3>
-            <div className="space-y-2 text-xs">
-              <div className="flex justify-between py-1">
-                <span className="text-slate-600">KYC Status</span>
-                <Badge variant="outline">Current</Badge>
+          {/* Relationship Milestones */}
+          <AccordionItem value="milestones" className="bg-white rounded-lg border">
+            <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
+              <div className="flex items-center gap-2">
+                <TrendingUp className="w-4 h-4" />
+                <span className="text-sm font-semibold">Relationship Milestones</span>
               </div>
-              <div className="flex justify-between py-1">
-                <span className="text-slate-600">Last Review</span>
-                <span className="text-slate-700">Month DD, YYYY</span>
+            </AccordionTrigger>
+            <AccordionContent className="px-4">
+              <div className="space-y-3">
+                <div className="text-xs border-l-2 border-primary pl-3">
+                  <div className="font-semibold text-slate-700">Milestone Event</div>
+                  <div className="text-slate-500 mt-1">Month YYYY</div>
+                </div>
+                <div className="text-xs border-l-2 border-primary pl-3">
+                  <div className="font-semibold text-slate-700">Milestone Event</div>
+                  <div className="text-slate-500 mt-1">Month YYYY</div>
+                </div>
+                <div className="text-xs border-l-2 border-primary pl-3">
+                  <div className="font-semibold text-slate-700">Milestone Event</div>
+                  <div className="text-slate-500 mt-1">Month YYYY</div>
+                </div>
               </div>
-              <div className="flex justify-between py-1">
-                <span className="text-slate-600">Next Review</span>
-                <span className="text-slate-700">Month DD, YYYY</span>
-              </div>
-              <div className="flex justify-between py-1">
-                <span className="text-slate-600">Risk Profile</span>
-                <span className="text-slate-700">Risk Level</span>
-              </div>
-            </div>
-          </div>
-        </Card>
+            </AccordionContent>
+          </AccordionItem>
+        </Accordion>
 
-        {/* Milestones Timeline Card */}
-        <Card className="bg-white">
-          <div className="p-4">
-            <h3 className="text-sm font-semibold text-slate-900 mb-3">
-              Relationship Milestones
-            </h3>
-            <div className="space-y-3">
-              <div className="text-xs border-l-2 border-primary pl-3">
-                <div className="font-semibold text-slate-700">Milestone Event</div>
-                <div className="text-slate-500 mt-1">Month YYYY</div>
-              </div>
-              <div className="text-xs border-l-2 border-primary pl-3">
-                <div className="font-semibold text-slate-700">Milestone Event</div>
-                <div className="text-slate-500 mt-1">Month YYYY</div>
-              </div>
-              <div className="text-xs border-l-2 border-primary pl-3">
-                <div className="font-semibold text-slate-700">Milestone Event</div>
-                <div className="text-slate-500 mt-1">Month YYYY</div>
-              </div>
-            </div>
-          </div>
-        </Card>
-
-        {/* Helper Text at Bottom */}
+        {/* Helper Text at Bottom - Always Visible */}
         <Card className="bg-blue-50 border-blue-200">
           <div className="p-3">
             <p className="text-xs text-blue-900">
