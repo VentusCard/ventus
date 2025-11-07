@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -53,6 +54,12 @@ const TePilot = () => {
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | null>(null);
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleNavigateToAdvisorConsole = () => {
+    navigate('/tepilot/advisor-console');
+  };
 
   // SSE Enrichment Hook
   const {
@@ -745,12 +752,13 @@ const TePilot = () => {
                         {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                       </Button>
                       
-                      <RelationshipManagementCard onUnlock={async () => {
-                    setIsRelationshipUnlocked(true);
-                    setInsightType('relationship');
-                    setActiveTab('insights');
-                    await fetchLifestyleSignals();
-                  }} isUnlocked={isRelationshipUnlocked} />
+                      <RelationshipManagementCard 
+                        onUnlock={() => {
+                          setIsRelationshipUnlocked(true);
+                        }} 
+                        isUnlocked={isRelationshipUnlocked}
+                        onNavigate={handleNavigateToAdvisorConsole}
+                      />
                     </div>
                   </CardContent>
                 </Card>

@@ -8,9 +8,10 @@ import { toast } from "sonner";
 interface RelationshipManagementCardProps {
   onUnlock: () => void;
   isUnlocked: boolean;
+  onNavigate?: () => void;
 }
 
-export function RelationshipManagementCard({ onUnlock, isUnlocked }: RelationshipManagementCardProps) {
+export function RelationshipManagementCard({ onUnlock, isUnlocked, onNavigate }: RelationshipManagementCardProps) {
   const [password, setPassword] = useState("");
   const [showDialog, setShowDialog] = useState(false);
 
@@ -22,6 +23,11 @@ export function RelationshipManagementCard({ onUnlock, isUnlocked }: Relationshi
       setPassword("");
       sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
       toast.success("Relationship Management unlocked!");
+      
+      // Navigate after unlocking
+      if (onNavigate) {
+        onNavigate();
+      }
     } else {
       toast.error("Incorrect password");
       setPassword("");
@@ -30,9 +36,13 @@ export function RelationshipManagementCard({ onUnlock, isUnlocked }: Relationshi
 
   if (isUnlocked) {
     return (
-      <Button className="w-full h-[60px]" variant="outline">
+      <Button 
+        className="w-full h-[60px]" 
+        variant="outline"
+        onClick={onNavigate}
+      >
         <CheckCircle className="mr-2 h-5 w-5 text-green-500" />
-        Wealth Management Relationship Analysis (Unlocked)
+        Open Wealth Management Console (Unlocked)
       </Button>
     );
   }
