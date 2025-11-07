@@ -838,6 +838,40 @@ const TePilot = () => {
                     Back to Analytics
                   </Button>
                 </div>
+                
+                {/* Top 5 Subcategories Card */}
+                {recommendations.topSubcategories && (
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>Top 5 Spending Subcategories</CardTitle>
+                      <CardDescription>
+                        Most significant subcategory spending patterns
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {recommendations.topSubcategories.map((subcat: any, index: number) => (
+                          <div key={subcat.subcategory} className="flex items-center justify-between p-4 border border-border rounded-lg bg-card hover:bg-accent/5 transition-colors">
+                            <div className="flex items-center gap-4">
+                              <div className="flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-semibold">
+                                {index + 1}
+                              </div>
+                              <div>
+                                <div className="font-medium text-foreground">{subcat.subcategory}</div>
+                                <div className="text-sm text-muted-foreground">{subcat.pillar}</div>
+                              </div>
+                            </div>
+                            <div className="text-right">
+                              <div className="font-semibold text-foreground">${subcat.totalSpend.toLocaleString()}</div>
+                              <div className="text-sm text-muted-foreground">{subcat.visits} transactions</div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+                
                 <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
               total_estimated_value: {
                 monthly: 0,
