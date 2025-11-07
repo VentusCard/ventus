@@ -32,6 +32,7 @@ import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, 
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
 import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
+import { AIInsights } from "@/types/lifestyle-signals";
 
 const CURRENT_VERSION = "V2.0";
 
@@ -50,6 +51,8 @@ const TePilot = () => {
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [isRelationshipUnlocked, setIsRelationshipUnlocked] = useState(false);
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | null>(null);
+  const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
+  const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
 
   // SSE Enrichment Hook
   const {
@@ -277,6 +280,70 @@ const TePilot = () => {
       setIsGeneratingRecommendations(false);
     }
   };
+
+  const fetchLifestyleSignals = async () => {
+    if (enrichedTransactions.length === 0) {
+      toast.error('No enriched transactions available. Please enrich transactions first.');
+      return;
+    }
+
+    setIsLoadingLifestyleSignals(true);
+    
+    try {
+      // Prepare transaction data (recent transactions)
+      const recentTransactions = enrichedTransactions.slice(0, 100);
+      
+      // Calculate spending summary
+      const totalSpend = recentTransactions.reduce((sum, t) => sum + t.amount, 0);
+      const categoryMap = new Map<string, number>();
+      recentTransactions.forEach(t => {
+        const current = categoryMap.get(t.pillar) || 0;
+        categoryMap.set(t.pillar, current + 1);
+      });
+      const topCategories = Array.from(categoryMap.entries())
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([category]) => category);
+
+      const { data, error } = await supabase.functions.invoke('analyze-lifestyle-signals', {
+        body: {
+          client: {
+            id: 'current-client',
+            name: 'Emma R.',
+            age: 42,
+            occupation: 'Senior Product Manager',
+            family_status: 'Married, 1 child'
+          },
+          transactions: recentTransactions.map(t => ({
+            merchant: t.description,
+            amount: t.amount,
+            date: t.date,
+            category: t.pillar,
+            subcategory: t.subcategory
+          })),
+          spending_summary: {
+            total_spend: totalSpend,
+            top_categories: topCategories
+          }
+        }
+      });
+
+      if (error) {
+        console.error('Error fetching lifestyle signals:', error);
+        toast.error('Failed to analyze lifestyle signals');
+        return;
+      }
+
+      setLifestyleSignals(data);
+      toast.success(`Analysis complete! Detected ${data.detected_events?.length || 0} life events`);
+    } catch (error) {
+      console.error('Error:', error);
+      toast.error('Failed to analyze lifestyle signals');
+    } finally {
+      setIsLoadingLifestyleSignals(false);
+    }
+  };
+
   if (!isAuthenticated) {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
         <Card className="w-full max-w-6xl">
@@ -678,10 +745,11 @@ const TePilot = () => {
                         {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                       </Button>
                       
-                      <RelationshipManagementCard onUnlock={() => {
+                      <RelationshipManagementCard onUnlock={async () => {
                     setIsRelationshipUnlocked(true);
                     setInsightType('relationship');
                     setActiveTab('insights');
+                    await fetchLifestyleSignals();
                   }} isUnlocked={isRelationshipUnlocked} />
                     </div>
                   </CardContent>
@@ -735,7 +803,11 @@ const TePilot = () => {
                   </Button>
                 </div>
                 <div className="space-y-0 p-0">
-                  <AdvisorConsole />
+                  <AdvisorConsole 
+                    aiInsights={lifestyleSignals}
+                    isLoadingInsights={isLoadingLifestyleSignals}
+                    enrichedTransactions={enrichedTransactions}
+                  />
                 </div>
               </div>}
           </TabsContent>

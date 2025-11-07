@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Mic, Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2 } from "lucide-react";
+import { Mic, Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain } from "lucide-react";
 import { sampleChatMessages, ChatMessage, Task } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -157,6 +157,24 @@ export function VentusChatPanel({
               <ActionItemsChecklist items={selectedEvent.action_items} />
             </div>
           )}
+        </div>
+      )}
+
+      {/* Empty State when no events detected */}
+      {!isLoadingInsights && (!aiInsights || visibleEvents.length === 0) && (
+        <div className="border-b px-6 py-8">
+          <Card className="border-dashed">
+            <div className="p-8 text-center">
+              <Brain className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
+              <h3 className="font-semibold mb-2">No Significant Life Events Detected</h3>
+              <p className="text-sm text-muted-foreground mb-4">
+                Based on the current transaction data, we didn't find strong patterns indicating major life events.
+              </p>
+              <p className="text-xs text-muted-foreground">
+                Try enriching more transactions or transactions from different time periods for better analysis.
+              </p>
+            </div>
+          </Card>
         </div>
       )}
 
