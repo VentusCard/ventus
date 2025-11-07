@@ -44,6 +44,7 @@ export function VentusChatPanel({
   const [todoOpen, setTodoOpen] = useState(true);
   const [selectedEvent, setSelectedEvent] = useState<LifeEvent | null>(null);
   const [dismissedEvents, setDismissedEvents] = useState<Set<string>>(new Set());
+  const [lifeEventsOpen, setLifeEventsOpen] = useState(false);
   const {
     toast
   } = useToast();
@@ -145,39 +146,46 @@ export function VentusChatPanel({
         </div>}
 
       {/* AI Insights Section */}
-      {visibleEvents.length > 0 && <div className="border-b px-6 py-4 bg-gradient-to-b from-primary/5 to-transparent">
-          <div className="flex items-center gap-2 mb-3">
-            <Sparkles className="w-5 h-5 text-primary" />
-            <h3 className="font-semibold text-foreground">AI-Detected Life Events</h3>
-            <Badge variant="secondary">{visibleEvents.length}</Badge>
-          </div>
-          
-          <div className="space-y-3 mb-4">
-            {visibleEvents.map(event => <LifeEventCard key={event.event_name} event={event} onViewDetails={() => handleViewEventDetails(event)} onDismiss={() => handleDismissEvent(event.event_name)} />)}
-          </div>
-
-          {/* Selected Event Details */}
-          {selectedEvent && <div className="space-y-3 mt-4 border-t pt-4">
-              <h4 className="font-semibold text-foreground mb-3">
-                Recommendations for: {selectedEvent.event_name}
-              </h4>
-              
-              {/* Product Recommendations */}
-              <div className="space-y-2">
-                <p className="text-xs font-medium text-muted-foreground mb-2">Financial Products</p>
-                {selectedEvent.products.map((product, idx) => <ProductRecommendationCard key={idx} product={product} onAddToAgenda={handleAddToAgenda} />)}
+      {visibleEvents.length > 0 && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
+          <CollapsibleTrigger className="w-full px-6 py-4 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-primary" />
+                <h3 className="font-semibold text-foreground">AI-Detected Life Events</h3>
+                <Badge variant="secondary">{visibleEvents.length}</Badge>
               </div>
+              {lifeEventsOpen ? <ChevronUp className="w-5 h-5 text-slate-600" /> : <ChevronDown className="w-5 h-5 text-slate-600" />}
+            </div>
+          </CollapsibleTrigger>
+          
+          <CollapsibleContent className="px-6 py-4 bg-gradient-to-b from-primary/5 to-transparent">
+            <div className="space-y-3 mb-4">
+              {visibleEvents.map(event => <LifeEventCard key={event.event_name} event={event} onViewDetails={() => handleViewEventDetails(event)} onDismiss={() => handleDismissEvent(event.event_name)} />)}
+            </div>
 
-              {/* Educational Content */}
-              <EducationalContentPanel education={selectedEvent.education} eventName={selectedEvent.event_name} />
+            {/* Selected Event Details */}
+            {selectedEvent && <div className="space-y-3 mt-4 border-t pt-4">
+                <h4 className="font-semibold text-foreground mb-3">
+                  Recommendations for: {selectedEvent.event_name}
+                </h4>
+                
+                {/* Product Recommendations */}
+                <div className="space-y-2">
+                  <p className="text-xs font-medium text-muted-foreground mb-2">Financial Products</p>
+                  {selectedEvent.products.map((product, idx) => <ProductRecommendationCard key={idx} product={product} onAddToAgenda={handleAddToAgenda} />)}
+                </div>
 
-              {/* Talking Points */}
-              <TalkingPointsSection talkingPoints={selectedEvent.talking_points} />
+                {/* Educational Content */}
+                <EducationalContentPanel education={selectedEvent.education} eventName={selectedEvent.event_name} />
 
-              {/* Action Items */}
-              <ActionItemsChecklist items={selectedEvent.action_items} />
-            </div>}
-        </div>}
+                {/* Talking Points */}
+                <TalkingPointsSection talkingPoints={selectedEvent.talking_points} />
+
+                {/* Action Items */}
+                <ActionItemsChecklist items={selectedEvent.action_items} />
+              </div>}
+          </CollapsibleContent>
+        </Collapsible>}
 
       {/* Empty State when no events detected */}
       {!isLoadingInsights && (!aiInsights || visibleEvents.length === 0) && <div className="border-b px-6 py-8">
