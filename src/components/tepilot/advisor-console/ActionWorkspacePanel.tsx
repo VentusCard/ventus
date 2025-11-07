@@ -97,10 +97,7 @@ export function ActionWorkspacePanel() {
                 <Calendar className="w-3 h-3 mr-1" />
                 Schedule
               </Button>
-              <Button size="sm" className="flex-1 text-xs">
-                <Download className="w-3 h-3 mr-1" />
-                PDF
-              </Button>
+              
             </div>
             
           </div>
