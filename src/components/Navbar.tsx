@@ -71,38 +71,38 @@ const Navbar = () => {
         </div>
         
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-6 lg:space-x-8">
+        <div className="hidden md:flex items-center space-x-3 md:space-x-4 lg:space-x-8">
           <Link 
             to="/about"
-            className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
           >
             About Us
             <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </Link>
           <Link 
             to="/smartrewards"
-            className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
           >
             Smart Rewards
             <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </Link>
           <Link 
             to="/ventus-ai"
-            className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
           >
             Ventus AI
             <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </Link>
           <Link 
             to="/benefits"
-            className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
           >
             Benefits
             <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
           </Link>
           <Link 
             to="/contact"
-            className="text-white/90 hover:text-white font-medium text-base transition-all duration-300 px-3 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
           >
             Contact Us
             <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
@@ -130,7 +130,7 @@ const Navbar = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2 bg-white/10 border-white/20 hover:bg-white/20 text-white">
+                <Button variant="outline" className="flex items-center gap-2 bg-white/10 border-white/20 hover:bg-white/20 text-white text-xs md:text-sm px-3 md:px-4">
                   <User className="h-4 w-4" />
                   Account
                 </Button>
@@ -159,10 +159,10 @@ const Navbar = () => {
             <Link to="/smartrewards" onClick={closeMobileMenu}>
               <div className="relative group">
                 <div className="absolute inset-0 bg-blue-600/20 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 md:px-8 py-2.5 shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-700/30">
+                <div className="relative bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-4 md:px-5 lg:px-8 py-2.5 shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-700/30">
                   <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-white/4 to-transparent rounded-lg"></div>
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-lg"></div>
-                  <span className="relative text-white font-semibold text-sm tracking-wide">
+                  <span className="relative text-white font-semibold text-xs md:text-sm tracking-wide">
                     Join Waitlist
                   </span>
                 </div>
