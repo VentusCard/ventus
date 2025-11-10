@@ -397,7 +397,11 @@ Remember to anonymize merchant names in your output!`;
     }
 
     const aiData = await aiResponse.json();
-    const content = aiData.choices[0].message.content;
+    let content = aiData.choices[0].message.content;
+    
+    // Strip markdown code fences if present
+    content = content.replace(/^```json?\s*/i, '').replace(/```\s*$/, '').trim();
+    
     const recommendations = JSON.parse(content);
 
     console.log("Generated recommendations:", JSON.stringify(recommendations, null, 2));
