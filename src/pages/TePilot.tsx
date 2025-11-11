@@ -663,7 +663,7 @@ const TePilot = () => {
       </div>;
   }
   return <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-[95%] 2xl:max-w-[1800px] mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment and Analytics Tool</h1>
