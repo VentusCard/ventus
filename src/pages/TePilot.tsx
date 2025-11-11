@@ -35,9 +35,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { PILLAR_COLORS } from "@/lib/sampleData";
-
 const CURRENT_VERSION = "V2.0";
-
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -55,22 +53,19 @@ const TePilot = () => {
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | null>(null);
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
-
   const navigate = useNavigate();
-
   const handleNavigateToAdvisorConsole = async () => {
     // Ensure analysis runs before navigating if not already done
     if (!lifestyleSignals && enrichedTransactions.length > 0) {
       toast.info('Running lifestyle analysis...');
       await fetchLifestyleSignals();
     }
-    
+
     // Store context before navigating
     sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
       enrichedTransactions: enrichedTransactions,
       aiInsights: lifestyleSignals
     }));
-    
     navigate('/tepilot/advisor-console');
   };
 
@@ -205,7 +200,7 @@ const TePilot = () => {
         enrichedTransactions,
         originalTransactions: parsedTransactions,
         aiInsights: lifestyleSignals,
-        timestamp: new Date().toISOString(),
+        timestamp: new Date().toISOString()
       };
       sessionStorage.setItem("tepilot_advisor_context", JSON.stringify(contextData));
       console.log("Stored advisor context to sessionStorage");
@@ -292,17 +287,17 @@ const TePilot = () => {
         acc[subcat].visits += 1;
         acc[subcat].totalSpend += t.amount;
         return acc;
-      }, {} as Record<string, { visits: number; totalSpend: number; pillar: string }>);
-
-      const topSubcategories = Object.entries(subcategoryData)
-        .map(([subcategory, data]) => ({
-          subcategory,
-          pillar: data.pillar,
-          visits: data.visits,
-          totalSpend: Math.round(data.totalSpend)
-        }))
-        .sort((a, b) => b.totalSpend - a.totalSpend)
-        .slice(0, 5);
+      }, {} as Record<string, {
+        visits: number;
+        totalSpend: number;
+        pillar: string;
+      }>);
+      const topSubcategories = Object.entries(subcategoryData).map(([subcategory, data]) => ({
+        subcategory,
+        pillar: data.pillar,
+        visits: data.visits,
+        totalSpend: Math.round(data.totalSpend)
+      })).sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 5);
 
       // Determine customer segment
       const segment = {
@@ -345,19 +340,16 @@ const TePilot = () => {
       setIsGeneratingRecommendations(false);
     }
   };
-
   const fetchLifestyleSignals = async () => {
     if (enrichedTransactions.length === 0) {
       toast.error('No enriched transactions available. Please enrich transactions first.');
       return;
     }
-
     setIsLoadingLifestyleSignals(true);
-    
     try {
       // Prepare transaction data (recent transactions)
       const recentTransactions = enrichedTransactions.slice(0, 100);
-      
+
       // Calculate spending summary
       const totalSpend = recentTransactions.reduce((sum, t) => sum + t.amount, 0);
       const categoryMap = new Map<string, number>();
@@ -365,12 +357,11 @@ const TePilot = () => {
         const current = categoryMap.get(t.pillar) || 0;
         categoryMap.set(t.pillar, current + 1);
       });
-      const topCategories = Array.from(categoryMap.entries())
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
-        .map(([category]) => category);
-
-      const { data, error } = await supabase.functions.invoke('analyze-lifestyle-signals', {
+      const topCategories = Array.from(categoryMap.entries()).sort((a, b) => b[1] - a[1]).slice(0, 5).map(([category]) => category);
+      const {
+        data,
+        error
+      } = await supabase.functions.invoke('analyze-lifestyle-signals', {
         body: {
           client: {
             id: 'current-client',
@@ -392,13 +383,11 @@ const TePilot = () => {
           }
         }
       });
-
       if (error) {
         console.error('Error fetching lifestyle signals:', error);
         toast.error('Failed to analyze lifestyle signals');
         return;
       }
-
       setLifestyleSignals(data);
 
       // Store context for AdvisorConsole page
@@ -406,7 +395,6 @@ const TePilot = () => {
         enrichedTransactions: enrichedTransactions,
         aiInsights: data
       }));
-
       toast.success(`Analysis complete! Detected ${data.detected_events?.length || 0} life events`);
     } catch (error) {
       console.error('Error:', error);
@@ -415,7 +403,6 @@ const TePilot = () => {
       setIsLoadingLifestyleSignals(false);
     }
   };
-
   if (!isAuthenticated) {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
         <Card className="w-full max-w-6xl">
@@ -805,7 +792,7 @@ const TePilot = () => {
                 
                 <Card>
                   <CardHeader>
-                    <CardTitle>Ventus AI Revenue Opportunity Recommendations</CardTitle>
+                    <CardTitle>Ventus AI Opportunity Recommendations</CardTitle>
                     <CardDescription>
                       Generate deal recommendations and view wealth management analysis
                     </CardDescription>
@@ -817,15 +804,11 @@ const TePilot = () => {
                         {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
                       </Button>
                       
-            <RelationshipManagementCard 
-              onUnlock={async () => {
-                setIsRelationshipUnlocked(true);
-                toast.info('Analyzing lifestyle signals...');
-                await fetchLifestyleSignals();
-              }} 
-              isUnlocked={isRelationshipUnlocked}
-              onNavigate={handleNavigateToAdvisorConsole}
-            />
+            <RelationshipManagementCard onUnlock={async () => {
+                    setIsRelationshipUnlocked(true);
+                    toast.info('Analyzing lifestyle signals...');
+                    await fetchLifestyleSignals();
+                  }} isUnlocked={isRelationshipUnlocked} onNavigate={handleNavigateToAdvisorConsole} />
                     </div>
                   </CardContent>
                 </Card>
@@ -862,8 +845,7 @@ const TePilot = () => {
                 </div>
                 
                 {/* Top 5 Subcategories Card */}
-                {recommendations.topSubcategories && (
-                  <Card>
+                {recommendations.topSubcategories && <Card>
                     <CardHeader>
                       <CardTitle>Top 5 Spending Subcategories</CardTitle>
                       <CardDescription>
@@ -873,26 +855,18 @@ const TePilot = () => {
                     <CardContent>
                       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         {recommendations.topSubcategories.map((subcat: any, index: number) => {
-                          const color = PILLAR_COLORS[subcat.pillar] || "#64748b";
-                          return (
-                            <Card
-                              key={subcat.subcategory}
-                              className="relative overflow-hidden hover:shadow-lg transition-all"
-                            >
-                              <div 
-                                className="absolute top-0 left-0 right-0 h-1"
-                                style={{ backgroundColor: color }}
-                              />
+                    const color = PILLAR_COLORS[subcat.pillar] || "#64748b";
+                    return <Card key={subcat.subcategory} className="relative overflow-hidden hover:shadow-lg transition-all">
+                              <div className="absolute top-0 left-0 right-0 h-1" style={{
+                        backgroundColor: color
+                      }} />
                               <CardContent className="pt-6 p-4">
                                 <div className="space-y-3">
                                   <div className="flex items-center justify-between">
-                                    <div 
-                                      className="flex items-center justify-center w-8 h-8 rounded-full font-semibold text-sm"
-                                      style={{ 
-                                        backgroundColor: `${color}20`, 
-                                        color: color 
-                                      }}
-                                    >
+                                    <div className="flex items-center justify-center w-8 h-8 rounded-full font-semibold text-sm" style={{
+                              backgroundColor: `${color}20`,
+                              color: color
+                            }}>
                                       {index + 1}
                                     </div>
                                   </div>
@@ -907,10 +881,9 @@ const TePilot = () => {
                                   </div>
                                   
                                   <div>
-                                    <div 
-                                      className="text-xl font-bold"
-                                      style={{ color }}
-                                    >
+                                    <div className="text-xl font-bold" style={{
+                              color
+                            }}>
                                       ${subcat.totalSpend.toLocaleString()}
                                     </div>
                                     <div className="text-xs text-muted-foreground">
@@ -919,13 +892,11 @@ const TePilot = () => {
                                   </div>
                                 </div>
                               </CardContent>
-                            </Card>
-                          );
-                        })}
+                            </Card>;
+                  })}
                       </div>
                     </CardContent>
-                  </Card>
-                )}
+                  </Card>}
                 
                 <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
               total_estimated_value: {
@@ -945,11 +916,7 @@ const TePilot = () => {
                   </Button>
                 </div>
                 <div className="space-y-0 p-0">
-                  <AdvisorConsole 
-                    aiInsights={lifestyleSignals}
-                    isLoadingInsights={isLoadingLifestyleSignals}
-                    enrichedTransactions={enrichedTransactions}
-                  />
+                  <AdvisorConsole aiInsights={lifestyleSignals} isLoadingInsights={isLoadingLifestyleSignals} enrichedTransactions={enrichedTransactions} />
                 </div>
               </div>}
           </TabsContent>
