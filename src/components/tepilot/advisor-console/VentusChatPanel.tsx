@@ -14,10 +14,10 @@ import { ProductRecommendationCard } from "./ProductRecommendationCard";
 import { EducationalContentPanel } from "./EducationalContentPanel";
 import { TalkingPointsSection } from "./TalkingPointsSection";
 import { ActionItemsChecklist } from "./ActionItemsChecklist";
-import { ContextualInsightCards } from "./ContextualInsightCards";
 import { EnrichedTransaction } from "@/types/transaction";
 import { useAdvisorChat } from "@/hooks/useAdvisorChat";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
+import { TaskItem } from "./TaskItem";
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
   onSaveToDocument?: (message: ChatMessage) => void;
@@ -128,7 +128,7 @@ export function VentusChatPanel({
   const visibleEvents = aiInsights?.detected_events.filter(event => !dismissedEvents.has(event.event_name)) || [];
   return <div className="h-full flex flex-col bg-white">
       {/* Header */}
-      <div className="border-b px-6 py-2 bg-gradient-to-r from-white to-slate-50">
+      <div className="border-b px-4 py-3 bg-gradient-to-r from-white to-slate-50 flex-shrink-0">
         <div className="flex items-center justify-between">
           <h2 className="text-xl font-semibold text-slate-900">
             Ventus AI Advisor Chat
@@ -140,14 +140,10 @@ export function VentusChatPanel({
         </div>
       </div>
 
-      {/* Contextual Insight Cards */}
-      {enrichedTransactions.length > 0 && <div className="px-6 py-2 border-b">
-          
-        </div>}
 
       {/* AI Insights Section */}
       {visibleEvents.length > 0 && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
-          <CollapsibleTrigger className="w-full px-6 py-2 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
+          <CollapsibleTrigger className="w-full px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-primary" />
@@ -158,7 +154,7 @@ export function VentusChatPanel({
             </div>
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="px-6 py-2 bg-gradient-to-b from-primary/5 to-transparent">
+          <CollapsibleContent className="px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent">
             <div className="space-y-3 mb-4">
               {visibleEvents.map(event => <LifeEventCard key={event.event_name} event={event} onViewDetails={() => handleViewEventDetails(event)} onDismiss={() => handleDismissEvent(event.event_name)} />)}
             </div>
@@ -189,7 +185,7 @@ export function VentusChatPanel({
 
       {/* Empty State when no events detected */}
       {!isLoadingInsights && (!aiInsights || visibleEvents.length === 0) && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
-          <CollapsibleTrigger className="w-full px-6 py-2 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
+          <CollapsibleTrigger className="w-full px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-primary" />
@@ -200,7 +196,7 @@ export function VentusChatPanel({
             </div>
           </CollapsibleTrigger>
           
-          <CollapsibleContent className="px-6 py-4">
+          <CollapsibleContent className="px-4 py-3">
             <Card className="border-dashed">
               <div className="p-4 text-center">
                 <Brain className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
@@ -216,14 +212,8 @@ export function VentusChatPanel({
           </CollapsibleContent>
         </Collapsible>}
 
-      {/* To-Do List */}
-      <Collapsible open={todoOpen} onOpenChange={setTodoOpen} className="border-b">
-        
-        
-      </Collapsible>
-
       {/* Smart Chips */}
-      <div className="border-b px-6 py-2 bg-slate-50">
+      <div className="border-b px-4 py-3 bg-slate-50 flex-shrink-0">
         <div className="flex items-center gap-2 mb-2">
           <Sparkles className="w-4 h-4 text-primary" />
           <span className="text-xs font-medium text-slate-700">Recommended Prompts</span>
@@ -236,7 +226,7 @@ export function VentusChatPanel({
       </div>
 
       {/* Chat Messages */}
-      <div className="flex-1 min-h-0 overflow-y-auto px-6 py-2 space-y-2">
+      <div className="flex-1 min-h-0 overflow-y-auto px-4 py-3 space-y-3">
         {messages.length === 0 && <div className="text-center py-12">
             
             <h3 className="font-semibold mb-2">Start a Conversation</h3>
@@ -301,7 +291,7 @@ export function VentusChatPanel({
       </div>
 
       {/* Input Area */}
-      <div className="border-t px-6 py-2 bg-slate-50">
+      <div className="border-t px-4 py-3 bg-slate-50 flex-shrink-0">
         <div className="flex gap-2">
           <Input value={inputValue} onChange={e => setInputValue(e.target.value)} placeholder="Ask about spending patterns, life events, product recommendations..." className="flex-1" onKeyDown={e => {
           if (e.key === 'Enter' && !e.shiftKey) {
@@ -316,32 +306,6 @@ export function VentusChatPanel({
             <Send className="w-4 h-4" />
           </Button>
         </div>
-      </div>
-    </div>;
-}
-function TaskItem({
-  task,
-  onToggle
-}: {
-  task: Task;
-  onToggle: (id: string) => void;
-}) {
-  const priorityColor = task.priority === 'high' ? 'text-red-600' : task.priority === 'medium' ? 'text-yellow-600' : 'text-slate-600';
-  return <div className="flex items-start gap-2 py-1.5 px-2 rounded hover:bg-slate-50 transition-colors">
-      <Checkbox checked={task.completed} onCheckedChange={() => onToggle(task.id)} className="mt-0.5" />
-      <div className="flex-1 min-w-0">
-        <p className={`text-xs ${task.completed ? 'line-through text-slate-400' : 'text-slate-900'}`}>
-          {task.title}
-        </p>
-        {task.dueDate && <div className="flex items-center gap-1 mt-0.5">
-            <Clock className={`w-3 h-3 ${priorityColor}`} />
-            <span className={`text-xs ${priorityColor}`}>
-              {new Date(task.dueDate).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric'
-          })}
-            </span>
-          </div>}
       </div>
     </div>;
 }

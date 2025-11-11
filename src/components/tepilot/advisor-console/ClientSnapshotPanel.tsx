@@ -60,13 +60,13 @@ export function ClientSnapshotPanel({
 }: ClientSnapshotPanelProps) {
   return (
     <div className="h-full flex flex-col bg-slate-50">
-      <div className="flex-1 overflow-y-auto p-3 space-y-3">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* Client Header Card - Always Visible */}
         <Card className="bg-white">
           <div className="p-4">
             <div className="flex items-start justify-between mb-3">
               <div>
-                <h2 className="text-lg font-semibold text-slate-700">
+                <h2 className="text-base font-semibold text-slate-900">
                   {placeholderClientData.name}
                 </h2>
                 <Badge variant="outline" className="mt-1">
@@ -116,7 +116,7 @@ export function ClientSnapshotPanel({
                 <span className="text-sm font-semibold">Holdings Overview</span>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-4">
+            <AccordionContent className="px-4 pb-3">
               <div className="space-y-2 text-xs">
                 <div className="flex items-center justify-between py-2 border-b">
                   <span className="flex items-center text-slate-600">
@@ -166,7 +166,7 @@ export function ClientSnapshotPanel({
                 <span className="text-sm font-semibold">Lifestyle Signals</span>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-4">
+            <AccordionContent className="px-4 pb-3">
               <div className="space-y-2">
                 {placeholderLifestyleSignals.map((signal, idx) => {
                   const Icon = iconMap[signal.icon];
@@ -195,7 +195,7 @@ export function ClientSnapshotPanel({
                 <span className="text-sm font-semibold">Recent Life Events</span>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-4">
+            <AccordionContent className="px-4 pb-3">
               <div className="space-y-3">
                 {placeholderLifeTriggers.map((trigger, idx) => (
                   <div key={idx} className="text-xs border-l-2 border-slate-300 pl-3">
@@ -218,7 +218,7 @@ export function ClientSnapshotPanel({
                 <span className="text-sm font-semibold">Compliance & Risk</span>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-4">
+            <AccordionContent className="px-4 pb-3">
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between py-1">
                   <span className="text-slate-600">KYC Status</span>
@@ -248,7 +248,7 @@ export function ClientSnapshotPanel({
                 <span className="text-sm font-semibold">Relationship Milestones</span>
               </div>
             </AccordionTrigger>
-            <AccordionContent className="px-4">
+            <AccordionContent className="px-4 pb-3">
               <div className="space-y-3">
                 <div className="text-xs border-l-2 border-primary pl-3">
                   <div className="font-semibold text-slate-700">Milestone Event</div>
@@ -269,7 +269,7 @@ export function ClientSnapshotPanel({
 
         {/* Helper Text at Bottom - Always Visible */}
         <Card className="bg-blue-50 border-blue-200">
-          <div className="p-3">
+          <div className="p-4">
             <p className="text-xs text-blue-900">
               <strong>Note:</strong> This panel shows placeholder data. Upload transaction data to populate with real client insights.
             </p>

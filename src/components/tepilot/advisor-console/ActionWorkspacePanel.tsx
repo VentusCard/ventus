@@ -12,14 +12,14 @@ export function ActionWorkspacePanel() {
   const engagementText = sampleEngagementData.status === 'high' ? 'Strong' : sampleEngagementData.status === 'medium' ? 'Moderate' : 'Needs Attention';
   return <div className="h-full flex flex-col bg-slate-50">
       {/* Meeting & Engagement Section */}
-      <div className="border-b bg-white p-3 space-y-3 flex-shrink-0">
+      <div className="border-b bg-white p-4 space-y-4 flex-shrink-0">
         <div>
           <h3 className="text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide">
             Next Interaction
           </h3>
 
           {/* Upcoming Meeting Card */}
-          <Card className="p-2 mb-3 border-l-4 border-l-primary hover:shadow-md transition-shadow">
+          <Card className="p-3 mb-3 border-l-4 border-l-primary hover:shadow-md transition-shadow">
             <div className="flex items-start gap-3">
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
                 <Calendar className="w-4 h-4 text-primary" />
@@ -46,8 +46,8 @@ export function ActionWorkspacePanel() {
         </div>
       </div>
 
-      {/* Document Builder Section (70%) */}
-      <div className="flex-1 min-h-0 overflow-hidden p-3">
+      {/* Document Builder Section */}
+      <div className="flex-1 min-h-0 overflow-hidden p-4">
         <div className="h-full flex flex-col">
           <div className="flex items-center justify-between mb-3">
             <h3 className="text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide">
@@ -62,8 +62,8 @@ export function ActionWorkspacePanel() {
           </div>
 
           {/* Document Workspace - Scrollable */}
-          <Card className="flex-1 min-h-0 overflow-y-auto p-3 space-y-3 mb-2">
-            {documentBlocks.sort((a, b) => a.order - b.order).map(block => <div key={block.id} className="border border-slate-200 rounded-lg p-2 bg-white hover:border-primary/50 transition-colors">
+          <Card className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 mb-3">
+            {documentBlocks.sort((a, b) => a.order - b.order).map(block => <div key={block.id} className="border border-slate-200 rounded-lg p-3 bg-white hover:border-primary/50 transition-colors">
                   <div className="flex items-center justify-between mb-2">
                     <h4 className="font-semibold text-sm text-slate-900">{block.title}</h4>
                     <Badge variant="outline" className="text-xs">{block.type}</Badge>

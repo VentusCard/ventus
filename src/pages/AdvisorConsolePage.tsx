@@ -76,7 +76,7 @@ const AdvisorConsolePage = () => {
   return (
     <div className="flex flex-col h-screen bg-white">
       {/* Top Navigation Bar */}
-      <div className="border-b px-6 py-3 bg-white z-10 shadow-sm flex-shrink-0">
+      <div className="border-b px-4 py-3 bg-white z-10 shadow-sm flex-shrink-0">
         <div className="flex items-center justify-between max-w-full">
           <Button
             variant="ghost"

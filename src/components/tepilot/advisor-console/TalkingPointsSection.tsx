@@ -29,7 +29,7 @@ export function TalkingPointsSection({ talkingPoints }: TalkingPointsSectionProp
       </CardHeader>
       <CardContent className="space-y-3">
         {talkingPoints.map((point, idx) => (
-          <div key={idx} className="bg-muted/50 p-3 rounded-lg group hover:bg-muted transition-colors">
+          <div key={idx} className="bg-muted/50 p-2 rounded-lg group hover:bg-muted transition-colors">
             <div className="flex items-start justify-between gap-2">
               <p className="text-sm text-foreground flex-1">{point}</p>
               <Button 
