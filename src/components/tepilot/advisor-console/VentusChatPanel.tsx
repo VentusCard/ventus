@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Mic, Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain } from "lucide-react";
+import { Mic, Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain, Upload } from "lucide-react";
 import { sampleChatMessages, ChatMessage, Task } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -18,6 +18,8 @@ import { EnrichedTransaction } from "@/types/transaction";
 import { useAdvisorChat } from "@/hooks/useAdvisorChat";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { TaskItem } from "./TaskItem";
+import { TranscriptUploadDialog, TranscriptInsights } from "./TranscriptUploadDialog";
+import { TranscriptInsightsPanel } from "./TranscriptInsightsPanel";
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
   onSaveToDocument?: (message: ChatMessage) => void;
@@ -45,6 +47,8 @@ export function VentusChatPanel({
   const [selectedEvent, setSelectedEvent] = useState<LifeEvent | null>(null);
   const [dismissedEvents, setDismissedEvents] = useState<Set<string>>(new Set());
   const [lifeEventsOpen, setLifeEventsOpen] = useState(false);
+  const [transcriptDialogOpen, setTranscriptDialogOpen] = useState(false);
+  const [transcriptInsights, setTranscriptInsights] = useState<TranscriptInsights | null>(null);
   const {
     toast
   } = useToast();
@@ -130,9 +134,20 @@ export function VentusChatPanel({
       {/* Header */}
       <div className="border-b px-4 py-3 bg-gradient-to-r from-white to-slate-50 flex-shrink-0">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold text-slate-900">
-            Ventus AI Advisor Chat
-          </h2>
+          <div className="flex items-center gap-3">
+            <h2 className="text-xl font-semibold text-slate-900">
+              Ventus AI Advisor Chat
+            </h2>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTranscriptDialogOpen(true)}
+              className="text-xs"
+            >
+              <Upload className="w-3 h-3 mr-1" />
+              Upload Transcript
+            </Button>
+          </div>
           {isLoadingInsights && <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />
               <span>Analyzing lifestyle signals...</span>
@@ -307,5 +322,28 @@ export function VentusChatPanel({
           </Button>
         </div>
       </div>
+
+      {/* Transcript Upload Dialog */}
+      <TranscriptUploadDialog
+        open={transcriptDialogOpen}
+        onOpenChange={setTranscriptDialogOpen}
+        onAnalysisComplete={(insights) => {
+          setTranscriptInsights(insights);
+          toast({
+            title: "Transcript Analyzed",
+            description: "Review insights in the panel below"
+          });
+        }}
+      />
+
+      {/* Transcript Insights Panel Overlay */}
+      {transcriptInsights && (
+        <div className="absolute inset-0 bg-background overflow-y-auto z-10">
+          <TranscriptInsightsPanel
+            insights={transcriptInsights}
+            onClose={() => setTranscriptInsights(null)}
+          />
+        </div>
+      )}
     </div>;
 }
