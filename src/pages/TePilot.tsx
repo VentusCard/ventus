@@ -193,19 +193,6 @@ const TePilot = () => {
     await startEnrichment(parsedTransactions, anchorZip);
   };
 
-  // Store context in sessionStorage when enrichment completes
-  useEffect(() => {
-    if (enrichedTransactions.length > 0 && !isProcessing) {
-      const contextData = {
-        enrichedTransactions,
-        originalTransactions: parsedTransactions,
-        aiInsights: lifestyleSignals,
-        timestamp: new Date().toISOString()
-      };
-      sessionStorage.setItem("tepilot_advisor_context", JSON.stringify(contextData));
-      console.log("Stored advisor context to sessionStorage");
-    }
-  }, [enrichedTransactions, isProcessing, parsedTransactions, lifestyleSignals]);
   const handleCorrection = async (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => {
     const transaction = enrichedTransactions.find(t => t.transaction_id === transactionId);
     if (!transaction) return;
