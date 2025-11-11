@@ -167,11 +167,11 @@ export interface HoldingsDetails {
 
 // Sample Client Profile Data
 export const sampleClientData: ClientData = {
-  name: "Emma R.",
+  name: "Client Name",
   segment: "Private",
   aum: "$2.3M",
   tenure: "4.2 years",
-  advisor: "Michael Chen",
+  advisor: "Advisor Name",
   holdings: {
     deposit: 450000,
     credit: 15000,
@@ -180,9 +180,9 @@ export const sampleClientData: ClientData = {
     investments: 1850000
   },
   contact: {
-    email: "emma.r@email.com",
-    phone: "(206) 555-0147",
-    address: "Bellevue, WA 98004"
+    email: "client@email.com",
+    phone: "(XXX) XXX-XXXX",
+    address: "City, State ZIP"
   },
   demographics: {
     age: 42,
@@ -233,25 +233,25 @@ export const sampleLifestyleSignals: LifestyleSignal[] = [
 // Recent Life Triggers
 export const sampleLifeTriggers: LifeTrigger[] = [
   {
-    date: "2024-02-18",
+    date: "YYYY-MM-DD",
     event: "Major Donation",
     type: "financial",
-    description: "$25K donation to Seattle Children's Foundation"
+    description: "$25K donation to Charitable Organization"
   },
   {
-    date: "2023-12-15",
+    date: "YYYY-MM-DD",
     event: "New Dependent",
     type: "family",
     description: "Birth of first child, updated beneficiaries"
   },
   {
-    date: "2023-10-22",
+    date: "YYYY-MM-DD",
     event: "Relocation",
     type: "lifestyle",
-    description: "Moved from downtown Seattle to Bellevue suburb"
+    description: "Moved from downtown to suburban area"
   },
   {
-    date: "2023-08-10",
+    date: "YYYY-MM-DD",
     event: "Mortgage Increase",
     type: "financial",
     description: "Refinanced to larger home, +$180K mortgage balance"
@@ -261,8 +261,8 @@ export const sampleLifeTriggers: LifeTrigger[] = [
 // Compliance & Risk Data
 export const sampleComplianceData: ComplianceData = {
   kycStatus: "Current",
-  lastReview: "January 15, 2024",
-  nextReview: "January 15, 2025",
+  lastReview: "Month DD, YYYY",
+  nextReview: "Month DD, YYYY",
   riskProfile: "Moderate-Aggressive",
   notes: "Annual review completed. Estate planning documents updated for new dependent."
 };
@@ -270,27 +270,27 @@ export const sampleComplianceData: ComplianceData = {
 // Client Milestones Timeline
 export const sampleMilestones: Milestone[] = [
   {
-    date: "March 2020",
+    date: "Month YYYY",
     event: "Account Opening",
     category: "account"
   },
   {
-    date: "May 2020",
+    date: "Month YYYY",
     event: "First Investment Portfolio Funding ($850K)",
     category: "investment"
   },
   {
-    date: "August 2021",
+    date: "Month YYYY",
     event: "Mortgage Origination ($500K)",
     category: "banking"
   },
   {
-    date: "January 2022",
+    date: "Month YYYY",
     event: "Private Banking Upgrade",
     category: "account"
   },
   {
-    date: "December 2023",
+    date: "Month YYYY",
     event: "Estate Planning Update",
     category: "account"
   }
@@ -301,21 +301,21 @@ export const sampleChatMessages: ChatMessage[] = [
   {
     id: "msg-1",
     role: "ai",
-    content: "Good afternoon, Michael. I've analyzed Emma's recent transaction patterns and identified several opportunities for your upcoming review meeting. Her travel spending is up 21% over the past 6 months, with frequent premium airline and hotel bookings. This suggests she may benefit from our Premium Travel Rewards card with 5x points on travel and complementary lounge access.",
-    timestamp: new Date("2024-03-10T14:30:00"),
+    content: "Good afternoon. I've analyzed the client's recent transaction patterns and identified several opportunities for your upcoming review meeting. Their travel spending is up 21% over the past 6 months, with frequent premium airline and hotel bookings. This suggests they may benefit from our Premium Travel Rewards card with 5x points on travel and complementary lounge access.",
+    timestamp: new Date("YYYY-MM-DDTHH:MM:SS"),
     relatedLifestyleChip: "Travel"
   },
   {
     id: "msg-2",
     role: "advisor",
-    content: "That's helpful context. Can you generate talking points for our Q2 portfolio review meeting scheduled for March 15th?",
-    timestamp: new Date("2024-03-10T14:32:00")
+    content: "That's helpful context. Can you generate talking points for our Q2 portfolio review meeting scheduled for Month DD?",
+    timestamp: new Date("YYYY-MM-DDTHH:MM:SS")
   },
   {
     id: "msg-3",
     role: "ai",
-    content: "Here are the key discussion topics for Emma's Q2 review:\n\n1. **Portfolio Performance**: YTD return of +8.2%, outperforming benchmark by 1.4%\n2. **Travel Rewards Opportunity**: Premium card upgrade could save ~$3,200 annually based on current spending\n3. **Estate Planning**: Review beneficiary designations following birth of first child\n4. **529 Education Plan**: Recommend opening plan for newborn with $10K initial funding\n5. **Philanthropic Strategy**: Discuss donor-advised fund to optimize $25K+ annual giving\n6. **Tax-Loss Harvesting**: Identify $12K in potential tax savings from strategic rebalancing\n\nWould you like me to generate a detailed brief for any of these topics?",
-    timestamp: new Date("2024-03-10T14:33:15"),
+    content: "Here are the key discussion topics for the Q2 review:\n\n1. **Portfolio Performance**: YTD return of +8.2%, outperforming benchmark by 1.4%\n2. **Travel Rewards Opportunity**: Premium card upgrade could save ~$3,200 annually based on current spending\n3. **Estate Planning**: Review beneficiary designations following birth of first child\n4. **529 Education Plan**: Recommend opening plan for newborn with $10K initial funding\n5. **Philanthropic Strategy**: Discuss donor-advised fund to optimize $25K+ annual giving\n6. **Tax-Loss Harvesting**: Identify $12K in potential tax savings from strategic rebalancing\n\nWould you like me to generate a detailed brief for any of these topics?",
+    timestamp: new Date("YYYY-MM-DDTHH:MM:SS"),
     actions: {
       savedToDoc: true,
       addedToTodo: false,
@@ -326,13 +326,13 @@ export const sampleChatMessages: ChatMessage[] = [
     id: "msg-4",
     role: "advisor",
     content: "Yes, please provide more detail on the 529 education plan recommendation.",
-    timestamp: new Date("2024-03-10T14:35:00")
+    timestamp: new Date("YYYY-MM-DDTHH:MM:SS")
   },
   {
     id: "msg-5",
     role: "ai",
-    content: "**529 Education Savings Plan Recommendation for Emma R.**\n\n**Current Situation:**\n- New parent (child born Dec 2023, 3 months old)\n- Strong income profile (Senior PM in tech)\n- High tax bracket (likely 35-37% federal)\n- Demonstrated commitment to long-term planning\n\n**Recommendation:**\n- Open Washington State 529 DreamAhead plan\n- Initial funding: $10,000\n- Monthly contributions: $500 (automatic)\n- Projected value at age 18: ~$185,000 (assuming 7% growth)\n\n**Tax Benefits:**\n- Washington state offers no state income tax, but federal tax-free growth\n- Contributions reduce taxable estate (important for HNW clients)\n- Withdrawals for qualified education expenses are tax-free\n\n**Action Items:**\n- Present at March 15 meeting\n- Provide DreamAhead enrollment packet\n- Set up automatic monthly contributions\n- Discuss gift-giving strategy (grandparents can contribute up to $18K/year)\n\n**Talking Point:** 'Emma, congratulations again on your new addition. Many of our clients find that starting a 529 plan early provides tremendous flexibility for future education expenses, whether that's private school, college, or graduate programs. Based on your current tax situation and long-term planning mindset, I'd recommend we establish this account with an initial $10K investment.'",
-    timestamp: new Date("2024-03-10T14:36:30"),
+    content: "**529 Education Savings Plan Recommendation**\n\n**Current Situation:**\n- New parent (child born Month YYYY, 3 months old)\n- Strong income profile (Senior PM in tech)\n- High tax bracket (likely 35-37% federal)\n- Demonstrated commitment to long-term planning\n\n**Recommendation:**\n- Open State 529 plan\n- Initial funding: $10,000\n- Monthly contributions: $500 (automatic)\n- Projected value at age 18: ~$185,000 (assuming 7% growth)\n\n**Tax Benefits:**\n- Federal tax-free growth\n- Contributions reduce taxable estate (important for HNW clients)\n- Withdrawals for qualified education expenses are tax-free\n\n**Action Items:**\n- Present at upcoming meeting\n- Provide enrollment packet\n- Set up automatic monthly contributions\n- Discuss gift-giving strategy (grandparents can contribute up to $18K/year)\n\n**Talking Point:** 'Congratulations again on your new addition. Many of our clients find that starting a 529 plan early provides tremendous flexibility for future education expenses, whether that's private school, college, or graduate programs. Based on your current tax situation and long-term planning mindset, I'd recommend we establish this account with an initial $10K investment.'",
+    timestamp: new Date("YYYY-MM-DDTHH:MM:SS"),
     actions: {
       savedToDoc: true,
       addedToTodo: false,
@@ -343,7 +343,7 @@ export const sampleChatMessages: ChatMessage[] = [
     id: "msg-6",
     role: "advisor",
     content: "Perfect. Add a task to prepare the 529 enrollment packet before our meeting.",
-    timestamp: new Date("2024-03-10T14:38:00"),
+    timestamp: new Date("YYYY-MM-DDTHH:MM:SS"),
     actions: {
       addedToTodo: true
     }
@@ -351,15 +351,15 @@ export const sampleChatMessages: ChatMessage[] = [
   {
     id: "msg-7",
     role: "ai",
-    content: "✓ Task added: 'Prepare 529 enrollment packet for Emma R.' — Priority: High, Due: March 14, 2024\n\nI've also noticed Emma's increased philanthropic activity. Her $25K donation in February represents a significant uptick from her historical $8-12K annual giving. This could indicate:\n\n1. **Unexpected windfall** (bonus, stock options vesting)\n2. **Tax planning strategy** (maximizing 2024 deductions)\n3. **Values shift** (new parent seeking to support children's causes)\n\nRecommendation: Discuss establishing a donor-advised fund (DAF) to optimize her charitable giving strategy. A DAF would allow her to:\n- Make a large tax-deductible contribution in high-income years\n- Distribute to charities over time as she identifies causes\n- Potentially donate appreciated securities for additional tax benefits\n- Involve family in giving decisions (values education for child)\n\nShould I add this as a discussion topic for the March 15 meeting?",
-    timestamp: new Date("2024-03-10T14:39:00"),
+    content: "✓ Task added: 'Prepare 529 enrollment packet' — Priority: High, Due: Month DD, YYYY\n\nI've also noticed increased philanthropic activity. The $25K donation in Month YYYY represents a significant uptick from historical $8-12K annual giving. This could indicate:\n\n1. **Unexpected windfall** (bonus, stock options vesting)\n2. **Tax planning strategy** (maximizing deductions)\n3. **Values shift** (new parent seeking to support children's causes)\n\nRecommendation: Discuss establishing a donor-advised fund (DAF) to optimize charitable giving strategy. A DAF would allow:\n- Make a large tax-deductible contribution in high-income years\n- Distribute to charities over time as they identify causes\n- Potentially donate appreciated securities for additional tax benefits\n- Involve family in giving decisions (values education for child)\n\nShould I add this as a discussion topic for the upcoming meeting?",
+    timestamp: new Date("YYYY-MM-DDTHH:MM:SS"),
     relatedLifestyleChip: "Philanthropy"
   },
   {
     id: "msg-8",
     role: "advisor",
     content: "Yes, add that to the meeting agenda. Also mark the 529 talking points as ready to present.",
-    timestamp: new Date("2024-03-10T14:41:00"),
+    timestamp: new Date("YYYY-MM-DDTHH:MM:SS"),
     actions: {
       completed: true
     }
@@ -370,11 +370,11 @@ export const sampleChatMessages: ChatMessage[] = [
 export const sampleTasks: Task[] = [
   {
     id: "task-1",
-    title: "Review Emma's Q1 portfolio performance report",
+    title: "Review Q1 portfolio performance report",
     category: "today",
     completed: false,
     priority: "high",
-    dueDate: "2024-03-11"
+    dueDate: "YYYY-MM-DD"
   },
   {
     id: "task-2",
@@ -382,15 +382,15 @@ export const sampleTasks: Task[] = [
     category: "today",
     completed: false,
     priority: "high",
-    dueDate: "2024-03-11"
+    dueDate: "YYYY-MM-DD"
   },
   {
     id: "task-3",
-    title: "Prepare 529 enrollment packet for Emma R.",
+    title: "Prepare 529 enrollment packet",
     category: "today",
     completed: false,
     priority: "high",
-    dueDate: "2024-03-14"
+    dueDate: "YYYY-MM-DD"
   },
   {
     id: "task-4",
@@ -398,7 +398,7 @@ export const sampleTasks: Task[] = [
     category: "this-week",
     completed: true,
     priority: "medium",
-    dueDate: "2024-03-15"
+    dueDate: "YYYY-MM-DD"
   },
   {
     id: "task-5",
@@ -406,7 +406,7 @@ export const sampleTasks: Task[] = [
     category: "this-week",
     completed: true,
     priority: "high",
-    dueDate: "2024-03-13"
+    dueDate: "YYYY-MM-DD"
   },
   {
     id: "task-6",
@@ -414,7 +414,7 @@ export const sampleTasks: Task[] = [
     category: "this-week",
     completed: false,
     priority: "medium",
-    dueDate: "2024-03-14"
+    dueDate: "YYYY-MM-DD"
   },
   {
     id: "task-7",
@@ -441,13 +441,13 @@ export const sampleTasks: Task[] = [
 
 // Upcoming Meeting
 export const sampleMeeting: Meeting = {
-  date: "March 15, 2024",
-  time: "2:00 PM PT",
+  date: "Month DD, YYYY",
+  time: "HH:MM AM/PM",
   duration: 60,
   participants: [
-    "Emma R. (Client)",
-    "Michael Chen (Advisor)",
-    "Sarah Liu (Wealth Planning Specialist)"
+    "Client Name (Client)",
+    "Advisor Name (Advisor)",
+    "Specialist Name (Wealth Planning Specialist)"
   ],
   talkingPoints: [
     "Q1 Portfolio Performance Review (+8.2% YTD)",
@@ -457,7 +457,7 @@ export const sampleMeeting: Meeting = {
     "Donor-Advised Fund for Philanthropic Giving Strategy",
     "Tax-Loss Harvesting Opportunities (~$12K potential savings)",
     "Investment Portfolio Rebalancing (Reduce tech concentration)",
-    "Mortgage Refinancing Review (Current rates vs. Emma's 3.2%)"
+    "Mortgage Refinancing Review (Current rates vs. client's rate)"
   ],
   status: "upcoming"
 };
@@ -468,22 +468,22 @@ export const sampleDocumentBlocks: DocumentBlock[] = [
     id: "block-1",
     type: "client-overview",
     title: "Client Overview",
-    content: `**Emma R. — Private Banking Client**
+    content: `**Client Name — Private Banking Client**
 
 *Profile Summary:*
-Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M in assets under management. She has been a valued client for 4.2 years, progressing from Preferred to Private Banking status. Emma recently became a first-time parent (December 2023) and relocated to Bellevue, WA.
+Client is a 42-year-old Senior Product Manager in the technology sector with $2.3M in assets under management. They have been a valued client for 4.2 years, progressing from Preferred to Private Banking status. Client recently became a first-time parent (Month YYYY) and relocated to suburban area.
 
 *Account Structure:*
 • Deposit Accounts: $450,000
 • Credit Facilities: $15,000 utilization
-• Mortgage: $680,000 (3.2% fixed, refinanced 2023)
+• Mortgage: $680,000 (3.2% fixed, refinanced YYYY)
 • Investment Portfolio: $1,850,000
 
-*Advisor:* Michael Chen, Senior Wealth Advisor
+*Advisor:* Advisor Name, Senior Wealth Advisor
 *Risk Profile:* Moderate-Aggressive (suitable for 80/20 equity/fixed allocation)
-*Relationship Tenure:* 4.2 years (since March 2020)`,
+*Relationship Tenure:* 4.2 years (since Month YYYY)`,
     order: 1,
-    lastEdited: "2024-03-10T14:36:00"
+    lastEdited: "YYYY-MM-DDTHH:MM:SS"
   },
   {
     id: "block-2",
@@ -494,7 +494,7 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
 *Key Trends (Last 6 Months):*
 • **Travel ↑ 21%** (Confidence: 87%) — Frequent premium airline bookings, international hotels, consistent business/leisure travel patterns. Opportunity: Premium Travel Rewards card upgrade.
 
-• **Philanthropy ↑ 15%** (Confidence: 91%) — Significant increase in charitable giving, including $25K donation to Seattle Children's Foundation in February 2024. Recommendation: Donor-advised fund for tax optimization.
+• **Philanthropy ↑ 15%** (Confidence: 91%) — Significant increase in charitable giving, including $25K donation to Charitable Organization in Month YYYY. Recommendation: Donor-advised fund for tax optimization.
 
 • **Health & Wellness ↑ 18%** (Confidence: 84%) — Increased spending on fitness, wellness services, and premium gym memberships post-relocation.
 
@@ -503,18 +503,18 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
 • **Family ↓ 8%** (Confidence: 73%) — Slight decrease in traditional "family" category spending, potentially due to newborn care focus vs. discretionary family activities.
 
 *Recent Life Triggers:*
-• New dependent (December 2023) — Estate planning updated
-• Relocation to Bellevue suburb (October 2023) — Larger home, family-focused
-• Major charitable donation (February 2024) — Values-driven giving
-• Mortgage refinance (August 2023) — +$180K balance for home upgrade`,
+• New dependent (Month YYYY) — Estate planning updated
+• Relocation to suburban area (Month YYYY) — Larger home, family-focused
+• Major charitable donation (Month YYYY) — Values-driven giving
+• Mortgage refinance (Month YYYY) — +$180K balance for home upgrade`,
     order: 2,
-    lastEdited: "2024-03-10T14:33:00"
+    lastEdited: "YYYY-MM-DDTHH:MM:SS"
   },
   {
     id: "block-3",
     type: "portfolio-snapshot",
     title: "Portfolio Performance Snapshot",
-    content: `**Investment Portfolio — Q1 2024 Performance**
+    content: `**Investment Portfolio — Q1 YYYY Performance**
 
 *Current Market Value:* $1,850,000 (+$140,000 YTD)
 
@@ -541,24 +541,24 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
 ⚠ Tech sector overweight (rebalancing recommended)
 ✓ Risk profile aligned with client objectives
 
-*Next Review:* March 15, 2024 (Q2 Planning Meeting)`,
+*Next Review:* Month DD, YYYY (Q2 Planning Meeting)`,
     order: 3,
-    lastEdited: "2024-03-10T14:28:00"
+    lastEdited: "YYYY-MM-DDTHH:MM:SS"
   },
   {
     id: "block-4",
     type: "next-steps",
     title: "Recommended Next Steps",
-    content: `**Action Items & Recommendations — March 2024**
+    content: `**Action Items & Recommendations — Month YYYY**
 
-*Immediate Actions (Before March 15 Meeting):*
+*Immediate Actions (Before Meeting):*
 1. ✓ Complete Q1 portfolio performance analysis
 2. ⏳ Prepare Premium Travel Rewards card comparison
 3. ⏳ Assemble 529 education savings plan materials
 4. ⏳ Draft donor-advised fund presentation
 5. ✓ Update estate planning documents for new dependent
 
-*Discussion Topics for March 15 Meeting:*
+*Discussion Topics for Upcoming Meeting:*
 1. **Portfolio Performance & Rebalancing**
    - Review +8.2% YTD performance
    - Discuss tech sector reduction strategy
@@ -577,7 +577,7 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
 4. **Philanthropic Giving Strategy**
    - Present donor-advised fund concept
    - Discuss tax benefits of lumpy giving
-   - Review Emma's charitable goals and values
+   - Review client's charitable goals and values
 
 5. **Estate Planning Review**
    - Confirm beneficiary updates completed
@@ -586,13 +586,13 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
 
 *Follow-Up Actions (Post-Meeting):*
 • Process any account applications/changes
-• Schedule next quarterly review (June 2024)
+• Schedule next quarterly review
 • Implement approved portfolio rebalancing
 • Monitor lifestyle signal changes for proactive outreach
 
-*Engagement Health:* 🟢 Strong (Last contact: 12 days ago | 95% meeting attendance)`,
+*Engagement Health:* 🟢 Strong (Last contact: XX days ago | 95% meeting attendance)`,
     order: 4,
-    lastEdited: "2024-03-10T14:39:00"
+    lastEdited: "YYYY-MM-DDTHH:MM:SS"
   }
 ];
 
@@ -600,7 +600,7 @@ Emma is a 42-year-old Senior Product Manager in the technology sector with $2.3M
 export const sampleEngagementData: EngagementHealth = {
   status: "high",
   metrics: {
-    lastContact: "12 days ago",
+    lastContact: "XX days ago",
     meetingAttendance: 95,
     responseRate: 88,
     reviewFrequency: "Quarterly",
@@ -617,7 +617,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       name: 'Private Banking Checking',
       accountNumber: '****3847',
       balance: 85000,
-      opened: 'March 2020'
+      opened: 'Month YYYY'
     },
     {
       id: 'dep-2',
@@ -626,7 +626,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       accountNumber: '****4921',
       balance: 250000,
       apy: 4.5,
-      opened: 'March 2020'
+      opened: 'Month YYYY'
     },
     {
       id: 'dep-3',
@@ -635,7 +635,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       accountNumber: '****5612',
       balance: 115000,
       apy: 4.8,
-      opened: 'June 2021'
+      opened: 'Month YYYY'
     }
   ],
   credit: [
@@ -648,7 +648,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       creditLimit: 50000,
       apr: 18.99,
       rewards: '2x points on all purchases',
-      opened: 'March 2020'
+      opened: 'Month YYYY'
     },
     {
       id: 'cred-2',
@@ -659,7 +659,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       creditLimit: 75000,
       apr: 19.99,
       rewards: '3x points on business expenses',
-      opened: 'January 2022'
+      opened: 'Month YYYY'
     }
   ],
   mortgages: [
@@ -673,8 +673,8 @@ export const sampleHoldingsDetails: HoldingsDetails = {
       rate: 3.2,
       term: '30-year fixed',
       monthlyPayment: 3680,
-      originated: 'August 2023',
-      property: '1248 Highland Ave, Bellevue WA'
+      originated: 'Month YYYY',
+      property: 'Street Address, City State ZIP'
     }
   ],
   investments: [
@@ -691,7 +691,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
         other: 2
       },
       ytdReturn: 8.5,
-      opened: 'May 2020'
+      opened: 'Month YYYY'
     },
     {
       id: 'inv-2',
@@ -706,7 +706,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
         other: 0
       },
       ytdReturn: 9.2,
-      opened: 'May 2020'
+      opened: 'Month YYYY'
     },
     {
       id: 'inv-3',
@@ -721,7 +721,7 @@ export const sampleHoldingsDetails: HoldingsDetails = {
         other: 0
       },
       ytdReturn: 7.8,
-      opened: 'January 2021'
+      opened: 'Month YYYY'
     }
   ]
 };
@@ -734,34 +734,34 @@ export const sampleAIInsights: AIInsights = {
       confidence: 94,
       evidence: [
         {
-          merchant: "Princeton Review",
+          merchant: "Test Prep Provider",
           amount: 399,
-          date: "2024-02-15",
+          date: "YYYY-MM-DD",
           relevance: "SAT prep course indicates active college planning"
         },
         {
           merchant: "College Board",
           amount: 60,
-          date: "2024-02-20",
+          date: "YYYY-MM-DD",
           relevance: "SAT registration fee confirms test-taking timeline"
         },
         {
-          merchant: "University of Washington Tour",
+          merchant: "University Tour",
           amount: 45,
-          date: "2024-03-01",
+          date: "YYYY-MM-DD",
           relevance: "Campus visit shows serious college consideration"
         },
         {
-          merchant: "Kaplan Test Prep",
+          merchant: "Test Prep Provider",
           amount: 299,
-          date: "2024-03-10",
+          date: "YYYY-MM-DD",
           relevance: "Additional prep investment demonstrates commitment"
         }
       ],
       products: [
         {
           name: "529 Education Savings Plan",
-          rationale: "Tax-advantaged savings for upcoming college expenses. Client likely faces tuition payments within 1-2 years based on SAT timing and child's age.",
+          rationale: "Tax-advantaged savings for upcoming college expenses. Client likely faces tuition payments within 1-2 years based on SAT timing and dependent's age.",
           estimated_value: "$8,500 in tax savings over 4 years (based on tech income tax bracket)",
           priority: "high"
         },
@@ -791,7 +791,7 @@ export const sampleAIInsights: AIInsights = {
         "Student loans should be last resort after grants, scholarships, work-study"
       ],
       talking_points: [
-        "I noticed you've invested in SAT preparation for your daughter - that shows real commitment to her academic future",
+        "I noticed you've invested in SAT preparation for the dependent - that shows real commitment to their academic future",
         "Many parents are surprised to learn 529 plans can cover test prep and application costs, not just tuition",
         "Based on your tax situation and the timing of these college expenses, let's discuss a strategic funding plan that maximizes benefits",
         "Have you thought about how you'll balance saving for college with your other financial goals? We can model different scenarios together",
