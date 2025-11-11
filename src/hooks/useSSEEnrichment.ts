@@ -11,6 +11,7 @@ interface UseSSEEnrichmentReturn {
   error: string | null;
   startEnrichment: (transactions: Transaction[], homeZip?: string) => Promise<void>;
   resetEnrichment: () => void;
+  restoreEnrichedTransactions: (transactions: EnrichedTransaction[]) => void;
 }
 
 export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
@@ -283,6 +284,13 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     setError(null);
   }, []);
 
+  const restoreEnrichedTransactions = useCallback((transactions: EnrichedTransaction[]) => {
+    setEnrichedTransactions(transactions);
+    setCurrentPhase('complete');
+    setStatusMessage(`Restored ${transactions.length} transactions`);
+    console.log(`[Restoration] Restored ${transactions.length} enriched transactions`);
+  }, []);
+
   return {
     enrichedTransactions,
     isProcessing,
@@ -290,6 +298,7 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     currentPhase,
     error,
     startEnrichment,
-    resetEnrichment
+    resetEnrichment,
+    restoreEnrichedTransactions
   };
 };

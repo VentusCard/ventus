@@ -78,7 +78,8 @@ const TePilot = () => {
     currentPhase,
     error: enrichmentError,
     startEnrichment,
-    resetEnrichment
+    resetEnrichment,
+    restoreEnrichedTransactions
   } = useSSEEnrichment();
   const [filters, setFilters] = useState<Filters>({
     dateRange: {
@@ -109,6 +110,9 @@ const TePilot = () => {
       try {
         const contextData = JSON.parse(advisorContext);
         if (contextData.enrichedTransactions && contextData.enrichedTransactions.length > 0) {
+          // Restore enriched transactions to the hook
+          restoreEnrichedTransactions(contextData.enrichedTransactions);
+          
           // Set active tab to results to show the analyzed transactions
           setActiveTab("results");
           
@@ -116,6 +120,8 @@ const TePilot = () => {
           if (contextData.aiInsights) {
             setLifestyleSignals(contextData.aiInsights);
           }
+          
+          console.log(`Restored ${contextData.enrichedTransactions.length} transactions from session`);
         }
       } catch (error) {
         console.error("Error restoring workflow state:", error);
