@@ -97,10 +97,30 @@ const TePilot = () => {
     suggestedMapping: Record<string, string | null>;
   } | null>(null);
   useEffect(() => {
+    // Restore authentication states
     const auth = sessionStorage.getItem("tepilot_auth");
     if (auth === "authenticated") setIsAuthenticated(true);
     const relationshipAuth = sessionStorage.getItem("tepilot_relationship_auth");
     if (relationshipAuth === "unlocked") setIsRelationshipUnlocked(true);
+
+    // Restore workflow state when returning from Advisor Console
+    const advisorContext = sessionStorage.getItem("tepilot_advisor_context");
+    if (advisorContext) {
+      try {
+        const contextData = JSON.parse(advisorContext);
+        if (contextData.enrichedTransactions && contextData.enrichedTransactions.length > 0) {
+          // Set active tab to results to show the analyzed transactions
+          setActiveTab("results");
+          
+          // Restore AI insights if available
+          if (contextData.aiInsights) {
+            setLifestyleSignals(contextData.aiInsights);
+          }
+        }
+      } catch (error) {
+        console.error("Error restoring workflow state:", error);
+      }
+    }
   }, []);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
