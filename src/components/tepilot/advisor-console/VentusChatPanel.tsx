@@ -224,7 +224,15 @@ export function VentusChatPanel({
 
       {/* Smart Chips */}
       <div className="border-b px-6 py-2 bg-slate-50">
-        
+        <div className="flex items-center gap-2 mb-2">
+          <Sparkles className="w-4 h-4 text-primary" />
+          <span className="text-xs font-medium text-slate-700">Recommended Prompts</span>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {smartChips.map(chip => <Button key={chip} variant="outline" size="sm" onClick={() => handleChipClick(chip)} className="text-xs">
+              {chip}
+            </Button>)}
+        </div>
       </div>
 
       {/* Chat Messages */}
@@ -232,14 +240,9 @@ export function VentusChatPanel({
         {messages.length === 0 && <div className="text-center py-12">
             
             <h3 className="font-semibold mb-2">Start a Conversation</h3>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground">
               Ask me anything about the client's spending patterns, life events, or get recommendations
             </p>
-            <div className="flex flex-wrap gap-2 justify-center">
-              {smartChips.map(chip => <Button key={chip} variant="outline" size="sm" onClick={() => handleChipClick(chip)}>
-                  {chip}
-                </Button>)}
-            </div>
           </div>}
         
         {messages.map((message, idx) => <Card key={idx} className={`p-3 ${message.role === 'assistant' ? 'bg-slate-50 border-slate-200' : 'bg-primary/5 border-primary/20'}`}>
