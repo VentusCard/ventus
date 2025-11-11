@@ -74,9 +74,9 @@ const AdvisorConsolePage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="flex flex-col h-screen bg-white">
       {/* Top Navigation Bar */}
-      <div className="border-b px-6 py-3 bg-white sticky top-0 z-10 shadow-sm">
+      <div className="border-b px-6 py-3 bg-white z-10 shadow-sm flex-shrink-0">
         <div className="flex items-center justify-between max-w-full">
           <Button
             variant="ghost"
@@ -93,11 +93,13 @@ const AdvisorConsolePage = () => {
       </div>
 
       {/* Full Advisor Console */}
-      <AdvisorConsole 
-        enrichedTransactions={enrichedTransactions}
-        aiInsights={aiInsights}
-        advisorContext={advisorContext}
-      />
+      <div className="flex-1 min-h-0">
+        <AdvisorConsole 
+          enrichedTransactions={enrichedTransactions}
+          aiInsights={aiInsights}
+          advisorContext={advisorContext}
+        />
+      </div>
     </div>
   );
 };

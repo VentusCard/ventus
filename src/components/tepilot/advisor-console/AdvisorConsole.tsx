@@ -46,9 +46,9 @@ export function AdvisorConsole({
   };
 
   return (
-    <div className="flex flex-col w-full bg-white" style={{ height: 'calc(100vh - 200px)' }}>
+    <div className="flex flex-col w-full h-full bg-white">
       {/* Header with BofA/Merrill/Ventus branding */}
-      <div className="border-b px-6 py-4 flex items-center justify-between bg-gradient-to-r from-white to-slate-50">
+      <div className="border-b px-6 py-4 flex items-center justify-between bg-gradient-to-r from-white to-slate-50 flex-shrink-0">
         <div>
         <h1 className="text-2xl font-semibold text-slate-900">
           Wealth Management Advisor Console{" "}
