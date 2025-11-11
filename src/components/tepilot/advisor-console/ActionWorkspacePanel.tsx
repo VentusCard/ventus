@@ -84,22 +84,20 @@ export function ActionWorkspacePanel() {
 
           {/* Action Buttons */}
           <div className="space-y-2">
-            <div className="flex flex-wrap gap-2">
-              <Button size="sm" variant="outline" className="text-xs">
-                <Phone className="w-3 h-3 mr-1" />
-                Call
+            <div className="flex gap-1.5">
+              <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs">
+                <Phone className="w-3 h-3 mr-1 flex-shrink-0" />
+                <span className="truncate">Call</span>
               </Button>
-              <Button size="sm" variant="outline" className="text-xs">
-                <Mail className="w-3 h-3 mr-1" />
-                Email
+              <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs">
+                <Mail className="w-3 h-3 mr-1 flex-shrink-0" />
+                <span className="truncate">Email</span>
               </Button>
-              <Button size="sm" variant="outline" className="text-xs">
-                <Calendar className="w-3 h-3 mr-1" />
-                Schedule
+              <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs">
+                <Calendar className="w-3 h-3 mr-1 flex-shrink-0" />
+                <span className="truncate">Schedule</span>
               </Button>
-              
             </div>
-            
           </div>
         </div>
       </div>
