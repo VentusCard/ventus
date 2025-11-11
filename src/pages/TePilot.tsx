@@ -59,13 +59,14 @@ const TePilot = () => {
     if (!lifestyleSignals && enrichedTransactions.length > 0) {
       toast.info('Running lifestyle analysis...');
       await fetchLifestyleSignals();
+      // Data already saved to sessionStorage inside fetchLifestyleSignals
+    } else if (lifestyleSignals) {
+      // Only save when using existing lifestyleSignals state
+      sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
+        enrichedTransactions: enrichedTransactions,
+        aiInsights: lifestyleSignals
+      }));
     }
-
-    // Store context before navigating
-    sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
-      enrichedTransactions: enrichedTransactions,
-      aiInsights: lifestyleSignals
-    }));
     navigate('/tepilot/advisor-console');
   };
 
