@@ -40,7 +40,7 @@ const AppDownload = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button 
                 size="lg" 
-                className="h-auto w-56 pl-4 pr-6 py-3 text-base bg-black hover:bg-gray-900 text-white rounded-xl flex items-center justify-start gap-3 border-2 border-green-500/50"
+                className="h-auto w-56 px-6 py-3 text-base bg-black hover:bg-gray-900 text-white rounded-xl flex items-center gap-3 border-2 border-green-500/50"
                 onClick={() => {
                   window.open("https://apps.apple.com/us/app/ventus-smart-rewards/id6754831937", "_blank");
                 }}
@@ -58,7 +58,7 @@ const AppDownload = () => {
               
               <Button 
                 size="lg" 
-                className="h-auto w-56 pl-4 pr-6 py-3 text-base bg-gray-700 cursor-not-allowed text-white rounded-xl flex items-center justify-start gap-3 border-2 border-gray-600 opacity-75"
+                className="h-auto w-56 px-6 py-3 text-base bg-gray-700 cursor-not-allowed text-white rounded-xl flex items-center gap-3 border-2 border-gray-600 opacity-75"
                 disabled
               >
                 <PlayIcon className="w-8 h-8 opacity-50" />
