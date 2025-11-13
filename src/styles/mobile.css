@@ -224,7 +224,8 @@
   }
 
   /* Carousel dot indicators - smaller on mobile */
-  .w-2.h-2.rounded-full {
+  .w-2.h-2.rounded-full,
+  .w-1\.5.h-1\.5.rounded-full {
     width: 0.25rem !important;  /* 4px for compact mobile view */
     height: 0.25rem !important;
   }
