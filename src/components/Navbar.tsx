@@ -113,7 +113,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center justify-end pr-2">
           <button
             onClick={toggleMobileMenu}
-            className="text-white/90 hover:text-white p-3 transition-colors duration-300 z-50 relative"
+            className="text-white/90 hover:text-white pl-6 pr-2 py-3 transition-colors duration-300 z-50 relative"
             aria-label="Toggle mobile menu"
             type="button"
           >
