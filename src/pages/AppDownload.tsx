@@ -65,7 +65,7 @@ const AppDownload = () => {
                 <div className="flex flex-col items-start gap-0.5">
                   <span className="text-[10px] leading-tight opacity-80">GET IT ON</span>
                   <span className="text-xl font-semibold leading-tight">Google Play</span>
-                  <span className="text-[10px] leading-tight text-blue-400 font-semibold">
+                  <span className="text-[10px] leading-tight text-gray-400 font-semibold">
                     Coming Soon
                   </span>
                 </div>
