@@ -41,6 +41,7 @@ const App = () => (
           <Route path="/auth" element={<Login />} />
           <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/smartrewards" element={<OnboardingFlow />} />
+          <Route path="/smartreward" element={<Navigate to="/smartrewards" replace />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/deals" element={<Deals />} />
           <Route path="/saved-deals" element={<SavedDeals />} />
