@@ -37,6 +37,10 @@ const AppDownload = () => {
               We believe everyone deserves an easier way to find great deals, so we built a free tool to help people save smarter before we launch Ventus Card. Ventus is your intelligent deals co-pilot, powered by AI that delivers personalized recommendations and live search across the web. Let our AI surface and secure the best offers for you automatically while you focus on what matters.
             </p>
             
+            <p className="text-sm text-slate-500 mb-4 text-center">
+              Available now on iOS • Coming soon to Android
+            </p>
+            
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
               <Button 
                 size="lg" 
@@ -71,10 +75,6 @@ const AppDownload = () => {
                 </div>
               </Button>
             </div>
-            
-            <p className="text-sm text-slate-500">
-              Available now on iOS • Coming soon to Android
-            </p>
             </div>
           </CardContent>
         </Card>
