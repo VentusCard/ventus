@@ -18,19 +18,18 @@ const AppDownload = () => {
       <div className="relative z-10">
         <Navbar />
         <main className="pt-16 md:pt-20 flex items-center justify-center p-4 min-h-[calc(100vh-200px)]">
-        <div className="max-w-5xl w-full flex flex-col md:flex-row gap-8 items-center">
-          {/* Hero Image */}
-          <div className="flex-1 flex justify-center">
-            <img 
-              src={appHeroImage} 
-              alt="Ventus AI Co-Pilot App" 
-              className="w-full max-w-md h-auto object-contain"
-            />
-          </div>
-          
-          {/* Content Card */}
-          <Card className="flex-1 max-w-xl w-full">
-          <CardContent className="p-8 md:p-12 text-center">
+        <Card className="max-w-4xl w-full">
+          <CardContent className="p-8 md:p-12">
+            {/* Hero Image */}
+            <div className="flex justify-center mb-8">
+              <img 
+                src={appHeroImage} 
+                alt="Ventus AI Co-Pilot App" 
+                className="w-full max-w-2xl h-auto object-contain rounded-lg"
+              />
+            </div>
+            
+            <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
               Download Ventus
             </h1>
@@ -76,9 +75,9 @@ const AppDownload = () => {
             <p className="text-sm text-slate-500">
               Available now on iOS • Coming soon to Android
             </p>
+            </div>
           </CardContent>
         </Card>
-        </div>
         </main>
         <Footer />
       </div>
