@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Index from "./pages/Index";
 import OnboardingFlow from "./pages/OnboardingFlow";
 import JoinWaitlist from "./pages/JoinWaitlist";
@@ -46,6 +46,7 @@ const App = () => (
           <Route path="/saved-deals" element={<SavedDeals />} />
           <Route path="/join-waitlist" element={<JoinWaitlist />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/partner" element={<Navigate to="/partners" replace />} />
           <Route path="/contact" element={<ContactUs />} />
           <Route path="/about" element={<AboutUs />} />
           <Route path="/benefits" element={<BenefitsPage />} />
