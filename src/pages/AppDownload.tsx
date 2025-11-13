@@ -30,7 +30,7 @@ const AppDownload = () => {
             </div>
             
             <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900">
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 text-slate-900 whitespace-nowrap">
               Download Ventus AI Co-Pilot Today
             </h1>
             <p className="text-lg text-slate-600 mb-8">
