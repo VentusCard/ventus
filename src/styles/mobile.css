@@ -225,8 +225,8 @@
 
   /* Carousel dot indicators - smaller on mobile */
   .w-2.h-2.rounded-full {
-    width: 0.375rem !important;  /* 6px instead of 8px */
-    height: 0.375rem !important;
+    width: 0.25rem !important;  /* 4px for compact mobile view */
+    height: 0.25rem !important;
   }
 
 /* Disable animations on mobile for better performance */
