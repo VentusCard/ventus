@@ -40,16 +40,16 @@ const AppDownload = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button 
                 size="lg" 
-                className="h-auto px-6 py-3 text-base bg-black hover:bg-gray-900 text-white rounded-xl flex items-center gap-3 border-2 border-green-500/50 w-56"
+                className="h-auto px-5 py-2.5 text-base bg-black hover:bg-gray-900 text-white rounded-xl flex items-center gap-2.5 border-2 border-green-500/50 w-56"
                 onClick={() => {
                   window.open("https://apps.apple.com/us/app/ventus-smart-rewards/id6754831937", "_blank");
                 }}
               >
-                <Apple className="w-8 h-8" />
-                <div className="flex flex-col items-start gap-0.5">
+                <Apple className="w-7 h-7" />
+                <div className="flex flex-col items-start gap-0">
                   <span className="text-[10px] leading-tight opacity-80">Download on the</span>
-                  <span className="text-xl font-semibold leading-tight">App Store</span>
-                  <span className="text-[10px] leading-tight text-green-400 font-semibold flex items-center gap-1">
+                  <span className="text-lg font-semibold leading-tight">App Store</span>
+                  <span className="text-[10px] leading-tight text-green-400 font-semibold flex items-center gap-1 mt-0.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
                     Available Now
                   </span>
@@ -58,14 +58,14 @@ const AppDownload = () => {
               
               <Button 
                 size="lg" 
-                className="h-auto px-6 py-3 text-base bg-gray-700 cursor-not-allowed text-white rounded-xl flex items-center gap-3 border-2 border-gray-600 opacity-75 w-56"
+                className="h-auto px-5 py-2.5 text-base bg-gray-700 cursor-not-allowed text-white rounded-xl flex items-center gap-2.5 border-2 border-gray-600 opacity-75 w-56"
                 disabled
               >
-                <PlayIcon className="w-8 h-8 opacity-50" />
-                <div className="flex flex-col items-start gap-0.5">
+                <PlayIcon className="w-7 h-7 opacity-50" />
+                <div className="flex flex-col items-start gap-0">
                   <span className="text-[10px] leading-tight opacity-80">GET IT ON</span>
-                  <span className="text-xl font-semibold leading-tight">Google Play</span>
-                  <span className="text-[10px] leading-tight text-gray-400 font-semibold">
+                  <span className="text-lg font-semibold leading-tight">Google Play</span>
+                  <span className="text-[10px] leading-tight text-gray-400 font-semibold mt-0.5">
                     Coming Soon
                   </span>
                 </div>
