@@ -221,13 +221,13 @@
         max-height: 90vh;
       }
     }
-  }
 
-  /* Carousel dot indicators - smaller on mobile */
-  .w-2.h-2.rounded-full,
-  .w-1\.5.h-1\.5.rounded-full {
-    width: 0.125rem !important;  /* 2px for ultra-compact mobile view */
-    height: 0.125rem !important;
+    /* Carousel dot indicators - smaller on mobile */
+    .w-2.h-2.rounded-full,
+    .w-1\.5.h-1\.5.rounded-full {
+      width: 0.125rem !important;  /* 2px for ultra-compact mobile view */
+      height: 0.125rem !important;
+    }
   }
 
 /* Disable animations on mobile for better performance */
