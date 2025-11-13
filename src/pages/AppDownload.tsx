@@ -31,8 +31,7 @@ const AppDownload = () => {
                 size="lg" 
                 className="h-16 px-6 text-base bg-black hover:bg-gray-900 text-white rounded-xl flex items-center gap-3"
                 onClick={() => {
-                  // TODO: Replace with actual App Store link
-                  window.open("#", "_blank");
+                  window.open("https://apps.apple.com/us/app/ventus-smart-rewards/id6754831937", "_blank");
                 }}
               >
                 <Apple className="w-8 h-8" />
