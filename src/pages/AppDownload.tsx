@@ -34,7 +34,7 @@ const AppDownload = () => {
               Download Ventus AI Co-Pilot Today
             </h1>
             <p className="text-lg text-slate-600 mb-8">
-              We believe everyone deserves access to the best deals. That's why we built this free AI-powered tool to help you discover and maximize rewards before we launch the Ventus Card.
+              We believe everyone deserves an easier way to find great deals, so we built a free tool to help people save smarter before we launch Ventus Card. Ventus is your intelligent deals co-pilot, powered by AI that delivers personalized recommendations and live search across the web. Let our AI surface and secure the best offers for you automatically while you focus on what matters.
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
