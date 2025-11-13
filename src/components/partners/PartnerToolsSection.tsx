@@ -72,6 +72,8 @@ const PartnerToolsSection = () => {
   const [currentExamples, setCurrentExamples] = useState<{ [key: number]: number }>({});
   const [isHovered, setIsHovered] = useState<{ [key: number]: boolean }>({});
   const [animatingCards, setAnimatingCards] = useState<{ [key: number]: boolean }>({});
+  const [touchStart, setTouchStart] = useState<{ [key: number]: number | null }>({});
+  const [touchEnd, setTouchEnd] = useState<{ [key: number]: number | null }>({});
 
   useEffect(() => {
     const intervals: { [key: number]: NodeJS.Timeout } = {};
@@ -120,6 +122,38 @@ const PartnerToolsSection = () => {
     setIsHovered(prev => ({ ...prev, [index]: false }));
   };
 
+  // Touch/swipe handlers for mobile
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent, cardIndex: number) => {
+    setTouchEnd(prev => ({ ...prev, [cardIndex]: null }));
+    setTouchStart(prev => ({ ...prev, [cardIndex]: e.targetTouches[0].clientX }));
+  };
+
+  const onTouchMove = (e: React.TouchEvent, cardIndex: number) => {
+    setTouchEnd(prev => ({ ...prev, [cardIndex]: e.targetTouches[0].clientX }));
+  };
+
+  const onTouchEnd = (cardIndex: number, totalExamples: number) => {
+    const start = touchStart[cardIndex];
+    const end = touchEnd[cardIndex];
+    
+    if (!start || !end) return;
+    
+    const distance = start - end;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) {
+      const nextIndex = ((currentExamples[cardIndex] || 0) + 1) % totalExamples;
+      smoothTransition(cardIndex, nextIndex);
+    }
+    if (isRightSwipe) {
+      const prevIndex = ((currentExamples[cardIndex] || 0) - 1 + totalExamples) % totalExamples;
+      smoothTransition(cardIndex, prevIndex);
+    }
+  };
+
   return <section className="py-8 px-4 md:px-8 relative">
       <div className="max-w-7xl mx-auto">
       {/* Background tech pattern */}
@@ -149,6 +183,9 @@ const PartnerToolsSection = () => {
               className="group hover:shadow-2xl hover:shadow-primary/10 transition-all duration-500 border-0 bg-white backdrop-blur-sm hover:scale-105 animate-fade-in overflow-hidden relative"
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
+              onTouchStart={(e) => onTouchStart(e, index)}
+              onTouchMove={(e) => onTouchMove(e, index)}
+              onTouchEnd={() => onTouchEnd(index, tool.examples.length)}
             >
                 {/* Animated background gradient */}
                 <div className={`absolute inset-0 bg-gradient-to-br ${tool.gradient} opacity-0 group-hover:opacity-5 transition-opacity duration-500`}></div>

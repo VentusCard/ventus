@@ -24,6 +24,8 @@ export const VirtualCarousel: React.FC<VirtualCarouselProps> = ({
 }) => {
   const [viewportWidth, setViewportWidth] = useState(1200);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
   
   // Track viewport size for optimal image selection
   useEffect(() => {
@@ -97,8 +99,35 @@ export const VirtualCarousel: React.FC<VirtualCarouselProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [goToNext, goToPrevious]);
 
+  // Touch/swipe handlers
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+    
+    if (isLeftSwipe) goToNext();
+    if (isRightSwipe) goToPrevious();
+  };
+
   return (
-    <div className={cn('relative w-full overflow-hidden', className)}>
+    <div 
+      className={cn('relative w-full overflow-hidden', className)}
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={onTouchEnd}
+    >
       {/* Virtual slide container */}
       <div className="relative h-[50vh] md:h-[60vh] lg:h-[65vh] flex items-center justify-center">
         {visibleSlides.map((slide) => {

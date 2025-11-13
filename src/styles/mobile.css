@@ -222,11 +222,12 @@
       }
     }
 
-    /* Carousel dot indicators - smaller on mobile */
+    /* Hide all carousel dot indicators on mobile */
     .w-2.h-2.rounded-full,
-    .w-1\.5.h-1\.5.rounded-full {
-      width: 0.125rem !important;  /* 2px for ultra-compact mobile view */
-      height: 0.125rem !important;
+    .w-1\.5.h-1\.5.rounded-full,
+    [class*="w-1.5"][class*="h-1.5"].rounded-full,
+    [class*="w-2"][class*="h-2"].rounded-full {
+      display: none !important;
     }
   }
 
