@@ -1,6 +1,12 @@
 import { Apple, PlayIcon, Twitter, Facebook, Linkedin, MessageCircle, Mail, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
@@ -10,15 +16,36 @@ const AppDownload = () => {
   const pageUrl = "https://ventuscard.com/app";
   const shareMessage = "Check out Ventus AI Co-Pilot - Your intelligent deals companion! Download now:";
 
-  const handleShare = (platform: string) => {
+  const handleShare = async (platform: string) => {
     const encodedUrl = encodeURIComponent(pageUrl);
     const encodedMessage = encodeURIComponent(shareMessage);
+
+    // Handle native share for messaging
+    if (platform === "message") {
+      if (navigator.share) {
+        try {
+          await navigator.share({
+            title: 'Ventus AI Co-Pilot',
+            text: shareMessage,
+            url: pageUrl,
+          });
+          return;
+        } catch (err) {
+          // User cancelled or not supported, dropdown will be available
+          return;
+        }
+      }
+      // If Web Share API not available, dropdown handles it
+      return;
+    }
 
     const urls: Record<string, string> = {
       twitter: `https://twitter.com/intent/tweet?text=${encodedMessage}&url=${encodedUrl}`,
       facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
       linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
       whatsapp: `https://wa.me/?text=${encodedMessage}%20${encodedUrl}`,
+      sms: `sms:?&body=${encodedMessage}%20${encodedUrl}`,
+      telegram: `https://t.me/share/url?url=${encodedUrl}&text=${encodedMessage}`,
       email: `mailto:?subject=${encodeURIComponent("Check out Ventus AI Co-Pilot")}&body=${encodedMessage}%20${encodedUrl}`,
     };
 
@@ -131,13 +158,47 @@ const AppDownload = () => {
                 >
                   <Linkedin className="w-5 h-5" />
                 </button>
-                <button
-                  onClick={() => handleShare("whatsapp")}
-                  className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
-                  aria-label="Share on WhatsApp"
-                >
-                  <MessageCircle className="w-5 h-5" />
-                </button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <button
+                      className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                      aria-label="Share via Message"
+                      onClick={(e) => {
+                        // Try native share on click
+                        if (navigator.share) {
+                          e.preventDefault();
+                          handleShare("message");
+                        }
+                        // Otherwise dropdown will open
+                      }}
+                    >
+                      <MessageCircle className="w-5 h-5" />
+                    </button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent className="bg-background z-50">
+                    <DropdownMenuItem
+                      onClick={() => handleShare("sms")}
+                      className="cursor-pointer"
+                    >
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      iMessage/SMS
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleShare("whatsapp")}
+                      className="cursor-pointer"
+                    >
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      WhatsApp
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => handleShare("telegram")}
+                      className="cursor-pointer"
+                    >
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      Telegram
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
                 <button
                   onClick={() => handleShare("email")}
                   className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
