@@ -1,11 +1,41 @@
-import { Apple, PlayIcon } from "lucide-react";
+import { Apple, PlayIcon, Twitter, Facebook, Linkedin, MessageCircle, Mail, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { toast } from "sonner";
 import appHeroImage from "@/assets/app-hero.png";
 
 const AppDownload = () => {
+  const pageUrl = "https://ventuscard.com/app";
+  const shareMessage = "Check out Ventus AI Co-Pilot - Your intelligent deals companion! Download now:";
+
+  const handleShare = (platform: string) => {
+    const encodedUrl = encodeURIComponent(pageUrl);
+    const encodedMessage = encodeURIComponent(shareMessage);
+
+    const urls: Record<string, string> = {
+      twitter: `https://twitter.com/intent/tweet?text=${encodedMessage}&url=${encodedUrl}`,
+      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+      linkedin: `https://www.linkedin.com/sharing/share-offsite/?url=${encodedUrl}`,
+      whatsapp: `https://wa.me/?text=${encodedMessage}%20${encodedUrl}`,
+      email: `mailto:?subject=${encodeURIComponent("Check out Ventus AI Co-Pilot")}&body=${encodedMessage}%20${encodedUrl}`,
+    };
+
+    if (platform === "copy") {
+      navigator.clipboard.writeText(pageUrl).then(() => {
+        toast.success("Link copied to clipboard!");
+      }).catch(() => {
+        toast.error("Failed to copy link");
+      });
+      return;
+    }
+
+    if (urls[platform]) {
+      window.open(urls[platform], "_blank", "noopener,noreferrer");
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 relative overflow-hidden">
       {/* Atmospheric Blue Overlays */}
@@ -74,6 +104,55 @@ const AppDownload = () => {
                   </span>
                 </div>
               </Button>
+            </div>
+            
+            {/* Social Sharing Section */}
+            <div className="mt-12 pt-8 border-t border-slate-200">
+              <p className="text-sm text-slate-600 mb-4">Share with friends</p>
+              <div className="flex gap-3 justify-center flex-wrap">
+                <button
+                  onClick={() => handleShare("twitter")}
+                  className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  aria-label="Share on Twitter"
+                >
+                  <Twitter className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleShare("facebook")}
+                  className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  aria-label="Share on Facebook"
+                >
+                  <Facebook className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleShare("linkedin")}
+                  className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  aria-label="Share on LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleShare("whatsapp")}
+                  className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  aria-label="Share on WhatsApp"
+                >
+                  <MessageCircle className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleShare("email")}
+                  className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  aria-label="Share via Email"
+                >
+                  <Mail className="w-5 h-5" />
+                </button>
+                <button
+                  onClick={() => handleShare("copy")}
+                  className="w-12 h-12 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 flex items-center justify-center transition-all duration-200 hover:scale-110"
+                  aria-label="Copy Link"
+                >
+                  <Link className="w-5 h-5" />
+                </button>
+              </div>
             </div>
             </div>
           </CardContent>
