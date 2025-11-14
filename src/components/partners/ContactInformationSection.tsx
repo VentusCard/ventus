@@ -133,7 +133,7 @@ const ContactInformationSection = ({
       };
 
       // Submit the form
-      const response = await fetch('https://script.google.com/macros/s/AKfycbwkoEyfHrqnvO0pineSeEecN33h5IvqhaP1vOQPaQxQwiA99qu0kKKE9oYWn5_Wzctt/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxi7ANbqg5kkeS-WCDE7MewaNl3rSI84d9Ql4BVqXzxCz75HttUogAQBAXMOUT1VLfQ/exec', {
         method: 'POST',
         mode: 'no-cors',
         headers: {

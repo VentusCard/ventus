@@ -65,7 +65,7 @@ const JoinWaitlist = () => {
         bodyContent: urlEncodedData
       });
 
-      const response = await fetch('https://script.google.com/macros/s/AKfycbzUjoWHPD7UPljx7Bc0V8IY-BVv2xcKRAvfeojE6HMvf5hyp2-KRVol42uw4ZBGCxVO/exec', {
+      const response = await fetch('https://script.google.com/macros/s/AKfycbxi7ANbqg5kkeS-WCDE7MewaNl3rSI84d9Ql4BVqXzxCz75HttUogAQBAXMOUT1VLfQ/exec', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded'
