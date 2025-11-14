@@ -104,6 +104,11 @@ const WaitlistForm = ({
       submitFormData.append('estimatedPoints', onboardingData.estimatedPoints.toString());
     }
 
+    // Debug: log outgoing fields
+    for (const [key, value] of submitFormData.entries()) {
+      console.log('[WaitlistForm] submitting', key, value);
+    }
+
     try {
       const response = await fetch('https://script.google.com/macros/s/AKfycbz5cNxCadlHqNtH1wRP19Oez1d6IfRKCi5sp7He4DWUaK0X2lCty42NHc8cmPRUsuDP/exec', {
         method: 'POST',
@@ -196,7 +201,7 @@ const WaitlistForm = ({
               </SelectContent>
             </Select>
             {/* Hidden input for form submission */}
-            <input type="hidden" name="interest" value={formData.interest} />
+            <input type="hidden" name="interest" value={lifestyleCategories.find(cat => cat.value === formData.interest)?.label || formData.interest} />
           </div>
 
           <div className="form-field">
