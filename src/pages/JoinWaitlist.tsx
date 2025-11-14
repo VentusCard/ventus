@@ -204,8 +204,9 @@ const JoinWaitlist = () => {
                     name="interest" 
                     className={`mobile-select flex h-12 w-full rounded-md border bg-white px-3 py-2 text-base ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 transition-all duration-200 ${hasAttemptedSubmit ? "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400 invalid:border-red-500 invalid:focus-visible:border-red-500 invalid:focus-visible:ring-red-500" : "border-slate-200 focus-visible:border-blue-400 focus-visible:ring-blue-400"}`}
                     required
+                    defaultValue=""
                   >
-                    <option value="" disabled>Select your main interest category</option>
+                    <option value="" disabled selected>Select your main interest category</option>
                     {categories.map((category) => (
                       <option key={category.value} value={category.value}>
                         {category.label}
