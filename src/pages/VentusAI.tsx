@@ -100,27 +100,6 @@ const VentusAI = () => {
       {/* Chatbot Section */}
       
 
-      {/* Live Chatbot Section */}
-      <section id="live-chat-section" className="py-8 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-6">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-2">
-            Try Ventus AI Live
-          </h2>
-          <p className="text-xl text-white/70 max-w-3xl mx-auto">
-            Experience our AI assistant in real-time. Get instant answers about credit card rewards and personalized optimization strategies.
-          </p>
-        </div>
-
-        <Card className="premium-card max-w-6xl mx-auto">
-          <CardContent className="p-3 md:p-4">
-            <div className="w-full chat-container">
-              <iframe src="https://udify.app/chatbot/JdL6WFvmKXjD3NaU" className="responsive-chat-iframe" frameBorder="0" allow="microphone" title="Ventus AI Live Chatbot" loading="lazy" />
-            </div>
-            
-            <p className="text-white/50 text-sm text-center mt-2">Ventus AI is currently in development. Join our waitlist to be the first to experience Ventus Smart Rewards.</p>
-          </CardContent>
-        </Card>
-      </section>
 
       {/* CTA Section */}
       <section className="py-8 px-4 md:px-8 max-w-7xl mx-auto text-center">
@@ -132,9 +111,9 @@ const VentusAI = () => {
             <p className="text-xl card-description mb-4 max-w-2xl mx-auto">
               Join thousands of users who are already earning more with intelligent reward optimization. Be among the first to experience Ventus AI.
             </p>
-            <Link to="/smartrewards">
+            <Link to="/app">
               <Button className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
-                Join the Waitlist
+                Try Ventus AI
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </Link>
