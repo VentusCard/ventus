@@ -943,9 +943,15 @@ const TePilot = () => {
                   <PersonaCard
                     icon={Building2}
                     title="Bank Leadership"
-                    description="Access portfolio-wide analytics, demographic breakdowns, and strategic insights across 70M accounts."
-                    buttonText="View Dashboard"
-                    buttonVariant="default"
+                    valueProposition="Make data-driven decisions across your entire portfolio"
+                    description="Understand customer behavior patterns, identify growth opportunities, and optimize product strategy with portfolio-wide intelligence."
+                    keyFeatures={[
+                      "70M+ accounts analyzed across all card products",
+                      "Demographic breakdowns by age, region, and spending habits",
+                      "Cross-sell opportunity matrix with revenue projections",
+                      "Real-time pillar distribution and gap analysis"
+                    ]}
+                    buttonText="View Bank-wide Dashboard"
                     onClick={() => setInsightType('bankwide')}
                   />
 
@@ -953,8 +959,15 @@ const TePilot = () => {
                   <PersonaCard
                     icon={TrendingUp}
                     title="Rewards Team"
-                    description="Generate revenue opportunities, analyze spending gaps, and identify cross-sell potential for card products."
-                    buttonText="Generate Opportunities"
+                    valueProposition="Unlock millions in untapped revenue potential"
+                    description="AI-powered analysis identifies where customers are spending elsewhere and generates targeted offers to win that wallet share back."
+                    keyFeatures={[
+                      "AI detects spending gaps in 70+ subcategories",
+                      "Personalized merchant recommendations with projected lift",
+                      "Card product optimization suggestions",
+                      "ROI estimates for each opportunity"
+                    ]}
+                    buttonText="Generate Revenue Opportunities"
                     buttonVariant="ai"
                     badge="AI Powered"
                     onClick={() => {
@@ -971,9 +984,15 @@ const TePilot = () => {
                   <PersonaCard
                     icon={Users}
                     title="Wealth Management"
-                    description="Detect life events, analyze lifestyle signals, and generate personalized talking points for client relationships."
-                    buttonText="Access Management Tool"
-                    buttonVariant="outline"
+                    valueProposition="Transform transactions into relationship insights"
+                    description="Detect major life events from spending patterns and receive AI-generated talking points to deepen client relationships and drive AUM growth."
+                    keyFeatures={[
+                      "Automatic life event detection (home purchase, baby, travel)",
+                      "Personalized product recommendations with rationale",
+                      "Ready-to-use conversation starters",
+                      "Action items prioritized by opportunity size"
+                    ]}
+                    buttonText="Access Wealth Management Tool"
                     badge="Premium"
                     onClick={async () => {
                       if (!isRelationshipUnlocked) {

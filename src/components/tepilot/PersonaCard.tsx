@@ -2,13 +2,15 @@ import { LucideIcon } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Lock, ArrowRight } from "lucide-react";
+import { Lock, ArrowRight, Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface PersonaCardProps {
   icon: LucideIcon;
   title: string;
+  valueProposition: string;
   description: string;
+  keyFeatures: string[];
   buttonText: string;
   buttonVariant?: "default" | "outline" | "ai";
   badge?: string;
@@ -20,7 +22,9 @@ interface PersonaCardProps {
 export function PersonaCard({
   icon: Icon,
   title,
+  valueProposition,
   description,
+  keyFeatures,
   buttonText,
   buttonVariant = "default",
   badge,
@@ -31,19 +35,19 @@ export function PersonaCard({
   return (
     <Card
       className={cn(
-        "group relative transition-all duration-200 hover:shadow-md border-border",
+        "group relative transition-all duration-200 hover:shadow-md border-border min-h-[450px] flex flex-col",
         disabled && "opacity-50 cursor-not-allowed",
         !disabled && "hover:border-primary/20"
       )}
     >
-      <CardHeader className="pb-3">
+      <CardHeader className="pb-4">
         <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3">
-            <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-muted group-hover:bg-muted/80 transition-colors">
-              <Icon className="w-6 h-6 text-muted-foreground" />
+          <div className="flex items-center gap-4">
+            <div className="flex items-center justify-center w-16 h-16 rounded-lg bg-gradient-to-br from-muted to-muted/80 group-hover:from-muted/80 group-hover:to-muted/60 transition-all">
+              <Icon className="w-8 h-8 text-foreground" />
             </div>
             <div>
-              <CardTitle className="text-lg leading-tight">{title}</CardTitle>
+              <CardTitle className="text-xl leading-tight">{title}</CardTitle>
             </div>
           </div>
           {badge && (
@@ -54,14 +58,31 @@ export function PersonaCard({
         </div>
       </CardHeader>
 
-      <CardContent className="space-y-4">
-        <CardDescription className="text-sm leading-relaxed min-h-[48px]">
+      <CardContent className="space-y-6 flex flex-col flex-grow p-8 pt-0">
+        {/* Value Proposition */}
+        <div className="text-lg font-medium text-primary leading-tight">
+          {valueProposition}
+        </div>
+
+        {/* Description */}
+        <CardDescription className="text-sm leading-relaxed">
           {description}
         </CardDescription>
 
+        {/* Key Features */}
+        <div className="space-y-2.5 flex-grow">
+          {keyFeatures.map((feature, idx) => (
+            <div key={idx} className="flex items-start gap-2.5">
+              <Check className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+              <span className="text-sm text-muted-foreground leading-relaxed">{feature}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Button */}
         <Button
           variant={buttonVariant}
-          className="w-full group-hover:shadow-sm transition-shadow"
+          className="w-full group-hover:shadow-sm transition-shadow mt-auto"
           onClick={onClick}
           disabled={disabled}
         >
