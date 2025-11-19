@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -28,9 +28,11 @@ import { BankwideView } from "@/components/tepilot/insights/BankwideView";
 import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { RelationshipManagementCard } from "@/components/tepilot/RelationshipManagementCard";
 import { AdvisorConsole } from "@/components/tepilot/advisor-console/AdvisorConsole";
+import { GeoLocationDealsSection } from "@/components/tepilot/geo-location/GeoLocationDealsSection";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
+import { extractLocationContext } from "@/lib/geoLocationUtils";
 import { supabase } from "@/integrations/supabase/client";
 import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
 import { AIInsights } from "@/types/lifestyle-signals";
@@ -858,67 +860,79 @@ const TePilot = () => {
                   </Button>
                 </div>
                 
-                {/* Top 5 Subcategories Card */}
-                {recommendations.topSubcategories && <Card>
-                    <CardHeader>
-                      <CardTitle>Top 5 Spending Subcategories</CardTitle>
-                      <CardDescription>
-                        Most significant subcategory spending patterns
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                        {recommendations.topSubcategories.map((subcat: any, index: number) => {
-                    const color = PILLAR_COLORS[subcat.pillar] || "#64748b";
-                    return <Card key={subcat.subcategory} className="relative overflow-hidden hover:shadow-lg transition-all">
-                              <div className="absolute top-0 left-0 right-0 h-1" style={{
-                        backgroundColor: color
-                      }} />
-                              <CardContent className="pt-6 p-4">
-                                <div className="space-y-3">
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full font-semibold text-sm" style={{
-                              backgroundColor: `${color}20`,
-                              color: color
-                            }}>
-                                      {index + 1}
-                                    </div>
-                                  </div>
-                                  
-                                  <div>
-                                    <div className="font-medium text-sm mb-1 line-clamp-2">
-                                      {subcat.subcategory}
-                                    </div>
-                                    <div className="text-xs text-muted-foreground">
-                                      {subcat.pillar}
-                                    </div>
-                                  </div>
-                                  
-                                  <div>
-                                    <div className="text-xl font-bold" style={{
-                              color
-                            }}>
-                                      ${subcat.totalSpend.toLocaleString()}
-                                    </div>
-                                    <div className="text-xs text-muted-foreground">
-                                      {subcat.visits} transactions
-                                    </div>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>;
-                  })}
-                      </div>
-                    </CardContent>
-                  </Card>}
-                
-                <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-              total_estimated_value: {
-                monthly: 0,
-                annual: 0
-              },
-              message: "No recommendations available"
-            }} />
+                {/* Extract location context for geo-based deals */}
+                {useMemo(() => {
+                  const locationContext = extractLocationContext(displayTransactions);
+                  
+                  return (
+                    <>
+                      {/* Top 5 Subcategories Card */}
+                      {recommendations.topSubcategories && <Card>
+                          <CardHeader>
+                            <CardTitle>Top 5 Spending Subcategories</CardTitle>
+                            <CardDescription>
+                              Most significant subcategory spending patterns
+                            </CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+                              {recommendations.topSubcategories.map((subcat: any, index: number) => {
+                          const color = PILLAR_COLORS[subcat.pillar] || "#64748b";
+                          return <Card key={subcat.subcategory} className="relative overflow-hidden hover:shadow-lg transition-all">
+                                    <div className="absolute top-0 left-0 right-0 h-1" style={{
+                              backgroundColor: color
+                            }} />
+                                    <CardContent className="pt-6 p-4">
+                                      <div className="space-y-3">
+                                        <div className="flex items-center justify-between">
+                                          <div className="flex items-center justify-center w-8 h-8 rounded-full font-semibold text-sm" style={{
+                                    backgroundColor: `${color}20`,
+                                    color: color
+                                  }}>
+                                            {index + 1}
+                                          </div>
+                                        </div>
+                                        
+                                        <div>
+                                          <div className="font-medium text-sm mb-1 line-clamp-2">
+                                            {subcat.subcategory}
+                                          </div>
+                                          <div className="text-xs text-muted-foreground">
+                                            {subcat.pillar}
+                                          </div>
+                                        </div>
+                                        
+                                        <div>
+                                          <div className="text-xl font-bold" style={{
+                                    color
+                                  }}>
+                                            ${subcat.totalSpend.toLocaleString()}
+                                          </div>
+                                          <div className="text-xs text-muted-foreground">
+                                            {subcat.visits} transactions
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </CardContent>
+                                  </Card>;
+                        })}
+                            </div>
+                          </CardContent>
+                        </Card>}
+                      
+                      <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
+                    total_estimated_value: {
+                      monthly: 0,
+                      annual: 0
+                    },
+                    message: "No recommendations available"
+                  }} />
+                  
+                      {/* Geo-Location Deals Section */}
+                      <GeoLocationDealsSection locationContext={locationContext} />
+                    </>
+                  );
+                }, [displayTransactions, recommendations])}
               </div>}
 
             {insightType === 'relationship' && <div className="space-y-6">
