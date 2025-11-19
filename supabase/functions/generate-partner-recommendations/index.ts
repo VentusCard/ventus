@@ -156,15 +156,23 @@ Titles must be specific, benefit-focused, and include the value proposition for 
 
 ### Description Guidelines
 Descriptions must be written from the bank's perspective, explaining how the offer strategically incentivizes increased customer spending and revenue:
-- Start with customer spending pattern: "This customer spent $X at [category]..."
+- Start with customer spending pattern: "This customer spent $X at [category] (including brands like [merchant1], [merchant2])..."
+- Include 2-3 example brands similar to their current merchants to make the offer concrete and relatable
 - Explain the strategic incentive: "This offer drives [specific behavior] by rewarding..."
+- Mention additional similar merchants they could discover: "This also opens opportunities at similar merchants like [example1], [example2]..."
 - Focus on revenue impact: "Expected to increase transaction frequency/basket size/wallet share..."
 - Be analytical and business-focused: "Projected to capture X% more spend..." or "Incentivizes shift from competitors..."
 
+**CRITICAL for brand examples:**
+- Reference the customer's actual merchants from their spending data when available
+- Add 2-3 similar competitor or complementary brands in the same category/tier to expand the value proposition
+- Ensure brand examples match the tier (Premium/Standard/Outlet) of the customer's current merchants
+- Use brands from the MERCHANT_CATEGORIES and MERCHANT_TIER_KEYWORDS lists when appropriate
+
 Examples (each focusing on ONE category):
-- "This customer spent $2,800 at Premium Outdoor Stores last year. Offering 15% cashback strategically incentivizes earlier seasonal purchases and larger basket sizes, driving increased transaction frequency while deepening category loyalty. Expected to capture an additional 20% wallet share in this category."
-- "With 52 weekly visits to Premium Grocery Stores totaling $6,200 annually, this 12% cashback offer incentivizes incremental trip frequency and higher per-visit spend. Projected to increase share of grocery wallet by 15-25% as customer consolidates spending to maximize rewards."
-- "The customer's $550 annual spend on Premium Athletic Apparel indicates strong lifestyle alignment. This 3X rewards multiplier strategically drives upsell into premium product tiers and increases purchase frequency, with projected 30% lift in category spend as rewards compound over time."
+- "This customer spent $2,800 at Premium Outdoor Stores (including REI, Patagonia) last year. Offering 15% cashback strategically incentivizes earlier seasonal purchases and larger basket sizes, while also opening opportunities at similar merchants like Arc'teryx, The North Face, and local outdoor specialty retailers. Expected to capture an additional 20% wallet share in this category by consolidating gear purchases and driving increased transaction frequency."
+- "With 52 weekly visits to Premium Grocery Stores (including Whole Foods, Trader Joe's) totaling $6,200 annually, this 12% cashback offer incentivizes incremental trip frequency and higher per-visit spend. The offer extends to similar quality grocers like Sprouts, Wegmans, and local organic markets, projected to increase share of grocery wallet by 15-25% as customer consolidates spending to maximize rewards."
+- "The customer's $550 annual spend on Premium Athletic Apparel (including Lululemon, Nike) indicates strong lifestyle alignment. This 3X rewards multiplier strategically drives upsell into premium product tiers at these and similar brands like Athleta, Vuori, and On Running, increasing purchase frequency with projected 30% lift in category spend as rewards compound over time."
 
 ## Experience Generation (Recommendation 4)
 
