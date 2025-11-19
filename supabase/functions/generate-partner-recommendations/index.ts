@@ -113,7 +113,7 @@ CRITICAL: Generate ALL details dynamically based on the customer's actual spendi
 
 ## Output Structure
 
-You MUST return EXACTLY 7 recommendations following this structure:
+You MUST return EXACTLY 8 recommendations following this structure:
 
 - Recommendation 1: Deal for TOP SUBCATEGORY #1 (highest spending subcategory)
   - tier: "deal", priority: 1, lift_type: varies based on strategy
@@ -137,9 +137,13 @@ You MUST return EXACTLY 7 recommendations following this structure:
   - tier: "experience", priority: 6, lift_type: "experience"
   - Premium, aspirational experience aligned with top lifestyle categories
   
-- Recommendation 7: FINANCIAL PRODUCT
-  - tier: "financial_product", priority: 7, lift_type: "financial_product"
-  - Credit card or banking product tailored to their spending patterns
+- Recommendation 7: CARD DEAL
+  - tier: "card_product", priority: 7, lift_type: "card_product"
+  - Credit/debit card with rewards structure matching their spending patterns
+  
+- Recommendation 8: FINANCIAL PRODUCT
+  - tier: "financial_product", priority: 8, lift_type: "financial_product"
+  - Lending, BNPL, savings, or investment products based on their financial profile
 
 ## Deal Generation Guidelines (Recommendations 1-5)
 
@@ -246,22 +250,76 @@ Create ONE aspirational benefit that matches their lifestyle. Examples:
 
 YOU decide the value amount ($200-$1000) and specific benefits.
 
-## Financial Product Generation (Recommendation 7)
+## Card Deal Generation (Recommendation 7)
 
-Create ONE credit card or financial product that serves this customer. YOU design soemething that must sound like real bank products, see examples::
-- Credit Card name (must sound like real bank products: "Premium Travel Rewards", "Lifestyle Cashback Plus", etc.)
-- Earn rates (1X-5X points on different categories)
-- Annual fee ($0-$550)
-- Annual credits/benefits ($100-$500 value)
-- Estimated annual value (calculate based on their spend)
-- Buy Now Pay Later Products for Large Purchaess
-- Home Loan and Lending Products
-- Other investments and financial products
+Create ONE credit or debit card product tailored to their spending patterns. Focus on maximizing rewards in their top categories.
 
-Examples:
-- Travel spender: "3X on travel/dining, 2X on gas, $300 annual travel credit, $95 fee"
-- Grocery spender: "4X on groceries, 2X on gas, $150 grocery credit, $0 fee"
-- Everything: "2% on all purchases, no annual fee"
+**Card Design Elements:**
+- Card Name: Must sound like real bank products
+  - Examples: "Premium Travel Rewards Card", "Everyday Cashback Plus", "Home & Lifestyle Rewards Mastercard"
+- Earn Rates: Design multipliers (1X-5X points) for their top spending categories
+  - Example: "3X points on Home Improvement, 2X on Groceries, 1X on everything else"
+- Annual Fee: $0 to $550 (adjust based on benefits)
+- Annual Credits/Benefits: $100-$500 value in statement credits or perks
+- Estimated Annual Value: Calculate based on their actual spending pattern
+
+**Card Type Examples by Spending Profile:**
+- Travel spender → "3X on travel/dining, 2X on gas, $300 annual travel credit, $95 fee"
+- Grocery spender → "4X on groceries, 2X on gas, $150 grocery credit, $0 fee"
+- Home spender → "3X on home improvement/furnishing, 2X on utilities, $200 home credit, $75 fee"
+- Everything → "2% cashback on all purchases, no annual fee"
+
+**Output Fields:**
+- card_id: "CARD_GEN_001"
+- title: Card product name
+- description: Earn structure, benefits, and value proposition
+- category: "Credit Cards" or "Debit Cards"
+- annual_fee: Dollar amount
+- estimated_annual_value: Calculated rewards value
+- tier: "card_product"
+- priority: 7
+- lift_type: "card_product"
+
+## Financial Product Generation (Recommendation 8)
+
+Create ONE non-card financial product that serves their specific financial needs based on spending patterns and life stage.
+
+**Product Categories:**
+1. **Home Loans & Mortgages**
+   - For customers with high home improvement spending
+   - Examples: "Home Equity Line of Credit (HELOC)", "Green Home Improvement Loan"
+   
+2. **Buy Now Pay Later (BNPL)**
+   - For customers with large ticket purchases
+   - Examples: "Large Purchase Installment Plan (0% APR for 12 months)", "Flexible Payment Plan"
+   
+3. **Personal Loans**
+   - For customers with diverse spending needs
+   - Examples: "Debt Consolidation Loan", "Personal Line of Credit"
+   
+4. **Savings & Investment Products**
+   - For customers with high discretionary spend
+   - Examples: "High-Yield Savings Account (4.5% APY)", "Auto-Save Investment Account"
+   
+5. **Auto Loans & Financing**
+   - For customers with auto-related spending
+   - Examples: "New Car Financing (2.9% APR)", "Auto Refinance Loan"
+
+**Selection Criteria:**
+- High Home/Furnishing spend → Suggest Home Equity products or home improvement loans
+- Large single purchases → Suggest BNPL or installment plans
+- High overall spend with low savings indicators → Suggest savings accounts
+- Frequent travel → Suggest travel insurance or travel savings products
+
+**Output Fields:**
+- product_id: "PROD_GEN_001"
+- title: Financial product name
+- description: Product features, rates/terms, and benefits
+- category: "Lending Products", "BNPL", "Savings Products", "Investment Products"
+- estimated_value: Annual value or savings
+- tier: "financial_product"
+- priority: 8
+- lift_type: "financial_product"
 
 ## Merchant Anonymization Rules
 
@@ -417,30 +475,33 @@ Return EXACTLY this structure:
     }
   ],
   "summary": {
-    "recommendations_count": 7,
+    "recommendations_count": 8,
     "strategy_mix": {
       "premium_upsells": 1,
       "adjacent_categories": 2,
       "ticket_expansion": 1,
       "frequency_multipliers": 1,
       "experiences": 1,
+      "card_products": 1,
       "financial_products": 1
     },
-    "incremental_revenue_potential": "Qualitative summary of revenue impact across all 7 recommendations",
-    "message": "Brief explanation of recommendation strategy focusing on subcategories and adjacent opportunities"
+    "incremental_revenue_potential": "Qualitative summary of revenue impact across all 8 recommendations",
+    "message": "Brief explanation of recommendation strategy focusing on subcategories, adjacent opportunities, card product, and financial product"
   }
 }
 \`\`\`
 
 REMEMBER: 
-- Generate EXACTLY 7 recommendations
-- Priorities 1-7 in exact order
+- Generate EXACTLY 8 recommendations (not 7)
+- Priorities 1-8 in exact order
 - Recommendations 1, 3, 5: Top 3 subcategory deals (tier="deal")
 - Recommendations 2, 4: Adjacent deals (tier="deal", lift_type="adjacent_subcategory")
 - Recommendation 6: Experience (tier="experience", lift_type="experience")
-- Recommendation 7: Financial Product (tier="financial_product", lift_type="financial_product")
+- Recommendation 7: Card Product (tier="card_product", use card_id not product_id)
+- Recommendation 8: Financial Product (tier="financial_product", use product_id)
 - All merchant names MUST be anonymized
 - Adjacent deals must be DIFFERENT but logically connected subcategories
+- Card and financial product must be DISTINCT offerings
 - Return ONLY valid JSON, no markdown
 - Be creative and realistic - these should feel like real banking offers`;
 
@@ -488,7 +549,7 @@ serve(async (req) => {
       )
       .join("\n") || "No subcategory data available";
 
-    const userPrompt = `Generate 7 personalized recommendations for this customer:
+    const userPrompt = `Generate 8 personalized recommendations for this customer:
 
 SPENDING PROFILE:
 - Total Annual Spend: $${insights.totalSpend}
@@ -513,7 +574,10 @@ CRITICAL INSTRUCTIONS:
 2. Recommendations 1, 3, 5: Create deals for the top 3 subcategories
 3. Recommendations 2, 4: Create ADJACENT/COMPLEMENTARY deals to subcategories 1 and 2
 4. Recommendation 6: Create an aspirational EXPERIENCE aligned with their lifestyle
-5. Recommendation 7: Create a FINANCIAL PRODUCT that maximizes rewards in their top categories
+5. Recommendation 7: Create a CARD PRODUCT with rewards structure matching their top spending categories
+6. Recommendation 8: Create a non-card FINANCIAL PRODUCT (loan, BNPL, savings, etc.) based on their spending patterns and financial needs
+
+Generate EXACTLY 8 recommendations following this structure.
 
 Remember to anonymize all merchant names in your output!`;
 
