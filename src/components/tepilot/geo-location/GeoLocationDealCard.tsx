@@ -33,19 +33,7 @@ export function GeoLocationDealCard({ category, location, isTravel }: GeoLocatio
       {/* COLLAPSED TRIGGER */}
       <AccordionTrigger className="hover:no-underline">
         <div className="flex items-center justify-between w-full pr-4">
-          <div className="flex flex-col items-start gap-2">
-            <h3 className="font-semibold text-lg text-left">{category.title}</h3>
-            <div className="flex gap-2 items-center flex-wrap">
-              <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-700">
-                {location}
-              </Badge>
-              {isTravel && (
-                <Badge variant="outline" className="bg-purple-50 border-purple-200 text-purple-700">
-                  Travel
-                </Badge>
-              )}
-            </div>
-          </div>
+          <h3 className="font-semibold text-lg text-left">{category.title}</h3>
         </div>
       </AccordionTrigger>
 
