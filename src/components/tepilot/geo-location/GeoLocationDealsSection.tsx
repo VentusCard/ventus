@@ -1,5 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { Accordion } from "@/components/ui/accordion";
 import { MapPin, Plane } from "lucide-react";
 import { CityDealCardWrapper } from "./CityDealCardWrapper";
 import { GEO_DEAL_CATEGORIES } from "./dealCategories";
@@ -38,7 +39,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                 Home Location: {homeCity}
               </h3>
             </div>
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+            <Accordion type="single" collapsible className="w-full">
               {Object.entries(GEO_DEAL_CATEGORIES).map(([key, category]) => (
                 <CityDealCardWrapper
                   key={category.title}
@@ -48,7 +49,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                   isTravel={false}
                 />
               ))}
-            </div>
+            </Accordion>
           </div>
         )}
         
@@ -67,7 +68,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                     ({travel.transactionCount} transactions detected)
                   </span>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
+                <Accordion type="single" collapsible className="w-full">
                   {Object.entries(GEO_DEAL_CATEGORIES).map(([key, category]) => (
                     <CityDealCardWrapper
                       key={`${travel.destination}-${category.title}`}
@@ -77,7 +78,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                       isTravel={true}
                     />
                   ))}
-                </div>
+                </Accordion>
               </div>
             ))}
           </>
