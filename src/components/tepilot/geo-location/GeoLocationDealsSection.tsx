@@ -38,7 +38,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                 Home Location: {homeCity}
               </h3>
             </div>
-            <div className="space-y-3">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
               {Object.entries(GEO_DEAL_CATEGORIES).map(([key, category]) => (
                 <CityDealCardWrapper
                   key={category.title}
@@ -67,7 +67,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                     ({travel.transactionCount} transactions detected)
                   </span>
                 </div>
-                <div className="space-y-3">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-3">
                   {Object.entries(GEO_DEAL_CATEGORIES).map(([key, category]) => (
                     <CityDealCardWrapper
                       key={`${travel.destination}-${category.title}`}

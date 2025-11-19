@@ -28,40 +28,37 @@ export function GeoLocationDealCard({ category, location, isTravel }: GeoLocatio
   const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Landmark;
   
   return (
-    <Card className="hover:shadow-lg transition-shadow">
-      <div className="flex items-start gap-4 p-6">
-        {/* Left side - Icon and Title */}
-        <div className="flex items-start gap-4 min-w-0 flex-1">
-          <div className="p-3 bg-primary/10 rounded-lg shrink-0">
-            <IconComponent className="h-6 w-6 text-primary" />
+    <Card className="hover:shadow-lg transition-all border-l-4 border-l-primary/40">
+      <div className="p-4">
+        {/* Compact header with inline icon */}
+        <div className="flex items-start gap-2 mb-2">
+          <div className="p-1.5 bg-primary/10 rounded shrink-0">
+            <IconComponent className="h-4 w-4 text-primary" />
           </div>
-          <div className="min-w-0 flex-1">
-            <div className="flex items-start justify-between gap-3 mb-2">
-              <div className="min-w-0">
-                <CardTitle className="text-lg mb-1">{category.title}</CardTitle>
-                <p className="text-sm text-muted-foreground">
-                  {location}
-                </p>
-              </div>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-2 flex-wrap">
+              <h3 className="text-base font-semibold">{category.title}</h3>
+              <span className="text-xs text-muted-foreground">· {location}</span>
               {isTravel && (
-                <Badge variant="secondary" className="shrink-0">Travel</Badge>
+                <Badge variant="secondary" className="text-xs py-0 h-5">Travel</Badge>
               )}
             </div>
-            <p className="text-sm text-muted-foreground mb-3">
-              {category.description}
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              {category.exampleDeals.map((deal, idx) => (
-                <div key={idx} className="flex items-start gap-2 text-sm">
-                  <div className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                  <div className="min-w-0">
-                    <div className="font-medium">{deal.type}</div>
-                    <div className="text-muted-foreground text-xs truncate">{deal.merchantExample}</div>
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
+        </div>
+        
+        {/* Description */}
+        <p className="text-xs text-muted-foreground mb-2.5 ml-8">
+          {category.description}
+        </p>
+        
+        {/* Compact deals display */}
+        <div className="space-y-1 ml-8">
+          {category.exampleDeals.map((deal, idx) => (
+            <div key={idx} className="text-xs">
+              <span className="font-medium text-foreground">{deal.type}</span>
+              <span className="text-muted-foreground"> · {deal.merchantExample}</span>
+            </div>
+          ))}
         </div>
       </div>
     </Card>
