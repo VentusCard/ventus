@@ -733,8 +733,7 @@ const TePilot = () => {
             {/* Password Form */}
             <div>
               <h3 className="font-semibold text-lg mb-2">Enter Password to Continue</h3>
-              <p className="text-sm text-muted-foreground mb-4 flex items-center gap-2">
-                <Shield className="h-4 w-4" />
+              <p className="text-sm text-muted-foreground mb-4">
                 All data processing is ephemeral. Your transaction data is analyzed in real-time and never stored on our servers.
               </p>
               <form onSubmit={handleSubmit} className="space-y-4">
