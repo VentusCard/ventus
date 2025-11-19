@@ -28,6 +28,7 @@ import { BankwideView } from "@/components/tepilot/insights/BankwideView";
 import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { RelationshipManagementCard } from "@/components/tepilot/RelationshipManagementCard";
 import { AdvisorConsole } from "@/components/tepilot/advisor-console/AdvisorConsole";
+import { PersonaCard } from "@/components/tepilot/PersonaCard";
 import { GeoLocationDealsSection } from "@/components/tepilot/geo-location/GeoLocationDealsSection";
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
@@ -52,7 +53,7 @@ const TePilot = () => {
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [isRelationshipUnlocked, setIsRelationshipUnlocked] = useState(false);
-  const [insightType, setInsightType] = useState<'revenue' | 'relationship' | null>(null);
+  const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(null);
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
   const navigate = useNavigate();
@@ -926,12 +927,86 @@ const TePilot = () => {
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            {!insightType && <Card className="p-12 text-center">
-                <p className="text-muted-foreground mb-4">
-                  No insights generated yet. Go to Analytics to generate recommendations or access relationship analysis.
-                </p>
-                <Button onClick={() => setActiveTab("analytics")}>Ventus AI Opportunity Recommendations</Button>
-              </Card>}
+            {!insightType && (
+              <>
+                {/* Header */}
+                <div className="text-center mb-8">
+                  <h2 className="text-3xl font-bold mb-2">Choose Your Perspective</h2>
+                  <p className="text-muted-foreground">
+                    Select the view that matches your role to access tailored insights and analytics
+                  </p>
+                </div>
+
+                {/* Persona Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Bank Leadership Card */}
+                  <PersonaCard
+                    icon="🏦"
+                    title="Bank Leadership"
+                    description="Access portfolio-wide analytics, demographic breakdowns, and strategic insights across 70M accounts."
+                    buttonText="View Bank-wide Dashboard"
+                    buttonVariant="default"
+                    accentColor="from-blue-500 to-indigo-600"
+                    onClick={() => setInsightType('bankwide')}
+                  />
+
+                  {/* Rewards Team Card */}
+                  <PersonaCard
+                    icon="💎"
+                    title="Rewards Team"
+                    description="Generate revenue opportunities, analyze spending gaps, and identify cross-sell potential for card products."
+                    buttonText="Generate Revenue Opportunities"
+                    buttonVariant="ai"
+                    accentColor="from-purple-500 to-pink-600"
+                    badge="AI Powered"
+                    onClick={() => {
+                      if (enrichedTransactions.length === 0) {
+                        toast.error("Please enrich transactions first");
+                        return;
+                      }
+                      handleGenerateRecommendations();
+                    }}
+                    disabled={enrichedTransactions.length === 0}
+                  />
+
+                  {/* Wealth Management Card */}
+                  <PersonaCard
+                    icon="🎯"
+                    title="Wealth Management"
+                    description="Detect life events, analyze lifestyle signals, and generate personalized talking points for client relationships."
+                    buttonText="Access Wealth Management Tool"
+                    buttonVariant="outline"
+                    accentColor="from-emerald-500 to-teal-600"
+                    badge="Premium"
+                    onClick={async () => {
+                      if (!isRelationshipUnlocked) {
+                        // Trigger unlock flow - will be handled by dialog
+                        return;
+                      }
+                      toast.info('Analyzing lifestyle signals...');
+                      await fetchLifestyleSignals();
+                      handleNavigateToAdvisorConsole();
+                    }}
+                    requiresUnlock={!isRelationshipUnlocked}
+                  />
+                </div>
+              </>
+            )}
+
+            {/* Bank-wide Dashboard View */}
+            {insightType === 'bankwide' && (
+              <div>
+                <Button 
+                  variant="ghost" 
+                  onClick={() => setInsightType(null)}
+                  className="mb-4"
+                >
+                  <ArrowLeft className="w-4 h-4 mr-2" />
+                  Back to Persona Selection
+                </Button>
+                <BankwideView />
+              </div>
+            )}
 
             {insightType === 'revenue' && recommendations && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
