@@ -107,18 +107,41 @@ function anonymizeMerchant(merchantName: string): string {
   return tier ? `${tier} ${category}` : category;
 }
 
-const SYSTEM_PROMPT = `You are a deal and product recommendation engine for banks. Your job is analyze a customer's spending history to generate 5 personalized deal and product recommendations that would clearly incentize more spending, more deal utilization and more cross-selling opportunties.
+const SYSTEM_PROMPT = `You are a deal and product recommendation engine for banks. Your job is analyze a customer's spending history to generate 7 personalized deal and product recommendations that would clearly incentize more spending, more deal utilization and more cross-selling opportunties.
 
 CRITICAL: Generate ALL details dynamically based on the customer's actual spending patterns. DO NOT use templates or predefined values.
 
 ## Output Structure
 
-You MUST return EXACTLY 5 recommendations:
-- Recommendations 1-3: 3 Distinct Custom merchant deals, the first deal is always on their top spend category
-- Recommendation 4: Experiences 
-- Recommendation 5: Financial product
+You MUST return EXACTLY 7 recommendations following this structure:
 
-## Deal Generation Guidelines (Recommendations 1-3)
+- Recommendation 1: Deal for TOP SUBCATEGORY #1 (highest spending subcategory)
+  - tier: "deal", priority: 1, lift_type: varies based on strategy
+  
+- Recommendation 2: ADJACENT/RELATED deal to subcategory #1
+  - tier: "deal", priority: 2, lift_type: "adjacent_subcategory"
+  - Must be a complementary category that naturally pairs with subcategory #1
+  - Examples: Home Improvement → Home Furnishing, Grocery → Meal Kits, Fitness → Athletic Wear
+  
+- Recommendation 3: Deal for TOP SUBCATEGORY #2 (second highest spending)
+  - tier: "deal", priority: 3, lift_type: varies based on strategy
+  
+- Recommendation 4: ADJACENT/RELATED deal to subcategory #2
+  - tier: "deal", priority: 4, lift_type: "adjacent_subcategory"
+  - Must be a complementary category that naturally pairs with subcategory #2
+  
+- Recommendation 5: Deal for TOP SUBCATEGORY #3 (third highest spending)
+  - tier: "deal", priority: 5, lift_type: varies based on strategy
+  
+- Recommendation 6: EXPERIENCE
+  - tier: "experience", priority: 6, lift_type: "experience"
+  - Premium, aspirational experience aligned with top lifestyle categories
+  
+- Recommendation 7: FINANCIAL PRODUCT
+  - tier: "financial_product", priority: 7, lift_type: "financial_product"
+  - Credit card or banking product tailored to their spending patterns
+
+## Deal Generation Guidelines (Recommendations 1-5)
 
 For each deal, YOU decide ALL parameters dynamically:
 
@@ -134,7 +157,7 @@ For each deal, YOU decide ALL parameters dynamically:
   - Referral: "Bring a friend to [single category] and both earn X% cashback"
   - Seasonal: "Earn X% cashback at [single category] during [event/season]"
    
-   CRITICAL: Each of the 3 deals MUST target a DIFFERENT merchant category. Do NOT combine multiple categories in one deal.
+   CRITICAL: Recommendations 1, 3, 5 target the top 3 subcategories. Recommendations 2, 4 are ADJACENT/RELATED deals. All 5 deals MUST target DIFFERENT merchant categories.
 
 4. **Lift Strategy**: Assign one per deal
 - Premium Upsell: Rewards to incentivize more spending in dominant category
@@ -145,6 +168,43 @@ For each deal, YOU decide ALL parameters dynamically:
 - Reactivation Push: Incentivize return to inactive category
 - Loyalty Reward: Bonus for long-term consistent spend
 - Seasonal Alignment: Align with calendar events or lifestyle timing
+
+### Adjacent Deal Strategy (for Recommendations 2 & 4)
+
+Adjacent deals should target RELATED but DIFFERENT subcategories that complement the customer's current spending:
+
+**Cross-Sell Principles:**
+- Identify natural category pairs from customer behavior patterns
+- Focus on subcategories one step away from current spending
+- Consider product lifecycle relationships (before/after/alongside purchases)
+- Target aspirational upgrades or complementary services
+
+**Examples of Adjacent Deals:**
+- Home Improvement → Home Furnishing, Interior Design, Smart Home Tech
+- Grocery → Meal Kits, Organic Produce Delivery, Gourmet Food Subscriptions
+- Fitness Center → Athletic Apparel, Nutrition Supplements, Wellness Services
+- Travel → Luggage Stores, Travel Insurance, Airport Lounges
+- Dining → Wine & Spirits, Cooking Classes, Food Delivery Services
+- Pet Care → Pet Supplies, Veterinary Services, Pet Insurance
+- Auto Maintenance → Car Accessories, Car Washes, Auto Insurance
+
+**Adjacent Deal Requirements:**
+- Must be a DIFFERENT subcategory than the main deal
+- Should have logical connection to customer's current behavior
+- Offer should feel natural and relevant, not forced
+- Use similar merchant tier as the main subcategory (premium stays premium)
+- Cashback percentage can be slightly higher (12-18%) to incentivize trial
+
+**Title Format:**
+- ✅ "15% Cashback at Home Furnishing Stores" (adjacent to Home Improvement)
+- ✅ "12% Back at Meal Kit Services" (adjacent to Grocery)
+- ✅ "18% Cashback at Athletic Apparel Stores" (adjacent to Fitness)
+
+**Description Approach:**
+- Start with connection: "Based on your spending at [main subcategory], you'd likely benefit from..."
+- Explain the cross-sell opportunity: "This adjacent category naturally complements your [main behavior]..."
+- Include example merchants in similar tier
+- Highlight incremental revenue: "Expected to capture new wallet share in a related category..."
 
 ### Title Guidelines
 Titles must be specific, benefit-focused, and include the value proposition for ONE category only:
@@ -174,7 +234,7 @@ Examples (each focusing on ONE category):
 - "With 52 weekly visits to Premium Grocery Stores (including Whole Foods, Trader Joe's) totaling $6,200 annually, this 12% cashback offer incentivizes incremental trip frequency and higher per-visit spend. The offer extends to similar quality grocers like Sprouts, Wegmans, and local organic markets, projected to increase share of grocery wallet by 15-25% as customer consolidates spending to maximize rewards."
 - "The customer's $550 annual spend on Premium Athletic Apparel (including Lululemon, Nike) indicates strong lifestyle alignment. This 3X rewards multiplier strategically drives upsell into premium product tiers at these and similar brands like Athleta, Vuori, and On Running, increasing purchase frequency with projected 30% lift in category spend as rewards compound over time."
 
-## Experience Generation (Recommendation 4)
+## Experience Generation (Recommendation 6)
 
 Create ONE aspirational benefit that matches their lifestyle. Examples:
 - Airport lounge access (Priority Pass, 10 visits/year) 
@@ -186,7 +246,7 @@ Create ONE aspirational benefit that matches their lifestyle. Examples:
 
 YOU decide the value amount ($200-$1000) and specific benefits.
 
-## Financial Product Generation (Recommendation 5)
+## Financial Product Generation (Recommendation 7)
 
 Create ONE credit card or financial product that serves this customer. YOU design soemething that must sound like real bank products, see examples::
 - Credit Card name (must sound like real bank products: "Premium Travel Rewards", "Lifestyle Cashback Plus", etc.)
@@ -236,73 +296,152 @@ Return EXACTLY this structure:
   "recommendations": [
     {
       "deal_id": "CUSTOM_001",
-      "title": "Dynamic title you generate",
-      "description": "Dynamic description explaining the value",
-      "category": "Sports & Active Living",
-      "merchants": ["Premium Outdoor Stores"],  // Single category only - do NOT include multiple categories
-      "value_type": "cashback" | "tiered_cashback" | "points",
-      "value_percentage": 12,
-      "bonus_threshold_amount": 500,  // optional, for tiered deals
-      "bonus_percentage": 5,  // optional, for tiered deals
-      "strategy": "premium_upsell" | "adjacent_category" | "ticket_expansion" | "frequency_multiplier",
+      "title": "Deal for top subcategory #1",
+      "description": "Dynamic description based on customer's actual spending",
+      "category": "Category name from their spending",
+      "merchants": ["Anonymized merchant category"],
+      "value_type": "cashback",
+      "value_percentage": 15,
+      "strategy": "ticket_expansion",
       "matching_data": {
-        "current_behavior": "...",
-        "opportunity": "...",
-        "lift_opportunity": "..."
+        "current_behavior": "Spends $X at [subcategory #1]...",
+        "opportunity": "Incentivize larger purchases...",
+        "lift_opportunity": "Ticket Expansion: Increase transaction size..."
       },
       "tier": "deal",
       "priority": 1,
+      "lift_type": "ticket_expansion"
+    },
+    {
+      "deal_id": "CUSTOM_002",
+      "title": "Adjacent deal related to subcategory #1",
+      "description": "Based on spending at [subcategory #1], this adjacent category...",
+      "category": "Related category",
+      "merchants": ["Adjacent merchant category"],
+      "value_type": "cashback",
+      "value_percentage": 12,
+      "strategy": "adjacent_category",
+      "matching_data": {
+        "current_behavior": "Connects to [subcategory #1] spending pattern...",
+        "opportunity": "Cross-sell to complementary category...",
+        "lift_opportunity": "Adjacent Subcategory: Capture new wallet share..."
+      },
+      "tier": "deal",
+      "priority": 2,
+      "lift_type": "adjacent_subcategory"
+    },
+    {
+      "deal_id": "CUSTOM_003",
+      "title": "Deal for top subcategory #2",
+      "description": "Dynamic description based on spending",
+      "category": "Category from spending",
+      "merchants": ["Anonymized merchant category"],
+      "value_type": "cashback",
+      "value_percentage": 10,
+      "strategy": "frequency_multiplier",
+      "matching_data": {
+        "current_behavior": "Spends $X at [subcategory #2]...",
+        "opportunity": "Increase visit frequency...",
+        "lift_opportunity": "Frequency Multiplier: Drive repeat visits..."
+      },
+      "tier": "deal",
+      "priority": 3,
+      "lift_type": "frequency_multiplier"
+    },
+    {
+      "deal_id": "CUSTOM_004",
+      "title": "Adjacent deal related to subcategory #2",
+      "description": "Based on spending at [subcategory #2], this adjacent category...",
+      "category": "Related category",
+      "merchants": ["Adjacent merchant category"],
+      "value_type": "cashback",
+      "value_percentage": 15,
+      "strategy": "adjacent_category",
+      "matching_data": {
+        "current_behavior": "Connects to [subcategory #2] spending pattern...",
+        "opportunity": "Cross-sell opportunity...",
+        "lift_opportunity": "Adjacent Subcategory: Expand wallet share..."
+      },
+      "tier": "deal",
+      "priority": 4,
+      "lift_type": "adjacent_subcategory"
+    },
+    {
+      "deal_id": "CUSTOM_005",
+      "title": "Deal for top subcategory #3",
+      "description": "Dynamic description based on spending",
+      "category": "Category from spending",
+      "merchants": ["Anonymized merchant category"],
+      "value_type": "cashback",
+      "value_percentage": 8,
+      "strategy": "premium_upsell",
+      "matching_data": {
+        "current_behavior": "Spends $X at [subcategory #3]...",
+        "opportunity": "Upsell to premium options...",
+        "lift_opportunity": "Premium Upsell: Higher value purchases..."
+      },
+      "tier": "deal",
+      "priority": 5,
       "lift_type": "premium_upsell"
     },
-    // Deal 2 (priority: 2)
-    // Deal 3 (priority: 3)
     {
       "exp_id": "EXP_GEN_001",
-      "title": "Experience title you generate",
-      "description": "What they get access to",
+      "title": "Premium experience aligned with lifestyle",
+      "description": "Aspirational experience matching top spending categories",
       "category": "Health & Wellness, Travel & Lifestyle",
       "value_amount": 450,
-      "matching_data": { ... },
+      "matching_data": {
+        "current_behavior": "Top spending indicates lifestyle preferences...",
+        "opportunity": "Provide aspirational benefit...",
+        "lift_opportunity": "Experience: Deepen loyalty and engagement..."
+      },
       "tier": "experience",
-      "priority": 4,
+      "priority": 6,
       "lift_type": "experience"
     },
     {
       "product_id": "PROD_GEN_001",
-      "title": "Card name you generate",
-      "description": "Earn rates and benefits",
+      "title": "Tailored financial product name",
+      "description": "Earn rates and benefits matching spending patterns",
       "category": "Financial Products",
       "annual_fee": 95,
       "estimated_annual_value": 750,
-      "matching_data": { ... },
+      "matching_data": {
+        "current_behavior": "Primary spending in [top categories]...",
+        "opportunity": "Capture full wallet share...",
+        "lift_opportunity": "Financial Product: Consolidate spending..."
+      },
       "tier": "financial_product",
-      "priority": 5,
+      "priority": 7,
       "lift_type": "financial_product"
     }
   ],
   "summary": {
-    "recommendations_count": 5,
+    "recommendations_count": 7,
     "strategy_mix": {
       "premium_upsells": 1,
-      "adjacent_categories": 1,
+      "adjacent_categories": 2,
       "ticket_expansion": 1,
-      "frequency_multipliers": 0,
+      "frequency_multipliers": 1,
       "experiences": 1,
       "financial_products": 1
     },
-    "incremental_revenue_potential": "Qualitative summary of revenue impact",
-    "message": "Brief explanation of recommendation strategy"
+    "incremental_revenue_potential": "Qualitative summary of revenue impact across all 7 recommendations",
+    "message": "Brief explanation of recommendation strategy focusing on subcategories and adjacent opportunities"
   }
 }
 \`\`\`
 
 REMEMBER: 
-- Deals 1-3 MUST have tier="deal" and priorities 1-3
-- Experience MUST have tier="experience" and priority=4
-- Financial product MUST have tier="financial_product" and priority=5
-- All merchant names in output MUST be anonymized
-- Each deal (1-3) MUST focus on ONE merchant category only - NO combo deals
-- The 3 deals MUST target 3 DIFFERENT merchant categories
+- Generate EXACTLY 7 recommendations
+- Priorities 1-7 in exact order
+- Recommendations 1, 3, 5: Top 3 subcategory deals (tier="deal")
+- Recommendations 2, 4: Adjacent deals (tier="deal", lift_type="adjacent_subcategory")
+- Recommendation 6: Experience (tier="experience", lift_type="experience")
+- Recommendation 7: Financial Product (tier="financial_product", lift_type="financial_product")
+- All merchant names MUST be anonymized
+- Adjacent deals must be DIFFERENT but logically connected subcategories
+- Return ONLY valid JSON, no markdown
 - Be creative and realistic - these should feel like real banking offers`;
 
 serve(async (req) => {
@@ -341,7 +480,15 @@ serve(async (req) => {
       ? insights.segment.lifestyle.join(", ")
       : "Diversified spending across categories";
 
-    const userPrompt = `Generate 5 personalized recommendations for this customer:
+    // Format top subcategories
+    const topSubcategoriesText = insights.topSubcategories
+      ?.slice(0, 3)
+      .map((s: any, i: number) => 
+        `${i + 1}. ${s.subcategory} ($${Math.round(s.totalSpend)}, ${s.visits} transactions, pillar: ${s.pillar})`
+      )
+      .join("\n") || "No subcategory data available";
+
+    const userPrompt = `Generate 7 personalized recommendations for this customer:
 
 SPENDING PROFILE:
 - Total Annual Spend: $${insights.totalSpend}
@@ -349,8 +496,11 @@ SPENDING PROFILE:
 - Customer Tier: ${insights.segment.tier}
 - Spending Velocity: ${insights.segment.spendingVelocity}
 
-TOP SPENDING CATEGORIES:
+TOP SPENDING CATEGORIES (Pillars):
 ${topPillarsText}
+
+TOP SPENDING SUBCATEGORIES (PRIMARY DATA SOURCE):
+${topSubcategoriesText}
 
 TOP MERCHANTS:
 ${topMerchantsText}
@@ -358,13 +508,14 @@ ${topMerchantsText}
 TOP LIFESTYLE INTERESTS:
 ${lifestyleText}
 
-Generate recommendations that:
-1. Maximize rewards in their dominant categories
-2. Introduce them to adjacent categories they'd enjoy
-3. Provide aspirational experiences matching their lifestyle
-4. Offer a financial product that captures their full wallet share
+CRITICAL INSTRUCTIONS:
+1. Use TOP SUBCATEGORIES as the PRIMARY driver for recommendations 1-5
+2. Recommendations 1, 3, 5: Create deals for the top 3 subcategories
+3. Recommendations 2, 4: Create ADJACENT/COMPLEMENTARY deals to subcategories 1 and 2
+4. Recommendation 6: Create an aspirational EXPERIENCE aligned with their lifestyle
+5. Recommendation 7: Create a FINANCIAL PRODUCT that maximizes rewards in their top categories
 
-Remember to anonymize merchant names in your output!`;
+Remember to anonymize all merchant names in your output!`;
 
     // Call Lovable AI
     const aiResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
