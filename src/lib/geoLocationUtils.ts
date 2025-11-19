@@ -53,29 +53,43 @@ export function extractLocationContext(transactions: EnrichedTransaction[]): Loc
 function deriveCityFromZip(zip: string | null): string | null {
   if (!zip) return null;
   
-  // Simplified city derivation - expand as needed
-  const zipToCityMap: Record<string, string> = {
-    "60601": "Chicago",
-    "60602": "Chicago",
-    "60603": "Chicago",
-    "60604": "Chicago",
-    "10001": "New York",
-    "10002": "New York",
-    "10003": "New York",
-    "90001": "Los Angeles",
-    "90002": "Los Angeles",
-    "94102": "San Francisco",
-    "94103": "San Francisco",
-    "02101": "Boston",
-    "02102": "Boston",
-    "33101": "Miami",
-    "33102": "Miami",
-    "75201": "Dallas",
-    "77001": "Houston",
-    "98101": "Seattle",
-    "30301": "Atlanta",
-    "19101": "Philadelphia",
+  // Use zipcode prefix (first 3 digits) for broader coverage
+  const zipPrefix = zip.substring(0, 3);
+  
+  const zipPrefixToCityMap: Record<string, string> = {
+    "606": "Chicago",
+    "607": "Chicago",
+    "608": "Chicago",
+    "100": "New York",
+    "101": "New York", 
+    "102": "New York",
+    "103": "New York",
+    "104": "New York",
+    "105": "New York",
+    "900": "Los Angeles",
+    "901": "Los Angeles",
+    "902": "Los Angeles",
+    "941": "San Francisco",
+    "942": "San Francisco",
+    "943": "San Francisco",
+    "944": "San Francisco",
+    "021": "Boston",
+    "022": "Boston",
+    "331": "Miami",
+    "332": "Miami",
+    "333": "Miami",
+    "752": "Dallas",
+    "753": "Dallas",
+    "770": "Houston",
+    "771": "Houston",
+    "772": "Houston",
+    "981": "Seattle",
+    "982": "Seattle",
+    "303": "Atlanta",
+    "304": "Atlanta",
+    "191": "Philadelphia",
+    "192": "Philadelphia",
   };
   
-  return zipToCityMap[zip] || "Your area";
+  return zipPrefixToCityMap[zipPrefix] || null;
 }

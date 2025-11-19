@@ -3,6 +3,9 @@ project_id = "theaknjrmfsyauxxvhmk"
 [functions.search-deals]
 verify_jwt = true
 
+[functions.generate-city-deals]
+verify_jwt = false
+
 [functions.classify-transactions]
 verify_jwt = false
 
