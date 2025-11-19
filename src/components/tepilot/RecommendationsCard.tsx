@@ -44,6 +44,8 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
         return "bg-purple-50 border-purple-200 text-purple-700 hover:bg-purple-100";
       case "financial_product": 
         return "bg-green-50 border-green-200 text-green-700 hover:bg-green-100";
+      case "card_product": 
+        return "bg-emerald-50 border-emerald-200 text-emerald-700 hover:bg-emerald-100";
       default: 
         return "bg-slate-50 border-slate-200 text-slate-700";
     }
@@ -63,6 +65,7 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
       case "deal": return "Deal";
       case "experience": return "Experience";
       case "financial_product": return "Financial Product";
+      case "card_product": return "Card Product";
       default: return tier;
     }
   };
