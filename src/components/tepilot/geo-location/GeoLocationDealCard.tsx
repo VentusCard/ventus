@@ -1,6 +1,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Landmark, Music, UtensilsCrossed, ShoppingBag, Plane } from "lucide-react";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Landmark, Music, UtensilsCrossed, ShoppingBag, Plane, CheckCircle2 } from "lucide-react";
 
 interface GeoLocationDealCardProps {
   category: {
@@ -28,39 +29,55 @@ export function GeoLocationDealCard({ category, location, isTravel }: GeoLocatio
   const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Landmark;
   
   return (
-    <Card className="hover:shadow-lg transition-all border-l-4 border-l-primary/40">
-      <div className="p-4">
-        {/* Compact header with inline icon */}
-        <div className="flex items-start gap-2 mb-2">
-          <div className="p-1.5 bg-primary/10 rounded shrink-0">
-            <IconComponent className="h-4 w-4 text-primary" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="text-base font-semibold">{category.title}</h3>
-              <span className="text-xs text-muted-foreground">· {location}</span>
+    <AccordionItem value={category.title}>
+      {/* COLLAPSED TRIGGER */}
+      <AccordionTrigger className="hover:no-underline">
+        <div className="flex items-center justify-between w-full pr-4">
+          <div className="flex flex-col items-start gap-2">
+            <h3 className="font-semibold text-lg text-left">{category.title}</h3>
+            <div className="flex gap-2 items-center flex-wrap">
+              <Badge variant="outline" className="bg-blue-50 border-blue-200 text-blue-700">
+                {location}
+              </Badge>
               {isTravel && (
-                <Badge variant="secondary" className="text-xs py-0 h-5">Travel</Badge>
+                <Badge variant="outline" className="bg-purple-50 border-purple-200 text-purple-700">
+                  Travel
+                </Badge>
               )}
             </div>
           </div>
         </div>
-        
-        {/* Description */}
-        <p className="text-xs text-muted-foreground mb-2.5 ml-8">
-          {category.description}
-        </p>
-        
-        {/* Compact deals display */}
-        <div className="space-y-1 ml-8">
-          {category.exampleDeals.map((deal, idx) => (
-            <div key={idx} className="text-xs">
-              <span className="font-medium text-foreground">{deal.type}</span>
-              <span className="text-muted-foreground"> · {deal.merchantExample}</span>
-            </div>
-          ))}
+      </AccordionTrigger>
+
+      {/* EXPANDED CONTENT */}
+      <AccordionContent>
+        <div className="space-y-4 pt-2">
+          {/* Description */}
+          <p className="text-muted-foreground">{category.description}</p>
+
+          {/* Deal Examples */}
+          <Card className="bg-blue-50/30 border-blue-100">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base flex items-center gap-2">
+                <IconComponent className="h-4 w-4 text-blue-600" />
+                Example Deal Opportunities
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="space-y-2">
+                {category.exampleDeals.map((deal, idx) => (
+                  <li key={idx} className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 mt-0.5 text-primary flex-shrink-0" />
+                    <div className="text-sm">
+                      <span className="font-medium">{deal.type}:</span> {deal.merchantExample}
+                    </div>
+                  </li>
+                ))}
+              </ul>
+            </CardContent>
+          </Card>
         </div>
-      </div>
-    </Card>
+      </AccordionContent>
+    </AccordionItem>
   );
 }
