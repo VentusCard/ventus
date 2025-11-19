@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -732,7 +732,11 @@ const TePilot = () => {
 
             {/* Password Form */}
             <div>
-              <h3 className="font-semibold text-lg mb-4">Enter Password to Continue</h3>
+              <h3 className="font-semibold text-lg mb-2">Enter Password to Continue</h3>
+              <p className="text-sm text-muted-foreground mb-4 flex items-center gap-2">
+                <Shield className="h-4 w-4" />
+                All data processing is ephemeral. Your transaction data is analyzed in real-time and never stored on our servers.
+              </p>
               <form onSubmit={handleSubmit} className="space-y-4">
                 <Input type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoFocus />
                 <Button type="submit" className="w-full">
