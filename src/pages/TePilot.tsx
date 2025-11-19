@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -651,6 +651,75 @@ const TePilot = () => {
                         <h4 className="font-semibold text-sm mb-1">Adaptive Learning</h4>
                         <p className="text-sm text-muted-foreground">
                           Corrections teach the AI to improve future classifications, creating a smarter system over time
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </AccordionContent>
+              </AccordionItem>
+
+              <AccordionItem value="item-4">
+                <AccordionTrigger className="text-lg font-semibold group">
+                  <div className="flex flex-col items-start gap-1 text-left">
+                    <span>Use Cases</span>
+                    <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
+                      Real-world applications across financial services
+                    </span>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <Gift className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Personalized Deal Recommendations</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Generate targeted merchant offers based on actual spending patterns. A customer who spends $800/month at Whole Foods receives automated 15% cashback offers at premium grocery stores.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <Users className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Customer Segmentation & Profiling</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Automatically segment customers into lifestyle personas (Premium Travelers, Home Enthusiasts, Fitness Focused) for precision marketing and product recommendations.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Travel Pattern Intelligence</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Detect travel destinations, frequency, and spending patterns. Identify luxury travelers for premium card upsells or frequent visitors for location-based partnership deals.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <TrendingUp className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Cross-Sell Optimization</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Identify customers spending heavily on home improvement for HELOC offers, or high restaurant spenders for dining rewards cards with matched earn rates.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <PieChart className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Portfolio Analytics</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Aggregate insights across millions of accounts to identify spending gaps, card product fit, and revenue opportunities at bank-wide scale.
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <Briefcase className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Wealth Management Intelligence</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Provide advisors with conversation-ready insights: detect life events (new home purchase), spending increases (new baby), and personalized product recommendations.
                         </p>
                       </div>
                     </div>
