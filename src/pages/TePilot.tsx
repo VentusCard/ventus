@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -941,23 +941,21 @@ const TePilot = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Bank Leadership Card */}
                   <PersonaCard
-                    icon="🏦"
+                    icon={Building2}
                     title="Bank Leadership"
                     description="Access portfolio-wide analytics, demographic breakdowns, and strategic insights across 70M accounts."
-                    buttonText="View Bank-wide Dashboard"
+                    buttonText="View Dashboard"
                     buttonVariant="default"
-                    accentColor="from-blue-500 to-indigo-600"
                     onClick={() => setInsightType('bankwide')}
                   />
 
                   {/* Rewards Team Card */}
                   <PersonaCard
-                    icon="💎"
+                    icon={TrendingUp}
                     title="Rewards Team"
                     description="Generate revenue opportunities, analyze spending gaps, and identify cross-sell potential for card products."
-                    buttonText="Generate Revenue Opportunities"
+                    buttonText="Generate Opportunities"
                     buttonVariant="ai"
-                    accentColor="from-purple-500 to-pink-600"
                     badge="AI Powered"
                     onClick={() => {
                       if (enrichedTransactions.length === 0) {
@@ -971,12 +969,11 @@ const TePilot = () => {
 
                   {/* Wealth Management Card */}
                   <PersonaCard
-                    icon="🎯"
+                    icon={Users}
                     title="Wealth Management"
                     description="Detect life events, analyze lifestyle signals, and generate personalized talking points for client relationships."
-                    buttonText="Access Wealth Management Tool"
+                    buttonText="Access Management Tool"
                     buttonVariant="outline"
-                    accentColor="from-emerald-500 to-teal-600"
                     badge="Premium"
                     onClick={async () => {
                       if (!isRelationshipUnlocked) {
