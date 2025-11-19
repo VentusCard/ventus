@@ -27,14 +27,14 @@ YOUR JOB:
 KEEP ORIGINAL: Online subscriptions (Netflix, Spotify, etc.)
 
 EXAMPLE:
-Input: Hotel in Miami (33139), restaurant in Miami same day, gas station next day
-Output: All 3 marked is_travel_related=true, restaurant→"Dining Away", gas→"Travel Transportation"
+Input: Hotel in Queens (11375), restaurant in Manhattan same day, gas station in Brooklyn next day
+Output: All 3 marked is_travel_related=true with travel_destination="NYC", restaurant→"Dining Away", gas→"Travel Transportation"
 
 OUTPUT:
 For each transaction, provide:
 - is_travel_related: true/false
 - travel_period_start/end: ISO dates if part of travel
-- travel_destination: City/location if identifiable
+- travel_destination: Major city name only (e.g., "NYC" not "Queens", "Los Angeles" not "Santa Monica", "San Francisco" not "Oakland"). Use "unknown" if unclear.
 - original_pillar: Pillar before reclassification
 - reclassification_reason: Why this was changed to travel
 - reclassified_pillar: New pillar (if reclassified)
