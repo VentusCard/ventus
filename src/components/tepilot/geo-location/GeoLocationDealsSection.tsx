@@ -38,15 +38,16 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                 Home Location: {homeCity}
               </h3>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin">
               {Object.entries(GEO_DEAL_CATEGORIES).map(([key, category]) => (
-                <CityDealCardWrapper
-                  key={category.title}
-                  categoryKey={key}
-                  categoryData={category}
-                  city={homeCity}
-                  isTravel={false}
-                />
+                <div key={category.title} className="snap-start shrink-0 w-[340px]">
+                  <CityDealCardWrapper
+                    categoryKey={key}
+                    categoryData={category}
+                    city={homeCity}
+                    isTravel={false}
+                  />
+                </div>
               ))}
             </div>
           </div>
@@ -67,15 +68,16 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                     ({travel.transactionCount} transactions detected)
                   </span>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-thin">
                   {Object.entries(GEO_DEAL_CATEGORIES).map(([key, category]) => (
-                    <CityDealCardWrapper
-                      key={`${travel.destination}-${category.title}`}
-                      categoryKey={key}
-                      categoryData={category}
-                      city={travel.destination}
-                      isTravel={true}
-                    />
+                    <div key={`${travel.destination}-${category.title}`} className="snap-start shrink-0 w-[340px]">
+                      <CityDealCardWrapper
+                        categoryKey={key}
+                        categoryData={category}
+                        city={travel.destination}
+                        isTravel={true}
+                      />
+                    </div>
                   ))}
                 </div>
               </div>

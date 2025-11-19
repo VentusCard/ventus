@@ -28,7 +28,7 @@ export function GeoLocationDealCard({ category, location, isTravel }: GeoLocatio
   const IconComponent = iconMap[category.icon as keyof typeof iconMap] || Landmark;
   
   return (
-    <Card className="hover:shadow-lg transition-shadow">
+    <Card className="hover:shadow-lg transition-shadow h-full">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex items-center gap-3">
