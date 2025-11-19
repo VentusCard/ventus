@@ -37,7 +37,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { PILLAR_COLORS } from "@/lib/sampleData";
-const CURRENT_VERSION = "V2.0";
+const CURRENT_VERSION = "V2.1";
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -439,7 +439,11 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V2.0 - Current</p>
+                      <p className="font-semibold">V2.1 - Current</p>
+                      <p>Upgraded merchant deal generation and core wealth management tools</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V2.0 - November 2025</p>
                       <p>Added bank-wide macro analytics tool. Now allows user to upload multiple files to process.</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
