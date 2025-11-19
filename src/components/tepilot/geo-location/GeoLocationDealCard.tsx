@@ -32,17 +32,17 @@ export function GeoLocationDealCard({ category, location, isTravel }: GeoLocatio
     <AccordionItem value={category.title}>
       {/* COLLAPSED TRIGGER */}
       <AccordionTrigger className="hover:no-underline">
-        <div className="flex items-center justify-between w-full pr-4">
-          <h3 className="font-semibold text-lg text-left">{category.title}</h3>
+        <div className="flex flex-col items-start gap-1 w-full pr-4 text-left">
+          <h3 className="font-semibold text-lg">{category.title}</h3>
+          <p className="text-sm text-muted-foreground font-normal">
+            {category.description}
+          </p>
         </div>
       </AccordionTrigger>
 
       {/* EXPANDED CONTENT */}
       <AccordionContent>
         <div className="space-y-4 pt-2">
-          {/* Description */}
-          <p className="text-muted-foreground">{category.description}</p>
-
           {/* Deal Examples */}
           <Card className="bg-blue-50/30 border-blue-100">
             <CardHeader className="pb-3">
