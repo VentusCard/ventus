@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { MapPin, Plane } from "lucide-react";
-import { GeoLocationDealCard } from "./GeoLocationDealCard";
+import { CityDealCardWrapper } from "./CityDealCardWrapper";
 import { GEO_DEAL_CATEGORIES } from "./dealCategories";
 import { LocationContext } from "@/lib/geoLocationUtils";
 
@@ -39,11 +39,12 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
               </h3>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {Object.values(GEO_DEAL_CATEGORIES).map((category) => (
-                <GeoLocationDealCard
+              {Object.entries(GEO_DEAL_CATEGORIES).map(([key, category]) => (
+                <CityDealCardWrapper
                   key={category.title}
-                  category={category}
-                  location={homeCity}
+                  categoryKey={key}
+                  categoryData={category}
+                  city={homeCity}
                   isTravel={false}
                 />
               ))}
@@ -67,11 +68,12 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                   </span>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                  {Object.values(GEO_DEAL_CATEGORIES).map((category) => (
-                    <GeoLocationDealCard
+                  {Object.entries(GEO_DEAL_CATEGORIES).map(([key, category]) => (
+                    <CityDealCardWrapper
                       key={`${travel.destination}-${category.title}`}
-                      category={category}
-                      location={travel.destination}
+                      categoryKey={key}
+                      categoryData={category}
+                      city={travel.destination}
                       isTravel={true}
                     />
                   ))}
