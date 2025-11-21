@@ -46,7 +46,9 @@ const TePilot = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState(() => {
     // Check if navigation state specifies a tab
-    const navState = location.state as { activeTab?: string } | null;
+    const navState = location.state as {
+      activeTab?: string;
+    } | null;
     return navState?.activeTab || "upload";
   });
   const [inputMode, setInputMode] = useState<"paste" | "upload">("paste");
@@ -123,15 +125,14 @@ const TePilot = () => {
         if (contextData.enrichedTransactions && contextData.enrichedTransactions.length > 0) {
           // Restore enriched transactions to the hook
           restoreEnrichedTransactions(contextData.enrichedTransactions);
-          
+
           // Set active tab to results to show the analyzed transactions
           setActiveTab("results");
-          
+
           // Restore AI insights if available
           if (contextData.aiInsights) {
             setLifestyleSignals(contextData.aiInsights);
           }
-          
           console.log(`Restored ${contextData.enrichedTransactions.length} transactions from session`);
         }
       } catch (error) {
@@ -230,7 +231,6 @@ const TePilot = () => {
     setActiveTab("results"); // Switch to results IMMEDIATELY
     await startEnrichment(parsedTransactions, anchorZip);
   };
-
   const handleCorrection = async (transactionId: string, correctedPillar: string, correctedSubcategory: string, reason: string) => {
     const transaction = enrichedTransactions.find(t => t.transaction_id === transactionId);
     if (!transaction) return;
@@ -258,16 +258,13 @@ const TePilot = () => {
   // Always apply corrections, then apply filters
   const displayTransactions = applyCorrections(enrichedTransactions, corrections);
   const filteredTransactions = applyFilters(displayTransactions, filters);
-  
+
   // Extract location context for geo-based deals - always computed at top level
-  const locationContext = useMemo(() => 
-    extractLocationContext(displayTransactions),
-    [displayTransactions]
-  );
+  const locationContext = useMemo(() => extractLocationContext(displayTransactions), [displayTransactions]);
   const handleGenerateRecommendations = async () => {
     setIsGeneratingRecommendations(true);
     toast.info("Analyzing transactions and generating recommendations...", {
-      duration: 10000,
+      duration: 10000
     });
     try {
       // Aggregate insights from enriched transactions
@@ -903,16 +900,12 @@ const TePilot = () => {
                 <Card className="border-primary/20 bg-primary/5">
                   <CardContent className="pt-6 flex flex-col items-center gap-4">
                     <div className="text-center">
-                      <h3 className="text-lg font-semibold mb-2">Ready to Explore Persona-Based Insights?</h3>
+                      <h3 className="text-lg font-semibold mb-2">Ready to Explore Ventus Insight Tools?</h3>
                       <p className="text-sm text-muted-foreground mb-4">
                         Access specialized dashboards for Bank Leadership, Rewards Team, or Wealth Management
                       </p>
                     </div>
-                    <Button 
-                      onClick={() => setActiveTab("insights")} 
-                      size="lg" 
-                      className="gap-2"
-                    >
+                    <Button onClick={() => setActiveTab("insights")} size="lg" className="gap-2">
                       Go to Insights Dashboard
                       <ArrowRight className="h-4 w-4" />
                     </Button>
@@ -934,8 +927,7 @@ const TePilot = () => {
           </TabsContent>
 
           <TabsContent value="insights" className="space-y-6">
-            {!insightType && (
-              <>
+            {!insightType && <>
                 {/* Header */}
                 <div className="text-center mb-8 mt-10">
                   <h2 className="text-3xl font-bold mb-2">Choose Your Perspective</h2>
@@ -947,75 +939,32 @@ const TePilot = () => {
                 {/* Persona Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Bank Leadership Card */}
-                  <PersonaCard
-                    icon={Building2}
-                    title="Bank Leadership"
-                    valueProposition="Make data-driven decisions across your entire portfolio"
-                    description="Understand customer behavior patterns, identify growth opportunities, and optimize product strategy with portfolio-wide intelligence."
-                    keyFeatures={[
-                      "70M+ accounts analyzed across all card products",
-                      "Demographic breakdowns by age, region, and spending habits",
-                      "Cross-sell opportunity matrix with revenue projections",
-                      "Real-time pillar distribution and gap analysis"
-                    ]}
-                    buttonText="View Bank-wide Dashboard"
-                    onClick={() => setInsightType('bankwide')}
-                  />
+                  <PersonaCard icon={Building2} title="Bank Leadership" valueProposition="Make data-driven decisions across your entire portfolio" description="Understand customer behavior patterns, identify growth opportunities, and optimize product strategy with portfolio-wide intelligence." keyFeatures={["70M+ accounts analyzed across all card products", "Demographic breakdowns by age, region, and spending habits", "Cross-sell opportunity matrix with revenue projections", "Real-time pillar distribution and gap analysis"]} buttonText="View Bank-wide Dashboard" onClick={() => setInsightType('bankwide')} />
 
                   {/* Rewards Team Card */}
-                  <PersonaCard
-                    icon={TrendingUp}
-                    title="Rewards Team"
-                    valueProposition="Unlock millions in untapped revenue potential"
-                    description="AI-powered analysis identifies where customers are spending elsewhere and generates targeted offers to win that wallet share back."
-                    keyFeatures={[
-                      "AI detects spending gaps in 70+ subcategories",
-                      "Personalized merchant recommendations with projected lift",
-                      "Card product optimization suggestions",
-                      "ROI estimates for each opportunity"
-                    ]}
-                    buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"}
-                    buttonVariant="ai"
-                    onClick={() => {
-                      if (enrichedTransactions.length === 0) {
-                        toast.error("Please enrich transactions first");
-                        return;
-                      }
-                      handleGenerateRecommendations();
-                    }}
-                    disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations}
-                  />
+                  <PersonaCard icon={TrendingUp} title="Rewards Team" valueProposition="Unlock millions in untapped revenue potential" description="AI-powered analysis identifies where customers are spending elsewhere and generates targeted offers to win that wallet share back." keyFeatures={["AI detects spending gaps in 70+ subcategories", "Personalized merchant recommendations with projected lift", "Card product optimization suggestions", "ROI estimates for each opportunity"]} buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"} buttonVariant="ai" onClick={() => {
+                if (enrichedTransactions.length === 0) {
+                  toast.error("Please enrich transactions first");
+                  return;
+                }
+                handleGenerateRecommendations();
+              }} disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations} />
 
                   {/* Wealth Management Card */}
-                  <PersonaCard
-                    icon={Users}
-                    title="Wealth Management"
-                    valueProposition="Transform transactions into relationship insights"
-                    description="Detect major life events from spending patterns and receive AI-generated talking points to deepen client relationships and drive AUM growth."
-                    keyFeatures={[
-                      "Automatic life event detection (home purchase, baby, travel)",
-                      "Personalized product recommendations with rationale",
-                      "Ready-to-use conversation starters",
-                      "Action items prioritized by opportunity size"
-                    ]}
-                    buttonText="Access Wealth Management Tool"
-                    onClick={() => {
-                      if (!isRelationshipUnlocked) {
-                        if (enrichedTransactions.length > 0) {
-                          setShowPasswordDialog(true);
-                        } else {
-                          toast.error('Please enrich transactions first to access this tool');
-                        }
-                      } else {
-                        toast.info('Analyzing lifestyle signals...');
-                        fetchLifestyleSignals().then(() => {
-                          handleNavigateToAdvisorConsole();
-                        });
-                      }
-                    }}
-                    requiresUnlock={!isRelationshipUnlocked}
-                    disabled={enrichedTransactions.length === 0}
-                   />
+                  <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Detect major life events from spending patterns and receive AI-generated talking points to deepen client relationships and drive AUM growth." keyFeatures={["Automatic life event detection (home purchase, baby, travel)", "Personalized product recommendations with rationale", "Ready-to-use conversation starters", "Action items prioritized by opportunity size"]} buttonText="Access Wealth Management Tool" onClick={() => {
+                if (!isRelationshipUnlocked) {
+                  if (enrichedTransactions.length > 0) {
+                    setShowPasswordDialog(true);
+                  } else {
+                    toast.error('Please enrich transactions first to access this tool');
+                  }
+                } else {
+                  toast.info('Analyzing lifestyle signals...');
+                  fetchLifestyleSignals().then(() => {
+                    handleNavigateToAdvisorConsole();
+                  });
+                }
+              }} requiresUnlock={!isRelationshipUnlocked} disabled={enrichedTransactions.length === 0} />
                   
                   <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
                     <DialogContent>
@@ -1025,44 +974,36 @@ const TePilot = () => {
                           Enter the password to access wealth management relationship analysis tools
                         </DialogDescription>
                       </DialogHeader>
-                      <form onSubmit={async (e) => {
-                        e.preventDefault();
-                        if (passwordInput === "wealth") {
-                          setIsRelationshipUnlocked(true);
-                          sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
-                          setShowPasswordDialog(false);
-                          setPasswordInput("");
-                          
-                          const loadingToastId = toast.loading("Loading Wealth Management Tool...");
-                          
-                          try {
-                            await fetchLifestyleSignals();
-                            toast.dismiss(loadingToastId);
-                            toast.success("Wealth Management Tool loaded successfully!");
-                            handleNavigateToAdvisorConsole();
-                          } catch (error) {
-                            toast.dismiss(loadingToastId);
-                            toast.error("Failed to load tool. Please try again.");
-                          }
-                        } else {
-                          toast.error("Incorrect password");
-                          setPasswordInput("");
-                        }
-                      }}>
+                      <form onSubmit={async e => {
+                    e.preventDefault();
+                    if (passwordInput === "wealth") {
+                      setIsRelationshipUnlocked(true);
+                      sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
+                      setShowPasswordDialog(false);
+                      setPasswordInput("");
+                      const loadingToastId = toast.loading("Loading Wealth Management Tool...");
+                      try {
+                        await fetchLifestyleSignals();
+                        toast.dismiss(loadingToastId);
+                        toast.success("Wealth Management Tool loaded successfully!");
+                        handleNavigateToAdvisorConsole();
+                      } catch (error) {
+                        toast.dismiss(loadingToastId);
+                        toast.error("Failed to load tool. Please try again.");
+                      }
+                    } else {
+                      toast.error("Incorrect password");
+                      setPasswordInput("");
+                    }
+                  }}>
                         <div className="space-y-4 py-4">
-                          <Input
-                            type="password"
-                            placeholder="Enter password"
-                            value={passwordInput}
-                            onChange={(e) => setPasswordInput(e.target.value)}
-                            autoFocus
-                          />
+                          <Input type="password" placeholder="Enter password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)} autoFocus />
                         </div>
                         <DialogFooter>
                           <Button type="button" variant="outline" onClick={() => {
-                            setShowPasswordDialog(false);
-                            setPasswordInput("");
-                          }}>
+                        setShowPasswordDialog(false);
+                        setPasswordInput("");
+                      }}>
                             Cancel
                           </Button>
                           <Button type="submit">
@@ -1073,33 +1014,27 @@ const TePilot = () => {
                     </DialogContent>
                   </Dialog>
                 </div>
-              </>
-            )}
+              </>}
 
             {/* Bank-wide Dashboard View */}
-            {insightType === 'bankwide' && (
-              <div className="space-y-6">
+            {insightType === 'bankwide' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Bank-wide Analytics</h2>
-                  <Button 
-                    variant="outline" 
-                    onClick={() => setInsightType(null)}
-                  >
+                  <Button variant="outline" onClick={() => setInsightType(null)}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Persona Selection
                   </Button>
                 </div>
                 <BankwideView />
-              </div>
-            )}
+              </div>}
 
             {insightType === 'revenue' && recommendations && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
                   <Button variant="outline" onClick={() => {
-                    setActiveTab("insights");
-                    setInsightType(null);
-                  }}>
+                setActiveTab("insights");
+                setInsightType(null);
+              }}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Insights
                   </Button>
@@ -1175,9 +1110,9 @@ const TePilot = () => {
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Wealth Management Relationship Analysis</h2>
                   <Button variant="outline" onClick={() => {
-                    setActiveTab("insights");
-                    setInsightType(null);
-                  }}>
+                setActiveTab("insights");
+                setInsightType(null);
+              }}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Insights
                   </Button>
