@@ -848,7 +848,7 @@ const TePilot = () => {
                     </p>
                   </div>
                   <Button onClick={() => setActiveTab("analytics")} size="lg" className="gap-2">
-                    View Dashboard
+                    View Enriched Customer Dashboard
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </CardContent>
