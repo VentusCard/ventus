@@ -1078,15 +1078,17 @@ const TePilot = () => {
 
             {/* Bank-wide Dashboard View */}
             {insightType === 'bankwide' && (
-              <div>
-                <Button 
-                  variant="ghost" 
-                  onClick={() => setInsightType(null)}
-                  className="mb-4"
-                >
-                  <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Persona Selection
-                </Button>
+              <div className="space-y-6">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-2xl font-bold">Bank-wide Analytics</h2>
+                  <Button 
+                    variant="outline" 
+                    onClick={() => setInsightType(null)}
+                  >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Persona Selection
+                  </Button>
+                </div>
                 <BankwideView />
               </div>
             )}
