@@ -1022,7 +1022,7 @@ const TePilot = () => {
                   <h2 className="text-2xl font-bold">Bank-wide Analytics</h2>
                   <Button variant="outline" onClick={() => setInsightType(null)}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Persona Selection
+                    Back to Insight Tools Selection
                   </Button>
                 </div>
                 <BankwideView />
