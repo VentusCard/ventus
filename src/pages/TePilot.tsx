@@ -913,7 +913,7 @@ const TePilot = () => {
             {!insightType && <>
                 {/* Header */}
                 <div className="text-center mb-8 mt-10">
-                  <h2 className="text-3xl font-bold mb-2">Choose Your Perspective</h2>
+                  <h2 className="text-3xl font-bold mb-2">Three Insight Tools from One Tech Core                  </h2>
                   <p className="text-muted-foreground">
                     Select the view that matches your role to access tailored insights and analytics
                   </p>
