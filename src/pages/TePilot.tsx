@@ -258,6 +258,9 @@ const TePilot = () => {
   );
   const handleGenerateRecommendations = async () => {
     setIsGeneratingRecommendations(true);
+    toast.info("Analyzing transactions and generating recommendations...", {
+      duration: 10000,
+    });
     try {
       // Aggregate insights from enriched transactions
       const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
@@ -963,7 +966,7 @@ const TePilot = () => {
                       "Card product optimization suggestions",
                       "ROI estimates for each opportunity"
                     ]}
-                    buttonText="Generate Revenue Opportunities"
+                    buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"}
                     buttonVariant="ai"
                     badge="AI Powered"
                     onClick={() => {
@@ -973,7 +976,7 @@ const TePilot = () => {
                       }
                       handleGenerateRecommendations();
                     }}
-                    disabled={enrichedTransactions.length === 0}
+                    disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations}
                   />
 
                   {/* Wealth Management Card */}
