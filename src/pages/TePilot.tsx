@@ -842,7 +842,7 @@ const TePilot = () => {
             {currentPhase === "complete" && enrichedTransactions.length > 0 && <Card className="border-primary/20 bg-primary/5">
                 <CardContent className="pt-6 flex flex-col items-center gap-4">
                   <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">Ready to explore insights?</h3>
+                    <h3 className="text-lg font-semibold mb-2">Ready to explore enriched customer profile dashboard?</h3>
                     <p className="text-sm text-muted-foreground mb-4">
                       View aggregated spending patterns, travel analysis, and lifestyle breakdowns
                     </p>
