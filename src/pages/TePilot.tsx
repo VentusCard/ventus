@@ -496,7 +496,7 @@ const TePilot = () => {
             </div>
 
             {/* Accordion with 3 collapsible sections */}
-            <Accordion type="single" collapsible className="w-full" defaultValue="item-1">
+            <Accordion type="single" collapsible className="w-full">
               {/* Section 1: Ventus AI Workflows */}
               <AccordionItem value="item-1">
                 <AccordionTrigger className="text-lg font-semibold group">
