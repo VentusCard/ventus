@@ -62,7 +62,7 @@ const AdvisorConsolePage = () => {
             </p>
             <Button
               className="w-full"
-              onClick={() => navigate("/tepilot")}
+              onClick={() => navigate("/tepilot", { state: { activeTab: "insights" } })}
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to TePilot
@@ -81,7 +81,7 @@ const AdvisorConsolePage = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate("/tepilot")}
+            onClick={() => navigate("/tepilot", { state: { activeTab: "insights" } })}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to TePilot
