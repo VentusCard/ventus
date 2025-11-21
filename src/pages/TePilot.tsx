@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -58,6 +59,8 @@ const TePilot = () => {
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [isRelationshipUnlocked, setIsRelationshipUnlocked] = useState(false);
+  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
+  const [passwordInput, setPasswordInput] = useState("");
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(null);
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
@@ -996,25 +999,71 @@ const TePilot = () => {
                       "Action items prioritized by opportunity size"
                     ]}
                     buttonText="Access Wealth Management Tool"
-                    onClick={async () => {
+                    onClick={() => {
                       if (!isRelationshipUnlocked) {
-                        // Unlock the tool if they have enriched transactions
                         if (enrichedTransactions.length > 0) {
-                          setIsRelationshipUnlocked(true);
-                          sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
-                          toast.success('Wealth Management Tool unlocked!');
+                          setShowPasswordDialog(true);
                         } else {
                           toast.error('Please enrich transactions first to access this tool');
-                          return;
                         }
+                      } else {
+                        toast.info('Analyzing lifestyle signals...');
+                        fetchLifestyleSignals().then(() => {
+                          handleNavigateToAdvisorConsole();
+                        });
                       }
-                      toast.info('Analyzing lifestyle signals...');
-                      await fetchLifestyleSignals();
-                      handleNavigateToAdvisorConsole();
                     }}
                     requiresUnlock={!isRelationshipUnlocked}
                     disabled={enrichedTransactions.length === 0}
-                  />
+                   />
+                  
+                  <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>Unlock Wealth Management Tool</DialogTitle>
+                        <DialogDescription>
+                          Enter the password to access wealth management relationship analysis tools
+                        </DialogDescription>
+                      </DialogHeader>
+                      <form onSubmit={async (e) => {
+                        e.preventDefault();
+                        if (passwordInput === "wealth") {
+                          setIsRelationshipUnlocked(true);
+                          sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
+                          setShowPasswordDialog(false);
+                          setPasswordInput("");
+                          toast.success('Wealth Management Tool unlocked!');
+                          toast.info('Analyzing lifestyle signals...');
+                          await fetchLifestyleSignals();
+                          handleNavigateToAdvisorConsole();
+                        } else {
+                          toast.error("Incorrect password");
+                          setPasswordInput("");
+                        }
+                      }}>
+                        <div className="space-y-4 py-4">
+                          <Input
+                            type="password"
+                            placeholder="Enter password"
+                            value={passwordInput}
+                            onChange={(e) => setPasswordInput(e.target.value)}
+                            autoFocus
+                          />
+                        </div>
+                        <DialogFooter>
+                          <Button type="button" variant="outline" onClick={() => {
+                            setShowPasswordDialog(false);
+                            setPasswordInput("");
+                          }}>
+                            Cancel
+                          </Button>
+                          <Button type="submit">
+                            Unlock
+                          </Button>
+                        </DialogFooter>
+                      </form>
+                    </DialogContent>
+                  </Dialog>
                 </div>
               </>
             )}
