@@ -15,7 +15,7 @@ export function BeforeAfterTransformation({
   originalTransactions,
   enrichedTransactions
 }: BeforeAfterTransformationProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [highlightedNode, setHighlightedNode] = useState<string | null>(null);
   const mccData = aggregateByMCC(originalTransactions).slice(0, 10);
   const pillarData = aggregateByPillarWithTravelBreakdown(enrichedTransactions)
