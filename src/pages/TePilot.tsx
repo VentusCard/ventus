@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -42,7 +42,12 @@ const CURRENT_VERSION = "V2.1";
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [activeTab, setActiveTab] = useState("upload");
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState(() => {
+    // Check if navigation state specifies a tab
+    const navState = location.state as { activeTab?: string } | null;
+    return navState?.activeTab || "upload";
+  });
   const [inputMode, setInputMode] = useState<"paste" | "upload">("paste");
   const [rawInput, setRawInput] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
