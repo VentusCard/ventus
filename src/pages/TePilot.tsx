@@ -968,7 +968,6 @@ const TePilot = () => {
                     ]}
                     buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"}
                     buttonVariant="ai"
-                    badge="AI Powered"
                     onClick={() => {
                       if (enrichedTransactions.length === 0) {
                         toast.error("Please enrich transactions first");
@@ -992,7 +991,6 @@ const TePilot = () => {
                       "Action items prioritized by opportunity size"
                     ]}
                     buttonText="Access Wealth Management Tool"
-                    badge="Premium"
                     onClick={async () => {
                       if (!isRelationshipUnlocked) {
                         // Trigger unlock flow - will be handled by dialog
