@@ -1032,10 +1032,18 @@ const TePilot = () => {
                           sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
                           setShowPasswordDialog(false);
                           setPasswordInput("");
-                          toast.success('Wealth Management Tool unlocked!');
-                          toast.info('Analyzing lifestyle signals...');
-                          await fetchLifestyleSignals();
-                          handleNavigateToAdvisorConsole();
+                          
+                          const loadingToastId = toast.loading("Loading Wealth Management Tool...");
+                          
+                          try {
+                            await fetchLifestyleSignals();
+                            toast.dismiss(loadingToastId);
+                            toast.success("Wealth Management Tool loaded successfully!");
+                            handleNavigateToAdvisorConsole();
+                          } catch (error) {
+                            toast.dismiss(loadingToastId);
+                            toast.error("Failed to load tool. Please try again.");
+                          }
                         } else {
                           toast.error("Incorrect password");
                           setPasswordInput("");
