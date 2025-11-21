@@ -1023,7 +1023,10 @@ const TePilot = () => {
             {insightType === 'revenue' && recommendations && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
-                  <Button variant="outline" onClick={() => setActiveTab("insights")}>
+                  <Button variant="outline" onClick={() => {
+                    setActiveTab("insights");
+                    setInsightType(null);
+                  }}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Insights
                   </Button>
@@ -1098,7 +1101,10 @@ const TePilot = () => {
             {insightType === 'relationship' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Wealth Management Relationship Analysis</h2>
-                  <Button variant="outline" onClick={() => setActiveTab("insights")}>
+                  <Button variant="outline" onClick={() => {
+                    setActiveTab("insights");
+                    setInsightType(null);
+                  }}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Insights
                   </Button>
