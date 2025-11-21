@@ -925,19 +925,19 @@ const TePilot = () => {
               </Accordion>}
           </TabsContent>
 
-          <TabsContent value="insights" className="space-y-6">
+          <TabsContent value="insights" className="space-y-8">
             {!insightType && (
               <>
                 {/* Header */}
-                <div className="text-center mb-8">
-                  <h2 className="text-3xl font-bold mb-2">Choose Your Perspective</h2>
-                  <p className="text-muted-foreground">
+                <div className="text-center mb-12">
+                  <h2 className="text-3xl font-bold mb-3">Choose Your Perspective</h2>
+                  <p className="text-muted-foreground text-lg">
                     Select the view that matches your role to access tailored insights and analytics
                   </p>
                 </div>
 
                 {/* Persona Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                   {/* Bank Leadership Card */}
                   <PersonaCard
                     icon={Building2}
@@ -1008,11 +1008,11 @@ const TePilot = () => {
 
             {/* Bank-wide Dashboard View */}
             {insightType === 'bankwide' && (
-              <div>
+              <div className="space-y-6">
                 <Button 
                   variant="ghost" 
                   onClick={() => setInsightType(null)}
-                  className="mb-4"
+                  className="mb-6"
                 >
                   <ArrowLeft className="w-4 h-4 mr-2" />
                   Back to Persona Selection
@@ -1021,8 +1021,8 @@ const TePilot = () => {
               </div>
             )}
 
-            {insightType === 'revenue' && recommendations && <div className="space-y-6">
-                <div className="flex items-center justify-between mb-6">
+            {insightType === 'revenue' && recommendations && <div className="space-y-8">
+                <div className="flex items-center justify-between mb-8">
                   <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
                   <Button variant="outline" onClick={() => {
                     setActiveTab("insights");
