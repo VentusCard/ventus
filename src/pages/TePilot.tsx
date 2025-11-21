@@ -993,14 +993,22 @@ const TePilot = () => {
                     buttonText="Access Wealth Management Tool"
                     onClick={async () => {
                       if (!isRelationshipUnlocked) {
-                        // Trigger unlock flow - will be handled by dialog
-                        return;
+                        // Unlock the tool if they have enriched transactions
+                        if (enrichedTransactions.length > 0) {
+                          setIsRelationshipUnlocked(true);
+                          sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
+                          toast.success('Wealth Management Tool unlocked!');
+                        } else {
+                          toast.error('Please enrich transactions first to access this tool');
+                          return;
+                        }
                       }
                       toast.info('Analyzing lifestyle signals...');
                       await fetchLifestyleSignals();
                       handleNavigateToAdvisorConsole();
                     }}
                     requiresUnlock={!isRelationshipUnlocked}
+                    disabled={enrichedTransactions.length === 0}
                   />
                 </div>
               </>
