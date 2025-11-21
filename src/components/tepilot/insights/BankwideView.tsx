@@ -32,9 +32,9 @@ export function BankwideView() {
   const crossSellMatrix = getCrossSellMatrix(filters);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Intro Text */}
-      <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-6 rounded-lg border">
+      <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-4 rounded-lg border">
         <h2 className="text-2xl font-bold mb-2">Bank-wide Analytics Dashboard (Example)</h2>
         <p className="text-muted-foreground">
           This interactive dashboard demonstrates how Ventus AI insights scale to institutional portfolios.
