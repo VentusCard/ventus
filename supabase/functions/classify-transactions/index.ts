@@ -66,6 +66,11 @@ Food & Dining:
 - "STARBUCKS" → Coffee & Cafes
 - "DUNKIN" → Coffee & Cafes
 - "CHIPOTLE" → Dining Out
+- "PIZZA HUT" → Dining Out
+- "DOMINOS PIZZA" → Dining Out
+- "PAPA JOHNS" → Dining Out
+- "LOCAL PIZZA CO" → Dining Out
+- "MARCOS PIZZA" → Dining Out
 - "UBER EATS" → Delivery & Takeout
 - "DOORDASH" → Delivery & Takeout
 - "MCDONALDS" → Fast Food
@@ -141,6 +146,18 @@ Financial & Aspirational:
 - "GEICO" → Insurance
 - "STATE FARM" → Insurance
 
+CONFIDENCE EXAMPLES:
+These merchants all deserve 0.9 confidence even if you've never heard of them:
+- "Mario's Pizza" → Food & Dining: Dining Out (0.9) - obvious pizzeria
+- "Sunset Fitness Center" → Sports & Active Living: Gym & Fitness (0.9) - obvious gym
+- "Fresh Market Grocery" → Food & Dining: Grocery (0.9) - obvious grocery
+- "Hair by Design" → Style & Beauty: Hair Salon (0.9) - obvious salon
+- "Paws & Claws Vet" → Pets: Veterinary Care (0.9) - obvious vet
+
+These deserve lower confidence:
+- "ABC LLC" → Miscellaneous (0.4) - no category clues
+- "The Corner Spot" → Entertainment (0.7) - could be restaurant, bar, cafe
+
 MERCHANT PARSING:
 • Remove payment prefixes: Apple Pay, PayPal, Venmo, SQ, Cash App, Zelle
 • Extract true merchant (e.g., "SQ *Chipotle" → "Chipotle")
@@ -149,11 +166,23 @@ SUBCATEGORY RULES:
 • Match merchants to the MOST SPECIFIC subcategory shown in examples
 • Only use "General" when the merchant doesn't fit any specific subcategory
 • Be decisive - choose the best match even if not 100% certain
+• Category obviousness is MORE IMPORTANT than brand recognition
+• Examples: ANY pizza place = Dining Out (0.9), ANY gym = Gym & Fitness (0.9), ANY grocery store = Grocery (0.9)
+• If the business type is obvious from the name, assign high confidence regardless of whether you recognize the specific brand
 
 CONFIDENCE LEVELS:
-• High (0.9): Merchant matches examples or is clearly in a specific subcategory
-• Moderate (0.6): Reasonable inference based on merchant name
-• Low (0.3): Ambiguous - use "General" within appropriate pillar`;
+• High (0.9): 
+  - Well-known brand matches (Nike, Starbucks, Target)
+  - OR business category is obvious from merchant name (any pizza place, any gym, any grocery store, any salon)
+  - Examples: "Joe's Pizzeria" = 0.9 (obviously Dining Out), "Main Street Fitness" = 0.9 (obviously Gym)
+  
+• Moderate (0.7): 
+  - Business type is somewhat clear but subcategory is ambiguous
+  - Generic restaurant names without cuisine indicators
+  
+• Low (0.4): 
+  - Completely ambiguous merchant names (abbreviations, unclear)
+  - Use "General" subcategory within best-guess pillar`;
 
 // Classification Tool Schema
 const CLASSIFICATION_TOOL = [
@@ -193,8 +222,8 @@ const CLASSIFICATION_TOOL = [
                 confidence: {
                   type: "number",
                   description:
-                    "Confidence score: 0.9 for clear merchants (Nike, Starbucks), 0.6 for ambiguous merchants, 0.3 for unclear/miscellaneous",
-                  minimum: 0.3,
+                    "Confidence score: 0.9 for recognized brands (Nike, Starbucks) OR obvious categories (any pizzeria, any gym, any grocery), 0.7 for somewhat clear merchants, 0.4 for ambiguous",
+                  minimum: 0.4,
                   maximum: 0.9,
                 },
               },
