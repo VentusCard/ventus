@@ -1036,7 +1036,7 @@ const TePilot = () => {
                 setInsightType(null);
               }}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
-                    Back to Insights
+                    Back to Insight Tools Selection
                   </Button>
                 </div>
                 
