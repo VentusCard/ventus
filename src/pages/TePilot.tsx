@@ -889,26 +889,22 @@ const TePilot = () => {
                 
                 <BeforeAfterTransformation originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
                 
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Ventus AI Opportunity Recommendations</CardTitle>
-                    <CardDescription>
-                      Generate deal recommendations and view wealth management analysis
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="space-y-3">
-                      <Button onClick={handleGenerateRecommendations} disabled={isGeneratingRecommendations} className="w-full h-[60px]" variant="ai">
-                        <Sparkles className="mr-2 h-5 w-5" />
-                        {isGeneratingRecommendations ? "Generating..." : "Generate Revenue Recommendations"}
-                      </Button>
-                      
-            <RelationshipManagementCard onUnlock={async () => {
-                    setIsRelationshipUnlocked(true);
-                    toast.info('Analyzing lifestyle signals...');
-                    await fetchLifestyleSignals();
-                  }} isUnlocked={isRelationshipUnlocked} onNavigate={handleNavigateToAdvisorConsole} />
+                <Card className="border-primary/20 bg-primary/5">
+                  <CardContent className="pt-6 flex flex-col items-center gap-4">
+                    <div className="text-center">
+                      <h3 className="text-lg font-semibold mb-2">Ready to Explore Persona-Based Insights?</h3>
+                      <p className="text-sm text-muted-foreground mb-4">
+                        Access specialized dashboards for Bank Leadership, Rewards Team, or Wealth Management
+                      </p>
                     </div>
+                    <Button 
+                      onClick={() => setActiveTab("insights")} 
+                      size="lg" 
+                      className="gap-2"
+                    >
+                      Go to Insights Dashboard
+                      <ArrowRight className="h-4 w-4" />
+                    </Button>
                   </CardContent>
                 </Card>
               </> : <Accordion type="single" collapsible defaultValue="bankwide">
