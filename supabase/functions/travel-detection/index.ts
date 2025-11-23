@@ -2,10 +2,24 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+// Allowed origins for CORS
+const ALLOWED_ORIGINS = [
+  "https://ventuscard.com",
+  /^https:\/\/.*\.lovable\.app$/,
+  /^https:\/\/.*\.lovable\.dev$/,
+  /^http:\/\/localhost:\d+$/,
+];
+
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
+    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
+  );
+  
+  return {
+    "Access-Control-Allow-Origin": isAllowed ? origin! : "",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  };
+}
 
 // Simplified Travel Detection Prompt (for pre-filtered candidates)
 const TRAVEL_DETECTION_PROMPT = `You are analyzing PRE-FILTERED transactions that were flagged as potential travel because they:
@@ -75,6 +89,8 @@ const TRAVEL_DETECTION_TOOL = [
 ];
 
 Deno.serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req.headers.get("origin"));
+  
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -82,9 +98,24 @@ Deno.serve(async (req) => {
   try {
     const { transactions } = await req.json();
 
-    if (!Array.isArray(transactions) || transactions.length === 0) {
+    // Input validation
+    if (!Array.isArray(transactions)) {
       return new Response(
-        JSON.stringify({ error: "Invalid input: transactions array required" }),
+        JSON.stringify({ error: "Invalid input format" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    
+    if (transactions.length === 0) {
+      return new Response(
+        JSON.stringify({ error: "Empty transactions array" }),
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    }
+    
+    if (transactions.length > 1000) {
+      return new Response(
+        JSON.stringify({ error: "Too many transactions (max 1000)" }),
         { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
@@ -202,7 +233,7 @@ Deno.serve(async (req) => {
 
         } catch (error: any) {
           console.error("[Travel Detection] Error:", error);
-          sendEvent("error", { message: error.message });
+          sendEvent("error", { message: "Travel detection failed" });
           controller.close();
         }
       }
@@ -220,7 +251,7 @@ Deno.serve(async (req) => {
   } catch (error: any) {
     console.error("[Travel Detection] Error:", error);
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: "Service error" }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }

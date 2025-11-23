@@ -1,9 +1,23 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+// Allowed origins for CORS
+const ALLOWED_ORIGINS = [
+  "https://ventuscard.com",
+  /^https:\/\/.*\.lovable\.app$/,
+  /^https:\/\/.*\.lovable\.dev$/,
+  /^http:\/\/localhost:\d+$/,
+];
+
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
+    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
+  );
+  
+  return {
+    "Access-Control-Allow-Origin": isAllowed ? origin! : "",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  };
+}
 
 // Merchant tier classification keywords
 const MERCHANT_TIER_KEYWORDS = {
@@ -506,6 +520,8 @@ REMEMBER:
 - Be creative and realistic - these should feel like real banking offers`;
 
 serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req.headers.get("origin"));
+  
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -513,8 +529,16 @@ serve(async (req) => {
   try {
     const { insights } = await req.json();
 
-    if (!insights) {
-      return new Response(JSON.stringify({ error: "Missing insights parameter" }), {
+    // Input validation
+    if (!insights || typeof insights !== 'object') {
+      return new Response(JSON.stringify({ error: "Invalid insights data" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+    
+    if (!insights.totalSpend || typeof insights.totalSpend !== 'number') {
+      return new Response(JSON.stringify({ error: "Invalid total spend" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
@@ -635,10 +659,7 @@ Remember to anonymize all merchant names in your output!`;
   } catch (error) {
     console.error("Error generating recommendations:", error);
     return new Response(
-      JSON.stringify({
-        error: error instanceof Error ? error.message : "Unknown error",
-        details: error instanceof Error ? error.stack : undefined,
-      }),
+      JSON.stringify({ error: "Service error" }),
       {
         status: 500,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
