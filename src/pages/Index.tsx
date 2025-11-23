@@ -48,6 +48,7 @@ const Index = () => {
       <Navbar />
       <main className="flex flex-col">
         <Hero />
+        <CTA />
       </main>
       <Footer />
     </div>
