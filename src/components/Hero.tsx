@@ -75,8 +75,8 @@ const Hero = () => {
 
   return (
     <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
-      {/* Refined bottom gradient overlay for smoother transition - reduced height and more subtle */}
-      <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-b from-transparent via-[#0A0A0A] to-[#F8F9FA] z-20 pointer-events-none"></div>
+      {/* Seamless gradient overlay for smooth transition to footer */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-black/80 to-slate-900 z-20 pointer-events-none"></div>
       
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
         {/* Add spacing between navbar and hero content */}
