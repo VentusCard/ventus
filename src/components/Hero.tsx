@@ -115,7 +115,7 @@ const Hero = () => {
           </h1>
           
           {/* Enhanced subheading with soft blue-gray tone */}
-          <p className="text-base md:text-lg font-light text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg font-bold text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
             AI-powered smart rewards personalized to you
           </p>
           
