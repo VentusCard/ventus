@@ -10,13 +10,13 @@ interface GoalSelectionProps {
 
 const GoalSelection = ({ lifestyleOptions, selectedGoal, onGoalSelect }: GoalSelectionProps) => {
   return (
-    <section className="py-16 bg-white">
+    <section className="py-16 bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-gray-900">
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-white">
             Choose Your Main Lifestyle Goal
           </h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
             Select the primary lifestyle area where you want to earn rewards
           </p>
         </div>
@@ -28,14 +28,14 @@ const GoalSelection = ({ lifestyleOptions, selectedGoal, onGoalSelect }: GoalSel
               onClick={() => onGoalSelect(option.id)}
               className={`relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:shadow-lg ${
                 selectedGoal === option.id
-                  ? 'border-blue-500 bg-blue-50 shadow-lg scale-105'
-                  : 'border-gray-200 bg-white hover:border-blue-300'
+                  ? 'border-blue-500 bg-blue-900/30 shadow-lg scale-105'
+                  : 'border-slate-700 bg-slate-800 hover:border-blue-400'
               }`}
             >
               <div className="text-center">
                 <div className="text-4xl mb-4">{option.icon}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-2">{option.title}</h3>
-                <p className="text-gray-600 mb-3">{option.description}</p>
+                <h3 className="text-xl font-bold text-white mb-2">{option.title}</h3>
+                <p className="text-slate-300 mb-3">{option.description}</p>
                 <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${
                   option.year === "Launching First" 
                     ? "bg-green-100 text-green-700" 
@@ -54,13 +54,13 @@ const GoalSelection = ({ lifestyleOptions, selectedGoal, onGoalSelect }: GoalSel
               )}
 
               {selectedGoal === option.id && (
-                <div className="mt-6 pt-6 border-t border-blue-200">
-                  <p className="text-sm font-medium text-blue-700 mb-2">Sample Merchants:</p>
+                <div className="mt-6 pt-6 border-t border-blue-700">
+                  <p className="text-sm font-medium text-blue-300 mb-2">Sample Merchants:</p>
                   <div className="flex flex-wrap gap-2">
                     {option.merchants.map((merchant) => (
                       <span
                         key={merchant}
-                        className="px-2 py-1 bg-blue-100 text-blue-700 text-xs rounded-md"
+                        className="px-2 py-1 bg-blue-800 text-blue-100 text-xs rounded-md"
                       >
                         {merchant}
                       </span>

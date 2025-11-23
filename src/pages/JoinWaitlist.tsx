@@ -139,7 +139,6 @@ const JoinWaitlist = () => {
         </div>
       </section>
 
-      {/* Form Section - Mobile Optimized */}
       <section className="pb-12 md:pb-20 px-3 md:px-6">
         <div className="max-w-4xl mx-auto">
           <Card className="join-waitlist-card overflow-hidden border-0 shadow-premium bg-white mx-2 md:mx-0 rounded-xl">
@@ -270,6 +269,9 @@ const JoinWaitlist = () => {
           </Card>
         </div>
       </section>
+
+      {/* Seamless gradient transition to footer */}
+      <div className="h-32 bg-gradient-to-b from-slate-100 via-slate-600 to-slate-900"></div>
 
       <Footer />
     </div>

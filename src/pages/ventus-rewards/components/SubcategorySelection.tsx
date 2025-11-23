@@ -19,13 +19,13 @@ const SubcategorySelection = ({
   if (!selectedOption) return null;
 
   return (
-    <section id="subcategories-section" className="py-16 bg-gradient-to-br from-slate-50 to-blue-50/30">
+    <section id="subcategories-section" className="py-16 bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
-          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent">
+          <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
             Choose Your Subcategories
           </h2>
-          <p className="text-lg text-slate-600 max-w-2xl mx-auto font-light">
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto font-light">
             Customize your {selectedOption.title} goal by selecting your interests
           </p>
         </div>
@@ -37,8 +37,8 @@ const SubcategorySelection = ({
               onClick={() => onSubcategoryToggle(subcategory)}
               className={`p-4 rounded-xl border-2 text-center transition-all duration-300 backdrop-blur-sm transform hover:scale-105 ${
                 selectedSubcategories.includes(subcategory)
-                  ? 'border-blue-500 bg-gradient-to-br from-blue-50 to-blue-100 text-blue-700 shadow-premium'
-                  : 'border-slate-200 bg-white/80 text-slate-700 hover:border-blue-300 hover:bg-blue-50/50 shadow-metallic hover:shadow-premium'
+                  ? 'border-blue-500 bg-gradient-to-br from-blue-900/50 to-blue-800/50 text-blue-200 shadow-premium'
+                  : 'border-slate-700 bg-slate-800/80 text-slate-200 hover:border-blue-400 hover:bg-slate-700 shadow-metallic hover:shadow-premium'
               }`}
             >
               <div className="font-medium">{subcategory}</div>
