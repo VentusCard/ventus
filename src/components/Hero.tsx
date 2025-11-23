@@ -150,7 +150,7 @@ const Hero = () => {
             <Link to="/smartrewards">
               <Button 
                 size="sm"
-                className="bg-gradient-to-r from-[#1E40AF] to-[#2563EB] text-white hover:from-[#1E3A8A] hover:to-[#1E40AF] hover:brightness-110 rounded-full px-12 md:px-20 py-4 md:py-7 text-sm md:text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(30,64,175,0.4)] hover:shadow-[0_0_40px_rgba(30,64,175,0.6)] hover:scale-105 min-h-[48px] md:min-h-[64px] min-w-[160px] md:min-w-[220px] border-0 opacity-100 visible animate-fade-in"
+                className="bg-gradient-to-r from-[#1E40AF] to-[#2563EB] text-white hover:from-[#1E3A8A] hover:to-[#1E40AF] hover:brightness-110 rounded-full px-8 md:px-12 py-3 md:py-4 text-sm md:text-base font-medium transition-all duration-300 shadow-[0_0_30px_rgba(30,64,175,0.4)] hover:shadow-[0_0_40px_rgba(30,64,175,0.6)] hover:scale-105 min-h-[40px] md:min-h-[48px] min-w-[120px] md:min-w-[160px] border-0 opacity-100 visible animate-fade-in"
               >
                 Learn More
               </Button>
