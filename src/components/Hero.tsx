@@ -150,9 +150,7 @@ const Hero = () => {
             <Link to="/smartrewards">
               <Button 
                 size="sm"
-                className={`bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-12 md:px-20 py-4 md:py-7 text-sm md:text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[48px] md:min-h-[64px] min-w-[160px] md:min-w-[220px] border-0 ${
-                  videoEnded ? 'opacity-100 visible animate-fade-in' : 'opacity-0 invisible'
-                }`}
+                className="bg-gradient-to-r from-[#4D7CFE] to-[#6E89FF] text-white hover:from-[#3B6EFD] hover:to-[#5A78FE] hover:brightness-110 rounded-full px-12 md:px-20 py-4 md:py-7 text-sm md:text-lg font-medium transition-all duration-300 shadow-[0_0_30px_rgba(77,124,254,0.4)] hover:shadow-[0_0_40px_rgba(77,124,254,0.6)] hover:scale-105 min-h-[48px] md:min-h-[64px] min-w-[160px] md:min-w-[220px] border-0 opacity-100 visible animate-fade-in"
               >
                 Learn More
               </Button>
@@ -161,9 +159,7 @@ const Hero = () => {
           
           {/* Scroll cue with extremely subtle animation - always reserve space, control visibility */}
           <div className="mt-4 md:mt-6 h-6 flex flex-col items-center justify-center">
-            <div className={`transition-all duration-300 ${
-              videoEnded ? 'opacity-100 visible animate-fade-in' : 'opacity-0 invisible'
-            }`}>
+            <div className="opacity-100 visible animate-fade-in">
               <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
             </div>
           </div>
