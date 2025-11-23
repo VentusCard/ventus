@@ -16,6 +16,10 @@ const Partners = () => {
         <PartnerTestimonials />
         <PartnerForm />
       </div>
+      
+      {/* Seamless gradient transition to footer */}
+      <div className="h-32 bg-gradient-to-b from-slate-100 via-slate-600 to-slate-900"></div>
+      
       <Footer />
     </div>
   );
