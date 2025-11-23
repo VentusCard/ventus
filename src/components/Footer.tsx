@@ -7,6 +7,16 @@ const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   
+  // Determine background color based on the page context
+  const getFooterBackground = () => {
+    // Pages with black/dark sections above footer
+    if (location.pathname === '/' || location.pathname === '/smartrewards') {
+      return 'bg-slate-900';
+    }
+    // Pages with light sections above footer
+    return 'bg-slate-900';
+  };
+  
   const handleJoinWaitlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
 
@@ -23,7 +33,7 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-slate-900 text-white py-12">
+    <footer className={`${getFooterBackground()} text-white py-12`}>
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand */}

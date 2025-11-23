@@ -48,33 +48,6 @@ const Index = () => {
       <Navbar />
       <main className="flex flex-col">
         <Hero />
-        <div 
-          id="rewards" 
-          ref={rewardsRef}
-          className={`transition-all duration-500 ease-out delay-75 bg-[#F8F9FA] ${
-            visibleSections.rewards ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
-        >
-          <Rewards />
-        </div>
-        <div 
-          id="testimonials" 
-          ref={testimonialsRef}
-          className={`transition-all duration-500 ease-out delay-200 bg-[#F8F9FA] ${
-            visibleSections.testimonials ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
-        >
-          <Testimonials />
-        </div>
-        <div 
-          id="cta" 
-          ref={ctaRef}
-          className={`transition-all duration-500 ease-out delay-300 ${
-            visibleSections.cta ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
-          }`}
-        >
-          <CTA />
-        </div>
       </main>
       <Footer />
     </div>
