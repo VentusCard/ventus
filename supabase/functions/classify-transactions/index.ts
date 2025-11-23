@@ -2,10 +2,24 @@ import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
-const corsHeaders = {
-  "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
-};
+// Allowed origins for CORS
+const ALLOWED_ORIGINS = [
+  "https://ventuscard.com",
+  /^https:\/\/.*\.lovable\.app$/,
+  /^https:\/\/.*\.lovable\.dev$/,
+  /^http:\/\/localhost:\d+$/,
+];
+
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
+    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
+  );
+  
+  return {
+    "Access-Control-Allow-Origin": isAllowed ? origin! : "",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  };
+}
 
 // Classification Prompt with Examples
 const CLASSIFICATION_PROMPT = `Classify transactions into lifestyle pillars and specific subcategories based on merchant names.
@@ -307,6 +321,8 @@ async function classifyBatch(
 }
 
 Deno.serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req.headers.get("origin"));
+  
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -314,11 +330,48 @@ Deno.serve(async (req) => {
   try {
     const { transactions } = await req.json();
 
-    if (!Array.isArray(transactions) || transactions.length === 0) {
-      return new Response(JSON.stringify({ error: "Invalid input: transactions array required" }), {
+    // Input validation
+    if (!Array.isArray(transactions)) {
+      return new Response(JSON.stringify({ error: "Invalid input format" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
+    }
+
+    if (transactions.length === 0) {
+      return new Response(JSON.stringify({ error: "Empty transactions array" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    if (transactions.length > 1000) {
+      return new Response(JSON.stringify({ error: "Too many transactions (max 1000)" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    // Validate transaction structure
+    for (const txn of transactions) {
+      if (!txn.transaction_id || typeof txn.transaction_id !== 'string') {
+        return new Response(JSON.stringify({ error: "Invalid transaction ID" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (!txn.merchant_name || typeof txn.merchant_name !== 'string') {
+        return new Response(JSON.stringify({ error: "Invalid merchant name" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
+      if (typeof txn.amount !== 'number' || txn.amount < 0) {
+        return new Response(JSON.stringify({ error: "Invalid amount" }), {
+          status: 400,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
+      }
     }
 
     // Streamlined transaction input
@@ -411,7 +464,7 @@ Deno.serve(async (req) => {
         } catch (error) {
           console.error("[CLASSIFY] Error:", error);
           sendEvent("error", {
-            message: error instanceof Error ? error.message : "Unknown error",
+            message: "Classification failed",
             timestamp: new Date().toISOString(),
           });
           controller.close();
@@ -429,7 +482,7 @@ Deno.serve(async (req) => {
     });
   } catch (error) {
     console.error("[CLASSIFY] Server error:", error);
-    return new Response(JSON.stringify({ error: error instanceof Error ? error.message : "Unknown error" }), {
+    return new Response(JSON.stringify({ error: "Service error" }), {
       status: 500,
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });

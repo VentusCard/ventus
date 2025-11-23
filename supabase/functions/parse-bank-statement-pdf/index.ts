@@ -1,12 +1,28 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import PDFParser from "npm:pdf-parse@1.1.1";
 
-const corsHeaders = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+// Allowed origins for CORS
+const ALLOWED_ORIGINS = [
+  "https://ventuscard.com",
+  /^https:\/\/.*\.lovable\.app$/,
+  /^https:\/\/.*\.lovable\.dev$/,
+  /^http:\/\/localhost:\d+$/,
+];
+
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
+    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
+  );
+  
+  return {
+    "Access-Control-Allow-Origin": isAllowed ? origin! : "",
+    "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
+  };
+}
 
 serve(async (req) => {
+  const corsHeaders = getCorsHeaders(req.headers.get("origin"));
+  
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -14,8 +30,20 @@ serve(async (req) => {
   try {
     const { fileData, fileName } = await req.json();
     
-    if (!fileData) {
-      throw new Error("No file data provided");
+    // Input validation
+    if (!fileData || typeof fileData !== 'string') {
+      return new Response(
+        JSON.stringify({ error: "Invalid file data" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
+    }
+    
+    // Check file size (base64 string length, rough estimate: 5MB = ~6.7M chars)
+    if (fileData.length > 7000000) {
+      return new Response(
+        JSON.stringify({ error: "File too large (max 5MB)" }),
+        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+      );
     }
 
     console.log(`Processing PDF: ${fileName}`);
@@ -174,8 +202,7 @@ serve(async (req) => {
     console.error("PDF parsing error:", error);
     return new Response(
       JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Failed to parse PDF",
-        details: error instanceof Error ? error.stack : undefined
+        error: error instanceof Error ? error.message : "Failed to parse PDF"
       }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
