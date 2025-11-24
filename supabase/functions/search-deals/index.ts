@@ -6,6 +6,7 @@ const ALLOWED_ORIGINS = [
   "https://ventuscard.com",
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
+  /^https:\/\/.*\.lovableproject\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
