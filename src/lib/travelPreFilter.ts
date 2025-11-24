@@ -1,4 +1,5 @@
 import { EnrichedTransaction } from '@/types/transaction';
+import { extractLocationContext } from './geoLocationUtils';
 
 export interface TravelCandidate {
   transaction: EnrichedTransaction;
@@ -24,7 +25,10 @@ export function preFilterTravelCandidates(
   travelCandidates: TravelCandidate[];
   stats: PreFilterStats;
 } {
-  const homePrefix = homeZip.slice(0, 3);
+  // Derive home city using existing utility
+  const locationContext = extractLocationContext(transactions);
+  const homeCity = locationContext.homeCity;
+  
   const travelAnchors = [
     'hotel', 'marriott', 'hilton', 'hyatt', 'holiday inn', 'airbnb', 'vrbo',
     'airline', 'delta', 'united', 'southwest', 'american airlines', 'jetblue',
@@ -35,13 +39,34 @@ export function preFilterTravelCandidates(
   const homeZone: EnrichedTransaction[] = [];
   const candidateMap = new Map<string, TravelCandidate>();
   
-  // First pass: identify away-from-home and travel anchor transactions
+  // Helper to derive city from zip (using same logic as geoLocationUtils)
+  const deriveCityFromZip = (zip: string | null): string | null => {
+    if (!zip) return null;
+    const zipPrefix = zip.substring(0, 3);
+    const zipPrefixToCityMap: Record<string, string> = {
+      "606": "Chicago", "607": "Chicago", "608": "Chicago",
+      "100": "New York", "101": "New York", "102": "New York", "103": "New York", "104": "New York", "105": "New York",
+      "900": "Los Angeles", "901": "Los Angeles", "902": "Los Angeles",
+      "941": "San Francisco", "942": "San Francisco", "943": "San Francisco", "944": "San Francisco",
+      "021": "Boston", "022": "Boston",
+      "331": "Miami", "332": "Miami", "333": "Miami",
+      "752": "Dallas", "753": "Dallas",
+      "770": "Houston", "771": "Houston", "772": "Houston",
+      "981": "Seattle", "982": "Seattle",
+      "303": "Atlanta", "304": "Atlanta",
+      "191": "Philadelphia", "192": "Philadelphia",
+    };
+    return zipPrefixToCityMap[zipPrefix] || null;
+  };
+  
+  // First pass: identify away-from-home (city-based) and travel anchor transactions
   transactions.forEach(tx => {
     const txZip = tx.zip_code || '';
     const merchant = tx.normalized_merchant.toLowerCase();
     
-    // Check if away from home zip (first 3 digits)
-    const isAwayZip = txZip && txZip.slice(0, 3) !== homePrefix;
+    // City-based ZIP matching: compare derived cities, not ZIP prefixes
+    const txCity = deriveCityFromZip(txZip);
+    const isAwayZip = txZip && txCity && homeCity && txCity !== homeCity;
     
     // Check if travel anchor merchant
     const isTravelAnchor = travelAnchors.some(anchor => 
@@ -69,7 +94,7 @@ export function preFilterTravelCandidates(
       const daysDiff = Math.abs(
         (txDate.getTime() - anchorDate.getTime()) / (1000 * 60 * 60 * 24)
       );
-      return daysDiff <= 5;
+      return daysDiff <= 2;
     });
     
     if (nearAnchor && !candidateMap.has(tx.transaction_id)) {

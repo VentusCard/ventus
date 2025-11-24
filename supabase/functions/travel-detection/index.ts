@@ -207,20 +207,31 @@ Deno.serve(async (req) => {
             console.warn("[Travel Detection] No travel detection results returned");
           }
 
-          // Fallback: If AI returns no updates but we have travel candidates, mark them manually
+          // Conservative fallback: only mark obvious travel merchants
           if (travelUpdates.length === 0 && transactions.length > 0) {
-            console.warn('[Travel Detection] AI returned no updates, applying fallback logic');
-            travelUpdates = transactions.map(t => ({
-              transaction_id: t.transaction_id,
-              is_travel_related: true,
-              travel_period_start: null,
-              travel_period_end: null,
-              travel_destination: null,
-              original_pillar: t.pillar,
-              reclassified_pillar: null,
-              reclassified_subcategory: null,
-              reclassification_reason: 'Flagged as travel candidate by pre-filter'
-            }));
+            console.warn('[Travel Detection] AI returned no updates, applying conservative fallback');
+            const obviousKeywords = ['hotel', 'marriott', 'hilton', 'hyatt', 'holiday inn', 
+                                     'airline', 'delta', 'united', 'southwest', 'american airlines', 
+                                     'airport', 'airbnb', 'vrbo'];
+            
+            travelUpdates = transactions.map(t => {
+              const merchant = (t.normalized_merchant || t.merchant_name || '').toLowerCase();
+              const isObviousTravel = obviousKeywords.some(kw => merchant.includes(kw));
+              
+              return {
+                transaction_id: t.transaction_id,
+                is_travel_related: isObviousTravel,
+                travel_destination: isObviousTravel ? 'unknown' : null,
+                travel_period_start: isObviousTravel ? t.date : null,
+                travel_period_end: isObviousTravel ? t.date : null,
+                original_pillar: t.pillar || 'Unknown',
+                reclassified_pillar: t.pillar || 'Unknown',
+                reclassified_subcategory: t.subcategory || 'Unknown',
+                reclassification_reason: isObviousTravel 
+                  ? 'AI unavailable - obvious travel merchant detected'
+                  : 'AI unavailable - not an obvious travel merchant'
+              };
+            });
           }
 
           // Send travel updates
