@@ -6,17 +6,18 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
-import { FinancialProjection, CostCategory, FundingSource, ActionableTimelineItem } from "@/types/lifestyle-signals";
+import { FinancialProjection, CostCategory, FundingSource, ActionableTimelineItem, LifeEvent } from "@/types/lifestyle-signals";
 import { FundingSourcesTable } from "./FundingSourcesTable";
 import { CashFlowChart } from "./CashFlowChart";
 import { ActionableTimelineSection } from "./ActionableTimelineSection";
-import { Save, FileDown, ListPlus, Lightbulb } from "lucide-react";
+import { Save, FileDown, ListPlus, Lightbulb, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
 
 interface FinancialTimelineToolProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  detectedEvent?: LifeEvent;
 }
 
 const projectTypes = {
@@ -28,7 +29,7 @@ const projectTypes = {
   other: { label: "Custom", categories: ["Category 1", "Category 2", "Category 3"] },
 };
 
-export function FinancialTimelineTool({ open, onOpenChange }: FinancialTimelineToolProps) {
+export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: FinancialTimelineToolProps) {
   const { toast } = useToast();
   const [projectName, setProjectName] = useState("College Education");
   const [projectType, setProjectType] = useState<keyof typeof projectTypes>("education");
@@ -44,12 +45,68 @@ export function FinancialTimelineTool({ open, onOpenChange }: FinancialTimelineT
 
   const years = Array.from({ length: duration }, (_, i) => startYear + i);
 
-  // Initialize with default template
+  // Initialize with detected event or default template
   useEffect(() => {
     if (open) {
-      loadTemplate(projectType);
+      if (detectedEvent?.financial_projection) {
+        loadFromDetectedEvent(detectedEvent);
+      } else {
+        loadTemplate(projectType);
+      }
     }
-  }, [open, projectType]);
+  }, [open, detectedEvent]);
+
+  const loadFromDetectedEvent = (event: LifeEvent) => {
+    const projection = event.financial_projection!;
+    
+    // Set project info from AI
+    setProjectName(event.event_name);
+    setProjectType(projection.project_type as keyof typeof projectTypes);
+    setStartYear(projection.estimated_start_year);
+    setDuration(projection.duration_years);
+    setCurrentSavings(projection.estimated_current_savings || 0);
+    setMonthlyContribution(projection.recommended_monthly_contribution || 0);
+    
+    // Set cost categories from AI
+    const newCategories: CostCategory[] = projection.cost_breakdown.map((item, idx) => ({
+      id: `cat-${idx}`,
+      label: item.category,
+      amounts: item.yearly_amounts as { [year: number]: number }
+    }));
+    setCostCategories(newCategories);
+    
+    // Set funding sources from AI recommendations
+    const newFundingSources: FundingSource[] = projection.recommended_funding_sources.map((source, idx) => {
+      const sourceYears = Array.from({ length: projection.duration_years }, (_, i) => projection.estimated_start_year + i);
+      const amounts: { [year: number]: number } = {};
+      sourceYears.forEach(year => {
+        amounts[year] = source.suggested_annual_amount;
+      });
+      
+      return {
+        id: `source-${idx}`,
+        type: source.type,
+        label: `${source.type.toUpperCase()} - ${source.rationale}`,
+        amounts
+      };
+    });
+    setFundingSources(newFundingSources);
+    
+    // Convert action_items from life event to actionable timeline with timing extraction
+    const newActionItems: ActionableTimelineItem[] = event.action_items.map((item, idx) => {
+      // Simple timing extraction - look for year patterns or Q1/Q2 etc
+      const timingMatch = item.match(/\b(Q[1-4]|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\d{4})\b/);
+      const timing = timingMatch ? timingMatch[0] : `Year ${projection.estimated_start_year}`;
+      
+      return {
+        id: `ai-${idx}`,
+        timing,
+        action: item,
+        completed: false
+      };
+    });
+    setActionItems(newActionItems);
+  };
 
   const loadTemplate = (type: keyof typeof projectTypes) => {
     const template = projectTypes[type];
@@ -148,6 +205,23 @@ export function FinancialTimelineTool({ open, onOpenChange }: FinancialTimelineT
         </DialogHeader>
 
         <div className="space-y-6">
+          {/* AI Pre-fill Banner */}
+          {detectedEvent?.financial_projection && (
+            <Card className="bg-primary/5 border-primary/20">
+              <CardContent className="pt-4">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-medium">
+                    Pre-filled from AI-detected: "{detectedEvent.event_name}" (Confidence: {detectedEvent.confidence}%)
+                  </span>
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Review and adjust the projections below based on client conversation.
+                </p>
+              </CardContent>
+            </Card>
+          )}
+
           {/* Project Info */}
           <Card>
             <CardContent className="pt-6 space-y-4">
