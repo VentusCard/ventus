@@ -386,7 +386,11 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
                 </div>
                 <div>
                   <Label>Project Type</Label>
-                  <Select value={projectType} onValueChange={(value) => setProjectType(value as keyof typeof projectTypes)}>
+                  <Select value={projectType} onValueChange={(value) => {
+                    const newType = value as keyof typeof projectTypes;
+                    setProjectType(newType);
+                    loadTemplate(newType);
+                  }}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
