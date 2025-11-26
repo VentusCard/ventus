@@ -4,6 +4,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { TrendingUp, Brain, CheckCircle, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { TranscriptInsights } from "./TranscriptUploadDialog";
+import { EmotionalToneBadge } from "./EmotionalToneBadge";
+import { EmotionalToneAnalysis } from "@/types/lifestyle-signals";
 
 interface TranscriptInsightsPanelProps {
   insights: TranscriptInsights | null;
@@ -14,6 +16,21 @@ export function TranscriptInsightsPanel({ insights, onClose }: TranscriptInsight
   if (!insights) return null;
 
   const { opportunities, psychological_insights, action_items, life_events, clientName, meetingDate } = insights;
+
+  // Mock emotional tone analysis - in production, this would come from the AI analysis
+  const emotionalTone: EmotionalToneAnalysis = {
+    tone: "engaged",
+    confidence: 0.85,
+    supportingQuotes: [
+      "I'm really excited about this opportunity",
+      "This aligns perfectly with our family goals"
+    ],
+    preparationTips: [
+      "Client is receptive - good time to introduce new products",
+      "Focus on alignment with family values in presentation",
+      "Maintain positive momentum in conversation"
+    ]
+  };
 
   return (
     <div className="space-y-4 p-4 bg-background border rounded-lg">
@@ -35,6 +52,9 @@ export function TranscriptInsightsPanel({ insights, onClose }: TranscriptInsight
           </Button>
         )}
       </div>
+
+      {/* Emotional Tone Badge */}
+      <EmotionalToneBadge analysis={emotionalTone} />
 
       {/* Opportunities Section */}
       {opportunities.length > 0 && (

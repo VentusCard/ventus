@@ -20,6 +20,7 @@ import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { TaskItem } from "./TaskItem";
 import { TranscriptUploadDialog, TranscriptInsights } from "./TranscriptUploadDialog";
 import { TranscriptInsightsPanel } from "./TranscriptInsightsPanel";
+import { FinancialTimelineTool } from "./FinancialTimelineTool";
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
   onSaveToDocument?: (message: ChatMessage) => void;
@@ -49,6 +50,7 @@ export function VentusChatPanel({
   const [lifeEventsOpen, setLifeEventsOpen] = useState(false);
   const [transcriptDialogOpen, setTranscriptDialogOpen] = useState(false);
   const [transcriptInsights, setTranscriptInsights] = useState<TranscriptInsights | null>(null);
+  const [financialTimelineOpen, setFinancialTimelineOpen] = useState(false);
   const {
     toast
   } = useToast();
@@ -64,7 +66,7 @@ export function VentusChatPanel({
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const smartChips = ["Meeting Prep", "Product Recommendations", "Spending Analysis", "Life Events Summary", "Draft Email"];
+  const smartChips = ["Meeting Prep", "Product Recommendations", "Spending Analysis", "Life Events Summary", "Draft Email", "Financial Timeline"];
   const handleChipClick = (chip: string) => {
     let prompt = "";
     switch (chip) {
@@ -83,6 +85,9 @@ export function VentusChatPanel({
       case "Draft Email":
         prompt = "Draft a professional email to the client about our upcoming meeting";
         break;
+      case "Financial Timeline":
+        setFinancialTimelineOpen(true);
+        return;
       default:
         prompt = `[${chip}] `;
     }
@@ -345,5 +350,10 @@ export function VentusChatPanel({
           />
         </div>
       )}
+
+      <FinancialTimelineTool 
+        open={financialTimelineOpen}
+        onOpenChange={setFinancialTimelineOpen}
+      />
     </div>;
 }
