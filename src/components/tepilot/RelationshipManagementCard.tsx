@@ -1,95 +1,19 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Lock, CheckCircle } from "lucide-react";
-import { toast } from "sonner";
+import { Briefcase } from "lucide-react";
 
 interface RelationshipManagementCardProps {
-  onUnlock: () => void;
-  isUnlocked: boolean;
   onNavigate?: () => void;
 }
 
-export function RelationshipManagementCard({ onUnlock, isUnlocked, onNavigate }: RelationshipManagementCardProps) {
-  const [password, setPassword] = useState("");
-  const [showDialog, setShowDialog] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === "wealth") {
-      onUnlock();
-      setShowDialog(false);
-      setPassword("");
-      sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
-      toast.success("Relationship Management unlocked!");
-      
-      // Navigate after unlocking
-      if (onNavigate) {
-        onNavigate();
-      }
-    } else {
-      toast.error("Incorrect password");
-      setPassword("");
-    }
-  };
-
-  if (isUnlocked) {
-    return (
-      <Button 
-        className="w-full h-[60px]" 
-        variant="outline"
-        onClick={onNavigate}
-      >
-        <CheckCircle className="mr-2 h-5 w-5 text-green-500" />
-        Open Wealth Management Console (Unlocked)
-      </Button>
-    );
-  }
-
+export function RelationshipManagementCard({ onNavigate }: RelationshipManagementCardProps) {
   return (
-    <>
-      <Button 
-        onClick={() => setShowDialog(true)} 
-        className="w-full h-[60px]" 
-        variant="outline"
-      >
-        <Lock className="mr-2 h-5 w-5" />
-        Wealth Management Relationship Analysis (Click to Unlock)
-      </Button>
-      
-      <Dialog open={showDialog} onOpenChange={setShowDialog}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Unlock Relationship Management</DialogTitle>
-            <DialogDescription>
-              Enter the password to access wealth management relationship analysis tools
-            </DialogDescription>
-          </DialogHeader>
-          <form onSubmit={handleSubmit}>
-            <div className="space-y-4 py-4">
-              <Input
-                type="password"
-                placeholder="Enter password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                autoFocus
-              />
-            </div>
-            <DialogFooter>
-              <Button type="button" variant="outline" onClick={() => {
-                setShowDialog(false);
-                setPassword("");
-              }}>
-                Cancel
-              </Button>
-              <Button type="submit">
-                Unlock
-              </Button>
-            </DialogFooter>
-          </form>
-        </DialogContent>
-      </Dialog>
-    </>
+    <Button 
+      className="w-full h-[60px]" 
+      variant="outline"
+      onClick={onNavigate}
+    >
+      <Briefcase className="mr-2 h-5 w-5" />
+      Open Wealth Management Copilot
+    </Button>
   );
 }
