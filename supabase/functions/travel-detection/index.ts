@@ -26,32 +26,41 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
 const TRAVEL_DETECTION_PROMPT = `You are analyzing PRE-FILTERED transactions that were flagged as potential travel because they:
 1. Have zip codes different from home (home zip: {homeZip})
 2. Are travel anchors (hotels, flights, car rentals)
-3. Occur within ±5 days of travel anchors
+3. Occur within ±2 days of travel anchors AND have non-home zip codes
 
-ASSUMPTION: Most of these ARE travel-related unless clearly not (e.g., online subscription in the middle of a trip).
+IMPORTANT RULES FOR TRANSACTIONS WITH ZIP='unknown':
+- Transactions with zip='unknown' should ONLY be marked travel-related if:
+  • They are obvious travel merchants (hotels, airlines, car rentals, airports)
+  • They explicitly contain destination city names in the merchant name
+- Regular merchants (Under Armour, Juice Land, Starbucks, retail stores) with zip='unknown' 
+  should default to is_travel_related=FALSE
+- Only physical transactions AT the travel destination should be reclassified
+- When in doubt about location, mark as NOT travel-related
 
 YOUR JOB:
 1. Identify travel windows (±3 days around hotels/flights)
-2. Mark ALL transactions in those windows as travel-related
-3. Reclassify physical spending categories:
+2. Mark transactions in those windows as travel-related ONLY if they have confirmed location data
+3. Reclassify physical spending categories at the destination:
    - Gas stations → "Travel Transportation"
    - Restaurants → "Dining Away"
    - Rideshares/Uber → "Local Transportation"
    - Grocery/convenience stores → "Travel Essentials"
 
-KEEP ORIGINAL: Online subscriptions (Netflix, Spotify, etc.)
+KEEP ORIGINAL: 
+- Online subscriptions (Netflix, Spotify, etc.)
+- Transactions without location confirmation (zip='unknown' for non-travel merchants)
 
 EXAMPLE:
-Input: Hotel in Queens (11375), restaurant in Manhattan same day, gas station in Brooklyn next day
-Output: All 3 marked is_travel_related=true with travel_destination="NYC", restaurant→"Dining Away", gas→"Travel Transportation"
+Input: Hotel in Dallas (75201), Under Armour (zip=unknown) same day, restaurant in Dallas (75202) next day
+Output: Hotel & restaurant marked travel-related, Under Armour marked NOT travel-related (no location proof)
 
 OUTPUT:
 For each transaction, provide:
-- is_travel_related: true/false
+- is_travel_related: true/false (conservative for zip='unknown')
 - travel_period_start/end: ISO dates if part of travel
 - travel_destination: Major city name only (e.g., "NYC" not "Queens", "Los Angeles" not "Santa Monica", "San Francisco" not "Oakland"). Use "unknown" if unclear.
 - original_pillar: Pillar before reclassification
-- reclassification_reason: Why this was changed to travel
+- reclassification_reason: Why this was changed to travel (or why it stayed non-travel)
 - reclassified_pillar: New pillar (if reclassified)
 - reclassified_subcategory: New subcategory (if reclassified)`;
 
