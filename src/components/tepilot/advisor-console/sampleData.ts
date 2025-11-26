@@ -806,3 +806,196 @@ export const sampleAIInsights: AIInsights = {
     }
   ]
 };
+
+// Sample Meeting Transcripts for Tone Analysis
+export interface MeetingTranscript {
+  id: string;
+  title: string;
+  date: string;
+  duration: string;
+  participants: string[];
+  transcript: string;
+  expectedTone?: 'excited' | 'anxious' | 'optimistic' | 'concerned' | 'satisfied';
+  context: string;
+}
+
+export const sampleMeetingTranscripts: MeetingTranscript[] = [
+  {
+    id: "transcript-1",
+    title: "Q2 Portfolio Review - College Planning Discussion",
+    date: "2024-06-15",
+    duration: "45 minutes",
+    participants: ["Client", "Advisor"],
+    expectedTone: "anxious",
+    context: "Client discussing college planning for dependent who recently took SAT prep course",
+    transcript: `Advisor: Thanks for meeting with me today. I wanted to touch base on the portfolio performance and also discuss some of the changes I've noticed in your spending patterns.
+
+Client: Yeah, of course. I've been meaning to talk to you actually. Things have been... well, a bit stressful lately if I'm being honest.
+
+Advisor: I'm here to help. What's on your mind?
+
+Client: It's just that Sarah took her SAT prep course last month, and the whole college application process is becoming very real. We went on a campus visit to Stanford a few weeks ago, and I keep thinking about how we're going to pay for all this. The tuition numbers are just... they're staggering.
+
+Advisor: I can understand that concern. College costs can feel overwhelming. Let me pull up your current education savings...
+
+Client: That's the thing - we don't really have a dedicated college fund. We've been meaning to set one up, but with the new house and everything, it just kept getting pushed back. Now I'm worried we're too late. Sarah's a junior now, so we only have about a year and a half before applications are due.
+
+Advisor: It's definitely not too late, but I hear your concern about the timeline. Let's talk about some strategies...
+
+Client: I just keep doing the math in my head. Even if she gets some scholarships, we're probably looking at what, $50,000, $60,000 a year? Over four years that's a quarter million dollars. And what if she wants to go to grad school? I don't want her to graduate with a mountain of debt like I did.
+
+Advisor: Those are valid concerns. Based on what I'm seeing in your transaction data, you're financially positioned to handle this, but we need to be strategic about it.
+
+Client: I hope so. My wife and I have been arguing about it actually. She thinks we should just take out parent loans, but I really want to avoid that if possible. We just refinanced to a bigger mortgage when we moved, and I don't want to add more debt on top of that.
+
+Advisor: That's a very responsible way to think about it. Let me walk you through some options that might ease your concerns...`
+  },
+  {
+    id: "transcript-2",
+    title: "Year-End Review - Philanthropy and Tax Planning",
+    date: "2024-11-20",
+    duration: "35 minutes",
+    participants: ["Client", "Advisor"],
+    expectedTone: "optimistic",
+    context: "Client discussing charitable giving strategy and strong portfolio performance",
+    transcript: `Client: Hey! Thanks for fitting me in before the holidays. I know this is your busy season.
+
+Advisor: Always happy to meet with you. How have things been?
+
+Client: Really good, actually. Work has been great - we just closed a major product launch, and I got a nice bonus as a result. The team is performing well, and I'm feeling pretty optimistic about next year.
+
+Advisor: That's wonderful to hear. Congratulations on the launch!
+
+Client: Thanks! So that's actually part of why I wanted to meet. With the bonus coming in, I've been thinking a lot about giving back. You know, my wife and I have been volunteering at the local children's hospital, and it's been really rewarding. We want to make a significant donation before year-end.
+
+Advisor: That's a great impulse. Have you thought about how much you're considering?
+
+Client: We're thinking somewhere in the $25,000 to $30,000 range. I know that's a big number, but with the way the portfolio has performed this year and my bonus, we feel like we're in a position to do something meaningful.
+
+Advisor: That's quite generous. Before we finalize that, let me make sure we're optimizing it from a tax perspective. There are some strategies we could employ to maximize both the impact and your tax benefits.
+
+Client: Oh, I hadn't really thought about that angle. I just want to make sure the money does the most good.
+
+Advisor: Absolutely, and we can accomplish both. Given your income level this year with the bonus, we could potentially structure this donation in a way that gives you significant tax advantages while still delivering the full amount to the charity.
+
+Client: That sounds perfect. You know, it's funny - a few years ago I would have been terrified to write a check that large. But now, with everything we've built, I feel like we're finally at a point where we can give back without worrying about our own stability. That feels really good.
+
+Advisor: That's a sign of excellent financial health, and it speaks well to the planning we've done together. Let me put together a few options for you...`
+  },
+  {
+    id: "transcript-3",
+    title: "Portfolio Check-in - Travel Plans and Market Volatility",
+    date: "2024-03-10",
+    duration: "30 minutes",
+    participants: ["Client", "Advisor"],
+    expectedTone: "concerned",
+    context: "Client expressing concerns about market volatility while planning significant international travel",
+    transcript: `Advisor: Good morning! How was your weekend?
+
+Client: It was okay. I've been watching the news a lot lately, and I have to admit, I'm getting a little nervous about the markets. Everything seems so volatile right now.
+
+Advisor: I understand that concern. The first quarter has definitely seen some ups and downs. What specifically is worrying you?
+
+Client: Well, we're planning this big trip to Europe for our anniversary - three weeks in June. It's going to be expensive, probably $20,000 or more with flights, hotels, the whole thing. And I keep seeing headlines about a potential recession, and I'm wondering if now is really the right time to be spending that kind of money.
+
+Advisor: Let me pull up your portfolio and we can look at this together. How are you planning to fund the trip?
+
+Client: We were just going to pull it from savings, but that'll basically wipe out our emergency fund. And then I think, what if something happens? What if one of us loses our job? With the new mortgage and everything...
+
+Advisor: These are all reasonable concerns. Let's talk through your overall financial picture...
+
+Client: I know you've told me before not to panic about market swings, but it's different when you're actually watching your account balance go down every day. Last month we were up, what, $80,000? And now we've given back almost half of that. It just feels like we're going backwards.
+
+Advisor: I hear your frustration. Let me show you something - if we zoom out and look at your returns over the past few years...
+
+Client: I know, I know - long-term perspective. But it's hard not to worry. Especially with college coming up for Sarah in a couple years. I just keep thinking, what if the market crashes right when we need to start paying tuition?
+
+Advisor: That's a very valid concern, and actually it's something we should address in your asset allocation. The fact that you're thinking about this timeline means we need to make some adjustments...
+
+Client: Should we cancel the trip? I mean, my wife would kill me, but if it's the responsible thing to do...
+
+Advisor: Let's not make any rash decisions. Let me walk you through exactly where you stand financially, and then we can make an informed decision together about the trip and about your overall strategy going forward.`
+  },
+  {
+    id: "transcript-4",
+    title: "New Parent Financial Planning Session",
+    date: "2024-02-28",
+    duration: "50 minutes",
+    participants: ["Client", "Spouse", "Advisor"],
+    expectedTone: "excited",
+    context: "New parents discussing updated financial plan after birth of first child",
+    transcript: `Advisor: Congratulations again on the new arrival! How are you both adjusting?
+
+Client: Thank you! We're exhausted but so happy. It's been amazing.
+
+Spouse: The best kind of exhausted, really. We can't stop staring at her.
+
+Client: Yeah, everything feels different now. In the best way. Actually, that's why we wanted to meet - we know we need to update a bunch of things now that we're officially parents.
+
+Advisor: Absolutely. This is one of the most important financial planning moments in your life. There's a lot to cover, but we'll take it step by step.
+
+Spouse: We've already started a list. Life insurance is number one, right? We need to make sure she's taken care of no matter what.
+
+Client: Yeah, I've been thinking about that a lot. Before, it was just the two of us, and we could have managed. But now... we need to make sure we're protected.
+
+Advisor: That's exactly right, and it shows you're thinking like parents now. Let's talk about coverage amounts and beneficiaries.
+
+Client: We also updated our wills last week. Named my sister and her husband as guardians if something were to happen to both of us. That was a hard conversation to have, but I'm glad we did it.
+
+Advisor: That's excellent. Many people put that off, so you're ahead of the game. What else is on your list?
+
+Spouse: Education savings. We want to start a 529 plan. Even if she's only a month old, we know it'll make a huge difference if we start now.
+
+Client: Exactly. I did the math - if we put away just $500 a month starting now, by the time she's 18, that could be over $200,000 assuming decent returns. That could cover most of a college education.
+
+Advisor: I love that you've already done the research. Starting early is one of the smartest moves you can make.
+
+Client: You know what's wild? Six months ago I was stressed about money - the new house, the bigger mortgage, all of that. But now, looking at her, I just feel... motivated. Like, we're going to make this work. We're going to give her every opportunity.
+
+Spouse: We've already been looking at preschools. Can you believe it? She can't even roll over yet and we're touring preschools!
+
+Client: [laughing] We're those parents now. But seriously, we want to do this right. We want to set her up for success. Whatever that takes.
+
+Advisor: You're both clearly committed to this, and you have the means to do it. Let me put together a comprehensive plan that covers life insurance, education savings, estate planning updates, and we should also talk about updating your beneficiaries on all your accounts...`
+  },
+  {
+    id: "transcript-5",
+    title: "Mid-Year Check-in - Work-Life Balance Discussion",
+    date: "2024-07-22",
+    duration: "40 minutes",
+    participants: ["Client", "Advisor"],
+    expectedTone: "satisfied",
+    context: "Client reflecting on financial progress and improved work-life balance",
+    transcript: `Client: I've been looking forward to this meeting. I feel like we have a lot to catch up on.
+
+Advisor: Absolutely. It's been about six months since our last comprehensive review. How have things been?
+
+Client: Really good, honestly. Better than I expected. You remember last year when I was working 70-hour weeks and barely seeing my family?
+
+Advisor: I do remember you mentioning that. Has that improved?
+
+Client: Dramatically. After the baby was born, I made a conscious decision to set better boundaries at work. I talked to my manager, and we restructured my responsibilities. I'm working maybe 45 hours a week now, and it's made such a difference.
+
+Advisor: That's fantastic. How's it affecting things financially? I know you were concerned about that.
+
+Client: That was my big worry - that setting boundaries would hurt my career or my earnings. But actually, my last performance review was one of the best I've had. Turns out being well-rested and focused makes you more productive. Who knew? [laughs]
+
+Advisor: That's a great realization. And I can see from your account activity that you're still meeting all your savings goals.
+
+Client: Yeah! We're actually ahead of where I thought we'd be. The 529 is growing nicely, we've been maxing out my 401k, and we even managed to take that Europe trip without touching our emergency fund. I moved some money around from the bonus, and it all worked out.
+
+Advisor: How was the trip?
+
+Client: Incredible. Three weeks in Italy and France. My wife and I really needed that time together, especially after the chaos of the first year with the baby. Her parents watched Sarah, and we just... reconnected. It was perfect.
+
+Advisor: That's wonderful to hear. And you don't seem stressed about the money you spent on it.
+
+Client: Not at all. That's the thing - I feel like we're finally at a place where we can enjoy the money we've earned without constantly worrying. We work hard, we save responsibly, and we can also enjoy life. It feels balanced for the first time in years.
+
+Advisor: That's the sweet spot we always aim for. Let me show you where things stand across all your accounts...
+
+Client: I'm also thinking about the future differently now. It's not just about accumulating anymore. It's about what kind of life we want to build for our family. That trip showed me that experiences matter. Sarah won't remember if we had an extra $50,000 in the bank, but she'll remember if we took her to see the world.
+
+Advisor: That's a very mature perspective. And the beauty of your situation is that you don't have to choose one or the other. Let's talk about how we can budget for experiences while still meeting your long-term goals...`
+  }
+];

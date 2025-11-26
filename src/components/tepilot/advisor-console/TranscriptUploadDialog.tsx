@@ -4,8 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { FileText, Loader2 } from "lucide-react";
+import { FileText, Loader2, Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { 
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
+import { sampleMeetingTranscripts } from "./sampleData";
 import { supabase } from "@/integrations/supabase/client";
 
 interface TranscriptUploadDialogProps {
@@ -77,6 +84,19 @@ export function TranscriptUploadDialog({ open, onOpenChange, onAnalysisComplete 
   const [transcriptText, setTranscriptText] = useState('');
   const { toast } = useToast();
 
+  const loadSampleTranscript = (transcriptId: string) => {
+    const sample = sampleMeetingTranscripts.find(t => t.id === transcriptId);
+    if (sample) {
+      setClientName(sample.participants[0] || '');
+      setMeetingDate(sample.date);
+      setTranscriptText(sample.transcript);
+      toast({
+        title: "Sample Loaded",
+        description: `Loaded: ${sample.title}`,
+      });
+    }
+  };
+
   const handleSubmit = async () => {
     if (!transcriptText.trim()) {
       toast({
@@ -142,10 +162,34 @@ Please provide structured analysis with opportunities, psychological insights, a
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-2">
-            <FileText className="w-5 h-5" />
-            Upload Meeting Transcript
-          </DialogTitle>
+          <div className="flex items-center justify-between">
+            <DialogTitle className="flex items-center gap-2">
+              <FileText className="w-5 h-5" />
+              Upload Meeting Transcript
+            </DialogTitle>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  <Download className="w-4 h-4 mr-2" />
+                  Load Sample
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-[400px]">
+                {sampleMeetingTranscripts.map((transcript) => (
+                  <DropdownMenuItem
+                    key={transcript.id}
+                    onClick={() => loadSampleTranscript(transcript.id)}
+                    className="flex flex-col items-start py-3"
+                  >
+                    <div className="font-medium">{transcript.title}</div>
+                    <div className="text-xs text-muted-foreground mt-1">
+                      {transcript.context} • {transcript.duration}
+                    </div>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </DialogHeader>
         
         <div className="space-y-4">
