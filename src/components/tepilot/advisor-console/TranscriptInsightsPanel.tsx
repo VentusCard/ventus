@@ -3,9 +3,32 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { TrendingUp, Brain, CheckCircle, Sparkles, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { TranscriptInsights } from "./TranscriptUploadDialog";
 import { EmotionalToneBadge } from "./EmotionalToneBadge";
 import { EmotionalToneAnalysis } from "@/types/lifestyle-signals";
+
+export interface TranscriptInsights {
+  opportunities: Array<{
+    category: string;
+    description: string;
+    confidence: number;
+    quote: string;
+    recommended_action: string;
+  }>;
+  psychological_insights: Array<{
+    aspect: string;
+    assessment: string;
+    evidence: string;
+    confidence: number;
+  }>;
+  action_items: string[];
+  life_events: Array<{
+    event: string;
+    confidence: number;
+    evidence: string;
+  }>;
+  clientName?: string;
+  meetingDate?: string;
+}
 
 interface TranscriptInsightsPanelProps {
   insights: TranscriptInsights | null;
