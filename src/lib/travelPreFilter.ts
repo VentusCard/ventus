@@ -83,13 +83,23 @@ export function preFilterTravelCandidates(
     }
   });
   
-  // Second pass: add transactions within ±5 days of any travel anchor
+  // Second pass: add transactions within ±2 days of any travel anchor
+  // BUT only if they have a non-home zip code (to verify they're at the destination)
   const anchorDates = Array.from(candidateMap.values())
     .filter(c => c.reason === 'travel_anchor')
     .map(c => new Date(c.transaction.date));
   
   homeZone.forEach(tx => {
     const txDate = new Date(tx.date);
+    const txZip = tx.zip_code || '';
+    const txCity = deriveCityFromZip(txZip);
+    
+    // Skip transactions without zip codes - we can't verify location
+    if (!txZip) return;
+    
+    // Skip if transaction is clearly at home
+    if (txCity && homeCity && txCity === homeCity) return;
+    
     const nearAnchor = anchorDates.some(anchorDate => {
       const daysDiff = Math.abs(
         (txDate.getTime() - anchorDate.getTime()) / (1000 * 60 * 60 * 24)
