@@ -65,7 +65,7 @@ export function VentusChatPanel({
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const smartChips = ["Meeting Prep", "Product Recommendations", "Spending Analysis", "Life Events Summary", "Draft Email", "Financial Timeline", "Create Timeline Graph"];
+  const smartChips = ["Meeting Prep", "Product Recommendations", "Spending Analysis", "Life Events Summary", "Draft Email", "Financial Timeline"];
   const handleChipClick = (chip: string) => {
     let prompt = "";
     switch (chip) {
@@ -93,9 +93,6 @@ export function VentusChatPanel({
         setSelectedTimelineEvent(bestEvent || null);
         setFinancialTimelineOpen(true);
         return;
-      case "Create Timeline Graph":
-        prompt = "Help me create a detailed financial timeline graph. Ask me about the financial goal (college, retirement, home purchase, etc.), timeframe, estimated costs, and available funding sources so we can build a comprehensive projection together.";
-        break;
       default:
         prompt = `[${chip}] `;
     }
