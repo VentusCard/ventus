@@ -65,7 +65,7 @@ export function VentusChatPanel({
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const smartChips = ["Meeting Prep", "Product Recommendations", "Spending Analysis", "Life Events Summary", "Draft Email", "Financial Timeline"];
+  const smartChips = ["Meeting Prep", "Product Recommendations", "Spending Analysis", "Life Events Summary", "Draft Email", "Financial Timeline", "Create Timeline Graph"];
   const handleChipClick = (chip: string) => {
     let prompt = "";
     switch (chip) {
@@ -93,6 +93,9 @@ export function VentusChatPanel({
         setSelectedTimelineEvent(bestEvent || null);
         setFinancialTimelineOpen(true);
         return;
+      case "Create Timeline Graph":
+        prompt = "Help me create a detailed financial timeline graph. Ask me about the financial goal (college, retirement, home purchase, etc.), timeframe, estimated costs, and available funding sources so we can build a comprehensive projection together.";
+        break;
       default:
         prompt = `[${chip}] `;
     }
@@ -303,6 +306,30 @@ export function VentusChatPanel({
                       <ListTodo className="w-3 h-3 mr-1" />
                       Add to To-Do
                     </Button>
+
+                    {/* Show timeline button if message mentions financial planning keywords */}
+                    {(message.content.toLowerCase().includes('timeline') || 
+                      message.content.toLowerCase().includes('projection') ||
+                      message.content.toLowerCase().includes('college') ||
+                      message.content.toLowerCase().includes('retirement') ||
+                      message.content.toLowerCase().includes('financial plan')) && (
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        onClick={() => {
+                          // Find best event or use null for custom timeline
+                          const bestEvent = visibleEvents
+                            .filter(e => e.financial_projection)
+                            .sort((a, b) => b.confidence - a.confidence)[0];
+                          setSelectedTimelineEvent(bestEvent || null);
+                          setFinancialTimelineOpen(true);
+                        }} 
+                        className="text-xs"
+                      >
+                        <Clock className="w-3 h-3 mr-1" />
+                        Generate Timeline
+                      </Button>
+                    )}
                   </div>}
               </div>
             </div>
