@@ -13,6 +13,7 @@ import { ActionableTimelineSection } from "./ActionableTimelineSection";
 import { Save, FileDown, ListPlus, Lightbulb, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
+import jsPDF from "jspdf";
 
 interface FinancialTimelineToolProps {
   open: boolean;
@@ -337,9 +338,145 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
   };
 
   const handleExportPDF = () => {
+    const doc = new jsPDF();
+    const pageWidth = doc.internal.pageSize.getWidth();
+    let yPos = 20;
+
+    // Title
+    doc.setFontSize(18);
+    doc.setFont("helvetica", "bold");
+    doc.text(projectName, pageWidth / 2, yPos, { align: "center" });
+    yPos += 10;
+
+    // Project Details
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    doc.text(`Project Type: ${projectTypes[projectType].label}`, 20, yPos);
+    yPos += 6;
+    doc.text(`Timeline: ${startYear} - ${startYear + duration - 1} (${duration} years)`, 20, yPos);
+    yPos += 6;
+    doc.text(`Current Savings: ${formatCurrency(currentSavings)}`, 20, yPos);
+    yPos += 6;
+    doc.text(`Monthly Contribution: ${formatCurrency(monthlyContribution)}`, 20, yPos);
+    yPos += 10;
+
+    // Cost Breakdown
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Cost Breakdown by Year", 20, yPos);
+    yPos += 8;
+
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    years.forEach((year) => {
+      const yearCost = costCategories.reduce((sum, cat) => sum + (cat.amounts[year] || 0), 0);
+      doc.text(`${year}: ${formatCurrency(yearCost)}`, 25, yPos);
+      yPos += 5;
+      
+      costCategories.forEach((cat) => {
+        if (cat.amounts[year]) {
+          doc.text(`  - ${cat.label}: ${formatCurrency(cat.amounts[year])}`, 30, yPos);
+          yPos += 5;
+        }
+      });
+      
+      if (yPos > 270) {
+        doc.addPage();
+        yPos = 20;
+      }
+    });
+
+    yPos += 5;
+
+    // Funding Sources
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Funding Sources", 20, yPos);
+    yPos += 8;
+
+    doc.setFontSize(9);
+    doc.setFont("helvetica", "normal");
+    fundingSources.forEach((source) => {
+      doc.text(`${source.label}:`, 25, yPos);
+      yPos += 5;
+      
+      years.forEach((year) => {
+        if (source.amounts[year]) {
+          doc.text(`  ${year}: ${formatCurrency(source.amounts[year])}`, 30, yPos);
+          yPos += 5;
+          
+          if (yPos > 270) {
+            doc.addPage();
+            yPos = 20;
+          }
+        }
+      });
+      yPos += 3;
+    });
+
+    yPos += 5;
+
+    // Summary
+    if (yPos > 240) {
+      doc.addPage();
+      yPos = 20;
+    }
+
+    doc.setFontSize(14);
+    doc.setFont("helvetica", "bold");
+    doc.text("Financial Summary", 20, yPos);
+    yPos += 8;
+
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+    const totalCost = totalCostsByYear.reduce((sum, cost) => sum + cost, 0);
+    const totalFunding = totalFundingByYear.reduce((sum, fund) => sum + fund, 0);
+    
+    doc.text(`Total Projected Cost: ${formatCurrency(totalCost)}`, 25, yPos);
+    yPos += 6;
+    doc.text(`Total Funding: ${formatCurrency(totalFunding)}`, 25, yPos);
+    yPos += 6;
+    doc.setFont("helvetica", "bold");
+    doc.text(`Funding Gap: ${formatCurrency(fundingGap)}`, 25, yPos);
+    yPos += 10;
+
+    // Action Items
+    if (actionItems.length > 0) {
+      if (yPos > 220) {
+        doc.addPage();
+        yPos = 20;
+      }
+
+      doc.setFontSize(14);
+      doc.text("Action Items", 20, yPos);
+      yPos += 8;
+
+      doc.setFontSize(9);
+      doc.setFont("helvetica", "normal");
+      actionItems.forEach((item) => {
+        const checkbox = item.completed ? "[✓]" : "[ ]";
+        doc.text(`${checkbox} ${item.timing}:`, 25, yPos);
+        yPos += 5;
+        
+        const actionLines = doc.splitTextToSize(item.action, pageWidth - 50);
+        actionLines.forEach((line: string) => {
+          doc.text(line, 30, yPos);
+          yPos += 5;
+          
+          if (yPos > 270) {
+            doc.addPage();
+            yPos = 20;
+          }
+        });
+      });
+    }
+
+    // Save PDF
+    doc.save(`${projectName.replace(/\s+/g, '_')}_Timeline.pdf`);
+    
     toast({
-      title: "✓ Export Started",
-      description: "Generating PDF document...",
+      title: "✓ PDF Downloaded",
+      description: "Financial timeline exported successfully",
     });
   };
 
