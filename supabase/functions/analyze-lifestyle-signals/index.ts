@@ -83,6 +83,76 @@ const LIFESTYLE_SIGNAL_TOOL = {
                 type: "array",
                 items: { type: "string" },
                 description: "2-3 concrete next steps for advisor"
+              },
+              financial_projection: {
+                type: "object",
+                description: "Detailed financial projection for planning this life event",
+                properties: {
+                  project_type: { 
+                    type: "string", 
+                    enum: ["education", "home", "retirement", "business", "wedding", "medical", "other"],
+                    description: "Category of the financial project"
+                  },
+                  estimated_start_year: { 
+                    type: "number",
+                    description: "When this life event will begin (year)"
+                  },
+                  duration_years: { 
+                    type: "number",
+                    description: "How many years this project will span"
+                  },
+                  estimated_total_cost: { 
+                    type: "number",
+                    description: "Total estimated cost across all years"
+                  },
+                  estimated_current_savings: { 
+                    type: "number",
+                    description: "Estimated current savings based on transaction patterns"
+                  },
+                  recommended_monthly_contribution: { 
+                    type: "number",
+                    description: "Suggested monthly savings amount"
+                  },
+                  cost_breakdown: {
+                    type: "array",
+                    description: "Breakdown of costs by category and year",
+                    items: {
+                      type: "object",
+                      properties: {
+                        category: { type: "string" },
+                        yearly_amounts: { 
+                          type: "object",
+                          description: "Amounts by year, e.g., {2026: 15000, 2027: 16000}"
+                        }
+                      },
+                      required: ["category", "yearly_amounts"]
+                    }
+                  },
+                  recommended_funding_sources: {
+                    type: "array",
+                    description: "Recommended funding strategies",
+                    items: {
+                      type: "object",
+                      properties: {
+                        type: { 
+                          type: "string",
+                          enum: ["529", "gifts", "taxable", "roth_ira", "utma", "loan", "savings", "other"],
+                          description: "Type of funding source"
+                        },
+                        rationale: { 
+                          type: "string",
+                          description: "Why this funding source is recommended"
+                        },
+                        suggested_annual_amount: { 
+                          type: "number",
+                          description: "Recommended annual contribution amount"
+                        }
+                      },
+                      required: ["type", "rationale", "suggested_annual_amount"]
+                    }
+                  }
+                },
+                required: ["project_type", "estimated_start_year", "duration_years", "estimated_total_cost", "cost_breakdown", "recommended_funding_sources"]
               }
             },
             required: ["event_name", "confidence", "evidence", "products", "education", "talking_points", "action_items"]
@@ -119,6 +189,7 @@ Your task is to identify significant life stage signals from spending patterns a
 3. EDUCATIONAL CONTENT: Exactly 10 practical, specific bullet points about the detected life event
 4. TALKING POINTS: 3-5 natural, empathetic conversation starters
 5. ACTION ITEMS: 2-3 concrete next steps for the advisor
+6. FINANCIAL PROJECTION: Detailed cost breakdown, timeline, and funding recommendations
 
 IMPORTANT RULES:
 - Only detect life events with STRONG evidence (multiple related transactions forming a clear pattern)
@@ -126,7 +197,15 @@ IMPORTANT RULES:
 - Provide confidence score 0-100 based on evidence strength and pattern clarity
 - Focus on HIGH-IMPACT opportunities with significant financial benefit
 - Make recommendations timely and relevant to the client's current situation
-- Educational content should be practical, specific, and actionable (not generic advice)`;
+- Educational content should be practical, specific, and actionable (not generic advice)
+
+FINANCIAL PROJECTION GUIDELINES:
+- Generate realistic cost estimates based on current market data for the life event
+- Break down costs into specific categories (e.g., for college: tuition, room/board, books)
+- Provide year-by-year cost projections accounting for typical inflation
+- Recommend appropriate funding sources based on the event type (529 for education, etc.)
+- Estimate current savings from patterns like recurring deposits to savings accounts
+- Suggest practical monthly contribution amounts the client can afford`;
 
     const userPrompt = `Analyze this client's transaction patterns and detect life events:
 

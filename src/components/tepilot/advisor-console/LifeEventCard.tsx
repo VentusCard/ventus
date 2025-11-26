@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown, ChevronUp, TrendingUp, X } from "lucide-react";
+import { ChevronDown, ChevronUp, TrendingUp, X, Calculator } from "lucide-react";
 import { useState } from "react";
 import { LifeEvent } from "@/types/lifestyle-signals";
 
@@ -10,9 +10,10 @@ interface LifeEventCardProps {
   event: LifeEvent;
   onViewDetails: () => void;
   onDismiss: () => void;
+  onPlanEvent?: (event: LifeEvent) => void;
 }
 
-export function LifeEventCard({ event, onViewDetails, onDismiss }: LifeEventCardProps) {
+export function LifeEventCard({ event, onViewDetails, onDismiss, onPlanEvent }: LifeEventCardProps) {
   const [isOpen, setIsOpen] = useState(false);
   
   const confidenceColor = 
@@ -73,6 +74,12 @@ export function LifeEventCard({ event, onViewDetails, onDismiss }: LifeEventCard
           <Button onClick={onViewDetails} className="flex-1" size="sm">
             View Details & Recommendations
           </Button>
+          {event.financial_projection && onPlanEvent && (
+            <Button onClick={() => onPlanEvent(event)} variant="secondary" size="sm">
+              <Calculator className="w-3 h-3 mr-1" />
+              Plan This Event
+            </Button>
+          )}
         </div>
       </div>
     </Card>

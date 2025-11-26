@@ -51,6 +51,7 @@ export function VentusChatPanel({
   const [transcriptDialogOpen, setTranscriptDialogOpen] = useState(false);
   const [transcriptInsights, setTranscriptInsights] = useState<TranscriptInsights | null>(null);
   const [financialTimelineOpen, setFinancialTimelineOpen] = useState(false);
+  const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<LifeEvent | null>(null);
   const {
     toast
   } = useToast();
@@ -86,6 +87,12 @@ export function VentusChatPanel({
         prompt = "Draft a professional email to the client about our upcoming meeting";
         break;
       case "Financial Timeline":
+        // Find the highest-confidence event with a financial projection
+        const bestEvent = visibleEvents
+          .filter(e => e.financial_projection)
+          .sort((a, b) => b.confidence - a.confidence)[0];
+        
+        setSelectedTimelineEvent(bestEvent || null);
         setFinancialTimelineOpen(true);
         return;
       default:
@@ -176,7 +183,16 @@ export function VentusChatPanel({
           
           <CollapsibleContent className="px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent">
             <div className="space-y-3 mb-4">
-              {visibleEvents.map(event => <LifeEventCard key={event.event_name} event={event} onViewDetails={() => handleViewEventDetails(event)} onDismiss={() => handleDismissEvent(event.event_name)} />)}
+              {visibleEvents.map(event => <LifeEventCard 
+                key={event.event_name} 
+                event={event} 
+                onViewDetails={() => handleViewEventDetails(event)} 
+                onDismiss={() => handleDismissEvent(event.event_name)}
+                onPlanEvent={(e) => {
+                  setSelectedTimelineEvent(e);
+                  setFinancialTimelineOpen(true);
+                }}
+              />)}
             </div>
 
             {/* Selected Event Details */}
@@ -354,6 +370,7 @@ export function VentusChatPanel({
       <FinancialTimelineTool 
         open={financialTimelineOpen}
         onOpenChange={setFinancialTimelineOpen}
+        detectedEvent={selectedTimelineEvent || undefined}
       />
     </div>;
 }

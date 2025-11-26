@@ -20,6 +20,23 @@ export interface LifeEvent {
   education: string[];
   talking_points: string[];
   action_items: string[];
+  financial_projection?: {
+    project_type: "education" | "home" | "retirement" | "business" | "wedding" | "medical" | "other";
+    estimated_start_year: number;
+    duration_years: number;
+    estimated_total_cost: number;
+    estimated_current_savings: number;
+    recommended_monthly_contribution: number;
+    cost_breakdown: Array<{
+      category: string;
+      yearly_amounts: { [year: number]: number };
+    }>;
+    recommended_funding_sources: Array<{
+      type: FundingSource["type"];
+      rationale: string;
+      suggested_annual_amount: number;
+    }>;
+  };
 }
 
 export interface AIInsights {
