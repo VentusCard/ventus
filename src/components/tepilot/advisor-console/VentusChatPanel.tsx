@@ -18,8 +18,7 @@ import { EnrichedTransaction } from "@/types/transaction";
 import { useAdvisorChat } from "@/hooks/useAdvisorChat";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { TaskItem } from "./TaskItem";
-import { TranscriptUploadDialog, TranscriptInsights } from "./TranscriptUploadDialog";
-import { TranscriptInsightsPanel } from "./TranscriptInsightsPanel";
+import { TranscriptUploadDialog } from "./TranscriptUploadDialog";
 import { FinancialTimelineTool } from "./FinancialTimelineTool";
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
@@ -49,7 +48,6 @@ export function VentusChatPanel({
   const [dismissedEvents, setDismissedEvents] = useState<Set<string>>(new Set());
   const [lifeEventsOpen, setLifeEventsOpen] = useState(false);
   const [transcriptDialogOpen, setTranscriptDialogOpen] = useState(false);
-  const [transcriptInsights, setTranscriptInsights] = useState<TranscriptInsights | null>(null);
   const [financialTimelineOpen, setFinancialTimelineOpen] = useState(false);
   const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<LifeEvent | null>(null);
   const {
@@ -354,24 +352,10 @@ export function VentusChatPanel({
       <TranscriptUploadDialog
         open={transcriptDialogOpen}
         onOpenChange={setTranscriptDialogOpen}
-        onAnalysisComplete={(insights) => {
-          setTranscriptInsights(insights);
-          toast({
-            title: "Transcript Analyzed",
-            description: "Review insights in the panel below"
-          });
+        onSubmitTranscript={(message) => {
+          sendMessage(message);
         }}
       />
-
-      {/* Transcript Insights Panel Overlay */}
-      {transcriptInsights && (
-        <div className="absolute inset-0 bg-background overflow-y-auto z-10">
-          <TranscriptInsightsPanel
-            insights={transcriptInsights}
-            onClose={() => setTranscriptInsights(null)}
-          />
-        </div>
-      )}
 
       <FinancialTimelineTool 
         open={financialTimelineOpen}

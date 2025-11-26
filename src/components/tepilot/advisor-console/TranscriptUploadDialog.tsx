@@ -13,36 +13,11 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { sampleMeetingTranscripts } from "./sampleData";
-import { supabase } from "@/integrations/supabase/client";
 
 interface TranscriptUploadDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  onAnalysisComplete: (insights: TranscriptInsights) => void;
-}
-
-export interface TranscriptInsights {
-  opportunities: Array<{
-    category: string;
-    description: string;
-    confidence: number;
-    quote: string;
-    recommended_action: string;
-  }>;
-  psychological_insights: Array<{
-    aspect: string;
-    assessment: string;
-    evidence: string;
-    confidence: number;
-  }>;
-  action_items: string[];
-  life_events: Array<{
-    event: string;
-    confidence: number;
-    evidence: string;
-  }>;
-  clientName?: string;
-  meetingDate?: string;
+  onSubmitTranscript: (message: string) => void;
 }
 
 const TRANSCRIPT_ANALYSIS_PROMPT = `You are an expert wealth management psychoanalyst and opportunity detector.
@@ -77,7 +52,7 @@ Analyze this meeting transcript to extract:
 
 Provide a comprehensive analysis with specific quotes and recommendations.`;
 
-export function TranscriptUploadDialog({ open, onOpenChange, onAnalysisComplete }: TranscriptUploadDialogProps) {
+export function TranscriptUploadDialog({ open, onOpenChange, onSubmitTranscript }: TranscriptUploadDialogProps) {
   const [isProcessing, setIsProcessing] = useState(false);
   const [clientName, setClientName] = useState('');
   const [meetingDate, setMeetingDate] = useState('');
@@ -97,7 +72,7 @@ export function TranscriptUploadDialog({ open, onOpenChange, onAnalysisComplete 
     }
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!transcriptText.trim()) {
       toast({
         title: "Error",
@@ -107,10 +82,8 @@ export function TranscriptUploadDialog({ open, onOpenChange, onAnalysisComplete 
       return;
     }
 
-    setIsProcessing(true);
-    
-    try {
-      const analysisMessage = `${TRANSCRIPT_ANALYSIS_PROMPT}
+    // Format the message for the chat
+    const analysisMessage = `${TRANSCRIPT_ANALYSIS_PROMPT}
 
 CLIENT: ${clientName || 'Unknown'}
 DATE: ${meetingDate || 'Not specified'}
@@ -120,42 +93,19 @@ ${transcriptText}
 
 Please provide structured analysis with opportunities, psychological insights, action items, and life events.`;
 
-      const { data, error } = await supabase.functions.invoke("advisor-chat", {
-        body: {
-          message: analysisMessage,
-          conversationHistory: [],
-          context: null
-        },
-      });
-
-      if (error) throw error;
-
-      // Parse the AI response into structured insights
-      const insights = parseAIResponseToInsights(data.message, clientName, meetingDate);
-      
-      toast({
-        title: "✓ Transcript Analyzed",
-        description: "Analysis complete - review insights below"
-      });
-      
-      onAnalysisComplete(insights);
-      onOpenChange(false);
-      
-      // Reset form
-      setClientName('');
-      setMeetingDate('');
-      setTranscriptText('');
-      
-    } catch (error) {
-      console.error('Error analyzing transcript:', error);
-      toast({
-        title: "Error",
-        description: "Failed to analyze transcript",
-        variant: "destructive"
-      });
-    } finally {
-      setIsProcessing(false);
-    }
+    // Send to chat
+    onSubmitTranscript(analysisMessage);
+    
+    toast({
+      title: "✓ Transcript Submitted",
+      description: "Analysis in progress - check the chat"
+    });
+    
+    // Close dialog and reset form
+    onOpenChange(false);
+    setClientName('');
+    setMeetingDate('');
+    setTranscriptText('');
   };
 
   return (
@@ -235,78 +185,13 @@ Client: I'm a bit anxious about whether I've saved enough..."
           {/* Submit */}
           <Button
             onClick={handleSubmit}
-            disabled={isProcessing || !transcriptText.trim()}
+            disabled={!transcriptText.trim()}
             className="w-full"
           >
-            {isProcessing ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Analyzing Transcript...
-              </>
-            ) : (
-              'Analyze Transcript'
-            )}
+            Analyze Transcript
           </Button>
         </div>
       </DialogContent>
     </Dialog>
   );
-}
-
-// Helper function to parse AI response into structured format
-function parseAIResponseToInsights(aiResponse: string, clientName: string, meetingDate: string): TranscriptInsights {
-  // Simple parsing - extract sections from AI response
-  const insights: TranscriptInsights = {
-    opportunities: [],
-    psychological_insights: [],
-    action_items: [],
-    life_events: [],
-    clientName,
-    meetingDate
-  };
-
-  // Extract opportunities (look for bullet points or numbered items mentioning opportunity, upsell, product, etc.)
-  const oppMatch = aiResponse.match(/(?:opportunities|upsell|cross-sell|product)[\s\S]*?(?=\n\n|psychological|action|life event|$)/gi);
-  if (oppMatch) {
-    const lines = oppMatch[0].split('\n').filter(l => l.trim().match(/^[-•*\d]/));
-    insights.opportunities = lines.slice(0, 5).map(line => ({
-      category: 'General',
-      description: line.replace(/^[-•*\d.)\s]+/, ''),
-      confidence: 0.8,
-      quote: '',
-      recommended_action: 'Follow up with client'
-    }));
-  }
-
-  // Extract psychological insights
-  const psychMatch = aiResponse.match(/(?:psychological|emotional|sentiment|risk tolerance)[\s\S]*?(?=\n\n|action|life event|opportunity|$)/gi);
-  if (psychMatch) {
-    const lines = psychMatch[0].split('\n').filter(l => l.trim().match(/^[-•*\d]/));
-    insights.psychological_insights = lines.slice(0, 5).map(line => ({
-      aspect: 'Client Psychology',
-      assessment: line.replace(/^[-•*\d.)\s]+/, ''),
-      evidence: '',
-      confidence: 0.75
-    }));
-  }
-
-  // Extract action items
-  const actionMatch = aiResponse.match(/(?:action items|follow[- ]up|commitments|to[- ]do)[\s\S]*?(?=\n\n|psychological|life event|opportunity|$)/gi);
-  if (actionMatch) {
-    const lines = actionMatch[0].split('\n').filter(l => l.trim().match(/^[-•*\d]/));
-    insights.action_items = lines.slice(0, 5).map(line => line.replace(/^[-•*\d.)\s]+/, ''));
-  }
-
-  // Extract life events
-  const lifeMatch = aiResponse.match(/(?:life events|mentioned|retirement|job|marriage|health)[\s\S]*?(?=\n\n|psychological|action|opportunity|$)/gi);
-  if (lifeMatch) {
-    const lines = lifeMatch[0].split('\n').filter(l => l.trim().match(/^[-•*\d]/));
-    insights.life_events = lines.slice(0, 5).map(line => ({
-      event: line.replace(/^[-•*\d.)\s]+/, ''),
-      confidence: 0.7,
-      evidence: ''
-    }));
-  }
-
-  return insights;
 }
