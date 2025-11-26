@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +14,7 @@ import { Save, FileDown, ListPlus, Lightbulb, Sparkles } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
 import jsPDF from "jspdf";
+import html2canvas from "html2canvas";
 
 interface FinancialTimelineToolProps {
   open: boolean;
@@ -41,6 +42,7 @@ const projectDurations: Record<keyof typeof projectTypes, number> = {
 
 export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: FinancialTimelineToolProps) {
   const { toast } = useToast();
+  const chartRef = useRef<HTMLDivElement>(null);
   const [projectName, setProjectName] = useState("College Education");
   const [projectType, setProjectType] = useState<keyof typeof projectTypes>("education");
   const [startYear, setStartYear] = useState(2026);
@@ -337,7 +339,12 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
     });
   };
 
-  const handleExportPDF = () => {
+  const handleExportPDF = async () => {
+    toast({
+      title: "Generating PDF...",
+      description: "Please wait while we create your document",
+    });
+
     const doc = new jsPDF();
     const pageWidth = doc.internal.pageSize.getWidth();
     let yPos = 20;
@@ -359,6 +366,40 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
     yPos += 6;
     doc.text(`Monthly Contribution: ${formatCurrency(monthlyContribution)}`, 20, yPos);
     yPos += 10;
+
+    // Capture and add Cash Flow Chart
+    if (chartRef.current) {
+      try {
+        const canvas = await html2canvas(chartRef.current, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          logging: false,
+        });
+        const imgData = canvas.toDataURL('image/png');
+        const imgWidth = pageWidth - 40;
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        // Add new page for chart if needed
+        if (yPos + imgHeight > 270) {
+          doc.addPage();
+          yPos = 20;
+        }
+        
+        doc.setFontSize(14);
+        doc.setFont("helvetica", "bold");
+        doc.text("Cash Flow Projection", 20, yPos);
+        yPos += 10;
+        
+        doc.addImage(imgData, 'PNG', 20, yPos, imgWidth, imgHeight);
+        yPos += imgHeight + 10;
+        
+        // Add new page after chart
+        doc.addPage();
+        yPos = 20;
+      } catch (error) {
+        console.error("Error capturing chart:", error);
+      }
+    }
 
     // Cost Breakdown
     doc.setFontSize(14);
@@ -690,13 +731,15 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
           )}
 
           {/* Cash Flow Chart */}
-          <CashFlowChart 
-            years={years}
-            costCategories={costCategories}
-            fundingSources={fundingSources}
-            currentSavings={currentSavings}
-            monthlyContribution={monthlyContribution}
-          />
+          <div ref={chartRef}>
+            <CashFlowChart 
+              years={years}
+              costCategories={costCategories}
+              fundingSources={fundingSources}
+              currentSavings={currentSavings}
+              monthlyContribution={monthlyContribution}
+            />
+          </div>
 
           {/* Actionable Timeline */}
           <ActionableTimelineSection items={actionItems} />
