@@ -29,6 +29,15 @@ const projectTypes = {
   other: { label: "Custom", categories: ["Category 1", "Category 2", "Category 3"] },
 };
 
+const projectDurations: Record<keyof typeof projectTypes, number> = {
+  education: 4,
+  home: 2,
+  retirement: 25,
+  business: 5,
+  wedding: 1,
+  other: 3,
+};
+
 export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: FinancialTimelineToolProps) {
   const { toast } = useToast();
   const [projectName, setProjectName] = useState("College Education");
@@ -110,6 +119,13 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
 
   const loadTemplate = (type: keyof typeof projectTypes) => {
     const template = projectTypes[type];
+    const newDuration = projectDurations[type];
+    
+    // Calculate years locally with the NEW duration
+    const templateYears = Array.from({ length: newDuration }, (_, i) => startYear + i);
+    
+    // Update duration state
+    setDuration(newDuration);
     
     // Initialize cost categories
     const newCategories: CostCategory[] = template.categories.map((label, idx) => ({
@@ -120,7 +136,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
 
     // Pre-populate with sample amounts based on type
     if (type === "education") {
-      years.forEach((year, idx) => {
+      templateYears.forEach((year, idx) => {
         const inflationMultiplier = Math.pow(1 + inflationRate / 100, idx);
         newCategories[0].amounts[year] = Math.round(15000 * inflationMultiplier); // Tuition
         newCategories[1].amounts[year] = Math.round(12000 * inflationMultiplier); // Room & Board
@@ -157,7 +173,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
       setActionItems(educationActionItems);
     } else if (type === "home") {
       // Sample costs for home purchase
-      years.forEach((year, idx) => {
+      templateYears.forEach((year, idx) => {
         if (idx === 0) {
           newCategories[0].amounts[year] = 80000; // Down Payment
           newCategories[1].amounts[year] = 15000; // Closing Costs
@@ -187,7 +203,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
       setActionItems(homeActionItems);
     } else if (type === "retirement") {
       // Sample costs for retirement
-      years.forEach((year, idx) => {
+      templateYears.forEach((year, idx) => {
         const inflationMultiplier = Math.pow(1 + inflationRate / 100, idx);
         newCategories[0].amounts[year] = Math.round(60000 * inflationMultiplier); // Living Expenses
         newCategories[1].amounts[year] = Math.round(15000 * inflationMultiplier); // Healthcare
@@ -198,14 +214,14 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
         id: "roth-1",
         type: "roth_ira",
         label: "Roth IRA Distributions",
-        amounts: Object.fromEntries(years.map(y => [y, 40000]))
+        amounts: Object.fromEntries(templateYears.map(y => [y, 40000]))
       };
 
       const taxable: FundingSource = {
         id: "taxable-1",
         type: "taxable",
         label: "Taxable Investment Account",
-        amounts: Object.fromEntries(years.map(y => [y, 45000]))
+        amounts: Object.fromEntries(templateYears.map(y => [y, 45000]))
       };
 
       setFundingSources([rothIRA, taxable]);
@@ -223,7 +239,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
       setActionItems(retirementActionItems);
     } else if (type === "business") {
       // Sample costs for business
-      years.forEach((year, idx) => {
+      templateYears.forEach((year, idx) => {
         const inflationMultiplier = Math.pow(1 + inflationRate / 100, idx);
         if (idx === 0) {
           newCategories[0].amounts[year] = 100000; // Capital
@@ -261,7 +277,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
       setActionItems(businessActionItems);
     } else if (type === "wedding") {
       // Sample costs for wedding
-      years.forEach((year, idx) => {
+      templateYears.forEach((year, idx) => {
         if (idx === 0) {
           newCategories[0].amounts[year] = 15000; // Venue
           newCategories[1].amounts[year] = 10000; // Catering
