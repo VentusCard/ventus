@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Mic, Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain, Upload } from "lucide-react";
+import { Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain, Upload } from "lucide-react";
 import { sampleChatMessages, ChatMessage, Task } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -335,8 +335,14 @@ export function VentusChatPanel({
             handleSendMessage();
           }
         }} disabled={isChatLoading} />
-          <Button variant="outline" size="icon" disabled={isChatLoading}>
-            <Mic className="w-4 h-4" />
+          <Button 
+            variant="outline" 
+            size="icon" 
+            onClick={() => setTranscriptDialogOpen(true)}
+            disabled={isChatLoading}
+            title="Upload Meeting Transcript for Tone Analysis"
+          >
+            <Upload className="w-4 h-4" />
           </Button>
           <Button size="icon" onClick={handleSendMessage} disabled={isChatLoading || !inputValue.trim()}>
             <Send className="w-4 h-4" />
