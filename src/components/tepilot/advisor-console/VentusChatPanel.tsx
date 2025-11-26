@@ -65,7 +65,7 @@ export function VentusChatPanel({
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const smartChips = ["Meeting Prep", "Product Recommendations", "Spending Analysis", "Life Events Summary", "Draft Email", "Financial Timeline"];
+  const smartChips = ["Meeting Prep", "Life Events Summary", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Merchant Loyalty", "Financial Timeline"];
   const handleChipClick = (chip: string) => {
     let prompt = "";
     switch (chip) {
@@ -75,14 +75,20 @@ export function VentusChatPanel({
       case "Product Recommendations":
         prompt = "What financial products should I recommend based on their spending patterns?";
         break;
-      case "Spending Analysis":
-        prompt = "Analyze spending patterns and identify any concerns or opportunities";
-        break;
       case "Life Events Summary":
         prompt = "Summarize detected life events and recommended actions";
         break;
-      case "Draft Email":
-        prompt = "Draft a professional email to the client about our upcoming meeting";
+      case "Spending Trends":
+        prompt = "Review this client's spending trends over time. Identify their highest spending periods, any seasonal patterns, and month-over-month changes in spending behavior.";
+        break;
+      case "Travel Insights":
+        prompt = "Analyze this client's travel patterns including destinations, trip frequency, and travel spending. Identify any travel rewards optimization opportunities.";
+        break;
+      case "Lifestyle Profile":
+        prompt = "Create a lifestyle profile for this client based on their spending categories. Highlight their top lifestyle priorities and what their spending reveals about their values and interests.";
+        break;
+      case "Merchant Loyalty":
+        prompt = "Analyze this client's merchant loyalty patterns. Identify their most frequented merchants, brand preferences, and potential rewards optimization based on where they shop most.";
         break;
       case "Financial Timeline":
         // Find the highest-confidence event with a financial projection
