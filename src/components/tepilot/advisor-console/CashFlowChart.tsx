@@ -14,6 +14,8 @@ interface CashFlowChartProps {
 
 export function CashFlowChart({ years, costCategories, fundingSources, currentSavings, monthlyContribution }: CashFlowChartProps) {
   // Prepare data for the chart
+  let cumulativeSavings = currentSavings;
+  
   const chartData = years.map((year, index) => {
     const yearData: any = { year: year.toString() };
     
@@ -36,12 +38,11 @@ export function CashFlowChart({ years, costCategories, fundingSources, currentSa
     // Calculate cumulative savings
     const monthsInYear = 12;
     const savingsContribution = monthlyContribution * monthsInYear;
-    const previousCumulative = index === 0 ? currentSavings : (chartData[index - 1]?.cumulative || currentSavings);
-    const cumulative = previousCumulative + savingsContribution + totalFunding - totalCosts;
+    cumulativeSavings = cumulativeSavings + savingsContribution + totalFunding - totalCosts;
     
     yearData.totalCosts = totalCosts;
     yearData.totalFunding = totalFunding;
-    yearData.cumulative = cumulative;
+    yearData.cumulative = cumulativeSavings;
     yearData.netPosition = totalFunding - totalCosts;
     
     return yearData;
