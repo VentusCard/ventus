@@ -931,7 +931,7 @@ const TePilot = () => {
               }} disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations} />
 
                   {/* Wealth Management Card */}
-                  <PersonaCard icon={Users} title="Wealth Management CoPilot" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={["Automatic life event detection from spending patterns", "Contextual product recommendations with supporting rationale", "Ready-to-use conversation starters", "Prioritized action items based on relationship depth and opportunity"]} buttonText="Access Wealth Management CoPilot" onClick={() => {
+                  <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={["Automatic life event detection from spending patterns", "Contextual product recommendations with supporting rationale", "Ready-to-use conversation starters", "Prioritized action items based on relationship depth and opportunity"]} buttonText="Access Wealth Management CoPilot" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error('Please enrich transactions first to access this tool');
                   return;
