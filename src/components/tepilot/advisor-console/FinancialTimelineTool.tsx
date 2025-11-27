@@ -55,7 +55,20 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
   const [fundingSources, setFundingSources] = useState<FundingSource[]>([]);
   const [actionItems, setActionItems] = useState<ActionableTimelineItem[]>([]);
 
-  const years = Array.from({ length: duration }, (_, i) => startYear + i);
+  const currentYear = new Date().getFullYear();
+  
+  // Project cost years (starts at project start)
+  const projectYears = Array.from({ length: duration }, (_, i) => startYear + i);
+  
+  // Funding years (starts from current year through project end)
+  const yearsUntilProjectStart = Math.max(0, startYear - currentYear);
+  const fundingYears = Array.from(
+    { length: duration + yearsUntilProjectStart }, 
+    (_, i) => currentYear + i
+  );
+  
+  // Keep years for backward compatibility with cost tables and charts
+  const years = projectYears;
 
   // Initialize with detected event or default template
   useEffect(() => {
@@ -87,9 +100,11 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
     }));
     setCostCategories(newCategories);
     
-    // Set funding sources from AI recommendations
+    // Set funding sources from AI recommendations (starting from current year)
+    const fundingStartYear = Math.min(currentYear, projection.estimated_start_year);
+    const fundingDuration = projection.estimated_start_year - fundingStartYear + projection.duration_years;
     const newFundingSources: FundingSource[] = projection.recommended_funding_sources.map((source, idx) => {
-      const sourceYears = Array.from({ length: projection.duration_years }, (_, i) => projection.estimated_start_year + i);
+      const sourceYears = Array.from({ length: fundingDuration }, (_, i) => fundingStartYear + i);
       const amounts: { [year: number]: number } = {};
       sourceYears.forEach(year => {
         amounts[year] = source.suggested_annual_amount;
@@ -146,19 +161,23 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
         newCategories[2].amounts[year] = Math.round(3000 * inflationMultiplier); // Books
       });
 
-      // Sample funding sources for education
+      // Sample funding sources for education (starting from current year)
       const sample529: FundingSource = {
         id: "529-1",
         type: "529",
         label: "529 Plan",
-        amounts: { [startYear]: 50000, [startYear + 1]: 50000 }
+        amounts: Object.fromEntries(
+          Array.from({ length: Math.min(2, fundingYears.length) }, (_, i) => [currentYear + i, 50000])
+        )
       };
 
       const sampleGifts: FundingSource = {
         id: "gifts-1",
         type: "gifts",
         label: "Annual Gifts",
-        amounts: { [startYear]: 50000, [startYear + 1]: 50000 }
+        amounts: Object.fromEntries(
+          Array.from({ length: Math.min(2, fundingYears.length) }, (_, i) => [currentYear + i, 50000])
+        )
       };
 
       setFundingSources([sample529, sampleGifts]);
@@ -188,7 +207,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
         id: "savings-1",
         type: "savings",
         label: "Savings Account",
-        amounts: { [startYear]: 120000 }
+        amounts: { [currentYear]: 120000 }
       };
 
       setFundingSources([homeSavings]);
@@ -217,14 +236,14 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
         id: "roth-1",
         type: "roth_ira",
         label: "Roth IRA Distributions",
-        amounts: Object.fromEntries(templateYears.map(y => [y, 40000]))
+        amounts: Object.fromEntries(fundingYears.map(y => [y, 40000]))
       };
 
       const taxable: FundingSource = {
         id: "taxable-1",
         type: "taxable",
         label: "Taxable Investment Account",
-        amounts: Object.fromEntries(templateYears.map(y => [y, 45000]))
+        amounts: Object.fromEntries(fundingYears.map(y => [y, 45000]))
       };
 
       setFundingSources([rothIRA, taxable]);
@@ -255,14 +274,14 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
         id: "loan-1",
         type: "loan",
         label: "Business Loan",
-        amounts: { [startYear]: 150000 }
+        amounts: { [currentYear]: 150000 }
       };
 
       const personalSavings: FundingSource = {
         id: "savings-1",
         type: "savings",
         label: "Personal Investment",
-        amounts: { [startYear]: 75000 }
+        amounts: { [currentYear]: 75000 }
       };
 
       setFundingSources([businessLoan, personalSavings]);
@@ -292,14 +311,14 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
         id: "savings-1",
         type: "savings",
         label: "Wedding Savings",
-        amounts: { [startYear]: 20000 }
+        amounts: { [currentYear]: 20000 }
       };
 
       const familyGifts: FundingSource = {
         id: "gifts-1",
         type: "gifts",
         label: "Family Contributions",
-        amounts: { [startYear]: 13000 }
+        amounts: { [currentYear]: 13000 }
       };
 
       setFundingSources([weddingSavings, familyGifts]);
@@ -715,7 +734,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
           {/* Funding Sources */}
           <FundingSourcesTable 
             sources={fundingSources}
-            years={years}
+            years={fundingYears}
             projectType={projectType}
             onChange={setFundingSources}
           />
@@ -734,7 +753,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
           {/* Cash Flow Chart */}
           <div ref={chartRef}>
             <CashFlowChart 
-              years={years}
+              years={fundingYears}
               costCategories={costCategories}
               fundingSources={fundingSources}
               currentSavings={currentSavings}
