@@ -54,7 +54,6 @@ Provide a comprehensive analysis with specific quotes and recommendations.`;
 
 export function TranscriptUploadDialog({ open, onOpenChange, onSubmitTranscript }: TranscriptUploadDialogProps) {
   const [isProcessing, setIsProcessing] = useState(false);
-  const [clientName, setClientName] = useState('');
   const [meetingDate, setMeetingDate] = useState('');
   const [transcriptText, setTranscriptText] = useState('');
   const { toast } = useToast();
@@ -62,7 +61,6 @@ export function TranscriptUploadDialog({ open, onOpenChange, onSubmitTranscript 
   const loadSampleTranscript = (transcriptId: string) => {
     const sample = sampleMeetingTranscripts.find(t => t.id === transcriptId);
     if (sample) {
-      setClientName(sample.participants[0] || '');
       setMeetingDate(sample.date);
       setTranscriptText(sample.transcript);
       toast({
@@ -85,7 +83,6 @@ export function TranscriptUploadDialog({ open, onOpenChange, onSubmitTranscript 
     // Format the message for the chat
     const analysisMessage = `${TRANSCRIPT_ANALYSIS_PROMPT}
 
-CLIENT: ${clientName || 'Unknown'}
 DATE: ${meetingDate || 'Not specified'}
 
 TRANSCRIPT:
@@ -103,7 +100,6 @@ Please provide structured analysis with opportunities, psychological insights, a
     
     // Close dialog and reset form
     onOpenChange(false);
-    setClientName('');
     setMeetingDate('');
     setTranscriptText('');
   };
@@ -143,24 +139,14 @@ Please provide structured analysis with opportunities, psychological insights, a
         </DialogHeader>
         
         <div className="space-y-4">
-          {/* Client Info */}
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <Label>Client Name (Optional)</Label>
-              <Input
-                value={clientName}
-                onChange={(e) => setClientName(e.target.value)}
-                placeholder="John Smith"
-              />
-            </div>
-            <div>
-              <Label>Meeting Date (Optional)</Label>
-              <Input
-                type="date"
-                value={meetingDate}
-                onChange={(e) => setMeetingDate(e.target.value)}
-              />
-            </div>
+          {/* Meeting Info */}
+          <div>
+            <Label>Meeting Date (Optional)</Label>
+            <Input
+              type="date"
+              value={meetingDate}
+              onChange={(e) => setMeetingDate(e.target.value)}
+            />
           </div>
           
           {/* Transcript Input */}
