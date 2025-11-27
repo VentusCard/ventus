@@ -45,7 +45,9 @@ export interface AIInsights {
 
 export interface FundingSource {
   id: string;
-  type: "529" | "gifts" | "taxable" | "roth_ira" | "utma" | "loan" | "savings" | "other";
+  type: "529" | "gifts" | "taxable" | "roth_ira" | "utma" | "loan" | "savings" | 
+        "home_equity" | "pension" | "social_security" | "401k" | "ira_traditional" |
+        "business_loan" | "investor" | "grant" | "credit" | "inheritance" | "other";
   label: string;
   amounts: { [year: number]: number };
 }

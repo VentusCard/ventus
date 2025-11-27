@@ -10,21 +10,44 @@ import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper"
 interface FundingSourcesTableProps {
   sources: FundingSource[];
   years: number[];
+  projectType: string;
   onChange: (sources: FundingSource[]) => void;
 }
 
-const fundingTypeLabels = {
+const fundingTypeLabels: Record<string, string> = {
   "529": "529 Plan",
-  "gifts": "Annual Gifts",
-  "taxable": "Taxable Account",
+  "gifts": "Annual Gifts/Family",
+  "taxable": "Taxable Investment",
   "roth_ira": "Roth IRA",
+  "ira_traditional": "Traditional IRA",
+  "401k": "401(k) Distributions",
   "utma": "UTMA/UGMA",
-  "loan": "Student Loan",
-  "savings": "Savings",
+  "loan": "Personal Loan",
+  "savings": "Savings Account",
+  "home_equity": "Home Equity/HELOC",
+  "pension": "Pension",
+  "social_security": "Social Security",
+  "business_loan": "Business Loan/SBA",
+  "investor": "Investor Funding",
+  "grant": "Grants",
+  "credit": "Credit Card/Financing",
+  "inheritance": "Inheritance/Windfall",
   "other": "Other"
 };
 
-export function FundingSourcesTable({ sources, years, onChange }: FundingSourcesTableProps) {
+const fundingSourcesByProjectType: Record<string, FundingSource["type"][]> = {
+  education: ["529", "utma", "gifts", "savings", "taxable", "loan", "other"],
+  home: ["savings", "home_equity", "gifts", "taxable", "loan", "inheritance", "other"],
+  retirement: ["roth_ira", "ira_traditional", "401k", "pension", "social_security", "taxable", "savings", "other"],
+  business: ["business_loan", "investor", "savings", "grant", "taxable", "other"],
+  wedding: ["savings", "gifts", "credit", "other"],
+  medical: ["savings", "taxable", "loan", "gifts", "other"],
+  other: ["savings", "taxable", "gifts", "loan", "other"]
+};
+
+export function FundingSourcesTable({ sources, years, projectType, onChange }: FundingSourcesTableProps) {
+  const availableFundingTypes = fundingSourcesByProjectType[projectType] || fundingSourcesByProjectType.other;
+
   const addSource = () => {
     const newSource: FundingSource = {
       id: `source-${Date.now()}`,
@@ -92,8 +115,8 @@ export function FundingSourcesTable({ sources, years, onChange }: FundingSources
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {Object.entries(fundingTypeLabels).map(([value, label]) => (
-                          <SelectItem key={value} value={value}>{label}</SelectItem>
+                        {availableFundingTypes.map((type) => (
+                          <SelectItem key={type} value={type}>{fundingTypeLabels[type]}</SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
