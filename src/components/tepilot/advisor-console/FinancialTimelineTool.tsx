@@ -716,6 +716,7 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
           <FundingSourcesTable 
             sources={fundingSources}
             years={years}
+            projectType={projectType}
             onChange={setFundingSources}
           />
 
