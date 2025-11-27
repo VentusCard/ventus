@@ -60,9 +60,6 @@ const TePilot = () => {
   const [recommendations, setRecommendations] = useState<any>(null);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
-  const [isRelationshipUnlocked, setIsRelationshipUnlocked] = useState(false);
-  const [showPasswordDialog, setShowPasswordDialog] = useState(false);
-  const [passwordInput, setPasswordInput] = useState("");
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(null);
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
@@ -114,8 +111,6 @@ const TePilot = () => {
     // Restore authentication states
     const auth = sessionStorage.getItem("tepilot_auth");
     if (auth === "authenticated") setIsAuthenticated(true);
-    const relationshipAuth = sessionStorage.getItem("tepilot_relationship_auth");
-    if (relationshipAuth === "unlocked") setIsRelationshipUnlocked(true);
 
     // Restore workflow state when returning from Advisor Console
     const advisorContext = sessionStorage.getItem("tepilot_advisor_context");
@@ -770,9 +765,7 @@ const TePilot = () => {
         <Button variant="outline" onClick={() => {
           // Clear authentication
           sessionStorage.removeItem("tepilot_auth");
-          sessionStorage.removeItem("tepilot_relationship_auth");
           setIsAuthenticated(false);
-          setIsRelationshipUnlocked(false);
 
           // Clear all transaction data
           setParsedTransactions([]);
@@ -939,67 +932,15 @@ const TePilot = () => {
 
                   {/* Wealth Management Card */}
                   <PersonaCard icon={Users} title="Wealth Management CoPilot" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={["Automatic life event detection from spending patterns", "Contextual product recommendations with supporting rationale", "Ready-to-use conversation starters", "Prioritized action items based on relationship depth and opportunity"]} buttonText="Access Wealth Management CoPilot" onClick={() => {
-                if (!isRelationshipUnlocked) {
-                  if (enrichedTransactions.length > 0) {
-                    setShowPasswordDialog(true);
-                  } else {
-                    toast.error('Please enrich transactions first to access this tool');
-                  }
-                } else {
-                  toast.info('Analyzing lifestyle signals...');
-                  fetchLifestyleSignals().then(() => {
-                    handleNavigateToAdvisorConsole();
-                  });
+                if (enrichedTransactions.length === 0) {
+                  toast.error('Please enrich transactions first to access this tool');
+                  return;
                 }
-              }} requiresUnlock={!isRelationshipUnlocked} disabled={enrichedTransactions.length === 0} />
-                  
-                  <Dialog open={showPasswordDialog} onOpenChange={setShowPasswordDialog}>
-                    <DialogContent>
-                      <DialogHeader>
-                        <DialogTitle>Unlock Wealth Management Tool</DialogTitle>
-                        <DialogDescription>
-                          Enter the password to access wealth management relationship analysis tools
-                        </DialogDescription>
-                      </DialogHeader>
-                      <form onSubmit={async e => {
-                    e.preventDefault();
-                    if (passwordInput === "wealth") {
-                      setIsRelationshipUnlocked(true);
-                      sessionStorage.setItem("tepilot_relationship_auth", "unlocked");
-                      setShowPasswordDialog(false);
-                      setPasswordInput("");
-                      const loadingToastId = toast.loading("Loading Wealth Management Tool...");
-                      try {
-                        await fetchLifestyleSignals();
-                        toast.dismiss(loadingToastId);
-                        toast.success("Wealth Management Tool loaded successfully!");
-                        handleNavigateToAdvisorConsole();
-                      } catch (error) {
-                        toast.dismiss(loadingToastId);
-                        toast.error("Failed to load tool. Please try again.");
-                      }
-                    } else {
-                      toast.error("Incorrect password");
-                      setPasswordInput("");
-                    }
-                  }}>
-                        <div className="space-y-4 py-4">
-                          <Input type="password" placeholder="Enter password" value={passwordInput} onChange={e => setPasswordInput(e.target.value)} autoFocus />
-                        </div>
-                        <DialogFooter>
-                          <Button type="button" variant="outline" onClick={() => {
-                        setShowPasswordDialog(false);
-                        setPasswordInput("");
-                      }}>
-                            Cancel
-                          </Button>
-                          <Button type="submit">
-                            Unlock
-                          </Button>
-                        </DialogFooter>
-                      </form>
-                    </DialogContent>
-                  </Dialog>
+                toast.info('Analyzing lifestyle signals...');
+                fetchLifestyleSignals().then(() => {
+                  handleNavigateToAdvisorConsole();
+                });
+              }} disabled={enrichedTransactions.length === 0} />
                 </div>
               </>}
 
