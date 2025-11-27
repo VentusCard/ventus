@@ -70,25 +70,25 @@ export function VentusChatPanel({
     let prompt = "";
     switch (chip) {
       case "Meeting Prep":
-        prompt = "Prepare 5 key talking points for my upcoming client meeting. Be extremely concise - keep your response 50% shorter than usual.";
+        prompt = "Prepare 5 key talking points for my upcoming client meeting.";
         break;
       case "Product Recommendations":
-        prompt = "What financial products should I recommend based on their spending patterns? Be extremely concise - keep your response 50% shorter than usual.";
+        prompt = "What financial products should I recommend based on their spending patterns?";
         break;
       case "Life Events Summary":
-        prompt = "Summarize detected life events and recommended actions. Be extremely concise - keep your response 50% shorter than usual.";
+        prompt = "Summarize detected life events and recommended actions.";
         break;
       case "Spending Trends":
-        prompt = "Review this client's spending trends over time. Identify their highest spending periods, any seasonal patterns, and month-over-month changes in spending behavior. Be extremely concise - keep your response 50% shorter than usual.";
+        prompt = "Review this client's spending trends over time. Identify their highest spending periods, any seasonal patterns, and month-over-month changes in spending behavior.";
         break;
       case "Travel Insights":
-        prompt = "Analyze this client's travel patterns including destinations, trip frequency, and travel spending. Identify any travel rewards optimization opportunities. Be extremely concise - keep your response 50% shorter than usual.";
+        prompt = "Analyze this client's travel patterns including destinations, trip frequency, and travel spending. Identify any travel rewards optimization opportunities.";
         break;
       case "Lifestyle Profile":
-        prompt = "Create a lifestyle profile for this client based on their spending categories. Highlight their top lifestyle priorities and what their spending reveals about their values and interests. Be extremely concise - keep your response 50% shorter than usual.";
+        prompt = "Create a lifestyle profile for this client based on their spending categories. Highlight their top lifestyle priorities and what their spending reveals about their values and interests.";
         break;
       case "Merchant Loyalty":
-        prompt = "Analyze this client's merchant loyalty patterns. Identify their most frequented merchants, brand preferences, and potential rewards optimization based on where they shop most. Be extremely concise - keep your response 50% shorter than usual.";
+        prompt = "Analyze this client's merchant loyalty patterns. Identify their most frequented merchants, brand preferences, and potential rewards optimization based on where they shop most.";
         break;
       case "Financial Timeline":
         // Find the highest-confidence event with a financial projection
