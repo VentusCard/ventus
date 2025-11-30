@@ -7,7 +7,6 @@ import { Input } from "@/components/ui/input";
 import { Calendar, Users, Phone, Mail, Brain, ListChecks, MessageSquare, FileDown, Plus, X } from "lucide-react";
 import { sampleMeeting, sampleEngagementData, NextStepsData } from "./sampleData";
 import { SavedFinancialProjection } from "@/types/lifestyle-signals";
-
 interface ActionWorkspacePanelProps {
   nextStepsData: NextStepsData;
   onToggleActionItem: (itemId: string) => void;
@@ -15,17 +14,19 @@ interface ActionWorkspacePanelProps {
   savedProjection?: SavedFinancialProjection | null;
   onExportTimelinePDF?: () => void;
 }
-
-export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, onAddActionItem, savedProjection, onExportTimelinePDF }: ActionWorkspacePanelProps) {
+export function ActionWorkspacePanel({
+  nextStepsData,
+  onToggleActionItem,
+  onAddActionItem,
+  savedProjection,
+  onExportTimelinePDF
+}: ActionWorkspacePanelProps) {
   const [isAddingItem, setIsAddingItem] = useState(false);
   const [newItemText, setNewItemText] = useState("");
-
   const engagementColor = sampleEngagementData.status === 'high' ? 'bg-green-500' : sampleEngagementData.status === 'medium' ? 'bg-yellow-500' : 'bg-red-500';
   const engagementText = sampleEngagementData.status === 'high' ? 'Strong' : sampleEngagementData.status === 'medium' ? 'Moderate' : 'Needs Attention';
-
   const incompleteItems = nextStepsData.actionItems.filter(item => !item.completed);
   const completedItems = nextStepsData.actionItems.filter(item => item.completed);
-
   const handleAddItem = () => {
     if (newItemText.trim()) {
       onAddActionItem(newItemText.trim());
@@ -33,7 +34,6 @@ export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, onAddA
       setIsAddingItem(false);
     }
   };
-
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter') {
       handleAddItem();
@@ -42,9 +42,7 @@ export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, onAddA
       setNewItemText("");
     }
   };
-
-  return (
-    <div className="h-full flex flex-col bg-slate-50">
+  return <div className="h-full flex flex-col bg-slate-50">
       {/* Meeting & Engagement Section */}
       <div className="border-b bg-white p-4 space-y-4 flex-shrink-0">
         <div>
@@ -63,9 +61,7 @@ export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, onAddA
                 <p className="text-xs text-slate-600">{sampleMeeting.time} • {sampleMeeting.duration} min</p>
                 <div className="flex items-center gap-1 mt-1 flex-wrap">
                   <Users className="w-3 h-3 text-slate-400" />
-                  {sampleMeeting.participants.slice(0, 2).map((p, idx) => (
-                    <span key={idx} className="text-xs text-slate-600">{p}{idx < 1 ? ',' : ''}</span>
-                  ))}
+                  {sampleMeeting.participants.slice(0, 2).map((p, idx) => <span key={idx} className="text-xs text-slate-600">{p}{idx < 1 ? ',' : ''}</span>)}
                 </div>
               </div>
             </div>
@@ -89,158 +85,55 @@ export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, onAddA
             <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wide">
               Next Steps
             </h3>
-            {nextStepsData.lastUpdated && (
-              <span className="text-xs text-slate-500">
-                Updated {nextStepsData.lastUpdated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
-              </span>
-            )}
+            {nextStepsData.lastUpdated && <span className="text-xs text-slate-500">
+                Updated {nextStepsData.lastUpdated.toLocaleTimeString('en-US', {
+              hour: 'numeric',
+              minute: '2-digit'
+            })}
+              </span>}
           </div>
 
           {/* Content Area - Scrollable */}
           <div className="flex-1 min-h-0 overflow-y-auto space-y-4 mb-3">
             {/* Empty State */}
-            {nextStepsData.actionItems.length === 0 && nextStepsData.psychologicalInsights.length === 0 && (
-              <Card className="border-dashed p-6 text-center">
+            {nextStepsData.actionItems.length === 0 && nextStepsData.psychologicalInsights.length === 0 && <Card className="border-dashed p-6 text-center">
                 <MessageSquare className="w-10 h-10 mx-auto text-muted-foreground/50 mb-3" />
                 <h4 className="font-medium text-slate-900 mb-1">No Next Steps Yet</h4>
                 <p className="text-xs text-muted-foreground">
                   Chat with Ventus AI or upload a meeting transcript to generate action items and insights.
                 </p>
-              </Card>
-            )}
+              </Card>}
 
             {/* Action Items Section */}
             <div>
-              <div className="flex items-center justify-between mb-2">
-                <div className="flex items-center gap-2">
-                  <ListChecks className="w-4 h-4 text-primary" />
-                  <span className="text-xs font-medium text-slate-700">
-                    Action Items ({incompleteItems.length} remaining)
-                  </span>
-                </div>
-                {!isAddingItem && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="h-6 w-6 p-0"
-                    onClick={() => setIsAddingItem(true)}
-                  >
-                    <Plus className="w-4 h-4" />
-                  </Button>
-                )}
-              </div>
-              <Card className="p-3 space-y-2">
-                {/* Add Item Input */}
-                {isAddingItem && (
-                  <div className="flex items-center gap-2 pb-2 border-b">
-                    <Input
-                      value={newItemText}
-                      onChange={(e) => setNewItemText(e.target.value)}
-                      onKeyDown={handleKeyDown}
-                      placeholder="Enter action item..."
-                      className="h-7 text-xs"
-                      autoFocus
-                    />
-                    <Button size="sm" className="h-7 px-2 text-xs" onClick={handleAddItem}>
-                      Add
-                    </Button>
-                    <Button 
-                      size="sm" 
-                      variant="ghost" 
-                      className="h-7 w-7 p-0" 
-                      onClick={() => { setIsAddingItem(false); setNewItemText(""); }}
-                    >
-                      <X className="w-3 h-3" />
-                    </Button>
-                  </div>
-                )}
-
-                {/* Empty state when no items */}
-                {nextStepsData.actionItems.length === 0 && !isAddingItem && (
-                  <p className="text-xs text-muted-foreground text-center py-2">
-                    No action items yet. Click + to add one.
-                  </p>
-                )}
-
-                {incompleteItems.map(item => (
-                  <div key={item.id} className="flex items-start gap-2">
-                    <Checkbox
-                      id={item.id}
-                      checked={item.completed}
-                      onCheckedChange={() => onToggleActionItem(item.id)}
-                      className="mt-0.5"
-                    />
-                    <div className="flex-1 min-w-0">
-                      <label htmlFor={item.id} className="text-xs text-slate-700 cursor-pointer">
-                        {item.text}
-                      </label>
-                      <div className="flex items-center gap-1 mt-0.5">
-                        <Badge variant="outline" className="text-[10px] px-1 py-0">
-                          {item.source}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-                
-                {completedItems.length > 0 && (
-                  <div className="border-t pt-2 mt-2">
-                    <span className="text-xs text-muted-foreground">Completed ({completedItems.length})</span>
-                    {completedItems.map(item => (
-                      <div key={item.id} className="flex items-start gap-2 mt-1 opacity-60">
-                        <Checkbox
-                          id={item.id}
-                          checked={item.completed}
-                          onCheckedChange={() => onToggleActionItem(item.id)}
-                          className="mt-0.5"
-                        />
-                        <label htmlFor={item.id} className="text-xs text-slate-500 line-through cursor-pointer">
-                          {item.text}
-                        </label>
-                      </div>
-                    ))}
-                  </div>
-                )}
-              </Card>
+              
+              
             </div>
 
             {/* Psychological Insights Section */}
-            {nextStepsData.psychologicalInsights.length > 0 && (
-              <Card className="p-3">
+            {nextStepsData.psychologicalInsights.length > 0 && <Card className="p-3">
                 <div className="flex items-center gap-2 mb-2">
                   <Brain className="w-4 h-4 text-primary" />
                   <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
                 </div>
                 <ul className="space-y-1.5">
-                  {nextStepsData.psychologicalInsights.map((insight, idx) => (
-                    <li key={idx} className="text-xs text-slate-700 flex items-start gap-2">
+                  {nextStepsData.psychologicalInsights.map((insight, idx) => <li key={idx} className="text-xs text-slate-700 flex items-start gap-2">
                       <span className="text-primary mt-0.5">•</span>
                       <span>
                         <span className="font-medium">{insight.aspect}:</span>{' '}
-                        {insight.assessment.length > 60 
-                          ? insight.assessment.slice(0, 60) + '...' 
-                          : insight.assessment}
+                        {insight.assessment.length > 60 ? insight.assessment.slice(0, 60) + '...' : insight.assessment}
                       </span>
-                    </li>
-                  ))}
+                    </li>)}
                 </ul>
-              </Card>
-            )}
+              </Card>}
           </div>
 
           {/* Action Buttons */}
           <div className="space-y-2">
-            {savedProjection && (
-              <Button 
-                size="sm" 
-                variant="default" 
-                className="w-full text-xs"
-                onClick={onExportTimelinePDF}
-              >
+            {savedProjection && <Button size="sm" variant="default" className="w-full text-xs" onClick={onExportTimelinePDF}>
                 <FileDown className="w-3 h-3 mr-1" />
                 Export {savedProjection.projectName} PDF
-              </Button>
-            )}
+              </Button>}
             <div className="flex gap-1.5">
               <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs">
                 <Phone className="w-3 h-3 mr-1 flex-shrink-0" />
@@ -258,6 +151,5 @@ export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, onAddA
           </div>
         </div>
       </div>
-    </div>
-  );
+    </div>;
 }
