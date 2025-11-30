@@ -34,19 +34,31 @@ interface VentusChatPanelProps {
   onSaveProjection?: (projection: SavedFinancialProjection) => void;
 }
 // Helper function to extract action items from AI response
+// Only match explicitly numbered items (1., 2.) or bullet points (-, •) at line start
 function extractActionItemsFromMessage(content: string): string[] {
   const items: string[] = [];
   const lines = content.split('\n');
+  
   for (const line of lines) {
     const trimmed = line.trim();
-    // Match bullet points, numbered items, or action item keywords
-    if (trimmed.match(/^[-•]\s+/) || trimmed.match(/^\d+\.\s+/) || trimmed.toLowerCase().includes('action item') || trimmed.toLowerCase().includes('next step') || trimmed.toLowerCase().includes('recommend') || trimmed.toLowerCase().includes('should')) {
-      const cleanedItem = trimmed.replace(/^[-•]\s+/, '').replace(/^\d+\.\s+/, '').replace(/\*\*/g, '');
+    
+    // Only match explicit numbered items (1., 2., etc.) or bullet points (-, •)
+    const numberedMatch = trimmed.match(/^(\d+)\.\s+(.+)/);
+    const bulletMatch = trimmed.match(/^[-•]\s+(.+)/);
+    
+    if (numberedMatch) {
+      const cleanedItem = numberedMatch[2].replace(/\*\*/g, '').trim();
+      if (cleanedItem.length > 10 && cleanedItem.length < 200) {
+        items.push(cleanedItem);
+      }
+    } else if (bulletMatch) {
+      const cleanedItem = bulletMatch[1].replace(/\*\*/g, '').trim();
       if (cleanedItem.length > 10 && cleanedItem.length < 200) {
         items.push(cleanedItem);
       }
     }
   }
+  
   return items.slice(0, 5); // Limit to 5 items
 }
 
@@ -155,21 +167,23 @@ export function VentusChatPanel({
     advisorContext
   });
 
-  // Track processed messages to prevent duplicate extraction
-  const processedMessagesRef = useRef<Set<number>>(new Set());
+  // Track processed messages by content hash to prevent duplicate extraction
+  const processedMessagesRef = useRef<Set<string>>(new Set());
 
   // Extract next steps when AI responds
   useEffect(() => {
     if (messages.length === 0 || !onExtractNextSteps) return;
-    const lastIndex = messages.length - 1;
-    const lastMessage = messages[lastIndex];
+    const lastMessage = messages[messages.length - 1];
 
-    // Skip if already processed or not an assistant message
-    if (processedMessagesRef.current.has(lastIndex)) return;
+    // Skip if not an assistant message
     if (lastMessage.role !== 'assistant') return;
 
+    // Use content hash for reliable tracking (first 100 chars + length)
+    const messageHash = `${lastMessage.content.slice(0, 100)}-${lastMessage.content.length}`;
+    if (processedMessagesRef.current.has(messageHash)) return;
+
     // Mark as processed BEFORE extraction to prevent re-runs
-    processedMessagesRef.current.add(lastIndex);
+    processedMessagesRef.current.add(messageHash);
 
     // Extract action items from the message
     const extractedItems = extractActionItemsFromMessage(lastMessage.content);
