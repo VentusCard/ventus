@@ -15,11 +15,20 @@ import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+interface ActionItemFromTimeline {
+  id: string;
+  text: string;
+  completed: boolean;
+  source: 'timeline';
+  timestamp: Date;
+}
+
 interface FinancialTimelineToolProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   detectedEvent?: LifeEvent;
   onSaveProjection?: (projection: SavedFinancialProjection) => void;
+  onAddActionItems?: (items: ActionItemFromTimeline[]) => void;
 }
 const projectTypes = {
   education: {
@@ -59,7 +68,8 @@ export function FinancialTimelineTool({
   open,
   onOpenChange,
   detectedEvent,
-  onSaveProjection
+  onSaveProjection,
+  onAddActionItems
 }: FinancialTimelineToolProps) {
   const {
     toast
@@ -521,7 +531,7 @@ export function FinancialTimelineTool({
     }
     setCostCategories(newCategories);
   };
-  const handleSaveToChat = async () => {
+  const handleSaveToNextSteps = async () => {
     // Capture the chart image before saving
     let chartImageDataUrl: string | undefined;
     if (chartRef.current) {
@@ -557,9 +567,26 @@ export function FinancialTimelineTool({
     if (onSaveProjection) {
       onSaveProjection(savedProjection);
     }
+
+    // Create action items from timeline milestones
+    if (onAddActionItems && actionItems.length > 0) {
+      const timelineActionItems: ActionItemFromTimeline[] = actionItems
+        .filter(item => !item.completed)
+        .slice(0, 5) // Limit to 5 items
+        .map((item, idx) => ({
+          id: `timeline-${Date.now()}-${idx}`,
+          text: `[${projectName}] ${item.timing}: ${item.action}`,
+          completed: false,
+          source: 'timeline' as const,
+          timestamp: new Date()
+        }));
+      
+      onAddActionItems(timelineActionItems);
+    }
+
     toast({
-      title: "✓ Saved to Chat",
-      description: "Financial timeline added to conversation. Export available in Action Panel."
+      title: "✓ Saved to Next Steps",
+      description: `${Math.min(actionItems.filter(i => !i.completed).length, 5)} action items added to your task list`
     });
   };
   const handleExportPDF = async () => {
@@ -888,7 +915,7 @@ export function FinancialTimelineTool({
 
           {/* Action Buttons */}
           <div className="flex gap-2 justify-end pt-4 border-t">
-            <Button variant="outline" onClick={handleSaveToChat}>
+            <Button variant="outline" onClick={handleSaveToNextSteps}>
               <Save className="w-4 h-4 mr-2" />
               Save to Next Steps
             </Button>

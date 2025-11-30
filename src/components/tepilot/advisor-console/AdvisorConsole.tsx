@@ -83,6 +83,24 @@ export function AdvisorConsole({
     }));
   }, []);
 
+  const handleAddTimelineActionItems = useCallback((items: NextStepsActionItem[]) => {
+    setNextStepsData(prev => {
+      // Deduplicate by normalizing text
+      const normalizeText = (text: string) => text.toLowerCase().trim().replace(/[^\w\s]/g, '');
+      const existingTexts = new Set(prev.actionItems.map(item => normalizeText(item.text)));
+      
+      const newUniqueItems = items.filter(item => 
+        !existingTexts.has(normalizeText(item.text))
+      );
+      
+      return {
+        ...prev,
+        actionItems: [...newUniqueItems, ...prev.actionItems],
+        lastUpdated: new Date()
+      };
+    });
+  }, []);
+
   const handleSaveProjection = useCallback((projection: SavedFinancialProjection) => {
     setSavedProjection(projection);
   }, []);
@@ -153,6 +171,8 @@ export function AdvisorConsole({
         <ResizablePanel defaultSize={22} minSize={15} maxSize={30}>
           <ClientSnapshotPanel 
             onAskVentus={handleAskVentus}
+            advisorContext={advisorContext}
+            aiInsights={propAiInsights}
           />
         </ResizablePanel>
 
@@ -172,6 +192,7 @@ export function AdvisorConsole({
             advisorContext={advisorContext}
             onExtractNextSteps={handleExtractNextSteps}
             onSaveProjection={handleSaveProjection}
+            onAddTimelineActionItems={handleAddTimelineActionItems}
           />
         </ResizablePanel>
 
