@@ -6,7 +6,7 @@ export interface NextStepsActionItem {
   id: string;
   text: string;
   completed: boolean;
-  source: 'chat' | 'transcript';
+  source: 'chat' | 'transcript' | 'manual';
   timestamp: Date;
 }
 
