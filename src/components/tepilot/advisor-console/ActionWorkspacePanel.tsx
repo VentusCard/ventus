@@ -139,26 +139,25 @@ export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem }: Acti
 
             {/* Psychological Insights Section */}
             {nextStepsData.psychologicalInsights.length > 0 && (
-              <div>
+              <Card className="p-3">
                 <div className="flex items-center gap-2 mb-2">
                   <Brain className="w-4 h-4 text-primary" />
-                  <span className="text-xs font-medium text-slate-700">Psychological Insights</span>
+                  <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
                 </div>
-                <div className="space-y-2">
+                <ul className="space-y-1.5">
                   {nextStepsData.psychologicalInsights.map((insight, idx) => (
-                    <Card key={idx} className="p-3 border-l-4 border-l-primary/50">
-                      <div className="flex items-center justify-between mb-1">
-                        <span className="text-xs font-semibold text-slate-900">{insight.aspect}</span>
-                        <Badge variant="secondary" className="text-[10px]">
-                          {Math.round(insight.confidence * 100)}% conf
-                        </Badge>
-                      </div>
-                      <p className="text-xs text-slate-600 line-clamp-2">{insight.assessment}</p>
-                      <p className="text-[10px] text-muted-foreground mt-1">{insight.evidence}</p>
-                    </Card>
+                    <li key={idx} className="text-xs text-slate-700 flex items-start gap-2">
+                      <span className="text-primary mt-0.5">•</span>
+                      <span>
+                        <span className="font-medium">{insight.aspect}:</span>{' '}
+                        {insight.assessment.length > 60 
+                          ? insight.assessment.slice(0, 60) + '...' 
+                          : insight.assessment}
+                      </span>
+                    </li>
                   ))}
-                </div>
-              </div>
+                </ul>
+              </Card>
             )}
           </div>
 
