@@ -84,3 +84,8 @@ export interface EmotionalToneAnalysis {
   supportingQuotes: string[];
   preparationTips: string[];
 }
+
+export interface SavedFinancialProjection extends FinancialProjection {
+  chartImageDataUrl?: string;
+  savedAt: Date;
+}

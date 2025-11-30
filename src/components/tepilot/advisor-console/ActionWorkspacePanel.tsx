@@ -3,15 +3,18 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Calendar, Users, Phone, Mail, Brain, ListChecks, MessageSquare } from "lucide-react";
+import { Calendar, Users, Phone, Mail, Brain, ListChecks, MessageSquare, FileDown } from "lucide-react";
 import { sampleMeeting, sampleEngagementData, NextStepsData } from "./sampleData";
+import { SavedFinancialProjection } from "@/types/lifestyle-signals";
 
 interface ActionWorkspacePanelProps {
   nextStepsData: NextStepsData;
   onToggleActionItem: (itemId: string) => void;
+  savedProjection?: SavedFinancialProjection | null;
+  onExportTimelinePDF?: () => void;
 }
 
-export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem }: ActionWorkspacePanelProps) {
+export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, savedProjection, onExportTimelinePDF }: ActionWorkspacePanelProps) {
   const engagementColor = sampleEngagementData.status === 'high' ? 'bg-green-500' : sampleEngagementData.status === 'medium' ? 'bg-yellow-500' : 'bg-red-500';
   const engagementText = sampleEngagementData.status === 'high' ? 'Strong' : sampleEngagementData.status === 'medium' ? 'Moderate' : 'Needs Attention';
 
@@ -163,6 +166,17 @@ export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem }: Acti
 
           {/* Action Buttons */}
           <div className="space-y-2">
+            {savedProjection && (
+              <Button 
+                size="sm" 
+                variant="default" 
+                className="w-full text-xs"
+                onClick={onExportTimelinePDF}
+              >
+                <FileDown className="w-3 h-3 mr-1" />
+                Export {savedProjection.projectName} PDF
+              </Button>
+            )}
             <div className="flex gap-1.5">
               <Button size="sm" variant="outline" className="flex-1 min-w-0 text-xs">
                 <Phone className="w-3 h-3 mr-1 flex-shrink-0" />

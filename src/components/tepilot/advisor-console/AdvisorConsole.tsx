@@ -4,9 +4,11 @@ import { ClientSnapshotPanel } from "./ClientSnapshotPanel";
 import { VentusChatPanel } from "./VentusChatPanel";
 import { ActionWorkspacePanel } from "./ActionWorkspacePanel";
 import { ChatMessage, Task, sampleTasks, sampleClientData, NextStepsData, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
-import { AIInsights } from "@/types/lifestyle-signals";
+import { AIInsights, SavedFinancialProjection } from "@/types/lifestyle-signals";
 import { EnrichedTransaction } from "@/types/transaction";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
+import { exportFinancialTimelinePDF } from "@/lib/financialTimelinePdfExport";
+import { useToast } from "@/hooks/use-toast";
 
 interface AdvisorConsoleProps {
   aiInsights?: AIInsights | null;
@@ -21,6 +23,7 @@ export function AdvisorConsole({
   enrichedTransactions = [],
   advisorContext
 }: AdvisorConsoleProps) {
+  const { toast } = useToast();
   const [selectedLifestyleChip, setSelectedLifestyleChip] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>(sampleTasks);
   const [nextStepsData, setNextStepsData] = useState<NextStepsData>({
@@ -28,6 +31,7 @@ export function AdvisorConsole({
     psychologicalInsights: [],
     lastUpdated: null
   });
+  const [savedProjection, setSavedProjection] = useState<SavedFinancialProjection | null>(null);
 
   const toggleTask = (taskId: string) => {
     setTasks(tasks.map(task => 
@@ -51,6 +55,34 @@ export function AdvisorConsole({
       )
     }));
   }, []);
+
+  const handleSaveProjection = useCallback((projection: SavedFinancialProjection) => {
+    setSavedProjection(projection);
+  }, []);
+
+  const handleExportTimelinePDF = useCallback(async () => {
+    if (!savedProjection) return;
+    
+    toast({
+      title: "Generating PDF...",
+      description: "Please wait while we create your document",
+    });
+
+    try {
+      await exportFinancialTimelinePDF(savedProjection);
+      toast({
+        title: "✓ PDF Downloaded",
+        description: "Financial timeline exported successfully",
+      });
+    } catch (error) {
+      console.error("Error exporting PDF:", error);
+      toast({
+        title: "Export Failed",
+        description: "Could not generate PDF. Please try again.",
+        variant: "destructive",
+      });
+    }
+  }, [savedProjection, toast]);
 
   const handleAskVentus = (context: string) => {
     console.log("Ask Ventus with context:", context);
@@ -112,6 +144,7 @@ export function AdvisorConsole({
             enrichedTransactions={enrichedTransactions}
             advisorContext={advisorContext}
             onExtractNextSteps={handleExtractNextSteps}
+            onSaveProjection={handleSaveProjection}
           />
         </ResizablePanel>
 
@@ -122,6 +155,8 @@ export function AdvisorConsole({
           <ActionWorkspacePanel 
             nextStepsData={nextStepsData}
             onToggleActionItem={handleToggleActionItem}
+            savedProjection={savedProjection}
+            onExportTimelinePDF={handleExportTimelinePDF}
           />
         </ResizablePanel>
       </ResizablePanelGroup>

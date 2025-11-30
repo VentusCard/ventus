@@ -8,7 +8,7 @@ import { Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Spark
 import { sampleChatMessages, ChatMessage, Task, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { AIInsights, LifeEvent } from "@/types/lifestyle-signals";
+import { AIInsights, LifeEvent, SavedFinancialProjection } from "@/types/lifestyle-signals";
 import { LifeEventCard } from "./LifeEventCard";
 import { ProductRecommendationCard } from "./ProductRecommendationCard";
 import { EducationalContentPanel } from "./EducationalContentPanel";
@@ -31,6 +31,7 @@ interface VentusChatPanelProps {
   enrichedTransactions?: EnrichedTransaction[];
   advisorContext?: AdvisorContext;
   onExtractNextSteps?: (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => void;
+  onSaveProjection?: (projection: SavedFinancialProjection) => void;
 }
 // Helper function to extract action items from AI response
 function extractActionItemsFromMessage(content: string): string[] {
@@ -130,7 +131,8 @@ export function VentusChatPanel({
   isLoadingInsights,
   enrichedTransactions = [],
   advisorContext,
-  onExtractNextSteps
+  onExtractNextSteps,
+  onSaveProjection
 }: VentusChatPanelProps) {
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
@@ -473,6 +475,6 @@ export function VentusChatPanel({
       sendMessage(message);
     }} />
 
-      <FinancialTimelineTool open={financialTimelineOpen} onOpenChange={setFinancialTimelineOpen} detectedEvent={selectedTimelineEvent || undefined} />
+      <FinancialTimelineTool open={financialTimelineOpen} onOpenChange={setFinancialTimelineOpen} detectedEvent={selectedTimelineEvent || undefined} onSaveProjection={onSaveProjection} />
     </div>;
 }
