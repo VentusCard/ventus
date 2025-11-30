@@ -135,7 +135,7 @@ const Hero = () => {
               </div>
               
               {/* Video element with reduced opacity for better blending */}
-              <video ref={videoRef} className="w-full h-full object-cover opacity-90" muted playsInline preload="metadata">
+              <video ref={videoRef} className="w-full h-full object-cover opacity-90" autoPlay muted loop playsInline preload="auto">
                 <source src="https://github.com/rojchen98/ventuscard/raw/refs/heads/main/Gen-4%20A%20premium%20credit%20card%20named%20Ventus%20Card%20is%20displayed%20in%20the%20center%20of%20the%20frame%20against%20a%20smooth%20black%20background%20The%20card%20has%20a%20sleek%20marbled%20design%20in%20deep%20shades%20of%20blue,%20indigo,%20and%20violet,%20(6).mp4" type="video/mp4" />
                 Your browser does not support the video tag.
               </video>
