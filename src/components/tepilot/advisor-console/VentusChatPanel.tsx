@@ -36,45 +36,44 @@ interface VentusChatPanelProps {
 function extractActionItemsFromMessage(content: string): string[] {
   const items: string[] = [];
   const lines = content.split('\n');
-  
   for (const line of lines) {
     const trimmed = line.trim();
     // Match bullet points, numbered items, or action item keywords
-    if (
-      trimmed.match(/^[-•]\s+/) ||
-      trimmed.match(/^\d+\.\s+/) ||
-      trimmed.toLowerCase().includes('action item') ||
-      trimmed.toLowerCase().includes('next step') ||
-      trimmed.toLowerCase().includes('recommend') ||
-      trimmed.toLowerCase().includes('should')
-    ) {
-      const cleanedItem = trimmed
-        .replace(/^[-•]\s+/, '')
-        .replace(/^\d+\.\s+/, '')
-        .replace(/\*\*/g, '');
+    if (trimmed.match(/^[-•]\s+/) || trimmed.match(/^\d+\.\s+/) || trimmed.toLowerCase().includes('action item') || trimmed.toLowerCase().includes('next step') || trimmed.toLowerCase().includes('recommend') || trimmed.toLowerCase().includes('should')) {
+      const cleanedItem = trimmed.replace(/^[-•]\s+/, '').replace(/^\d+\.\s+/, '').replace(/\*\*/g, '');
       if (cleanedItem.length > 10 && cleanedItem.length < 200) {
         items.push(cleanedItem);
       }
     }
   }
-  
   return items.slice(0, 5); // Limit to 5 items
 }
 
 // Helper function to extract psychological insights from transcript analysis
 function extractPsychologicalInsights(content: string): PsychologicalInsight[] {
   const insights: PsychologicalInsight[] = [];
-  
+
   // Look for psychological insight patterns in the response
-  const psychPatterns = [
-    { pattern: /decision.?making|analytical|methodical/i, aspect: "Decision Style" },
-    { pattern: /risk.?(toleran|avers|seek)/i, aspect: "Risk Tolerance" },
-    { pattern: /emotion|sentiment|feel|anxious|confident/i, aspect: "Emotional State" },
-    { pattern: /trust|skeptic|open|guard/i, aspect: "Trust Level" },
-    { pattern: /communicat|engag|responsive/i, aspect: "Communication Style" },
-  ];
-  
-  for (const { pattern, aspect } of psychPatterns) {
+  const psychPatterns = [{
+    pattern: /decision.?making|analytical|methodical/i,
+    aspect: "Decision Style"
+  }, {
+    pattern: /risk.?(toleran|avers|seek)/i,
+    aspect: "Risk Tolerance"
+  }, {
+    pattern: /emotion|sentiment|feel|anxious|confident/i,
+    aspect: "Emotional State"
+  }, {
+    pattern: /trust|skeptic|open|guard/i,
+    aspect: "Trust Level"
+  }, {
+    pattern: /communicat|engag|responsive/i,
+    aspect: "Communication Style"
+  }];
+  for (const {
+    pattern,
+    aspect
+  } of psychPatterns) {
     const match = content.match(new RegExp(`[^.]*${pattern.source}[^.]*\\.`, 'i'));
     if (match) {
       insights.push({
@@ -85,10 +84,8 @@ function extractPsychologicalInsights(content: string): PsychologicalInsight[] {
       });
     }
   }
-  
   return insights.slice(0, 4); // Limit to 4 insights
 }
-
 export function VentusChatPanel({
   selectedLifestyleChip,
   onSaveToDocument,
@@ -128,17 +125,16 @@ export function VentusChatPanel({
   // Extract next steps when AI responds
   useEffect(() => {
     if (messages.length === 0 || !onExtractNextSteps) return;
-    
     const lastIndex = messages.length - 1;
     const lastMessage = messages[lastIndex];
-    
+
     // Skip if already processed or not an assistant message
     if (processedMessagesRef.current.has(lastIndex)) return;
     if (lastMessage.role !== 'assistant') return;
-    
+
     // Mark as processed BEFORE extraction to prevent re-runs
     processedMessagesRef.current.add(lastIndex);
-    
+
     // Extract action items from the message
     const extractedItems = extractActionItemsFromMessage(lastMessage.content);
     const actionItems: NextStepsActionItem[] = extractedItems.map((text, idx) => ({
@@ -148,15 +144,12 @@ export function VentusChatPanel({
       source: lastMessage.content.toLowerCase().includes('transcript') ? 'transcript' : 'chat',
       timestamp: new Date()
     }));
-    
+
     // Extract psychological insights if this looks like a transcript analysis
     let psychInsights: PsychologicalInsight[] = [];
-    if (lastMessage.content.toLowerCase().includes('transcript') || 
-        lastMessage.content.toLowerCase().includes('tone') ||
-        lastMessage.content.toLowerCase().includes('meeting')) {
+    if (lastMessage.content.toLowerCase().includes('transcript') || lastMessage.content.toLowerCase().includes('tone') || lastMessage.content.toLowerCase().includes('meeting')) {
       psychInsights = extractPsychologicalInsights(lastMessage.content);
     }
-    
     if (actionItems.length > 0 || psychInsights.length > 0) {
       onExtractNextSteps(actionItems, psychInsights);
     }
@@ -191,10 +184,7 @@ export function VentusChatPanel({
         break;
       case "Financial Timeline":
         // Find the highest-confidence event with a financial projection
-        const bestEvent = visibleEvents
-          .filter(e => e.financial_projection)
-          .sort((a, b) => b.confidence - a.confidence)[0];
-        
+        const bestEvent = visibleEvents.filter(e => e.financial_projection).sort((a, b) => b.confidence - a.confidence)[0];
         setSelectedTimelineEvent(bestEvent || null);
         setFinancialTimelineOpen(true);
         return;
@@ -253,15 +243,7 @@ export function VentusChatPanel({
             <h2 className="text-xl font-semibold text-slate-900">
               Ventus AI Advisor Chat
             </h2>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setTranscriptDialogOpen(true)}
-              className="text-xs"
-            >
-              <Upload className="w-3 h-3 mr-1" />
-              Upload Transcript
-            </Button>
+            
           </div>
           {isLoadingInsights && <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -286,16 +268,10 @@ export function VentusChatPanel({
           
           <CollapsibleContent className="px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent">
             <div className="space-y-3 mb-4">
-              {visibleEvents.map(event => <LifeEventCard 
-                key={event.event_name} 
-                event={event} 
-                onViewDetails={() => handleViewEventDetails(event)} 
-                onDismiss={() => handleDismissEvent(event.event_name)}
-                onPlanEvent={(e) => {
-                  setSelectedTimelineEvent(e);
-                  setFinancialTimelineOpen(true);
-                }}
-              />)}
+              {visibleEvents.map(event => <LifeEventCard key={event.event_name} event={event} onViewDetails={() => handleViewEventDetails(event)} onDismiss={() => handleDismissEvent(event.event_name)} onPlanEvent={e => {
+            setSelectedTimelineEvent(e);
+            setFinancialTimelineOpen(true);
+          }} />)}
             </div>
 
             {/* Selected Event Details */}
@@ -410,28 +386,15 @@ export function VentusChatPanel({
                     </Button>
 
                     {/* Show timeline button if message mentions financial planning keywords */}
-                    {(message.content.toLowerCase().includes('timeline') || 
-                      message.content.toLowerCase().includes('projection') ||
-                      message.content.toLowerCase().includes('college') ||
-                      message.content.toLowerCase().includes('retirement') ||
-                      message.content.toLowerCase().includes('financial plan')) && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => {
-                          // Find best event or use null for custom timeline
-                          const bestEvent = visibleEvents
-                            .filter(e => e.financial_projection)
-                            .sort((a, b) => b.confidence - a.confidence)[0];
-                          setSelectedTimelineEvent(bestEvent || null);
-                          setFinancialTimelineOpen(true);
-                        }} 
-                        className="text-xs"
-                      >
+                    {(message.content.toLowerCase().includes('timeline') || message.content.toLowerCase().includes('projection') || message.content.toLowerCase().includes('college') || message.content.toLowerCase().includes('retirement') || message.content.toLowerCase().includes('financial plan')) && <Button variant="ghost" size="sm" onClick={() => {
+                // Find best event or use null for custom timeline
+                const bestEvent = visibleEvents.filter(e => e.financial_projection).sort((a, b) => b.confidence - a.confidence)[0];
+                setSelectedTimelineEvent(bestEvent || null);
+                setFinancialTimelineOpen(true);
+              }} className="text-xs">
                         <Clock className="w-3 h-3 mr-1" />
                         Generate Timeline
-                      </Button>
-                    )}
+                      </Button>}
                   </div>}
               </div>
             </div>
@@ -462,13 +425,7 @@ export function VentusChatPanel({
             handleSendMessage();
           }
         }} disabled={isChatLoading} />
-          <Button 
-            variant="outline" 
-            size="icon" 
-            onClick={() => setTranscriptDialogOpen(true)}
-            disabled={isChatLoading}
-            title="Upload Meeting Transcript for Tone Analysis"
-          >
+          <Button variant="outline" size="icon" onClick={() => setTranscriptDialogOpen(true)} disabled={isChatLoading} title="Upload Meeting Transcript for Tone Analysis">
             <Upload className="w-4 h-4" />
           </Button>
           <Button size="icon" onClick={handleSendMessage} disabled={isChatLoading || !inputValue.trim()}>
@@ -478,18 +435,10 @@ export function VentusChatPanel({
       </div>
 
       {/* Transcript Upload Dialog */}
-      <TranscriptUploadDialog
-        open={transcriptDialogOpen}
-        onOpenChange={setTranscriptDialogOpen}
-        onSubmitTranscript={(message) => {
-          sendMessage(message);
-        }}
-      />
+      <TranscriptUploadDialog open={transcriptDialogOpen} onOpenChange={setTranscriptDialogOpen} onSubmitTranscript={message => {
+      sendMessage(message);
+    }} />
 
-      <FinancialTimelineTool 
-        open={financialTimelineOpen}
-        onOpenChange={setFinancialTimelineOpen}
-        detectedEvent={selectedTimelineEvent || undefined}
-      />
+      <FinancialTimelineTool open={financialTimelineOpen} onOpenChange={setFinancialTimelineOpen} detectedEvent={selectedTimelineEvent || undefined} />
     </div>;
 }
