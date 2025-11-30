@@ -3,7 +3,7 @@ import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/componen
 import { ClientSnapshotPanel } from "./ClientSnapshotPanel";
 import { VentusChatPanel } from "./VentusChatPanel";
 import { ActionWorkspacePanel } from "./ActionWorkspacePanel";
-import { ChatMessage, Task, sampleTasks, sampleClientData } from "./sampleData";
+import { ChatMessage, Task, sampleTasks, sampleClientData, NextStepsData, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { EnrichedTransaction } from "@/types/transaction";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
@@ -23,11 +23,33 @@ export function AdvisorConsole({
 }: AdvisorConsoleProps) {
   const [selectedLifestyleChip, setSelectedLifestyleChip] = useState<string | null>(null);
   const [tasks, setTasks] = useState<Task[]>(sampleTasks);
+  const [nextStepsData, setNextStepsData] = useState<NextStepsData>({
+    actionItems: [],
+    psychologicalInsights: [],
+    lastUpdated: null
+  });
 
   const toggleTask = (taskId: string) => {
     setTasks(tasks.map(task => 
       task.id === taskId ? { ...task, completed: !task.completed } : task
     ));
+  };
+
+  const handleExtractNextSteps = (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => {
+    setNextStepsData(prev => ({
+      actionItems: [...prev.actionItems, ...actionItems],
+      psychologicalInsights: psychologicalInsights.length > 0 ? psychologicalInsights : prev.psychologicalInsights,
+      lastUpdated: new Date()
+    }));
+  };
+
+  const handleToggleActionItem = (itemId: string) => {
+    setNextStepsData(prev => ({
+      ...prev,
+      actionItems: prev.actionItems.map(item =>
+        item.id === itemId ? { ...item, completed: !item.completed } : item
+      )
+    }));
   };
 
   const handleAskVentus = (context: string) => {
@@ -89,6 +111,7 @@ export function AdvisorConsole({
             isLoadingInsights={isLoadingInsights}
             enrichedTransactions={enrichedTransactions}
             advisorContext={advisorContext}
+            onExtractNextSteps={handleExtractNextSteps}
           />
         </ResizablePanel>
 
@@ -96,7 +119,10 @@ export function AdvisorConsole({
 
         {/* Right Panel: Action Workspace */}
         <ResizablePanel defaultSize={30} minSize={25} maxSize={40}>
-          <ActionWorkspacePanel />
+          <ActionWorkspacePanel 
+            nextStepsData={nextStepsData}
+            onToggleActionItem={handleToggleActionItem}
+          />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

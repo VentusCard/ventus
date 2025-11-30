@@ -1,11 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain, Upload } from "lucide-react";
-import { sampleChatMessages, ChatMessage, Task } from "./sampleData";
+import { sampleChatMessages, ChatMessage, Task, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { AIInsights, LifeEvent } from "@/types/lifestyle-signals";
@@ -30,7 +30,65 @@ interface VentusChatPanelProps {
   isLoadingInsights: boolean;
   enrichedTransactions?: EnrichedTransaction[];
   advisorContext?: AdvisorContext;
+  onExtractNextSteps?: (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => void;
 }
+// Helper function to extract action items from AI response
+function extractActionItemsFromMessage(content: string): string[] {
+  const items: string[] = [];
+  const lines = content.split('\n');
+  
+  for (const line of lines) {
+    const trimmed = line.trim();
+    // Match bullet points, numbered items, or action item keywords
+    if (
+      trimmed.match(/^[-•]\s+/) ||
+      trimmed.match(/^\d+\.\s+/) ||
+      trimmed.toLowerCase().includes('action item') ||
+      trimmed.toLowerCase().includes('next step') ||
+      trimmed.toLowerCase().includes('recommend') ||
+      trimmed.toLowerCase().includes('should')
+    ) {
+      const cleanedItem = trimmed
+        .replace(/^[-•]\s+/, '')
+        .replace(/^\d+\.\s+/, '')
+        .replace(/\*\*/g, '');
+      if (cleanedItem.length > 10 && cleanedItem.length < 200) {
+        items.push(cleanedItem);
+      }
+    }
+  }
+  
+  return items.slice(0, 5); // Limit to 5 items
+}
+
+// Helper function to extract psychological insights from transcript analysis
+function extractPsychologicalInsights(content: string): PsychologicalInsight[] {
+  const insights: PsychologicalInsight[] = [];
+  
+  // Look for psychological insight patterns in the response
+  const psychPatterns = [
+    { pattern: /decision.?making|analytical|methodical/i, aspect: "Decision Style" },
+    { pattern: /risk.?(toleran|avers|seek)/i, aspect: "Risk Tolerance" },
+    { pattern: /emotion|sentiment|feel|anxious|confident/i, aspect: "Emotional State" },
+    { pattern: /trust|skeptic|open|guard/i, aspect: "Trust Level" },
+    { pattern: /communicat|engag|responsive/i, aspect: "Communication Style" },
+  ];
+  
+  for (const { pattern, aspect } of psychPatterns) {
+    const match = content.match(new RegExp(`[^.]*${pattern.source}[^.]*\\.`, 'i'));
+    if (match) {
+      insights.push({
+        aspect,
+        assessment: match[0].trim().slice(0, 100),
+        evidence: "Derived from meeting transcript analysis",
+        confidence: 0.75
+      });
+    }
+  }
+  
+  return insights.slice(0, 4); // Limit to 4 insights
+}
+
 export function VentusChatPanel({
   selectedLifestyleChip,
   onSaveToDocument,
@@ -40,7 +98,8 @@ export function VentusChatPanel({
   aiInsights,
   isLoadingInsights,
   enrichedTransactions = [],
-  advisorContext
+  advisorContext,
+  onExtractNextSteps
 }: VentusChatPanelProps) {
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
@@ -62,6 +121,36 @@ export function VentusChatPanel({
   } = useAdvisorChat({
     advisorContext
   });
+
+  // Extract next steps when AI responds
+  useEffect(() => {
+    if (messages.length === 0 || !onExtractNextSteps) return;
+    
+    const lastMessage = messages[messages.length - 1];
+    if (lastMessage.role !== 'assistant') return;
+    
+    // Extract action items from the message
+    const extractedItems = extractActionItemsFromMessage(lastMessage.content);
+    const actionItems: NextStepsActionItem[] = extractedItems.map((text, idx) => ({
+      id: `action-${Date.now()}-${idx}`,
+      text,
+      completed: false,
+      source: lastMessage.content.toLowerCase().includes('transcript') ? 'transcript' : 'chat',
+      timestamp: new Date()
+    }));
+    
+    // Extract psychological insights if this looks like a transcript analysis
+    let psychInsights: PsychologicalInsight[] = [];
+    if (lastMessage.content.toLowerCase().includes('transcript') || 
+        lastMessage.content.toLowerCase().includes('tone') ||
+        lastMessage.content.toLowerCase().includes('meeting')) {
+      psychInsights = extractPsychologicalInsights(lastMessage.content);
+    }
+    
+    if (actionItems.length > 0 || psychInsights.length > 0) {
+      onExtractNextSteps(actionItems, psychInsights);
+    }
+  }, [messages, onExtractNextSteps]);
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
