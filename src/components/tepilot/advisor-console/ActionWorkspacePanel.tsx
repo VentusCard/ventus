@@ -2,15 +2,24 @@ import { useState } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Calendar, Users, Plus, FileText, Download, ImagePlus, CheckCircle, Phone, Mail } from "lucide-react";
-import { sampleMeeting, sampleDocumentBlocks, sampleEngagementData, DocumentBlock } from "./sampleData";
-export function ActionWorkspacePanel() {
-  const [documentBlocks, setDocumentBlocks] = useState<DocumentBlock[]>(sampleDocumentBlocks);
-  const [previewMode, setPreviewMode] = useState<'advisor' | 'client'>('advisor');
+import { Checkbox } from "@/components/ui/checkbox";
+import { Calendar, Users, Phone, Mail, Brain, ListChecks, MessageSquare } from "lucide-react";
+import { sampleMeeting, sampleEngagementData, NextStepsData } from "./sampleData";
+
+interface ActionWorkspacePanelProps {
+  nextStepsData: NextStepsData;
+  onToggleActionItem: (itemId: string) => void;
+}
+
+export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem }: ActionWorkspacePanelProps) {
   const engagementColor = sampleEngagementData.status === 'high' ? 'bg-green-500' : sampleEngagementData.status === 'medium' ? 'bg-yellow-500' : 'bg-red-500';
   const engagementText = sampleEngagementData.status === 'high' ? 'Strong' : sampleEngagementData.status === 'medium' ? 'Moderate' : 'Needs Attention';
-  return <div className="h-full flex flex-col bg-slate-50">
+
+  const incompleteItems = nextStepsData.actionItems.filter(item => !item.completed);
+  const completedItems = nextStepsData.actionItems.filter(item => item.completed);
+
+  return (
+    <div className="h-full flex flex-col bg-slate-50">
       {/* Meeting & Engagement Section */}
       <div className="border-b bg-white p-4 space-y-4 flex-shrink-0">
         <div>
@@ -29,7 +38,9 @@ export function ActionWorkspacePanel() {
                 <p className="text-xs text-slate-600">{sampleMeeting.time} • {sampleMeeting.duration} min</p>
                 <div className="flex items-center gap-1 mt-1 flex-wrap">
                   <Users className="w-3 h-3 text-slate-400" />
-                  {sampleMeeting.participants.slice(0, 2).map((p, idx) => <span key={idx} className="text-xs text-slate-600">{p}{idx < 1 ? ',' : ''}</span>)}
+                  {sampleMeeting.participants.slice(0, 2).map((p, idx) => (
+                    <span key={idx} className="text-xs text-slate-600">{p}{idx < 1 ? ',' : ''}</span>
+                  ))}
                 </div>
               </div>
             </div>
@@ -46,41 +57,110 @@ export function ActionWorkspacePanel() {
         </div>
       </div>
 
-      {/* Document Builder Section */}
+      {/* Next Steps Section */}
       <div className="flex-1 min-h-0 overflow-hidden p-4">
         <div className="h-full flex flex-col">
           <div className="flex items-center justify-between mb-3">
-            <h3 className="text-sm font-semibold text-slate-900 mb-2 uppercase tracking-wide">
-              Client Brief Builder
+            <h3 className="text-sm font-semibold text-slate-900 uppercase tracking-wide">
+              Next Steps
             </h3>
-            <Tabs value={previewMode} onValueChange={v => setPreviewMode(v as 'advisor' | 'client')}>
-              <TabsList className="h-8">
-                <TabsTrigger value="advisor" className="text-xs">Advisor Draft</TabsTrigger>
-                <TabsTrigger value="client" className="text-xs">Client Handout</TabsTrigger>
-              </TabsList>
-            </Tabs>
+            {nextStepsData.lastUpdated && (
+              <span className="text-xs text-slate-500">
+                Updated {nextStepsData.lastUpdated.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+              </span>
+            )}
           </div>
 
-          {/* Document Workspace - Scrollable */}
-          <Card className="flex-1 min-h-0 overflow-y-auto p-4 space-y-4 mb-3">
-            {documentBlocks.sort((a, b) => a.order - b.order).map(block => <div key={block.id} className="border border-slate-200 rounded-lg p-3 bg-white hover:border-primary/50 transition-colors">
-                  <div className="flex items-center justify-between mb-2">
-                    <h4 className="font-semibold text-sm text-slate-900">{block.title}</h4>
-                    <Badge variant="outline" className="text-xs">{block.type}</Badge>
-                  </div>
-                  <div className="text-xs text-slate-700 whitespace-pre-wrap line-clamp-3">
-                    {block.content}
-                  </div>
-                  <p className="text-xs text-slate-400 mt-2">
-                    Last edited: {new Date(block.lastEdited).toLocaleString('en-US', {
-                month: 'short',
-                day: 'numeric',
-                hour: 'numeric',
-                minute: '2-digit'
-              })}
-                  </p>
-                </div>)}
-          </Card>
+          {/* Content Area - Scrollable */}
+          <div className="flex-1 min-h-0 overflow-y-auto space-y-4 mb-3">
+            {/* Empty State */}
+            {nextStepsData.actionItems.length === 0 && nextStepsData.psychologicalInsights.length === 0 && (
+              <Card className="border-dashed p-6 text-center">
+                <MessageSquare className="w-10 h-10 mx-auto text-muted-foreground/50 mb-3" />
+                <h4 className="font-medium text-slate-900 mb-1">No Next Steps Yet</h4>
+                <p className="text-xs text-muted-foreground">
+                  Chat with Ventus AI or upload a meeting transcript to generate action items and insights.
+                </p>
+              </Card>
+            )}
+
+            {/* Action Items Section */}
+            {nextStepsData.actionItems.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <ListChecks className="w-4 h-4 text-primary" />
+                  <span className="text-xs font-medium text-slate-700">
+                    Action Items ({incompleteItems.length} remaining)
+                  </span>
+                </div>
+                <Card className="p-3 space-y-2">
+                  {incompleteItems.map(item => (
+                    <div key={item.id} className="flex items-start gap-2">
+                      <Checkbox
+                        id={item.id}
+                        checked={item.completed}
+                        onCheckedChange={() => onToggleActionItem(item.id)}
+                        className="mt-0.5"
+                      />
+                      <div className="flex-1 min-w-0">
+                        <label htmlFor={item.id} className="text-xs text-slate-700 cursor-pointer">
+                          {item.text}
+                        </label>
+                        <div className="flex items-center gap-1 mt-0.5">
+                          <Badge variant="outline" className="text-[10px] px-1 py-0">
+                            {item.source}
+                          </Badge>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {completedItems.length > 0 && (
+                    <div className="border-t pt-2 mt-2">
+                      <span className="text-xs text-muted-foreground">Completed ({completedItems.length})</span>
+                      {completedItems.map(item => (
+                        <div key={item.id} className="flex items-start gap-2 mt-1 opacity-60">
+                          <Checkbox
+                            id={item.id}
+                            checked={item.completed}
+                            onCheckedChange={() => onToggleActionItem(item.id)}
+                            className="mt-0.5"
+                          />
+                          <label htmlFor={item.id} className="text-xs text-slate-500 line-through cursor-pointer">
+                            {item.text}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </Card>
+              </div>
+            )}
+
+            {/* Psychological Insights Section */}
+            {nextStepsData.psychologicalInsights.length > 0 && (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <Brain className="w-4 h-4 text-primary" />
+                  <span className="text-xs font-medium text-slate-700">Psychological Insights</span>
+                </div>
+                <div className="space-y-2">
+                  {nextStepsData.psychologicalInsights.map((insight, idx) => (
+                    <Card key={idx} className="p-3 border-l-4 border-l-primary/50">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-xs font-semibold text-slate-900">{insight.aspect}</span>
+                        <Badge variant="secondary" className="text-[10px]">
+                          {Math.round(insight.confidence * 100)}% conf
+                        </Badge>
+                      </div>
+                      <p className="text-xs text-slate-600 line-clamp-2">{insight.assessment}</p>
+                      <p className="text-[10px] text-muted-foreground mt-1">{insight.evidence}</p>
+                    </Card>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
 
           {/* Action Buttons */}
           <div className="space-y-2">
@@ -101,5 +181,6 @@ export function ActionWorkspacePanel() {
           </div>
         </div>
       </div>
-    </div>;
+    </div>
+  );
 }

@@ -1,6 +1,28 @@
 // TypeScript interfaces for Advisor Console data structures
 import { AIInsights } from "@/types/lifestyle-signals";
 
+// Next Steps data structures
+export interface NextStepsActionItem {
+  id: string;
+  text: string;
+  completed: boolean;
+  source: 'chat' | 'transcript';
+  timestamp: Date;
+}
+
+export interface PsychologicalInsight {
+  aspect: string;
+  assessment: string;
+  evidence: string;
+  confidence: number;
+}
+
+export interface NextStepsData {
+  actionItems: NextStepsActionItem[];
+  psychologicalInsights: PsychologicalInsight[];
+  lastUpdated: Date | null;
+}
+
 export interface ClientData {
   name: string;
   segment: 'Preferred' | 'Private' | 'Premium';
