@@ -4,11 +4,9 @@ import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, Upload } from "lucide-react";
-
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
 }
-
 const iconMap: Record<string, any> = {
   Plane,
   Users,
@@ -16,7 +14,6 @@ const iconMap: Record<string, any> = {
   UtensilsCrossed,
   Activity
 };
-
 const placeholderClientData = {
   name: "Firstname Lastname",
   segment: "Client Segment",
@@ -40,26 +37,49 @@ const placeholderClientData = {
     investments: "X,XXX,XXX"
   }
 };
-
-const placeholderLifestyleSignals = [
-  { category: "Travel", trend: "up" as const, change: 0, icon: "Plane" },
-  { category: "Family", trend: "stable" as const, change: 0, icon: "Users" },
-  { category: "Philanthropy", trend: "up" as const, change: 0, icon: "Heart" },
-  { category: "Dining", trend: "up" as const, change: 0, icon: "UtensilsCrossed" },
-  { category: "Health", trend: "stable" as const, change: 0, icon: "Activity" }
-];
-
-const placeholderLifeTriggers = [
-  { date: "YYYY-MM-DD", event: "Life Event Name", type: "financial" as const },
-  { date: "YYYY-MM-DD", event: "Life Event Name", type: "family" as const },
-  { date: "YYYY-MM-DD", event: "Life Event Name", type: "lifestyle" as const }
-];
-
+const placeholderLifestyleSignals = [{
+  category: "Travel",
+  trend: "up" as const,
+  change: 0,
+  icon: "Plane"
+}, {
+  category: "Family",
+  trend: "stable" as const,
+  change: 0,
+  icon: "Users"
+}, {
+  category: "Philanthropy",
+  trend: "up" as const,
+  change: 0,
+  icon: "Heart"
+}, {
+  category: "Dining",
+  trend: "up" as const,
+  change: 0,
+  icon: "UtensilsCrossed"
+}, {
+  category: "Health",
+  trend: "stable" as const,
+  change: 0,
+  icon: "Activity"
+}];
+const placeholderLifeTriggers = [{
+  date: "YYYY-MM-DD",
+  event: "Life Event Name",
+  type: "financial" as const
+}, {
+  date: "YYYY-MM-DD",
+  event: "Life Event Name",
+  type: "family" as const
+}, {
+  date: "YYYY-MM-DD",
+  event: "Life Event Name",
+  type: "lifestyle" as const
+}];
 export function ClientSnapshotPanel({
   onAskVentus
 }: ClientSnapshotPanelProps) {
-  return (
-    <div className="h-full flex flex-col bg-slate-50">
+  return <div className="h-full flex flex-col bg-slate-50">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* Client Header Card - Always Visible */}
         <Card className="bg-white">
@@ -169,9 +189,8 @@ export function ClientSnapshotPanel({
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-2">
                 {placeholderLifestyleSignals.map((signal, idx) => {
-                  const Icon = iconMap[signal.icon];
-                  return (
-                    <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
+                const Icon = iconMap[signal.icon];
+                return <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
                       <div className="flex items-center gap-2">
                         <Icon className="w-4 h-4 text-slate-400" />
                         <span className="text-xs text-slate-700">{signal.category}</span>
@@ -180,9 +199,8 @@ export function ClientSnapshotPanel({
                         {signal.trend === 'up' ? '↑' : signal.trend === 'stable' ? '→' : '↓'} 
                         {signal.change}%
                       </Badge>
-                    </div>
-                  );
-                })}
+                    </div>;
+              })}
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -197,15 +215,13 @@ export function ClientSnapshotPanel({
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-3">
-                {placeholderLifeTriggers.map((trigger, idx) => (
-                  <div key={idx} className="text-xs border-l-2 border-slate-300 pl-3">
+                {placeholderLifeTriggers.map((trigger, idx) => <div key={idx} className="text-xs border-l-2 border-slate-300 pl-3">
                     <div className="font-semibold text-slate-700">{trigger.event}</div>
                     <div className="text-slate-500 mt-1">{trigger.date}</div>
                     <Badge variant="outline" className="mt-1 text-xs">
                       {trigger.type}
                     </Badge>
-                  </div>
-                ))}
+                  </div>)}
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -269,13 +285,8 @@ export function ClientSnapshotPanel({
 
         {/* Helper Text at Bottom - Always Visible */}
         <Card className="bg-blue-50 border-blue-200">
-          <div className="p-4">
-            <p className="text-xs text-blue-900">
-              <strong>Note:</strong> This panel shows placeholder data. Upload transaction data to populate with real client insights.
-            </p>
-          </div>
+          
         </Card>
       </div>
-    </div>
-  );
+    </div>;
 }
