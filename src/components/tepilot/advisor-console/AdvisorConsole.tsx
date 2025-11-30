@@ -67,6 +67,22 @@ export function AdvisorConsole({
     }));
   }, []);
 
+  const handleAddActionItem = useCallback((text: string) => {
+    const newItem: NextStepsActionItem = {
+      id: `manual-${Date.now()}`,
+      text: text.trim(),
+      completed: false,
+      source: 'manual',
+      timestamp: new Date()
+    };
+    
+    setNextStepsData(prev => ({
+      ...prev,
+      actionItems: [newItem, ...prev.actionItems],
+      lastUpdated: new Date()
+    }));
+  }, []);
+
   const handleSaveProjection = useCallback((projection: SavedFinancialProjection) => {
     setSavedProjection(projection);
   }, []);
@@ -166,6 +182,7 @@ export function AdvisorConsole({
           <ActionWorkspacePanel 
             nextStepsData={nextStepsData}
             onToggleActionItem={handleToggleActionItem}
+            onAddActionItem={handleAddActionItem}
             savedProjection={savedProjection}
             onExportTimelinePDF={handleExportTimelinePDF}
           />

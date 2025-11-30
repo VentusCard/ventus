@@ -3,23 +3,45 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Calendar, Users, Phone, Mail, Brain, ListChecks, MessageSquare, FileDown } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Calendar, Users, Phone, Mail, Brain, ListChecks, MessageSquare, FileDown, Plus, X } from "lucide-react";
 import { sampleMeeting, sampleEngagementData, NextStepsData } from "./sampleData";
 import { SavedFinancialProjection } from "@/types/lifestyle-signals";
 
 interface ActionWorkspacePanelProps {
   nextStepsData: NextStepsData;
   onToggleActionItem: (itemId: string) => void;
+  onAddActionItem: (text: string) => void;
   savedProjection?: SavedFinancialProjection | null;
   onExportTimelinePDF?: () => void;
 }
 
-export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, savedProjection, onExportTimelinePDF }: ActionWorkspacePanelProps) {
+export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, onAddActionItem, savedProjection, onExportTimelinePDF }: ActionWorkspacePanelProps) {
+  const [isAddingItem, setIsAddingItem] = useState(false);
+  const [newItemText, setNewItemText] = useState("");
+
   const engagementColor = sampleEngagementData.status === 'high' ? 'bg-green-500' : sampleEngagementData.status === 'medium' ? 'bg-yellow-500' : 'bg-red-500';
   const engagementText = sampleEngagementData.status === 'high' ? 'Strong' : sampleEngagementData.status === 'medium' ? 'Moderate' : 'Needs Attention';
 
   const incompleteItems = nextStepsData.actionItems.filter(item => !item.completed);
   const completedItems = nextStepsData.actionItems.filter(item => item.completed);
+
+  const handleAddItem = () => {
+    if (newItemText.trim()) {
+      onAddActionItem(newItemText.trim());
+      setNewItemText("");
+      setIsAddingItem(false);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      handleAddItem();
+    } else if (e.key === 'Escape') {
+      setIsAddingItem(false);
+      setNewItemText("");
+    }
+  };
 
   return (
     <div className="h-full flex flex-col bg-slate-50">
@@ -88,57 +110,99 @@ export function ActionWorkspacePanel({ nextStepsData, onToggleActionItem, savedP
             )}
 
             {/* Action Items Section */}
-            {nextStepsData.actionItems.length > 0 && (
-              <div>
-                <div className="flex items-center gap-2 mb-2">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
                   <ListChecks className="w-4 h-4 text-primary" />
                   <span className="text-xs font-medium text-slate-700">
                     Action Items ({incompleteItems.length} remaining)
                   </span>
                 </div>
-                <Card className="p-3 space-y-2">
-                  {incompleteItems.map(item => (
-                    <div key={item.id} className="flex items-start gap-2">
-                      <Checkbox
-                        id={item.id}
-                        checked={item.completed}
-                        onCheckedChange={() => onToggleActionItem(item.id)}
-                        className="mt-0.5"
-                      />
-                      <div className="flex-1 min-w-0">
-                        <label htmlFor={item.id} className="text-xs text-slate-700 cursor-pointer">
-                          {item.text}
-                        </label>
-                        <div className="flex items-center gap-1 mt-0.5">
-                          <Badge variant="outline" className="text-[10px] px-1 py-0">
-                            {item.source}
-                          </Badge>
-                        </div>
+                {!isAddingItem && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="h-6 w-6 p-0"
+                    onClick={() => setIsAddingItem(true)}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                )}
+              </div>
+              <Card className="p-3 space-y-2">
+                {/* Add Item Input */}
+                {isAddingItem && (
+                  <div className="flex items-center gap-2 pb-2 border-b">
+                    <Input
+                      value={newItemText}
+                      onChange={(e) => setNewItemText(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      placeholder="Enter action item..."
+                      className="h-7 text-xs"
+                      autoFocus
+                    />
+                    <Button size="sm" className="h-7 px-2 text-xs" onClick={handleAddItem}>
+                      Add
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      variant="ghost" 
+                      className="h-7 w-7 p-0" 
+                      onClick={() => { setIsAddingItem(false); setNewItemText(""); }}
+                    >
+                      <X className="w-3 h-3" />
+                    </Button>
+                  </div>
+                )}
+
+                {/* Empty state when no items */}
+                {nextStepsData.actionItems.length === 0 && !isAddingItem && (
+                  <p className="text-xs text-muted-foreground text-center py-2">
+                    No action items yet. Click + to add one.
+                  </p>
+                )}
+
+                {incompleteItems.map(item => (
+                  <div key={item.id} className="flex items-start gap-2">
+                    <Checkbox
+                      id={item.id}
+                      checked={item.completed}
+                      onCheckedChange={() => onToggleActionItem(item.id)}
+                      className="mt-0.5"
+                    />
+                    <div className="flex-1 min-w-0">
+                      <label htmlFor={item.id} className="text-xs text-slate-700 cursor-pointer">
+                        {item.text}
+                      </label>
+                      <div className="flex items-center gap-1 mt-0.5">
+                        <Badge variant="outline" className="text-[10px] px-1 py-0">
+                          {item.source}
+                        </Badge>
                       </div>
                     </div>
-                  ))}
-                  
-                  {completedItems.length > 0 && (
-                    <div className="border-t pt-2 mt-2">
-                      <span className="text-xs text-muted-foreground">Completed ({completedItems.length})</span>
-                      {completedItems.map(item => (
-                        <div key={item.id} className="flex items-start gap-2 mt-1 opacity-60">
-                          <Checkbox
-                            id={item.id}
-                            checked={item.completed}
-                            onCheckedChange={() => onToggleActionItem(item.id)}
-                            className="mt-0.5"
-                          />
-                          <label htmlFor={item.id} className="text-xs text-slate-500 line-through cursor-pointer">
-                            {item.text}
-                          </label>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </Card>
-              </div>
-            )}
+                  </div>
+                ))}
+                
+                {completedItems.length > 0 && (
+                  <div className="border-t pt-2 mt-2">
+                    <span className="text-xs text-muted-foreground">Completed ({completedItems.length})</span>
+                    {completedItems.map(item => (
+                      <div key={item.id} className="flex items-start gap-2 mt-1 opacity-60">
+                        <Checkbox
+                          id={item.id}
+                          checked={item.completed}
+                          onCheckedChange={() => onToggleActionItem(item.id)}
+                          className="mt-0.5"
+                        />
+                        <label htmlFor={item.id} className="text-xs text-slate-500 line-through cursor-pointer">
+                          {item.text}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </Card>
+            </div>
 
             {/* Psychological Insights Section */}
             {nextStepsData.psychologicalInsights.length > 0 && (
