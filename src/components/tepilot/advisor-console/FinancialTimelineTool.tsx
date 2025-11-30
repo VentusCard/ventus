@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Card, CardContent } from "@/components/ui/card";
-import { FinancialProjection, CostCategory, FundingSource, ActionableTimelineItem, LifeEvent } from "@/types/lifestyle-signals";
+import { FinancialProjection, CostCategory, FundingSource, ActionableTimelineItem, LifeEvent, SavedFinancialProjection } from "@/types/lifestyle-signals";
 import { FundingSourcesTable } from "./FundingSourcesTable";
 import { CashFlowChart } from "./CashFlowChart";
 import { ActionableTimelineSection } from "./ActionableTimelineSection";
@@ -20,6 +20,7 @@ interface FinancialTimelineToolProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   detectedEvent?: LifeEvent;
+  onSaveProjection?: (projection: SavedFinancialProjection) => void;
 }
 
 const projectTypes = {
@@ -40,7 +41,7 @@ const projectDurations: Record<keyof typeof projectTypes, number> = {
   other: 3,
 };
 
-export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: FinancialTimelineToolProps) {
+export function FinancialTimelineTool({ open, onOpenChange, detectedEvent, onSaveProjection }: FinancialTimelineToolProps) {
   const { toast } = useToast();
   const chartRef = useRef<HTMLDivElement>(null);
   const [projectName, setProjectName] = useState("College Education");
@@ -351,10 +352,47 @@ export function FinancialTimelineTool({ open, onOpenChange, detectedEvent }: Fin
     setCostCategories(newCategories);
   };
 
-  const handleSaveToChat = () => {
+  const handleSaveToChat = async () => {
+    // Capture the chart image before saving
+    let chartImageDataUrl: string | undefined;
+    
+    if (chartRef.current) {
+      try {
+        const canvas = await html2canvas(chartRef.current, {
+          scale: 2,
+          backgroundColor: '#ffffff',
+          logging: false,
+        });
+        chartImageDataUrl = canvas.toDataURL('image/png');
+      } catch (error) {
+        console.error("Error capturing chart for save:", error);
+      }
+    }
+
+    // Build the full projection object
+    const savedProjection: SavedFinancialProjection = {
+      projectName,
+      projectType,
+      startYear,
+      duration,
+      currentSavings,
+      monthlyContribution,
+      inflationRate,
+      costCategories,
+      fundingSources,
+      actionItems,
+      chartImageDataUrl,
+      savedAt: new Date(),
+    };
+
+    // Call the save callback if provided
+    if (onSaveProjection) {
+      onSaveProjection(savedProjection);
+    }
+
     toast({
       title: "✓ Saved to Chat",
-      description: "Financial timeline added to conversation",
+      description: "Financial timeline added to conversation. Export available in Action Panel.",
     });
   };
 
