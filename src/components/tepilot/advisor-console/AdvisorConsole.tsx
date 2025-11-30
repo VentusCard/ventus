@@ -40,11 +40,22 @@ export function AdvisorConsole({
   };
 
   const handleExtractNextSteps = useCallback((actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => {
-    setNextStepsData(prev => ({
-      actionItems: [...prev.actionItems, ...actionItems],
-      psychologicalInsights: psychologicalInsights.length > 0 ? psychologicalInsights : prev.psychologicalInsights,
-      lastUpdated: new Date()
-    }));
+    setNextStepsData(prev => {
+      // Deduplicate by normalizing text (lowercase, trim, remove punctuation)
+      const normalizeText = (text: string) => text.toLowerCase().trim().replace(/[^\w\s]/g, '');
+      const existingTexts = new Set(prev.actionItems.map(item => normalizeText(item.text)));
+      
+      // Only add items that don't already exist
+      const newUniqueItems = actionItems.filter(item => 
+        !existingTexts.has(normalizeText(item.text))
+      );
+      
+      return {
+        actionItems: [...prev.actionItems, ...newUniqueItems],
+        psychologicalInsights: psychologicalInsights.length > 0 ? psychologicalInsights : prev.psychologicalInsights,
+        lastUpdated: new Date()
+      };
+    });
   }, []);
 
   const handleToggleActionItem = useCallback((itemId: string) => {
