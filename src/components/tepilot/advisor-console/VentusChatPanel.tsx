@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -122,12 +122,22 @@ export function VentusChatPanel({
     advisorContext
   });
 
+  // Track processed messages to prevent duplicate extraction
+  const processedMessagesRef = useRef<Set<number>>(new Set());
+
   // Extract next steps when AI responds
   useEffect(() => {
     if (messages.length === 0 || !onExtractNextSteps) return;
     
-    const lastMessage = messages[messages.length - 1];
+    const lastIndex = messages.length - 1;
+    const lastMessage = messages[lastIndex];
+    
+    // Skip if already processed or not an assistant message
+    if (processedMessagesRef.current.has(lastIndex)) return;
     if (lastMessage.role !== 'assistant') return;
+    
+    // Mark as processed BEFORE extraction to prevent re-runs
+    processedMessagesRef.current.add(lastIndex);
     
     // Extract action items from the message
     const extractedItems = extractActionItemsFromMessage(lastMessage.content);
