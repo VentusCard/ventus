@@ -890,7 +890,7 @@ export function FinancialTimelineTool({
           <div className="flex gap-2 justify-end pt-4 border-t">
             <Button variant="outline" onClick={handleSaveToChat}>
               <Save className="w-4 h-4 mr-2" />
-              Save to Chat
+              Save to Next Steps
             </Button>
             <Button variant="outline" onClick={handleExportPDF}>
               <FileDown className="w-4 h-4 mr-2" />
