@@ -20,6 +20,7 @@ import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { TaskItem } from "./TaskItem";
 import { TranscriptUploadDialog } from "./TranscriptUploadDialog";
 import { FinancialTimelineTool } from "./FinancialTimelineTool";
+
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
   onSaveToDocument?: (message: ChatMessage) => void;
@@ -32,6 +33,7 @@ interface VentusChatPanelProps {
   advisorContext?: AdvisorContext;
   onExtractNextSteps?: (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => void;
   onSaveProjection?: (projection: SavedFinancialProjection) => void;
+  onAddTimelineActionItems?: (items: NextStepsActionItem[]) => void;
 }
 // Helper function to extract action items from AI response
 // Only match explicitly numbered items (1., 2.) or bullet points (-, •) at line start
@@ -144,7 +146,8 @@ export function VentusChatPanel({
   enrichedTransactions = [],
   advisorContext,
   onExtractNextSteps,
-  onSaveProjection
+  onSaveProjection,
+  onAddTimelineActionItems
 }: VentusChatPanelProps) {
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
@@ -489,6 +492,12 @@ export function VentusChatPanel({
       sendMessage(message);
     }} />
 
-      <FinancialTimelineTool open={financialTimelineOpen} onOpenChange={setFinancialTimelineOpen} detectedEvent={selectedTimelineEvent || undefined} onSaveProjection={onSaveProjection} />
+      <FinancialTimelineTool 
+        open={financialTimelineOpen} 
+        onOpenChange={setFinancialTimelineOpen} 
+        detectedEvent={selectedTimelineEvent || undefined} 
+        onSaveProjection={onSaveProjection}
+        onAddActionItems={onAddTimelineActionItems}
+      />
     </div>;
 }

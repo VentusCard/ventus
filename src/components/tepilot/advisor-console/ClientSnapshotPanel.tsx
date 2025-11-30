@@ -1,25 +1,35 @@
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, Upload } from "lucide-react";
+import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, ShoppingBag, Sparkles, MessageSquare } from "lucide-react";
+import { AdvisorContext } from "@/lib/advisorContextBuilder";
+import { AIInsights } from "@/types/lifestyle-signals";
+import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
+
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
+  advisorContext?: AdvisorContext;
+  aiInsights?: AIInsights | null;
 }
-const iconMap: Record<string, any> = {
-  Plane,
-  Users,
-  Heart,
-  UtensilsCrossed,
-  Activity
+
+const pillarIconMap: Record<string, any> = {
+  "Travel": Plane,
+  "Dining": UtensilsCrossed,
+  "Health & Wellness": Activity,
+  "Shopping": ShoppingBag,
+  "Entertainment": Activity,
+  "Family": Users,
+  "Philanthropy": Heart,
+  "Home": Home,
+  "Transportation": TrendingUp,
 };
+
 const placeholderClientData = {
   name: "Firstname Lastname",
   segment: "Client Segment",
   aum: "$X,XXX,XXX",
   tenure: "X.X years",
-  advisor: "Advisor Name",
   contact: {
     email: "email@example.com",
     phone: "(XXX) XXX-XXXX",
@@ -37,48 +47,25 @@ const placeholderClientData = {
     investments: "X,XXX,XXX"
   }
 };
-const placeholderLifestyleSignals = [{
-  category: "Travel",
-  trend: "up" as const,
-  change: 0,
-  icon: "Plane"
-}, {
-  category: "Family",
-  trend: "stable" as const,
-  change: 0,
-  icon: "Users"
-}, {
-  category: "Philanthropy",
-  trend: "up" as const,
-  change: 0,
-  icon: "Heart"
-}, {
-  category: "Dining",
-  trend: "up" as const,
-  change: 0,
-  icon: "UtensilsCrossed"
-}, {
-  category: "Health",
-  trend: "stable" as const,
-  change: 0,
-  icon: "Activity"
-}];
-const placeholderLifeTriggers = [{
-  date: "YYYY-MM-DD",
-  event: "Life Event Name",
-  type: "financial" as const
-}, {
-  date: "YYYY-MM-DD",
-  event: "Life Event Name",
-  type: "family" as const
-}, {
-  date: "YYYY-MM-DD",
-  event: "Life Event Name",
-  type: "lifestyle" as const
-}];
+
 export function ClientSnapshotPanel({
-  onAskVentus
+  onAskVentus,
+  advisorContext,
+  aiInsights
 }: ClientSnapshotPanelProps) {
+  // Derive lifestyle signals from advisorContext
+  const lifestyleSignals = advisorContext?.topPillars?.slice(0, 5).map(pillar => ({
+    category: pillar.pillar,
+    spend: pillar.totalSpend,
+    transactions: pillar.transactionCount,
+    icon: pillarIconMap[pillar.pillar] || Activity
+  })) || [];
+
+  // Get life events from AI insights
+  const lifeEvents = aiInsights?.detected_events || [];
+
+  // Calculate overview stats
+  const hasRealData = advisorContext && advisorContext.overview.totalTransactions > 0;
   return <div className="h-full flex flex-col bg-slate-50">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* Client Header Card - Always Visible */}
@@ -128,7 +115,38 @@ export function ClientSnapshotPanel({
 
         {/* Accordion Sections - All Collapsed by Default */}
         <Accordion type="multiple" className="space-y-2">
-          {/* Holdings Overview */}
+          {/* Transaction Overview - Real Data */}
+          {hasRealData && (
+            <AccordionItem value="overview" className="bg-white rounded-lg border">
+              <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
+                <div className="flex items-center gap-2">
+                  <TrendingUp className="w-4 h-4 text-primary" />
+                  <span className="text-sm font-semibold">Transaction Overview</span>
+                  <Badge variant="secondary" className="ml-auto text-xs">{advisorContext.overview.totalTransactions} txns</Badge>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="px-4 pb-3">
+                <div className="space-y-2 text-xs">
+                  <div className="flex items-center justify-between py-2 border-b">
+                    <span className="text-slate-600">Total Spend</span>
+                    <span className="font-semibold text-slate-700">{formatCurrency(advisorContext.overview.totalSpend)}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-2 border-b">
+                    <span className="text-slate-600">Avg. Transaction</span>
+                    <span className="font-semibold text-slate-700">{formatCurrency(advisorContext.overview.avgTransactionAmount)}</span>
+                  </div>
+                  <div className="flex items-center justify-between py-2">
+                    <span className="text-slate-600">Date Range</span>
+                    <span className="font-semibold text-slate-700">
+                      {advisorContext.overview.dateRange.start} - {advisorContext.overview.dateRange.end}
+                    </span>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          )}
+
+          {/* Holdings Overview - Placeholder */}
           <AccordionItem value="holdings" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
@@ -178,50 +196,72 @@ export function ClientSnapshotPanel({
             </AccordionContent>
           </AccordionItem>
 
-          {/* Lifestyle Signals */}
+          {/* Lifestyle Signals - Real Data */}
           <AccordionItem value="lifestyle" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4" />
-                <span className="text-sm font-semibold">Lifestyle Signals</span>
+                <span className="text-sm font-semibold">Top Spending Categories</span>
+                {lifestyleSignals.length > 0 && (
+                  <Badge variant="secondary" className="ml-auto text-xs">{lifestyleSignals.length}</Badge>
+                )}
               </div>
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-2">
-                {placeholderLifestyleSignals.map((signal, idx) => {
-                const Icon = iconMap[signal.icon];
-                return <div key={idx} className="flex items-center justify-between py-2 border-b last:border-0">
+                {lifestyleSignals.length > 0 ? lifestyleSignals.map((signal, idx) => {
+                  const Icon = signal.icon;
+                  return (
+                    <div 
+                      key={idx} 
+                      className="flex items-center justify-between py-2 border-b last:border-0 cursor-pointer hover:bg-slate-50 -mx-2 px-2 rounded"
+                      onClick={() => onAskVentus?.(`Analyze ${signal.category} spending patterns in detail`)}
+                    >
                       <div className="flex items-center gap-2">
-                        <Icon className="w-4 h-4 text-slate-400" />
+                        <Icon className="w-4 h-4 text-primary" />
                         <span className="text-xs text-slate-700">{signal.category}</span>
                       </div>
-                      <Badge variant="outline" className="text-xs">
-                        {signal.trend === 'up' ? '↑' : signal.trend === 'stable' ? '→' : '↓'} 
-                        {signal.change}%
-                      </Badge>
-                    </div>;
-              })}
+                      <div className="flex items-center gap-2">
+                        <span className="text-xs font-semibold text-slate-700">{formatCurrency(signal.spend)}</span>
+                        <MessageSquare className="w-3 h-3 text-slate-400" />
+                      </div>
+                    </div>
+                  );
+                }) : (
+                  <p className="text-xs text-muted-foreground py-2">No transaction data available</p>
+                )}
               </div>
             </AccordionContent>
           </AccordionItem>
 
-          {/* Recent Life Events */}
+          {/* AI-Detected Life Events */}
           <AccordionItem value="events" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
-                <AlertCircle className="w-4 h-4" />
-                <span className="text-sm font-semibold">Recent Life Events</span>
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-sm font-semibold">AI Life Events</span>
+                {lifeEvents.length > 0 && (
+                  <Badge variant="secondary" className="ml-auto text-xs">{lifeEvents.length}</Badge>
+                )}
               </div>
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-3">
-                {placeholderLifeTriggers.map((trigger, idx) => <div key={idx} className="text-xs border-l-2 border-slate-300 pl-3">
-                    <div className="font-semibold text-slate-700">{trigger.event}</div>
-                    <div className="text-slate-500 mt-1">{trigger.date}</div>
-                    <Badge variant="outline" className="mt-1 text-xs">
-                      {trigger.type}
-                    </Badge>
-                  </div>)}
+                {lifeEvents.length > 0 ? lifeEvents.map((event, idx) => (
+                  <div 
+                    key={idx} 
+                    className="text-xs border-l-2 border-primary pl-3 cursor-pointer hover:bg-slate-50 -ml-3 pl-6 py-1 rounded-r"
+                    onClick={() => onAskVentus?.(`Tell me more about the detected "${event.event_name}" life event and recommended actions`)}
+                  >
+                    <div className="font-semibold text-slate-700 flex items-center gap-2">
+                      {event.event_name}
+                      <Badge variant="outline" className="text-xs">{event.confidence}%</Badge>
+                    </div>
+                    <div className="text-slate-500 mt-1">{event.products.length} product recommendations</div>
+                  </div>
+                )) : (
+                  <p className="text-xs text-muted-foreground py-2">No life events detected yet</p>
+                )}
               </div>
             </AccordionContent>
           </AccordionItem>
