@@ -196,25 +196,25 @@ export function VentusChatPanel({
     let prompt = "";
     switch (chip) {
       case "Meeting Prep":
-        prompt = "Prepare 5 key talking points for my upcoming client meeting.";
+        prompt = "Prepare 5 key talking points for my upcoming client meeting. List as numbered action items I can check off.";
         break;
       case "Product Recommendations":
-        prompt = "What financial products should I recommend based on their spending patterns?";
+        prompt = "Based on spending patterns, provide 3-5 product recommendations as numbered next steps with specific actions I should take.";
         break;
       case "Life Events Summary":
-        prompt = "Summarize detected life events and recommended actions.";
+        prompt = "Summarize detected life events and provide numbered action items for each event I should discuss with the client.";
         break;
       case "Spending Trends":
-        prompt = "Review this client's spending trends over time. Identify their highest spending periods, any seasonal patterns, and month-over-month changes in spending behavior.";
+        prompt = "Analyze this client's spending trends. Provide 3-5 numbered action items based on opportunities or concerns you identify.";
         break;
       case "Travel Insights":
-        prompt = "Analyze this client's travel patterns including destinations, trip frequency, and travel spending. Identify any travel rewards optimization opportunities.";
+        prompt = "Analyze this client's travel patterns. List 3-4 specific next steps as numbered items for rewards optimization or travel planning.";
         break;
       case "Lifestyle Profile":
-        prompt = "Create a lifestyle profile for this client based on their spending categories. Highlight their top lifestyle priorities and what their spending reveals about their values and interests.";
+        prompt = "Create a brief lifestyle profile. End with 3-4 numbered action items for deepening engagement based on their lifestyle priorities.";
         break;
       case "Merchant Loyalty":
-        prompt = "Analyze this client's merchant loyalty patterns. Identify their most frequented merchants, brand preferences, and potential rewards optimization based on where they shop most.";
+        prompt = "Identify top merchant loyalty patterns. Provide 3-5 numbered recommendations for rewards optimization I can act on.";
         break;
       case "Financial Timeline":
         // Find the highest-confidence event with a financial projection
