@@ -52,38 +52,72 @@ function extractActionItemsFromMessage(content: string): string[] {
 // Helper function to extract psychological insights from transcript analysis
 function extractPsychologicalInsights(content: string): PsychologicalInsight[] {
   const insights: PsychologicalInsight[] = [];
+  const lowerContent = content.toLowerCase();
 
-  // Look for psychological insight patterns in the response
-  const psychPatterns = [{
-    pattern: /decision.?making|analytical|methodical/i,
-    aspect: "Decision Style"
-  }, {
-    pattern: /risk.?(toleran|avers|seek)/i,
-    aspect: "Risk Tolerance"
-  }, {
-    pattern: /emotion|sentiment|feel|anxious|confident/i,
-    aspect: "Emotional State"
-  }, {
-    pattern: /trust|skeptic|open|guard/i,
-    aspect: "Trust Level"
-  }, {
-    pattern: /communicat|engag|responsive/i,
-    aspect: "Communication Style"
-  }];
-  for (const {
-    pattern,
-    aspect
-  } of psychPatterns) {
-    const match = content.match(new RegExp(`[^.]*${pattern.source}[^.]*\\.`, 'i'));
-    if (match) {
-      insights.push({
-        aspect,
-        assessment: match[0].trim().slice(0, 100),
-        evidence: "Derived from meeting transcript analysis",
-        confidence: 0.75
-      });
+  // Pattern-to-assessment mappings for meaningful, human-readable insights
+  const insightMappings: Array<{
+    aspect: string;
+    patterns: Array<{ keywords: RegExp; assessment: string; confidence: number }>;
+  }> = [
+    {
+      aspect: "Decision Style",
+      patterns: [
+        { keywords: /analytical|data-driven|numbers|spreadsheet|research/i, assessment: "Analytical, prefers data-driven decisions", confidence: 0.85 },
+        { keywords: /intuitive|gut feel|instinct|sense/i, assessment: "Intuitive, trusts instincts over data", confidence: 0.80 },
+        { keywords: /methodical|step.?by.?step|careful|thorough/i, assessment: "Methodical, values careful deliberation", confidence: 0.82 },
+        { keywords: /quick|decisive|fast|immediate/i, assessment: "Decisive, prefers quick action", confidence: 0.78 },
+      ]
+    },
+    {
+      aspect: "Risk Tolerance",
+      patterns: [
+        { keywords: /risk.?averse|conservative|safe|worried|concern|protect/i, assessment: "Conservative, prefers safe options", confidence: 0.85 },
+        { keywords: /aggressive|growth|opportunity|upside|risk.?tolerant/i, assessment: "Growth-oriented, accepts higher risk", confidence: 0.82 },
+        { keywords: /balanced|moderate|diversif/i, assessment: "Moderate, seeks balanced approach", confidence: 0.80 },
+      ]
+    },
+    {
+      aspect: "Emotional State",
+      patterns: [
+        { keywords: /anxious|worried|nervous|stressed|uncertain/i, assessment: "Anxious, needs reassurance and clarity", confidence: 0.88 },
+        { keywords: /confident|optimistic|excited|positive|enthus/i, assessment: "Confident and engaged", confidence: 0.85 },
+        { keywords: /overwhelm|confus|lost|unsure/i, assessment: "Overwhelmed, needs simplification", confidence: 0.83 },
+        { keywords: /calm|steady|patient|relaxed/i, assessment: "Calm and patient, open to discussion", confidence: 0.80 },
+      ]
+    },
+    {
+      aspect: "Trust Level",
+      patterns: [
+        { keywords: /trust|confident in you|rely|depend/i, assessment: "High trust, receptive to guidance", confidence: 0.85 },
+        { keywords: /skeptic|doubt|hesitant|not sure|second opinion/i, assessment: "Building trust, provide evidence", confidence: 0.82 },
+        { keywords: /guard|cautious|verify|proof/i, assessment: "Guarded, requires proof before committing", confidence: 0.80 },
+      ]
+    },
+    {
+      aspect: "Communication Preference",
+      patterns: [
+        { keywords: /detail|explain|understand|how|why/i, assessment: "Detail-oriented, wants thorough explanations", confidence: 0.82 },
+        { keywords: /bottom.?line|summary|brief|quick|simple/i, assessment: "Results-focused, prefers concise updates", confidence: 0.80 },
+        { keywords: /visual|chart|graph|show me|picture/i, assessment: "Visual learner, use charts and diagrams", confidence: 0.78 },
+      ]
+    }
+  ];
+
+  // Extract one insight per aspect (first matching pattern wins)
+  for (const { aspect, patterns } of insightMappings) {
+    for (const { keywords, assessment, confidence } of patterns) {
+      if (keywords.test(lowerContent)) {
+        insights.push({
+          aspect,
+          assessment,
+          evidence: "Derived from meeting transcript analysis",
+          confidence
+        });
+        break; // Move to next aspect after first match
+      }
     }
   }
+
   return insights.slice(0, 4); // Limit to 4 insights
 }
 export function VentusChatPanel({
