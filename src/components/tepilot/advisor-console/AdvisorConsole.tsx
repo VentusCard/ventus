@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { ClientSnapshotPanel } from "./ClientSnapshotPanel";
 import { VentusChatPanel } from "./VentusChatPanel";
@@ -35,22 +35,22 @@ export function AdvisorConsole({
     ));
   };
 
-  const handleExtractNextSteps = (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => {
+  const handleExtractNextSteps = useCallback((actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => {
     setNextStepsData(prev => ({
       actionItems: [...prev.actionItems, ...actionItems],
       psychologicalInsights: psychologicalInsights.length > 0 ? psychologicalInsights : prev.psychologicalInsights,
       lastUpdated: new Date()
     }));
-  };
+  }, []);
 
-  const handleToggleActionItem = (itemId: string) => {
+  const handleToggleActionItem = useCallback((itemId: string) => {
     setNextStepsData(prev => ({
       ...prev,
       actionItems: prev.actionItems.map(item =>
         item.id === itemId ? { ...item, completed: !item.completed } : item
       )
     }));
-  };
+  }, []);
 
   const handleAskVentus = (context: string) => {
     console.log("Ask Ventus with context:", context);
