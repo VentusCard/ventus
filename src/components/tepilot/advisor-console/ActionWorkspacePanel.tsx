@@ -105,10 +105,84 @@ export function ActionWorkspacePanel({
               </Card>}
 
             {/* Action Items Section */}
-            <div>
-              
-              
-            </div>
+            {(nextStepsData.actionItems.length > 0 || isAddingItem) && (
+              <Card className="p-3">
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2">
+                    <ListChecks className="w-4 h-4 text-primary" />
+                    <span className="text-xs font-semibold text-slate-900">
+                      Action Items ({incompleteItems.length} remaining)
+                    </span>
+                  </div>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    className="h-6 w-6 p-0"
+                    onClick={() => setIsAddingItem(true)}
+                  >
+                    <Plus className="w-4 h-4" />
+                  </Button>
+                </div>
+
+                {isAddingItem && (
+                  <div className="flex gap-2 mb-2">
+                    <Input
+                      placeholder="Add action item..."
+                      value={newItemText}
+                      onChange={(e) => setNewItemText(e.target.value)}
+                      onKeyDown={handleKeyDown}
+                      className="h-8 text-xs"
+                      autoFocus
+                    />
+                    <Button size="sm" className="h-8 px-2" onClick={handleAddItem}>
+                      Add
+                    </Button>
+                    <Button
+                      size="sm"
+                      variant="ghost"
+                      className="h-8 px-2"
+                      onClick={() => { setIsAddingItem(false); setNewItemText(""); }}
+                    >
+                      <X className="w-4 h-4" />
+                    </Button>
+                  </div>
+                )}
+
+                {incompleteItems.length > 0 && (
+                  <ul className="space-y-2">
+                    {incompleteItems.map(item => (
+                      <li key={item.id} className="flex items-start gap-2">
+                        <Checkbox
+                          checked={item.completed}
+                          onCheckedChange={() => onToggleActionItem(item.id)}
+                          className="mt-0.5"
+                        />
+                        <span className="text-xs text-slate-700 flex-1">{item.text}</span>
+                        <Badge variant="outline" className="text-[10px] px-1.5 py-0">
+                          {item.source}
+                        </Badge>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {completedItems.length > 0 && (
+                  <div className="mt-3 pt-2 border-t border-dashed">
+                    <span className="text-xs text-slate-400 mb-1 block">
+                      Completed ({completedItems.length})
+                    </span>
+                    <ul className="space-y-1">
+                      {completedItems.map(item => (
+                        <li key={item.id} className="flex items-start gap-2 opacity-50">
+                          <Checkbox checked onCheckedChange={() => onToggleActionItem(item.id)} className="mt-0.5" />
+                          <span className="text-xs text-slate-500 line-through flex-1">{item.text}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </Card>
+            )}
 
             {/* Psychological Insights Section */}
             {nextStepsData.psychologicalInsights.length > 0 && <Card className="p-3">
