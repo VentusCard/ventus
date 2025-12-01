@@ -750,7 +750,7 @@ export function FinancialTimelineTool({
     doc.save(`${projectName.replace(/\s+/g, '_')}_Timeline.pdf`);
     toast({
       title: "✓ PDF Downloaded",
-      description: "Financial timeline exported successfully"
+      description: "Life event plan exported successfully"
     });
   };
   const handleAddToPrep = () => {
@@ -767,7 +767,7 @@ export function FinancialTimelineTool({
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Lightbulb className="w-5 h-5" />
-            Financial Timeline Tool
+            Life Event Planner
           </DialogTitle>
         </DialogHeader>
 

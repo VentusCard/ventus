@@ -210,7 +210,7 @@ export function VentusChatPanel({
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const smartChips = ["Meeting Prep", "Life Events Summary", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Merchant Loyalty", "Financial Timeline"];
+  const smartChips = ["Meeting Prep", "Life Events Summary", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Merchant Loyalty", "Life Event Planner"];
   const handleChipClick = (chip: string) => {
     let prompt = "";
     switch (chip) {
@@ -235,7 +235,7 @@ export function VentusChatPanel({
       case "Merchant Loyalty":
         prompt = "Identify top merchant loyalty patterns. Provide 3-5 numbered recommendations for rewards optimization I can act on.";
         break;
-      case "Financial Timeline":
+      case "Life Event Planner":
         // Find the highest-confidence event with a financial projection
         const bestEvent = visibleEvents.filter(e => e.financial_projection).sort((a, b) => b.confidence - a.confidence)[0];
         setSelectedTimelineEvent(bestEvent || null);
