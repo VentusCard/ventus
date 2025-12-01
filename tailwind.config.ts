@@ -22,7 +22,7 @@ export default {
 			// Font Families
 			fontFamily: {
 				sans: ['-apple-system', 'BlinkMacSystemFont', 'Inter', 'Segoe UI', 'sans-serif'],
-				display: ['SF Pro Display', 'Playfair Display', 'serif'],
+				display: ['DM Sans', 'SF Pro Display', 'sans-serif'],
 				mono: ['SF Mono', 'Monaco', 'Cascadia Code', 'monospace'],
 			},
 
