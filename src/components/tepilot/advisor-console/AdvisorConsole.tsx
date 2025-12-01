@@ -117,7 +117,7 @@ export function AdvisorConsole({
       await exportFinancialTimelinePDF(savedProjection);
       toast({
         title: "✓ PDF Downloaded",
-        description: "Financial timeline exported successfully",
+        description: "Life event plan exported successfully",
       });
     } catch (error) {
       console.error("Error exporting PDF:", error);
