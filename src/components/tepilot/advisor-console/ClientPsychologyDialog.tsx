@@ -92,8 +92,15 @@ const PSYCHOLOGY_CATEGORIES = [
   }
 ];
 
+// Initialize with default middle values for all categories
+const createInitialSelections = () => 
+  PSYCHOLOGY_CATEGORIES.reduce((acc, cat) => ({
+    ...acc,
+    [cat.id]: { value: 3, notes: "" }
+  }), {} as Record<string, CategorySelection>);
+
 export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: ClientPsychologyDialogProps) {
-  const [selections, setSelections] = useState<Record<string, CategorySelection>>({});
+  const [selections, setSelections] = useState<Record<string, CategorySelection>>(createInitialSelections);
 
   const handleSliderChange = (categoryId: string, value: number[]) => {
     setSelections(prev => ({
@@ -110,7 +117,7 @@ export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: C
   };
 
   const handleClear = () => {
-    setSelections({});
+    setSelections(createInitialSelections());
   };
 
   const handleSave = () => {
@@ -118,7 +125,7 @@ export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: C
 
     for (const category of PSYCHOLOGY_CATEGORIES) {
       const selection = selections[category.id];
-      if (selection?.value && selection.value !== 3) { // 3 is neutral/default
+      if (selection?.value) {
         const markerLabel = category.markers[selection.value - 1];
         const actionTip = category.actionTips[selection.value - 1];
         insights.push({
@@ -132,14 +139,13 @@ export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: C
       }
     }
 
-    if (insights.length > 0) {
-      onSaveInsights(insights);
-      onOpenChange(false);
-      setSelections({});
-    }
+    onSaveInsights(insights);
+    onOpenChange(false);
+    setSelections(createInitialSelections());
   };
 
-  const hasSelections = Object.values(selections).some(s => s.value && s.value !== 3);
+  // Always allow saving since we have default values
+  const hasSelections = true;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
