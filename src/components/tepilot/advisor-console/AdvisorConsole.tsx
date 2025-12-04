@@ -9,6 +9,8 @@ import { EnrichedTransaction } from "@/types/transaction";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { exportFinancialTimelinePDF } from "@/lib/financialTimelinePdfExport";
 import { useToast } from "@/hooks/use-toast";
+import { ClientProfileData } from "@/types/clientProfile";
+import { generateRandomProfile } from "@/lib/randomProfileGenerator";
 
 interface AdvisorConsoleProps {
   aiInsights?: AIInsights | null;
@@ -32,6 +34,16 @@ export function AdvisorConsole({
     lastUpdated: null
   });
   const [savedProjection, setSavedProjection] = useState<SavedFinancialProjection | null>(null);
+  const [clientProfile, setClientProfile] = useState<ClientProfileData | null>(null);
+
+  const handleGenerateProfile = useCallback(() => {
+    const newProfile = generateRandomProfile();
+    setClientProfile(newProfile);
+    toast({
+      title: "Profile Generated",
+      description: `Created profile for ${newProfile.name} (${newProfile.segment})`,
+    });
+  }, [toast]);
 
   const toggleTask = (taskId: string) => {
     setTasks(tasks.map(task => 
@@ -173,6 +185,8 @@ export function AdvisorConsole({
             onAskVentus={handleAskVentus}
             advisorContext={advisorContext}
             aiInsights={propAiInsights}
+            clientData={clientProfile}
+            onGenerateProfile={handleGenerateProfile}
           />
         </ResizablePanel>
 

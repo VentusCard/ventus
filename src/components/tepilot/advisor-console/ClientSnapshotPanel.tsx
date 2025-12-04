@@ -2,15 +2,18 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, ShoppingBag, Sparkles, MessageSquare } from "lucide-react";
+import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, ShoppingBag, Sparkles, MessageSquare, Shuffle } from "lucide-react";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
+import { ClientProfileData } from "@/types/clientProfile";
 
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
   advisorContext?: AdvisorContext;
   aiInsights?: AIInsights | null;
+  clientData?: ClientProfileData | null;
+  onGenerateProfile?: () => void;
 }
 
 const pillarIconMap: Record<string, any> = {
@@ -41,18 +44,34 @@ const placeholderClientData = {
     familyStatus: "Family Status"
   },
   holdings: {
-    deposit: "XXX,XXX",
-    credit: "XX,XXX",
-    mortgage: "XXX,XXX",
-    investments: "X,XXX,XXX"
-  }
+    deposit: "$XXX,XXX",
+    credit: "$XX,XXX",
+    mortgage: "$XXX,XXX",
+    investments: "$X,XXX,XXX"
+  },
+  compliance: {
+    kycStatus: "Status",
+    lastReview: "Month DD, YYYY",
+    nextReview: "Month DD, YYYY",
+    riskProfile: "Risk Level"
+  },
+  milestones: [
+    { event: "Milestone Event", date: "Month YYYY" },
+    { event: "Milestone Event", date: "Month YYYY" },
+    { event: "Milestone Event", date: "Month YYYY" },
+  ]
 };
 
 export function ClientSnapshotPanel({
   onAskVentus,
   advisorContext,
-  aiInsights
+  aiInsights,
+  clientData,
+  onGenerateProfile
 }: ClientSnapshotPanelProps) {
+  // Use clientData if provided, otherwise use placeholder
+  const displayData = clientData || placeholderClientData;
+
   // Derive lifestyle signals from advisorContext
   const lifestyleSignals = advisorContext?.topPillars?.slice(0, 5).map(pillar => ({
     category: pillar.pillar,
@@ -66,18 +85,31 @@ export function ClientSnapshotPanel({
 
   // Calculate overview stats
   const hasRealData = advisorContext && advisorContext.overview.totalTransactions > 0;
-  return <div className="h-full flex flex-col bg-slate-50">
+
+  return (
+    <div className="h-full flex flex-col bg-slate-50">
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {/* Client Header Card - Always Visible */}
         <Card className="bg-white">
           <div className="p-4">
             <div className="flex items-start justify-between mb-3">
               <div>
-                <h2 className="text-base font-semibold text-slate-900">
-                  {placeholderClientData.name}
-                </h2>
+                <div className="flex items-center gap-2">
+                  <h2 className="text-base font-semibold text-slate-900">
+                    {displayData.name}
+                  </h2>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    onClick={onGenerateProfile}
+                    className="text-xs text-primary h-6 px-2 hover:text-primary/80"
+                  >
+                    <Shuffle className="w-3 h-3 mr-1" />
+                    Generate
+                  </Button>
+                </div>
                 <Badge variant="outline" className="mt-1">
-                  {placeholderClientData.segment}
+                  {displayData.segment}
                 </Badge>
               </div>
             </div>
@@ -86,29 +118,29 @@ export function ClientSnapshotPanel({
               <div>
                 <div className="text-slate-500">AUM</div>
                 <div className="font-semibold text-slate-700">
-                  {placeholderClientData.aum}
+                  {displayData.aum}
                 </div>
               </div>
               <div>
                 <div className="text-slate-500">Tenure</div>
                 <div className="font-semibold text-slate-700">
-                  {placeholderClientData.tenure}
+                  {displayData.tenure}
                 </div>
               </div>
             </div>
 
             <div className="text-xs space-y-1 pt-3 border-t">
               <div className="text-slate-500">Contact</div>
-              <div className="text-slate-700">{placeholderClientData.contact.email}</div>
-              <div className="text-slate-700">{placeholderClientData.contact.phone}</div>
-              <div className="text-slate-700">{placeholderClientData.contact.address}</div>
+              <div className="text-slate-700">{displayData.contact.email}</div>
+              <div className="text-slate-700">{displayData.contact.phone}</div>
+              <div className="text-slate-700">{displayData.contact.address}</div>
             </div>
 
             <div className="text-xs space-y-1 pt-3 border-t mt-3">
               <div className="text-slate-500">Demographics</div>
-              <div className="text-slate-700">Age: {placeholderClientData.demographics.age}</div>
-              <div className="text-slate-700">{placeholderClientData.demographics.occupation}</div>
-              <div className="text-slate-700">{placeholderClientData.demographics.familyStatus}</div>
+              <div className="text-slate-700">Age: {displayData.demographics.age}</div>
+              <div className="text-slate-700">{displayData.demographics.occupation}</div>
+              <div className="text-slate-700">{displayData.demographics.familyStatus}</div>
             </div>
           </div>
         </Card>
@@ -187,7 +219,7 @@ export function ClientSnapshotPanel({
             </AccordionContent>
           </AccordionItem>
 
-          {/* Holdings Overview - Placeholder */}
+          {/* Holdings Overview */}
           <AccordionItem value="holdings" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
@@ -203,7 +235,7 @@ export function ClientSnapshotPanel({
                     Deposits
                   </span>
                   <span className="font-semibold text-slate-700">
-                    ${placeholderClientData.holdings.deposit}
+                    {displayData.holdings.deposit}
                   </span>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b">
@@ -212,7 +244,7 @@ export function ClientSnapshotPanel({
                     Credit
                   </span>
                   <span className="font-semibold text-slate-700">
-                    ${placeholderClientData.holdings.credit}
+                    {displayData.holdings.credit}
                   </span>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b">
@@ -221,7 +253,7 @@ export function ClientSnapshotPanel({
                     Mortgage
                   </span>
                   <span className="font-semibold text-slate-700">
-                    ${placeholderClientData.holdings.mortgage}
+                    {displayData.holdings.mortgage}
                   </span>
                 </div>
                 <div className="flex items-center justify-between py-2">
@@ -230,7 +262,7 @@ export function ClientSnapshotPanel({
                     Investments
                   </span>
                   <span className="font-semibold text-slate-700">
-                    ${placeholderClientData.holdings.investments}
+                    {displayData.holdings.investments}
                   </span>
                 </div>
               </div>
@@ -287,19 +319,19 @@ export function ClientSnapshotPanel({
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between py-1">
                   <span className="text-slate-600">KYC Status</span>
-                  <Badge variant="outline">Current</Badge>
+                  <Badge variant="outline">{displayData.compliance.kycStatus}</Badge>
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-slate-600">Last Review</span>
-                  <span className="text-slate-700">Month DD, YYYY</span>
+                  <span className="text-slate-700">{displayData.compliance.lastReview}</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-slate-600">Next Review</span>
-                  <span className="text-slate-700">Month DD, YYYY</span>
+                  <span className="text-slate-700">{displayData.compliance.nextReview}</span>
                 </div>
                 <div className="flex justify-between py-1">
                   <span className="text-slate-600">Risk Profile</span>
-                  <span className="text-slate-700">Risk Level</span>
+                  <span className="text-slate-700">{displayData.compliance.riskProfile}</span>
                 </div>
               </div>
             </AccordionContent>
@@ -315,18 +347,12 @@ export function ClientSnapshotPanel({
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-3">
-                <div className="text-xs border-l-2 border-primary pl-3">
-                  <div className="font-semibold text-slate-700">Milestone Event</div>
-                  <div className="text-slate-500 mt-1">Month YYYY</div>
-                </div>
-                <div className="text-xs border-l-2 border-primary pl-3">
-                  <div className="font-semibold text-slate-700">Milestone Event</div>
-                  <div className="text-slate-500 mt-1">Month YYYY</div>
-                </div>
-                <div className="text-xs border-l-2 border-primary pl-3">
-                  <div className="font-semibold text-slate-700">Milestone Event</div>
-                  <div className="text-slate-500 mt-1">Month YYYY</div>
-                </div>
+                {displayData.milestones.map((milestone, idx) => (
+                  <div key={idx} className="text-xs border-l-2 border-primary pl-3">
+                    <div className="font-semibold text-slate-700">{milestone.event}</div>
+                    <div className="text-slate-500 mt-1">{milestone.date}</div>
+                  </div>
+                ))}
               </div>
             </AccordionContent>
           </AccordionItem>
@@ -337,5 +363,6 @@ export function ClientSnapshotPanel({
           
         </Card>
       </div>
-    </div>;
+    </div>
+  );
 }
