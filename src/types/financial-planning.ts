@@ -3,13 +3,34 @@ import { ActionableTimelineItem } from "./lifestyle-signals";
 export interface FinancialGoal {
   id: string;
   name: string;
-  type: 'emergency' | 'retirement' | 'home' | 'education' | 'travel' | 'debt' | 'wedding' | 'business' | 'custom';
+  type: 'emergency' | 'retirement' | 'home' | 'education' | 'travel' | 'debt' | 'wedding' | 'business' | 'legacy' | 'custom';
   targetAmount: number;
   currentAmount: number;
   targetDate: string; // ISO date string
   priority: number;
   monthlyContribution: number;
   linkedEventId?: string; // Links to detected life event
+  timeHorizon: 'short' | 'mid' | 'long'; // 1-3yr, 3-10yr, 10+yr
+}
+
+export interface RetirementProfile {
+  currentAge: number;
+  retirementAge: number;
+  lifeExpectancy: number;
+  desiredRetirementIncome: number; // Annual
+  socialSecurityEstimate: number; // Annual
+  pensionIncome: number; // Annual
+  currentRetirementSavings: number;
+}
+
+export interface TaxAdvantagedAccount {
+  type: '401k' | 'traditional_ira' | 'roth_ira' | 'hsa' | '529';
+  label: string;
+  currentBalance: number;
+  annualContribution: number;
+  maxContribution: number;
+  employerMatch?: number;
+  catchUpEligible?: boolean;
 }
 
 export interface AssetAllocation {
@@ -46,6 +67,8 @@ export interface FinancialPlan {
   targetAllocation: AssetAllocation;
   actionItems: ActionableTimelineItem[];
   projectedNetWorthByYear: { year: number; value: number }[];
+  retirementProfile?: RetirementProfile;
+  taxAdvantagedAccounts?: TaxAdvantagedAccount[];
 }
 
 export interface SavedFinancialPlan extends FinancialPlan {
@@ -74,5 +97,36 @@ export const goalTypeLabels: Record<FinancialGoal['type'], string> = {
   debt: '💳 Debt Payoff',
   wedding: '💒 Wedding',
   business: '💼 Business',
+  legacy: '🏛️ Legacy/Estate',
   custom: '🎯 Custom Goal',
 };
+
+export const timeHorizonLabels: Record<FinancialGoal['timeHorizon'], string> = {
+  short: 'Short-term (1-3 years)',
+  mid: 'Mid-term (3-10 years)',
+  long: 'Long-term (10+ years)',
+};
+
+export const defaultRetirementProfile: RetirementProfile = {
+  currentAge: 45,
+  retirementAge: 65,
+  lifeExpectancy: 90,
+  desiredRetirementIncome: 100000,
+  socialSecurityEstimate: 30000,
+  pensionIncome: 0,
+  currentRetirementSavings: 500000,
+};
+
+export const defaultTaxAdvantagedAccounts: TaxAdvantagedAccount[] = [
+  { type: '401k', label: '401(k)', currentBalance: 350000, annualContribution: 18000, maxContribution: 23000, employerMatch: 5000, catchUpEligible: false },
+  { type: 'roth_ira', label: 'Roth IRA', currentBalance: 75000, annualContribution: 5000, maxContribution: 7000, catchUpEligible: false },
+  { type: 'hsa', label: 'HSA', currentBalance: 25000, annualContribution: 3000, maxContribution: 4150, catchUpEligible: false },
+];
+
+// Helper to determine time horizon based on target date
+export function getTimeHorizon(targetDate: string): FinancialGoal['timeHorizon'] {
+  const years = (new Date(targetDate).getFullYear() - new Date().getFullYear());
+  if (years <= 3) return 'short';
+  if (years <= 10) return 'mid';
+  return 'long';
+}
