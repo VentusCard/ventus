@@ -143,16 +143,8 @@ export function ActionWorkspacePanel({
                               {insight.assessment}
                             </span>
                           </div>
-                          {/* Action tip + 5-dot indicator on same line */}
+                          {/* 5-dot indicator + Action tip on same line */}
                           <div className="flex items-center justify-between gap-2">
-                            {isAssessed && insight.actionTip ? (
-                              <span className="text-[11px] text-primary font-medium flex items-center gap-1">
-                                <span>→</span>
-                                <span>{insight.actionTip}</span>
-                              </span>
-                            ) : (
-                              <span />
-                            )}
                             <div className="flex gap-1">
                               {[1, 2, 3, 4, 5].map((dot) => (
                                 <div 
@@ -167,6 +159,14 @@ export function ActionWorkspacePanel({
                                 />
                               ))}
                             </div>
+                            {isAssessed && insight.actionTip ? (
+                              <span className="text-[11px] text-primary font-medium flex items-center gap-1">
+                                <span>→</span>
+                                <span>{insight.actionTip}</span>
+                              </span>
+                            ) : (
+                              <span />
+                            )}
                           </div>
                         </li>
                       );
