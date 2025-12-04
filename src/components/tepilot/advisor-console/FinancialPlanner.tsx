@@ -34,6 +34,7 @@ import { IncomeExpenseEditor } from "./IncomeExpenseEditor";
 import { RetirementPlanningSection } from "./RetirementPlanningSection";
 import { GlidePathVisualization } from "./GlidePathVisualization";
 import { TaxAdvantagedAccountsSection } from "./TaxAdvantagedAccountsSection";
+import { RMDCalculator } from "./RMDCalculator";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -443,6 +444,9 @@ export function FinancialPlanner({
         onAccountsChange={setTaxAdvantagedAccounts}
         clientAge={retirementProfile.currentAge}
       />
+
+      {/* RMD Calculator */}
+      <RMDCalculator clientAge={retirementProfile.currentAge} />
 
       {/* Asset Allocation */}
       <AssetAllocationEditor
