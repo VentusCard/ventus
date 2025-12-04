@@ -85,13 +85,79 @@ export function ActionWorkspacePanel({
           </Card>
 
           {/* Engagement Health */}
-          <div className="flex items-center justify-between px-1">
+          <div className="flex items-center justify-between px-1 mb-3">
             <span className="text-xs text-slate-600">Engagement Health</span>
             <div className="flex items-center gap-2">
               <div className={`w-2 h-2 rounded-full ${engagementColor}`} />
               <span className="text-xs font-medium text-slate-900">{engagementText}</span>
             </div>
           </div>
+
+          {/* Psychological Insights Section */}
+          <Card className="p-3">
+            <Collapsible open={isPsychologyOpen} onOpenChange={setIsPsychologyOpen}>
+              <CollapsibleTrigger asChild>
+                <button className="flex items-center justify-between w-full">
+                  <div className="flex items-center gap-2">
+                    <Brain className="w-4 h-4 text-primary" />
+                    <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
+                  </div>
+                  <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isPsychologyOpen ? 'rotate-180' : ''}`} />
+                </button>
+              </CollapsibleTrigger>
+              <CollapsibleContent className="pt-2">
+                <ul className="space-y-2">
+                  {displayInsights.map((insight, idx) => {
+                    const sliderValue = insight.sliderValue || 3;
+                    const isAssessed = insight.confidence > 0;
+                    
+                    return (
+                      <li 
+                        key={idx} 
+                        className={`text-xs ${
+                          !isAssessed ? 'text-slate-400 italic' : 'text-slate-700'
+                        }`}
+                      >
+                        <div className="flex items-center justify-between mb-0.5">
+                          <span className={`font-medium ${!isAssessed ? 'text-slate-400' : ''}`}>
+                            {insight.aspect}
+                          </span>
+                          <span className={`text-[10px] ${!isAssessed ? 'text-slate-400' : 'text-muted-foreground'}`}>
+                            {insight.assessment}
+                          </span>
+                        </div>
+                        {/* 5-dot indicator + Action tip on same line */}
+                        <div className="flex items-center justify-between gap-2">
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((dot) => (
+                              <div 
+                                key={dot} 
+                                className={`w-3 h-1.5 rounded-sm transition-colors ${
+                                  dot === sliderValue && isAssessed
+                                    ? 'bg-primary' 
+                                    : dot === sliderValue && !isAssessed
+                                    ? 'bg-slate-300'
+                                    : 'bg-slate-200'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                          {isAssessed && insight.actionTip ? (
+                            <span className="text-[11px] text-primary font-medium flex items-center gap-1">
+                              <span>→</span>
+                              <span>{insight.actionTip}</span>
+                            </span>
+                          ) : (
+                            <span />
+                          )}
+                        </div>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </CollapsibleContent>
+            </Collapsible>
+          </Card>
         </div>
       </div>
 
@@ -112,73 +178,7 @@ export function ActionWorkspacePanel({
 
           {/* Content Area - Scrollable */}
           <div className="flex-1 min-h-0 overflow-y-auto space-y-4 mb-3">
-            {/* Psychological Insights Section - Always visible at top */}
-            <Card className="p-3">
-              <Collapsible open={isPsychologyOpen} onOpenChange={setIsPsychologyOpen}>
-                <CollapsibleTrigger asChild>
-                  <button className="flex items-center justify-between w-full">
-                    <div className="flex items-center gap-2">
-                      <Brain className="w-4 h-4 text-primary" />
-                      <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
-                    </div>
-                    <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isPsychologyOpen ? 'rotate-180' : ''}`} />
-                  </button>
-                </CollapsibleTrigger>
-                <CollapsibleContent className="pt-2">
-                  <ul className="space-y-2">
-                    {displayInsights.map((insight, idx) => {
-                      const sliderValue = insight.sliderValue || 3;
-                      const isAssessed = insight.confidence > 0;
-                      
-                      return (
-                        <li 
-                          key={idx} 
-                          className={`text-xs ${
-                            !isAssessed ? 'text-slate-400 italic' : 'text-slate-700'
-                          }`}
-                        >
-                          <div className="flex items-center justify-between mb-0.5">
-                            <span className={`font-medium ${!isAssessed ? 'text-slate-400' : ''}`}>
-                              {insight.aspect}
-                            </span>
-                            <span className={`text-[10px] ${!isAssessed ? 'text-slate-400' : 'text-muted-foreground'}`}>
-                              {insight.assessment}
-                            </span>
-                          </div>
-                          {/* 5-dot indicator + Action tip on same line */}
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="flex gap-1">
-                              {[1, 2, 3, 4, 5].map((dot) => (
-                                <div 
-                                  key={dot} 
-                                  className={`w-3 h-1.5 rounded-sm transition-colors ${
-                                    dot === sliderValue && isAssessed
-                                      ? 'bg-primary' 
-                                      : dot === sliderValue && !isAssessed
-                                      ? 'bg-slate-300'
-                                      : 'bg-slate-200'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            {isAssessed && insight.actionTip ? (
-                              <span className="text-[11px] text-primary font-medium flex items-center gap-1">
-                                <span>→</span>
-                                <span>{insight.actionTip}</span>
-                              </span>
-                            ) : (
-                              <span />
-                            )}
-                          </div>
-                        </li>
-                      );
-                    })}
-                  </ul>
-                </CollapsibleContent>
-              </Collapsible>
-            </Card>
-
-            {/* Empty State - only for action items since psychological insights always show */}
+            {/* Empty State - only for action items */}
             {nextStepsData.actionItems.length === 0 && !isAddingItem && <Card className="border-dashed p-6 text-center">
                 <MessageSquare className="w-10 h-10 mx-auto text-muted-foreground/50 mb-3" />
                 <h4 className="font-medium text-slate-900 mb-1">No Action Items Yet</h4>
