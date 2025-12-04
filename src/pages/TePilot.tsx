@@ -931,7 +931,8 @@ const TePilot = () => {
                     "Cross-sell opportunity matrix with projected revenue impact",
                     "Regional spending gap analysis to identify missed opportunities",
                     "Multi-dimension filtering by card product, region, and demographics",
-                    "Pillar distribution visualization of aggregate spending allocation"
+                    "Pillar distribution visualization of aggregate spending allocation",
+                    "Regional customer acquisition insights with category-specific marketing recommendations"
                   ]} buttonText="View Bank-wide Dashboard" onClick={() => setInsightType('bankwide')} />
 
                   {/* Rewards Team Card */}
