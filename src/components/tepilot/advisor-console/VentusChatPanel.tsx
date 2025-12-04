@@ -202,28 +202,28 @@ export function VentusChatPanel({
     let prompt = "";
     switch (chip) {
       case "Meeting Prep":
-        prompt = "Prepare 5 key talking points for my upcoming client meeting. Use bullet points for context, then provide actionable items in checkbox format (- [ ]).";
+        prompt = "Prepare 5 key talking points for my upcoming client meeting.";
         break;
       case "Product Recommendations":
-        prompt = "Based on spending patterns, provide product recommendations. Use bullets for insights, then list specific actions in checkbox format (- [ ]).";
+        prompt = "Based on spending patterns, what products should I recommend to this client?";
         break;
       case "Life Events Summary":
-        prompt = "Summarize detected life events with bullet points for context, then provide action items in checkbox format (- [ ]).";
+        prompt = "Summarize the detected life events and their implications.";
         break;
       case "Spending Trends":
-        prompt = "Analyze this client's spending trends. Use bullets for data insights, then provide action items in checkbox format (- [ ]).";
+        prompt = "Analyze this client's spending trends and highlight key insights.";
         break;
       case "Travel Insights":
-        prompt = "Analyze this client's travel patterns. Use bullets for insights, then list specific next steps in checkbox format (- [ ]).";
+        prompt = "What travel patterns do you see? Any insights I should discuss with this client?";
         break;
       case "Lifestyle Profile":
-        prompt = "Create a brief lifestyle profile with bullet points. End with action items for deepening engagement in checkbox format (- [ ]).";
+        prompt = "Create a brief lifestyle profile for this client.";
         break;
       case "Merchant Loyalty":
-        prompt = "Identify top merchant loyalty patterns with bullets. Provide actionable recommendations in checkbox format (- [ ]).";
+        prompt = "What are the top merchant loyalty patterns for this client?";
         break;
       case "Financial Planning":
-        prompt = "Create a financial planning summary for this client. Use bullets for insights, then include action items in checkbox format (- [ ]).";
+        prompt = "Create a financial planning summary for this client.";
         break;
       case "Life Event Planner":
         // Find the highest-confidence event with a financial projection
@@ -232,7 +232,7 @@ export function VentusChatPanel({
         setFinancialTimelineOpen(true);
         return;
       case "Tax Planning":
-        prompt = "Analyze this client's spending for tax planning opportunities. Use bullets for context, then provide action items in checkbox format (- [ ]).";
+        prompt = "Analyze this client's spending for tax planning opportunities.";
         break;
       case "Client Psychology":
         setPsychologyDialogOpen(true);
