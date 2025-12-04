@@ -58,7 +58,7 @@ const LIFESTYLE_SIGNAL_TOOL = {
                 properties: {
                   project_type: { 
                     type: "string", 
-                    enum: ["education", "home", "retirement", "business", "wedding", "medical", "elder_care", "career_transition", "inheritance", "other"],
+                    enum: ["education", "home", "retirement", "business", "wedding", "wealth_transfer", "liquidity_event", "family_formation", "charitable_giving", "elder_care", "other"],
                     description: "Category of the financial project"
                   },
                   estimated_start_year: { 

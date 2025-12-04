@@ -33,7 +33,7 @@ interface FinancialTimelineToolProps {
 }
 const projectTypes = {
   education: {
-    label: "Education",
+    label: "Education Planning",
     categories: ["Tuition", "Room & Board", "Books/Supplies"]
   },
   home: {
@@ -41,19 +41,39 @@ const projectTypes = {
     categories: ["Down Payment", "Closing Costs", "Renovations"]
   },
   retirement: {
-    label: "Retirement",
+    label: "Retirement Planning",
     categories: ["Living Expenses", "Healthcare", "Travel"]
   },
   business: {
-    label: "Business",
+    label: "Business Succession",
     categories: ["Capital", "Equipment", "Operating Costs"]
   },
   wedding: {
-    label: "Wedding",
+    label: "Wedding Planning",
     categories: ["Venue", "Catering", "Other Expenses"]
   },
+  wealth_transfer: {
+    label: "Wealth Transfer & Estate",
+    categories: ["Trust Funding", "Gifting Strategy", "Legal/Attorney Fees"]
+  },
+  liquidity_event: {
+    label: "Liquidity Event",
+    categories: ["Tax Reserves", "Reinvestment Capital", "Charitable Allocation"]
+  },
+  family_formation: {
+    label: "Family Formation",
+    categories: ["Insurance Updates", "Trust Establishment", "Education Funding Setup"]
+  },
+  charitable_giving: {
+    label: "Philanthropic Planning",
+    categories: ["DAF Funding", "Charitable Trust", "Foundation Setup"]
+  },
+  elder_care: {
+    label: "Long-Term Care Planning",
+    categories: ["Care Reserves", "Insurance Premiums", "Asset Protection"]
+  },
   other: {
-    label: "Custom",
+    label: "Custom Planning",
     categories: ["Category 1", "Category 2", "Category 3"]
   }
 };
@@ -63,6 +83,11 @@ const projectDurations: Record<keyof typeof projectTypes, number> = {
   retirement: 25,
   business: 5,
   wedding: 1,
+  wealth_transfer: 2,
+  liquidity_event: 2,
+  family_formation: 1,
+  charitable_giving: 1,
+  elder_care: 5,
   other: 3
 };
 // Reusable function to generate action items for any project type
@@ -113,20 +138,70 @@ function generateActionItemsForProjectType(
     ];
   } else if (type === "wedding") {
     return [
-      { id: "a1", timing: `12 months before`, action: "Set wedding budget and create guest list", completed: false },
-      { id: "a2", timing: `10 months before`, action: "Book venue and secure date", completed: false },
-      { id: "a3", timing: `8 months before`, action: "Hire caterer, photographer, and other key vendors", completed: false },
-      { id: "a4", timing: `6 months before`, action: "Order wedding attire and send save-the-dates", completed: false },
-      { id: "a5", timing: `3 months before`, action: "Finalize menu, music selections, and decorations", completed: false },
-      { id: "a6", timing: `1 month before`, action: "Confirm final headcount and make final vendor payments", completed: false },
-      { id: "a7", timing: "Week of", action: "Coordinate rehearsal and finalize day-of logistics", completed: false }
+      { id: "a1", timing: `12 months before`, action: "Coordinate family contributions and establish joint account structure", completed: false },
+      { id: "a2", timing: `10 months before`, action: "Review prenuptial agreement considerations with estate attorney", completed: false },
+      { id: "a3", timing: `6 months before`, action: "Update beneficiary designations on all accounts", completed: false },
+      { id: "a4", timing: `3 months before`, action: "Consolidate insurance policies and review coverage needs", completed: false },
+      { id: "a5", timing: `1 month before`, action: "Finalize vendor payments and honeymoon funding", completed: false },
+      { id: "a6", timing: "Post-wedding", action: "Execute title transfers and update estate documents", completed: false },
+      { id: "a7", timing: "Within 60 days", action: "Complete name changes on financial accounts if applicable", completed: false }
+    ];
+  } else if (type === "wealth_transfer") {
+    return [
+      { id: "a1", timing: `Q1 ${startYear}`, action: "Coordinate with estate attorney to review trust structure", completed: false },
+      { id: "a2", timing: `Q2 ${startYear}`, action: "Execute annual exclusion gifts ($18,000 per recipient)", completed: false },
+      { id: "a3", timing: `Q3 ${startYear}`, action: "Fund irrevocable life insurance trust (ILIT) if applicable", completed: false },
+      { id: "a4", timing: `Q4 ${startYear}`, action: "Review grantor retained annuity trust (GRAT) opportunities", completed: false },
+      { id: "a5", timing: `Q1 ${startYear + 1}`, action: "Evaluate family limited partnership (FLP) structures", completed: false },
+      { id: "a6", timing: `Q2 ${startYear + 1}`, action: "Coordinate with CPA on gift tax return filings", completed: false },
+      { id: "a7", timing: "Annual", action: "Review estate tax exemption utilization and adjust strategy", completed: false }
+    ];
+  } else if (type === "liquidity_event") {
+    return [
+      { id: "a1", timing: `Pre-event`, action: "Engage tax advisor to model various sale/exercise scenarios", completed: false },
+      { id: "a2", timing: `Pre-event`, action: "Review qualified small business stock (QSBS) exclusion eligibility", completed: false },
+      { id: "a3", timing: `Event +30 days`, action: "Execute tax-loss harvesting to offset capital gains", completed: false },
+      { id: "a4", timing: `Event +60 days`, action: "Establish donor-advised fund with appreciated shares", completed: false },
+      { id: "a5", timing: `Q1 ${startYear}`, action: "Implement concentrated position diversification strategy", completed: false },
+      { id: "a6", timing: `Q2 ${startYear}`, action: "Review 10b5-1 trading plan for remaining equity holdings", completed: false },
+      { id: "a7", timing: "Quarterly", action: "Rebalance portfolio and monitor tax implications", completed: false }
+    ];
+  } else if (type === "family_formation") {
+    return [
+      { id: "a1", timing: `Immediate`, action: "Update estate documents: will, healthcare proxy, POA", completed: false },
+      { id: "a2", timing: `Within 30 days`, action: "Add dependent to health insurance and update FSA/HSA elections", completed: false },
+      { id: "a3", timing: `Within 60 days`, action: "Establish 529 education savings plan and set up automatic contributions", completed: false },
+      { id: "a4", timing: `Q1 ${startYear}`, action: "Review life insurance coverage adequacy (10-12x income)", completed: false },
+      { id: "a5", timing: `Q2 ${startYear}`, action: "Update beneficiary designations on all retirement accounts", completed: false },
+      { id: "a6", timing: `Q3 ${startYear}`, action: "Establish UTMA/UGMA custodial account if appropriate", completed: false },
+      { id: "a7", timing: "Annual", action: "Review guardian designations and trust provisions", completed: false }
+    ];
+  } else if (type === "charitable_giving") {
+    return [
+      { id: "a1", timing: `Q1 ${startYear}`, action: "Establish donor-advised fund (DAF) with initial contribution", completed: false },
+      { id: "a2", timing: `Q2 ${startYear}`, action: "Identify appreciated securities for charitable contribution", completed: false },
+      { id: "a3", timing: `Q3 ${startYear}`, action: "Evaluate charitable remainder trust (CRT) benefits", completed: false },
+      { id: "a4", timing: `Q4 ${startYear}`, action: "Execute bunching strategy for itemized deduction optimization", completed: false },
+      { id: "a5", timing: `Post-70½`, action: "Consider qualified charitable distribution (QCD) from IRA", completed: false },
+      { id: "a6", timing: "Annual", action: "Review DAF grant recommendations and distribution schedule", completed: false },
+      { id: "a7", timing: "Ongoing", action: "Document philanthropic legacy goals with family members", completed: false }
+    ];
+  } else if (type === "elder_care") {
+    return [
+      { id: "a1", timing: `Year 1`, action: "Complete comprehensive care needs assessment with family", completed: false },
+      { id: "a2", timing: `Year 1`, action: "Review long-term care insurance options and premium funding", completed: false },
+      { id: "a3", timing: `Year 1-2`, action: "Establish durable power of attorney and healthcare proxy", completed: false },
+      { id: "a4", timing: `Year 2`, action: "Evaluate Medicaid planning strategies (5-year lookback)", completed: false },
+      { id: "a5", timing: `Year 2-3`, action: "Research care facility options and associated costs", completed: false },
+      { id: "a6", timing: `Year 3+`, action: "Implement asset protection strategies within legal guidelines", completed: false },
+      { id: "a7", timing: "Ongoing", action: "Coordinate care decisions with siblings and family members", completed: false }
     ];
   } else {
     return [
-      { id: "a1", timing: `Q1 ${startYear}`, action: "Review project goals and requirements", completed: false },
-      { id: "a2", timing: `Q2 ${startYear}`, action: "Establish funding strategy and sources", completed: false },
-      { id: "a3", timing: `Q3 ${startYear}`, action: "Begin implementation and track spending", completed: false },
-      { id: "a4", timing: "Quarterly", action: "Review progress and adjust budget as needed", completed: false }
+      { id: "a1", timing: `Q1 ${startYear}`, action: "Define planning objectives and success metrics", completed: false },
+      { id: "a2", timing: `Q2 ${startYear}`, action: "Establish funding strategy and capital allocation", completed: false },
+      { id: "a3", timing: `Q3 ${startYear}`, action: "Implement plan and monitor key milestones", completed: false },
+      { id: "a4", timing: "Quarterly", action: "Review progress and adjust strategy as needed", completed: false }
     ];
   }
 }
@@ -424,7 +499,7 @@ export function FinancialTimelineTool({
       setFundingSources([businessLoan, personalSavings]);
       setActionItems(generateActionItemsForProjectType("business", startYear, newDuration));
     } else if (type === "wedding") {
-      // Sample costs for wedding
+      // Sample costs for wedding/family formation financial planning
       templateYears.forEach((year, idx) => {
         if (idx === 0) {
           newCategories[0].amounts[year] = 15000; // Venue
@@ -435,21 +510,129 @@ export function FinancialTimelineTool({
       const weddingSavings: FundingSource = {
         id: "savings-1",
         type: "savings",
-        label: "Wedding Savings",
-        amounts: {
-          [currentYear]: 20000
-        }
+        label: "Joint Savings",
+        amounts: { [currentYear]: 20000 }
       };
       const familyGifts: FundingSource = {
         id: "gifts-1",
         type: "gifts",
         label: "Family Contributions",
-        amounts: {
-          [currentYear]: 13000
-        }
+        amounts: { [currentYear]: 13000 }
       };
       setFundingSources([weddingSavings, familyGifts]);
       setActionItems(generateActionItemsForProjectType("wedding", startYear, newDuration));
+    } else if (type === "wealth_transfer") {
+      // Estate & Wealth Transfer Planning
+      templateYears.forEach((year, idx) => {
+        newCategories[0].amounts[year] = idx === 0 ? 500000 : 200000; // Trust Funding
+        newCategories[1].amounts[year] = 36000; // Annual Gifting (2 recipients × $18k)
+        newCategories[2].amounts[year] = idx === 0 ? 25000 : 5000; // Legal Fees
+      });
+      const taxableInvestments: FundingSource = {
+        id: "taxable-1",
+        type: "taxable",
+        label: "Taxable Investment Portfolio",
+        amounts: Object.fromEntries(fundingYears.map(y => [y, 400000]))
+      };
+      const appreciatedAssets: FundingSource = {
+        id: "other-1",
+        type: "other",
+        label: "Appreciated Securities (Stepped-up Basis)",
+        amounts: { [currentYear]: 300000 }
+      };
+      setFundingSources([taxableInvestments, appreciatedAssets]);
+      setActionItems(generateActionItemsForProjectType("wealth_transfer", startYear, newDuration));
+    } else if (type === "liquidity_event") {
+      // Business Sale / Stock Options / Inheritance
+      templateYears.forEach((year, idx) => {
+        newCategories[0].amounts[year] = idx === 0 ? 800000 : 100000; // Tax Reserves
+        newCategories[1].amounts[year] = idx === 0 ? 1500000 : 500000; // Reinvestment
+        newCategories[2].amounts[year] = idx === 0 ? 200000 : 50000; // Charitable
+      });
+      const proceedsSource: FundingSource = {
+        id: "other-1",
+        type: "other",
+        label: "Liquidity Event Proceeds",
+        amounts: { [currentYear]: 3000000 }
+      };
+      const dafContribution: FundingSource = {
+        id: "other-2",
+        type: "other",
+        label: "Donor-Advised Fund (Tax-Efficient)",
+        amounts: { [currentYear]: 250000 }
+      };
+      setFundingSources([proceedsSource, dafContribution]);
+      setActionItems(generateActionItemsForProjectType("liquidity_event", startYear, newDuration));
+    } else if (type === "family_formation") {
+      // Marriage / New Child Planning
+      templateYears.forEach((year, idx) => {
+        newCategories[0].amounts[year] = 5000; // Insurance Updates
+        newCategories[1].amounts[year] = idx === 0 ? 15000 : 2000; // Trust Establishment
+        newCategories[2].amounts[year] = 12000; // 529 Initial Funding
+      });
+      const savings529: FundingSource = {
+        id: "529-1",
+        type: "529",
+        label: "529 Plan Contributions",
+        amounts: Object.fromEntries(fundingYears.map(y => [y, 12000]))
+      };
+      const lifeInsurance: FundingSource = {
+        id: "other-1",
+        type: "other",
+        label: "Life Insurance Premium Funding",
+        amounts: Object.fromEntries(fundingYears.map(y => [y, 5000]))
+      };
+      setFundingSources([savings529, lifeInsurance]);
+      setActionItems(generateActionItemsForProjectType("family_formation", startYear, newDuration));
+    } else if (type === "charitable_giving") {
+      // Major Philanthropic Planning
+      templateYears.forEach((year, idx) => {
+        newCategories[0].amounts[year] = 100000; // DAF Funding
+        newCategories[1].amounts[year] = idx === 0 ? 250000 : 0; // Charitable Trust
+        newCategories[2].amounts[year] = idx === 0 ? 50000 : 10000; // Foundation Setup
+      });
+      const appreciatedStock: FundingSource = {
+        id: "other-1",
+        type: "other",
+        label: "Appreciated Securities Transfer",
+        amounts: { [currentYear]: 300000 }
+      };
+      const cashContributions: FundingSource = {
+        id: "savings-1",
+        type: "savings",
+        label: "Cash Contributions",
+        amounts: { [currentYear]: 100000 }
+      };
+      setFundingSources([appreciatedStock, cashContributions]);
+      setActionItems(generateActionItemsForProjectType("charitable_giving", startYear, newDuration));
+    } else if (type === "elder_care") {
+      // Long-Term Care Planning
+      templateYears.forEach((year, idx) => {
+        const inflationMultiplier = Math.pow(1 + inflationRate / 100, idx);
+        newCategories[0].amounts[year] = Math.round(80000 * inflationMultiplier); // Care Reserves
+        newCategories[1].amounts[year] = 8000; // Insurance Premiums
+        newCategories[2].amounts[year] = idx < 2 ? 25000 : 5000; // Asset Protection
+      });
+      const ltcInsurance: FundingSource = {
+        id: "other-1",
+        type: "other",
+        label: "Long-Term Care Insurance Benefits",
+        amounts: Object.fromEntries(fundingYears.slice(2).map(y => [y, 60000]))
+      };
+      const familyContributions: FundingSource = {
+        id: "gifts-1",
+        type: "gifts",
+        label: "Family Member Contributions",
+        amounts: Object.fromEntries(fundingYears.map(y => [y, 20000]))
+      };
+      const parentAssets: FundingSource = {
+        id: "savings-1",
+        type: "savings",
+        label: "Parent's Liquid Assets",
+        amounts: { [currentYear]: 150000 }
+      };
+      setFundingSources([ltcInsurance, familyContributions, parentAssets]);
+      setActionItems(generateActionItemsForProjectType("elder_care", startYear, newDuration));
     } else {
       // Default empty for other types or custom projects
       setFundingSources([]);
