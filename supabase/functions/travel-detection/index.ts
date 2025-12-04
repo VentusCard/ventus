@@ -216,28 +216,56 @@ Deno.serve(async (req) => {
             console.warn("[Travel Detection] No travel detection results returned");
           }
 
-          // Conservative fallback: only mark obvious travel merchants
+          // Conservative fallback: only mark obvious travel merchants (including international)
           if (travelUpdates.length === 0 && transactions.length > 0) {
             console.warn('[Travel Detection] AI returned no updates, applying conservative fallback');
-            const obviousKeywords = ['hotel', 'marriott', 'hilton', 'hyatt', 'holiday inn', 
-                                     'airline', 'delta', 'united', 'southwest', 'american airlines', 
-                                     'airport', 'airbnb', 'vrbo'];
+            
+            // Expanded keywords for international travel detection
+            const obviousKeywords = [
+              // Hotels (US + International)
+              'hotel', 'marriott', 'hilton', 'hyatt', 'holiday inn', 'airbnb', 'vrbo',
+              'premier inn', 'travelodge', 'ibis', 'mercure', 'novotel', 'accor', 'radisson',
+              // Airlines (US + International)
+              'airline', 'airways', 'delta', 'united', 'southwest', 'american airlines', 'jetblue',
+              'british airways', 'air france', 'lufthansa', 'easyjet', 'ryanair', 'emirates',
+              'qatar airways', 'virgin atlantic', 'klm', 'cathay',
+              // Car rentals (US + International)
+              'airport', 'europcar', 'sixt', 'hertz', 'enterprise', 'avis', 'alamo',
+              // Transport
+              'eurostar', 'eurotunnel'
+            ];
+            
+            // International location keywords in merchant names
+            const locationKeywords = [
+              'london', 'paris', 'rome', 'berlin', 'tokyo', 'sydney', 'dubai', 'amsterdam',
+              'barcelona', 'munich', 'vienna', 'prague', 'lisbon', 'madrid', 'milan', 'dublin',
+              'heathrow', 'gatwick', 'stansted', 'cdg', 'orly'
+            ];
             
             travelUpdates = transactions.map(t => {
               const merchant = (t.normalized_merchant || t.merchant_name || '').toLowerCase();
               const isObviousTravel = obviousKeywords.some(kw => merchant.includes(kw));
+              const hasLocationInMerchant = locationKeywords.some(city => merchant.includes(city));
+              const isTravelRelated = isObviousTravel || hasLocationInMerchant;
+              
+              // Try to extract destination from merchant name
+              let destination = 'unknown';
+              if (hasLocationInMerchant) {
+                const foundCity = locationKeywords.find(city => merchant.includes(city));
+                if (foundCity) destination = foundCity.charAt(0).toUpperCase() + foundCity.slice(1);
+              }
               
               return {
                 transaction_id: t.transaction_id,
-                is_travel_related: isObviousTravel,
-                travel_destination: isObviousTravel ? 'unknown' : null,
-                travel_period_start: isObviousTravel ? t.date : null,
-                travel_period_end: isObviousTravel ? t.date : null,
+                is_travel_related: isTravelRelated,
+                travel_destination: isTravelRelated ? destination : null,
+                travel_period_start: isTravelRelated ? t.date : null,
+                travel_period_end: isTravelRelated ? t.date : null,
                 original_pillar: t.pillar || 'Unknown',
                 reclassified_pillar: t.pillar || 'Unknown',
                 reclassified_subcategory: t.subcategory || 'Unknown',
-                reclassification_reason: isObviousTravel 
-                  ? 'AI unavailable - obvious travel merchant detected'
+                reclassification_reason: isTravelRelated 
+                  ? `AI unavailable - ${hasLocationInMerchant ? 'location detected in merchant name' : 'obvious travel merchant detected'}`
                   : 'AI unavailable - not an obvious travel merchant'
               };
             });
