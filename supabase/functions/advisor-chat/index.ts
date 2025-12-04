@@ -27,6 +27,39 @@ interface Message {
   content: string;
 }
 
+interface ClientProfile {
+  name: string;
+  segment: string;
+  aum: string;
+  tenure: string;
+  contact: {
+    email: string;
+    phone: string;
+    address: string;
+  };
+  demographics: {
+    age: string;
+    occupation: string;
+    familyStatus: string;
+  };
+  holdings: {
+    deposit: string;
+    credit: string;
+    mortgage: string;
+    investments: string;
+  };
+  compliance: {
+    kycStatus: string;
+    lastReview: string;
+    nextReview: string;
+    riskProfile: string;
+  };
+  milestones: Array<{
+    event: string;
+    date: string;
+  }>;
+}
+
 interface AdvisorContext {
   overview: {
     totalTransactions: number;
@@ -76,6 +109,7 @@ interface AdvisorContext {
     assessment: string;
     confidence: number;
   }>;
+  clientProfile?: ClientProfile;
 }
 
 const SYSTEM_PROMPT = `You are Ventus AI, an expert wealth management advisor assistant for financial advisors at major banks and wealth management firms.
@@ -133,8 +167,28 @@ You are speaking to a financial advisor who needs quick, actionable insights to 
 function formatContextForPrompt(context: AdvisorContext): string {
   let prompt = `\n\n=== CLIENT DATA SUMMARY ===\n\n`;
 
+  // Client Profile (if available)
+  if (context.clientProfile) {
+    const cp = context.clientProfile;
+    prompt += `CLIENT PROFILE:\n`;
+    prompt += `- Name: ${cp.name}\n`;
+    prompt += `- Segment: ${cp.segment}\n`;
+    prompt += `- AUM: ${cp.aum}\n`;
+    prompt += `- Tenure: ${cp.tenure}\n`;
+    prompt += `- Age: ${cp.demographics.age}\n`;
+    prompt += `- Occupation: ${cp.demographics.occupation}\n`;
+    prompt += `- Family Status: ${cp.demographics.familyStatus}\n`;
+    prompt += `- Risk Profile: ${cp.compliance.riskProfile}\n`;
+    prompt += `- Holdings: Deposits ${cp.holdings.deposit}, Credit ${cp.holdings.credit}, Mortgage ${cp.holdings.mortgage}, Investments ${cp.holdings.investments}\n`;
+    prompt += `- KYC Status: ${cp.compliance.kycStatus}, Last Review: ${cp.compliance.lastReview}, Next Review: ${cp.compliance.nextReview}\n`;
+    if (cp.milestones && cp.milestones.length > 0) {
+      prompt += `- Recent Milestones: ${cp.milestones.slice(0, 3).map(m => `${m.event} (${m.date})`).join(", ")}\n`;
+    }
+    prompt += `\n`;
+  }
+
   // Overview
-  prompt += `OVERVIEW:\n`;
+  prompt += `TRANSACTION OVERVIEW:\n`;
   prompt += `- Total Transactions: ${context.overview.totalTransactions}\n`;
   prompt += `- Total Spend: $${context.overview.totalSpend.toLocaleString()}\n`;
   prompt += `- Date Range: ${context.overview.dateRange.start} to ${context.overview.dateRange.end}\n`;
