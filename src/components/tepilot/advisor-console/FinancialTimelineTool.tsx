@@ -568,25 +568,22 @@ export function FinancialTimelineTool({
       onSaveProjection(savedProjection);
     }
 
-    // Create action items from timeline milestones
-    if (onAddActionItems && actionItems.length > 0) {
-      const timelineActionItems: ActionItemFromTimeline[] = actionItems
-        .filter(item => !item.completed)
-        .slice(0, 5) // Limit to 5 items
-        .map((item, idx) => ({
-          id: `timeline-${Date.now()}-${idx}`,
-          text: `[${projectName}] ${item.timing}: ${item.action}`,
-          completed: false,
-          source: 'timeline' as const,
-          timestamp: new Date()
-        }));
+    // Create single action item for timeline review
+    if (onAddActionItems) {
+      const reviewActionItem: ActionItemFromTimeline[] = [{
+        id: `timeline-review-${Date.now()}`,
+        text: `Review ${projectName} timeline with client`,
+        completed: false,
+        source: 'timeline' as const,
+        timestamp: new Date()
+      }];
       
-      onAddActionItems(timelineActionItems);
+      onAddActionItems(reviewActionItem);
     }
 
     toast({
       title: "✓ Saved to Next Steps",
-      description: `${Math.min(actionItems.filter(i => !i.completed).length, 5)} action items added to your task list`
+      description: `Timeline review added to your task list`
     });
   };
   const handleExportPDF = async () => {
