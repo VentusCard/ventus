@@ -45,6 +45,7 @@ interface FinancialPlannerProps {
   psychologicalInsights: PsychologicalInsight[];
   onOpenLifeEventPlanner: (event: LifeEvent) => void;
   onSaveActionItems: (items: { id: string; text: string; completed: boolean }[]) => void;
+  importedGoals?: FinancialGoal[];
 }
 
 export function FinancialPlanner({
@@ -54,6 +55,7 @@ export function FinancialPlanner({
   psychologicalInsights,
   onOpenLifeEventPlanner,
   onSaveActionItems,
+  importedGoals = [],
 }: FinancialPlannerProps) {
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -61,7 +63,7 @@ export function FinancialPlanner({
   // State for financial planning inputs
   const [monthlyIncome, setMonthlyIncome] = useState(15000);
   const [expenses, setExpenses] = useState<ExpenseCategory[]>(defaultExpenseCategories);
-  const [goals, setGoals] = useState<FinancialGoal[]>([]);
+  const [goals, setGoals] = useState<FinancialGoal[]>(importedGoals);
   const [currentAllocation, setCurrentAllocation] = useState<AssetAllocation>({
     stocks: 60, bonds: 25, cash: 10, realEstate: 5, other: 0
   });
@@ -76,6 +78,17 @@ export function FinancialPlanner({
   // Long-term planning specific state
   const [retirementProfile, setRetirementProfile] = useState<RetirementProfile>(defaultRetirementProfile);
   const [taxAdvantagedAccounts, setTaxAdvantagedAccounts] = useState<TaxAdvantagedAccount[]>(defaultTaxAdvantagedAccounts);
+
+  // Merge imported goals on mount (avoiding duplicates by linkedEventId)
+  useState(() => {
+    if (importedGoals.length > 0) {
+      setGoals(prev => {
+        const existingIds = new Set(prev.map(g => g.linkedEventId));
+        const newGoals = importedGoals.filter(g => !existingIds.has(g.linkedEventId));
+        return [...prev, ...newGoals];
+      });
+    }
+  });
 
   // Calculate derived values
   const totalExpenses = useMemo(() => 

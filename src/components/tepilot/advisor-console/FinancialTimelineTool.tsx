@@ -10,11 +10,12 @@ import { FinancialProjection, CostCategory, FundingSource, ActionableTimelineIte
 import { FundingSourcesTable } from "./FundingSourcesTable";
 import { CashFlowChart } from "./CashFlowChart";
 import { ActionableTimelineSection } from "./ActionableTimelineSection";
-import { Save, FileDown, ListPlus, Lightbulb, Sparkles } from "lucide-react";
+import { Save, FileDown, ListPlus, Lightbulb, Sparkles, Target } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
+import { FinancialGoal, getTimeHorizon } from "@/types/financial-planning";
 interface ActionItemFromTimeline {
   id: string;
   text: string;
@@ -1001,7 +1002,34 @@ export function FinancialTimelineTool({
               <FileDown className="w-4 h-4 mr-2" />
               Export PDF
             </Button>
-            
+            <Button variant="outline" onClick={() => {
+              const totalCost = costCategories.reduce((sum, cat) => 
+                sum + Object.values(cat.amounts).reduce((s, v) => s + v, 0), 0);
+              
+              const goal: FinancialGoal = {
+                id: `goal-${Date.now()}`,
+                name: projectName,
+                type: projectType as FinancialGoal['type'],
+                targetAmount: totalCost,
+                currentAmount: currentSavings,
+                targetDate: `${startYear}-01-01`,
+                priority: 1,
+                monthlyContribution: monthlyContribution,
+                linkedEventId: detectedEvent?.event_name || projectName,
+                timeHorizon: getTimeHorizon(`${startYear}-01-01`),
+              };
+              
+              const existingGoals = JSON.parse(sessionStorage.getItem('pendingFinancialGoals') || '[]');
+              sessionStorage.setItem('pendingFinancialGoals', JSON.stringify([...existingGoals, goal]));
+              
+              toast({
+                title: "Added to Financial Plan",
+                description: `"${projectName}" goal added. Open Financial Planning to view.`,
+              });
+            }}>
+              <Target className="w-4 h-4 mr-2" />
+              Add to Financial Plan
+            </Button>
           </div>
         </div>
       </DialogContent>
