@@ -241,11 +241,38 @@ export function VentusChatPanel({
     });
   };
   const handleAddToTodoFromMessage = (content: string) => {
-    toast({
-      title: "✓ Added to Tasks",
-      description: "New task created from message",
-      duration: 2000
-    });
+    const extractedItems = extractActionItemsFromMessage(content);
+    
+    if (extractedItems.length === 0) {
+      // If no structured items found, add the whole message as a single item (truncated)
+      const singleItem: NextStepsActionItem = {
+        id: `todo-${Date.now()}`,
+        text: content.slice(0, 200),
+        completed: false,
+        source: 'chat',
+        timestamp: new Date()
+      };
+      onExtractNextSteps?.([singleItem], []);
+      toast({
+        title: "✓ Added to Action Items",
+        description: "1 item added to Next Steps",
+        duration: 2000
+      });
+    } else {
+      const actionItems: NextStepsActionItem[] = extractedItems.map((text, idx) => ({
+        id: `todo-${Date.now()}-${idx}`,
+        text,
+        completed: false,
+        source: 'chat',
+        timestamp: new Date()
+      }));
+      onExtractNextSteps?.(actionItems, []);
+      toast({
+        title: "✓ Added to Action Items",
+        description: `${extractedItems.length} item(s) added to Next Steps`,
+        duration: 2000
+      });
+    }
   };
   const visibleEvents = aiInsights?.detected_events || [];
   return <div className="h-full flex flex-col bg-white">
