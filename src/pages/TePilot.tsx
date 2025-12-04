@@ -932,7 +932,7 @@ const TePilot = () => {
                     "Multi-dimension filtering by card product, region, and demographics",
                     "Pillar distribution visualization of aggregate spending allocation",
                     "Regional customer acquisition insights with category-specific marketing recommendations"
-                  ]} buttonText="View Bank-wide Dashboard" onClick={() => setInsightType('bankwide')} />
+                  ]} buttonText="View Bank-wide Dashboard" buttonVariant="ai" onClick={() => setInsightType('bankwide')} />
 
                   {/* Rewards Team Card */}
                   <PersonaCard icon={TrendingUp} title="Consumer Rewards" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={[
@@ -966,7 +966,7 @@ const TePilot = () => {
                     "Client Psychology Profiler with actionable communication cues",
                     "Smart conversation chips for Meeting Prep, Financial Standing, and more",
                     "AI-extracted action items from chat and planning tools"
-                  ]} buttonText="Access Wealth Management CoPilot" onClick={() => {
+                  ]} buttonText="Access Wealth Management CoPilot" buttonVariant="ai" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error('Please enrich transactions first to access this tool');
                   return;
