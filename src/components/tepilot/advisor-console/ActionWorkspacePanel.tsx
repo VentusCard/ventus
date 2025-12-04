@@ -143,27 +143,30 @@ export function ActionWorkspacePanel({
                               {insight.assessment}
                             </span>
                           </div>
-                          {/* Action tip - only show when assessed */}
-                          {isAssessed && insight.actionTip && (
-                            <div className="text-[11px] text-primary font-medium mb-1 flex items-center gap-1">
-                              <span>→</span>
-                              <span>{insight.actionTip}</span>
+                          {/* Action tip + 5-dot indicator on same line */}
+                          <div className="flex items-center justify-between gap-2">
+                            {isAssessed && insight.actionTip ? (
+                              <span className="text-[11px] text-primary font-medium flex items-center gap-1">
+                                <span>→</span>
+                                <span>{insight.actionTip}</span>
+                              </span>
+                            ) : (
+                              <span />
+                            )}
+                            <div className="flex gap-1">
+                              {[1, 2, 3, 4, 5].map((dot) => (
+                                <div 
+                                  key={dot} 
+                                  className={`w-3 h-1.5 rounded-sm transition-colors ${
+                                    dot === sliderValue && isAssessed
+                                      ? 'bg-primary' 
+                                      : dot === sliderValue && !isAssessed
+                                      ? 'bg-slate-300'
+                                      : 'bg-slate-200'
+                                  }`}
+                                />
+                              ))}
                             </div>
-                          )}
-                          {/* 5-dot visual indicator */}
-                          <div className="flex gap-1">
-                            {[1, 2, 3, 4, 5].map((dot) => (
-                              <div 
-                                key={dot} 
-                                className={`w-3 h-1.5 rounded-sm transition-colors ${
-                                  dot === sliderValue && isAssessed
-                                    ? 'bg-primary' 
-                                    : dot === sliderValue && !isAssessed
-                                    ? 'bg-slate-300'
-                                    : 'bg-slate-200'
-                                }`}
-                              />
-                            ))}
                           </div>
                         </li>
                       );
