@@ -80,6 +80,13 @@ export function FinancialPlanner({
   // Long-term planning specific state
   const [retirementProfile, setRetirementProfile] = useState<RetirementProfile>(defaultRetirementProfile);
   const [taxAdvantagedAccounts, setTaxAdvantagedAccounts] = useState<TaxAdvantagedAccount[]>(defaultTaxAdvantagedAccounts);
+  const [monteCarloResults, setMonteCarloResults] = useState<{
+    successRate: number;
+    medianOutcome: number;
+    worstCase: number;
+    bestCase: number;
+    targetGoal: number;
+  } | null>(null);
 
   // Auto-import life events as goals on mount
   useEffect(() => {
@@ -141,6 +148,55 @@ export function FinancialPlanner({
     };
     return parseAmount(deposit) + parseAmount(investments) - parseAmount(credit) - parseAmount(mortgage);
   }, [clientProfile]);
+
+  // Persist financial planning data to sessionStorage for AI context
+  useEffect(() => {
+    const financialPlanData = {
+      monthlyIncome,
+      monthlyExpenses: totalExpenses,
+      savingsRate,
+      currentNetWorth,
+      goals: goals.map(g => ({
+        name: g.name,
+        type: g.type,
+        targetAmount: g.targetAmount,
+        currentAmount: g.currentAmount,
+        targetDate: g.targetDate,
+        monthlyContribution: g.monthlyContribution,
+        progressPercent: g.targetAmount > 0 ? Math.round((g.currentAmount / g.targetAmount) * 100) : 0,
+        timeHorizon: g.timeHorizon,
+      })),
+      retirementProfile: {
+        currentAge: retirementProfile.currentAge,
+        retirementAge: retirementProfile.retirementAge,
+        yearsToRetirement: retirementProfile.retirementAge - retirementProfile.currentAge,
+        desiredRetirementIncome: retirementProfile.desiredRetirementIncome,
+        socialSecurityEstimate: retirementProfile.socialSecurityEstimate,
+        currentRetirementSavings: retirementProfile.currentRetirementSavings,
+      },
+      taxAdvantagedAccounts: taxAdvantagedAccounts.map(a => ({
+        type: a.type,
+        label: a.label,
+        currentBalance: a.currentBalance,
+        annualContribution: a.annualContribution,
+        maxContribution: a.maxContribution,
+        utilizationPercent: a.maxContribution > 0 ? Math.round((a.annualContribution / a.maxContribution) * 100) : 0,
+      })),
+      assetAllocation: {
+        current: currentAllocation,
+        target: targetAllocation,
+      },
+      monteCarloResults,
+      rmdEstimate: retirementProfile.currentAge >= 70 ? {
+        clientAge: retirementProfile.currentAge,
+        totalRMDBalance: taxAdvantagedAccounts
+          .filter(a => ['401k', 'traditional_ira'].includes(a.type))
+          .reduce((sum, a) => sum + a.currentBalance, 0),
+        estimatedAnnualRMD: 0,
+      } : undefined,
+    };
+    sessionStorage.setItem("tepilot_financial_plan", JSON.stringify(financialPlanData));
+  }, [monthlyIncome, totalExpenses, savingsRate, goals, retirementProfile, taxAdvantagedAccounts, currentAllocation, targetAllocation, currentNetWorth, monteCarloResults]);
 
   // Generate net worth projection (30 years default for long-term focus)
   const projectedNetWorth = useMemo(() => {
@@ -444,7 +500,8 @@ export function FinancialPlanner({
         initialPortfolio={retirementProfile.currentRetirementSavings}
         annualContribution={taxAdvantagedAccounts.reduce((sum, a) => sum + a.annualContribution, 0)}
         yearsToRetirement={retirementProfile.retirementAge - retirementProfile.currentAge}
-        targetGoal={retirementProfile.desiredRetirementIncome * 25} // 4% rule
+        targetGoal={retirementProfile.desiredRetirementIncome * 25}
+        onResultsChange={setMonteCarloResults}
       />
 
       {/* Tax-Advantaged Accounts */}

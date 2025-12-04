@@ -2,6 +2,55 @@ import { EnrichedTransaction, PillarAggregate } from "@/types/transaction";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { aggregateByPillar } from "./aggregations";
 
+export interface FinancialPlanContext {
+  monthlyIncome: number;
+  monthlyExpenses: number;
+  savingsRate: number;
+  currentNetWorth: number;
+  goals: Array<{
+    name: string;
+    type: string;
+    targetAmount: number;
+    currentAmount: number;
+    targetDate: string;
+    monthlyContribution: number;
+    progressPercent: number;
+    timeHorizon: string;
+  }>;
+  retirementProfile: {
+    currentAge: number;
+    retirementAge: number;
+    yearsToRetirement: number;
+    desiredRetirementIncome: number;
+    socialSecurityEstimate: number;
+    currentRetirementSavings: number;
+  };
+  taxAdvantagedAccounts: Array<{
+    type: string;
+    label: string;
+    currentBalance: number;
+    annualContribution: number;
+    maxContribution: number;
+    utilizationPercent: number;
+  }>;
+  assetAllocation: {
+    current: { stocks: number; bonds: number; cash: number; realEstate: number };
+    target: { stocks: number; bonds: number; cash: number; realEstate: number };
+  };
+  monteCarloResults?: {
+    successRate: number;
+    medianOutcome: number;
+    worstCase: number;
+    bestCase: number;
+    targetGoal: number;
+  };
+  rmdEstimate?: {
+    clientAge: number;
+    totalRMDBalance: number;
+    estimatedAnnualRMD: number;
+  };
+}
+
 export interface AdvisorContext {
   overview: {
     totalTransactions: number;
@@ -51,6 +100,7 @@ export interface AdvisorContext {
     assessment: string;
     confidence: number;
   }>;
+  financialPlan?: FinancialPlanContext;
 }
 
 export function buildAdvisorContext(
