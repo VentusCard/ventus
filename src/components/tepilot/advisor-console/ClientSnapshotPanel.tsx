@@ -239,7 +239,13 @@ export function ClientSnapshotPanel({
                     variant="ghost"
                     size="sm"
                     className="w-full text-xs text-primary hover:text-primary/80 mt-2"
-                    onClick={() => onAskVentus?.("Based on this client's transaction patterns, what other life events or lifestyle signals might I be missing? Look for subtle patterns that could indicate upcoming needs.")}
+                    onClick={() => {
+                      const existingEvents = lifeEvents.map(e => e.event_name).join(", ");
+                      const prompt = existingEvents 
+                        ? `I've already detected these life events: ${existingEvents}. What OTHER signals might I be missing? Look for subtle patterns, spending anomalies, or lifestyle changes NOT already listed. Do not repeat any of the events I mentioned.`
+                        : `Based on this client's transaction patterns, what life events or lifestyle signals might I be missing? Look for subtle patterns that could indicate upcoming needs.`;
+                      onAskVentus?.(prompt);
+                    }}
                   >
                     <Sparkles className="w-3 h-3 mr-1" />
                     Explore other possible signals
