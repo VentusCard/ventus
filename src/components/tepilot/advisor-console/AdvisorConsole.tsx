@@ -290,6 +290,7 @@ export function AdvisorConsole({
             onPlanEvent={handlePlanEvent}
             advisorContext={advisorContext}
             aiInsights={propAiInsights}
+            isLoadingInsights={isLoadingInsights}
             clientData={clientProfile}
             onGenerateProfile={handleGenerateProfile}
           />

@@ -14,6 +14,7 @@ interface ClientSnapshotPanelProps {
   onPlanEvent?: (event: LifeEvent) => void;
   advisorContext?: AdvisorContext;
   aiInsights?: AIInsights | null;
+  isLoadingInsights?: boolean;
   clientData?: ClientProfileData | null;
   onGenerateProfile?: () => void;
 }
@@ -69,6 +70,7 @@ export function ClientSnapshotPanel({
   onPlanEvent,
   advisorContext,
   aiInsights,
+  isLoadingInsights = false,
   clientData,
   onGenerateProfile
 }: ClientSnapshotPanelProps) {
@@ -186,19 +188,41 @@ export function ClientSnapshotPanel({
           <AccordionItem value="events" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" />
+                <Sparkles className={`w-4 h-4 text-primary ${isLoadingInsights ? 'animate-pulse' : ''}`} />
                 <span className="text-sm font-semibold">Detected Life Events</span>
-                {lifeEvents.length > 0 && (
+                {isLoadingInsights ? (
+                  <Badge variant="secondary" className="ml-auto text-xs animate-pulse bg-primary/10 text-primary">
+                    Analyzing...
+                  </Badge>
+                ) : lifeEvents.length > 0 && (
                   <Badge variant="secondary" className="ml-auto text-xs">{lifeEvents.length}</Badge>
                 )}
               </div>
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-3">
-                {lifeEvents.length > 0 ? lifeEvents.map((event, idx) => (
+                {isLoadingInsights ? (
+                  <div className="space-y-3">
+                    {[1, 2, 3].map((i) => (
+                      <div 
+                        key={i} 
+                        className="border-l-2 border-primary/30 pl-3 animate-pulse"
+                        style={{ animationDelay: `${i * 150}ms` }}
+                      >
+                        <div className="h-4 bg-slate-200 rounded w-3/4 mb-2" />
+                        <div className="h-3 bg-slate-100 rounded w-1/2" />
+                      </div>
+                    ))}
+                    <div className="flex items-center gap-2 text-xs text-primary pt-2">
+                      <Sparkles className="w-3 h-3 animate-spin" />
+                      <span>Analyzing lifestyle signals...</span>
+                    </div>
+                  </div>
+                ) : lifeEvents.length > 0 ? lifeEvents.map((event, idx) => (
                   <div 
                     key={idx} 
-                    className="text-xs border-l-2 border-primary pl-3 cursor-pointer hover:bg-slate-50 -ml-3 pl-6 py-1 rounded-r"
+                    className="text-xs border-l-2 border-primary pl-3 cursor-pointer hover:bg-slate-50 -ml-3 pl-6 py-1 rounded-r animate-fade-in"
+                    style={{ animationDelay: `${idx * 100}ms` }}
                     onClick={() => setSelectedEvent(event)}
                   >
                     <div className="font-semibold text-slate-700 flex items-center gap-2">
@@ -210,15 +234,17 @@ export function ClientSnapshotPanel({
                 )) : (
                   <p className="text-xs text-muted-foreground py-2">No life events detected yet</p>
                 )}
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="w-full text-xs text-primary hover:text-primary/80 mt-2"
-                  onClick={() => onAskVentus?.("Based on this client's transaction patterns, what other life events or lifestyle signals might I be missing? Look for subtle patterns that could indicate upcoming needs.")}
-                >
-                  <Sparkles className="w-3 h-3 mr-1" />
-                  Explore other possible signals
-                </Button>
+                {!isLoadingInsights && (
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="w-full text-xs text-primary hover:text-primary/80 mt-2"
+                    onClick={() => onAskVentus?.("Based on this client's transaction patterns, what other life events or lifestyle signals might I be missing? Look for subtle patterns that could indicate upcoming needs.")}
+                  >
+                    <Sparkles className="w-3 h-3 mr-1" />
+                    Explore other possible signals
+                  </Button>
+                )}
               </div>
             </AccordionContent>
           </AccordionItem>
