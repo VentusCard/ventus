@@ -446,7 +446,10 @@ export function FinancialPlanner({
       />
 
       {/* RMD Calculator */}
-      <RMDCalculator clientAge={retirementProfile.currentAge} />
+      <RMDCalculator 
+        clientAge={retirementProfile.currentAge} 
+        taxAdvantagedAccounts={taxAdvantagedAccounts}
+      />
 
       {/* Asset Allocation */}
       <AssetAllocationEditor
