@@ -48,6 +48,12 @@ interface ClientProfile {
     mortgage: string;
     investments: string;
   };
+  holdingsChange?: {
+    deposit: { percent: number; direction: 'up' | 'down' };
+    credit: { percent: number; direction: 'up' | 'down' };
+    mortgage: { percent: number; direction: 'down' };
+    investments: { percent: number; direction: 'up' | 'down' };
+  };
   compliance: {
     kycStatus: string;
     lastReview: string;
@@ -200,6 +206,14 @@ function formatContextForPrompt(context: AdvisorContext): string {
     prompt += `- Family Status: ${cp.demographics.familyStatus}\n`;
     prompt += `- Risk Profile: ${cp.compliance.riskProfile}\n`;
     prompt += `- Holdings: Deposits ${cp.holdings.deposit}, Credit ${cp.holdings.credit}, Mortgage ${cp.holdings.mortgage}, Investments ${cp.holdings.investments}\n`;
+    if (cp.holdingsChange) {
+      const hc = cp.holdingsChange;
+      prompt += `- Holdings Changes (Recent Trend):\n`;
+      prompt += `  * Deposits: ${hc.deposit.direction === 'up' ? '↑' : '↓'} ${hc.deposit.percent}%\n`;
+      prompt += `  * Credit Usage: ${hc.credit.direction === 'up' ? '↑' : '↓'} ${hc.credit.percent}%\n`;
+      prompt += `  * Mortgage: ↓ ${hc.mortgage.percent}% (paydown)\n`;
+      prompt += `  * Investments: ${hc.investments.direction === 'up' ? '↑' : '↓'} ${hc.investments.percent}%\n`;
+    }
     prompt += `- KYC Status: ${cp.compliance.kycStatus}, Last Review: ${cp.compliance.lastReview}, Next Review: ${cp.compliance.nextReview}\n`;
     if (cp.milestones && cp.milestones.length > 0) {
       prompt += `- Recent Milestones: ${cp.milestones.slice(0, 3).map(m => `${m.event} (${m.date})`).join(", ")}\n`;
