@@ -135,7 +135,7 @@ export function VentusChatPanel({
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
   const primaryChips = ["Financial Planning", "Life Event Planner", "Tax Planning"];
-  const secondaryChips = ["Client Psychology", "Meeting Prep", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile"];
+  const secondaryChips = ["Meeting Prep", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Client Psychology"];
   const handleChipClick = (chip: string) => {
     let prompt = "";
     switch (chip) {
