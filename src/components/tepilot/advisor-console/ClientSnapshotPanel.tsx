@@ -239,7 +239,7 @@ export function ClientSnapshotPanel({
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-sm font-semibold">AI Life Events</span>
+                <span className="text-sm font-semibold">Detected Life Events</span>
                 {lifeEvents.length > 0 && (
                   <Badge variant="secondary" className="ml-auto text-xs">{lifeEvents.length}</Badge>
                 )}
