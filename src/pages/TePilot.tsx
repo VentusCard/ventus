@@ -969,10 +969,13 @@ const TePilot = () => {
                   toast.error('Please enrich transactions first to access this tool');
                   return;
                 }
-                toast.info('Analyzing lifestyle signals...');
-                fetchLifestyleSignals().then(() => {
-                  handleNavigateToAdvisorConsole();
-                });
+                // Save enriched transactions immediately and navigate - analysis happens on target page
+                sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
+                  enrichedTransactions: enrichedTransactions,
+                  aiInsights: null,
+                  needsAnalysis: true
+                }));
+                navigate('/tepilot/advisor-console');
               }} disabled={enrichedTransactions.length === 0} />
                 </div>
               </>}
