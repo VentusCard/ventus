@@ -129,7 +129,7 @@ export function buildAdvisorContext(
   // Life Events from AI
   const lifeEvents = aiInsights?.detected_events.map(event => ({
     event: event.event_name,
-    confidence: Math.round(event.confidence * 100),
+    confidence: Math.round(event.confidence),
     evidenceCount: event.evidence.length,
     keyInsights: event.evidence.slice(0, 3).map(e => e.relevance),
   })) || [];
