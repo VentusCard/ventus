@@ -10,7 +10,7 @@ interface Message {
 }
 
 interface UseAdvisorChatProps {
-  advisorContext?: AdvisorContext;
+  advisorContext?: Partial<AdvisorContext> & Record<string, unknown>;
 }
 
 export const useAdvisorChat = ({ advisorContext }: UseAdvisorChatProps) => {
