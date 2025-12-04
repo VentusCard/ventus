@@ -193,6 +193,7 @@ export function AdvisorConsole({
             onExtractNextSteps={handleExtractNextSteps}
             onSaveProjection={handleSaveProjection}
             onAddTimelineActionItems={handleAddTimelineActionItems}
+            psychologicalInsights={nextStepsData.psychologicalInsights}
           />
         </ResizablePanel>
 

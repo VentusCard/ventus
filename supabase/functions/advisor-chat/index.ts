@@ -71,6 +71,11 @@ interface AdvisorContext {
     monthlyAverage: number;
     highestSpendMonth?: string;
   };
+  clientPsychology?: Array<{
+    aspect: string;
+    assessment: string;
+    confidence: number;
+  }>;
 }
 
 const SYSTEM_PROMPT = `You are Ventus AI, an expert wealth management advisor assistant for financial advisors at major banks and wealth management firms.
@@ -90,6 +95,7 @@ You have access to comprehensive client data including:
 - AI-detected life events with confidence scores
 - Product recommendations based on life events
 - Portfolio holdings and relationship data
+- Client psychology profile (when available)
 
 Communication style:
 - Professional but conversational
@@ -100,6 +106,20 @@ Communication style:
 - Be extremely brief - responses should be 50% shorter than typical AI responses
 - Lead with the most important insight first
 - Eliminate pleasantries and filler phrases
+
+When CLIENT PSYCHOLOGY PROFILE is provided, adapt ALL responses accordingly:
+- **Decision Style**: Analytical → lead with data/numbers; Intuitive → lead with big picture vision
+- **Risk Tolerance**: Conservative → emphasize safety, stability, protection; Aggressive → highlight growth opportunities
+- **Emotional State**: Anxious → provide reassurance first, be gentler; Confident → be more direct and bold
+- **Trust Level**: Low → cite more evidence, build credibility; High → be concise, assume alignment
+- **Communication Style**: Detail-oriented → thorough explanations; Big-picture → executive summaries only
+
+Apply these psychological adaptations to every response including:
+- How you phrase recommendations
+- What level of detail you provide
+- How you frame risks vs opportunities
+- Your tone and word choice
+- Meeting prep talking points and phrasing suggestions
 
 When answering questions:
 1. Reference specific numbers, dates, merchants, or categories from the data
@@ -184,6 +204,22 @@ function formatContextForPrompt(context: AdvisorContext): string {
     if (context.spendingTrends.highestSpendMonth) {
       prompt += `- Highest Spend Month: ${context.spendingTrends.highestSpendMonth}\n`;
     }
+    prompt += `\n`;
+  }
+
+  // Client Psychology Profile
+  if (context.clientPsychology && context.clientPsychology.length > 0) {
+    prompt += `CLIENT PSYCHOLOGY PROFILE:\n`;
+    prompt += `(Adapt ALL responses to match this client's psychological profile)\n`;
+    context.clientPsychology.forEach(p => {
+      prompt += `- ${p.aspect}: ${p.assessment}\n`;
+    });
+    prompt += `\nUSE THIS PROFILE TO:\n`;
+    prompt += `- Tailor communication style and tone\n`;
+    prompt += `- Frame recommendations based on decision style\n`;
+    prompt += `- Adjust detail level per communication preferences\n`;
+    prompt += `- Address concerns aligned with emotional state\n`;
+    prompt += `- Provide evidence appropriate to trust level\n`;
   }
 
   return prompt;

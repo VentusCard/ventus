@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,7 @@ interface VentusChatPanelProps {
   onExtractNextSteps?: (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => void;
   onSaveProjection?: (projection: SavedFinancialProjection) => void;
   onAddTimelineActionItems?: (items: NextStepsActionItem[]) => void;
+  psychologicalInsights?: PsychologicalInsight[];
 }
 // Helper function to extract action items from AI response
 // Only match explicitly numbered items (1., 2.) or bullet points (-, •) at line start
@@ -76,7 +77,8 @@ export function VentusChatPanel({
   advisorContext,
   onExtractNextSteps,
   onSaveProjection,
-  onAddTimelineActionItems
+  onAddTimelineActionItems,
+  psychologicalInsights = []
 }: VentusChatPanelProps) {
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
@@ -90,13 +92,23 @@ export function VentusChatPanel({
     toast
   } = useToast();
 
-  // Use advisor chat hook for live AI conversations
+  // Merge psychology insights into advisor context for AI
+  const activePsychologyInsights = psychologicalInsights.filter(p => p.confidence > 0);
+  const enrichedContext = useMemo(() => {
+    if (!advisorContext) return undefined;
+    return {
+      ...advisorContext,
+      clientPsychology: activePsychologyInsights
+    };
+  }, [advisorContext, activePsychologyInsights]);
+
+  // Use advisor chat hook for live AI conversations with enriched context
   const {
     messages,
     isLoading: isChatLoading,
     sendMessage
   } = useAdvisorChat({
-    advisorContext
+    advisorContext: enrichedContext
   });
 
   // Track processed messages by content hash to prevent duplicate extraction
@@ -230,7 +242,13 @@ export function VentusChatPanel({
             <h2 className="text-xl font-semibold text-slate-900">
               Ventus AI Advisor Chat
             </h2>
-            
+            {/* Psychology Active Indicator */}
+            {activePsychologyInsights.length > 0 && (
+              <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 text-xs">
+                <Brain className="w-3 h-3 mr-1" />
+                Psychology Active
+              </Badge>
+            )}
           </div>
           {isLoadingInsights && <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />

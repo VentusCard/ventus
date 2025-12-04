@@ -47,6 +47,11 @@ export interface AdvisorContext {
     highestSpendMonth?: string;
     growthRate?: number;
   };
+  clientPsychology?: Array<{
+    aspect: string;
+    assessment: string;
+    confidence: number;
+  }>;
 }
 
 export function buildAdvisorContext(
