@@ -4,16 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain } from "lucide-react";
+import { Send, Save, ListTodo, CheckCircle, Clock, Sparkles, Loader2 } from "lucide-react";
 import { sampleChatMessages, ChatMessage, Task, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { AIInsights, LifeEvent, SavedFinancialProjection } from "@/types/lifestyle-signals";
-import { LifeEventCard } from "./LifeEventCard";
-import { ProductRecommendationCard } from "./ProductRecommendationCard";
-import { EducationalContentPanel } from "./EducationalContentPanel";
-import { TalkingPointsSection } from "./TalkingPointsSection";
-import { ActionItemsChecklist } from "./ActionItemsChecklist";
 import { EnrichedTransaction } from "@/types/transaction";
 import { useAdvisorChat } from "@/hooks/useAdvisorChat";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
@@ -82,9 +76,6 @@ export function VentusChatPanel({
 }: VentusChatPanelProps) {
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
-  const [selectedEvent, setSelectedEvent] = useState<LifeEvent | null>(null);
-  const [dismissedEvents, setDismissedEvents] = useState<Set<string>>(new Set());
-  const [lifeEventsOpen, setLifeEventsOpen] = useState(false);
   const [psychologyDialogOpen, setPsychologyDialogOpen] = useState(false);
   const [financialTimelineOpen, setFinancialTimelineOpen] = useState(false);
   const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<LifeEvent | null>(null);
@@ -212,28 +203,7 @@ export function VentusChatPanel({
       duration: 2000
     });
   };
-  const handleViewEventDetails = (event: LifeEvent) => {
-    setSelectedEvent(event);
-  };
-  const handleDismissEvent = (eventName: string) => {
-    setDismissedEvents(prev => new Set(prev).add(eventName));
-    if (selectedEvent?.event_name === eventName) {
-      setSelectedEvent(null);
-    }
-    toast({
-      title: "Event dismissed",
-      description: "Life event removed from view",
-      duration: 2000
-    });
-  };
-  const handleAddToAgenda = () => {
-    toast({
-      title: "✓ Added to Meeting Agenda",
-      description: "Product recommendation added to upcoming meeting",
-      duration: 2000
-    });
-  };
-  const visibleEvents = aiInsights?.detected_events.filter(event => !dismissedEvents.has(event.event_name)) || [];
+  const visibleEvents = aiInsights?.detected_events || [];
   return <div className="h-full flex flex-col bg-white">
       {/* Header */}
       <div className="border-b px-4 py-3 bg-gradient-to-r from-white to-slate-50 flex-shrink-0">
@@ -250,80 +220,6 @@ export function VentusChatPanel({
         </div>
       </div>
 
-
-      {/* AI Insights Section */}
-      {visibleEvents.length > 0 && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
-          <CollapsibleTrigger className="w-full px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
-                <h3 className="font-semibold text-foreground">AI-Detected Life Events</h3>
-                <Badge variant="secondary">{visibleEvents.length}</Badge>
-              </div>
-              {lifeEventsOpen ? <ChevronUp className="w-5 h-5 text-slate-600" /> : <ChevronDown className="w-5 h-5 text-slate-600" />}
-            </div>
-          </CollapsibleTrigger>
-          
-          <CollapsibleContent className="px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent">
-            <div className="space-y-3 mb-4">
-              {visibleEvents.map(event => <LifeEventCard key={event.event_name} event={event} onViewDetails={() => handleViewEventDetails(event)} onDismiss={() => handleDismissEvent(event.event_name)} onPlanEvent={e => {
-            setSelectedTimelineEvent(e);
-            setFinancialTimelineOpen(true);
-          }} />)}
-            </div>
-
-            {/* Selected Event Details */}
-            {selectedEvent && <div className="space-y-3 mt-4 border-t pt-4">
-                <h4 className="font-semibold text-foreground mb-3">
-                  Recommendations for: {selectedEvent.event_name}
-                </h4>
-                
-                {/* Product Recommendations */}
-                <div className="space-y-2">
-                  <p className="text-xs font-medium text-muted-foreground mb-2">Financial Products</p>
-                  {selectedEvent.products.map((product, idx) => <ProductRecommendationCard key={idx} product={product} onAddToAgenda={handleAddToAgenda} />)}
-                </div>
-
-                {/* Educational Content */}
-                <EducationalContentPanel education={selectedEvent.education} eventName={selectedEvent.event_name} />
-
-                {/* Talking Points */}
-                <TalkingPointsSection talkingPoints={selectedEvent.talking_points} />
-
-                {/* Action Items */}
-                <ActionItemsChecklist items={selectedEvent.action_items} />
-              </div>}
-          </CollapsibleContent>
-        </Collapsible>}
-
-      {/* Empty State when no events detected */}
-      {!isLoadingInsights && (!aiInsights || visibleEvents.length === 0) && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
-          <CollapsibleTrigger className="w-full px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
-                <h3 className="font-semibold text-foreground">AI-Detected Life Events</h3>
-                <Badge variant="secondary">0</Badge>
-              </div>
-              {lifeEventsOpen ? <ChevronUp className="w-5 h-5 text-slate-600" /> : <ChevronDown className="w-5 h-5 text-slate-600" />}
-            </div>
-          </CollapsibleTrigger>
-          
-          <CollapsibleContent className="px-4 py-3">
-            <Card className="border-dashed">
-              <div className="p-4 text-center">
-                <Brain className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
-                <h3 className="font-semibold mb-2">No Significant Life Events Detected</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Based on the current transaction data, we didn't find strong patterns indicating major life events.
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Try enriching more transactions or transactions from different time periods for better analysis.
-                </p>
-              </div>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>}
 
       {/* Smart Chips */}
       <div className="border-b px-4 py-3 bg-slate-50 flex-shrink-0">
