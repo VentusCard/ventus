@@ -62,9 +62,19 @@ ALL should be marked travel-related with destination "London"
 KEY INSIGHT: When you see a travel anchor (hotel, flight, car rental), look for ALL surrounding transactions in the same date range (±3 days) with non-home zip codes and mark them as part of the trip.
 
 RULES FOR TRANSACTIONS WITH ZIP='unknown':
-- Mark travel-related ONLY if obvious travel merchant (hotel, airline, car rental, airport)
+- Mark travel-related ONLY if obvious travel merchant (hotel, airline, car rental, airport) AND you can determine a destination
 - Regular merchants (Under Armour, Starbucks, retail) with zip='unknown' → NOT travel-related
 - When in doubt about location, mark as NOT travel-related
+
+**CRITICAL RULE - NO ORPHAN TRANSACTIONS**:
+If you mark is_travel_related: true, you MUST ALSO provide ALL of these:
+- travel_destination (REQUIRED - must be a real city/region name, NEVER "Unknown" or empty)
+- travel_period_start (REQUIRED - ISO date)
+- travel_period_end (REQUIRED - ISO date)
+
+If a standalone transaction (like a flight booking) cannot be grouped into a complete trip with a known destination, mark it as:
+- is_travel_related: false
+- reclassification_reason: "Standalone transaction - cannot determine trip destination"
 
 RECLASSIFY CATEGORIES AT DESTINATION:
 - Gas stations → "Travel Transportation"
@@ -74,8 +84,8 @@ RECLASSIFY CATEGORIES AT DESTINATION:
 
 OUTPUT for each transaction:
 - is_travel_related: true/false
-- travel_period_start/end: ISO dates if part of travel
-- travel_destination: Major city name (e.g., "Miami", "Vermont", "London")
+- travel_period_start/end: ISO dates (REQUIRED if is_travel_related=true)
+- travel_destination: Major city name (REQUIRED if is_travel_related=true, e.g., "Miami", "Vermont", "London")
 - original_pillar: Pillar before reclassification
 - reclassification_reason: Why this was marked travel/non-travel
 - reclassified_pillar: New pillar (if reclassified)
