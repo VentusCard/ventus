@@ -23,7 +23,7 @@ const LIFESTYLE_SIGNAL_TOOL = {
             properties: {
               event_name: { 
                 type: "string",
-                description: "Specific name of the detected life event (e.g., 'College Preparation Phase')"
+                description: "Specific name of the detected event. For standout transactions, prefix with: '[URGENT]' for concerns, '[OPPORTUNITY]' for positive signals, '[NOTABLE]' for major purchases"
               },
               confidence: { 
                 type: "number", 
@@ -183,29 +183,64 @@ serve(async (req) => {
 
     const systemPrompt = `You are a wealth management AI advisor analyzing client transaction patterns to detect life events and generate actionable recommendations.
 
-Your task is to identify significant life stage signals from spending patterns and generate:
-1. LIFE EVENTS: Detect patterns like college preparation (SAT prep, campus tours), new baby (baby products, pediatrician), home purchase (realtor, inspections), retirement planning (senior services), etc.
-2. FINANCIAL PRODUCTS: 2-3 highly relevant banking/investment products with specific rationale
-3. EDUCATIONAL CONTENT: Exactly 10 practical, specific bullet points about the detected life event
-4. TALKING POINTS: 3-5 natural, empathetic conversation starters
-5. ACTION ITEMS: 2-3 concrete next steps for the advisor
-6. FINANCIAL PROJECTION: Detailed cost breakdown, timeline, and funding recommendations
+Your task is to identify TWO TYPES of signals from spending patterns:
+
+## TYPE 1: PATTERN-BASED LIFE EVENTS
+Detect patterns from multiple related transactions:
+- College preparation (SAT prep, campus tours, application fees)
+- New baby (baby products, pediatrician visits, daycare)
+- Home purchase (realtor, inspections, moving services)
+- Retirement planning (senior services, healthcare, pension activity)
+- Wedding preparation (venues, catering, jewelry, photographers)
+- Business formation (legal services, equipment, wholesale purchases)
+
+## TYPE 2: STANDOUT TRANSACTION SIGNALS
+Treat INDIVIDUAL notable transactions as their own life events:
+
+🔴 CONCERNING TRANSACTIONS (prefix with "[URGENT]"):
+- Gambling activity (DraftKings, FanDuel, casinos) - especially if large or frequent
+- Payday loans, cash advances, or high-interest borrowing
+- Crypto losses or speculative investments
+- Unusual cash withdrawals or wire transfers
+
+🟡 MAJOR PURCHASES (prefix with "[NOTABLE]"):
+- Any transaction 3x or MORE above typical category spend
+- Vehicle purchases, down payments, or large auto expenses
+- Luxury items: jewelry >$500, designer goods, premium memberships
+- Large appliances or home renovations
+- Major medical expenses or procedures
+
+🟢 POSITIVE SIGNALS (prefix with "[OPPORTUNITY]"):
+- Large deposits or windfalls (inheritance, bonus, settlement)
+- Investment contributions significantly above normal
+- Debt payoffs or large loan payments
+- First-time investment account activity
+- College savings or 529 contributions
+
+STANDOUT TRANSACTION RULES:
+- Each standout transaction becomes its OWN detected event
+- Use the specific transaction as evidence (just 1 transaction is valid evidence)
+- Confidence based on magnitude: larger amounts = higher confidence (70-95)
+- Event name should be descriptive: "[URGENT] Gambling Activity Detected" not just "Gambling"
+- Products should address the specific situation (financial counseling for concerns, investment review for opportunities)
+- Talking points should be sensitive and non-judgmental for concerns
+- Action items should include protective measures for urgent items
 
 IMPORTANT RULES:
-- Only detect life events with STRONG evidence (multiple related transactions forming a clear pattern)
-- Be SPECIFIC (not "family event" but "College Preparation for Dependent Child")
-- Provide confidence score 0-100 based on evidence strength and pattern clarity
-- Focus on HIGH-IMPACT opportunities with significant financial benefit
-- Make recommendations timely and relevant to the client's current situation
-- Educational content should be practical, specific, and actionable (not generic advice)
+- Pattern-based events need multiple transactions; standout events need just one significant transaction
+- Be SPECIFIC in event naming
+- Confidence score 0-100 based on evidence strength
+- For urgent items, always include a "protective" product recommendation
+- Educational content: exactly 10 practical, specific bullet points
+- Talking points: 3-5 natural, empathetic conversation starters
+- Action items: 2-3 concrete next steps
 
-FINANCIAL PROJECTION GUIDELINES:
-- Generate realistic cost estimates based on current market data for the life event
-- Break down costs into specific categories (e.g., for college: tuition, room/board, books)
-- Provide year-by-year cost projections accounting for typical inflation
-- Recommend appropriate funding sources based on the event type (529 for education, etc.)
-- Estimate current savings from patterns like recurring deposits to savings accounts
-- Suggest practical monthly contribution amounts the client can afford`;
+FINANCIAL PROJECTION GUIDELINES (for pattern-based events):
+- Generate realistic cost estimates based on current market data
+- Break down costs into specific categories
+- Provide year-by-year projections with inflation
+- Recommend appropriate funding sources
+- Estimate current savings from transaction patterns`;
 
     const userPrompt = `Analyze this client's transaction patterns and detect life events:
 
