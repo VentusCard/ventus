@@ -8,7 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown, Loader2 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -356,8 +357,6 @@ const TePilot = () => {
       };
       setRecommendations(recommendationsWithSubcategories);
       sessionStorage.setItem("tepilot_recommendations", JSON.stringify(recommendationsWithSubcategories));
-      setInsightType('revenue');
-      setActiveTab('insights');
       toast.success("Generated personalized recommendations!");
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -951,6 +950,9 @@ const TePilot = () => {
                   toast.error("Please enrich transactions first");
                   return;
                 }
+                // Navigate immediately, run API in background
+                setInsightType('revenue');
+                setActiveTab('insights');
                 handleGenerateRecommendations();
               }} disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations} />
 
@@ -992,7 +994,7 @@ const TePilot = () => {
                 <BankwideView />
               </div>}
 
-            {insightType === 'revenue' && recommendations && <div className="space-y-6">
+            {insightType === 'revenue' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
                   <Button variant="outline" onClick={() => {
@@ -1004,6 +1006,49 @@ const TePilot = () => {
                   </Button>
                 </div>
                 
+                {/* Loading State */}
+                {isGeneratingRecommendations && (
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
+                      <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                      <span className="text-muted-foreground">Analyzing spending patterns and generating personalized recommendations...</span>
+                    </div>
+                    
+                    {/* Skeleton for Top Subcategories */}
+                    <Card>
+                      <CardHeader>
+                        <Skeleton className="h-6 w-64" />
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex gap-3">
+                          {[1, 2, 3, 4, 5].map((i) => (
+                            <Skeleton key={i} className="h-24 w-32 rounded-lg" />
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Skeleton for Recommendations */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <Card key={i}>
+                          <CardHeader>
+                            <Skeleton className="h-5 w-3/4" />
+                            <Skeleton className="h-4 w-1/2 mt-2" />
+                          </CardHeader>
+                          <CardContent className="space-y-3">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-2/3" />
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Results */}
+                {!isGeneratingRecommendations && recommendations && <>
                 {/* Top 5 Subcategories Card */}
                 {recommendations.topSubcategories && <Card>
                     <CardHeader>
@@ -1068,6 +1113,7 @@ const TePilot = () => {
             
                 {/* Geo-Location Deals Section */}
                 <GeoLocationDealsSection locationContext={locationContext} />
+              </>}
               </div>}
 
             {insightType === 'relationship' && <div className="space-y-6">
