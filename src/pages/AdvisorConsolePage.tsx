@@ -37,7 +37,10 @@ const AdvisorConsolePage = () => {
             age: 45,
             occupation: "Professional"
           },
-          transactions: transactions.slice(0, 100).map(tx => ({
+          transactions: [...transactions]
+            .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+            .slice(0, 100)
+            .map(tx => ({
             merchant_name: tx.normalized_merchant || tx.merchant_name,
             amount: tx.amount,
             date: tx.date,
