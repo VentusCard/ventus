@@ -85,3 +85,17 @@ export interface PillarDetail {
   topRegions: Array<{ name: string; spend: number }>;
   ageBreakdown: Record<string, number>;
 }
+
+export interface StateSpendingData {
+  stateCode: string;
+  stateName: string;
+  region: string;
+  totalSpend: number;
+  userCount: number;
+  accountCount: number;
+  topPillars: Array<{
+    pillar: string;
+    percentage: number;
+    spend: number;
+  }>;
+}
