@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain, Upload } from "lucide-react";
+import { Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain } from "lucide-react";
 import { sampleChatMessages, ChatMessage, Task, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
@@ -18,8 +18,8 @@ import { EnrichedTransaction } from "@/types/transaction";
 import { useAdvisorChat } from "@/hooks/useAdvisorChat";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { TaskItem } from "./TaskItem";
-import { TranscriptUploadDialog } from "./TranscriptUploadDialog";
 import { FinancialTimelineTool } from "./FinancialTimelineTool";
+import { ClientPsychologyDialog } from "./ClientPsychologyDialog";
 
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
@@ -64,77 +64,6 @@ function extractActionItemsFromMessage(content: string): string[] {
   return items.slice(0, 5); // Limit to 5 items
 }
 
-// Helper function to extract psychological insights from transcript analysis
-function extractPsychologicalInsights(content: string): PsychologicalInsight[] {
-  const insights: PsychologicalInsight[] = [];
-  const lowerContent = content.toLowerCase();
-
-  // Pattern-to-assessment mappings for meaningful, human-readable insights
-  const insightMappings: Array<{
-    aspect: string;
-    patterns: Array<{ keywords: RegExp; assessment: string; confidence: number }>;
-  }> = [
-    {
-      aspect: "Decision Style",
-      patterns: [
-        { keywords: /analytical|data-driven|numbers|spreadsheet|research/i, assessment: "Analytical, prefers data-driven decisions", confidence: 0.85 },
-        { keywords: /intuitive|gut feel|instinct|sense/i, assessment: "Intuitive, trusts instincts over data", confidence: 0.80 },
-        { keywords: /methodical|step.?by.?step|careful|thorough/i, assessment: "Methodical, values careful deliberation", confidence: 0.82 },
-        { keywords: /quick|decisive|fast|immediate/i, assessment: "Decisive, prefers quick action", confidence: 0.78 },
-      ]
-    },
-    {
-      aspect: "Risk Tolerance",
-      patterns: [
-        { keywords: /risk.?averse|conservative|safe|worried|concern|protect/i, assessment: "Conservative, prefers safe options", confidence: 0.85 },
-        { keywords: /aggressive|growth|opportunity|upside|risk.?tolerant/i, assessment: "Growth-oriented, accepts higher risk", confidence: 0.82 },
-        { keywords: /balanced|moderate|diversif/i, assessment: "Moderate, seeks balanced approach", confidence: 0.80 },
-      ]
-    },
-    {
-      aspect: "Emotional State",
-      patterns: [
-        { keywords: /anxious|worried|nervous|stressed|uncertain/i, assessment: "Anxious, needs reassurance and clarity", confidence: 0.88 },
-        { keywords: /confident|optimistic|excited|positive|enthus/i, assessment: "Confident and engaged", confidence: 0.85 },
-        { keywords: /overwhelm|confus|lost|unsure/i, assessment: "Overwhelmed, needs simplification", confidence: 0.83 },
-        { keywords: /calm|steady|patient|relaxed/i, assessment: "Calm and patient, open to discussion", confidence: 0.80 },
-      ]
-    },
-    {
-      aspect: "Trust Level",
-      patterns: [
-        { keywords: /trust|confident in you|rely|depend/i, assessment: "High trust, receptive to guidance", confidence: 0.85 },
-        { keywords: /skeptic|doubt|hesitant|not sure|second opinion/i, assessment: "Building trust, provide evidence", confidence: 0.82 },
-        { keywords: /guard|cautious|verify|proof/i, assessment: "Guarded, requires proof before committing", confidence: 0.80 },
-      ]
-    },
-    {
-      aspect: "Communication Preference",
-      patterns: [
-        { keywords: /detail|explain|understand|how|why/i, assessment: "Detail-oriented, wants thorough explanations", confidence: 0.82 },
-        { keywords: /bottom.?line|summary|brief|quick|simple/i, assessment: "Results-focused, prefers concise updates", confidence: 0.80 },
-        { keywords: /visual|chart|graph|show me|picture/i, assessment: "Visual learner, use charts and diagrams", confidence: 0.78 },
-      ]
-    }
-  ];
-
-  // Extract one insight per aspect (first matching pattern wins)
-  for (const { aspect, patterns } of insightMappings) {
-    for (const { keywords, assessment, confidence } of patterns) {
-      if (keywords.test(lowerContent)) {
-        insights.push({
-          aspect,
-          assessment,
-          evidence: "Derived from meeting transcript analysis",
-          confidence
-        });
-        break; // Move to next aspect after first match
-      }
-    }
-  }
-
-  return insights.slice(0, 4); // Limit to 4 insights
-}
 export function VentusChatPanel({
   selectedLifestyleChip,
   onSaveToDocument,
@@ -154,7 +83,7 @@ export function VentusChatPanel({
   const [selectedEvent, setSelectedEvent] = useState<LifeEvent | null>(null);
   const [dismissedEvents, setDismissedEvents] = useState<Set<string>>(new Set());
   const [lifeEventsOpen, setLifeEventsOpen] = useState(false);
-  const [transcriptDialogOpen, setTranscriptDialogOpen] = useState(false);
+  const [psychologyDialogOpen, setPsychologyDialogOpen] = useState(false);
   const [financialTimelineOpen, setFinancialTimelineOpen] = useState(false);
   const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<LifeEvent | null>(null);
   const {
@@ -173,7 +102,7 @@ export function VentusChatPanel({
   // Track processed messages by content hash to prevent duplicate extraction
   const processedMessagesRef = useRef<Set<string>>(new Set());
 
-  // Extract next steps when AI responds
+  // Extract action items when AI responds
   useEffect(() => {
     if (messages.length === 0 || !onExtractNextSteps) return;
     const lastMessage = messages[messages.length - 1];
@@ -194,23 +123,18 @@ export function VentusChatPanel({
       id: `action-${Date.now()}-${idx}`,
       text,
       completed: false,
-      source: lastMessage.content.toLowerCase().includes('transcript') ? 'transcript' : 'chat',
+      source: 'chat',
       timestamp: new Date()
     }));
 
-    // Extract psychological insights if this looks like a transcript analysis
-    let psychInsights: PsychologicalInsight[] = [];
-    if (lastMessage.content.toLowerCase().includes('transcript') || lastMessage.content.toLowerCase().includes('tone') || lastMessage.content.toLowerCase().includes('meeting')) {
-      psychInsights = extractPsychologicalInsights(lastMessage.content);
-    }
-    if (actionItems.length > 0 || psychInsights.length > 0) {
-      onExtractNextSteps(actionItems, psychInsights);
+    if (actionItems.length > 0) {
+      onExtractNextSteps(actionItems, []);
     }
   }, [messages, onExtractNextSteps]);
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const primaryChips = ["Financial Planning", "Life Event Planner", "Tax Planning"];
+  const primaryChips = ["Financial Planning", "Life Event Planner", "Tax Planning", "Client Psychology"];
   const secondaryChips = ["Meeting Prep", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile"];
   const handleChipClick = (chip: string) => {
     let prompt = "";
@@ -248,6 +172,9 @@ export function VentusChatPanel({
       case "Tax Planning":
         prompt = "Analyze this client's spending for tax planning opportunities. Provide 4-5 numbered action items covering deductions, tax-advantaged accounts, and year-end planning strategies.";
         break;
+      case "Client Psychology":
+        setPsychologyDialogOpen(true);
+        return;
       default:
         prompt = `[${chip}] `;
     }
@@ -496,19 +423,22 @@ export function VentusChatPanel({
             handleSendMessage();
           }
         }} disabled={isChatLoading} />
-          <Button variant="outline" size="icon" onClick={() => setTranscriptDialogOpen(true)} disabled={isChatLoading} title="Upload Meeting Transcript for Tone Analysis">
-            <Upload className="w-4 h-4" />
-          </Button>
           <Button size="icon" onClick={handleSendMessage} disabled={isChatLoading || !inputValue.trim()}>
             <Send className="w-4 h-4" />
           </Button>
         </div>
       </div>
 
-      {/* Transcript Upload Dialog */}
-      <TranscriptUploadDialog open={transcriptDialogOpen} onOpenChange={setTranscriptDialogOpen} onSubmitTranscript={message => {
-      sendMessage(message);
-    }} />
+      {/* Client Psychology Dialog */}
+      <ClientPsychologyDialog 
+        open={psychologyDialogOpen} 
+        onOpenChange={setPsychologyDialogOpen} 
+        onSaveInsights={(insights) => {
+          if (onExtractNextSteps) {
+            onExtractNextSteps([], insights);
+          }
+        }}
+      />
 
       <FinancialTimelineTool 
         open={financialTimelineOpen} 
