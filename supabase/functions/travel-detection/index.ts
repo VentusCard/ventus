@@ -22,45 +22,62 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
   };
 }
 
-// Simplified Travel Detection Prompt (for pre-filtered candidates)
+// Enhanced Travel Detection Prompt with trip examples
 const TRAVEL_DETECTION_PROMPT = `You are analyzing PRE-FILTERED transactions that were flagged as potential travel because they:
 1. Have zip codes different from home (home zip: {homeZip})
 2. Are travel anchors (hotels, flights, car rentals)
 3. Occur within ±2 days of travel anchors AND have non-home zip codes
 
-IMPORTANT RULES FOR TRANSACTIONS WITH ZIP='unknown':
-- Transactions with zip='unknown' should ONLY be marked travel-related if:
-  • They are obvious travel merchants (hotels, airlines, car rentals, airports)
-  • They explicitly contain destination city names in the merchant name
-- Regular merchants (Under Armour, Juice Land, Starbucks, retail stores) with zip='unknown' 
-  should default to is_travel_related=FALSE
-- Only physical transactions AT the travel destination should be reclassified
+YOUR JOB: Identify COMPLETE TRIPS by looking at temporal and geographic clustering.
+
+EXAMPLE TRIPS TO RECOGNIZE:
+
+MIAMI TRIP (June 12-15, home zip 10001):
+- ALAMO MIAMI (car rental, zip 33142) → Travel anchor
+- SHELL MIAMI (gas, zip 33139) → Part of trip (same dates, Miami area)
+- MARRIOTT SOUTH BEACH (hotel, zip 33139) → Travel anchor
+- PUBLIX MIAMI (groceries, zip 33139) → Part of trip
+- SOUTH BEACH RESTAURANT (dinner, zip 33139) → Part of trip
+- WYNWOOD WALLS (tour, zip 33127) → Part of trip (Miami area)
+- JETBLUE (return flight) → Travel anchor
+ALL should be marked travel-related with destination "Miami"
+
+VERMONT TRIP (Sept 18-21, home zip 10001):
+- ENTERPRISE BURLINGTON (car rental, zip 05401) → Travel anchor
+- GREEN MOUNTAIN INN (hotel, zip 05672) → Travel anchor
+- SHELL VERMONT (gas, zip 05401) → Part of trip
+- VERMONT GENERAL STORE (groceries, zip 05672) → Part of trip
+- HIKING TRAIL CAFE (lunch, zip 05672) → Part of trip
+- FALL FOLIAGE TOUR (tour, zip 05672) → Part of trip
+- AMTRAK (return train, zip 05401) → Travel anchor
+ALL should be marked travel-related with destination "Vermont"
+
+LONDON TRIP (International):
+- BRITISH AIRWAYS (flight) → Travel anchor
+- PREMIER INN LONDON (hotel) → Travel anchor
+- TESCO LONDON (groceries) → Part of trip
+- LONDON RESTAURANT (dinner) → Part of trip
+ALL should be marked travel-related with destination "London"
+
+KEY INSIGHT: When you see a travel anchor (hotel, flight, car rental), look for ALL surrounding transactions in the same date range (±3 days) with non-home zip codes and mark them as part of the trip.
+
+RULES FOR TRANSACTIONS WITH ZIP='unknown':
+- Mark travel-related ONLY if obvious travel merchant (hotel, airline, car rental, airport)
+- Regular merchants (Under Armour, Starbucks, retail) with zip='unknown' → NOT travel-related
 - When in doubt about location, mark as NOT travel-related
 
-YOUR JOB:
-1. Identify travel windows (±3 days around hotels/flights)
-2. Mark transactions in those windows as travel-related ONLY if they have confirmed location data
-3. Reclassify physical spending categories at the destination:
-   - Gas stations → "Travel Transportation"
-   - Restaurants → "Dining Away"
-   - Rideshares/Uber → "Local Transportation"
-   - Grocery/convenience stores → "Travel Essentials"
+RECLASSIFY CATEGORIES AT DESTINATION:
+- Gas stations → "Travel Transportation"
+- Restaurants → "Dining Away"
+- Rideshares/Uber → "Local Transportation"
+- Grocery/convenience stores → "Travel Essentials"
 
-KEEP ORIGINAL: 
-- Online subscriptions (Netflix, Spotify, etc.)
-- Transactions without location confirmation (zip='unknown' for non-travel merchants)
-
-EXAMPLE:
-Input: Hotel in Dallas (75201), Under Armour (zip=unknown) same day, restaurant in Dallas (75202) next day
-Output: Hotel & restaurant marked travel-related, Under Armour marked NOT travel-related (no location proof)
-
-OUTPUT:
-For each transaction, provide:
-- is_travel_related: true/false (conservative for zip='unknown')
+OUTPUT for each transaction:
+- is_travel_related: true/false
 - travel_period_start/end: ISO dates if part of travel
-- travel_destination: Major city name only (e.g., "NYC" not "Queens", "Los Angeles" not "Santa Monica", "San Francisco" not "Oakland"). Use "unknown" if unclear.
+- travel_destination: Major city name (e.g., "Miami", "Vermont", "London")
 - original_pillar: Pillar before reclassification
-- reclassification_reason: Why this was changed to travel (or why it stayed non-travel)
+- reclassification_reason: Why this was marked travel/non-travel
 - reclassified_pillar: New pillar (if reclassified)
 - reclassified_subcategory: New subcategory (if reclassified)`;
 
@@ -97,6 +114,64 @@ const TRAVEL_DETECTION_TOOL = [
     }
   }
 ];
+
+// Helper function to call AI with a specific model
+async function callTravelDetectionAI(
+  model: string,
+  transactionSummary: any[],
+  homeZip: string
+): Promise<any[]> {
+  console.log(`[Travel Detection] Calling AI with model: ${model}`);
+  
+  const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+    },
+    body: JSON.stringify({
+      model,
+      max_tokens: 4000,
+      messages: [
+        { role: "system", content: TRAVEL_DETECTION_PROMPT.replace("{homeZip}", homeZip) },
+        { role: "user", content: `Analyze these PRE-FILTERED travel candidates:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
+      ],
+      tools: TRAVEL_DETECTION_TOOL,
+      tool_choice: { type: "function", function: { name: "detect_travel_patterns" } }
+    }),
+  });
+
+  if (!response.ok) {
+    const errorText = await response.text();
+    console.error(`[Travel Detection] ${model} failed (${response.status}):`, errorText);
+    throw new Error(`AI API failed: ${response.status}`);
+  }
+
+  const data = await response.json();
+  console.log(`[Travel Detection] ${model} raw response:`, JSON.stringify(data, null, 2));
+  
+  // Check for API errors
+  const choice = data.choices?.[0];
+  if (choice?.error) {
+    console.error(`[Travel Detection] ${model} API error:`, choice.error);
+    throw new Error(`AI API error: ${choice.error.message || 'Unknown error'}`);
+  }
+  
+  const toolCalls = choice?.message?.tool_calls;
+  if (!toolCalls || toolCalls.length === 0) {
+    console.warn(`[Travel Detection] ${model} returned no tool calls`);
+    return [];
+  }
+  
+  try {
+    const args = toolCalls[0].function.arguments;
+    const results = typeof args === 'string' ? JSON.parse(args) : args;
+    return results.travel_updates || [];
+  } catch (parseError: any) {
+    console.error(`[Travel Detection] Failed to parse ${model} response:`, parseError.message);
+    return [];
+  }
+}
 
 Deno.serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
@@ -147,7 +222,7 @@ Deno.serve(async (req) => {
         };
 
         try {
-          sendEvent("status", { message: "Algo 2: Analyzing travel patterns..." });
+          sendEvent("status", { message: "Analyzing travel patterns with AI..." });
           const startTime = Date.now();
 
           // Enhanced payload with amount and description for better context
@@ -161,114 +236,45 @@ Deno.serve(async (req) => {
             zip: t.zip_code || 'unknown'
           }));
 
-          const travelResponse = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${LOVABLE_API_KEY}`,
-            },
-            body: JSON.stringify({
-              model: "google/gemini-2.5-flash",
-              max_tokens: 3000,
-              messages: [
-                { role: "system", content: TRAVEL_DETECTION_PROMPT.replace("{homeZip}", homeZip) },
-                { role: "user", content: `Analyze these PRE-FILTERED travel candidates:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
-              ],
-              tools: TRAVEL_DETECTION_TOOL,
-              tool_choice: { type: "function", function: { name: "detect_travel_patterns" } }
-            }),
-          });
-
-          if (!travelResponse.ok) {
-            const errorText = await travelResponse.text();
-            console.error(`[Travel Detection] AI API failed (${travelResponse.status}):`, errorText);
-            throw new Error(`Travel detection failed: ${travelResponse.status}`);
-          }
-
-          const travelData = await travelResponse.json();
-          console.log('[Travel Detection] Raw AI response:', JSON.stringify(travelData, null, 2));
-          
-          // Check for API errors first
-          const choice = travelData.choices?.[0];
-          if (choice?.error) {
-            console.error('[Travel Detection] AI API error:', choice.error);
-            throw new Error(`AI API error: ${choice.error.message || 'Unknown error'}`);
-          }
-          
-          const travelToolCalls = choice?.message?.tool_calls;
           let travelUpdates: any[] = [];
-          
-          if (travelToolCalls && travelToolCalls.length > 0) {
-            try {
-              const args = travelToolCalls[0].function.arguments;
-              console.log('[Travel Detection] Raw arguments:', args);
-              
-              // Check if arguments is already an object or needs parsing
-              const travelResults = typeof args === 'string' ? JSON.parse(args) : args;
-              travelUpdates = travelResults.travel_updates || [];
-              const elapsed = Date.now() - startTime;
-              console.log(`[Travel Detection] Found ${travelUpdates.length} travel updates in ${elapsed}ms`);
-            } catch (parseError: any) {
-              console.error('[Travel Detection] Failed to parse tool call arguments:', parseError.message);
-              console.warn('[Travel Detection] Falling back to manual detection');
-            }
-          } else {
-            console.warn("[Travel Detection] No travel detection results returned");
+          const PRIMARY_MODEL = "google/gemini-2.5-flash";
+          const BACKUP_MODEL = "openai/gpt-5-mini";
+
+          // Try primary model first
+          try {
+            travelUpdates = await callTravelDetectionAI(PRIMARY_MODEL, transactionSummary, homeZip);
+            console.log(`[Travel Detection] Primary model returned ${travelUpdates.length} updates`);
+          } catch (primaryError: any) {
+            console.warn(`[Travel Detection] Primary model (${PRIMARY_MODEL}) failed:`, primaryError.message);
           }
 
-          // Conservative fallback: only mark obvious travel merchants (including international)
-          if (travelUpdates.length === 0 && transactions.length > 0) {
-            console.warn('[Travel Detection] AI returned no updates, applying conservative fallback');
+          // Retry with backup model if primary failed or returned no results
+          if (travelUpdates.length === 0) {
+            console.log(`[Travel Detection] Retrying with backup model (${BACKUP_MODEL})...`);
+            sendEvent("status", { message: "Retrying with backup AI model..." });
             
-            // Expanded keywords for international travel detection
-            const obviousKeywords = [
-              // Hotels (US + International)
-              'hotel', 'marriott', 'hilton', 'hyatt', 'holiday inn', 'airbnb', 'vrbo',
-              'premier inn', 'travelodge', 'ibis', 'mercure', 'novotel', 'accor', 'radisson',
-              // Airlines (US + International)
-              'airline', 'airways', 'delta', 'united', 'southwest', 'american airlines', 'jetblue',
-              'british airways', 'air france', 'lufthansa', 'easyjet', 'ryanair', 'emirates',
-              'qatar airways', 'virgin atlantic', 'klm', 'cathay',
-              // Car rentals (US + International)
-              'airport', 'europcar', 'sixt', 'hertz', 'enterprise', 'avis', 'alamo',
-              // Transport
-              'eurostar', 'eurotunnel'
-            ];
-            
-            // International location keywords in merchant names
-            const locationKeywords = [
-              'london', 'paris', 'rome', 'berlin', 'tokyo', 'sydney', 'dubai', 'amsterdam',
-              'barcelona', 'munich', 'vienna', 'prague', 'lisbon', 'madrid', 'milan', 'dublin',
-              'heathrow', 'gatwick', 'stansted', 'cdg', 'orly'
-            ];
-            
-            travelUpdates = transactions.map(t => {
-              const merchant = (t.normalized_merchant || t.merchant_name || '').toLowerCase();
-              const isObviousTravel = obviousKeywords.some(kw => merchant.includes(kw));
-              const hasLocationInMerchant = locationKeywords.some(city => merchant.includes(city));
-              const isTravelRelated = isObviousTravel || hasLocationInMerchant;
-              
-              // Try to extract destination from merchant name
-              let destination = 'unknown';
-              if (hasLocationInMerchant) {
-                const foundCity = locationKeywords.find(city => merchant.includes(city));
-                if (foundCity) destination = foundCity.charAt(0).toUpperCase() + foundCity.slice(1);
-              }
-              
-              return {
-                transaction_id: t.transaction_id,
-                is_travel_related: isTravelRelated,
-                travel_destination: isTravelRelated ? destination : null,
-                travel_period_start: isTravelRelated ? t.date : null,
-                travel_period_end: isTravelRelated ? t.date : null,
-                original_pillar: t.pillar || 'Unknown',
-                reclassified_pillar: t.pillar || 'Unknown',
-                reclassified_subcategory: t.subcategory || 'Unknown',
-                reclassification_reason: isTravelRelated 
-                  ? `AI unavailable - ${hasLocationInMerchant ? 'location detected in merchant name' : 'obvious travel merchant detected'}`
-                  : 'AI unavailable - not an obvious travel merchant'
-              };
-            });
+            try {
+              travelUpdates = await callTravelDetectionAI(BACKUP_MODEL, transactionSummary, homeZip);
+              console.log(`[Travel Detection] Backup model returned ${travelUpdates.length} updates`);
+            } catch (backupError: any) {
+              console.error(`[Travel Detection] Backup model (${BACKUP_MODEL}) also failed:`, backupError.message);
+            }
+          }
+
+          // If both models failed, return unclassified (no keyword guessing)
+          if (travelUpdates.length === 0) {
+            console.warn('[Travel Detection] Both AI models failed - returning unclassified');
+            travelUpdates = transactions.map(t => ({
+              transaction_id: t.transaction_id,
+              is_travel_related: false,
+              travel_destination: null,
+              travel_period_start: null,
+              travel_period_end: null,
+              original_pillar: t.pillar || 'Unknown',
+              reclassified_pillar: t.pillar || 'Unknown',
+              reclassified_subcategory: t.subcategory || 'Unknown',
+              reclassification_reason: 'AI classification unavailable - unable to determine travel status'
+            }));
           }
 
           // Send travel updates
