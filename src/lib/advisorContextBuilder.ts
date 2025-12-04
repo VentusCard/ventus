@@ -26,7 +26,6 @@ export interface AdvisorContext {
     event: string;
     confidence: number;
     evidenceCount: number;
-    products: string[];
     keyInsights: string[];
   }>;
   topMerchants: Array<{
@@ -132,7 +131,6 @@ export function buildAdvisorContext(
     event: event.event_name,
     confidence: Math.round(event.confidence * 100),
     evidenceCount: event.evidence.length,
-    products: event.products.map(p => p.name),
     keyInsights: event.evidence.slice(0, 3).map(e => e.relevance),
   })) || [];
 

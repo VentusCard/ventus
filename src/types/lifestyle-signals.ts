@@ -16,10 +16,7 @@ export interface LifeEvent {
   event_name: string;
   confidence: number;
   evidence: Evidence[];
-  products: ProductRecommendation[];
-  education: string[];
   talking_points: string[];
-  action_items: string[];
   financial_projection?: {
     project_type: "education" | "home" | "retirement" | "business" | "wedding" | "medical" | "other";
     estimated_start_year: number;

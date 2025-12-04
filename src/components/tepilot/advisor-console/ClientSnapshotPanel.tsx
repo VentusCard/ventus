@@ -202,7 +202,7 @@ export function ClientSnapshotPanel({
                       {event.event_name}
                       <Badge variant="outline" className="text-xs">{event.confidence}%</Badge>
                     </div>
-                    <div className="text-slate-500 mt-1">{event.products.length} product recommendations</div>
+                    <div className="text-slate-500 mt-1">{event.evidence.length} supporting transactions</div>
                   </div>
                 )) : (
                   <p className="text-xs text-muted-foreground py-2">No life events detected yet</p>

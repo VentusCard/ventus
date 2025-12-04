@@ -154,19 +154,22 @@ export function FinancialTimelineTool({
     });
     setFundingSources(newFundingSources);
 
-    // Convert action_items from life event to actionable timeline with timing extraction
-    const newActionItems: ActionableTimelineItem[] = event.action_items.map((item, idx) => {
-      // Simple timing extraction - look for year patterns or Q1/Q2 etc
-      const timingMatch = item.match(/\b(Q[1-4]|Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec|\d{4})\b/);
-      const timing = timingMatch ? timingMatch[0] : `Year ${projection.estimated_start_year}`;
-      return {
-        id: `ai-${idx}`,
-        timing,
-        action: item,
+    // Generate default action items based on the financial projection
+    const defaultActionItems: ActionableTimelineItem[] = [
+      {
+        id: `ai-0`,
+        timing: `Year ${projection.estimated_start_year}`,
+        action: `Review and finalize ${event.event_name} funding strategy`,
         completed: false
-      };
-    });
-    setActionItems(newActionItems);
+      },
+      {
+        id: `ai-1`,
+        timing: `Q1 ${projection.estimated_start_year}`,
+        action: `Set up automatic contributions to funding sources`,
+        completed: false
+      }
+    ];
+    setActionItems(defaultActionItems);
   };
   const loadTemplate = (type: keyof typeof projectTypes) => {
     const template = projectTypes[type];

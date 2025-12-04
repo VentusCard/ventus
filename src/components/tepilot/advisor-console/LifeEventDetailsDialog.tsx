@@ -6,7 +6,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { LifeEvent } from "@/types/lifestyle-signals";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
-import { ChevronDown, Receipt, Package, MessageSquare, CheckSquare, GraduationCap, Calendar, Sparkles } from "lucide-react";
+import { ChevronDown, Receipt, MessageSquare, Calendar, Sparkles } from "lucide-react";
 import { useState } from "react";
 
 interface LifeEventDetailsDialogProps {
@@ -34,11 +34,6 @@ export function LifeEventDetailsDialog({
     return "bg-orange-100 text-orange-700 border-orange-200";
   };
 
-  const getPriorityBadgeColor = (priority: string) => {
-    if (priority === "high") return "bg-red-100 text-red-700 border-red-200";
-    if (priority === "medium") return "bg-yellow-100 text-yellow-700 border-yellow-200";
-    return "bg-slate-100 text-slate-700 border-slate-200";
-  };
 
   const handleAskVentus = () => {
     onAskVentus?.(`Tell me more about the detected "${event.event_name}" life event and recommended actions`);
@@ -95,32 +90,6 @@ export function LifeEventDetailsDialog({
               </Collapsible>
             )}
 
-            {/* Product Recommendations */}
-            {event.products && event.products.length > 0 && (
-              <div>
-                <h4 className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                  <Package className="w-4 h-4" />
-                  Product Recommendations
-                </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {event.products.map((product, idx) => (
-                    <Card key={idx} className="p-3">
-                      <div className="flex items-start justify-between mb-1">
-                        <span className="font-medium text-sm text-slate-800">{product.name}</span>
-                        <Badge variant="outline" className={`text-xs ${getPriorityBadgeColor(product.priority)}`}>
-                          {product.priority}
-                        </Badge>
-                      </div>
-                      <p className="text-xs text-slate-600 mb-2">{product.rationale}</p>
-                      <div className="text-xs font-semibold text-primary">
-                        Est. value: {product.estimated_value}
-                      </div>
-                    </Card>
-                  ))}
-                </div>
-              </div>
-            )}
-
             {/* Talking Points */}
             {event.talking_points && event.talking_points.length > 0 && (
               <div>
@@ -133,42 +102,6 @@ export function LifeEventDetailsDialog({
                     <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
                       <span className="text-primary mt-1">•</span>
                       {point}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Action Items */}
-            {event.action_items && event.action_items.length > 0 && (
-              <div>
-                <h4 className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                  <CheckSquare className="w-4 h-4" />
-                  Action Items
-                </h4>
-                <ul className="space-y-1.5">
-                  {event.action_items.map((item, idx) => (
-                    <li key={idx} className="text-sm text-slate-600 flex items-center gap-2">
-                      <div className="w-4 h-4 border border-slate-300 rounded flex-shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-
-            {/* Education */}
-            {event.education && event.education.length > 0 && (
-              <div>
-                <h4 className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-2">
-                  <GraduationCap className="w-4 h-4" />
-                  Education
-                </h4>
-                <ul className="space-y-1.5">
-                  {event.education.map((item, idx) => (
-                    <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      {item}
                     </li>
                   ))}
                 </ul>
