@@ -12,6 +12,20 @@ import { toast } from "sonner";
 const AdvisorConsolePage = () => {
   const navigate = useNavigate();
   const [advisorContext, setAdvisorContext] = useState<AdvisorContext | undefined>(undefined);
+
+  const handleBackToTePilot = () => {
+    // Clear all advisor console related sessionStorage
+    sessionStorage.removeItem("tepilot_advisor_context");
+    sessionStorage.removeItem("tepilot_client_profile");
+    sessionStorage.removeItem("tepilot_psychological_insights");
+    sessionStorage.removeItem("tepilot_financial_plan");
+    sessionStorage.removeItem("pendingFinancialGoals");
+    sessionStorage.removeItem("pendingLifeEvent");
+    sessionStorage.removeItem("financialPlanActionItems");
+    
+    // Navigate back to TePilot
+    navigate("/tepilot", { state: { activeTab: "insights" } });
+  };
   const [enrichedTransactions, setEnrichedTransactions] = useState<EnrichedTransaction[]>([]);
   const [aiInsights, setAiInsights] = useState<AIInsights | null>(null);
   const [isLoadingInsights, setIsLoadingInsights] = useState(false);
@@ -130,7 +144,7 @@ const AdvisorConsolePage = () => {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => navigate("/tepilot", { state: { activeTab: "insights" } })}
+            onClick={handleBackToTePilot}
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
             Back to TePilot
