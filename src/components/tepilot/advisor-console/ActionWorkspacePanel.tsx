@@ -11,6 +11,7 @@ import { SavedFinancialProjection } from "@/types/lifestyle-signals";
 interface ActionWorkspacePanelProps {
   nextStepsData: NextStepsData;
   onToggleActionItem: (itemId: string) => void;
+  onDeleteActionItem: (itemId: string) => void;
   onAddActionItem: (text: string) => void;
   savedProjection?: SavedFinancialProjection | null;
   onExportTimelinePDF?: () => void;
@@ -18,6 +19,7 @@ interface ActionWorkspacePanelProps {
 export function ActionWorkspacePanel({
   nextStepsData,
   onToggleActionItem,
+  onDeleteActionItem,
   onAddActionItem,
   savedProjection,
   onExportTimelinePDF
@@ -232,7 +234,7 @@ export function ActionWorkspacePanel({
                 {incompleteItems.length > 0 && (
                   <ul className="space-y-2">
                     {incompleteItems.map(item => (
-                      <li key={item.id} className="flex items-start gap-2">
+                      <li key={item.id} className="flex items-start gap-2 group">
                         <Checkbox
                           checked={item.completed}
                           onCheckedChange={() => onToggleActionItem(item.id)}
@@ -242,6 +244,13 @@ export function ActionWorkspacePanel({
                         <Badge variant="outline" className="text-[10px] px-1.5 py-0">
                           {item.source}
                         </Badge>
+                        <button
+                          onClick={() => onDeleteActionItem(item.id)}
+                          className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-red-500"
+                          aria-label="Delete action item"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
                       </li>
                     ))}
                   </ul>
@@ -254,9 +263,16 @@ export function ActionWorkspacePanel({
                     </span>
                     <ul className="space-y-1">
                       {completedItems.map(item => (
-                        <li key={item.id} className="flex items-start gap-2 opacity-50">
+                        <li key={item.id} className="flex items-start gap-2 opacity-50 group">
                           <Checkbox checked onCheckedChange={() => onToggleActionItem(item.id)} className="mt-0.5" />
                           <span className="text-xs text-slate-500 line-through flex-1">{item.text}</span>
+                          <button
+                            onClick={() => onDeleteActionItem(item.id)}
+                            className="opacity-0 group-hover:opacity-100 transition-opacity text-slate-400 hover:text-red-500"
+                            aria-label="Delete action item"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
                         </li>
                       ))}
                     </ul>
