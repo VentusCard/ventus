@@ -51,11 +51,18 @@ export function AdvisorConsole({
     ));
   };
 
-  const handleExtractNextSteps = useCallback((actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => {
+  const handleExtractNextSteps = useCallback((actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[], chipSource?: string) => {
     setNextStepsData(prev => {
+      let baseItems = prev.actionItems;
+      
+      // If same chip clicked again, remove ALL existing items from that chip (refresh behavior)
+      if (chipSource) {
+        baseItems = baseItems.filter(item => item.chipSource !== chipSource);
+      }
+      
       // Deduplicate by normalizing text (lowercase, trim, remove punctuation)
       const normalizeText = (text: string) => text.toLowerCase().trim().replace(/[^\w\s]/g, '');
-      const existingTexts = new Set(prev.actionItems.map(item => normalizeText(item.text)));
+      const existingTexts = new Set(baseItems.map(item => normalizeText(item.text)));
       
       // Only add items that don't already exist
       const newUniqueItems = actionItems.filter(item => 
@@ -63,7 +70,7 @@ export function AdvisorConsole({
       );
       
       return {
-        actionItems: [...prev.actionItems, ...newUniqueItems],
+        actionItems: [...baseItems, ...newUniqueItems],
         psychologicalInsights: psychologicalInsights.length > 0 ? psychologicalInsights : prev.psychologicalInsights,
         lastUpdated: new Date()
       };
