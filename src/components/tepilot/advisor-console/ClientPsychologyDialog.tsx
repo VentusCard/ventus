@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Slider } from "@/components/ui/slider";
 import { Card } from "@/components/ui/card";
 import { Brain, Trash2 } from "lucide-react";
@@ -16,7 +15,6 @@ interface ClientPsychologyDialogProps {
 
 interface CategorySelection {
   value: number; // 1-5 scale
-  notes: string;
 }
 
 const PSYCHOLOGY_CATEGORIES = [
@@ -96,7 +94,7 @@ const PSYCHOLOGY_CATEGORIES = [
 const createInitialSelections = () => 
   PSYCHOLOGY_CATEGORIES.reduce((acc, cat) => ({
     ...acc,
-    [cat.id]: { value: 3, notes: "" }
+    [cat.id]: { value: 3 }
   }), {} as Record<string, CategorySelection>);
 
 export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: ClientPsychologyDialogProps) {
@@ -105,14 +103,7 @@ export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: C
   const handleSliderChange = (categoryId: string, value: number[]) => {
     setSelections(prev => ({
       ...prev,
-      [categoryId]: { ...prev[categoryId], value: value[0], notes: prev[categoryId]?.notes || "" }
-    }));
-  };
-
-  const handleNotesChange = (categoryId: string, notes: string) => {
-    setSelections(prev => ({
-      ...prev,
-      [categoryId]: { ...prev[categoryId], notes, value: prev[categoryId]?.value || 3 }
+      [categoryId]: { value: value[0] }
     }));
   };
 
@@ -131,8 +122,8 @@ export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: C
         insights.push({
           aspect: category.label,
           assessment: markerLabel,
-          evidence: selection.notes || "Advisor observation",
-          confidence: selection.notes ? 0.90 : 0.80,
+          evidence: "Advisor observation",
+          confidence: 0.85,
           sliderValue: selection.value,
           actionTip: actionTip
         });
@@ -209,18 +200,6 @@ export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: C
                     ))}
                   </div>
                 </div>
-
-                {/* Notes textarea - shows when slider is moved from neutral */}
-                {!isNeutral && (
-                  <div className="mt-3">
-                    <Textarea
-                      placeholder="Add notes or evidence (optional - increases confidence)"
-                      value={selections[category.id]?.notes || ""}
-                      onChange={(e) => handleNotesChange(category.id, e.target.value)}
-                      className="text-sm h-16 resize-none"
-                    />
-                  </div>
-                )}
               </Card>
             );
           })}
