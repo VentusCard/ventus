@@ -1,13 +1,14 @@
+import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
 import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, ShoppingBag, Sparkles, MessageSquare, Shuffle } from "lucide-react";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
-import { AIInsights } from "@/types/lifestyle-signals";
+import { AIInsights, LifeEvent } from "@/types/lifestyle-signals";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
 import { ClientProfileData } from "@/types/clientProfile";
-
+import { LifeEventDetailsDialog } from "./LifeEventDetailsDialog";
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
   advisorContext?: AdvisorContext;
@@ -69,6 +70,7 @@ export function ClientSnapshotPanel({
   clientData,
   onGenerateProfile
 }: ClientSnapshotPanelProps) {
+  const [selectedEvent, setSelectedEvent] = useState<LifeEvent | null>(null);
   // Use clientData if provided, otherwise use placeholder
   const displayData = clientData || placeholderClientData;
 
@@ -194,7 +196,7 @@ export function ClientSnapshotPanel({
                   <div 
                     key={idx} 
                     className="text-xs border-l-2 border-primary pl-3 cursor-pointer hover:bg-slate-50 -ml-3 pl-6 py-1 rounded-r"
-                    onClick={() => onAskVentus?.(`Tell me more about the detected "${event.event_name}" life event and recommended actions`)}
+                    onClick={() => setSelectedEvent(event)}
                   >
                     <div className="font-semibold text-slate-700 flex items-center gap-2">
                       {event.event_name}
@@ -362,6 +364,14 @@ export function ClientSnapshotPanel({
           
         </Card>
       </div>
+
+      {/* Life Event Details Dialog */}
+      <LifeEventDetailsDialog
+        event={selectedEvent}
+        open={!!selectedEvent}
+        onOpenChange={(open) => !open && setSelectedEvent(null)}
+        onAskVentus={onAskVentus}
+      />
     </div>
   );
 }
