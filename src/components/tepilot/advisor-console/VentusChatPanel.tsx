@@ -47,8 +47,8 @@ function extractActionItemsFromMessage(content: string): string[] {
   for (const line of lines) {
     const trimmed = line.trim();
     
-    // Only match explicit numbered items (1., 2., etc.) or bullet points (-, •)
-    const numberedMatch = trimmed.match(/^(\d+)\.\s+(.+)/);
+    // Match numbered items with optional markdown bold (1., **1.**, etc.) or bullet points (-, •)
+    const numberedMatch = trimmed.match(/^\*?\*?(\d+)\.\*?\*?\s+(.+)/);
     const bulletMatch = trimmed.match(/^[-•]\s+(.+)/);
     
     if (numberedMatch) {
@@ -187,7 +187,7 @@ export function VentusChatPanel({
     let prompt = "";
     switch (chip) {
       case "Meeting Prep":
-        prompt = "Prepare 5 key talking points for my upcoming client meeting. List as numbered action items I can check off.";
+        prompt = "Prepare exactly 5 key talking points for my upcoming client meeting. Format as numbered items (1., 2., 3., 4., 5.) on separate lines that I can check off as action items.";
         break;
       case "Product Recommendations":
         prompt = "Based on spending patterns, provide 3-5 product recommendations as numbered next steps with specific actions I should take.";

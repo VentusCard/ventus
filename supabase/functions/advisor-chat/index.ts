@@ -161,6 +161,7 @@ When answering questions:
 3. Consider the client's full financial picture
 4. Suggest specific next steps or actions
 5. Keep responses extremely concise and under 150 words. Use bullet points liberally. Avoid filler phrases.
+6. When asked for a specific number of items (e.g., "5 talking points"), always provide EXACTLY that many. Format numbered lists as "1. Item", "2. Item" etc. on separate lines.
 
 You are speaking to a financial advisor who needs quick, actionable insights to serve their client better.`;
 
