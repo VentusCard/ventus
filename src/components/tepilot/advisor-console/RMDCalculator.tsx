@@ -1,10 +1,10 @@
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Calculator, AlertTriangle, Info } from "lucide-react";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
+import { TaxAdvantagedAccount } from "@/types/financial-planning";
 import {
   Tooltip,
   TooltipContent,
@@ -23,26 +23,23 @@ const UNIFORM_LIFETIME_TABLE: Record<number, number> = {
   120: 2.0,
 };
 
-interface RMDAccount {
-  name: string;
-  balance: number;
-}
+// Account types subject to RMD (Roth IRA and HSA are NOT subject to RMD for original owner)
+const RMD_ELIGIBLE_TYPES: TaxAdvantagedAccount['type'][] = ['401k', 'traditional_ira'];
 
 interface RMDCalculatorProps {
   clientAge: number;
-  initialAccounts?: RMDAccount[];
+  taxAdvantagedAccounts: TaxAdvantagedAccount[];
 }
 
-export function RMDCalculator({ clientAge, initialAccounts }: RMDCalculatorProps) {
-  const [age, setAge] = useState(clientAge >= 73 ? clientAge : 73);
-  const [accounts, setAccounts] = useState<RMDAccount[]>(
-    initialAccounts || [
-      { name: "Traditional IRA", balance: 500000 },
-      { name: "401(k)", balance: 750000 },
-    ]
-  );
-
+export function RMDCalculator({ clientAge, taxAdvantagedAccounts }: RMDCalculatorProps) {
   const rmdStartAge = 73; // SECURE 2.0 Act - RMD starts at 73 for those born 1951-1959
+  const calculationAge = clientAge >= rmdStartAge ? clientAge : rmdStartAge;
+
+  // Filter for RMD-eligible accounts
+  const rmdEligibleAccounts = useMemo(() => 
+    taxAdvantagedAccounts.filter(acc => RMD_ELIGIBLE_TYPES.includes(acc.type)),
+    [taxAdvantagedAccounts]
+  );
 
   const getDistributionPeriod = (currentAge: number): number => {
     if (currentAge < 72) return 0;
@@ -51,13 +48,13 @@ export function RMDCalculator({ clientAge, initialAccounts }: RMDCalculatorProps
   };
 
   const calculations = useMemo(() => {
-    const distributionPeriod = getDistributionPeriod(age);
-    const totalBalance = accounts.reduce((sum, acc) => sum + acc.balance, 0);
+    const distributionPeriod = getDistributionPeriod(calculationAge);
+    const totalBalance = rmdEligibleAccounts.reduce((sum, acc) => sum + acc.currentBalance, 0);
     const totalRMD = distributionPeriod > 0 ? totalBalance / distributionPeriod : 0;
     
-    const accountRMDs = accounts.map(acc => ({
+    const accountRMDs = rmdEligibleAccounts.map(acc => ({
       ...acc,
-      rmd: distributionPeriod > 0 ? acc.balance / distributionPeriod : 0,
+      rmd: distributionPeriod > 0 ? acc.currentBalance / distributionPeriod : 0,
     }));
 
     // Calculate tax impact estimate (assuming 22% bracket)
@@ -65,13 +62,13 @@ export function RMDCalculator({ clientAge, initialAccounts }: RMDCalculatorProps
     
     // Calculate 10-year projection
     const projection = Array.from({ length: 10 }, (_, i) => {
-      const projectedAge = age + i;
+      const projectedAge = calculationAge + i;
       const period = getDistributionPeriod(projectedAge);
       // Simplified: assume 5% growth minus RMD withdrawal
       const growthRate = 0.05;
       let projectedBalance = totalBalance;
       for (let y = 0; y < i; y++) {
-        const yearAge = age + y;
+        const yearAge = calculationAge + y;
         const yearPeriod = getDistributionPeriod(yearAge);
         const yearRMD = yearPeriod > 0 ? projectedBalance / yearPeriod : 0;
         projectedBalance = (projectedBalance - yearRMD) * (1 + growthRate);
@@ -86,16 +83,30 @@ export function RMDCalculator({ clientAge, initialAccounts }: RMDCalculatorProps
     });
 
     return { distributionPeriod, totalBalance, totalRMD, accountRMDs, estimatedTax, projection };
-  }, [age, accounts]);
+  }, [calculationAge, rmdEligibleAccounts]);
 
-  const updateAccountBalance = (index: number, balance: number) => {
-    setAccounts(prev => prev.map((acc, i) => 
-      i === index ? { ...acc, balance } : acc
-    ));
-  };
-
-  const isRMDRequired = age >= rmdStartAge;
+  const isRMDRequired = clientAge >= rmdStartAge;
   const yearsUntilRMD = rmdStartAge - clientAge;
+
+  // Don't render if no RMD-eligible accounts
+  if (rmdEligibleAccounts.length === 0) {
+    return (
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center gap-2">
+            <Calculator className="w-5 h-5 text-primary" />
+            <CardTitle className="text-lg">RMD Calculator</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <p className="text-sm text-muted-foreground text-center py-4">
+            No RMD-eligible accounts (Traditional IRA or 401k) found. 
+            Add these accounts in the Tax-Advantaged Accounts section above.
+          </p>
+        </CardContent>
+      </Card>
+    );
+  }
 
   return (
     <Card>
@@ -110,12 +121,12 @@ export function RMDCalculator({ clientAge, initialAccounts }: RMDCalculatorProps
                   <Info className="w-4 h-4 text-muted-foreground" />
                 </TooltipTrigger>
                 <TooltipContent className="max-w-xs">
-                  <p>Required Minimum Distributions must be taken from traditional IRAs and 401(k)s starting at age 73 (SECURE 2.0 Act).</p>
+                  <p>Required Minimum Distributions must be taken from traditional IRAs and 401(k)s starting at age 73 (SECURE 2.0 Act). Roth IRAs and HSAs are not subject to RMD.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>
           </div>
-          {!isRMDRequired && clientAge < rmdStartAge && (
+          {!isRMDRequired && (
             <Badge variant="secondary">
               RMD starts in {yearsUntilRMD} years
             </Badge>
@@ -123,45 +134,40 @@ export function RMDCalculator({ clientAge, initialAccounts }: RMDCalculatorProps
         </div>
       </CardHeader>
       <CardContent className="space-y-6">
-        {/* Age Input */}
+        {/* Age & Distribution Period */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <Label className="text-sm">Calculate for Age</Label>
-            <Input
-              type="number"
-              min={73}
-              max={120}
-              value={age}
-              onChange={(e) => setAge(Math.max(73, Math.min(120, parseInt(e.target.value) || 73)))}
-              className="mt-1"
-            />
+            <Label className="text-sm">Client Age</Label>
+            <div className="mt-1 h-10 flex items-center px-3 bg-muted rounded-md font-medium">
+              {clientAge} years old
+            </div>
           </div>
           <div>
             <Label className="text-sm">Distribution Period</Label>
             <div className="mt-1 h-10 flex items-center px-3 bg-muted rounded-md font-medium">
-              {calculations.distributionPeriod.toFixed(1)} years
+              {calculations.distributionPeriod > 0 ? `${calculations.distributionPeriod.toFixed(1)} years` : 'N/A (under 73)'}
             </div>
           </div>
         </div>
 
-        {/* Account Balances */}
+        {/* Account Balances - Synced from Tax-Advantaged Accounts */}
         <div className="space-y-3">
-          <Label className="text-sm font-medium">Account Balances (Prior Year-End)</Label>
-          {accounts.map((account, idx) => (
-            <div key={idx} className="flex items-center gap-3">
-              <span className="text-sm text-muted-foreground w-28">{account.name}</span>
-              <div className="relative flex-1">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
-                <Input
-                  type="number"
-                  value={account.balance}
-                  onChange={(e) => updateAccountBalance(idx, parseFloat(e.target.value) || 0)}
-                  className="pl-7"
-                />
+          <div className="flex items-center justify-between">
+            <Label className="text-sm font-medium">RMD-Eligible Accounts</Label>
+            <span className="text-xs text-muted-foreground">Synced from Tax-Advantaged Accounts</span>
+          </div>
+          {calculations.accountRMDs.map((account, idx) => (
+            <div key={idx} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
+              <div>
+                <span className="text-sm font-medium">{account.label}</span>
+                <p className="text-xs text-muted-foreground">Balance: {formatCurrency(account.currentBalance)}</p>
               </div>
-              <span className="text-sm text-muted-foreground w-24 text-right">
-                RMD: {formatCurrency(calculations.accountRMDs[idx]?.rmd || 0)}
-              </span>
+              <div className="text-right">
+                <span className="text-sm font-semibold text-primary">
+                  {isRMDRequired ? formatCurrency(account.rmd) : '—'}
+                </span>
+                <p className="text-xs text-muted-foreground">Annual RMD</p>
+              </div>
             </div>
           ))}
         </div>
@@ -169,12 +175,14 @@ export function RMDCalculator({ clientAge, initialAccounts }: RMDCalculatorProps
         {/* Summary */}
         <div className="bg-primary/5 rounded-lg p-4 space-y-3">
           <div className="flex justify-between items-center">
-            <span className="text-sm font-medium">Total Account Balance</span>
+            <span className="text-sm font-medium">Total RMD-Eligible Balance</span>
             <span className="font-semibold">{formatCurrency(calculations.totalBalance)}</span>
           </div>
           <div className="flex justify-between items-center text-lg">
             <span className="font-medium">Required Minimum Distribution</span>
-            <span className="font-bold text-primary">{formatCurrency(calculations.totalRMD)}</span>
+            <span className="font-bold text-primary">
+              {isRMDRequired ? formatCurrency(calculations.totalRMD) : `${formatCurrency(calculations.totalRMD)} (at age 73)`}
+            </span>
           </div>
           <div className="flex justify-between items-center text-sm text-muted-foreground">
             <span>Estimated Tax (22% bracket)</span>
