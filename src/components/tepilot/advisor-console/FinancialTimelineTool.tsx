@@ -903,7 +903,7 @@ export function FinancialTimelineTool({
                 </div>
               </div>
 
-              <div className="grid grid-cols-3 gap-4">
+              <div className={`grid ${projectType === 'education' ? 'grid-cols-2' : 'grid-cols-3'} gap-4`}>
                 <div>
                   <Label>Start Year</Label>
                   <Input type="number" value={startYear} onChange={e => setStartYear(parseInt(e.target.value) || 2026)} />
@@ -912,22 +912,26 @@ export function FinancialTimelineTool({
                   <Label>Duration: {duration} years</Label>
                   <Slider value={[duration]} onValueChange={([v]) => setDuration(v)} min={1} max={10} step={1} className="mt-2" />
                 </div>
-                <div>
-                  <Label>Inflation Rate: {inflationRate}%</Label>
-                  <Slider value={[inflationRate]} onValueChange={([v]) => setInflationRate(v)} min={0} max={10} step={0.5} className="mt-2" />
-                </div>
+                {projectType !== 'education' && (
+                  <div>
+                    <Label>Inflation Rate: {inflationRate}%</Label>
+                    <Slider value={[inflationRate]} onValueChange={([v]) => setInflationRate(v)} min={0} max={10} step={0.5} className="mt-2" />
+                  </div>
+                )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label>Current Savings</Label>
-                  <Input type="number" value={currentSavings} onChange={e => setCurrentSavings(parseFloat(e.target.value) || 0)} placeholder="$0" />
+              {projectType !== 'education' && (
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <Label>Current Savings</Label>
+                    <Input type="number" value={currentSavings} onChange={e => setCurrentSavings(parseFloat(e.target.value) || 0)} placeholder="$0" />
+                  </div>
+                  <div>
+                    <Label>Monthly Contribution</Label>
+                    <Input type="number" value={monthlyContribution} onChange={e => setMonthlyContribution(parseFloat(e.target.value) || 0)} placeholder="$0" />
+                  </div>
                 </div>
-                <div>
-                  <Label>Monthly Contribution</Label>
-                  <Input type="number" value={monthlyContribution} onChange={e => setMonthlyContribution(parseFloat(e.target.value) || 0)} placeholder="$0" />
-                </div>
-              </div>
+              )}
             </CardContent>
           </Card>
 
