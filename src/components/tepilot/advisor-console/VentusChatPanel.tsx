@@ -39,31 +39,37 @@ interface VentusChatPanelProps {
   onExternalTimelineHandled?: () => void;
 }
 // Helper function to extract action items from AI response
-// Only match explicitly numbered items (1., 2.) or bullet points (-, •) at line start
+// Matches numbered items (1., **1.**, 1:, 1)) and bullet points (-, •, *, [ ])
 function extractActionItemsFromMessage(content: string): string[] {
   const items: string[] = [];
   const lines = content.split('\n');
   
+  console.log('[extractActionItems] Processing content with', lines.length, 'lines');
+  
   for (const line of lines) {
     const trimmed = line.trim();
     
-    // Match numbered items with optional markdown bold (1., **1.**, etc.) or bullet points (-, •)
-    const numberedMatch = trimmed.match(/^\*?\*?(\d+)\.\*?\*?\s+(.+)/);
-    const bulletMatch = trimmed.match(/^[-•]\s+(.+)/);
+    // Match numbered items: 1., **1.**, 1:, 1), **1:**
+    const numberedMatch = trimmed.match(/^\*?\*?(\d+)[\.\:\)]\*?\*?\s+(.+)/);
+    // Match bullet points: -, •, *, [ ], - [ ]
+    const bulletMatch = trimmed.match(/^[-•\*]\s*\[?\s?\]?\s*(.+)/);
     
     if (numberedMatch) {
       const cleanedItem = numberedMatch[2].replace(/\*\*/g, '').trim();
       if (cleanedItem.length > 10 && cleanedItem.length < 200) {
+        console.log('[extractActionItems] Found numbered item:', cleanedItem.slice(0, 50));
         items.push(cleanedItem);
       }
-    } else if (bulletMatch) {
-      const cleanedItem = bulletMatch[1].replace(/\*\*/g, '').trim();
+    } else if (bulletMatch && (trimmed.startsWith('-') || trimmed.startsWith('•') || trimmed.startsWith('*'))) {
+      const cleanedItem = bulletMatch[1].replace(/\*\*/g, '').replace(/^\[?\s?\]\s*/, '').trim();
       if (cleanedItem.length > 10 && cleanedItem.length < 200) {
+        console.log('[extractActionItems] Found bullet item:', cleanedItem.slice(0, 50));
         items.push(cleanedItem);
       }
     }
   }
   
+  console.log('[extractActionItems] Total items extracted:', items.length);
   return items.slice(0, 5); // Limit to 5 items
 }
 
@@ -130,17 +136,26 @@ export function VentusChatPanel({
     const lastMessage = messages[messages.length - 1];
 
     // Skip if not an assistant message
-    if (lastMessage.role !== 'assistant') return;
+    if (lastMessage.role !== 'assistant') {
+      console.log('[VentusChatPanel] Skipping non-assistant message');
+      return;
+    }
 
     // Use content hash for reliable tracking (first 100 chars + length)
     const messageHash = `${lastMessage.content.slice(0, 100)}-${lastMessage.content.length}`;
-    if (processedMessagesRef.current.has(messageHash)) return;
+    if (processedMessagesRef.current.has(messageHash)) {
+      console.log('[VentusChatPanel] Message already processed, skipping');
+      return;
+    }
 
     // Mark as processed BEFORE extraction to prevent re-runs
     processedMessagesRef.current.add(messageHash);
+    console.log('[VentusChatPanel] Processing new assistant message...');
 
     // Extract action items from the message
     const extractedItems = extractActionItemsFromMessage(lastMessage.content);
+    console.log('[VentusChatPanel] Extracted items count:', extractedItems.length);
+    
     const currentChipSource = activeChipSource;
     const actionItems: NextStepsActionItem[] = extractedItems.map((text, idx) => ({
       id: `action-${Date.now()}-${idx}`,
@@ -152,12 +167,20 @@ export function VentusChatPanel({
     }));
 
     if (actionItems.length > 0) {
+      console.log('[VentusChatPanel] Adding', actionItems.length, 'items to Action Items panel');
       onExtractNextSteps(actionItems, [], currentChipSource || undefined);
+      toast({
+        title: `${actionItems.length} Action Items Added`,
+        description: "Check the Next Steps panel",
+        duration: 2000
+      });
+    } else {
+      console.log('[VentusChatPanel] No action items found in response');
     }
     
     // Clear active chip after extraction
     setActiveChipSource(null);
-  }, [messages, onExtractNextSteps, activeChipSource]);
+  }, [messages, onExtractNextSteps, activeChipSource, toast]);
   // Handle pending message from other panels (Ask Ventus)
   useEffect(() => {
     if (pendingMessage) {
