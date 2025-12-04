@@ -111,6 +111,84 @@ export function FinancialTimelineTool({
       }
     }
   }, [open, detectedEvent]);
+
+  // Track previous values for re-keying amounts when startYear or duration changes
+  const previousStartYearRef = useRef(startYear);
+  const previousDurationRef = useRef(duration);
+
+  // Re-key cost and funding amounts when startYear or duration changes
+  useEffect(() => {
+    const prevStart = previousStartYearRef.current;
+    const prevDuration = previousDurationRef.current;
+
+    // Skip if no actual change
+    if (prevStart === startYear && prevDuration === duration) return;
+
+    const yearShift = startYear - prevStart;
+
+    // Re-key cost categories - shift amounts to new year keys
+    setCostCategories(prev => prev.map(cat => {
+      const newAmounts: { [year: number]: number } = {};
+      const oldYears = Object.keys(cat.amounts).map(Number).sort((a, b) => a - b);
+      
+      // Map old years to new years by position
+      oldYears.forEach((oldYear, idx) => {
+        const newYear = startYear + idx;
+        if (idx < duration) {
+          newAmounts[newYear] = cat.amounts[oldYear] || 0;
+        }
+      });
+      
+      // Fill any new years with 0
+      for (let i = oldYears.length; i < duration; i++) {
+        newAmounts[startYear + i] = 0;
+      }
+      
+      return { ...cat, amounts: newAmounts };
+    }));
+
+    // Re-key funding sources - start from current year through project end
+    const newFundingYearsCount = duration + Math.max(0, startYear - currentYear);
+    setFundingSources(prev => prev.map(source => {
+      const newAmounts: { [year: number]: number } = {};
+      const oldYears = Object.keys(source.amounts).map(Number).sort((a, b) => a - b);
+      
+      // Map old funding years to new funding years by position
+      for (let i = 0; i < newFundingYearsCount; i++) {
+        const newYear = currentYear + i;
+        const correspondingOldYear = oldYears[i];
+        newAmounts[newYear] = correspondingOldYear !== undefined 
+          ? (source.amounts[correspondingOldYear] || 0)
+          : 0;
+      }
+      
+      return { ...source, amounts: newAmounts };
+    }));
+
+    // Update action item timings to reflect new years
+    setActionItems(prev => prev.map(item => {
+      let newTiming = item.timing;
+      // Replace year references in timing strings
+      for (let i = 0; i < Math.max(prevDuration, duration); i++) {
+        const oldYear = prevStart + i;
+        const newYear = startYear + i;
+        if (oldYear !== newYear) {
+          newTiming = newTiming.replace(new RegExp(oldYear.toString(), 'g'), newYear.toString());
+        }
+      }
+      // Also handle year-1 references (e.g., Q4 2025 for 2026 start)
+      const oldPrevYear = prevStart - 1;
+      const newPrevYear = startYear - 1;
+      if (oldPrevYear !== newPrevYear) {
+        newTiming = newTiming.replace(new RegExp(oldPrevYear.toString(), 'g'), newPrevYear.toString());
+      }
+      return { ...item, timing: newTiming };
+    }));
+
+    // Update refs for next comparison
+    previousStartYearRef.current = startYear;
+    previousDurationRef.current = duration;
+  }, [startYear, duration, currentYear]);
   const loadFromDetectedEvent = (event: LifeEvent) => {
     const projection = event.financial_projection!;
 
