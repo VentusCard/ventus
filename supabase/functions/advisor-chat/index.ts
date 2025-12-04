@@ -187,22 +187,26 @@ function formatContextForPrompt(context: AdvisorContext): string {
     prompt += `\n`;
   }
 
-  // Overview
-  prompt += `TRANSACTION OVERVIEW:\n`;
-  prompt += `- Total Transactions: ${context.overview.totalTransactions}\n`;
-  prompt += `- Total Spend: $${context.overview.totalSpend.toLocaleString()}\n`;
-  prompt += `- Date Range: ${context.overview.dateRange.start} to ${context.overview.dateRange.end}\n`;
-  prompt += `- Avg Transaction: $${context.overview.avgTransactionAmount}\n\n`;
+  // Overview (only if transaction data available)
+  if (context.overview) {
+    prompt += `TRANSACTION OVERVIEW:\n`;
+    prompt += `- Total Transactions: ${context.overview.totalTransactions}\n`;
+    prompt += `- Total Spend: $${context.overview.totalSpend.toLocaleString()}\n`;
+    prompt += `- Date Range: ${context.overview.dateRange.start} to ${context.overview.dateRange.end}\n`;
+    prompt += `- Avg Transaction: $${context.overview.avgTransactionAmount}\n\n`;
+  }
 
-  // Top Spending Categories
-  prompt += `TOP SPENDING CATEGORIES:\n`;
-  context.topPillars.slice(0, 5).forEach((p, i) => {
-    prompt += `${i + 1}. ${p.pillar}: $${p.totalSpend.toLocaleString()} (${p.percentage}%, ${p.transactionCount} transactions)\n`;
-    if (p.topSubcategories.length > 0) {
-      prompt += `   Top subcategories: ${p.topSubcategories.map(s => `${s.name} ($${s.spend.toLocaleString()})`).join(", ")}\n`;
-    }
-  });
-  prompt += `\n`;
+  // Top Spending Categories (only if available)
+  if (context.topPillars && context.topPillars.length > 0) {
+    prompt += `TOP SPENDING CATEGORIES:\n`;
+    context.topPillars.slice(0, 5).forEach((p, i) => {
+      prompt += `${i + 1}. ${p.pillar}: $${p.totalSpend.toLocaleString()} (${p.percentage}%, ${p.transactionCount} transactions)\n`;
+      if (p.topSubcategories.length > 0) {
+        prompt += `   Top subcategories: ${p.topSubcategories.map(s => `${s.name} ($${s.spend.toLocaleString()})`).join(", ")}\n`;
+      }
+    });
+    prompt += `\n`;
+  }
 
   // Travel Analysis
   if (context.travelAnalysis && context.travelAnalysis.travelTransactions > 0) {
