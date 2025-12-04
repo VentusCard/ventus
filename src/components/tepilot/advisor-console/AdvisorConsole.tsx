@@ -107,6 +107,14 @@ export function AdvisorConsole({
     }));
   }, []);
 
+  const handleDeleteActionItem = useCallback((itemId: string) => {
+    setNextStepsData(prev => ({
+      ...prev,
+      actionItems: prev.actionItems.filter(item => item.id !== itemId),
+      lastUpdated: new Date()
+    }));
+  }, []);
+
   const handleAddTimelineActionItems = useCallback((items: NextStepsActionItem[]) => {
     setNextStepsData(prev => {
       // Deduplicate by normalizing text
@@ -244,6 +252,7 @@ export function AdvisorConsole({
           <ActionWorkspacePanel 
             nextStepsData={nextStepsData}
             onToggleActionItem={handleToggleActionItem}
+            onDeleteActionItem={handleDeleteActionItem}
             onAddActionItem={handleAddActionItem}
             savedProjection={savedProjection}
             onExportTimelinePDF={handleExportTimelinePDF}
