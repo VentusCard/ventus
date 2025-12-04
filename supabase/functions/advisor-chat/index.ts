@@ -114,6 +114,8 @@ interface AdvisorContext {
     aspect: string;
     assessment: string;
     confidence: number;
+    sliderValue?: number;
+    actionTip?: string;
   }>;
   clientProfile?: ClientProfile;
 }
