@@ -143,10 +143,20 @@ serve(async (req) => {
     console.log('Analyzing lifestyle signals for client:', client.name);
     console.log('Transaction count:', transactions.length);
 
+    // Sort by date (most recent first) to prioritize recent life events
+    const sortedTransactions = [...transactions].sort((a: any, b: any) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    console.log('Top 10 transactions by date:', 
+      sortedTransactions.slice(0, 10).map((t: any) => `${t.date}: ${t.merchant_name || t.merchant}`));
+
     // Build dynamic prompt based on transaction data
-    const transactionSummary = transactions
-      .slice(0, 50) // Limit to most recent 50 for context
-      .map((t: any) => `- ${t.merchant}: $${t.amount} (${t.category || 'Unknown'}) on ${t.date}`)
+    const transactionSummary = sortedTransactions
+      .slice(0, 75) // Increased from 50 to catch more life event clusters
+      .map((t: any) => `- ${t.merchant_name || t.merchant}: $${t.amount} (${t.pillar || t.category || 'Unknown'}, ${t.subcategory || ''}) on ${t.date}`)
       .join('\n');
 
     const systemPrompt = `You are a wealth management AI advisor analyzing client transaction patterns to detect life events with wealth management implications.
