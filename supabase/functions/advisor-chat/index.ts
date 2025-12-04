@@ -228,8 +228,12 @@ function formatContextForPrompt(context: AdvisorContext): string {
     prompt += `AI-DETECTED LIFE EVENTS:\n`;
     context.lifeEvents.forEach((event, i) => {
       prompt += `${i + 1}. ${event.event} (${event.confidence}% confidence)\n`;
-      prompt += `   - Evidence: ${event.evidenceCount} indicators\n`;
-      prompt += `   - Recommended Products: ${event.products.join(", ")}\n`;
+      if (event.evidenceCount) {
+        prompt += `   - Evidence: ${event.evidenceCount} indicators\n`;
+      }
+      if (event.products && event.products.length > 0) {
+        prompt += `   - Recommended Products: ${event.products.join(", ")}\n`;
+      }
       if (event.keyInsights && event.keyInsights.length > 0) {
         prompt += `   - Key Insights: ${event.keyInsights.join("; ")}\n`;
       }
