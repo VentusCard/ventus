@@ -124,10 +124,10 @@ async function callTravelDetectionAI(
   console.log(`[Travel Detection] Calling AI with model: ${model}`);
   
   // Use correct token parameter based on model type
-  // OpenAI GPT-5 models require max_completion_tokens, Gemini uses max_tokens
+  // OpenAI GPT-5 models require max_completion_tokens and need more tokens for reasoning
   const isOpenAI = model.startsWith("openai/");
   const tokenParam = isOpenAI 
-    ? { max_completion_tokens: 4000 }
+    ? { max_completion_tokens: 16000 }  // Higher limit for reasoning + output
     : { max_tokens: 4000 };
   
   const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
