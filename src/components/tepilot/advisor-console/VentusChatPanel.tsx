@@ -14,6 +14,7 @@ import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { TaskItem } from "./TaskItem";
 import { FinancialTimelineTool } from "./FinancialTimelineTool";
 import { ClientPsychologyDialog } from "./ClientPsychologyDialog";
+import { ClientProfileData } from "@/types/clientProfile";
 
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
@@ -29,6 +30,7 @@ interface VentusChatPanelProps {
   onSaveProjection?: (projection: SavedFinancialProjection) => void;
   onAddTimelineActionItems?: (items: NextStepsActionItem[]) => void;
   psychologicalInsights?: PsychologicalInsight[];
+  clientProfile?: ClientProfileData | null;
 }
 // Helper function to extract action items from AI response
 // Only match explicitly numbered items (1., 2.) or bullet points (-, •) at line start
@@ -72,7 +74,8 @@ export function VentusChatPanel({
   onExtractNextSteps,
   onSaveProjection,
   onAddTimelineActionItems,
-  psychologicalInsights = []
+  psychologicalInsights = [],
+  clientProfile
 }: VentusChatPanelProps) {
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
@@ -83,15 +86,16 @@ export function VentusChatPanel({
     toast
   } = useToast();
 
-  // Merge psychology insights into advisor context for AI
+  // Merge psychology insights and client profile into advisor context for AI
   const activePsychologyInsights = psychologicalInsights.filter(p => p.confidence > 0);
   const enrichedContext = useMemo(() => {
     if (!advisorContext) return undefined;
     return {
       ...advisorContext,
-      clientPsychology: activePsychologyInsights
+      clientPsychology: activePsychologyInsights,
+      clientProfile: clientProfile || undefined
     };
-  }, [advisorContext, activePsychologyInsights]);
+  }, [advisorContext, activePsychologyInsights, clientProfile]);
 
   // Use advisor chat hook for live AI conversations with enriched context
   const {

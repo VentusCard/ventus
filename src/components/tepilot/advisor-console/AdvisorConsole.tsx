@@ -208,6 +208,7 @@ export function AdvisorConsole({
             onSaveProjection={handleSaveProjection}
             onAddTimelineActionItems={handleAddTimelineActionItems}
             psychologicalInsights={nextStepsData.psychologicalInsights}
+            clientProfile={clientProfile}
           />
         </ResizablePanel>
 
