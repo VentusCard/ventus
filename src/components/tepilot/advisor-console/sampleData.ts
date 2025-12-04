@@ -7,6 +7,7 @@ export interface NextStepsActionItem {
   text: string;
   completed: boolean;
   source: 'chat' | 'transcript' | 'manual' | 'timeline';
+  chipSource?: string; // Track which chip generated this action item
   timestamp: Date;
 }
 

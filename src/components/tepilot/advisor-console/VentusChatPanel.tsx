@@ -26,7 +26,7 @@ interface VentusChatPanelProps {
   isLoadingInsights: boolean;
   enrichedTransactions?: EnrichedTransaction[];
   advisorContext?: AdvisorContext;
-  onExtractNextSteps?: (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[]) => void;
+  onExtractNextSteps?: (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[], chipSource?: string) => void;
   onSaveProjection?: (projection: SavedFinancialProjection) => void;
   onAddTimelineActionItems?: (items: NextStepsActionItem[]) => void;
   psychologicalInsights?: PsychologicalInsight[];
@@ -82,6 +82,7 @@ export function VentusChatPanel({
   const [psychologyDialogOpen, setPsychologyDialogOpen] = useState(false);
   const [financialTimelineOpen, setFinancialTimelineOpen] = useState(false);
   const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<LifeEvent | null>(null);
+  const [activeChipSource, setActiveChipSource] = useState<string | null>(null);
   const {
     toast
   } = useToast();
@@ -129,24 +130,32 @@ export function VentusChatPanel({
 
     // Extract action items from the message
     const extractedItems = extractActionItemsFromMessage(lastMessage.content);
+    const currentChipSource = activeChipSource;
     const actionItems: NextStepsActionItem[] = extractedItems.map((text, idx) => ({
       id: `action-${Date.now()}-${idx}`,
       text,
       completed: false,
       source: 'chat',
+      chipSource: currentChipSource || undefined,
       timestamp: new Date()
     }));
 
     if (actionItems.length > 0) {
-      onExtractNextSteps(actionItems, []);
+      onExtractNextSteps(actionItems, [], currentChipSource || undefined);
     }
-  }, [messages, onExtractNextSteps]);
+    
+    // Clear active chip after extraction
+    setActiveChipSource(null);
+  }, [messages, onExtractNextSteps, activeChipSource]);
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
   const primaryChips = ["Financial Planning", "Life Event Planner", "Tax Planning", "Product Recommendations"];
   const secondaryChips = ["Meeting Prep", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Client Psychology"];
   const handleChipClick = (chip: string) => {
+    // Track which chip was clicked for refresh logic
+    setActiveChipSource(chip);
+    
     let prompt = "";
     switch (chip) {
       case "Meeting Prep":
