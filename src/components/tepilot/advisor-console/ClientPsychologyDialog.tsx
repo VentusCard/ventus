@@ -25,35 +25,70 @@ const PSYCHOLOGY_CATEGORIES = [
     label: "Decision Style",
     leftLabel: "Analytical",
     rightLabel: "Intuitive",
-    markers: ["Very Analytical", "Analytical", "Balanced", "Intuitive", "Very Intuitive"]
+    markers: ["Very Analytical", "Analytical", "Balanced", "Intuitive", "Very Intuitive"],
+    actionTips: [
+      "Lead with data & charts",
+      "Provide supporting evidence",
+      "Balance data with narrative",
+      "Tell stories, use examples",
+      "Trust their gut, keep simple"
+    ]
   },
   {
     id: "risk_tolerance",
     label: "Risk Tolerance",
     leftLabel: "Conservative",
     rightLabel: "Aggressive",
-    markers: ["Very Conservative", "Conservative", "Moderate", "Growth", "Aggressive"]
+    markers: ["Very Conservative", "Conservative", "Moderate", "Growth", "Aggressive"],
+    actionTips: [
+      "Emphasize capital preservation",
+      "Focus on stability & safety",
+      "Present balanced options",
+      "Highlight growth potential",
+      "Lead with upside opportunity"
+    ]
   },
   {
     id: "emotional_state",
     label: "Emotional State",
     leftLabel: "Anxious",
     rightLabel: "Confident",
-    markers: ["Very Anxious", "Anxious", "Neutral", "Confident", "Very Confident"]
+    markers: ["Very Anxious", "Anxious", "Neutral", "Confident", "Very Confident"],
+    actionTips: [
+      "Reassure frequently, small steps",
+      "Acknowledge concerns first",
+      "Be direct, neutral tone",
+      "Validate their confidence",
+      "Challenge & stretch thinking"
+    ]
   },
   {
     id: "trust_level",
     label: "Trust Level",
     leftLabel: "Guarded",
     rightLabel: "High Trust",
-    markers: ["Very Guarded", "Guarded", "Building", "Trusting", "High Trust"]
+    markers: ["Very Guarded", "Guarded", "Building", "Trusting", "High Trust"],
+    actionTips: [
+      "Document everything, verify claims",
+      "Build rapport, cite credentials",
+      "Be transparent, earn trust",
+      "Speak directly, they trust you",
+      "Make recommendations freely"
+    ]
   },
   {
     id: "communication_style",
     label: "Communication Style",
     leftLabel: "Big Picture",
     rightLabel: "Detail-Oriented",
-    markers: ["Very Concise", "Concise", "Balanced", "Detailed", "Very Detailed"]
+    markers: ["Very Concise", "Concise", "Balanced", "Detailed", "Very Detailed"],
+    actionTips: [
+      "Headlines only, no deep dives",
+      "Keep it brief, summary format",
+      "Balanced depth",
+      "Provide thorough explanations",
+      "Go deep, show all details"
+    ]
   }
 ];
 
@@ -85,12 +120,14 @@ export function ClientPsychologyDialog({ open, onOpenChange, onSaveInsights }: C
       const selection = selections[category.id];
       if (selection?.value && selection.value !== 3) { // 3 is neutral/default
         const markerLabel = category.markers[selection.value - 1];
+        const actionTip = category.actionTips[selection.value - 1];
         insights.push({
           aspect: category.label,
           assessment: markerLabel,
           evidence: selection.notes || "Advisor observation",
           confidence: selection.notes ? 0.90 : 0.80,
-          sliderValue: selection.value
+          sliderValue: selection.value,
+          actionTip: actionTip
         });
       }
     }
