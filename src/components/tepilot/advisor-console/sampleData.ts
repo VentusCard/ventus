@@ -783,50 +783,12 @@ export const sampleAIInsights: AIInsights = {
           relevance: "Additional prep investment demonstrates commitment"
         }
       ],
-      products: [
-        {
-          name: "529 Education Savings Plan",
-          rationale: "Tax-advantaged savings for upcoming college expenses. Client likely faces tuition payments within 1-2 years based on SAT timing and dependent's age.",
-          estimated_value: "$8,500 in tax savings over 4 years (based on tech income tax bracket)",
-          priority: "high"
-        },
-        {
-          name: "Student Banking Package",
-          rationale: "Prepare dependent for financial independence with supervised account, debit card, and mobile banking access",
-          estimated_value: "$240/year in fee waivers + credit building head start",
-          priority: "medium"
-        },
-        {
-          name: "Education Line of Credit",
-          rationale: "Flexible financing option for college expenses with competitive rates for Private Banking clients",
-          estimated_value: "Access to $50K-$100K at prime + 1.5% (currently ~9%)",
-          priority: "low"
-        }
-      ],
-      education: [
-        "SAT is offered 7 times/year; most students take it 2-3 times for best scores",
-        "Competitive schools require SAT scores by November of senior year",
-        "Average SAT prep course costs $800-1,200 and can boost scores 100-200 points",
-        "529 plans cover SAT prep, tutoring, and application fees (often overlooked benefit)",
-        "FAFSA opens October 1st; filing early maximizes aid eligibility",
-        "Early Decision deadlines typically November 1st (binding commitment)",
-        "Common App allows one application for multiple schools (streamlines process)",
-        "College visits junior year show demonstrated interest (can impact admissions)",
-        "AP courses/dual enrollment reduce college costs by earning early credits",
-        "Student loans should be last resort after grants, scholarships, work-study"
-      ],
       talking_points: [
         "I noticed you've invested in SAT preparation for the dependent - that shows real commitment to their academic future",
         "Many parents are surprised to learn 529 plans can cover test prep and application costs, not just tuition",
         "Based on your tax situation and the timing of these college expenses, let's discuss a strategic funding plan that maximizes benefits",
         "Have you thought about how you'll balance saving for college with your other financial goals? We can model different scenarios together",
         "The SAT timeline suggests college applications are about a year away - now's the perfect time to optimize your education funding strategy"
-      ],
-      action_items: [
-        "Prepare 529 plan comparison (Washington DreamAhead vs. other state plans)",
-        "Calculate tax benefit projection based on client's income bracket",
-        "Compile college funding timeline resource (FAFSA, deadlines, scholarships)",
-        "Schedule comprehensive education planning session for next meeting"
       ]
     }
   ]

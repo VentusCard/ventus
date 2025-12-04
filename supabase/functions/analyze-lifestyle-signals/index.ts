@@ -47,42 +47,10 @@ const LIFESTYLE_SIGNAL_TOOL = {
                   required: ["merchant", "amount", "date", "relevance"]
                 }
               },
-              products: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    name: { type: "string" },
-                    rationale: { 
-                      type: "string",
-                      description: "Detailed explanation of why this product is relevant NOW"
-                    },
-                    estimated_value: { 
-                      type: "string",
-                      description: "Tangible estimated value or savings"
-                    },
-                    priority: { 
-                      type: "string", 
-                      enum: ["high", "medium", "low"] 
-                    }
-                  },
-                  required: ["name", "rationale", "estimated_value", "priority"]
-                }
-              },
-              education: {
-                type: "array",
-                items: { type: "string" },
-                description: "10 practical bullet points about the life event"
-              },
               talking_points: {
                 type: "array",
                 items: { type: "string" },
                 description: "3-5 natural conversation starters for advisor"
-              },
-              action_items: {
-                type: "array",
-                items: { type: "string" },
-                description: "2-3 concrete next steps for advisor"
               },
               financial_projection: {
                 type: "object",
@@ -155,7 +123,7 @@ const LIFESTYLE_SIGNAL_TOOL = {
                 required: ["project_type", "estimated_start_year", "duration_years", "estimated_total_cost", "cost_breakdown", "recommended_funding_sources"]
               }
             },
-            required: ["event_name", "confidence", "evidence", "products", "education", "talking_points", "action_items"]
+            required: ["event_name", "confidence", "evidence", "talking_points"]
           }
         }
       },
@@ -230,10 +198,7 @@ IMPORTANT RULES:
 - Pattern-based events need multiple transactions; standout events need just one significant transaction
 - Be SPECIFIC in event naming
 - Confidence score 0-100 based on evidence strength
-- For urgent items, always include a "protective" product recommendation
-- Educational content: exactly 10 practical, specific bullet points
 - Talking points: 3-5 natural, empathetic conversation starters
-- Action items: 2-3 concrete next steps
 
 FINANCIAL PROJECTION GUIDELINES (for pattern-based events):
 - Generate realistic cost estimates based on current market data
