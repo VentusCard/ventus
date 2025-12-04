@@ -789,7 +789,7 @@ export function FinancialTimelineTool({
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
     const totalCost = totalCostsByYear.reduce((sum, cost) => sum + cost, 0);
-    const totalFunding = totalFundingByYear.reduce((sum, fund) => sum + fund, 0);
+    // Note: totalFunding already calculated above includes pre-funding years
     doc.text(`Total Projected Cost: ${formatCurrency(totalCost)}`, 25, yPos);
     yPos += 6;
     doc.text(`Total Funding: ${formatCurrency(totalFunding)}`, 25, yPos);
@@ -838,9 +838,19 @@ export function FinancialTimelineTool({
       description: "Timeline included in talking points"
     });
   };
+  // Per-year arrays for display purposes
   const totalCostsByYear = years.map(year => costCategories.reduce((sum, cat) => sum + (cat.amounts[year] || 0), 0));
   const totalFundingByYear = years.map(year => fundingSources.reduce((sum, source) => sum + (source.amounts[year] || 0), 0));
-  const fundingGap = totalCostsByYear.reduce((sum, cost, idx) => sum + cost - (totalFundingByYear[idx] || 0), 0);
+  
+  // Total costs only occur during project years
+  const totalCosts = totalCostsByYear.reduce((sum, val) => sum + val, 0);
+
+  // Total funding includes ALL funding years (including pre-funding before project starts)
+  const totalFunding = fundingSources.reduce((sum, source) => 
+    sum + Object.values(source.amounts).reduce((srcSum, val) => srcSum + (val || 0), 0), 0);
+
+  // Funding gap = what's still needed
+  const fundingGap = totalCosts - totalFunding;
   return <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
