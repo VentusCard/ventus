@@ -108,6 +108,30 @@ export function ActionWorkspacePanel({
 
           {/* Content Area - Scrollable */}
           <div className="flex-1 min-h-0 overflow-y-auto space-y-4 mb-3">
+            {/* Psychological Insights Section - Always visible at top */}
+            <Card className="p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Brain className="w-4 h-4 text-primary" />
+                <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
+              </div>
+              <ul className="space-y-1.5">
+                {displayInsights.map((insight, idx) => (
+                  <li 
+                    key={idx} 
+                    className={`text-xs flex items-start gap-2 ${
+                      insight.confidence === 0 ? 'text-slate-400 italic' : 'text-slate-700'
+                    }`}
+                  >
+                    <span className={`mt-0.5 ${insight.confidence === 0 ? 'text-slate-300' : 'text-primary'}`}>•</span>
+                    <span>
+                      <span className={`font-medium ${insight.confidence === 0 ? 'text-slate-400' : ''}`}>{insight.aspect}:</span>{' '}
+                      {insight.assessment.length > 60 ? insight.assessment.slice(0, 60) + '...' : insight.assessment}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
+
             {/* Empty State - only for action items since psychological insights always show */}
             {nextStepsData.actionItems.length === 0 && !isAddingItem && <Card className="border-dashed p-6 text-center">
                 <MessageSquare className="w-10 h-10 mx-auto text-muted-foreground/50 mb-3" />
@@ -196,30 +220,6 @@ export function ActionWorkspacePanel({
                 )}
               </Card>
             )}
-
-            {/* Psychological Insights Section - Always visible */}
-            <Card className="p-3">
-              <div className="flex items-center gap-2 mb-2">
-                <Brain className="w-4 h-4 text-primary" />
-                <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
-              </div>
-              <ul className="space-y-1.5">
-                {displayInsights.map((insight, idx) => (
-                  <li 
-                    key={idx} 
-                    className={`text-xs flex items-start gap-2 ${
-                      insight.confidence === 0 ? 'text-slate-400 italic' : 'text-slate-700'
-                    }`}
-                  >
-                    <span className={`mt-0.5 ${insight.confidence === 0 ? 'text-slate-300' : 'text-primary'}`}>•</span>
-                    <span>
-                      <span className={`font-medium ${insight.confidence === 0 ? 'text-slate-400' : ''}`}>{insight.aspect}:</span>{' '}
-                      {insight.assessment.length > 60 ? insight.assessment.slice(0, 60) + '...' : insight.assessment}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
           </div>
 
           {/* Action Buttons */}
