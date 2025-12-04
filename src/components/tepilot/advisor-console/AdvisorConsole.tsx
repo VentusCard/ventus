@@ -4,7 +4,7 @@ import { ClientSnapshotPanel } from "./ClientSnapshotPanel";
 import { VentusChatPanel } from "./VentusChatPanel";
 import { ActionWorkspacePanel } from "./ActionWorkspacePanel";
 import { ChatMessage, Task, sampleTasks, sampleClientData, NextStepsData, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
-import { AIInsights, SavedFinancialProjection } from "@/types/lifestyle-signals";
+import { AIInsights, SavedFinancialProjection, LifeEvent } from "@/types/lifestyle-signals";
 import { EnrichedTransaction } from "@/types/transaction";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { exportFinancialTimelinePDF } from "@/lib/financialTimelinePdfExport";
@@ -35,6 +35,11 @@ export function AdvisorConsole({
   });
   const [savedProjection, setSavedProjection] = useState<SavedFinancialProjection | null>(null);
   const [clientProfile, setClientProfile] = useState<ClientProfileData | null>(null);
+  
+  // Cross-panel communication state
+  const [pendingChatMessage, setPendingChatMessage] = useState<string | null>(null);
+  const [pendingTimelineEvent, setPendingTimelineEvent] = useState<LifeEvent | null>(null);
+  const [openTimelineTrigger, setOpenTimelineTrigger] = useState(false);
 
   const handleGenerateProfile = useCallback(() => {
     const newProfile = generateRandomProfile();
@@ -148,10 +153,14 @@ export function AdvisorConsole({
     }
   }, [savedProjection, toast]);
 
-  const handleAskVentus = (context: string) => {
-    console.log("Ask Ventus with context:", context);
-    // Future: Add context to chat input
-  };
+  const handleAskVentus = useCallback((context: string) => {
+    setPendingChatMessage(context);
+  }, []);
+
+  const handlePlanEvent = useCallback((event: LifeEvent) => {
+    setPendingTimelineEvent(event);
+    setOpenTimelineTrigger(true);
+  }, []);
 
   const handleSaveToDocument = (message: ChatMessage) => {
     console.log("Save to document:", message);
@@ -190,6 +199,7 @@ export function AdvisorConsole({
         <ResizablePanel defaultSize={22} minSize={15} maxSize={30}>
           <ClientSnapshotPanel 
             onAskVentus={handleAskVentus}
+            onPlanEvent={handlePlanEvent}
             advisorContext={advisorContext}
             aiInsights={propAiInsights}
             clientData={clientProfile}
@@ -216,6 +226,14 @@ export function AdvisorConsole({
             onAddTimelineActionItems={handleAddTimelineActionItems}
             psychologicalInsights={nextStepsData.psychologicalInsights}
             clientProfile={clientProfile}
+            pendingMessage={pendingChatMessage}
+            onPendingMessageConsumed={() => setPendingChatMessage(null)}
+            externalTimelineEvent={pendingTimelineEvent}
+            externalTimelineOpen={openTimelineTrigger}
+            onExternalTimelineHandled={() => {
+              setOpenTimelineTrigger(false);
+              setPendingTimelineEvent(null);
+            }}
           />
         </ResizablePanel>
 
