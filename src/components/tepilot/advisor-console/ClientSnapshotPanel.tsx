@@ -11,6 +11,7 @@ import { ClientProfileData } from "@/types/clientProfile";
 import { LifeEventDetailsDialog } from "./LifeEventDetailsDialog";
 interface ClientSnapshotPanelProps {
   onAskVentus?: (context: string) => void;
+  onPlanEvent?: (event: LifeEvent) => void;
   advisorContext?: AdvisorContext;
   aiInsights?: AIInsights | null;
   clientData?: ClientProfileData | null;
@@ -65,6 +66,7 @@ const placeholderClientData = {
 
 export function ClientSnapshotPanel({
   onAskVentus,
+  onPlanEvent,
   advisorContext,
   aiInsights,
   clientData,
@@ -371,6 +373,7 @@ export function ClientSnapshotPanel({
         open={!!selectedEvent}
         onOpenChange={(open) => !open && setSelectedEvent(null)}
         onAskVentus={onAskVentus}
+        onPlanEvent={onPlanEvent}
       />
     </div>
   );

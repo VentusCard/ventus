@@ -31,6 +31,12 @@ interface VentusChatPanelProps {
   onAddTimelineActionItems?: (items: NextStepsActionItem[]) => void;
   psychologicalInsights?: PsychologicalInsight[];
   clientProfile?: ClientProfileData | null;
+  // Cross-panel communication props
+  pendingMessage?: string | null;
+  onPendingMessageConsumed?: () => void;
+  externalTimelineEvent?: LifeEvent | null;
+  externalTimelineOpen?: boolean;
+  onExternalTimelineHandled?: () => void;
 }
 // Helper function to extract action items from AI response
 // Only match explicitly numbered items (1., 2.) or bullet points (-, •) at line start
@@ -75,7 +81,12 @@ export function VentusChatPanel({
   onSaveProjection,
   onAddTimelineActionItems,
   psychologicalInsights = [],
-  clientProfile
+  clientProfile,
+  pendingMessage,
+  onPendingMessageConsumed,
+  externalTimelineEvent,
+  externalTimelineOpen,
+  onExternalTimelineHandled
 }: VentusChatPanelProps) {
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
@@ -147,6 +158,23 @@ export function VentusChatPanel({
     // Clear active chip after extraction
     setActiveChipSource(null);
   }, [messages, onExtractNextSteps, activeChipSource]);
+  // Handle pending message from other panels (Ask Ventus)
+  useEffect(() => {
+    if (pendingMessage) {
+      setInputValue(pendingMessage);
+      onPendingMessageConsumed?.();
+    }
+  }, [pendingMessage, onPendingMessageConsumed]);
+
+  // Handle external timeline trigger (Plan This Event)
+  useEffect(() => {
+    if (externalTimelineOpen && externalTimelineEvent) {
+      setSelectedTimelineEvent(externalTimelineEvent);
+      setFinancialTimelineOpen(true);
+      onExternalTimelineHandled?.();
+    }
+  }, [externalTimelineOpen, externalTimelineEvent, onExternalTimelineHandled]);
+
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
