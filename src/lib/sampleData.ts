@@ -74,9 +74,7 @@ txn_072,STARBUCKS COFFEE,Morning coffee home,5814,6.75,2025-09-30,94102
 txn_073,COLLEGEBOARD SAT,SAT registration fee,8299,68.00,2025-10-05,
 txn_074,KAPLAN TEST PREP,SAT prep course,8299,1299.00,2025-10-08,94102
 txn_075,STANFORD VISITOR PARKING,Campus tour parking,7523,25.00,2025-10-14,94305
-txn_076,TIFFANY AND CO,Engagement ring deposit,5944,4500.00,2025-10-10,94102
-txn_077,THE KNOT PREMIUM,Wedding planning subscription,5968,99.00,2025-10-12,
-txn_078,RITZ CARLTON SF,Wedding venue deposit,7011,5000.00,2025-10-18,94102`;
+`;
 
 export const SAMPLE_CSV_SPORTS_WELLNESS = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_s001,LULULEMON ATHLETICA,Yoga pants and sports bra,5655,189.00,2025-08-15,
@@ -157,9 +155,7 @@ txn_s075,WHOLE FOODS MARKET,Final weekly groceries,5411,145.23,2025-09-24,78701
 txn_s076,BUY BUY BABY,Nursery furniture and crib,5641,1250.00,2025-10-02,78701
 txn_s077,AUSTIN OB GYN ASSOCIATES,Prenatal checkup,8011,350.00,2025-10-05,78701
 txn_s078,POTTERY BARN KIDS,Nursery decor and bedding,5712,485.00,2025-10-08,78701
-txn_s079,HOME INSTEAD SENIOR CARE,Monthly caregiver services,8322,2400.00,2025-10-10,60614
-txn_s080,LIFE ALERT SYSTEMS,Medical alert device setup,5999,299.00,2025-10-12,
-txn_s081,ELDER LAW ATTORNEY,Power of attorney consultation,8111,500.00,2025-10-15,78701`;
+`;
 
 export const SAMPLE_CSV_FOOD_HOME = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_h001,GIBSONS BAR & STEAKHOUSE,Anniversary dinner,5812,287.50,2025-08-15,60614
@@ -240,9 +236,7 @@ txn_h075,ETSY,Handmade home décor,5969,78.25,2025-09-19,
 txn_h076,GUARANTEED RATE MORTGAGE,Pre-approval application fee,6163,500.00,2025-10-03,60601
 txn_h077,CHICAGO HOME INSPECTIONS,Home inspection service,7389,450.00,2025-10-08,60614
 txn_h078,CHICAGO TITLE COMPANY,Title search and escrow,6411,1200.00,2025-10-12,60601
-txn_h079,IL SECRETARY OF STATE,LLC formation filing,9311,150.00,2025-10-05,60601
-txn_h080,INTUIT QUICKBOOKS,Annual business subscription,5817,420.00,2025-10-08,
-txn_h081,NEXT INSURANCE,Business liability insurance,6300,1200.00,2025-10-12,`;
+`;
 
 export const PILLAR_COLORS: Record<string, string> = {
   "Sports & Active Living": "#3b82f6",
