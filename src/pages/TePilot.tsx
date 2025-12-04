@@ -936,7 +936,7 @@ const TePilot = () => {
                   ]} buttonText="View Bank-wide Dashboard" onClick={() => setInsightType('bankwide')} />
 
                   {/* Rewards Team Card */}
-                  <PersonaCard icon={TrendingUp} title="Rewards Team" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={[
+                  <PersonaCard icon={TrendingUp} title="Consumer Rewards" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={[
                     "Top 5 spending subcategories analysis with impact ranking",
                     "AI-powered revenue recommendations with projected ROI",
                     "Spending gap detection revealing out-of-ecosystem spend",
