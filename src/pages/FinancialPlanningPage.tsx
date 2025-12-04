@@ -7,13 +7,17 @@ import { AIInsights, LifeEvent } from "@/types/lifestyle-signals";
 import { ClientProfileData } from "@/types/clientProfile";
 import { PsychologicalInsight } from "@/components/tepilot/advisor-console/sampleData";
 import { FinancialPlanner } from "@/components/tepilot/advisor-console/FinancialPlanner";
+import { FinancialGoal } from "@/types/financial-planning";
+import { useToast } from "@/hooks/use-toast";
 
 const FinancialPlanningPage = () => {
   const navigate = useNavigate();
+  const { toast } = useToast();
   const [enrichedTransactions, setEnrichedTransactions] = useState<EnrichedTransaction[]>([]);
   const [aiInsights, setAiInsights] = useState<AIInsights | null>(null);
   const [clientProfile, setClientProfile] = useState<ClientProfileData | null>(null);
   const [psychologicalInsights, setPsychologicalInsights] = useState<PsychologicalInsight[]>([]);
+  const [importedGoals, setImportedGoals] = useState<FinancialGoal[]>([]);
 
   useEffect(() => {
     // Load context from sessionStorage (same pattern as AdvisorConsolePage)
@@ -48,7 +52,25 @@ const FinancialPlanningPage = () => {
         console.error("Error loading psychological insights:", error);
       }
     }
-  }, []);
+
+    // Check for pending goals from Life Event Planner
+    const pendingGoalsStr = sessionStorage.getItem('pendingFinancialGoals');
+    if (pendingGoalsStr) {
+      try {
+        const pendingGoals: FinancialGoal[] = JSON.parse(pendingGoalsStr);
+        if (pendingGoals.length > 0) {
+          setImportedGoals(pendingGoals);
+          sessionStorage.removeItem('pendingFinancialGoals');
+          toast({
+            title: "Goals Imported",
+            description: `${pendingGoals.length} goal(s) imported from Life Event Planner`,
+          });
+        }
+      } catch (error) {
+        console.error("Error loading pending goals:", error);
+      }
+    }
+  }, [toast]);
 
   const handleOpenLifeEventPlanner = (event: LifeEvent) => {
     // Store the event to be opened
@@ -91,6 +113,7 @@ const FinancialPlanningPage = () => {
           psychologicalInsights={psychologicalInsights}
           onOpenLifeEventPlanner={handleOpenLifeEventPlanner}
           onSaveActionItems={handleSaveActionItems}
+          importedGoals={importedGoals}
         />
       </div>
     </div>
