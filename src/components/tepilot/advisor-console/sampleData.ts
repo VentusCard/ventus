@@ -17,6 +17,7 @@ export interface PsychologicalInsight {
   sliderValue?: number; // 1-5 scale
   evidence: string;
   confidence: number;
+  actionTip?: string;
 }
 
 export interface NextStepsData {

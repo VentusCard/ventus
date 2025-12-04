@@ -135,14 +135,21 @@ export function ActionWorkspacePanel({
                             !isAssessed ? 'text-slate-400 italic' : 'text-slate-700'
                           }`}
                         >
-                          <div className="flex items-center justify-between mb-1">
+                          <div className="flex items-center justify-between mb-0.5">
                             <span className={`font-medium ${!isAssessed ? 'text-slate-400' : ''}`}>
                               {insight.aspect}
                             </span>
-                            <span className={`text-[10px] ${!isAssessed ? 'text-slate-400' : 'text-primary'}`}>
+                            <span className={`text-[10px] ${!isAssessed ? 'text-slate-400' : 'text-muted-foreground'}`}>
                               {insight.assessment}
                             </span>
                           </div>
+                          {/* Action tip - only show when assessed */}
+                          {isAssessed && insight.actionTip && (
+                            <div className="text-[11px] text-primary font-medium mb-1 flex items-center gap-1">
+                              <span>→</span>
+                              <span>{insight.actionTip}</span>
+                            </div>
+                          )}
                           {/* 5-dot visual indicator */}
                           <div className="flex gap-1">
                             {[1, 2, 3, 4, 5].map((dot) => (
