@@ -11,10 +11,11 @@ import { useToast } from "@/hooks/use-toast";
 import { AIInsights, LifeEvent, SavedFinancialProjection } from "@/types/lifestyle-signals";
 import { EnrichedTransaction } from "@/types/transaction";
 import { useAdvisorChat } from "@/hooks/useAdvisorChat";
-import { AdvisorContext } from "@/lib/advisorContextBuilder";
+import { AdvisorContext, FinancialPlanContext } from "@/lib/advisorContextBuilder";
 import { TaskItem } from "./TaskItem";
 import { FinancialTimelineTool } from "./FinancialTimelineTool";
 import { ClientPsychologyDialog } from "./ClientPsychologyDialog";
+import { TaxPlanningDialog } from "./TaxPlanningDialog";
 import { ClientProfileData } from "@/types/clientProfile";
 
 interface VentusChatPanelProps {
@@ -92,6 +93,7 @@ export function VentusChatPanel({
   const [todoOpen, setTodoOpen] = useState(true);
   const [psychologyDialogOpen, setPsychologyDialogOpen] = useState(false);
   const [financialTimelineOpen, setFinancialTimelineOpen] = useState(false);
+  const [taxPlanningDialogOpen, setTaxPlanningDialogOpen] = useState(false);
   const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<LifeEvent | null>(null);
   const [activeChipSource, setActiveChipSource] = useState<string | null>(null);
   const {
@@ -235,8 +237,8 @@ export function VentusChatPanel({
         setFinancialTimelineOpen(true);
         return;
       case "Tax Planning":
-        prompt = "Analyze this client's spending for tax planning opportunities.";
-        break;
+        setTaxPlanningDialogOpen(true);
+        return;
       case "Client Psychology":
         setPsychologyDialogOpen(true);
         return;
@@ -442,6 +444,18 @@ export function VentusChatPanel({
         detectedEvent={selectedTimelineEvent || undefined} 
         onSaveProjection={onSaveProjection}
         onAddActionItems={onAddTimelineActionItems}
+      />
+
+      <TaxPlanningDialog
+        open={taxPlanningDialogOpen}
+        onOpenChange={setTaxPlanningDialogOpen}
+        clientProfile={clientProfile || null}
+        financialPlanData={(enrichedContext as any)?.financialPlan || null}
+        enrichedTransactions={enrichedTransactions}
+        onAskAI={(prompt) => {
+          setInputValue(prompt);
+          setTaxPlanningDialogOpen(false);
+        }}
       />
     </div>;
 }
