@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { ResizablePanelGroup, ResizablePanel, ResizableHandle } from "@/components/ui/resizable";
 import { ClientSnapshotPanel } from "./ClientSnapshotPanel";
 import { VentusChatPanel } from "./VentusChatPanel";
@@ -10,7 +10,7 @@ import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { exportFinancialTimelinePDF } from "@/lib/financialTimelinePdfExport";
 import { useToast } from "@/hooks/use-toast";
 import { ClientProfileData } from "@/types/clientProfile";
-import { generateRandomProfile } from "@/lib/randomProfileGenerator";
+import { generateRandomProfile, generateRandomPsychologicalInsights } from "@/lib/randomProfileGenerator";
 
 interface AdvisorConsoleProps {
   aiInsights?: AIInsights | null;
@@ -35,18 +35,71 @@ export function AdvisorConsole({
   });
   const [savedProjection, setSavedProjection] = useState<SavedFinancialProjection | null>(null);
   const [clientProfile, setClientProfile] = useState<ClientProfileData | null>(null);
+  const [isInitialized, setIsInitialized] = useState(false);
   
   // Cross-panel communication state
   const [pendingChatMessage, setPendingChatMessage] = useState<string | null>(null);
   const [pendingTimelineEvent, setPendingTimelineEvent] = useState<LifeEvent | null>(null);
   const [openTimelineTrigger, setOpenTimelineTrigger] = useState(false);
 
+  // Auto-generate all client data on mount
+  useEffect(() => {
+    if (isInitialized) return;
+
+    // Check sessionStorage for existing data (returning from another page)
+    const existingProfile = sessionStorage.getItem("tepilot_client_profile");
+    const existingPsych = sessionStorage.getItem("tepilot_psychological_insights");
+
+    if (existingProfile && existingPsych) {
+      // Restore from session
+      setClientProfile(JSON.parse(existingProfile));
+      setNextStepsData(prev => ({
+        ...prev,
+        psychologicalInsights: JSON.parse(existingPsych)
+      }));
+    } else {
+      // Generate fresh data
+      const newProfile = generateRandomProfile();
+      const newPsych = generateRandomPsychologicalInsights();
+      
+      setClientProfile(newProfile);
+      setNextStepsData(prev => ({
+        ...prev,
+        psychologicalInsights: newPsych
+      }));
+      
+      // Persist to sessionStorage
+      sessionStorage.setItem("tepilot_client_profile", JSON.stringify(newProfile));
+      sessionStorage.setItem("tepilot_psychological_insights", JSON.stringify(newPsych));
+      
+      toast({
+        title: "Client Loaded",
+        description: `${newProfile.name} (${newProfile.segment}) ready for review`,
+      });
+    }
+    
+    setIsInitialized(true);
+  }, [isInitialized, toast]);
+
   const handleGenerateProfile = useCallback(() => {
     const newProfile = generateRandomProfile();
+    const newPsych = generateRandomPsychologicalInsights();
+    
     setClientProfile(newProfile);
+    setNextStepsData(prev => ({
+      ...prev,
+      psychologicalInsights: newPsych,
+      actionItems: [], // Clear action items for new client
+      lastUpdated: new Date()
+    }));
+    
+    // Persist to sessionStorage
+    sessionStorage.setItem("tepilot_client_profile", JSON.stringify(newProfile));
+    sessionStorage.setItem("tepilot_psychological_insights", JSON.stringify(newPsych));
+    
     toast({
-      title: "Profile Generated",
-      description: `Created profile for ${newProfile.name} (${newProfile.segment})`,
+      title: "New Client Loaded",
+      description: `${newProfile.name} (${newProfile.segment}) ready for review`,
     });
   }, [toast]);
 

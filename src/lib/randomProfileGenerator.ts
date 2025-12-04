@@ -1,4 +1,86 @@
 import { ClientProfileData } from "@/types/clientProfile";
+import { PsychologicalInsight } from "@/components/tepilot/advisor-console/sampleData";
+
+type Persona = 'youngProfessional' | 'growingFamily' | 'establishedProfessional' | 'preRetiree';
+
+// Psychological insight generators based on persona
+const psychologyConfig: Record<Persona, {
+  decisionStyle: [number, number];
+  riskTolerance: [number, number];
+  emotionalState: [number, number];
+  trustLevel: [number, number];
+  communicationStyle: [number, number];
+}> = {
+  youngProfessional: {
+    decisionStyle: [3, 5],      // More analytical
+    riskTolerance: [4, 5],      // Risk-seeking
+    emotionalState: [3, 5],     // Optimistic
+    trustLevel: [2, 4],         // Building trust
+    communicationStyle: [4, 5], // Prefers detailed
+  },
+  growingFamily: {
+    decisionStyle: [2, 4],      // Balanced
+    riskTolerance: [2, 4],      // Moderate
+    emotionalState: [2, 4],     // Balanced/cautious
+    trustLevel: [3, 4],         // Established
+    communicationStyle: [3, 4], // Balanced
+  },
+  establishedProfessional: {
+    decisionStyle: [4, 5],      // Analytical
+    riskTolerance: [2, 4],      // Moderate
+    emotionalState: [3, 5],     // Stable
+    trustLevel: [4, 5],         // High trust
+    communicationStyle: [3, 5], // Varies
+  },
+  preRetiree: {
+    decisionStyle: [2, 4],      // Experience-based
+    riskTolerance: [1, 3],      // Conservative
+    emotionalState: [2, 4],     // Cautious optimism
+    trustLevel: [4, 5],         // Long-term trust
+    communicationStyle: [2, 4], // Concise
+  },
+};
+
+const assessmentMaps = {
+  decisionStyle: ['Highly Intuitive', 'Intuitive', 'Balanced', 'Analytical', 'Highly Analytical'],
+  riskTolerance: ['Very Conservative', 'Conservative', 'Moderate', 'Growth-Oriented', 'Aggressive'],
+  emotionalState: ['Anxious', 'Concerned', 'Neutral', 'Confident', 'Very Confident'],
+  trustLevel: ['Building', 'Developing', 'Established', 'Strong', 'Very Strong'],
+  communicationStyle: ['Brief Only', 'Concise', 'Balanced', 'Detailed', 'Comprehensive'],
+};
+
+const actionTipMaps = {
+  decisionStyle: ['Lead with feelings & stories', 'Balance data with narrative', 'Mix analysis with intuition', 'Lead with data & charts', 'Provide detailed analysis'],
+  riskTolerance: ['Emphasize capital preservation', 'Focus on stability first', 'Balance growth & safety', 'Highlight growth opportunities', 'Present aggressive strategies'],
+  emotionalState: ['Acknowledge concerns first', 'Provide extra reassurance', 'Standard approach works', 'Can discuss challenges openly', 'Ready for complex discussions'],
+  trustLevel: ['Build credibility gradually', 'Continue building rapport', 'Maintain consistent service', 'Can be direct & efficient', 'Trusted advisor status'],
+  communicationStyle: ['Keep it brief', 'Short summaries preferred', 'Balanced communication', 'Include supporting details', 'Comprehensive documentation'],
+};
+
+export function generateRandomPsychologicalInsights(persona?: Persona): PsychologicalInsight[] {
+  const selectedPersona = persona || randomFromArray(['youngProfessional', 'growingFamily', 'establishedProfessional', 'preRetiree'] as Persona[]);
+  const config = psychologyConfig[selectedPersona];
+
+  const getInsight = (aspect: string, range: [number, number], assessments: string[], tips: string[]): PsychologicalInsight => {
+    const value = randomInRange(range[0], range[1]);
+    return {
+      aspect,
+      sliderValue: value,
+      assessment: assessments[value - 1],
+      actionTip: tips[value - 1],
+      evidence: `Based on client profile and interaction patterns`,
+      confidence: randomInRange(65, 95),
+    };
+  };
+
+  return [
+    getInsight('Decision Style', config.decisionStyle, assessmentMaps.decisionStyle, actionTipMaps.decisionStyle),
+    getInsight('Risk Tolerance', config.riskTolerance, assessmentMaps.riskTolerance, actionTipMaps.riskTolerance),
+    getInsight('Emotional State', config.emotionalState, assessmentMaps.emotionalState, actionTipMaps.emotionalState),
+    getInsight('Trust Level', config.trustLevel, assessmentMaps.trustLevel, actionTipMaps.trustLevel),
+    getInsight('Communication Style', config.communicationStyle, assessmentMaps.communicationStyle, actionTipMaps.communicationStyle),
+  ];
+}
 
 const firstNames = ['Sarah', 'James', 'Michelle', 'Robert', 'Emily', 'David', 'Jennifer', 'Michael', 'Amanda', 'Christopher', 'Jessica', 'Daniel', 'Ashley', 'Matthew', 'Lauren'];
 const lastNames = ['Mitchell', 'Patterson', 'Wong', 'Thompson', 'Garcia', 'Johnson', 'Williams', 'Chen', 'Anderson', 'Martinez', 'Taylor', 'Lee', 'Harris', 'Clark', 'Robinson'];
@@ -14,9 +96,7 @@ const cities = [
   { city: 'Miami', state: 'FL', zip: '33101' },
 ];
 
-type Persona = 'youngProfessional' | 'growingFamily' | 'establishedProfessional' | 'preRetiree';
-
-const personaConfig: Record<Persona, {
+const profilePersonaConfig: Record<Persona, {
   ageRange: [number, number];
   familyStatuses: string[];
   occupations: string[];
@@ -135,7 +215,7 @@ export function generateRandomProfile(): ClientProfileData {
   // Pick a random persona
   const personas: Persona[] = ['youngProfessional', 'growingFamily', 'establishedProfessional', 'preRetiree'];
   const persona = randomFromArray(personas);
-  const config = personaConfig[persona];
+  const config = profilePersonaConfig[persona];
   
   // Generate basic info
   const firstName = randomFromArray(firstNames);

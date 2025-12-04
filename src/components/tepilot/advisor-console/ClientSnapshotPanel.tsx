@@ -3,7 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion";
-import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, ShoppingBag, Sparkles, MessageSquare, Shuffle } from "lucide-react";
+import { Landmark, CreditCard, Home, TrendingUp, Plane, Users, Heart, UtensilsCrossed, Activity, AlertCircle, ShoppingBag, Sparkles, MessageSquare, RefreshCw } from "lucide-react";
 import { AdvisorContext } from "@/lib/advisorContextBuilder";
 import { AIInsights, LifeEvent } from "@/types/lifestyle-signals";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
@@ -104,11 +104,12 @@ export function ClientSnapshotPanel({
                   </h2>
                   <Button 
                     size="sm" 
+                    variant="outline"
                     onClick={onGenerateProfile}
-                    className="text-xs h-6 px-3 bg-primary text-primary-foreground hover:bg-primary/90"
+                    className="text-xs h-6 px-3"
                   >
-                    <Shuffle className="w-3 h-3 mr-1" />
-                    Generate
+                    <RefreshCw className="w-3 h-3 mr-1" />
+                    New Client
                   </Button>
                 </div>
                 <Badge variant="outline" className="mt-1">
