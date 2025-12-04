@@ -13,6 +13,7 @@ export interface NextStepsActionItem {
 export interface PsychologicalInsight {
   aspect: string;
   assessment: string;
+  sliderValue?: number; // 1-5 scale
   evidence: string;
   confidence: number;
 }

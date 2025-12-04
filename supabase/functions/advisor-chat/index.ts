@@ -270,7 +270,8 @@ function formatContextForPrompt(context: AdvisorContext): string {
     prompt += `CLIENT PSYCHOLOGY PROFILE:\n`;
     prompt += `(Adapt ALL responses to match this client's psychological profile)\n`;
     context.clientPsychology.forEach(p => {
-      prompt += `- ${p.aspect}: ${p.assessment}\n`;
+      const scaleInfo = p.sliderValue ? ` (${p.sliderValue}/5 scale)` : '';
+      prompt += `- ${p.aspect}: ${p.assessment}${scaleInfo}\n`;
     });
     prompt += `\nUSE THIS PROFILE TO:\n`;
     prompt += `- Tailor communication style and tone\n`;
