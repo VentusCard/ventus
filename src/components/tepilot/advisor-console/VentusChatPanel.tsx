@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -86,6 +87,7 @@ export function VentusChatPanel({
   externalTimelineOpen,
   onExternalTimelineHandled
 }: VentusChatPanelProps) {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
   const [psychologyDialogOpen, setPsychologyDialogOpen] = useState(false);
@@ -223,8 +225,9 @@ export function VentusChatPanel({
         prompt = "What are the top merchant loyalty patterns for this client?";
         break;
       case "Financial Planning":
-        prompt = "Create a financial planning summary for this client.";
-        break;
+        // Navigate to financial planning page
+        navigate("/tepilot/financial-planning");
+        return;
       case "Life Event Planner":
         // Find the highest-confidence event with a financial projection
         const bestEvent = visibleEvents.filter(e => e.financial_projection).sort((a, b) => b.confidence - a.confidence)[0];
