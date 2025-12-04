@@ -32,11 +32,11 @@ export function ActionWorkspacePanel({
 
   // Default placeholder insights when none are filled
   const defaultPsychologicalInsights = [
-    { aspect: "Decision Style", assessment: "No previous record", confidence: 0 },
-    { aspect: "Risk Tolerance", assessment: "No previous record", confidence: 0 },
-    { aspect: "Emotional State", assessment: "No previous record", confidence: 0 },
-    { aspect: "Trust Level", assessment: "No previous record", confidence: 0 },
-    { aspect: "Communication Style", assessment: "No previous record", confidence: 0 }
+    { aspect: "Decision Style", assessment: "Not assessed", confidence: 0, sliderValue: 3 },
+    { aspect: "Risk Tolerance", assessment: "Not assessed", confidence: 0, sliderValue: 3 },
+    { aspect: "Emotional State", assessment: "Not assessed", confidence: 0, sliderValue: 3 },
+    { aspect: "Trust Level", assessment: "Not assessed", confidence: 0, sliderValue: 3 },
+    { aspect: "Communication Style", assessment: "Not assessed", confidence: 0, sliderValue: 3 }
   ];
 
   const displayInsights = nextStepsData.psychologicalInsights.length > 0 
@@ -123,21 +123,44 @@ export function ActionWorkspacePanel({
                   </button>
                 </CollapsibleTrigger>
                 <CollapsibleContent className="pt-2">
-                  <ul className="space-y-1.5">
-                    {displayInsights.map((insight, idx) => (
-                      <li 
-                        key={idx} 
-                        className={`text-xs flex items-start gap-2 ${
-                          insight.confidence === 0 ? 'text-slate-400 italic' : 'text-slate-700'
-                        }`}
-                      >
-                        <span className={`mt-0.5 ${insight.confidence === 0 ? 'text-slate-300' : 'text-primary'}`}>•</span>
-                        <span>
-                          <span className={`font-medium ${insight.confidence === 0 ? 'text-slate-400' : ''}`}>{insight.aspect}:</span>{' '}
-                          {insight.assessment.length > 60 ? insight.assessment.slice(0, 60) + '...' : insight.assessment}
-                        </span>
-                      </li>
-                    ))}
+                  <ul className="space-y-2">
+                    {displayInsights.map((insight, idx) => {
+                      const sliderValue = insight.sliderValue || 3;
+                      const isAssessed = insight.confidence > 0;
+                      
+                      return (
+                        <li 
+                          key={idx} 
+                          className={`text-xs ${
+                            !isAssessed ? 'text-slate-400 italic' : 'text-slate-700'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between mb-1">
+                            <span className={`font-medium ${!isAssessed ? 'text-slate-400' : ''}`}>
+                              {insight.aspect}
+                            </span>
+                            <span className={`text-[10px] ${!isAssessed ? 'text-slate-400' : 'text-primary'}`}>
+                              {insight.assessment}
+                            </span>
+                          </div>
+                          {/* 5-dot visual indicator */}
+                          <div className="flex gap-1">
+                            {[1, 2, 3, 4, 5].map((dot) => (
+                              <div 
+                                key={dot} 
+                                className={`w-3 h-1.5 rounded-sm transition-colors ${
+                                  dot === sliderValue && isAssessed
+                                    ? 'bg-primary' 
+                                    : dot === sliderValue && !isAssessed
+                                    ? 'bg-slate-300'
+                                    : 'bg-slate-200'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        </li>
+                      );
+                    })}
                   </ul>
                 </CollapsibleContent>
               </Collapsible>
