@@ -242,13 +242,6 @@ export function VentusChatPanel({
             <h2 className="text-xl font-semibold text-slate-900">
               Ventus AI Advisor Chat
             </h2>
-            {/* Psychology Active Indicator */}
-            {activePsychologyInsights.length > 0 && (
-              <Badge variant="outline" className="bg-purple-50 text-purple-700 border-purple-200 text-xs">
-                <Brain className="w-3 h-3 mr-1" />
-                Psychology Active
-              </Badge>
-            )}
           </div>
           {isLoadingInsights && <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />
