@@ -99,10 +99,9 @@ export function ClientSnapshotPanel({
                     {displayData.name}
                   </h2>
                   <Button 
-                    variant="outline" 
                     size="sm" 
                     onClick={onGenerateProfile}
-                    className="text-xs h-6 px-3 bg-primary/10 border-primary/30 text-primary hover:bg-primary/20 hover:border-primary/50"
+                    className="text-xs h-6 px-3 bg-primary text-primary-foreground hover:bg-primary/90"
                   >
                     <Shuffle className="w-3 h-3 mr-1" />
                     Generate
