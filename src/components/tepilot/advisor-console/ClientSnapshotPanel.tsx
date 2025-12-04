@@ -174,6 +174,15 @@ export function ClientSnapshotPanel({
                 )) : (
                   <p className="text-xs text-muted-foreground py-2">No life events detected yet</p>
                 )}
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full text-xs text-primary hover:text-primary/80 mt-2"
+                  onClick={() => onAskVentus?.("Based on this client's transaction patterns, what other life events or lifestyle signals might I be missing? Look for subtle patterns that could indicate upcoming needs.")}
+                >
+                  <Sparkles className="w-3 h-3 mr-1" />
+                  Explore other possible signals
+                </Button>
               </div>
             </AccordionContent>
           </AccordionItem>
