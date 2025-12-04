@@ -146,6 +146,38 @@ export function ClientSnapshotPanel({
             </AccordionItem>
           )}
 
+          {/* Detected Life Events - Moved to second position */}
+          <AccordionItem value="events" className="bg-white rounded-lg border">
+            <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-sm font-semibold">Detected Life Events</span>
+                {lifeEvents.length > 0 && (
+                  <Badge variant="secondary" className="ml-auto text-xs">{lifeEvents.length}</Badge>
+                )}
+              </div>
+            </AccordionTrigger>
+            <AccordionContent className="px-4 pb-3">
+              <div className="space-y-3">
+                {lifeEvents.length > 0 ? lifeEvents.map((event, idx) => (
+                  <div 
+                    key={idx} 
+                    className="text-xs border-l-2 border-primary pl-3 cursor-pointer hover:bg-slate-50 -ml-3 pl-6 py-1 rounded-r"
+                    onClick={() => onAskVentus?.(`Tell me more about the detected "${event.event_name}" life event and recommended actions`)}
+                  >
+                    <div className="font-semibold text-slate-700 flex items-center gap-2">
+                      {event.event_name}
+                      <Badge variant="outline" className="text-xs">{event.confidence}%</Badge>
+                    </div>
+                    <div className="text-slate-500 mt-1">{event.products.length} product recommendations</div>
+                  </div>
+                )) : (
+                  <p className="text-xs text-muted-foreground py-2">No life events detected yet</p>
+                )}
+              </div>
+            </AccordionContent>
+          </AccordionItem>
+
           {/* Holdings Overview - Placeholder */}
           <AccordionItem value="holdings" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
@@ -229,38 +261,6 @@ export function ClientSnapshotPanel({
                   );
                 }) : (
                   <p className="text-xs text-muted-foreground py-2">No transaction data available</p>
-                )}
-              </div>
-            </AccordionContent>
-          </AccordionItem>
-
-          {/* AI-Detected Life Events */}
-          <AccordionItem value="events" className="bg-white rounded-lg border">
-            <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-primary" />
-                <span className="text-sm font-semibold">Detected Life Events</span>
-                {lifeEvents.length > 0 && (
-                  <Badge variant="secondary" className="ml-auto text-xs">{lifeEvents.length}</Badge>
-                )}
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="px-4 pb-3">
-              <div className="space-y-3">
-                {lifeEvents.length > 0 ? lifeEvents.map((event, idx) => (
-                  <div 
-                    key={idx} 
-                    className="text-xs border-l-2 border-primary pl-3 cursor-pointer hover:bg-slate-50 -ml-3 pl-6 py-1 rounded-r"
-                    onClick={() => onAskVentus?.(`Tell me more about the detected "${event.event_name}" life event and recommended actions`)}
-                  >
-                    <div className="font-semibold text-slate-700 flex items-center gap-2">
-                      {event.event_name}
-                      <Badge variant="outline" className="text-xs">{event.confidence}%</Badge>
-                    </div>
-                    <div className="text-slate-500 mt-1">{event.products.length} product recommendations</div>
-                  </div>
-                )) : (
-                  <p className="text-xs text-muted-foreground py-2">No life events detected yet</p>
                 )}
               </div>
             </AccordionContent>
