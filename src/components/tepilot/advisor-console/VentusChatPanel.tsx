@@ -39,7 +39,7 @@ interface VentusChatPanelProps {
   onExternalTimelineHandled?: () => void;
 }
 // Helper function to extract action items from AI response
-// Matches numbered items (1., **1.**, 1:, 1)) and bullet points (-, •, *, [ ])
+// ONLY matches checkbox format: - [ ] text or * [ ] text
 function extractActionItemsFromMessage(content: string): string[] {
   const items: string[] = [];
   const lines = content.split('\n');
@@ -49,28 +49,20 @@ function extractActionItemsFromMessage(content: string): string[] {
   for (const line of lines) {
     const trimmed = line.trim();
     
-    // Match numbered items: 1., **1.**, 1:, 1), **1:**
-    const numberedMatch = trimmed.match(/^\*?\*?(\d+)[\.\:\)]\*?\*?\s+(.+)/);
-    // Match bullet points: -, •, *, [ ], - [ ]
-    const bulletMatch = trimmed.match(/^[-•\*]\s*\[?\s?\]?\s*(.+)/);
+    // ONLY match checkbox format: - [ ] text or - [] text or * [ ] text
+    const checkboxMatch = trimmed.match(/^[-*]\s*\[\s*\]\s+(.+)/);
     
-    if (numberedMatch) {
-      const cleanedItem = numberedMatch[2].replace(/\*\*/g, '').trim();
-      if (cleanedItem.length > 5 && cleanedItem.length < 200) {
-        console.log('[extractActionItems] Found numbered item:', cleanedItem.slice(0, 50));
-        items.push(cleanedItem);
-      }
-    } else if (bulletMatch && (trimmed.startsWith('-') || trimmed.startsWith('•') || trimmed.startsWith('*'))) {
-      const cleanedItem = bulletMatch[1].replace(/\*\*/g, '').replace(/^\[?\s?\]\s*/, '').trim();
-      if (cleanedItem.length > 5 && cleanedItem.length < 200) {
-        console.log('[extractActionItems] Found bullet item:', cleanedItem.slice(0, 50));
+    if (checkboxMatch) {
+      const cleanedItem = checkboxMatch[1].replace(/\*\*/g, '').trim();
+      if (cleanedItem.length > 3 && cleanedItem.length < 200) {
+        console.log('[extractActionItems] Found checkbox item:', cleanedItem.slice(0, 50));
         items.push(cleanedItem);
       }
     }
   }
   
   console.log('[extractActionItems] Total items extracted:', items.length);
-  return items.slice(0, 5); // Limit to 5 items
+  return items.slice(0, 10); // Allow up to 10 items
 }
 
 export function VentusChatPanel({
@@ -210,28 +202,28 @@ export function VentusChatPanel({
     let prompt = "";
     switch (chip) {
       case "Meeting Prep":
-        prompt = "Prepare exactly 5 key talking points for my upcoming client meeting. Format as numbered items (1., 2., 3., 4., 5.) on separate lines that I can check off as action items.";
+        prompt = "Prepare 5 key talking points for my upcoming client meeting. Use bullet points for context, then provide actionable items in checkbox format (- [ ]).";
         break;
       case "Product Recommendations":
-        prompt = "Based on spending patterns, provide 3-5 product recommendations as numbered next steps with specific actions I should take.";
+        prompt = "Based on spending patterns, provide product recommendations. Use bullets for insights, then list specific actions in checkbox format (- [ ]).";
         break;
       case "Life Events Summary":
-        prompt = "Summarize detected life events and provide numbered action items for each event I should discuss with the client.";
+        prompt = "Summarize detected life events with bullet points for context, then provide action items in checkbox format (- [ ]).";
         break;
       case "Spending Trends":
-        prompt = "Analyze this client's spending trends. Provide 3-5 numbered action items based on opportunities or concerns you identify.";
+        prompt = "Analyze this client's spending trends. Use bullets for data insights, then provide action items in checkbox format (- [ ]).";
         break;
       case "Travel Insights":
-        prompt = "Analyze this client's travel patterns. List 3-4 specific next steps as numbered items for rewards optimization or travel planning.";
+        prompt = "Analyze this client's travel patterns. Use bullets for insights, then list specific next steps in checkbox format (- [ ]).";
         break;
       case "Lifestyle Profile":
-        prompt = "Create a brief lifestyle profile. End with 3-4 numbered action items for deepening engagement based on their lifestyle priorities.";
+        prompt = "Create a brief lifestyle profile with bullet points. End with action items for deepening engagement in checkbox format (- [ ]).";
         break;
       case "Merchant Loyalty":
-        prompt = "Identify top merchant loyalty patterns. Provide 3-5 numbered recommendations for rewards optimization I can act on.";
+        prompt = "Identify top merchant loyalty patterns with bullets. Provide actionable recommendations in checkbox format (- [ ]).";
         break;
       case "Financial Planning":
-        prompt = "Create a comprehensive financial planning summary for this client. Include 4-5 numbered action items covering savings optimization, debt management, investment opportunities, and retirement readiness.";
+        prompt = "Create a financial planning summary for this client. Use bullets for insights, then include action items in checkbox format (- [ ]).";
         break;
       case "Life Event Planner":
         // Find the highest-confidence event with a financial projection
@@ -240,7 +232,7 @@ export function VentusChatPanel({
         setFinancialTimelineOpen(true);
         return;
       case "Tax Planning":
-        prompt = "Analyze this client's spending for tax planning opportunities. Provide 4-5 numbered action items covering deductions, tax-advantaged accounts, and year-end planning strategies.";
+        prompt = "Analyze this client's spending for tax planning opportunities. Use bullets for context, then provide action items in checkbox format (- [ ]).";
         break;
       case "Client Psychology":
         setPsychologyDialogOpen(true);
