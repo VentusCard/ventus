@@ -27,6 +27,19 @@ export function ActionWorkspacePanel({
   const engagementText = sampleEngagementData.status === 'high' ? 'Strong' : sampleEngagementData.status === 'medium' ? 'Moderate' : 'Needs Attention';
   const incompleteItems = nextStepsData.actionItems.filter(item => !item.completed);
   const completedItems = nextStepsData.actionItems.filter(item => item.completed);
+
+  // Default placeholder insights when none are filled
+  const defaultPsychologicalInsights = [
+    { aspect: "Decision Style", assessment: "No previous record", confidence: 0 },
+    { aspect: "Risk Tolerance", assessment: "No previous record", confidence: 0 },
+    { aspect: "Emotional State", assessment: "No previous record", confidence: 0 },
+    { aspect: "Trust Level", assessment: "No previous record", confidence: 0 },
+    { aspect: "Communication Style", assessment: "No previous record", confidence: 0 }
+  ];
+
+  const displayInsights = nextStepsData.psychologicalInsights.length > 0 
+    ? nextStepsData.psychologicalInsights 
+    : defaultPsychologicalInsights;
   const handleAddItem = () => {
     if (newItemText.trim()) {
       onAddActionItem(newItemText.trim());
@@ -95,12 +108,12 @@ export function ActionWorkspacePanel({
 
           {/* Content Area - Scrollable */}
           <div className="flex-1 min-h-0 overflow-y-auto space-y-4 mb-3">
-            {/* Empty State */}
-            {nextStepsData.actionItems.length === 0 && nextStepsData.psychologicalInsights.length === 0 && <Card className="border-dashed p-6 text-center">
+            {/* Empty State - only for action items since psychological insights always show */}
+            {nextStepsData.actionItems.length === 0 && !isAddingItem && <Card className="border-dashed p-6 text-center">
                 <MessageSquare className="w-10 h-10 mx-auto text-muted-foreground/50 mb-3" />
-                <h4 className="font-medium text-slate-900 mb-1">No Next Steps Yet</h4>
+                <h4 className="font-medium text-slate-900 mb-1">No Action Items Yet</h4>
                 <p className="text-xs text-muted-foreground">
-                  Chat with Ventus AI or upload a meeting transcript to generate action items and insights.
+                  Chat with Ventus AI or upload a meeting transcript to generate action items.
                 </p>
               </Card>}
 
@@ -184,22 +197,29 @@ export function ActionWorkspacePanel({
               </Card>
             )}
 
-            {/* Psychological Insights Section */}
-            {nextStepsData.psychologicalInsights.length > 0 && <Card className="p-3">
-                <div className="flex items-center gap-2 mb-2">
-                  <Brain className="w-4 h-4 text-primary" />
-                  <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
-                </div>
-                <ul className="space-y-1.5">
-                  {nextStepsData.psychologicalInsights.map((insight, idx) => <li key={idx} className="text-xs text-slate-700 flex items-start gap-2">
-                      <span className="text-primary mt-0.5">•</span>
-                      <span>
-                        <span className="font-medium">{insight.aspect}:</span>{' '}
-                        {insight.assessment.length > 60 ? insight.assessment.slice(0, 60) + '...' : insight.assessment}
-                      </span>
-                    </li>)}
-                </ul>
-              </Card>}
+            {/* Psychological Insights Section - Always visible */}
+            <Card className="p-3">
+              <div className="flex items-center gap-2 mb-2">
+                <Brain className="w-4 h-4 text-primary" />
+                <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
+              </div>
+              <ul className="space-y-1.5">
+                {displayInsights.map((insight, idx) => (
+                  <li 
+                    key={idx} 
+                    className={`text-xs flex items-start gap-2 ${
+                      insight.confidence === 0 ? 'text-slate-400 italic' : 'text-slate-700'
+                    }`}
+                  >
+                    <span className={`mt-0.5 ${insight.confidence === 0 ? 'text-slate-300' : 'text-primary'}`}>•</span>
+                    <span>
+                      <span className={`font-medium ${insight.confidence === 0 ? 'text-slate-400' : ''}`}>{insight.aspect}:</span>{' '}
+                      {insight.assessment.length > 60 ? insight.assessment.slice(0, 60) + '...' : insight.assessment}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </Card>
           </div>
 
           {/* Action Buttons */}
