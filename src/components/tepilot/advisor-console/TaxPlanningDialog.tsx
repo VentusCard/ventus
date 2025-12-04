@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -155,6 +155,13 @@ export function TaxPlanningDialog({
     : null;
   
   const [selectedState, setSelectedState] = useState<string>(detectedState || "CA");
+
+  // Sync selected state when client profile loads/changes
+  useEffect(() => {
+    if (detectedState) {
+      setSelectedState(detectedState);
+    }
+  }, [detectedState]);
 
   // Calculate P&L from financial plan data
   const annualIncome = (financialPlanData?.monthlyIncome || 15000) * 12;
