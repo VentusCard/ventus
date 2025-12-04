@@ -199,6 +199,12 @@ export function generateRandomProfile(): ClientProfileData {
       mortgage: mortgage > 0 ? formatCurrency(mortgage) : '$0',
       investments: formatCurrency(investments),
     },
+    holdingsChange: {
+      deposit: { percent: randomInRange(1, 15), direction: Math.random() > 0.3 ? 'up' : 'down' },
+      credit: { percent: randomInRange(5, 25), direction: Math.random() > 0.5 ? 'up' : 'down' },
+      mortgage: { percent: randomInRange(1, 5), direction: 'down' as const },
+      investments: { percent: randomInRange(2, 20), direction: Math.random() > 0.4 ? 'up' : 'down' },
+    },
     compliance: {
       kycStatus,
       lastReview: formatDate(lastReview),
