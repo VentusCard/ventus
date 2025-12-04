@@ -6,7 +6,7 @@ import { ActionWorkspacePanel } from "./ActionWorkspacePanel";
 import { ChatMessage, Task, sampleTasks, sampleClientData, NextStepsData, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
 import { AIInsights, SavedFinancialProjection, LifeEvent } from "@/types/lifestyle-signals";
 import { EnrichedTransaction } from "@/types/transaction";
-import { AdvisorContext } from "@/lib/advisorContextBuilder";
+import { AdvisorContext, FinancialPlanContext } from "@/lib/advisorContextBuilder";
 import { exportFinancialTimelinePDF } from "@/lib/financialTimelinePdfExport";
 import { useToast } from "@/hooks/use-toast";
 import { ClientProfileData } from "@/types/clientProfile";
@@ -36,11 +36,38 @@ export function AdvisorConsole({
   const [savedProjection, setSavedProjection] = useState<SavedFinancialProjection | null>(null);
   const [clientProfile, setClientProfile] = useState<ClientProfileData | null>(null);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [financialPlanData, setFinancialPlanData] = useState<FinancialPlanContext | null>(null);
   
   // Cross-panel communication state
   const [pendingChatMessage, setPendingChatMessage] = useState<string | null>(null);
   const [pendingTimelineEvent, setPendingTimelineEvent] = useState<LifeEvent | null>(null);
   const [openTimelineTrigger, setOpenTimelineTrigger] = useState(false);
+
+  // Load financial plan data from sessionStorage
+  useEffect(() => {
+    const loadFinancialPlan = () => {
+      const stored = sessionStorage.getItem("tepilot_financial_plan");
+      if (stored) {
+        try {
+          setFinancialPlanData(JSON.parse(stored));
+        } catch (e) {
+          console.error("Failed to parse financial plan data:", e);
+        }
+      }
+    };
+    
+    loadFinancialPlan();
+    
+    // Listen for storage changes (when user navigates back from financial planning page)
+    const handleStorageChange = () => loadFinancialPlan();
+    window.addEventListener('storage', handleStorageChange);
+    window.addEventListener('focus', loadFinancialPlan);
+    
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', loadFinancialPlan);
+    };
+  }, []);
 
   // Auto-generate all client data on mount
   useEffect(() => {
@@ -281,7 +308,7 @@ export function AdvisorConsole({
             aiInsights={propAiInsights}
             isLoadingInsights={isLoadingInsights}
             enrichedTransactions={enrichedTransactions}
-            advisorContext={advisorContext}
+            advisorContext={advisorContext ? { ...advisorContext, financialPlan: financialPlanData || undefined } : undefined}
             onExtractNextSteps={handleExtractNextSteps}
             onSaveProjection={handleSaveProjection}
             onAddTimelineActionItems={handleAddTimelineActionItems}

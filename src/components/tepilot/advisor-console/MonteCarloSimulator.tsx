@@ -19,11 +19,20 @@ interface SimulationResult {
   p90: number;
 }
 
+interface MonteCarloResults {
+  successRate: number;
+  medianOutcome: number;
+  worstCase: number;
+  bestCase: number;
+  targetGoal: number;
+}
+
 interface MonteCarloSimulatorProps {
   initialPortfolio?: number;
   annualContribution?: number;
   yearsToRetirement?: number;
   targetGoal?: number;
+  onResultsChange?: (results: MonteCarloResults | null) => void;
 }
 
 export function MonteCarloSimulator({
@@ -31,6 +40,7 @@ export function MonteCarloSimulator({
   annualContribution = 24000,
   yearsToRetirement = 20,
   targetGoal = 2000000,
+  onResultsChange,
 }: MonteCarloSimulatorProps) {
   const [portfolio, setPortfolio] = useState(initialPortfolio);
   const [contribution, setContribution] = useState(annualContribution);
@@ -98,6 +108,17 @@ export function MonteCarloSimulator({
       setResults(simulationResults);
       setSuccessRate(rate);
       setIsRunning(false);
+      
+      // Notify parent of results
+      if (onResultsChange) {
+        onResultsChange({
+          successRate: rate,
+          medianOutcome: simulationResults[simulationResults.length - 1]?.median || 0,
+          worstCase: simulationResults[simulationResults.length - 1]?.p10 || 0,
+          bestCase: simulationResults[simulationResults.length - 1]?.p90 || 0,
+          targetGoal: goal,
+        });
+      }
     }, 100);
   };
 

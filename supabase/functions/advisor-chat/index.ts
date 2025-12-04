@@ -118,6 +118,54 @@ interface AdvisorContext {
     actionTip?: string;
   }>;
   clientProfile?: ClientProfile;
+  financialPlan?: {
+    monthlyIncome: number;
+    monthlyExpenses: number;
+    savingsRate: number;
+    currentNetWorth: number;
+    goals: Array<{
+      name: string;
+      type: string;
+      targetAmount: number;
+      currentAmount: number;
+      targetDate: string;
+      monthlyContribution: number;
+      progressPercent: number;
+      timeHorizon: string;
+    }>;
+    retirementProfile: {
+      currentAge: number;
+      retirementAge: number;
+      yearsToRetirement: number;
+      desiredRetirementIncome: number;
+      socialSecurityEstimate: number;
+      currentRetirementSavings: number;
+    };
+    taxAdvantagedAccounts: Array<{
+      type: string;
+      label: string;
+      currentBalance: number;
+      annualContribution: number;
+      maxContribution: number;
+      utilizationPercent: number;
+    }>;
+    assetAllocation: {
+      current: { stocks: number; bonds: number; cash: number; realEstate: number };
+      target: { stocks: number; bonds: number; cash: number; realEstate: number };
+    };
+    monteCarloResults?: {
+      successRate: number;
+      medianOutcome: number;
+      worstCase: number;
+      bestCase: number;
+      targetGoal: number;
+    };
+    rmdEstimate?: {
+      clientAge: number;
+      totalRMDBalance: number;
+      estimatedAnnualRMD: number;
+    };
+  };
 }
 
 const SYSTEM_PROMPT = `You are Ventus AI, an expert wealth management advisor assistant for financial advisors at major banks and wealth management firms.
@@ -138,8 +186,10 @@ You have access to comprehensive client data including:
 - Product recommendations based on life events
 - Portfolio holdings and relationship data
 - Client psychology profile (when available)
-
-Communication style:
+- Financial planning data: goals, retirement profile, tax-advantaged accounts
+- Monte Carlo simulation results and success probability
+- RMD estimates for clients approaching or in retirement
+- Asset allocation current vs target with rebalancing needs
 - Professional but conversational
 - Extremely concise and actionable
 - Always cite specific data when making recommendations (e.g., "Based on $15,234 in travel spending...")
@@ -319,6 +369,78 @@ function formatContextForPrompt(context: AdvisorContext): string {
     prompt += `- Adjust detail level per communication preferences\n`;
     prompt += `- Address concerns aligned with emotional state\n`;
     prompt += `- Provide evidence appropriate to trust level\n`;
+  }
+
+  // Financial Planning Data
+  if (context.financialPlan) {
+    const fp = context.financialPlan;
+    prompt += `\n=== FINANCIAL PLANNING DATA ===\n`;
+    prompt += `Monthly Income: $${fp.monthlyIncome.toLocaleString()}\n`;
+    prompt += `Monthly Expenses: $${fp.monthlyExpenses.toLocaleString()}\n`;
+    prompt += `Savings Rate: ${fp.savingsRate.toFixed(1)}%\n`;
+    prompt += `Current Net Worth: $${fp.currentNetWorth.toLocaleString()}\n\n`;
+
+    if (fp.retirementProfile) {
+      const rp = fp.retirementProfile;
+      prompt += `RETIREMENT PROFILE:\n`;
+      prompt += `- Current Age: ${rp.currentAge}, Retirement Age: ${rp.retirementAge}\n`;
+      prompt += `- Years to Retirement: ${rp.yearsToRetirement}\n`;
+      prompt += `- Desired Retirement Income: $${rp.desiredRetirementIncome.toLocaleString()}/year\n`;
+      prompt += `- Social Security Estimate: $${rp.socialSecurityEstimate.toLocaleString()}/year\n`;
+      prompt += `- Current Retirement Savings: $${rp.currentRetirementSavings.toLocaleString()}\n\n`;
+    }
+
+    if (fp.goals && fp.goals.length > 0) {
+      prompt += `FINANCIAL GOALS:\n`;
+      fp.goals.forEach((g, i) => {
+        prompt += `${i + 1}. ${g.name} (${g.type}, ${g.timeHorizon}): $${g.currentAmount.toLocaleString()} of $${g.targetAmount.toLocaleString()} (${g.progressPercent}%) - Target: ${g.targetDate}\n`;
+      });
+      prompt += `\n`;
+    }
+
+    if (fp.taxAdvantagedAccounts && fp.taxAdvantagedAccounts.length > 0) {
+      prompt += `TAX-ADVANTAGED ACCOUNTS:\n`;
+      fp.taxAdvantagedAccounts.forEach(a => {
+        prompt += `- ${a.label}: $${a.currentBalance.toLocaleString()} balance, $${a.annualContribution.toLocaleString()}/$${a.maxContribution.toLocaleString()} contributed (${a.utilizationPercent}% utilized)\n`;
+      });
+      prompt += `\n`;
+    }
+
+    if (fp.assetAllocation) {
+      const curr = fp.assetAllocation.current;
+      const tgt = fp.assetAllocation.target;
+      prompt += `ASSET ALLOCATION:\n`;
+      prompt += `- Current: Stocks ${curr.stocks}%, Bonds ${curr.bonds}%, Cash ${curr.cash}%, Real Estate ${curr.realEstate}%\n`;
+      prompt += `- Target: Stocks ${tgt.stocks}%, Bonds ${tgt.bonds}%, Cash ${tgt.cash}%, Real Estate ${tgt.realEstate}%\n`;
+      const needsRebalance = Math.abs(curr.stocks - tgt.stocks) > 5 || Math.abs(curr.bonds - tgt.bonds) > 5;
+      if (needsRebalance) {
+        prompt += `- NOTE: Portfolio needs rebalancing to match target allocation\n`;
+      }
+      prompt += `\n`;
+    }
+
+    if (fp.monteCarloResults) {
+      const mc = fp.monteCarloResults;
+      prompt += `MONTE CARLO SIMULATION RESULTS:\n`;
+      prompt += `- Success Rate: ${mc.successRate.toFixed(1)}% probability of reaching $${mc.targetGoal.toLocaleString()} goal\n`;
+      prompt += `- Median Outcome: $${mc.medianOutcome.toLocaleString()}\n`;
+      prompt += `- Range: $${mc.worstCase.toLocaleString()} (10th %ile) to $${mc.bestCase.toLocaleString()} (90th %ile)\n`;
+      if (mc.successRate < 80) {
+        prompt += `- WARNING: Success rate below 80% - consider increasing contributions or adjusting goals\n`;
+      }
+      prompt += `\n`;
+    }
+
+    if (fp.rmdEstimate && fp.retirementProfile?.currentAge >= 70) {
+      const rmd = fp.rmdEstimate;
+      prompt += `RMD ESTIMATES:\n`;
+      prompt += `- Client Age: ${rmd.clientAge}\n`;
+      prompt += `- Total RMD-Eligible Balance: $${rmd.totalRMDBalance.toLocaleString()}\n`;
+      if (rmd.estimatedAnnualRMD > 0) {
+        prompt += `- Estimated Annual RMD: $${rmd.estimatedAnnualRMD.toLocaleString()}\n`;
+      }
+      prompt += `\n`;
+    }
   }
 
   return prompt;
