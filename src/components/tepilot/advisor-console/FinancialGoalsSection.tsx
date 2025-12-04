@@ -138,7 +138,7 @@ export function FinancialGoalsSection({
         <div className="flex items-start justify-between mb-3">
           <div>
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-lg">{goalTypeLabels[goal.type].split(' ')[0]}</span>
+              <span className="text-lg">{(goalTypeLabels[goal.type] || '🎯 Goal').split(' ')[0]}</span>
               <h4 className="font-semibold">{goal.name}</h4>
               <Badge className={`text-xs ${getHorizonBadgeColor(horizon)}`}>
                 {horizon === 'long' ? '10+yr' : horizon === 'mid' ? '3-10yr' : '1-3yr'}
