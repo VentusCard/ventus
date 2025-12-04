@@ -18,7 +18,12 @@ interface Trip {
 }
 
 function groupTransactionsByTrip(transactions: EnrichedTransaction[]): Trip[] {
-  const travelTransactions = transactions.filter(t => t.travel_context?.is_travel_related);
+  // Filter out transactions without valid destinations to prevent "Unknown" trips
+  const travelTransactions = transactions.filter(t => 
+    t.travel_context?.is_travel_related && 
+    t.travel_context?.travel_destination && 
+    t.travel_context.travel_destination.toLowerCase() !== 'unknown'
+  );
   
   // Group by destination + travel period
   const tripMap = new Map<string, EnrichedTransaction[]>();
