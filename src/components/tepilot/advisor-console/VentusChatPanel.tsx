@@ -196,7 +196,7 @@ export function VentusChatPanel({
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
   const primaryChips = ["Financial Planning", "Life Event Planner", "Tax Planning", "Product Recommendations"];
-  const secondaryChips = ["Meeting Prep", "Spending Trends", "Financial Standing"];
+  const secondaryChips = ["Meeting Prep", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Client Psychology"];
   const handleChipClick = (chip: string) => {
     // Track which chip was clicked for refresh logic
     setActiveChipSource(chip);
@@ -215,8 +215,14 @@ export function VentusChatPanel({
       case "Spending Trends":
         prompt = "Analyze this client's spending trends and highlight key insights.";
         break;
-      case "Financial Standing":
-        prompt = "Summarize this client's overall financial standing, including their retirement readiness, progress toward financial goals, and tax-advantaged account utilization.";
+      case "Travel Insights":
+        prompt = "What travel patterns do you see? Any insights I should discuss with this client?";
+        break;
+      case "Lifestyle Profile":
+        prompt = "Create a brief lifestyle profile for this client.";
+        break;
+      case "Merchant Loyalty":
+        prompt = "What are the top merchant loyalty patterns for this client?";
         break;
       case "Financial Planning":
         // Navigate to financial planning page
