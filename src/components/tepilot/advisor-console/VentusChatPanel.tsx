@@ -89,9 +89,12 @@ export function VentusChatPanel({
   // Merge psychology insights and client profile into advisor context for AI
   const activePsychologyInsights = psychologicalInsights.filter(p => p.confidence > 0);
   const enrichedContext = useMemo(() => {
-    if (!advisorContext) return undefined;
+    // Build context even without advisorContext, as long as we have clientProfile or psychology insights
+    if (!advisorContext && !clientProfile && activePsychologyInsights.length === 0) {
+      return undefined;
+    }
     return {
-      ...advisorContext,
+      ...(advisorContext || {}),
       clientPsychology: activePsychologyInsights,
       clientProfile: clientProfile || undefined
     };
