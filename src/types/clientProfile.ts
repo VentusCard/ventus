@@ -19,6 +19,12 @@ export interface ClientProfileData {
     mortgage: string;
     investments: string;
   };
+  holdingsChange?: {
+    deposit: { percent: number; direction: 'up' | 'down' };
+    credit: { percent: number; direction: 'up' | 'down' };
+    mortgage: { percent: number; direction: 'down' };
+    investments: { percent: number; direction: 'up' | 'down' };
+  };
   compliance: {
     kycStatus: 'Current' | 'Under Review' | 'Pending Update';
     lastReview: string;

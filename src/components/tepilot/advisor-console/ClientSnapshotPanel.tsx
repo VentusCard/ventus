@@ -30,9 +30,9 @@ const pillarIconMap: Record<string, any> = {
   "Transportation": TrendingUp,
 };
 
-const placeholderClientData = {
+const placeholderClientData: ClientProfileData = {
   name: "Firstname Lastname",
-  segment: "Client Segment",
+  segment: "Preferred",
   aum: "$X,XXX,XXX",
   tenure: "X.X years",
   contact: {
@@ -52,10 +52,10 @@ const placeholderClientData = {
     investments: "$X,XXX,XXX"
   },
   compliance: {
-    kycStatus: "Status",
+    kycStatus: "Current",
     lastReview: "Month DD, YYYY",
     nextReview: "Month DD, YYYY",
-    riskProfile: "Risk Level"
+    riskProfile: "Moderate"
   },
   milestones: [
     { event: "Milestone Event", date: "Month YYYY" },
@@ -237,36 +237,88 @@ export function ClientSnapshotPanel({
                     <Landmark className="w-3 h-3 mr-2" />
                     Deposits
                   </span>
-                  <span className="font-semibold text-slate-700">
-                    {displayData.holdings.deposit}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-slate-700">
+                      {displayData.holdings.deposit}
+                    </span>
+                    {displayData.holdingsChange?.deposit && (
+                      <Badge 
+                        variant="outline" 
+                        className={displayData.holdingsChange.deposit.direction === 'up' 
+                          ? 'text-green-600 border-green-200 bg-green-50 text-[10px] px-1.5' 
+                          : 'text-red-600 border-red-200 bg-red-50 text-[10px] px-1.5'
+                        }
+                      >
+                        {displayData.holdingsChange.deposit.direction === 'up' ? '↑' : '↓'}
+                        {displayData.holdingsChange.deposit.percent}%
+                      </Badge>
+                    )}
+                  </div>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b">
                   <span className="flex items-center text-slate-600">
                     <CreditCard className="w-3 h-3 mr-2" />
                     Credit
                   </span>
-                  <span className="font-semibold text-slate-700">
-                    {displayData.holdings.credit}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-slate-700">
+                      {displayData.holdings.credit}
+                    </span>
+                    {displayData.holdingsChange?.credit && (
+                      <Badge 
+                        variant="outline" 
+                        className={displayData.holdingsChange.credit.direction === 'down' 
+                          ? 'text-green-600 border-green-200 bg-green-50 text-[10px] px-1.5' 
+                          : 'text-red-600 border-red-200 bg-red-50 text-[10px] px-1.5'
+                        }
+                      >
+                        {displayData.holdingsChange.credit.direction === 'up' ? '↑' : '↓'}
+                        {displayData.holdingsChange.credit.percent}%
+                      </Badge>
+                    )}
+                  </div>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b">
                   <span className="flex items-center text-slate-600">
                     <Home className="w-3 h-3 mr-2" />
                     Mortgage
                   </span>
-                  <span className="font-semibold text-slate-700">
-                    {displayData.holdings.mortgage}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-slate-700">
+                      {displayData.holdings.mortgage}
+                    </span>
+                    {displayData.holdingsChange?.mortgage && (
+                      <Badge 
+                        variant="outline" 
+                        className="text-green-600 border-green-200 bg-green-50 text-[10px] px-1.5"
+                      >
+                        ↓{displayData.holdingsChange.mortgage.percent}%
+                      </Badge>
+                    )}
+                  </div>
                 </div>
                 <div className="flex items-center justify-between py-2">
                   <span className="flex items-center text-slate-600">
                     <TrendingUp className="w-3 h-3 mr-2" />
                     Investments
                   </span>
-                  <span className="font-semibold text-slate-700">
-                    {displayData.holdings.investments}
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="font-semibold text-slate-700">
+                      {displayData.holdings.investments}
+                    </span>
+                    {displayData.holdingsChange?.investments && (
+                      <Badge 
+                        variant="outline" 
+                        className={displayData.holdingsChange.investments.direction === 'up' 
+                          ? 'text-green-600 border-green-200 bg-green-50 text-[10px] px-1.5' 
+                          : 'text-red-600 border-red-200 bg-red-50 text-[10px] px-1.5'
+                        }
+                      >
+                        {displayData.holdingsChange.investments.direction === 'up' ? '↑' : '↓'}
+                        {displayData.holdingsChange.investments.percent}%
+                      </Badge>
+                    )}
+                  </div>
                 </div>
               </div>
             </AccordionContent>
