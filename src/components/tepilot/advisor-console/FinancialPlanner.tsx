@@ -35,6 +35,7 @@ import { RetirementPlanningSection } from "./RetirementPlanningSection";
 import { GlidePathVisualization } from "./GlidePathVisualization";
 import { TaxAdvantagedAccountsSection } from "./TaxAdvantagedAccountsSection";
 import { RMDCalculator } from "./RMDCalculator";
+import { MonteCarloSimulator } from "./MonteCarloSimulator";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
@@ -436,6 +437,14 @@ export function FinancialPlanner({
         currentAge={retirementProfile.currentAge}
         retirementAge={retirementProfile.retirementAge}
         currentAllocation={currentAllocation}
+      />
+
+      {/* Monte Carlo Simulator */}
+      <MonteCarloSimulator
+        initialPortfolio={retirementProfile.currentRetirementSavings}
+        annualContribution={taxAdvantagedAccounts.reduce((sum, a) => sum + a.annualContribution, 0)}
+        yearsToRetirement={retirementProfile.retirementAge - retirementProfile.currentAge}
+        targetGoal={retirementProfile.desiredRetirementIncome * 25} // 4% rule
       />
 
       {/* Tax-Advantaged Accounts */}
