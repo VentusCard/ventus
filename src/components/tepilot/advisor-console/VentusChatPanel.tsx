@@ -56,13 +56,13 @@ function extractActionItemsFromMessage(content: string): string[] {
     
     if (numberedMatch) {
       const cleanedItem = numberedMatch[2].replace(/\*\*/g, '').trim();
-      if (cleanedItem.length > 10 && cleanedItem.length < 200) {
+      if (cleanedItem.length > 5 && cleanedItem.length < 200) {
         console.log('[extractActionItems] Found numbered item:', cleanedItem.slice(0, 50));
         items.push(cleanedItem);
       }
     } else if (bulletMatch && (trimmed.startsWith('-') || trimmed.startsWith('•') || trimmed.startsWith('*'))) {
       const cleanedItem = bulletMatch[1].replace(/\*\*/g, '').replace(/^\[?\s?\]\s*/, '').trim();
-      if (cleanedItem.length > 10 && cleanedItem.length < 200) {
+      if (cleanedItem.length > 5 && cleanedItem.length < 200) {
         console.log('[extractActionItems] Found bullet item:', cleanedItem.slice(0, 50));
         items.push(cleanedItem);
       }
