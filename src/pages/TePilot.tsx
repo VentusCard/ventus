@@ -923,10 +923,28 @@ const TePilot = () => {
                 {/* Persona Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Bank Leadership Card */}
-                  <PersonaCard icon={Building2} title="Bank Leadership" valueProposition="Make data-driven decisions across your entire portfolio" description="Discover actionable insights from portfolio-wide spending patterns to optimize product strategy and identify untapped growth opportunities across your customer base." keyFeatures={["Portfolio-wide behavioral analysis across all card products", "Demographic insights by age, region, and spending behavior", "Cross-sell opportunity matrix with projected impact", "Spending category distribution and opportunity gap analysis"]} buttonText="View Bank-wide Dashboard" onClick={() => setInsightType('bankwide')} />
+                  <PersonaCard icon={Building2} title="Bank Leadership" valueProposition="Make data-driven decisions across your entire portfolio" description="Discover actionable insights from portfolio-wide spending patterns to optimize product strategy and identify untapped growth opportunities across your customer base." keyFeatures={[
+                    "Portfolio-wide behavioral analysis across 70M+ accounts",
+                    "12-Pillar interactive spending category explorer with drill-down",
+                    "Card product performance matrix comparing spend and frequency",
+                    "Demographic breakdown and spending insights by age cohort",
+                    "Cross-sell opportunity matrix with projected revenue impact",
+                    "Regional spending gap analysis to identify missed opportunities",
+                    "Multi-dimension filtering by card product, region, and demographics",
+                    "Pillar distribution visualization of aggregate spending allocation"
+                  ]} buttonText="View Bank-wide Dashboard" onClick={() => setInsightType('bankwide')} />
 
                   {/* Rewards Team Card */}
-                  <PersonaCard icon={TrendingUp} title="Rewards Team" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={["Intelligent detection of spending gaps across lifestyle categories", "Targeted merchant partnerships with impact projections", "Card product optimization suggestions", "Impact estimates for each revenue opportunity"]} buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"} buttonVariant="ai" onClick={() => {
+                  <PersonaCard icon={TrendingUp} title="Rewards Team" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={[
+                    "Top 5 spending subcategories analysis with impact ranking",
+                    "AI-powered revenue recommendations with projected ROI",
+                    "Spending gap detection revealing out-of-ecosystem spend",
+                    "Location-based deal targeting for home city and travel destinations",
+                    "Travel pattern intelligence across all transaction categories",
+                    "Geo-targeted merchant partnership suggestions by category",
+                    "Monthly and annual impact estimates for each opportunity",
+                    "Transaction reclassification insights with travel context"
+                  ]} buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"} buttonVariant="ai" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error("Please enrich transactions first");
                   return;
@@ -935,7 +953,18 @@ const TePilot = () => {
               }} disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations} />
 
                   {/* Wealth Management Card */}
-                  <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={["Automatic life event detection from spending patterns", "Contextual product recommendations with supporting rationale", "Ready-to-use conversation starters", "Prioritized action items based on relationship depth and opportunity"]} buttonText="Access Wealth Management CoPilot" onClick={() => {
+                  <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={[
+                    "AI life event detection from transaction patterns (new baby, home, retirement)",
+                    "Standout transaction alerts for unusual or significant activity",
+                    "Life Event Planner with per-year cost modeling and funding sources",
+                    "Tax Planning Analyzer with state-based P&L and optimization tips",
+                    "Financial Planning Dashboard: 30-year projections, goals, retirement readiness",
+                    "Monte Carlo Simulator for probability-based retirement scenarios",
+                    "Client Psychology Profiler with actionable communication cues",
+                    "Smart conversation chips for Meeting Prep, Financial Standing, and more",
+                    "AI-extracted action items from chat and planning tools",
+                    "PDF export with embedded charts for client-ready documents"
+                  ]} buttonText="Access Wealth Management CoPilot" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error('Please enrich transactions first to access this tool');
                   return;
