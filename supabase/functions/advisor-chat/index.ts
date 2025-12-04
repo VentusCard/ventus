@@ -224,13 +224,13 @@ function formatContextForPrompt(context: AdvisorContext): string {
   }
 
   // Life Events
-  if (context.lifeEvents.length > 0) {
+  if (context.lifeEvents && context.lifeEvents.length > 0) {
     prompt += `AI-DETECTED LIFE EVENTS:\n`;
     context.lifeEvents.forEach((event, i) => {
       prompt += `${i + 1}. ${event.event} (${event.confidence}% confidence)\n`;
       prompt += `   - Evidence: ${event.evidenceCount} indicators\n`;
       prompt += `   - Recommended Products: ${event.products.join(", ")}\n`;
-      if (event.keyInsights.length > 0) {
+      if (event.keyInsights && event.keyInsights.length > 0) {
         prompt += `   - Key Insights: ${event.keyInsights.join("; ")}\n`;
       }
     });
@@ -238,7 +238,7 @@ function formatContextForPrompt(context: AdvisorContext): string {
   }
 
   // Top Merchants
-  if (context.topMerchants.length > 0) {
+  if (context.topMerchants && context.topMerchants.length > 0) {
     prompt += `TOP MERCHANTS:\n`;
     context.topMerchants.slice(0, 10).forEach((m, i) => {
       prompt += `${i + 1}. ${m.merchant}: $${m.totalSpend.toLocaleString()} (${m.visits} visits) - ${m.category}\n`;
@@ -247,7 +247,7 @@ function formatContextForPrompt(context: AdvisorContext): string {
   }
 
   // Sample Significant Transactions
-  if (context.sampleTransactions.length > 0) {
+  if (context.sampleTransactions && context.sampleTransactions.length > 0) {
     prompt += `SAMPLE SIGNIFICANT TRANSACTIONS (Top 10):\n`;
     context.sampleTransactions.slice(0, 10).forEach((t, i) => {
       prompt += `${i + 1}. ${t.date} - ${t.merchant}: $${t.amount.toLocaleString()} [${t.category} - ${t.subcategory}]\n`;
