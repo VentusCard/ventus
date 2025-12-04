@@ -297,43 +297,73 @@ export function FinancialTimelineTool({
       };
       setFundingSources([sample529, sampleGifts]);
 
-      // Generate action items for education
-      const educationActionItems: ActionableTimelineItem[] = [{
-        id: "a1",
-        timing: `Q4 ${startYear - 1}`,
-        action: `Initiate annual gift of $50,000 (tax-free under exclusion)`,
+      // Generate year-by-year action items for education
+      const educationActionItems: ActionableTimelineItem[] = [];
+      
+      // Pre-Project Year
+      educationActionItems.push({
+        id: "pre-1",
+        timing: `Pre-Project (${startYear - 1})`,
+        action: "File FAFSA early for maximum financial aid consideration",
         completed: false
-      }, {
-        id: "a2",
-        timing: `Jan ${startYear}`,
-        action: `Begin 529 distributions - $50,000 for Year 1`,
+      });
+      educationActionItems.push({
+        id: "pre-2",
+        timing: `Pre-Project (${startYear - 1})`,
+        action: "Initiate annual gift of $50,000 (tax-free under exclusion)",
         completed: false
-      }, {
-        id: "a3",
-        timing: `Q1 ${startYear}`,
-        action: "File FAFSA for financial aid consideration",
+      });
+      educationActionItems.push({
+        id: "pre-3",
+        timing: `Pre-Project (${startYear - 1})`,
+        action: "Review and finalize 529 distribution strategy",
         completed: false
-      }, {
-        id: "a4",
-        timing: `Jan ${startYear + 1}`,
-        action: `Continue 529 withdrawals - $50,000 for Year 2`,
+      });
+      
+      // Generate items for each year of the project
+      for (let i = 0; i < newDuration; i++) {
+        const year = startYear + i;
+        const yearLabel = `Year ${i + 1} (${year})`;
+        
+        educationActionItems.push({
+          id: `y${i + 1}-1`,
+          timing: yearLabel,
+          action: `Begin 529 distributions for Year ${i + 1} expenses`,
+          completed: false
+        });
+        
+        educationActionItems.push({
+          id: `y${i + 1}-2`,
+          timing: yearLabel,
+          action: `File/Renew FAFSA for ${year}-${year + 1} academic year`,
+          completed: false
+        });
+        
+        if (i < newDuration - 1) {
+          educationActionItems.push({
+            id: `y${i + 1}-3`,
+            timing: yearLabel,
+            action: `Coordinate annual gift and review remaining 529 balance`,
+            completed: false
+          });
+        } else {
+          educationActionItems.push({
+            id: `y${i + 1}-3`,
+            timing: yearLabel,
+            action: "Plan post-graduation financial transition",
+            completed: false
+          });
+        }
+      }
+      
+      // Post-project
+      educationActionItems.push({
+        id: "post-1",
+        timing: `Post-Project (${startYear + newDuration})`,
+        action: "Review unused 529 funds for rollover or sibling transfer options",
         completed: false
-      }, {
-        id: "a5",
-        timing: `Q4 ${startYear}`,
-        action: "Coordinate second annual gift of $50,000",
-        completed: false
-      }, {
-        id: "a6",
-        timing: `Year ${startYear + 2}-${startYear + duration - 1}`,
-        action: "Transition to savings/income-based funding as 529 depletes",
-        completed: false
-      }, {
-        id: "a7",
-        timing: "Ongoing",
-        action: "Review qualified education expenses for 529 compliance",
-        completed: false
-      }];
+      });
+      
       setActionItems(educationActionItems);
     } else if (type === "home") {
       // Sample costs for home purchase
@@ -354,43 +384,75 @@ export function FinancialTimelineTool({
       };
       setFundingSources([homeSavings]);
 
-      // Generate action items for home purchase
-      const homeActionItems: ActionableTimelineItem[] = [{
-        id: "a1",
-        timing: `Q1 ${startYear - 1}`,
+      // Generate year-by-year action items for home purchase
+      const homeActionItems: ActionableTimelineItem[] = [];
+      
+      // Pre-Project Year
+      homeActionItems.push({
+        id: "pre-1",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Get pre-approved for mortgage to determine budget",
         completed: false
-      }, {
-        id: "a2",
-        timing: `Q2 ${startYear - 1}`,
+      });
+      homeActionItems.push({
+        id: "pre-2",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Research neighborhoods and review property listings",
         completed: false
-      }, {
-        id: "a3",
-        timing: `Q3 ${startYear - 1}`,
+      });
+      homeActionItems.push({
+        id: "pre-3",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Engage real estate agent and begin house hunting",
         completed: false
-      }, {
-        id: "a4",
-        timing: `Q4 ${startYear - 1}`,
+      });
+      homeActionItems.push({
+        id: "pre-4",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Make offer and schedule home inspection",
         completed: false
-      }, {
-        id: "a5",
-        timing: `Jan ${startYear}`,
-        action: "Finalize mortgage terms and lock interest rate",
-        completed: false
-      }, {
-        id: "a6",
-        timing: `Q1 ${startYear}`,
-        action: "Transfer down payment funds and close on property",
-        completed: false
-      }, {
-        id: "a7",
-        timing: `Q2 ${startYear}`,
-        action: "Complete renovations and move in",
-        completed: false
-      }];
+      });
+      
+      // Generate items for each year
+      for (let i = 0; i < newDuration; i++) {
+        const year = startYear + i;
+        const yearLabel = `Year ${i + 1} (${year})`;
+        
+        if (i === 0) {
+          homeActionItems.push({
+            id: `y${i + 1}-1`,
+            timing: yearLabel,
+            action: "Finalize mortgage terms and lock interest rate",
+            completed: false
+          });
+          homeActionItems.push({
+            id: `y${i + 1}-2`,
+            timing: yearLabel,
+            action: "Transfer down payment funds and close on property",
+            completed: false
+          });
+          homeActionItems.push({
+            id: `y${i + 1}-3`,
+            timing: yearLabel,
+            action: "Complete renovations and move in",
+            completed: false
+          });
+        } else {
+          homeActionItems.push({
+            id: `y${i + 1}-1`,
+            timing: yearLabel,
+            action: "Review mortgage refinancing opportunities",
+            completed: false
+          });
+          homeActionItems.push({
+            id: `y${i + 1}-2`,
+            timing: yearLabel,
+            action: "Plan any additional home improvements",
+            completed: false
+          });
+        }
+      }
+      
       setActionItems(homeActionItems);
     } else if (type === "retirement") {
       // Sample costs for retirement
@@ -414,43 +476,73 @@ export function FinancialTimelineTool({
       };
       setFundingSources([rothIRA, taxable]);
 
-      // Generate action items for retirement
-      const retirementActionItems: ActionableTimelineItem[] = [{
-        id: "a1",
-        timing: `Year ${startYear - 2}`,
+      // Generate year-by-year action items for retirement
+      const retirementActionItems: ActionableTimelineItem[] = [];
+      
+      // Pre-Project Year
+      retirementActionItems.push({
+        id: "pre-1",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Review retirement income sources and projections",
         completed: false
-      }, {
-        id: "a2",
-        timing: `Q3 ${startYear - 1}`,
+      });
+      retirementActionItems.push({
+        id: "pre-2",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Decide on Social Security claiming strategy",
         completed: false
-      }, {
-        id: "a3",
-        timing: `Q4 ${startYear - 1}`,
+      });
+      retirementActionItems.push({
+        id: "pre-3",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Review healthcare coverage options (Medicare, supplements)",
         completed: false
-      }, {
-        id: "a4",
-        timing: `Jan ${startYear}`,
-        action: "Begin Roth IRA distributions and establish withdrawal schedule",
-        completed: false
-      }, {
-        id: "a5",
-        timing: `Q1 ${startYear}`,
-        action: "Set up automated monthly distributions to checking account",
-        completed: false
-      }, {
-        id: "a6",
-        timing: "Annual",
-        action: "Review Required Minimum Distributions (RMDs) at age 73+",
-        completed: false
-      }, {
-        id: "a7",
+      });
+      
+      // Generate items for first 5 years (key transition years)
+      const yearsToShow = Math.min(5, newDuration);
+      for (let i = 0; i < yearsToShow; i++) {
+        const year = startYear + i;
+        const yearLabel = `Year ${i + 1} (${year})`;
+        
+        if (i === 0) {
+          retirementActionItems.push({
+            id: `y${i + 1}-1`,
+            timing: yearLabel,
+            action: "Begin Roth IRA distributions and establish withdrawal schedule",
+            completed: false
+          });
+          retirementActionItems.push({
+            id: `y${i + 1}-2`,
+            timing: yearLabel,
+            action: "Set up automated monthly distributions to checking account",
+            completed: false
+          });
+        } else {
+          retirementActionItems.push({
+            id: `y${i + 1}-1`,
+            timing: yearLabel,
+            action: "Review and adjust distribution strategy based on spending",
+            completed: false
+          });
+        }
+        
+        retirementActionItems.push({
+          id: `y${i + 1}-rmd`,
+          timing: yearLabel,
+          action: "Calculate and take Required Minimum Distributions if applicable",
+          completed: false
+        });
+      }
+      
+      // Ongoing items
+      retirementActionItems.push({
+        id: "ongoing-1",
         timing: "Ongoing",
-        action: "Monitor spending and adjust distribution strategy as needed",
+        action: "Annual portfolio rebalancing and risk assessment",
         completed: false
-      }];
+      });
+      
       setActionItems(retirementActionItems);
     } else if (type === "business") {
       // Sample costs for business
@@ -480,43 +572,70 @@ export function FinancialTimelineTool({
       };
       setFundingSources([businessLoan, personalSavings]);
 
-      // Generate action items for business
-      const businessActionItems: ActionableTimelineItem[] = [{
-        id: "a1",
-        timing: `Q1 ${startYear - 1}`,
+      // Generate year-by-year action items for business
+      const businessActionItems: ActionableTimelineItem[] = [];
+      
+      // Pre-Project Year
+      businessActionItems.push({
+        id: "pre-1",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Finalize business plan and financial projections",
         completed: false
-      }, {
-        id: "a2",
-        timing: `Q2 ${startYear - 1}`,
+      });
+      businessActionItems.push({
+        id: "pre-2",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Secure business loan or investor funding",
         completed: false
-      }, {
-        id: "a3",
-        timing: `Q3 ${startYear - 1}`,
+      });
+      businessActionItems.push({
+        id: "pre-3",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Register business entity and obtain necessary licenses",
         completed: false
-      }, {
-        id: "a4",
-        timing: `Q4 ${startYear - 1}`,
+      });
+      businessActionItems.push({
+        id: "pre-4",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Set up business bank accounts and accounting system",
         completed: false
-      }, {
-        id: "a5",
-        timing: `Jan ${startYear}`,
-        action: "Purchase equipment and secure business location",
-        completed: false
-      }, {
-        id: "a6",
-        timing: `Q1 ${startYear}`,
-        action: "Launch operations and begin marketing campaign",
-        completed: false
-      }, {
-        id: "a7",
-        timing: "Quarterly",
-        action: "Review cash flow and adjust operating budget as needed",
-        completed: false
-      }];
+      });
+      
+      // Generate items for each year
+      for (let i = 0; i < newDuration; i++) {
+        const year = startYear + i;
+        const yearLabel = `Year ${i + 1} (${year})`;
+        
+        if (i === 0) {
+          businessActionItems.push({
+            id: `y${i + 1}-1`,
+            timing: yearLabel,
+            action: "Purchase equipment and secure business location",
+            completed: false
+          });
+          businessActionItems.push({
+            id: `y${i + 1}-2`,
+            timing: yearLabel,
+            action: "Launch operations and begin marketing campaign",
+            completed: false
+          });
+        } else {
+          businessActionItems.push({
+            id: `y${i + 1}-1`,
+            timing: yearLabel,
+            action: `Review Year ${i} performance and adjust growth strategy`,
+            completed: false
+          });
+        }
+        
+        businessActionItems.push({
+          id: `y${i + 1}-review`,
+          timing: yearLabel,
+          action: "Quarterly cash flow review and budget adjustment",
+          completed: false
+        });
+      }
+      
       setActionItems(businessActionItems);
     } else if (type === "wedding") {
       // Sample costs for wedding
@@ -545,70 +664,105 @@ export function FinancialTimelineTool({
       };
       setFundingSources([weddingSavings, familyGifts]);
 
-      // Generate action items for wedding
-      const weddingActionItems: ActionableTimelineItem[] = [{
-        id: "a1",
-        timing: `12 months before`,
+      // Generate year-by-year action items for wedding (typically 1 year)
+      const weddingActionItems: ActionableTimelineItem[] = [];
+      
+      // Pre-Project Year (planning phase)
+      weddingActionItems.push({
+        id: "pre-1",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Set wedding budget and create guest list",
         completed: false
-      }, {
-        id: "a2",
-        timing: `10 months before`,
+      });
+      weddingActionItems.push({
+        id: "pre-2",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Book venue and secure date",
         completed: false
-      }, {
-        id: "a3",
-        timing: `8 months before`,
+      });
+      weddingActionItems.push({
+        id: "pre-3",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Hire caterer, photographer, and other key vendors",
         completed: false
-      }, {
-        id: "a4",
-        timing: `6 months before`,
+      });
+      weddingActionItems.push({
+        id: "pre-4",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Order wedding attire and send save-the-dates",
         completed: false
-      }, {
-        id: "a5",
-        timing: `3 months before`,
+      });
+      
+      // Year 1 (wedding year)
+      weddingActionItems.push({
+        id: "y1-1",
+        timing: `Year 1 (${startYear})`,
         action: "Finalize menu, music selections, and decorations",
         completed: false
-      }, {
-        id: "a6",
-        timing: `1 month before`,
+      });
+      weddingActionItems.push({
+        id: "y1-2",
+        timing: `Year 1 (${startYear})`,
         action: "Confirm final headcount and make final vendor payments",
         completed: false
-      }, {
-        id: "a7",
-        timing: "Week of",
+      });
+      weddingActionItems.push({
+        id: "y1-3",
+        timing: `Year 1 (${startYear})`,
         action: "Coordinate rehearsal and finalize day-of logistics",
         completed: false
-      }];
+      });
+      
+      // Post-Project
+      weddingActionItems.push({
+        id: "post-1",
+        timing: `Post-Project (${startYear})`,
+        action: "Review final costs and close out vendor accounts",
+        completed: false
+      });
+      
       setActionItems(weddingActionItems);
     } else {
       // Default empty for other types or custom projects
       setFundingSources([]);
 
-      // Generate generic action items
-      const genericActionItems: ActionableTimelineItem[] = [{
-        id: "a1",
-        timing: `Q1 ${startYear}`,
+      // Generate year-by-year generic action items
+      const genericActionItems: ActionableTimelineItem[] = [];
+      
+      // Pre-Project
+      genericActionItems.push({
+        id: "pre-1",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Review project goals and requirements",
         completed: false
-      }, {
-        id: "a2",
-        timing: `Q2 ${startYear}`,
+      });
+      genericActionItems.push({
+        id: "pre-2",
+        timing: `Pre-Project (${startYear - 1})`,
         action: "Establish funding strategy and sources",
         completed: false
-      }, {
-        id: "a3",
-        timing: `Q3 ${startYear}`,
-        action: "Begin implementation and track spending",
-        completed: false
-      }, {
-        id: "a4",
-        timing: "Quarterly",
-        action: "Review progress and adjust budget as needed",
-        completed: false
-      }];
+      });
+      
+      // Generate items for each year
+      for (let i = 0; i < newDuration; i++) {
+        const year = startYear + i;
+        const yearLabel = `Year ${i + 1} (${year})`;
+        
+        genericActionItems.push({
+          id: `y${i + 1}-1`,
+          timing: yearLabel,
+          action: i === 0 ? "Begin implementation and track spending" : `Continue implementation for Year ${i + 1}`,
+          completed: false
+        });
+        
+        genericActionItems.push({
+          id: `y${i + 1}-2`,
+          timing: yearLabel,
+          action: "Review progress and adjust budget as needed",
+          completed: false
+        });
+      }
+      
       setActionItems(genericActionItems);
     }
     setCostCategories(newCategories);
