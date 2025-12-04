@@ -1,4 +1,4 @@
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -79,16 +79,46 @@ export function FinancialPlanner({
   const [retirementProfile, setRetirementProfile] = useState<RetirementProfile>(defaultRetirementProfile);
   const [taxAdvantagedAccounts, setTaxAdvantagedAccounts] = useState<TaxAdvantagedAccount[]>(defaultTaxAdvantagedAccounts);
 
-  // Merge imported goals on mount (avoiding duplicates by linkedEventId)
-  useState(() => {
-    if (importedGoals.length > 0) {
-      setGoals(prev => {
-        const existingIds = new Set(prev.map(g => g.linkedEventId));
-        const newGoals = importedGoals.filter(g => !existingIds.has(g.linkedEventId));
+  // Auto-import life events as goals on mount
+  useEffect(() => {
+    if (!aiInsights?.detected_events?.length) return;
+    
+    const eventsWithProjections = aiInsights.detected_events.filter(e => e.financial_projection);
+    if (eventsWithProjections.length === 0) return;
+    
+    setGoals(prev => {
+      // Check for already imported goals (by linkedEventId or name)
+      const existingLinkedIds = new Set(prev.map(g => g.linkedEventId || g.name).filter(Boolean));
+      
+      const newGoals = eventsWithProjections
+        .filter(event => !existingLinkedIds.has(event.event_name))
+        .map((event, idx) => {
+          const targetDate = `${event.financial_projection?.estimated_start_year || new Date().getFullYear() + 5}-01-01`;
+          return {
+            id: `auto-imported-${Date.now()}-${idx}`,
+            name: event.event_name,
+            type: (event.financial_projection?.project_type || 'custom') as FinancialGoal['type'],
+            targetAmount: event.financial_projection?.estimated_total_cost || 0,
+            currentAmount: event.financial_projection?.estimated_current_savings || 0,
+            targetDate,
+            priority: prev.length + idx + 1,
+            monthlyContribution: event.financial_projection?.recommended_monthly_contribution || 0,
+            linkedEventId: event.event_name,
+            timeHorizon: getTimeHorizon(targetDate),
+          };
+        });
+      
+      if (newGoals.length > 0) {
+        toast({ 
+          title: "Life Events Imported", 
+          description: `${newGoals.length} goal(s) auto-imported from detected life events` 
+        });
         return [...prev, ...newGoals];
-      });
-    }
-  });
+      }
+      
+      return prev;
+    });
+  }, [aiInsights, toast]);
 
   // Calculate derived values
   const totalExpenses = useMemo(() => 
@@ -128,37 +158,6 @@ export function FinancialPlanner({
     });
   }, [currentNetWorth, monthlySavings, expectedReturn, projectionYears]);
 
-  // Import detected life events as goals
-  const handleImportLifeEvents = useCallback(() => {
-    if (!aiInsights?.detected_events?.length) {
-      toast({ title: "No Events", description: "No detected life events to import" });
-      return;
-    }
-
-    const newGoals: FinancialGoal[] = aiInsights.detected_events
-      .filter(e => e.financial_projection)
-      .map((event, idx) => {
-        const targetDate = `${event.financial_projection?.estimated_start_year || new Date().getFullYear() + 5}-01-01`;
-        return {
-          id: `imported-${Date.now()}-${idx}`,
-          name: event.event_name,
-          type: (event.financial_projection?.project_type || 'custom') as FinancialGoal['type'],
-          targetAmount: event.financial_projection?.estimated_total_cost || 0,
-          currentAmount: event.financial_projection?.estimated_current_savings || 0,
-          targetDate,
-          priority: idx + 1,
-          monthlyContribution: event.financial_projection?.recommended_monthly_contribution || 0,
-          linkedEventId: event.event_name,
-          timeHorizon: getTimeHorizon(targetDate),
-        };
-      });
-
-    setGoals(prev => [...prev, ...newGoals]);
-    toast({ 
-      title: "Goals Imported", 
-      description: `${newGoals.length} goals imported from detected life events` 
-    });
-  }, [aiInsights, toast]);
 
   // Generate decade-based action items
   const generateActionItems = useCallback(() => {
@@ -457,7 +456,6 @@ export function FinancialPlanner({
         goals={goals}
         onGoalsChange={setGoals}
         detectedEvents={aiInsights?.detected_events || []}
-        onImportLifeEvents={handleImportLifeEvents}
         onOpenEventPlanner={onOpenLifeEventPlanner}
       />
 

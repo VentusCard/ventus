@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Target, Plus, Trash2, ExternalLink, Download } from "lucide-react";
+import { Target, Plus, Trash2, ExternalLink } from "lucide-react";
 import { FinancialGoal, goalTypeLabels, timeHorizonLabels, getTimeHorizon } from "@/types/financial-planning";
 import { LifeEvent } from "@/types/lifestyle-signals";
 import { formatCurrency } from "@/components/onboarding/step-three/FormatHelper";
@@ -16,7 +16,6 @@ interface FinancialGoalsSectionProps {
   goals: FinancialGoal[];
   onGoalsChange: (goals: FinancialGoal[]) => void;
   detectedEvents: LifeEvent[];
-  onImportLifeEvents: () => void;
   onOpenEventPlanner: (event: LifeEvent) => void;
 }
 
@@ -24,7 +23,6 @@ export function FinancialGoalsSection({
   goals,
   onGoalsChange,
   detectedEvents,
-  onImportLifeEvents,
   onOpenEventPlanner,
 }: FinancialGoalsSectionProps) {
   const [addDialogOpen, setAddDialogOpen] = useState(false);
@@ -119,8 +117,6 @@ export function FinancialGoalsSection({
     return detectedEvents.find(e => e.event_name === goal.linkedEventId);
   };
 
-  const eventsWithProjections = detectedEvents.filter(e => e.financial_projection);
-
   const renderGoalCard = (goal: FinancialGoal) => {
     const progress = goal.targetAmount > 0 
       ? Math.min(100, (goal.currentAmount / goal.targetAmount) * 100) 
@@ -209,12 +205,6 @@ export function FinancialGoalsSection({
             <Badge variant="secondary">{goals.length}</Badge>
           </div>
           <div className="flex gap-2">
-            {eventsWithProjections.length > 0 && (
-              <Button variant="outline" size="sm" onClick={onImportLifeEvents}>
-                <Download className="w-4 h-4 mr-2" />
-                Import Life Events ({eventsWithProjections.length})
-              </Button>
-            )}
             <Dialog open={addDialogOpen} onOpenChange={setAddDialogOpen}>
               <DialogTrigger asChild>
                 <Button size="sm">
