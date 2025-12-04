@@ -959,11 +959,9 @@ const TePilot = () => {
                     "Life Event Planner with per-year cost modeling and funding sources",
                     "Tax Planning Analyzer with state-based P&L and optimization tips",
                     "Financial Planning Dashboard: 30-year projections, goals, retirement readiness",
-                    "Monte Carlo Simulator for probability-based retirement scenarios",
                     "Client Psychology Profiler with actionable communication cues",
                     "Smart conversation chips for Meeting Prep, Financial Standing, and more",
-                    "AI-extracted action items from chat and planning tools",
-                    "PDF export with embedded charts for client-ready documents"
+                    "AI-extracted action items from chat and planning tools"
                   ]} buttonText="Access Wealth Management CoPilot" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error('Please enrich transactions first to access this tool');
