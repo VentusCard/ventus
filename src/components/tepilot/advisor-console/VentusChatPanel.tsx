@@ -210,7 +210,8 @@ export function VentusChatPanel({
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const smartChips = ["Meeting Prep", "Life Events Summary", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Merchant Loyalty", "Life Event Planner"];
+  const primaryChips = ["Financial Planning", "Life Event Planner", "Tax Planning"];
+  const secondaryChips = ["Meeting Prep", "Life Events Summary", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Merchant Loyalty"];
   const handleChipClick = (chip: string) => {
     let prompt = "";
     switch (chip) {
@@ -235,12 +236,18 @@ export function VentusChatPanel({
       case "Merchant Loyalty":
         prompt = "Identify top merchant loyalty patterns. Provide 3-5 numbered recommendations for rewards optimization I can act on.";
         break;
+      case "Financial Planning":
+        prompt = "Create a comprehensive financial planning summary for this client. Include 4-5 numbered action items covering savings optimization, debt management, investment opportunities, and retirement readiness.";
+        break;
       case "Life Event Planner":
         // Find the highest-confidence event with a financial projection
         const bestEvent = visibleEvents.filter(e => e.financial_projection).sort((a, b) => b.confidence - a.confidence)[0];
         setSelectedTimelineEvent(bestEvent || null);
         setFinancialTimelineOpen(true);
         return;
+      case "Tax Planning":
+        prompt = "Analyze this client's spending for tax planning opportunities. Provide 4-5 numbered action items covering deductions, tax-advantaged accounts, and year-end planning strategies.";
+        break;
       default:
         prompt = `[${chip}] `;
     }
@@ -386,10 +393,21 @@ export function VentusChatPanel({
           <Sparkles className="w-4 h-4 text-primary" />
           <span className="text-xs font-medium text-slate-700">Recommended Prompts</span>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {smartChips.map(chip => <Button key={chip} variant="outline" size="sm" onClick={() => handleChipClick(chip)} className="text-xs">
+        {/* Row 1: Primary Planning Prompts */}
+        <div className="flex flex-wrap gap-2 mb-2">
+          {primaryChips.map(chip => (
+            <Button key={chip} variant="default" size="sm" onClick={() => handleChipClick(chip)} className="text-xs">
               {chip}
-            </Button>)}
+            </Button>
+          ))}
+        </div>
+        {/* Row 2: Insights & Analysis Prompts */}
+        <div className="flex flex-wrap gap-2">
+          {secondaryChips.map(chip => (
+            <Button key={chip} variant="outline" size="sm" onClick={() => handleChipClick(chip)} className="text-xs">
+              {chip}
+            </Button>
+          ))}
         </div>
       </div>
 
