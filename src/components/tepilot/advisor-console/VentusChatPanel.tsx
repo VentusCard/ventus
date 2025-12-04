@@ -206,7 +206,7 @@ export function VentusChatPanel({
     let prompt = "";
     switch (chip) {
       case "Meeting Prep":
-        prompt = "Prepare 5 key talking points for my upcoming client meeting.";
+        prompt = "Give me 5 actionable meeting prep tasks for my upcoming client meeting. These should be specific things I need to do or discuss.";
         break;
       case "Product Recommendations":
         prompt = "Based on spending patterns, what products should I recommend to this client?";
