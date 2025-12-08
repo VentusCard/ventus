@@ -40,6 +40,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { PILLAR_COLORS } from "@/lib/sampleData";
+import { SubcategoryTransactionsModal } from "@/components/tepilot/insights/SubcategoryTransactionsModal";
+import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailModal";
 const CURRENT_VERSION = "V2.3";
 const TePilot = () => {
   const [password, setPassword] = useState("");
@@ -64,6 +66,8 @@ const TePilot = () => {
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(null);
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<{ subcategory: string; pillar: string } | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<EnrichedTransaction | null>(null);
   const navigate = useNavigate();
   const handleNavigateToAdvisorConsole = async () => {
     // Ensure analysis runs before navigating if not already done
@@ -1096,7 +1100,7 @@ const TePilot = () => {
                       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         {recommendations.topSubcategories.map((subcat: any, index: number) => {
                     const color = PILLAR_COLORS[subcat.pillar] || "#64748b";
-                    return <Card key={subcat.subcategory} className="relative overflow-hidden hover:shadow-lg transition-all">
+                    return <Card key={subcat.subcategory} className="relative overflow-hidden hover:shadow-lg transition-all cursor-pointer" onClick={() => setSelectedSubcategory({ subcategory: subcat.subcategory, pillar: subcat.pillar })}>
                               <div className="absolute top-0 left-0 right-0 h-1" style={{
                         backgroundColor: color
                       }} />
@@ -1148,6 +1152,23 @@ const TePilot = () => {
             
                 {/* Geo-Location Deals Section */}
                 <GeoLocationDealsSection locationContext={locationContext} />
+                
+                {/* Subcategory Transactions Modal */}
+                <SubcategoryTransactionsModal
+                  isOpen={!!selectedSubcategory}
+                  onClose={() => setSelectedSubcategory(null)}
+                  subcategory={selectedSubcategory?.subcategory || ""}
+                  pillar={selectedSubcategory?.pillar || ""}
+                  transactions={enrichedTransactions.filter(t => t.subcategory === selectedSubcategory?.subcategory)}
+                  onTransactionClick={(t) => setSelectedTransaction(t)}
+                />
+
+                {/* Transaction Detail Modal */}
+                <TransactionDetailModal
+                  isOpen={!!selectedTransaction}
+                  onClose={() => setSelectedTransaction(null)}
+                  transaction={selectedTransaction}
+                />
               </>}
               </div>}
 
