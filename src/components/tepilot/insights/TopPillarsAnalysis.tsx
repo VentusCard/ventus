@@ -115,6 +115,9 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
     
     try {
       // Prepare data for AI analysis
+      // Find the most common home_zip from transactions for fallback
+      const homeZip = transactions.find(t => t.home_zip)?.home_zip;
+
       const pillarsData = pillarAggregates.map(agg => {
         const pillarTransactions = transactions
           .filter(t => t.pillar === agg.pillar)
@@ -124,7 +127,9 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
             merchant_name: t.normalized_merchant || t.merchant_name,
             amount: t.amount,
             date: t.date,
-            subcategory: t.subcategory
+            subcategory: t.subcategory,
+            zip_code: t.zip_code,
+            home_zip: t.home_zip
           }));
         
         return {
@@ -135,7 +140,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
       });
 
       const { data, error } = await supabase.functions.invoke('analyze-pillar-transactions', {
-        body: { pillars: pillarsData }
+        body: { pillars: pillarsData, home_zip: homeZip }
       });
 
       if (error) throw error;
