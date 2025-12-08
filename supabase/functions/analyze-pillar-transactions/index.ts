@@ -145,7 +145,7 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: 'llama-3.1-sonar-large-128k-online',
+        model: 'sonar-pro',
         messages: [
           { 
             role: 'system', 
@@ -155,8 +155,6 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
         ],
         temperature: 0.2,
         max_tokens: 4000,
-        return_related_questions: false,
-        search_recency_filter: 'month',
       }),
     });
 
