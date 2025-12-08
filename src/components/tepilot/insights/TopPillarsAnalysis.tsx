@@ -174,16 +174,13 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
         <CollapsibleTrigger asChild>
           <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <Sparkles className="h-5 w-5 text-primary" />
-                <div>
-                  <CardTitle className="text-base font-medium">
-                    Spending Profile Analysis
-                  </CardTitle>
-                  <p className="text-sm text-muted-foreground">
-                    Analyze parent-SKU level spending insight and construct spending persona
-                  </p>
-                </div>
+              <div className="flex flex-col items-start gap-2">
+                <CardTitle className="text-2xl">
+                  Spending Profile Analysis
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Analyze parent-SKU level spending insight and construct spending persona
+                </p>
               </div>
               <div className="flex items-center gap-4">
                 <Badge variant="secondary" className="text-sm font-semibold">

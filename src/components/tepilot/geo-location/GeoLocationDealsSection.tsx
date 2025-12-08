@@ -26,14 +26,11 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
         <CollapsibleTrigger asChild>
           <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <MapPin className="h-5 w-5 text-primary" />
-                <div>
-                  <CardTitle className="text-base font-medium">Location-Based Deal Opportunities</CardTitle>
-                  <CardDescription>
-                    Strategic geo-targeted offers based on customer location patterns
-                  </CardDescription>
-                </div>
+              <div className="flex flex-col items-start gap-2">
+                <CardTitle className="text-2xl">Location-Based Deal Opportunities</CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Strategic geo-targeted offers based on customer location patterns
+                </p>
               </div>
               {isExpanded ? (
                 <ChevronDown className="h-5 w-5 text-muted-foreground" />
