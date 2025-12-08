@@ -181,7 +181,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                     Spending Profile Analysis
                   </CardTitle>
                   <p className="text-sm text-muted-foreground">
-                    AI-powered transaction analysis
+                    Analyze parent-SKU level spending insight and construct spending persona
                   </p>
                 </div>
               </div>
