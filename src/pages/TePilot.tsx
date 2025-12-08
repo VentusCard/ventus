@@ -113,29 +113,59 @@ const TePilot = () => {
     const auth = sessionStorage.getItem("tepilot_auth");
     if (auth === "authenticated") setIsAuthenticated(true);
 
-    // Restore workflow state when returning from Advisor Console
+    // Restore parsed transactions
+    const storedParsed = sessionStorage.getItem("tepilot_parsed_transactions");
+    if (storedParsed) {
+      try {
+        const parsed = JSON.parse(storedParsed);
+        setParsedTransactions(parsed);
+        console.log(`[TePilot] Restored ${parsed.length} parsed transactions`);
+      } catch (e) {
+        console.error("Error restoring parsed transactions:", e);
+      }
+    }
+
+    // Restore enriched transactions
+    const storedEnriched = sessionStorage.getItem("tepilot_enriched_transactions");
+    if (storedEnriched) {
+      try {
+        const enriched = JSON.parse(storedEnriched);
+        restoreEnrichedTransactions(enriched);
+        setActiveTab("results");
+        console.log(`[TePilot] Restored ${enriched.length} enriched transactions`);
+      } catch (e) {
+        console.error("Error restoring enriched transactions:", e);
+      }
+    }
+
+    // Restore AI insights from advisor context
     const advisorContext = sessionStorage.getItem("tepilot_advisor_context");
     if (advisorContext) {
       try {
         const contextData = JSON.parse(advisorContext);
-        if (contextData.enrichedTransactions && contextData.enrichedTransactions.length > 0) {
-          // Restore enriched transactions to the hook
-          restoreEnrichedTransactions(contextData.enrichedTransactions);
-
-          // Set active tab to results to show the analyzed transactions
-          setActiveTab("results");
-
-          // Restore AI insights if available
-          if (contextData.aiInsights) {
-            setLifestyleSignals(contextData.aiInsights);
-          }
-          console.log(`Restored ${contextData.enrichedTransactions.length} transactions from session`);
+        if (contextData.aiInsights) {
+          setLifestyleSignals(contextData.aiInsights);
         }
       } catch (error) {
-        console.error("Error restoring workflow state:", error);
+        console.error("Error restoring AI insights:", error);
       }
     }
   }, []);
+
+  // Persist enriched transactions when enrichment completes
+  useEffect(() => {
+    if (enrichedTransactions.length > 0 && currentPhase === 'complete') {
+      sessionStorage.setItem("tepilot_enriched_transactions", JSON.stringify(enrichedTransactions));
+      console.log(`[TePilot] Persisted ${enrichedTransactions.length} enriched transactions`);
+    }
+  }, [enrichedTransactions, currentPhase]);
+
+  // Persist parsed transactions when they change
+  useEffect(() => {
+    if (parsedTransactions.length > 0) {
+      sessionStorage.setItem("tepilot_parsed_transactions", JSON.stringify(parsedTransactions));
+    }
+  }, [parsedTransactions]);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === "2025proto") {
@@ -777,6 +807,11 @@ const TePilot = () => {
           // Clear enrichment state
           resetEnrichment();
           setRecommendations(null); // Clear old recommendations
+
+          // Clear persisted transaction data
+          sessionStorage.removeItem("tepilot_enriched_transactions");
+          sessionStorage.removeItem("tepilot_parsed_transactions");
+          sessionStorage.removeItem("tepilot_advisor_context");
 
           // Clear all input data
           setRawInput("");
