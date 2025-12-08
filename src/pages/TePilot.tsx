@@ -469,7 +469,7 @@ const TePilot = () => {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
         <Card className="w-full max-w-6xl">
           <CardHeader>
-            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment & Analytics Tool</CardTitle>
+            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment & Personalization Engine</CardTitle>
             <CardDescription className="text-base">
               Unlock deep customer insights from existing data with next-generation contextual AI
               <Accordion type="single" collapsible className="w-full mt-2">
@@ -799,7 +799,7 @@ const TePilot = () => {
       <div className="max-w-[95%] 2xl:max-w-[1800px] mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment and Analytics Tool</h1>
+            <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment & Personalization Engine</h1>
             <p className="text-muted-foreground mt-2">Unlock deep customer insights from existing data with next-generation contextual AI</p>
           </div>
         <Button variant="outline" onClick={() => {
