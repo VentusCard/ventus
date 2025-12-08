@@ -19,16 +19,14 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
   const [totalCategories, setTotalCategories] = useState(0);
   const [allLoaded, setAllLoaded] = useState(false);
   
-  // Calculate total categories when expanded
+  // Calculate total categories on mount (not just when expanded)
   useEffect(() => {
-    if (isExpanded) {
-      const numCategories = Object.keys(GEO_DEAL_CATEGORIES).length;
-      const numLocations = (homeCity ? 1 : 0) + Math.min(travelDestinations.length, 2);
-      const total = numCategories * numLocations;
-      setTotalCategories(total);
-      setLoadingCount(total); // All start loading
-    }
-  }, [isExpanded, homeCity, travelDestinations.length]);
+    const numCategories = Object.keys(GEO_DEAL_CATEGORIES).length;
+    const numLocations = (homeCity ? 1 : 0) + Math.min(travelDestinations.length, 2);
+    const total = numCategories * numLocations;
+    setTotalCategories(total);
+    setLoadingCount(total); // All start loading immediately
+  }, [homeCity, travelDestinations.length]);
 
   const handleDealLoaded = useCallback(() => {
     setLoadingCount(prev => {
@@ -40,7 +38,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
     });
   }, []);
 
-  const isLoading = isExpanded && loadingCount > 0;
+  const isLoading = loadingCount > 0;
   
   if (!homeCity && travelDestinations.length === 0) {
     return null;
