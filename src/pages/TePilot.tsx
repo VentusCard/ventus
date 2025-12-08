@@ -475,12 +475,12 @@ const TePilot = () => {
               <Accordion type="single" collapsible className="w-full mt-2">
                 <AccordionItem value="release-notes" className="border-none">
                   <AccordionTrigger className="text-sm text-foreground py-1 hover:no-underline">
-                    <span><span className="font-semibold">Release Notes ({CURRENT_VERSION})</span> <span className="text-xs text-muted-foreground font-normal">— Parent-SKU purchase inference with state sales tax awareness and 52-week seasonality intelligence</span></span>
+                    <span><span className="font-semibold">Release Notes ({CURRENT_VERSION})</span> <span className="text-xs text-muted-foreground font-normal">— Parent-SKU purchase inference and seasonality purchase correlation intelligence, updated WM-CoPilot to detect 15 major life events</span></span>
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
                       <p className="font-semibold">V2.4 - Current</p>
-                      <p>Parent-SKU purchase inference with state sales tax awareness and 52-week seasonality intelligence</p>
+                      <p>Parent-SKU purchase inference and seasonality purchase correlation intelligence, updated WM-CoPilot to detect 15 major life events</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
                       <p className="font-semibold">V2.3 - December 2025</p>
