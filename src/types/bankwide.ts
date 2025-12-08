@@ -102,6 +102,7 @@ export interface StateSpendingData {
 
 export interface SpendingTimingHighlight {
   category: string;
+  subcategory?: string;
   peakWeeks: string;
   peakSeason: string;
   avgWeeklySpend: number;
@@ -111,4 +112,6 @@ export interface SpendingTimingHighlight {
   weeklySpendData: Array<{ week: number; month: string; spend: number }>;
   topMerchants: Array<{ name: string; peakWeeks: string; spend: number }>;
   color: string;
+  predictabilityScore: number;
+  predictabilityReason: string;
 }

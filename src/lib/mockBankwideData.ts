@@ -939,8 +939,12 @@ function generateWeeklySpendData(
 }
 
 // Get spending timing highlights
-export function getSpendingTimingHighlights(filters: BankwideFilters): SpendingTimingHighlight[] {
-  const highlights: SpendingTimingHighlight[] = [
+export function getSpendingTimingHighlights(
+  filters: BankwideFilters,
+  sortBy: 'amount' | 'predictability' = 'amount'
+): SpendingTimingHighlight[] {
+  // High-volume categories (sorted by amount)
+  const amountHighlights: SpendingTimingHighlight[] = [
     {
       category: 'Food & Dining',
       peakWeeks: 'Weeks 47-52',
@@ -955,7 +959,9 @@ export function getSpendingTimingHighlights(filters: BankwideFilters): SpendingT
         { name: 'Starbucks', peakWeeks: 'Weeks 47-52', spend: 720_000_000 },
         { name: 'Cheesecake Factory', peakWeeks: 'Weeks 50-52', spend: 540_000_000 }
       ],
-      color: '#F97316' // orange
+      color: '#F97316',
+      predictabilityScore: 78,
+      predictabilityReason: '78% of annual holiday dining spend occurs within a consistent 6-week window each year.'
     },
     {
       category: 'Travel & Exploration',
@@ -971,7 +977,9 @@ export function getSpendingTimingHighlights(filters: BankwideFilters): SpendingT
         { name: 'Marriott Hotels', peakWeeks: 'Weeks 22-32', spend: 980_000_000 },
         { name: 'Airbnb', peakWeeks: 'Weeks 22-30', spend: 750_000_000 }
       ],
-      color: '#0EA5E9' // blue
+      color: '#0EA5E9',
+      predictabilityScore: 72,
+      predictabilityReason: 'Bimodal pattern - 72% of travel bookings follow consistent January + Summer peaks.'
     },
     {
       category: 'Style & Beauty',
@@ -987,7 +995,9 @@ export function getSpendingTimingHighlights(filters: BankwideFilters): SpendingT
         { name: 'Sephora', peakWeeks: 'Weeks 46-51', spend: 520_000_000 },
         { name: 'Nike', peakWeeks: 'Weeks 47-52', spend: 490_000_000 }
       ],
-      color: '#EC4899' // pink
+      color: '#EC4899',
+      predictabilityScore: 85,
+      predictabilityReason: '85% of annual fashion/beauty spend concentrates in the same 7-week holiday window.'
     },
     {
       category: 'Sports & Active Living',
@@ -996,14 +1006,16 @@ export function getSpendingTimingHighlights(filters: BankwideFilters): SpendingT
       avgWeeklySpend: 98_000_000,
       totalAnnualSpend: 5_096_000_000,
       yoyGrowth: 22,
-      dealTimingRecommendation: 'Gym and fitness partnerships are most effective in January. Launch resolution campaigns in Week 52 for maximum Week 1-6 engagement. Secondary peak in late August for back-to-school sports.',
+      dealTimingRecommendation: 'Gym and fitness partnerships are most effective in January. Launch resolution campaigns in Week 52 for maximum Week 1-6 engagement.',
       weeklySpendData: generateWeeklySpendData(98_000_000, [1, 2, 3, 4, 5, 6, 34, 35], 2.5),
       topMerchants: [
         { name: 'Equinox', peakWeeks: 'Weeks 1-8', spend: 420_000_000 },
         { name: 'Dick\'s Sporting Goods', peakWeeks: 'Weeks 1-6, 32-36', spend: 380_000_000 },
         { name: 'Peloton', peakWeeks: 'Weeks 1-6', spend: 290_000_000 }
       ],
-      color: '#22C55E' // green
+      color: '#22C55E',
+      predictabilityScore: 88,
+      predictabilityReason: '88% of new gym memberships and fitness equipment purchases happen in weeks 1-6 every year.'
     },
     {
       category: 'Entertainment & Culture',
@@ -1012,14 +1024,16 @@ export function getSpendingTimingHighlights(filters: BankwideFilters): SpendingT
       avgWeeklySpend: 112_000_000,
       totalAnnualSpend: 5_824_000_000,
       yoyGrowth: 11,
-      dealTimingRecommendation: 'Summer entertainment deals peak with blockbuster movie releases and outdoor festivals. Partner with streaming services in Week 48-52 for holiday viewing promotions.',
+      dealTimingRecommendation: 'Summer entertainment deals peak with blockbuster releases. Partner with streaming services in Week 48-52 for holiday viewing promotions.',
       weeklySpendData: generateWeeklySpendData(112_000_000, [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 2.0),
       topMerchants: [
         { name: 'AMC Theatres', peakWeeks: 'Weeks 24-30, 48-52', spend: 340_000_000 },
         { name: 'Ticketmaster', peakWeeks: 'Weeks 22-36', spend: 480_000_000 },
         { name: 'Netflix', peakWeeks: 'Weeks 48-52', spend: 290_000_000 }
       ],
-      color: '#A855F7' // purple
+      color: '#A855F7',
+      predictabilityScore: 65,
+      predictabilityReason: '65% predictable - dependent on movie release schedules and festival dates.'
     },
     {
       category: 'Health & Wellness',
@@ -1028,16 +1042,178 @@ export function getSpendingTimingHighlights(filters: BankwideFilters): SpendingT
       avgWeeklySpend: 76_000_000,
       totalAnnualSpend: 3_952_000_000,
       yoyGrowth: 18,
-      dealTimingRecommendation: 'Wellness deals most effective January-February. Partner with pharmacies and health services for flu season promotions in Weeks 40-48. Mental health awareness campaigns in May (Weeks 18-22).',
+      dealTimingRecommendation: 'Wellness deals most effective January-February. Partner with pharmacies for flu season promotions in Weeks 40-48.',
       weeklySpendData: generateWeeklySpendData(76_000_000, [1, 2, 3, 4, 5, 6, 7, 8, 42, 43, 44, 45], 2.3),
       topMerchants: [
         { name: 'CVS Pharmacy', peakWeeks: 'Weeks 1-8, 40-48', spend: 520_000_000 },
         { name: 'Walgreens', peakWeeks: 'Weeks 1-8, 42-46', spend: 440_000_000 },
         { name: 'GNC', peakWeeks: 'Weeks 1-10', spend: 180_000_000 }
       ],
-      color: '#14B8A6' // teal
+      color: '#14B8A6',
+      predictabilityScore: 82,
+      predictabilityReason: '82% of wellness spending follows New Year resolution + flu season patterns.'
     }
   ];
 
-  return highlights;
+  // High-predictability subcategories (seasonal patterns)
+  const predictabilityHighlights: SpendingTimingHighlight[] = [
+    {
+      category: 'Sports & Active Living',
+      subcategory: 'Ski Equipment & Resorts',
+      peakWeeks: 'Weeks 44-48',
+      peakSeason: 'Pre-Ski Season',
+      avgWeeklySpend: 42_000_000,
+      totalAnnualSpend: 420_000_000,
+      yoyGrowth: 12,
+      dealTimingRecommendation: 'Every year, 96% of ski equipment purchases happen in November. Partner with ski retailers and resorts for early-bird deals starting Week 42.',
+      weeklySpendData: generateWeeklySpendData(8_000_000, [44, 45, 46, 47, 48], 5.0),
+      topMerchants: [
+        { name: 'REI', peakWeeks: 'Weeks 44-48', spend: 85_000_000 },
+        { name: 'Vail Resorts', peakWeeks: 'Weeks 45-48', spend: 120_000_000 },
+        { name: 'Burton', peakWeeks: 'Weeks 44-47', spend: 45_000_000 }
+      ],
+      color: '#3B82F6',
+      predictabilityScore: 96,
+      predictabilityReason: 'Every year, 96% of annual ski equipment and resort bookings occur in Weeks 44-48. This pattern has held consistently for 5+ years.'
+    },
+    {
+      category: 'Financial & Aspirational',
+      subcategory: 'Tax Preparation Services',
+      peakWeeks: 'Weeks 9-16',
+      peakSeason: 'Tax Season',
+      avgWeeklySpend: 38_000_000,
+      totalAnnualSpend: 304_000_000,
+      yoyGrowth: 5,
+      dealTimingRecommendation: '98% of tax prep spending occurs March-April. Partner with tax services for early filer bonuses in Week 6-8.',
+      weeklySpendData: generateWeeklySpendData(6_000_000, [9, 10, 11, 12, 13, 14, 15, 16], 6.0),
+      topMerchants: [
+        { name: 'TurboTax', peakWeeks: 'Weeks 9-16', spend: 95_000_000 },
+        { name: 'H&R Block', peakWeeks: 'Weeks 10-16', spend: 78_000_000 },
+        { name: 'Jackson Hewitt', peakWeeks: 'Weeks 12-15', spend: 32_000_000 }
+      ],
+      color: '#6366F1',
+      predictabilityScore: 98,
+      predictabilityReason: 'Tax deadline drives 98% predictable spending in Weeks 9-16. Last-minute filers spike in Week 15.'
+    },
+    {
+      category: 'Style & Beauty',
+      subcategory: 'Halloween Costumes & Decor',
+      peakWeeks: 'Weeks 40-43',
+      peakSeason: 'Halloween',
+      avgWeeklySpend: 28_000_000,
+      totalAnnualSpend: 112_000_000,
+      yoyGrowth: 8,
+      dealTimingRecommendation: '94% of Halloween spending concentrates in 4 weeks. Launch costume and decor deals in Week 38 to capture early shoppers.',
+      weeklySpendData: generateWeeklySpendData(3_000_000, [40, 41, 42, 43], 9.0),
+      topMerchants: [
+        { name: 'Spirit Halloween', peakWeeks: 'Weeks 40-43', spend: 45_000_000 },
+        { name: 'Party City', peakWeeks: 'Weeks 41-43', spend: 32_000_000 },
+        { name: 'Amazon (costumes)', peakWeeks: 'Weeks 40-42', spend: 28_000_000 }
+      ],
+      color: '#F59E0B',
+      predictabilityScore: 94,
+      predictabilityReason: '94% of Halloween spending occurs in Weeks 40-43 every year without exception.'
+    },
+    {
+      category: 'Food & Dining',
+      subcategory: 'Valentine\'s Day Dining',
+      peakWeeks: 'Weeks 5-6',
+      peakSeason: 'Valentine\'s Day',
+      avgWeeklySpend: 52_000_000,
+      totalAnnualSpend: 104_000_000,
+      yoyGrowth: 4,
+      dealTimingRecommendation: 'Restaurant reservations for Valentine\'s spike 97% predictably in Weeks 5-6. Partner with restaurants for special prix fixe promotions.',
+      weeklySpendData: generateWeeklySpendData(2_000_000, [5, 6], 25.0),
+      topMerchants: [
+        { name: 'OpenTable Restaurants', peakWeeks: 'Weeks 5-6', spend: 38_000_000 },
+        { name: 'Fine Dining Group', peakWeeks: 'Week 6', spend: 28_000_000 },
+        { name: '1-800-Flowers', peakWeeks: 'Weeks 5-6', spend: 22_000_000 }
+      ],
+      color: '#EF4444',
+      predictabilityScore: 97,
+      predictabilityReason: '97% of Valentine\'s dining and gift spending occurs in Weeks 5-6 - the most predictable holiday spending.'
+    },
+    {
+      category: 'Family & Community',
+      subcategory: 'Back-to-School Supplies',
+      peakWeeks: 'Weeks 30-34',
+      peakSeason: 'Back-to-School',
+      avgWeeklySpend: 85_000_000,
+      totalAnnualSpend: 425_000_000,
+      yoyGrowth: 6,
+      dealTimingRecommendation: '95% of back-to-school spending happens in a 5-week window. Launch supply deals in Week 28 to capture early planners.',
+      weeklySpendData: generateWeeklySpendData(8_500_000, [30, 31, 32, 33, 34], 10.0),
+      topMerchants: [
+        { name: 'Target', peakWeeks: 'Weeks 30-34', spend: 145_000_000 },
+        { name: 'Staples', peakWeeks: 'Weeks 31-34', spend: 95_000_000 },
+        { name: 'Amazon (school supplies)', peakWeeks: 'Weeks 30-33', spend: 88_000_000 }
+      ],
+      color: '#8B5CF6',
+      predictabilityScore: 95,
+      predictabilityReason: 'School start dates make back-to-school spending 95% predictable in Weeks 30-34.'
+    },
+    {
+      category: 'Travel & Exploration',
+      subcategory: 'Summer Vacation Rentals',
+      peakWeeks: 'Weeks 22-30',
+      peakSeason: 'Summer',
+      avgWeeklySpend: 125_000_000,
+      totalAnnualSpend: 1_125_000_000,
+      yoyGrowth: 18,
+      dealTimingRecommendation: 'Summer rental bookings are 92% predictable. Early bird campaigns in Weeks 8-12 capture planners; last-minute deals in Week 20.',
+      weeklySpendData: generateWeeklySpendData(42_000_000, [22, 23, 24, 25, 26, 27, 28, 29, 30], 3.0),
+      topMerchants: [
+        { name: 'Vrbo', peakWeeks: 'Weeks 22-30', spend: 380_000_000 },
+        { name: 'Airbnb', peakWeeks: 'Weeks 22-28', spend: 450_000_000 },
+        { name: 'Beach house rentals', peakWeeks: 'Weeks 24-28', spend: 180_000_000 }
+      ],
+      color: '#06B6D4',
+      predictabilityScore: 92,
+      predictabilityReason: '92% of vacation rental spending follows predictable summer patterns in Weeks 22-30.'
+    },
+    {
+      category: 'Home & Living',
+      subcategory: 'Pool & Patio Equipment',
+      peakWeeks: 'Weeks 18-24',
+      peakSeason: 'Spring → Early Summer',
+      avgWeeklySpend: 48_000_000,
+      totalAnnualSpend: 336_000_000,
+      yoyGrowth: 14,
+      dealTimingRecommendation: 'Pool and patio purchases spike 91% predictably as temperatures rise. Partner with home improvement stores in Week 16.',
+      weeklySpendData: generateWeeklySpendData(12_000_000, [18, 19, 20, 21, 22, 23, 24], 4.0),
+      topMerchants: [
+        { name: 'Home Depot', peakWeeks: 'Weeks 18-24', spend: 125_000_000 },
+        { name: 'Lowe\'s', peakWeeks: 'Weeks 18-22', spend: 98_000_000 },
+        { name: 'Leslie\'s Pool', peakWeeks: 'Weeks 20-26', spend: 45_000_000 }
+      ],
+      color: '#10B981',
+      predictabilityScore: 91,
+      predictabilityReason: '91% of pool/patio spending occurs in Weeks 18-24 as homeowners prepare for summer.'
+    },
+    {
+      category: 'Financial & Aspirational',
+      subcategory: 'Holiday Gift Cards',
+      peakWeeks: 'Weeks 49-52',
+      peakSeason: 'Holiday Gifting',
+      avgWeeklySpend: 95_000_000,
+      totalAnnualSpend: 380_000_000,
+      yoyGrowth: 3,
+      dealTimingRecommendation: 'Gift card purchases are 99% concentrated in the final 4 weeks. Partner with major retailers for bonus value promotions.',
+      weeklySpendData: generateWeeklySpendData(10_000_000, [49, 50, 51, 52], 9.0),
+      topMerchants: [
+        { name: 'Amazon Gift Cards', peakWeeks: 'Weeks 49-52', spend: 145_000_000 },
+        { name: 'Apple Gift Cards', peakWeeks: 'Weeks 50-52', spend: 85_000_000 },
+        { name: 'Restaurant Gift Cards', peakWeeks: 'Weeks 51-52', spend: 68_000_000 }
+      ],
+      color: '#DC2626',
+      predictabilityScore: 99,
+      predictabilityReason: '99% of holiday gift card purchases occur in Weeks 49-52 - the most predictable category.'
+    }
+  ];
+
+  if (sortBy === 'predictability') {
+    return predictabilityHighlights.sort((a, b) => b.predictabilityScore - a.predictabilityScore);
+  }
+  
+  return amountHighlights.sort((a, b) => b.totalAnnualSpend - a.totalAnnualSpend);
 }

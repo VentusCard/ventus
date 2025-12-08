@@ -33,7 +33,8 @@ export function BankwideView() {
   const ageRanges = getFilteredAgeRanges(filters);
   const spendingGaps = getSpendingGaps(filters);
   const crossSellMatrix = getCrossSellMatrix(filters);
-  const timingHighlights = getSpendingTimingHighlights(filters);
+  const timingHighlights = getSpendingTimingHighlights(filters, 'amount');
+  const predictabilityHighlights = getSpendingTimingHighlights(filters, 'predictability');
 
   return (
     <div className="space-y-4">
@@ -70,7 +71,7 @@ export function BankwideView() {
       <SpendingGapsAnalysis gaps={spendingGaps} />
 
       {/* Spending & Timing Highlights */}
-      <SpendingTimingHighlights highlights={timingHighlights} />
+      <SpendingTimingHighlights highlights={timingHighlights} predictabilityHighlights={predictabilityHighlights} />
 
       {/* Cross-Sell Matrix */}
       <CrossSellMatrix matrixData={crossSellMatrix} />
