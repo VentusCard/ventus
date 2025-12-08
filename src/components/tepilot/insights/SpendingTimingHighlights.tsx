@@ -1,12 +1,15 @@
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
-import { Calendar, TrendingUp, TrendingDown, Lightbulb } from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Calendar, TrendingUp, TrendingDown, Lightbulb, DollarSign, Target } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import type { SpendingTimingHighlight } from "@/types/bankwide";
 
 interface SpendingTimingHighlightsProps {
   highlights: SpendingTimingHighlight[];
+  predictabilityHighlights: SpendingTimingHighlight[];
 }
 
 const formatCurrency = (value: number): string => {
@@ -18,23 +21,55 @@ const formatCurrency = (value: number): string => {
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-export function SpendingTimingHighlights({ highlights }: SpendingTimingHighlightsProps) {
+const getPredictabilityColor = (score: number): string => {
+  if (score >= 90) return 'text-green-600 bg-green-100 border-green-200';
+  if (score >= 80) return 'text-yellow-600 bg-yellow-100 border-yellow-200';
+  return 'text-muted-foreground bg-muted border-border';
+};
+
+export function SpendingTimingHighlights({ highlights, predictabilityHighlights }: SpendingTimingHighlightsProps) {
+  const [sortBy, setSortBy] = useState<'amount' | 'predictability'>('amount');
+  
+  const activeHighlights = sortBy === 'amount' ? highlights : predictabilityHighlights;
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Calendar className="h-5 w-5 text-primary" />
-          Spending & Timing Highlights
-        </CardTitle>
-        <CardDescription>
-          Identify optimal merchant deal windows based on weekly spending patterns across the year
-        </CardDescription>
+        <div className="flex items-start justify-between">
+          <div>
+            <CardTitle className="flex items-center gap-2">
+              <Calendar className="h-5 w-5 text-primary" />
+              Spending & Timing Highlights
+            </CardTitle>
+            <CardDescription className="mt-1.5">
+              {sortBy === 'amount' 
+                ? 'Identify optimal merchant deal windows based on weekly spending volume'
+                : 'Discover highly predictable seasonal spending patterns for targeted campaigns'
+              }
+            </CardDescription>
+          </div>
+          <ToggleGroup 
+            type="single" 
+            value={sortBy} 
+            onValueChange={(val) => val && setSortBy(val as 'amount' | 'predictability')}
+            className="border rounded-lg p-1"
+          >
+            <ToggleGroupItem value="amount" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+              <DollarSign className="h-4 w-4" />
+              <span className="hidden sm:inline">Highest Amount</span>
+            </ToggleGroupItem>
+            <ToggleGroupItem value="predictability" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+              <Target className="h-4 w-4" />
+              <span className="hidden sm:inline">Highest Predictability</span>
+            </ToggleGroupItem>
+          </ToggleGroup>
+        </div>
       </CardHeader>
       <CardContent>
         <Accordion type="multiple" className="space-y-2">
-          {highlights.map((highlight, index) => (
+          {activeHighlights.map((highlight, index) => (
             <AccordionItem
-              key={highlight.category}
+              key={`${highlight.category}-${highlight.subcategory || index}`}
               value={`item-${index}`}
               className="border rounded-lg px-4"
             >
@@ -45,9 +80,26 @@ export function SpendingTimingHighlights({ highlights }: SpendingTimingHighlight
                       className="w-3 h-3 rounded-full"
                       style={{ backgroundColor: highlight.color }}
                     />
-                    <span className="font-medium">{highlight.category}</span>
+                    <div className="text-left">
+                      <span className="font-medium">
+                        {highlight.subcategory || highlight.category}
+                      </span>
+                      {highlight.subcategory && (
+                        <span className="text-xs text-muted-foreground ml-2">
+                          ({highlight.category})
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <div className="flex items-center gap-3">
+                    {sortBy === 'predictability' && (
+                      <Badge 
+                        variant="outline" 
+                        className={`font-semibold ${getPredictabilityColor(highlight.predictabilityScore)}`}
+                      >
+                        {highlight.predictabilityScore}% Predictable
+                      </Badge>
+                    )}
                     <Badge variant="secondary" className="font-normal">
                       {highlight.peakWeeks}
                     </Badge>
@@ -71,13 +123,34 @@ export function SpendingTimingHighlights({ highlights }: SpendingTimingHighlight
               </AccordionTrigger>
               <AccordionContent className="pt-2 pb-4">
                 <div className="space-y-4">
-                  {/* Peak Season Badge */}
-                  <div className="flex items-center gap-2 text-sm">
+                  {/* Peak Season Badge + Predictability (if in predictability mode) */}
+                  <div className="flex items-center gap-2 text-sm flex-wrap">
                     <span className="text-muted-foreground">Peak Season:</span>
                     <Badge variant="outline">{highlight.peakSeason}</Badge>
                     <span className="text-muted-foreground ml-4">Avg Weekly:</span>
                     <span className="font-medium">{formatCurrency(highlight.avgWeeklySpend)}</span>
+                    {sortBy === 'predictability' && (
+                      <>
+                        <span className="text-muted-foreground ml-4">Predictability:</span>
+                        <Badge 
+                          variant="outline" 
+                          className={getPredictabilityColor(highlight.predictabilityScore)}
+                        >
+                          {highlight.predictabilityScore}%
+                        </Badge>
+                      </>
+                    )}
                   </div>
+
+                  {/* Predictability Insight (only in predictability mode) */}
+                  {sortBy === 'predictability' && (
+                    <div className="bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg p-3">
+                      <p className="text-sm text-blue-800 dark:text-blue-200">
+                        <Target className="h-4 w-4 inline mr-2" />
+                        <strong>Pattern Insight:</strong> {highlight.predictabilityReason}
+                      </p>
+                    </div>
+                  )}
 
                   {/* 52-Week Area Chart */}
                   <div className="h-48 w-full">
@@ -87,7 +160,7 @@ export function SpendingTimingHighlights({ highlights }: SpendingTimingHighlight
                         margin={{ top: 10, right: 10, left: 0, bottom: 0 }}
                       >
                         <defs>
-                          <linearGradient id={`gradient-${index}`} x1="0" y1="0" x2="0" y2="1">
+                          <linearGradient id={`gradient-${sortBy}-${index}`} x1="0" y1="0" x2="0" y2="1">
                             <stop offset="5%" stopColor={highlight.color} stopOpacity={0.4} />
                             <stop offset="95%" stopColor={highlight.color} stopOpacity={0.05} />
                           </linearGradient>
@@ -96,7 +169,6 @@ export function SpendingTimingHighlights({ highlights }: SpendingTimingHighlight
                           dataKey="week"
                           tick={{ fontSize: 11 }}
                           tickFormatter={(week) => {
-                            // Show month labels at week 1, 5, 9, 14, 18, 22, 27, 31, 35, 40, 44, 48
                             const monthWeeks = [1, 5, 9, 14, 18, 22, 27, 31, 35, 40, 44, 48];
                             const monthIndex = monthWeeks.indexOf(week);
                             if (monthIndex !== -1) return MONTH_LABELS[monthIndex];
@@ -133,7 +205,7 @@ export function SpendingTimingHighlights({ highlights }: SpendingTimingHighlight
                           dataKey="spend"
                           stroke={highlight.color}
                           strokeWidth={2}
-                          fill={`url(#gradient-${index})`}
+                          fill={`url(#gradient-${sortBy}-${index})`}
                         />
                       </AreaChart>
                     </ResponsiveContainer>
