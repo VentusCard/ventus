@@ -32,11 +32,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                   Strategic geo-targeted offers based on customer location patterns
                 </p>
               </div>
-              {isExpanded ? (
-                <ChevronDown className="h-5 w-5 text-muted-foreground" />
-              ) : (
-                <ChevronRight className="h-5 w-5 text-muted-foreground" />
-              )}
+              <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
             </div>
           </CardHeader>
         </CollapsibleTrigger>

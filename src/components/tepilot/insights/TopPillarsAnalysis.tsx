@@ -186,11 +186,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                 <Badge variant="secondary" className="text-sm font-semibold">
                   ${totalSpend.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </Badge>
-                {isCardExpanded ? (
-                  <ChevronDown className="h-5 w-5 text-muted-foreground" />
-                ) : (
-                  <ChevronRight className="h-5 w-5 text-muted-foreground" />
-                )}
+                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isCardExpanded ? 'rotate-180' : ''}`} />
               </div>
             </div>
             
