@@ -229,19 +229,21 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                         return (
                           <div 
                             key={txn.transaction_id}
-                            className="p-3 bg-background rounded-lg border"
+                            className="p-3 bg-background rounded-lg border hover:border-primary/30 transition-colors"
                           >
-                            <div className="flex items-start justify-between gap-4">
+                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+                              {/* Left: Transaction Info */}
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center gap-2">
-                                  <DollarSign className="h-4 w-4 text-muted-foreground shrink-0" />
+                                  <DollarSign className="h-4 w-4 text-primary shrink-0" />
                                   <span className="font-medium truncate">
                                     {txn.normalized_merchant || txn.merchant_name}
                                   </span>
+                                  <Badge variant="outline" className="shrink-0 text-xs font-semibold">
+                                    ${txn.amount.toFixed(2)}
+                                  </Badge>
                                 </div>
-                                <div className="flex items-center gap-2 mt-1 text-sm text-muted-foreground">
-                                  <span>${txn.amount.toFixed(2)}</span>
-                                  <span>•</span>
+                                <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground ml-6">
                                   <span>{new Date(txn.date).toLocaleDateString()}</span>
                                   {txn.subcategory && (
                                     <>
@@ -251,35 +253,38 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                                   )}
                                 </div>
                               </div>
-                            </div>
-                            
-                            {/* AI Analysis */}
-                            {analyzed ? (
-                              <div className="mt-3 pt-3 border-t border-dashed">
-                                <div className="flex items-start gap-2">
-                                  <Bot className="h-4 w-4 text-primary shrink-0 mt-0.5" />
-                                  <div className="flex-1">
-                                    <p className="text-sm">{analyzed.inferred_purchase}</p>
-                                    <div className="flex items-center gap-2 mt-2">
-                                      <Progress 
-                                        value={analyzed.confidence * 100} 
-                                        className="h-2 flex-1 max-w-[120px]"
-                                      />
-                                      <span className="text-xs text-muted-foreground">
-                                        {Math.round(analyzed.confidence * 100)}% confidence
-                                      </span>
+
+                              {/* Right: AI Analysis */}
+                              <div className="md:w-72 shrink-0 md:border-l md:pl-4 border-border/50">
+                                {analyzed ? (
+                                  <div className="flex items-center gap-3 bg-primary/5 rounded-md p-2 md:p-2.5">
+                                    <Bot className="h-4 w-4 text-primary shrink-0" />
+                                    <div className="flex-1 min-w-0">
+                                      <p className="text-sm font-medium truncate">{analyzed.inferred_purchase}</p>
+                                      <div className="flex items-center gap-2 mt-1">
+                                        <Progress 
+                                          value={analyzed.confidence * 100} 
+                                          className="h-1.5 flex-1 max-w-[80px]"
+                                        />
+                                        <span className="text-xs text-muted-foreground whitespace-nowrap">
+                                          {Math.round(analyzed.confidence * 100)}%
+                                        </span>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
+                                ) : isAnalyzing ? (
+                                  <div className="flex items-center gap-2 text-sm text-muted-foreground p-2">
+                                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                                    <span>Analyzing...</span>
+                                  </div>
+                                ) : (
+                                  <div className="flex items-center gap-2 text-xs text-muted-foreground/60 p-2">
+                                    <Bot className="h-3.5 w-3.5" />
+                                    <span>Awaiting analysis</span>
+                                  </div>
+                                )}
                               </div>
-                            ) : isAnalyzing ? (
-                              <div className="mt-3 pt-3 border-t border-dashed">
-                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                  <Loader2 className="h-4 w-4 animate-spin" />
-                                  <span>Analyzing...</span>
-                                </div>
-                              </div>
-                            ) : null}
+                            </div>
                           </div>
                         );
                       })}
