@@ -43,7 +43,7 @@ import { PILLAR_COLORS } from "@/lib/sampleData";
 import { SubcategoryTransactionsModal } from "@/components/tepilot/insights/SubcategoryTransactionsModal";
 import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailModal";
 import { TopPillarsAnalysis } from "@/components/tepilot/insights/TopPillarsAnalysis";
-const CURRENT_VERSION = "V2.3";
+const CURRENT_VERSION = "V2.4";
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -479,7 +479,7 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V2.3 - December 2025</p>
+                      <p className="font-semibold">V2.4 - December 2025</p>
                       <ul className="list-disc list-inside space-y-0.5 mt-0.5">
                         <li><strong>Parent-SKU Purchase Analysis:</strong> AI infers specific products from merchant + amount (e.g., "$45 Target" → "backpack") with confidence scores</li>
                         <li><strong>Bank-wide Pattern Tools:</strong> Highest Amount vs. Predictability filter + individual merchant deal timing strategies</li>
