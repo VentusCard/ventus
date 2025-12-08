@@ -671,7 +671,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Multi-Category Mapping</h4>
                         <p className="text-sm text-muted-foreground">
-                          Maps to lifestyle goals, not just generic categories — e.g., "Whole Foods" → Health & Wellness + Food & Dining
+                          Semantic merchant clustering maps disparate entities (Titleist, Country Club, PGA Superstore) to unified Sports → Golf taxonomy
                         </p>
                       </div>
                     </div>
