@@ -640,7 +640,7 @@ const TePilot = () => {
               <AccordionItem value="item-3">
                 <AccordionTrigger className="text-lg font-semibold group">
                   <div className="flex flex-col items-start gap-1 text-left">
-                    <span>Key Features</span>
+                    <span>Key Features <span className="text-primary">(New!)</span></span>
                     <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
                       Full-stack AI capabilities from enrichment to personalization
                     </span>
