@@ -4,11 +4,37 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Progress } from "@/components/ui/progress";
-import { ChevronDown, ChevronRight, Sparkles, Loader2, Bot, DollarSign } from "lucide-react";
+import { ChevronDown, ChevronRight, Sparkles, Loader2, Bot, DollarSign, Calendar, Tag } from "lucide-react";
 import { EnrichedTransaction } from "@/types/transaction";
 import { aggregateByPillar } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
 import { UserPersonaCard } from "./UserPersonaCard";
+import { cn } from "@/lib/utils";
+
+// Helper function for confidence color styling
+const getConfidenceStyle = (confidence: number) => {
+  if (confidence >= 0.85) return { 
+    bg: 'bg-green-500/10', 
+    text: 'text-green-600',
+    border: 'border-green-500/30',
+    progress: '[&>div]:bg-green-500',
+    label: 'HIGH' 
+  };
+  if (confidence >= 0.60) return { 
+    bg: 'bg-amber-500/10', 
+    text: 'text-amber-600',
+    border: 'border-amber-500/30',
+    progress: '[&>div]:bg-amber-500',
+    label: 'MODERATE' 
+  };
+  return { 
+    bg: 'bg-red-500/10', 
+    text: 'text-red-600',
+    border: 'border-red-500/30',
+    progress: '[&>div]:bg-red-500',
+    label: 'LOW' 
+  };
+};
 
 interface AnalyzedTransaction {
   transaction_id: string;
@@ -225,62 +251,116 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                     <div className="space-y-3">
                       {pillarTransactions.map((txn) => {
                         const analyzed = analyzedTxns.find(a => a.transaction_id === txn.transaction_id);
+                        const confidenceStyle = analyzed ? getConfidenceStyle(analyzed.confidence) : null;
                         
                         return (
                           <div 
                             key={txn.transaction_id}
-                            className="p-3 bg-background rounded-lg border hover:border-primary/30 transition-colors"
+                            className="p-4 bg-background rounded-xl border hover:shadow-md transition-all duration-200"
                           >
-                            <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
-                              {/* Left: Transaction Info */}
-                              <div className="flex-1 min-w-0">
+                            <div className="flex flex-col lg:flex-row lg:items-stretch gap-4">
+                              
+                              {/* LEFT COLUMN: Transaction Details (40%) */}
+                              <div className="lg:w-[40%] space-y-2">
                                 <div className="flex items-center gap-2">
-                                  <DollarSign className="h-4 w-4 text-primary shrink-0" />
-                                  <span className="font-medium truncate">
+                                  <span className="text-lg">{PILLAR_ICONS[pillar.pillar] || "📦"}</span>
+                                  <h4 className="font-semibold text-base truncate">
                                     {txn.normalized_merchant || txn.merchant_name}
-                                  </span>
-                                  <Badge variant="outline" className="shrink-0 text-xs font-semibold">
-                                    ${txn.amount.toFixed(2)}
-                                  </Badge>
+                                  </h4>
                                 </div>
-                                <div className="flex items-center gap-2 mt-1.5 text-xs text-muted-foreground ml-6">
-                                  <span>{new Date(txn.date).toLocaleDateString()}</span>
+                                <div className="flex items-center gap-2">
+                                  <DollarSign className="h-4 w-4 text-primary" />
+                                  <span className="font-bold text-xl">${txn.amount.toFixed(2)}</span>
+                                </div>
+                                <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                                  <span className="flex items-center gap-1.5">
+                                    <Calendar className="h-3.5 w-3.5" />
+                                    {new Date(txn.date).toLocaleDateString()}
+                                  </span>
                                   {txn.subcategory && (
-                                    <>
-                                      <span>•</span>
-                                      <span className="truncate">{txn.subcategory}</span>
-                                    </>
+                                    <span className="flex items-center gap-1.5">
+                                      <Tag className="h-3.5 w-3.5" />
+                                      <span className="truncate max-w-[120px]">{txn.subcategory}</span>
+                                    </span>
                                   )}
                                 </div>
                               </div>
 
-                              {/* Right: AI Analysis */}
-                              <div className="md:w-[28rem] shrink-0 md:border-l md:pl-4 border-border/50">
+                              {/* Vertical Divider */}
+                              <div className="hidden lg:block w-px bg-border" />
+
+                              {/* CENTER COLUMN: AI Inference (35%) */}
+                              <div className="lg:w-[35%] flex items-center">
                                 {analyzed ? (
-                                  <div className="flex items-center gap-3 bg-primary/5 rounded-md p-2 md:p-2.5">
-                                    <Bot className="h-4 w-4 text-primary shrink-0" />
+                                  <div className="flex items-start gap-3 w-full">
+                                    <div className="p-2 bg-primary/10 rounded-lg shrink-0">
+                                      <Bot className="h-5 w-5 text-primary" />
+                                    </div>
                                     <div className="flex-1 min-w-0">
-                                      <p className="text-sm font-medium truncate">{analyzed.inferred_purchase}</p>
-                                      <div className="flex items-center gap-2 mt-1">
-                                        <Progress 
-                                          value={analyzed.confidence * 100} 
-                                          className="h-1.5 flex-1 max-w-[80px]"
-                                        />
-                                        <span className="text-xs text-muted-foreground whitespace-nowrap">
-                                          {Math.round(analyzed.confidence * 100)}%
-                                        </span>
-                                      </div>
+                                      <p className="font-medium text-sm leading-relaxed">
+                                        {analyzed.inferred_purchase}
+                                      </p>
+                                      <p className="text-xs text-muted-foreground mt-1">
+                                        AI-inferred purchase
+                                      </p>
                                     </div>
                                   </div>
                                 ) : isAnalyzing ? (
-                                  <div className="flex items-center gap-2 text-sm text-muted-foreground p-2">
-                                    <Loader2 className="h-4 w-4 animate-spin text-primary" />
-                                    <span>Analyzing...</span>
+                                  <div className="flex items-center gap-3 w-full">
+                                    <div className="p-2 bg-muted rounded-lg">
+                                      <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                                    </div>
+                                    <div>
+                                      <p className="text-sm font-medium">Analyzing transaction...</p>
+                                      <p className="text-xs text-muted-foreground">AI processing</p>
+                                    </div>
                                   </div>
                                 ) : (
-                                  <div className="flex items-center gap-2 text-xs text-muted-foreground/60 p-2">
-                                    <Bot className="h-3.5 w-3.5" />
-                                    <span>Awaiting analysis</span>
+                                  <div className="flex items-center gap-3 w-full opacity-50">
+                                    <div className="p-2 bg-muted/50 rounded-lg">
+                                      <Bot className="h-5 w-5 text-muted-foreground" />
+                                    </div>
+                                    <div>
+                                      <p className="text-sm text-muted-foreground">Awaiting analysis</p>
+                                      <p className="text-xs text-muted-foreground/70">Click "Analyze with AI"</p>
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
+
+                              {/* Vertical Divider */}
+                              <div className="hidden lg:block w-px bg-border" />
+
+                              {/* RIGHT COLUMN: Confidence Badge (25%) */}
+                              <div className="lg:w-[25%] flex items-center justify-center">
+                                {analyzed && confidenceStyle ? (
+                                  <div className={cn(
+                                    "px-4 py-3 rounded-xl text-center border w-full max-w-[140px]",
+                                    confidenceStyle.bg,
+                                    confidenceStyle.border
+                                  )}>
+                                    <div className="flex items-center justify-center gap-1.5 mb-1">
+                                      <span className={cn("text-[10px] font-bold uppercase tracking-wider", confidenceStyle.text)}>
+                                        {confidenceStyle.label}
+                                      </span>
+                                    </div>
+                                    <span className={cn("text-3xl font-bold", confidenceStyle.text)}>
+                                      {Math.round(analyzed.confidence * 100)}%
+                                    </span>
+                                    <Progress 
+                                      value={analyzed.confidence * 100} 
+                                      className={cn("h-1.5 w-full mt-2", confidenceStyle.progress)}
+                                    />
+                                  </div>
+                                ) : isAnalyzing ? (
+                                  <div className="px-4 py-3 rounded-xl text-center bg-muted/30 border border-border/50 w-full max-w-[140px]">
+                                    <Loader2 className="h-6 w-6 animate-spin text-muted-foreground mx-auto mb-1" />
+                                    <span className="text-xs text-muted-foreground">Calculating...</span>
+                                  </div>
+                                ) : (
+                                  <div className="px-4 py-3 rounded-xl text-center bg-muted/20 border border-dashed border-border/50 w-full max-w-[140px]">
+                                    <span className="text-2xl font-bold text-muted-foreground/40">—%</span>
+                                    <p className="text-xs text-muted-foreground/50 mt-1">No data</p>
                                   </div>
                                 )}
                               </div>
