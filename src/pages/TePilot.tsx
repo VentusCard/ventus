@@ -1094,7 +1094,7 @@ const TePilot = () => {
                       <div className="flex items-center justify-between">
                         <div className="flex flex-col items-start gap-2">
                           <CardTitle className="text-2xl">
-                            Example Revenue Opportunities for Banking Partners
+                            Example Deal, Rewards and Cross-Sell Opportunities
                           </CardTitle>
                           <p className="text-sm text-muted-foreground">
                             AI-powered strategic recommendations based on spending patterns
