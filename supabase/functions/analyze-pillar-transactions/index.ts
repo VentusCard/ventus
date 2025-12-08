@@ -76,8 +76,33 @@ serve(async (req) => {
 INPUT DATA:
 ${JSON.stringify(pillarsSummary, null, 2)}
 
-TASK 1 - TRANSACTION ANALYSIS:
-For each transaction, infer what the customer likely purchased based on the merchant name and amount. Provide a confidence score (0.0-1.0).
+TASK 1 - TRANSACTION ANALYSIS (Parent-SKU Level):
+For each transaction, infer the SPECIFIC product category or item type the customer likely purchased.
+Use the PRICE as a key signal to narrow down possibilities.
+
+SPECIFICITY GUIDELINES:
+- Be as specific as possible while remaining confident
+- Target parent-SKU level (e.g., "backpack" not "school supplies", "running shoes" not "athletic apparel")
+- Do NOT be generic (avoid: "merchandise", "items", "goods", "purchase", "products")
+- Use price logic: A $45 Target purchase is likely a specific item (backpack, small appliance, home decor piece), not "various items"
+
+PRICE-BASED INFERENCE EXAMPLES:
+- LULULEMON $98 → "yoga leggings" or "running shorts" (their core SKU price points)
+- TARGET $45 → "backpack" or "small kitchen appliance" or "throw blanket" (single item)
+- WHOLE FOODS $150 → "weekly grocery haul" (high $ = basket, not single item)
+- STARBUCKS $8.50 → "latte + pastry" (price matches combo)
+- HOME DEPOT $280 → "power tool" or "bathroom fixture" (matches specific SKUs)
+- NIKE $120 → "running shoes" (matches shoe price point, not apparel)
+- SEPHORA $42 → "premium skincare product" or "fragrance set"
+- AMAZON $25 → "book" or "household essential" or "phone accessory"
+- CHIPOTLE $14 → "burrito bowl + drink"
+- COSTCO $350 → "bulk groceries + household items" or "electronics item"
+
+CONFIDENCE SCORING:
+- 0.9+ : Price clearly matches a specific product category (e.g., $120 at Nike = shoes)
+- 0.7-0.89: Price matches a few likely options (e.g., $45 at Target = backpack OR small appliance)
+- 0.5-0.69: Multiple plausible products, harder to narrow down
+- <0.5: Very ambiguous, could be many things
 
 TASK 2 - USER PERSONA:
 Based on ALL transactions across the 3 pillars, create a unified customer persona that describes:
@@ -95,7 +120,7 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
       "transactions": [
         {
           "transaction_id": "id",
-          "inferred_purchase": "Description of what was purchased",
+          "inferred_purchase": "Specific product (e.g., running shoes, yoga leggings, power drill)",
           "confidence": 0.85
         }
       ]
