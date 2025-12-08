@@ -31,6 +31,7 @@ interface UserPersona {
 
 interface TopPillarsAnalysisProps {
   transactions: EnrichedTransaction[];
+  autoAnalyze?: boolean;
 }
 
 const PILLAR_ICONS: Record<string, string> = {
@@ -48,7 +49,7 @@ const PILLAR_ICONS: Record<string, string> = {
   "Miscellaneous & Unclassified": "📦",
 };
 
-export function TopPillarsAnalysis({ transactions }: TopPillarsAnalysisProps) {
+export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPillarsAnalysisProps) {
   const [analyzedPillars, setAnalyzedPillars] = useState<AnalyzedPillar[]>([]);
   const [userPersona, setUserPersona] = useState<UserPersona | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -61,6 +62,13 @@ export function TopPillarsAnalysis({ transactions }: TopPillarsAnalysisProps) {
     .slice(0, 3);
 
   const totalSpend = pillarAggregates.reduce((sum, p) => sum + p.totalSpend, 0);
+
+  // Auto-trigger analysis when autoAnalyze prop is true
+  useEffect(() => {
+    if (autoAnalyze && !hasAnalyzed && !isAnalyzing && pillarAggregates.length > 0) {
+      analyzeWithAI();
+    }
+  }, [autoAnalyze, hasAnalyzed, isAnalyzing, pillarAggregates.length]);
 
   const togglePillar = (pillar: string) => {
     setExpandedPillars(prev => {
