@@ -43,7 +43,7 @@ import { PILLAR_COLORS } from "@/lib/sampleData";
 import { SubcategoryTransactionsModal } from "@/components/tepilot/insights/SubcategoryTransactionsModal";
 import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailModal";
 import { TopPillarsAnalysis } from "@/components/tepilot/insights/TopPillarsAnalysis";
-const CURRENT_VERSION = "V2.3";
+const CURRENT_VERSION = "V2.4";
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -479,7 +479,11 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V2.3 - Current</p>
+                      <p className="font-semibold">V2.4 - Current</p>
+                      <p>Parent-SKU level purchase analysis with category-aware state sales tax calculation. Seasonality timelining intelligence with 52-week spending pattern visualization and predictability scoring for optimal deal deployment.</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V2.3 - December 2025</p>
                       <p>Added more features into wealth management tool, unlocked</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
