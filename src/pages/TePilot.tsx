@@ -662,7 +662,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Semantic Intelligence</h4>
                         <p className="text-sm text-muted-foreground">
-                          Goes beyond keywords to understand actual intent and meaning
+                          Infinitely scalable knowledge base that continuously learns new merchants, categories, and spending patterns without manual updates
                         </p>
                       </div>
                     </div>
