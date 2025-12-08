@@ -680,7 +680,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Higher Accuracy</h4>
                         <p className="text-sm text-muted-foreground">
-                          Better confidence scores with transparent reasoning
+                          Multi-algorithm ensemble dynamically routes each task to the optimal model for maximum classification precision
                         </p>
                       </div>
                     </div>
