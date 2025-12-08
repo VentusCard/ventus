@@ -63,6 +63,7 @@ const TePilot = () => {
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
   const [recommendations, setRecommendations] = useState<any>(null);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
+  const [recommendationsLoaded, setRecommendationsLoaded] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(null);
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
@@ -391,6 +392,7 @@ const TePilot = () => {
         topSubcategories
       };
       setRecommendations(recommendationsWithSubcategories);
+      setRecommendationsLoaded(true);
       sessionStorage.setItem("tepilot_recommendations", JSON.stringify(recommendationsWithSubcategories));
       toast.success("Generated personalized recommendations!");
     } catch (error) {
@@ -1059,13 +1061,18 @@ const TePilot = () => {
                 
                 {/* Recommendations Results */}
                 {!isGeneratingRecommendations && recommendations && (
-                  <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-                    total_estimated_value: {
-                      monthly: 0,
-                      annual: 0
-                    },
-                    message: "No recommendations available"
-                  }} />
+                  <RecommendationsCard 
+                    recommendations={recommendations.recommendations || []} 
+                    summary={recommendations.summary || {
+                      total_estimated_value: {
+                        monthly: 0,
+                        annual: 0
+                      },
+                      message: "No recommendations available"
+                    }}
+                    isLoading={isGeneratingRecommendations}
+                    hasSucceeded={recommendationsLoaded}
+                  />
                 )}
             
                 {/* Geo-Location Deals Section */}

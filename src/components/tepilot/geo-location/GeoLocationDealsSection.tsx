@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Accordion } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { MapPin, Plane, ChevronDown, ChevronRight } from "lucide-react";
+import { MapPin, Plane, ChevronDown, Loader2, CheckCircle2 } from "lucide-react";
 import { CityDealCardWrapper } from "./CityDealCardWrapper";
 import { GEO_DEAL_CATEGORIES } from "./dealCategories";
 import { LocationContext } from "@/lib/geoLocationUtils";
@@ -15,6 +15,32 @@ interface GeoLocationDealsSectionProps {
 export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSectionProps) {
   const { homeCity, travelDestinations } = locationContext;
   const [isExpanded, setIsExpanded] = useState(false);
+  const [loadingCount, setLoadingCount] = useState(0);
+  const [totalCategories, setTotalCategories] = useState(0);
+  const [allLoaded, setAllLoaded] = useState(false);
+  
+  // Calculate total categories when expanded
+  useEffect(() => {
+    if (isExpanded) {
+      const numCategories = Object.keys(GEO_DEAL_CATEGORIES).length;
+      const numLocations = (homeCity ? 1 : 0) + Math.min(travelDestinations.length, 2);
+      const total = numCategories * numLocations;
+      setTotalCategories(total);
+      setLoadingCount(total); // All start loading
+    }
+  }, [isExpanded, homeCity, travelDestinations.length]);
+
+  const handleDealLoaded = useCallback(() => {
+    setLoadingCount(prev => {
+      const newCount = Math.max(0, prev - 1);
+      if (newCount === 0) {
+        setAllLoaded(true);
+      }
+      return newCount;
+    });
+  }, []);
+
+  const isLoading = isExpanded && loadingCount > 0;
   
   if (!homeCity && travelDestinations.length === 0) {
     return null;
@@ -32,7 +58,15 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                   Strategic geo-targeted offers based on customer location patterns
                 </p>
               </div>
-              <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+              <div className="flex items-center gap-4">
+                {isLoading && (
+                  <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                )}
+                {allLoaded && !isLoading && (
+                  <CheckCircle2 className="h-5 w-5 text-green-500 animate-fade-in" />
+                )}
+                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isExpanded ? 'rotate-180' : ''}`} />
+              </div>
             </div>
           </CardHeader>
         </CollapsibleTrigger>
@@ -57,6 +91,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                       categoryData={category}
                       city={homeCity}
                       isTravel={false}
+                      onLoaded={handleDealLoaded}
                     />
                   ))}
                 </Accordion>
@@ -86,6 +121,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                           categoryData={category}
                           city={travel.destination}
                           isTravel={true}
+                          onLoaded={handleDealLoaded}
                         />
                       ))}
                     </Accordion>

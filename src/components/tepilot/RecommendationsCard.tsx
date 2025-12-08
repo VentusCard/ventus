@@ -3,7 +3,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Target, CheckCircle2, ChevronDown } from "lucide-react";
+import { Target, CheckCircle2, ChevronDown, Loader2 } from "lucide-react";
 
 interface Recommendation {
   deal_id: string;
@@ -24,9 +24,11 @@ interface RecommendationsCardProps {
   summary: {
     message: string;
   };
+  isLoading?: boolean;
+  hasSucceeded?: boolean;
 }
 
-export function RecommendationsCard({ recommendations, summary }: RecommendationsCardProps) {
+export function RecommendationsCard({ recommendations, summary, isLoading = false, hasSucceeded = false }: RecommendationsCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   // Auto-expand when recommendations are provided
@@ -86,7 +88,15 @@ export function RecommendationsCard({ recommendations, summary }: Recommendation
                   {recommendations.length} strategic recommendations
                 </div>
               </div>
-              <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+              <div className="flex items-center gap-4">
+                {isLoading && (
+                  <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                )}
+                {hasSucceeded && !isLoading && (
+                  <CheckCircle2 className="h-5 w-5 text-green-500 animate-fade-in" />
+                )}
+                <ChevronDown className={`h-5 w-5 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+              </div>
             </div>
           </CardHeader>
         </CollapsibleTrigger>

@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Progress } from "@/components/ui/progress";
-import { ChevronDown, ChevronRight, Sparkles, Loader2, Bot } from "lucide-react";
+import { ChevronDown, ChevronRight, Sparkles, Loader2, Bot, CheckCircle2 } from "lucide-react";
 import { EnrichedTransaction } from "@/types/transaction";
 import { aggregateByPillar } from "@/lib/aggregations";
 import { supabase } from "@/integrations/supabase/client";
@@ -82,6 +82,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
   const [expandedPillars, setExpandedPillars] = useState<Set<string>>(new Set());
   const [hasAnalyzed, setHasAnalyzed] = useState(false);
   const [isCardExpanded, setIsCardExpanded] = useState(false);
+  const [analysisSucceeded, setAnalysisSucceeded] = useState(false);
 
   // Get top 3 pillars by spend
   const pillarAggregates = aggregateByPillar(transactions)
@@ -146,6 +147,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
         setUserPersona(data.user_persona);
       }
       setHasAnalyzed(true);
+      setAnalysisSucceeded(true);
       
       // Expand first pillar by default
       if (pillarAggregates.length > 0) {
@@ -183,6 +185,12 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                 </p>
               </div>
               <div className="flex items-center gap-4">
+                {isAnalyzing && (
+                  <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                )}
+                {analysisSucceeded && !isAnalyzing && (
+                  <CheckCircle2 className="h-5 w-5 text-green-500 animate-fade-in" />
+                )}
                 <Badge variant="secondary" className="text-sm font-semibold">
                   ${totalSpend.toLocaleString(undefined, { minimumFractionDigits: 2 })}
                 </Badge>
