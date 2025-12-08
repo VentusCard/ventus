@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown, Loader2 } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown, Loader2, ShoppingBag, CalendarClock, CalendarHeart, MessageSquare } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -642,7 +642,7 @@ const TePilot = () => {
                   <div className="flex flex-col items-start gap-1 text-left">
                     <span>Key Features</span>
                     <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
-                      Full-stack AI features for transaction intelligence
+                      Full-stack AI capabilities from enrichment to personalization
                     </span>
                   </div>
                 </AccordionTrigger>
@@ -699,6 +699,42 @@ const TePilot = () => {
                         <h4 className="font-semibold text-sm mb-1">Adaptive Learning</h4>
                         <p className="text-sm text-muted-foreground">
                           Corrections teach the AI to improve future classifications, creating a smarter system over time
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <ShoppingBag className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Parent-SKU Level Inference</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Uses price-matching and merchant context to infer specific purchases (e.g., "$120 Nike" → "running shoes") rather than generic "merchandise"
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <CalendarClock className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Merchant Deal Timing Optimization</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Analyzes 52-week spending patterns to identify optimal weeks for merchant promotions, maximizing campaign ROI
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <CalendarHeart className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Life Event Financial Planning</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Automatically detects life events (new baby, home purchase, career change) and generates multi-year financial projections
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <MessageSquare className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Wealth Management Relationship Co-Pilot</h4>
+                        <p className="text-sm text-muted-foreground">
+                          AI advisor chatbot with client psychology profiling, transaction-grounded insights, and Monte Carlo retirement planning
                         </p>
                       </div>
                     </div>
