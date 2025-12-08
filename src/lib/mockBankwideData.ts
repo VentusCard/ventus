@@ -9,6 +9,7 @@ import type {
   BankwideFilters,
   PillarDetail,
   StateSpendingData,
+  SpendingTimingHighlight,
 } from '@/types/bankwide';
 import { PILLAR_COLORS, LIFESTYLE_PILLARS } from '@/lib/sampleData';
 
@@ -903,4 +904,140 @@ export function getStateSpendingData(filters: BankwideFilters): StateSpendingDat
   }
   
   return data;
+}
+
+// Generate 52-week spending data with seasonal patterns
+function generateWeeklySpendData(
+  baseSpend: number,
+  peakWeeks: number[],
+  peakMultiplier: number = 2.5
+): Array<{ week: number; month: string; spend: number }> {
+  const months = ['Jan', 'Jan', 'Jan', 'Jan', 'Feb', 'Feb', 'Feb', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar',
+    'Apr', 'Apr', 'Apr', 'Apr', 'May', 'May', 'May', 'May', 'Jun', 'Jun', 'Jun', 'Jun', 'Jun',
+    'Jul', 'Jul', 'Jul', 'Jul', 'Aug', 'Aug', 'Aug', 'Aug', 'Aug', 'Sep', 'Sep', 'Sep', 'Sep',
+    'Oct', 'Oct', 'Oct', 'Oct', 'Nov', 'Nov', 'Nov', 'Nov', 'Dec', 'Dec', 'Dec', 'Dec', 'Dec'];
+  
+  return Array.from({ length: 52 }, (_, i) => {
+    const week = i + 1;
+    let multiplier = 1;
+    
+    // Calculate distance to nearest peak week for smooth curve
+    const minDistance = Math.min(...peakWeeks.map(pw => Math.abs(week - pw)));
+    if (minDistance <= 4) {
+      multiplier = 1 + (peakMultiplier - 1) * Math.exp(-minDistance * 0.5);
+    }
+    
+    // Add some random variation
+    const variance = 0.9 + Math.random() * 0.2;
+    
+    return {
+      week,
+      month: months[i],
+      spend: Math.round(baseSpend * multiplier * variance)
+    };
+  });
+}
+
+// Get spending timing highlights
+export function getSpendingTimingHighlights(filters: BankwideFilters): SpendingTimingHighlight[] {
+  const highlights: SpendingTimingHighlight[] = [
+    {
+      category: 'Food & Dining',
+      peakWeeks: 'Weeks 47-52',
+      peakSeason: 'Holiday Season',
+      avgWeeklySpend: 185_000_000,
+      totalAnnualSpend: 9_620_000_000,
+      yoyGrowth: 8,
+      dealTimingRecommendation: 'Partner with restaurants for holiday catering deals starting Week 45. Launch Thanksgiving and Christmas dining promotions 2 weeks before peak weeks for maximum engagement.',
+      weeklySpendData: generateWeeklySpendData(185_000_000, [22, 23, 24, 25, 48, 49, 50, 51, 52], 2.2),
+      topMerchants: [
+        { name: 'DoorDash', peakWeeks: 'Weeks 48-52', spend: 890_000_000 },
+        { name: 'Starbucks', peakWeeks: 'Weeks 47-52', spend: 720_000_000 },
+        { name: 'Cheesecake Factory', peakWeeks: 'Weeks 50-52', spend: 540_000_000 }
+      ],
+      color: '#F97316' // orange
+    },
+    {
+      category: 'Travel & Exploration',
+      peakWeeks: 'Weeks 1-4, 22-26',
+      peakSeason: 'New Year + Summer',
+      avgWeeklySpend: 142_000_000,
+      totalAnnualSpend: 7_384_000_000,
+      yoyGrowth: 15,
+      dealTimingRecommendation: 'Launch travel packages in Week 48-50 to capture January bookings. Summer promotion campaigns should start Week 18 for June-July travel peaks.',
+      weeklySpendData: generateWeeklySpendData(142_000_000, [1, 2, 3, 4, 22, 23, 24, 25, 26, 27, 28], 2.8),
+      topMerchants: [
+        { name: 'Delta Airlines', peakWeeks: 'Weeks 1-4, 24-28', spend: 1_200_000_000 },
+        { name: 'Marriott Hotels', peakWeeks: 'Weeks 22-32', spend: 980_000_000 },
+        { name: 'Airbnb', peakWeeks: 'Weeks 22-30', spend: 750_000_000 }
+      ],
+      color: '#0EA5E9' // blue
+    },
+    {
+      category: 'Style & Beauty',
+      peakWeeks: 'Weeks 46-52',
+      peakSeason: 'Black Friday → Holidays',
+      avgWeeklySpend: 168_000_000,
+      totalAnnualSpend: 8_736_000_000,
+      yoyGrowth: 6,
+      dealTimingRecommendation: 'Coordinate fashion deals with Black Friday (Week 47). Holiday gift-giving promotions should run Weeks 48-51 with early bird specials starting Week 45.',
+      weeklySpendData: generateWeeklySpendData(168_000_000, [47, 48, 49, 50, 51, 52], 3.0),
+      topMerchants: [
+        { name: 'Nordstrom', peakWeeks: 'Weeks 47-52', spend: 680_000_000 },
+        { name: 'Sephora', peakWeeks: 'Weeks 46-51', spend: 520_000_000 },
+        { name: 'Nike', peakWeeks: 'Weeks 47-52', spend: 490_000_000 }
+      ],
+      color: '#EC4899' // pink
+    },
+    {
+      category: 'Sports & Active Living',
+      peakWeeks: 'Weeks 1-6',
+      peakSeason: 'New Year Resolutions',
+      avgWeeklySpend: 98_000_000,
+      totalAnnualSpend: 5_096_000_000,
+      yoyGrowth: 22,
+      dealTimingRecommendation: 'Gym and fitness partnerships are most effective in January. Launch resolution campaigns in Week 52 for maximum Week 1-6 engagement. Secondary peak in late August for back-to-school sports.',
+      weeklySpendData: generateWeeklySpendData(98_000_000, [1, 2, 3, 4, 5, 6, 34, 35], 2.5),
+      topMerchants: [
+        { name: 'Equinox', peakWeeks: 'Weeks 1-8', spend: 420_000_000 },
+        { name: 'Dick\'s Sporting Goods', peakWeeks: 'Weeks 1-6, 32-36', spend: 380_000_000 },
+        { name: 'Peloton', peakWeeks: 'Weeks 1-6', spend: 290_000_000 }
+      ],
+      color: '#22C55E' // green
+    },
+    {
+      category: 'Entertainment & Culture',
+      peakWeeks: 'Weeks 24-35',
+      peakSeason: 'Summer',
+      avgWeeklySpend: 112_000_000,
+      totalAnnualSpend: 5_824_000_000,
+      yoyGrowth: 11,
+      dealTimingRecommendation: 'Summer entertainment deals peak with blockbuster movie releases and outdoor festivals. Partner with streaming services in Week 48-52 for holiday viewing promotions.',
+      weeklySpendData: generateWeeklySpendData(112_000_000, [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 2.0),
+      topMerchants: [
+        { name: 'AMC Theatres', peakWeeks: 'Weeks 24-30, 48-52', spend: 340_000_000 },
+        { name: 'Ticketmaster', peakWeeks: 'Weeks 22-36', spend: 480_000_000 },
+        { name: 'Netflix', peakWeeks: 'Weeks 48-52', spend: 290_000_000 }
+      ],
+      color: '#A855F7' // purple
+    },
+    {
+      category: 'Health & Wellness',
+      peakWeeks: 'Weeks 1-8',
+      peakSeason: 'New Year + Winter',
+      avgWeeklySpend: 76_000_000,
+      totalAnnualSpend: 3_952_000_000,
+      yoyGrowth: 18,
+      dealTimingRecommendation: 'Wellness deals most effective January-February. Partner with pharmacies and health services for flu season promotions in Weeks 40-48. Mental health awareness campaigns in May (Weeks 18-22).',
+      weeklySpendData: generateWeeklySpendData(76_000_000, [1, 2, 3, 4, 5, 6, 7, 8, 42, 43, 44, 45], 2.3),
+      topMerchants: [
+        { name: 'CVS Pharmacy', peakWeeks: 'Weeks 1-8, 40-48', spend: 520_000_000 },
+        { name: 'Walgreens', peakWeeks: 'Weeks 1-8, 42-46', spend: 440_000_000 },
+        { name: 'GNC', peakWeeks: 'Weeks 1-10', spend: 180_000_000 }
+      ],
+      color: '#14B8A6' // teal
+    }
+  ];
+
+  return highlights;
 }

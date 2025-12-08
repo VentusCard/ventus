@@ -99,3 +99,16 @@ export interface StateSpendingData {
     spend: number;
   }>;
 }
+
+export interface SpendingTimingHighlight {
+  category: string;
+  peakWeeks: string;
+  peakSeason: string;
+  avgWeeklySpend: number;
+  totalAnnualSpend: number;
+  yoyGrowth: number;
+  dealTimingRecommendation: string;
+  weeklySpendData: Array<{ week: number; month: string; spend: number }>;
+  topMerchants: Array<{ name: string; peakWeeks: string; spend: number }>;
+  color: string;
+}
