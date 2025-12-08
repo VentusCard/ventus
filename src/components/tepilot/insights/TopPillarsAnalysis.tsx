@@ -323,8 +323,8 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                                     </span>
                                     
                                     {analyzed ? (
-                                      <div className="flex items-center gap-2">
-                                        <span className="text-muted-foreground truncate max-w-[180px]">
+                                      <div className="flex items-center gap-2 flex-wrap justify-end">
+                                        <span className="text-muted-foreground text-right">
                                           {analyzed.inferred_purchase}
                                         </span>
                                         <Badge 
