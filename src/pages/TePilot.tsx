@@ -653,7 +653,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Context-Aware</h4>
                         <p className="text-sm text-muted-foreground">
-                          Understands "Ticketmaster" + "Sabrina Carpenter" = concert experience
+                          Recognizes messy transactions like "PAYPAL *UBER" or "APPLE PAY STARBUCKS" and extracts the true merchant for accurate classification
                         </p>
                       </div>
                     </div>
