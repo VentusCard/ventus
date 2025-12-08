@@ -199,21 +199,23 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
             
             {/* Collapsed Preview - Top 3 Pillars */}
             {!isCardExpanded && (
-              <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t">
+              <div className="space-y-2 mt-4 pt-4 border-t">
                 {pillarAggregates.map((pillar) => {
                   const percentage = (pillar.totalSpend / totalSpend) * 100;
                   return (
                     <div 
                       key={pillar.pillar}
-                      className="flex items-center gap-2 px-3 py-2 bg-muted/50 rounded-lg"
+                      className="flex items-center justify-between py-2"
                     >
-                      <span className="text-lg">{PILLAR_ICONS[pillar.pillar] || "📦"}</span>
-                      <div className="text-sm">
-                        <span className="font-medium">{pillar.pillar}</span>
-                        <span className="text-muted-foreground ml-2">
+                      <div className="flex items-center gap-3">
+                        <span className="text-lg">{PILLAR_ICONS[pillar.pillar] || "📦"}</span>
+                        <span className="font-semibold">{pillar.pillar}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-muted-foreground">
                           ${pillar.totalSpend.toLocaleString(undefined, { minimumFractionDigits: 0 })}
                         </span>
-                        <Badge variant="outline" className="ml-2 text-xs">
+                        <Badge variant="outline" className="text-xs min-w-[45px] justify-center">
                           {percentage.toFixed(0)}%
                         </Badge>
                       </div>
