@@ -255,7 +255,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                               </div>
 
                               {/* Right: AI Analysis */}
-                              <div className="md:w-72 shrink-0 md:border-l md:pl-4 border-border/50">
+                              <div className="md:w-96 shrink-0 md:border-l md:pl-4 border-border/50">
                                 {analyzed ? (
                                   <div className="flex items-center gap-3 bg-primary/5 rounded-md p-2 md:p-2.5">
                                     <Bot className="h-4 w-4 text-primary shrink-0" />
