@@ -14,6 +14,71 @@ interface UseSSEEnrichmentReturn {
   restoreEnrichedTransactions: (transactions: EnrichedTransaction[]) => void;
 }
 
+// Constants for resilience
+const FETCH_TIMEOUT_MS = 60000; // 60 seconds
+const RETRY_DELAY_MS = 2000; // 2 seconds
+const MAX_RETRIES = 1;
+
+// Helper: Check if error is retryable (network issues)
+const isRetryableError = (err: any): boolean => {
+  return err.name === 'TypeError' || // Failed to fetch
+         err.name === 'AbortError' ||
+         err.message?.includes('network') ||
+         err.message?.includes('Failed to fetch');
+};
+
+// Helper: Safe JSON parse
+const safeJsonParse = (str: string): any | null => {
+  try {
+    return JSON.parse(str);
+  } catch {
+    return null;
+  }
+};
+
+// Helper: Fetch with timeout and retry
+const fetchWithResilience = async (
+  url: string,
+  options: RequestInit,
+  maxRetries: number = MAX_RETRIES
+): Promise<Response> => {
+  let lastError: Error | null = null;
+
+  for (let attempt = 0; attempt <= maxRetries; attempt++) {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
+
+    try {
+      const response = await fetch(url, {
+        ...options,
+        signal: controller.signal
+      });
+      clearTimeout(timeoutId);
+      return response;
+    } catch (err: any) {
+      clearTimeout(timeoutId);
+      lastError = err;
+
+      if (err.name === 'AbortError') {
+        lastError = new Error('Request timed out after 60 seconds. Try with fewer transactions.');
+      } else if (err.name === 'TypeError' || err.message?.includes('Failed to fetch')) {
+        lastError = new Error('Network connection failed. Check your internet and try again.');
+      }
+
+      // Retry only for retryable errors
+      if (attempt < maxRetries && isRetryableError(err)) {
+        console.log(`[SSE] Retry attempt ${attempt + 1} in ${RETRY_DELAY_MS}ms...`);
+        await new Promise(r => setTimeout(r, RETRY_DELAY_MS));
+        continue;
+      }
+
+      throw lastError;
+    }
+  }
+
+  throw lastError || new Error('Unknown fetch error');
+};
+
 export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
   const [enrichedTransactions, setEnrichedTransactions] = useState<EnrichedTransaction[]>([]);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -26,7 +91,7 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
     const url = `https://${projectId}.supabase.co/functions/v1/classify-transactions`;
     const anonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRoZWFrbmpybWZzeWF1eHh2aG1rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk5MzQwMzAsImV4cCI6MjA3NTUxMDAzMH0.UumEOhlgamn23eVhoKWYKgHSTlu1IoseiTrxu3GAzIk';
 
-    const response = await fetch(url, {
+    const response = await fetchWithResilience(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -46,7 +111,12 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
-    const reader = response.body!.getReader();
+    // Null check for response.body
+    if (!response.body) {
+      throw new Error('Empty response from server. Please retry.');
+    }
+
+    const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';
     let classifiedTransactions: EnrichedTransaction[] = [];
@@ -68,7 +138,13 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
         if (!eventMatch || !dataMatch) continue;
 
         const event = eventMatch[1];
-        const data = JSON.parse(dataMatch[1]);
+        
+        // Safe JSON parsing
+        const data = safeJsonParse(dataMatch[1]);
+        if (!data) {
+          console.warn('[Classification] Malformed SSE event, skipping:', line.substring(0, 100));
+          continue;
+        }
 
         switch (event) {
           case 'status':
@@ -124,7 +200,7 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
       return;
     }
 
-    const response = await fetch(url, {
+    const response = await fetchWithResilience(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -147,7 +223,12 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
       throw new Error(`HTTP ${response.status}: ${response.statusText}`);
     }
 
-    const reader = response.body!.getReader();
+    // Null check for response.body
+    if (!response.body) {
+      throw new Error('Empty response from server. Please retry.');
+    }
+
+    const reader = response.body.getReader();
     const decoder = new TextDecoder();
     let buffer = '';
 
@@ -168,7 +249,13 @@ export const useSSEEnrichment = (): UseSSEEnrichmentReturn => {
         if (!eventMatch || !dataMatch) continue;
 
         const event = eventMatch[1];
-        const data = JSON.parse(dataMatch[1]);
+        
+        // Safe JSON parsing
+        const data = safeJsonParse(dataMatch[1]);
+        if (!data) {
+          console.warn('[Travel] Malformed SSE event, skipping:', line.substring(0, 100));
+          continue;
+        }
 
         switch (event) {
           case 'status':
