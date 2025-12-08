@@ -9,7 +9,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown, Loader2, ShoppingBag, CalendarClock, CalendarHeart, MessageSquare } from "lucide-react";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown, Loader2, ShoppingBag, CalendarClock, CalendarHeart, MessageSquare, ChevronDown } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -1088,11 +1088,25 @@ const TePilot = () => {
                 <TopPillarsAnalysis transactions={enrichedTransactions} autoAnalyze={true} />
                 
                 {/* Loading State for Recommendations */}
-                {isGeneratingRecommendations && (
-                  <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
-                    <Loader2 className="w-5 h-5 animate-spin text-primary" />
-                    <span className="text-muted-foreground">Generating partner recommendations...</span>
-                  </div>
+                {isGeneratingRecommendations && !recommendations && (
+                  <Card className="overflow-hidden">
+                    <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-col items-start gap-2">
+                          <CardTitle className="text-2xl">
+                            Example Revenue Opportunities for Banking Partners
+                          </CardTitle>
+                          <p className="text-sm text-muted-foreground">
+                            AI-powered strategic recommendations based on spending patterns
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                          <ChevronDown className="h-5 w-5" />
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
                 )}
                 
                 {/* Recommendations Results */}
