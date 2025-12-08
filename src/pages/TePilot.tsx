@@ -8,7 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown, Loader2 } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -39,7 +40,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { PILLAR_COLORS } from "@/lib/sampleData";
-const CURRENT_VERSION = "V2.2";
+const CURRENT_VERSION = "V2.3";
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -356,8 +357,6 @@ const TePilot = () => {
       };
       setRecommendations(recommendationsWithSubcategories);
       sessionStorage.setItem("tepilot_recommendations", JSON.stringify(recommendationsWithSubcategories));
-      setInsightType('revenue');
-      setActiveTab('insights');
       toast.success("Generated personalized recommendations!");
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -443,7 +442,11 @@ const TePilot = () => {
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V2.2 - Current</p>
+                      <p className="font-semibold">V2.3 - Current</p>
+                      <p>Added more features into wealth management tool, unlocked</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V2.2 - December 2025</p>
                       <p>Improved user experience with tool selection tab</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
@@ -919,27 +922,62 @@ const TePilot = () => {
                 {/* Persona Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Bank Leadership Card */}
-                  <PersonaCard icon={Building2} title="Bank Leadership" valueProposition="Make data-driven decisions across your entire portfolio" description="Discover actionable insights from portfolio-wide spending patterns to optimize product strategy and identify untapped growth opportunities across your customer base." keyFeatures={["Portfolio-wide behavioral analysis across all card products", "Demographic insights by age, region, and spending behavior", "Cross-sell opportunity matrix with projected impact", "Spending category distribution and opportunity gap analysis"]} buttonText="View Bank-wide Dashboard" onClick={() => setInsightType('bankwide')} />
+                  <PersonaCard icon={Building2} title="Bank Leadership" valueProposition="Make data-driven decisions across your entire portfolio" description="Discover actionable insights from portfolio-wide spending patterns to optimize product strategy and identify untapped growth opportunities across your customer base." keyFeatures={[
+                    "Portfolio-wide behavioral analysis across 70M+ accounts",
+                    "12-Pillar interactive spending category explorer with drill-down",
+                    "Card product performance matrix comparing spend and frequency",
+                    "Demographic breakdown and spending insights by age cohort",
+                    "Cross-sell opportunity matrix with projected revenue impact",
+                    "Regional spending gap analysis to identify missed opportunities",
+                    "Multi-dimension filtering by card product, region, and demographics",
+                    "Pillar distribution visualization of aggregate spending allocation",
+                    "Regional customer acquisition insights with category-specific marketing recommendations"
+                  ]} buttonText="View Bank-wide Dashboard" buttonVariant="ai" onClick={() => setInsightType('bankwide')} />
 
                   {/* Rewards Team Card */}
-                  <PersonaCard icon={TrendingUp} title="Rewards Team" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={["Intelligent detection of spending gaps across lifestyle categories", "Targeted merchant partnerships with impact projections", "Card product optimization suggestions", "Impact estimates for each revenue opportunity"]} buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"} buttonVariant="ai" onClick={() => {
+                  <PersonaCard icon={TrendingUp} title="Consumer Rewards" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={[
+                    "Top 5 spending subcategories analysis with impact ranking",
+                    "AI-powered revenue recommendations with projected ROI",
+                    "Spending gap detection revealing out-of-ecosystem spend",
+                    "Location-based deal targeting for home city and travel destinations",
+                    "Travel pattern intelligence across all transaction categories",
+                    "Geo-targeted merchant partnership suggestions by category",
+                    "Monthly and annual impact estimates for each opportunity",
+                    "Transaction reclassification insights with travel context",
+                    "Powers next-gen consumer profile dashboards with personalized experiences"
+                  ]} buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"} buttonVariant="ai" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error("Please enrich transactions first");
                   return;
                 }
+                // Navigate immediately, run API in background
+                setInsightType('revenue');
+                setActiveTab('insights');
                 handleGenerateRecommendations();
               }} disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations} />
 
                   {/* Wealth Management Card */}
-                  <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={["Automatic life event detection from spending patterns", "Contextual product recommendations with supporting rationale", "Ready-to-use conversation starters", "Prioritized action items based on relationship depth and opportunity"]} buttonText="Access Wealth Management CoPilot" onClick={() => {
+                  <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={[
+                    "AI life event detection from transaction patterns (new baby, home, retirement)",
+                    "Standout transaction alerts for unusual or significant activity",
+                    "Life Event Planner with per-year cost modeling and funding sources",
+                    "Tax Planning Analyzer with state-based P&L and optimization tips",
+                    "Financial Planning Dashboard: 30-year projections, goals, retirement readiness",
+                    "Client Psychology Profiler with actionable communication cues",
+                    "Smart conversation chips for Meeting Prep, Financial Standing, and more",
+                    "AI-extracted action items from chat and planning tools"
+                  ]} buttonText="Access Wealth Management CoPilot" buttonVariant="ai" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error('Please enrich transactions first to access this tool');
                   return;
                 }
-                toast.info('Analyzing lifestyle signals...');
-                fetchLifestyleSignals().then(() => {
-                  handleNavigateToAdvisorConsole();
-                });
+                // Save enriched transactions immediately and navigate - analysis happens on target page
+                sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
+                  enrichedTransactions: enrichedTransactions,
+                  aiInsights: null,
+                  needsAnalysis: true
+                }));
+                navigate('/tepilot/advisor-console');
               }} disabled={enrichedTransactions.length === 0} />
                 </div>
               </>}
@@ -956,7 +994,7 @@ const TePilot = () => {
                 <BankwideView />
               </div>}
 
-            {insightType === 'revenue' && recommendations && <div className="space-y-6">
+            {insightType === 'revenue' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
                   <Button variant="outline" onClick={() => {
@@ -968,6 +1006,49 @@ const TePilot = () => {
                   </Button>
                 </div>
                 
+                {/* Loading State */}
+                {isGeneratingRecommendations && (
+                  <div className="space-y-6">
+                    <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
+                      <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                      <span className="text-muted-foreground">Analyzing spending patterns and generating personalized recommendations...</span>
+                    </div>
+                    
+                    {/* Skeleton for Top Subcategories */}
+                    <Card>
+                      <CardHeader>
+                        <Skeleton className="h-6 w-64" />
+                      </CardHeader>
+                      <CardContent>
+                        <div className="flex gap-3">
+                          {[1, 2, 3, 4, 5].map((i) => (
+                            <Skeleton key={i} className="h-24 w-32 rounded-lg" />
+                          ))}
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Skeleton for Recommendations */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                      {[1, 2, 3, 4, 5, 6].map((i) => (
+                        <Card key={i}>
+                          <CardHeader>
+                            <Skeleton className="h-5 w-3/4" />
+                            <Skeleton className="h-4 w-1/2 mt-2" />
+                          </CardHeader>
+                          <CardContent className="space-y-3">
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-full" />
+                            <Skeleton className="h-4 w-2/3" />
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                
+                {/* Results */}
+                {!isGeneratingRecommendations && recommendations && <>
                 {/* Top 5 Subcategories Card */}
                 {recommendations.topSubcategories && <Card>
                     <CardHeader>
@@ -1032,6 +1113,7 @@ const TePilot = () => {
             
                 {/* Geo-Location Deals Section */}
                 <GeoLocationDealsSection locationContext={locationContext} />
+              </>}
               </div>}
 
             {insightType === 'relationship' && <div className="space-y-6">

@@ -2,6 +2,55 @@ import { EnrichedTransaction, PillarAggregate } from "@/types/transaction";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { aggregateByPillar } from "./aggregations";
 
+export interface FinancialPlanContext {
+  monthlyIncome: number;
+  monthlyExpenses: number;
+  savingsRate: number;
+  currentNetWorth: number;
+  goals: Array<{
+    name: string;
+    type: string;
+    targetAmount: number;
+    currentAmount: number;
+    targetDate: string;
+    monthlyContribution: number;
+    progressPercent: number;
+    timeHorizon: string;
+  }>;
+  retirementProfile: {
+    currentAge: number;
+    retirementAge: number;
+    yearsToRetirement: number;
+    desiredRetirementIncome: number;
+    socialSecurityEstimate: number;
+    currentRetirementSavings: number;
+  };
+  taxAdvantagedAccounts: Array<{
+    type: string;
+    label: string;
+    currentBalance: number;
+    annualContribution: number;
+    maxContribution: number;
+    utilizationPercent: number;
+  }>;
+  assetAllocation: {
+    current: { stocks: number; bonds: number; cash: number; realEstate: number };
+    target: { stocks: number; bonds: number; cash: number; realEstate: number };
+  };
+  monteCarloResults?: {
+    successRate: number;
+    medianOutcome: number;
+    worstCase: number;
+    bestCase: number;
+    targetGoal: number;
+  };
+  rmdEstimate?: {
+    clientAge: number;
+    totalRMDBalance: number;
+    estimatedAnnualRMD: number;
+  };
+}
+
 export interface AdvisorContext {
   overview: {
     totalTransactions: number;
@@ -26,7 +75,6 @@ export interface AdvisorContext {
     event: string;
     confidence: number;
     evidenceCount: number;
-    products: string[];
     keyInsights: string[];
   }>;
   topMerchants: Array<{
@@ -47,6 +95,12 @@ export interface AdvisorContext {
     highestSpendMonth?: string;
     growthRate?: number;
   };
+  clientPsychology?: Array<{
+    aspect: string;
+    assessment: string;
+    confidence: number;
+  }>;
+  financialPlan?: FinancialPlanContext;
 }
 
 export function buildAdvisorContext(
@@ -125,9 +179,8 @@ export function buildAdvisorContext(
   // Life Events from AI
   const lifeEvents = aiInsights?.detected_events.map(event => ({
     event: event.event_name,
-    confidence: Math.round(event.confidence * 100),
+    confidence: Math.round(event.confidence),
     evidenceCount: event.evidence.length,
-    products: event.products.map(p => p.name),
     keyInsights: event.evidence.slice(0, 3).map(e => e.relevance),
   })) || [];
 

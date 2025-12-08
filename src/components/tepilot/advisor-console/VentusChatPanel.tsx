@@ -1,25 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Send, Save, ListTodo, CheckCircle, ChevronDown, ChevronUp, Clock, Sparkles, Loader2, Brain, Upload } from "lucide-react";
-import { sampleChatMessages, ChatMessage, Task } from "./sampleData";
+import { Send, Save, ListTodo, CheckCircle, Clock, Sparkles, Loader2 } from "lucide-react";
+import { sampleChatMessages, ChatMessage, Task, NextStepsActionItem, PsychologicalInsight } from "./sampleData";
 import { useToast } from "@/hooks/use-toast";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { AIInsights, LifeEvent } from "@/types/lifestyle-signals";
-import { LifeEventCard } from "./LifeEventCard";
-import { ProductRecommendationCard } from "./ProductRecommendationCard";
-import { EducationalContentPanel } from "./EducationalContentPanel";
-import { TalkingPointsSection } from "./TalkingPointsSection";
-import { ActionItemsChecklist } from "./ActionItemsChecklist";
+import { AIInsights, LifeEvent, SavedFinancialProjection } from "@/types/lifestyle-signals";
 import { EnrichedTransaction } from "@/types/transaction";
 import { useAdvisorChat } from "@/hooks/useAdvisorChat";
-import { AdvisorContext } from "@/lib/advisorContextBuilder";
+import { AdvisorContext, FinancialPlanContext } from "@/lib/advisorContextBuilder";
 import { TaskItem } from "./TaskItem";
-import { TranscriptUploadDialog } from "./TranscriptUploadDialog";
 import { FinancialTimelineTool } from "./FinancialTimelineTool";
+import { ClientPsychologyDialog } from "./ClientPsychologyDialog";
+import { TaxPlanningDialog } from "./TaxPlanningDialog";
+import { ClientProfileData } from "@/types/clientProfile";
+
 interface VentusChatPanelProps {
   selectedLifestyleChip?: string | null;
   onSaveToDocument?: (message: ChatMessage) => void;
@@ -30,7 +28,45 @@ interface VentusChatPanelProps {
   isLoadingInsights: boolean;
   enrichedTransactions?: EnrichedTransaction[];
   advisorContext?: AdvisorContext;
+  onExtractNextSteps?: (actionItems: NextStepsActionItem[], psychologicalInsights: PsychologicalInsight[], chipSource?: string) => void;
+  onSaveProjection?: (projection: SavedFinancialProjection) => void;
+  onAddTimelineActionItems?: (items: NextStepsActionItem[]) => void;
+  psychologicalInsights?: PsychologicalInsight[];
+  clientProfile?: ClientProfileData | null;
+  // Cross-panel communication props
+  pendingMessage?: string | null;
+  onPendingMessageConsumed?: () => void;
+  externalTimelineEvent?: LifeEvent | null;
+  externalTimelineOpen?: boolean;
+  onExternalTimelineHandled?: () => void;
 }
+// Helper function to extract action items from AI response
+// ONLY matches checkbox format: - [ ] text or * [ ] text
+function extractActionItemsFromMessage(content: string): string[] {
+  const items: string[] = [];
+  const lines = content.split('\n');
+  
+  console.log('[extractActionItems] Processing content with', lines.length, 'lines');
+  
+  for (const line of lines) {
+    const trimmed = line.trim();
+    
+    // ONLY match checkbox format: - [ ] text or - [] text or * [ ] text
+    const checkboxMatch = trimmed.match(/^[-*]\s*\[\s*\]\s+(.+)/);
+    
+    if (checkboxMatch) {
+      const cleanedItem = checkboxMatch[1].replace(/\*\*/g, '').trim();
+      if (cleanedItem.length > 3 && cleanedItem.length < 200) {
+        console.log('[extractActionItems] Found checkbox item:', cleanedItem.slice(0, 50));
+        items.push(cleanedItem);
+      }
+    }
+  }
+  
+  console.log('[extractActionItems] Total items extracted:', items.length);
+  return items.slice(0, 10); // Allow up to 10 items
+}
+
 export function VentusChatPanel({
   selectedLifestyleChip,
   onSaveToDocument,
@@ -40,64 +76,171 @@ export function VentusChatPanel({
   aiInsights,
   isLoadingInsights,
   enrichedTransactions = [],
-  advisorContext
+  advisorContext,
+  onExtractNextSteps,
+  onSaveProjection,
+  onAddTimelineActionItems,
+  psychologicalInsights = [],
+  clientProfile,
+  pendingMessage,
+  onPendingMessageConsumed,
+  externalTimelineEvent,
+  externalTimelineOpen,
+  onExternalTimelineHandled
 }: VentusChatPanelProps) {
+  const navigate = useNavigate();
   const [inputValue, setInputValue] = useState("");
   const [todoOpen, setTodoOpen] = useState(true);
-  const [selectedEvent, setSelectedEvent] = useState<LifeEvent | null>(null);
-  const [dismissedEvents, setDismissedEvents] = useState<Set<string>>(new Set());
-  const [lifeEventsOpen, setLifeEventsOpen] = useState(false);
-  const [transcriptDialogOpen, setTranscriptDialogOpen] = useState(false);
+  const [psychologyDialogOpen, setPsychologyDialogOpen] = useState(false);
   const [financialTimelineOpen, setFinancialTimelineOpen] = useState(false);
+  const [taxPlanningDialogOpen, setTaxPlanningDialogOpen] = useState(false);
   const [selectedTimelineEvent, setSelectedTimelineEvent] = useState<LifeEvent | null>(null);
+  const [activeChipSource, setActiveChipSource] = useState<string | null>(null);
   const {
     toast
   } = useToast();
 
-  // Use advisor chat hook for live AI conversations
+  // Merge psychology insights and client profile into advisor context for AI
+  const activePsychologyInsights = psychologicalInsights.filter(p => p.confidence > 0);
+  const enrichedContext = useMemo(() => {
+    // Build context even without advisorContext, as long as we have clientProfile or psychology insights
+    if (!advisorContext && !clientProfile && activePsychologyInsights.length === 0) {
+      return undefined;
+    }
+    return {
+      ...(advisorContext || {}),
+      clientPsychology: activePsychologyInsights,
+      clientProfile: clientProfile || undefined
+    };
+  }, [advisorContext, activePsychologyInsights, clientProfile]);
+
+  // Use advisor chat hook for live AI conversations with enriched context
   const {
     messages,
     isLoading: isChatLoading,
     sendMessage
   } = useAdvisorChat({
-    advisorContext
+    advisorContext: enrichedContext
   });
+
+  // Track processed messages by content hash to prevent duplicate extraction
+  const processedMessagesRef = useRef<Set<string>>(new Set());
+
+  // Extract action items when AI responds
+  useEffect(() => {
+    if (messages.length === 0 || !onExtractNextSteps) return;
+    const lastMessage = messages[messages.length - 1];
+
+    // Skip if not an assistant message
+    if (lastMessage.role !== 'assistant') {
+      console.log('[VentusChatPanel] Skipping non-assistant message');
+      return;
+    }
+
+    // Use content hash for reliable tracking (first 100 chars + length)
+    const messageHash = `${lastMessage.content.slice(0, 100)}-${lastMessage.content.length}`;
+    if (processedMessagesRef.current.has(messageHash)) {
+      console.log('[VentusChatPanel] Message already processed, skipping');
+      return;
+    }
+
+    // Mark as processed BEFORE extraction to prevent re-runs
+    processedMessagesRef.current.add(messageHash);
+    console.log('[VentusChatPanel] Processing new assistant message...');
+
+    // Extract action items from the message
+    const extractedItems = extractActionItemsFromMessage(lastMessage.content);
+    console.log('[VentusChatPanel] Extracted items count:', extractedItems.length);
+    
+    const currentChipSource = activeChipSource;
+    const actionItems: NextStepsActionItem[] = extractedItems.map((text, idx) => ({
+      id: `action-${Date.now()}-${idx}`,
+      text,
+      completed: false,
+      source: 'chat',
+      chipSource: currentChipSource || undefined,
+      timestamp: new Date()
+    }));
+
+    if (actionItems.length > 0) {
+      console.log('[VentusChatPanel] Adding', actionItems.length, 'items to Action Items panel');
+      onExtractNextSteps(actionItems, [], currentChipSource || undefined);
+      toast({
+        title: `${actionItems.length} Action Items Added`,
+        description: "Check the Next Steps panel",
+        duration: 2000
+      });
+    } else {
+      console.log('[VentusChatPanel] No action items found in response');
+    }
+    
+    // Clear active chip after extraction
+    setActiveChipSource(null);
+  }, [messages, onExtractNextSteps, activeChipSource, toast]);
+  // Handle pending message from other panels (Ask Ventus)
+  useEffect(() => {
+    if (pendingMessage) {
+      setInputValue(pendingMessage);
+      onPendingMessageConsumed?.();
+    }
+  }, [pendingMessage, onPendingMessageConsumed]);
+
+  // Handle external timeline trigger (Plan This Event)
+  useEffect(() => {
+    if (externalTimelineOpen && externalTimelineEvent) {
+      setSelectedTimelineEvent(externalTimelineEvent);
+      setFinancialTimelineOpen(true);
+      onExternalTimelineHandled?.();
+    }
+  }, [externalTimelineOpen, externalTimelineEvent, onExternalTimelineHandled]);
+
   const todayTasks = tasks.filter(t => t.category === 'today');
   const incompleteTasks = todayTasks.filter(t => !t.completed);
   const completedTasks = todayTasks.filter(t => t.completed);
-  const smartChips = ["Meeting Prep", "Life Events Summary", "Product Recommendations", "Spending Trends", "Travel Insights", "Lifestyle Profile", "Merchant Loyalty", "Financial Timeline"];
+  const primaryChips = ["Financial Planning", "Life Event Planner", "Tax Planning", "Product Recommendations"];
+  const secondaryChips = ["Meeting Prep", "Spending Trends", "Financial Standing", "Lifestyle Profile", "Client Psychology"];
   const handleChipClick = (chip: string) => {
+    // Track which chip was clicked for refresh logic
+    setActiveChipSource(chip);
+    
     let prompt = "";
     switch (chip) {
       case "Meeting Prep":
-        prompt = "Prepare 5 key talking points for my upcoming client meeting.";
+        prompt = "Give me 5 actionable meeting prep tasks for my upcoming client meeting. These should be specific things I need to do or discuss.";
         break;
       case "Product Recommendations":
-        prompt = "What financial products should I recommend based on their spending patterns?";
+        prompt = "Based on spending patterns, what products should I recommend to this client?";
         break;
       case "Life Events Summary":
-        prompt = "Summarize detected life events and recommended actions.";
+        prompt = "Summarize the detected life events and their implications.";
         break;
       case "Spending Trends":
-        prompt = "Review this client's spending trends over time. Identify their highest spending periods, any seasonal patterns, and month-over-month changes in spending behavior.";
+        prompt = "Analyze this client's spending trends and highlight key insights.";
         break;
-      case "Travel Insights":
-        prompt = "Analyze this client's travel patterns including destinations, trip frequency, and travel spending. Identify any travel rewards optimization opportunities.";
+      case "Financial Standing":
+        prompt = "Summarize this client's overall financial standing, including their retirement readiness, progress toward financial goals, tax-advantaged account utilization, and any areas needing attention.";
         break;
       case "Lifestyle Profile":
-        prompt = "Create a lifestyle profile for this client based on their spending categories. Highlight their top lifestyle priorities and what their spending reveals about their values and interests.";
+        prompt = "Create a brief lifestyle profile for this client.";
         break;
       case "Merchant Loyalty":
-        prompt = "Analyze this client's merchant loyalty patterns. Identify their most frequented merchants, brand preferences, and potential rewards optimization based on where they shop most.";
+        prompt = "What are the top merchant loyalty patterns for this client?";
         break;
-      case "Financial Timeline":
+      case "Financial Planning":
+        // Navigate to financial planning page
+        navigate("/tepilot/financial-planning");
+        return;
+      case "Life Event Planner":
         // Find the highest-confidence event with a financial projection
-        const bestEvent = visibleEvents
-          .filter(e => e.financial_projection)
-          .sort((a, b) => b.confidence - a.confidence)[0];
-        
+        const bestEvent = visibleEvents.filter(e => e.financial_projection).sort((a, b) => b.confidence - a.confidence)[0];
         setSelectedTimelineEvent(bestEvent || null);
         setFinancialTimelineOpen(true);
+        return;
+      case "Tax Planning":
+        setTaxPlanningDialogOpen(true);
+        return;
+      case "Client Psychology":
+        setPsychologyDialogOpen(true);
         return;
       default:
         prompt = `[${chip}] `;
@@ -118,34 +261,40 @@ export function VentusChatPanel({
     });
   };
   const handleAddToTodoFromMessage = (content: string) => {
-    toast({
-      title: "✓ Added to Tasks",
-      description: "New task created from message",
-      duration: 2000
-    });
-  };
-  const handleViewEventDetails = (event: LifeEvent) => {
-    setSelectedEvent(event);
-  };
-  const handleDismissEvent = (eventName: string) => {
-    setDismissedEvents(prev => new Set(prev).add(eventName));
-    if (selectedEvent?.event_name === eventName) {
-      setSelectedEvent(null);
+    const extractedItems = extractActionItemsFromMessage(content);
+    
+    if (extractedItems.length === 0) {
+      // If no structured items found, add the whole message as a single item (truncated)
+      const singleItem: NextStepsActionItem = {
+        id: `todo-${Date.now()}`,
+        text: content.slice(0, 200),
+        completed: false,
+        source: 'chat',
+        timestamp: new Date()
+      };
+      onExtractNextSteps?.([singleItem], []);
+      toast({
+        title: "✓ Added to Action Items",
+        description: "1 item added to Next Steps",
+        duration: 2000
+      });
+    } else {
+      const actionItems: NextStepsActionItem[] = extractedItems.map((text, idx) => ({
+        id: `todo-${Date.now()}-${idx}`,
+        text,
+        completed: false,
+        source: 'chat',
+        timestamp: new Date()
+      }));
+      onExtractNextSteps?.(actionItems, []);
+      toast({
+        title: "✓ Added to Action Items",
+        description: `${extractedItems.length} item(s) added to Next Steps`,
+        duration: 2000
+      });
     }
-    toast({
-      title: "Event dismissed",
-      description: "Life event removed from view",
-      duration: 2000
-    });
   };
-  const handleAddToAgenda = () => {
-    toast({
-      title: "✓ Added to Meeting Agenda",
-      description: "Product recommendation added to upcoming meeting",
-      duration: 2000
-    });
-  };
-  const visibleEvents = aiInsights?.detected_events.filter(event => !dismissedEvents.has(event.event_name)) || [];
+  const visibleEvents = aiInsights?.detected_events || [];
   return <div className="h-full flex flex-col bg-white">
       {/* Header */}
       <div className="border-b px-4 py-3 bg-gradient-to-r from-white to-slate-50 flex-shrink-0">
@@ -154,15 +303,6 @@ export function VentusChatPanel({
             <h2 className="text-xl font-semibold text-slate-900">
               Ventus AI Advisor Chat
             </h2>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setTranscriptDialogOpen(true)}
-              className="text-xs"
-            >
-              <Upload className="w-3 h-3 mr-1" />
-              Upload Transcript
-            </Button>
           </div>
           {isLoadingInsights && <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />
@@ -172,96 +312,27 @@ export function VentusChatPanel({
       </div>
 
 
-      {/* AI Insights Section */}
-      {visibleEvents.length > 0 && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
-          <CollapsibleTrigger className="w-full px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
-                <h3 className="font-semibold text-foreground">AI-Detected Life Events</h3>
-                <Badge variant="secondary">{visibleEvents.length}</Badge>
-              </div>
-              {lifeEventsOpen ? <ChevronUp className="w-5 h-5 text-slate-600" /> : <ChevronDown className="w-5 h-5 text-slate-600" />}
-            </div>
-          </CollapsibleTrigger>
-          
-          <CollapsibleContent className="px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent">
-            <div className="space-y-3 mb-4">
-              {visibleEvents.map(event => <LifeEventCard 
-                key={event.event_name} 
-                event={event} 
-                onViewDetails={() => handleViewEventDetails(event)} 
-                onDismiss={() => handleDismissEvent(event.event_name)}
-                onPlanEvent={(e) => {
-                  setSelectedTimelineEvent(e);
-                  setFinancialTimelineOpen(true);
-                }}
-              />)}
-            </div>
-
-            {/* Selected Event Details */}
-            {selectedEvent && <div className="space-y-3 mt-4 border-t pt-4">
-                <h4 className="font-semibold text-foreground mb-3">
-                  Recommendations for: {selectedEvent.event_name}
-                </h4>
-                
-                {/* Product Recommendations */}
-                <div className="space-y-2">
-                  <p className="text-xs font-medium text-muted-foreground mb-2">Financial Products</p>
-                  {selectedEvent.products.map((product, idx) => <ProductRecommendationCard key={idx} product={product} onAddToAgenda={handleAddToAgenda} />)}
-                </div>
-
-                {/* Educational Content */}
-                <EducationalContentPanel education={selectedEvent.education} eventName={selectedEvent.event_name} />
-
-                {/* Talking Points */}
-                <TalkingPointsSection talkingPoints={selectedEvent.talking_points} />
-
-                {/* Action Items */}
-                <ActionItemsChecklist items={selectedEvent.action_items} />
-              </div>}
-          </CollapsibleContent>
-        </Collapsible>}
-
-      {/* Empty State when no events detected */}
-      {!isLoadingInsights && (!aiInsights || visibleEvents.length === 0) && <Collapsible open={lifeEventsOpen} onOpenChange={setLifeEventsOpen} className="border-b">
-          <CollapsibleTrigger className="w-full px-4 py-3 bg-gradient-to-b from-primary/5 to-transparent hover:from-primary/10 transition-colors">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sparkles className="w-5 h-5 text-primary" />
-                <h3 className="font-semibold text-foreground">AI-Detected Life Events</h3>
-                <Badge variant="secondary">0</Badge>
-              </div>
-              {lifeEventsOpen ? <ChevronUp className="w-5 h-5 text-slate-600" /> : <ChevronDown className="w-5 h-5 text-slate-600" />}
-            </div>
-          </CollapsibleTrigger>
-          
-          <CollapsibleContent className="px-4 py-3">
-            <Card className="border-dashed">
-              <div className="p-4 text-center">
-                <Brain className="w-12 h-12 mx-auto text-muted-foreground/50 mb-4" />
-                <h3 className="font-semibold mb-2">No Significant Life Events Detected</h3>
-                <p className="text-sm text-muted-foreground mb-4">
-                  Based on the current transaction data, we didn't find strong patterns indicating major life events.
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  Try enriching more transactions or transactions from different time periods for better analysis.
-                </p>
-              </div>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>}
-
       {/* Smart Chips */}
       <div className="border-b px-4 py-3 bg-slate-50 flex-shrink-0">
         <div className="flex items-center gap-2 mb-2">
           <Sparkles className="w-4 h-4 text-primary" />
           <span className="text-xs font-medium text-slate-700">Recommended Prompts</span>
         </div>
-        <div className="flex flex-wrap gap-2">
-          {smartChips.map(chip => <Button key={chip} variant="outline" size="sm" onClick={() => handleChipClick(chip)} className="text-xs">
+        {/* Row 1: Primary Planning Prompts */}
+        <div className="flex flex-wrap gap-2 mb-2">
+          {primaryChips.map(chip => (
+            <Button key={chip} variant="default" size="sm" onClick={() => handleChipClick(chip)} className="text-xs">
               {chip}
-            </Button>)}
+            </Button>
+          ))}
+        </div>
+        {/* Row 2: Insights & Analysis Prompts */}
+        <div className="flex flex-wrap gap-2">
+          {secondaryChips.map(chip => (
+            <Button key={chip} variant="outline" size="sm" onClick={() => handleChipClick(chip)} className="text-xs">
+              {chip}
+            </Button>
+          ))}
         </div>
       </div>
 
@@ -311,28 +382,15 @@ export function VentusChatPanel({
                     </Button>
 
                     {/* Show timeline button if message mentions financial planning keywords */}
-                    {(message.content.toLowerCase().includes('timeline') || 
-                      message.content.toLowerCase().includes('projection') ||
-                      message.content.toLowerCase().includes('college') ||
-                      message.content.toLowerCase().includes('retirement') ||
-                      message.content.toLowerCase().includes('financial plan')) && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={() => {
-                          // Find best event or use null for custom timeline
-                          const bestEvent = visibleEvents
-                            .filter(e => e.financial_projection)
-                            .sort((a, b) => b.confidence - a.confidence)[0];
-                          setSelectedTimelineEvent(bestEvent || null);
-                          setFinancialTimelineOpen(true);
-                        }} 
-                        className="text-xs"
-                      >
+                    {(message.content.toLowerCase().includes('timeline') || message.content.toLowerCase().includes('projection') || message.content.toLowerCase().includes('college') || message.content.toLowerCase().includes('retirement') || message.content.toLowerCase().includes('financial plan')) && <Button variant="ghost" size="sm" onClick={() => {
+                // Find best event or use null for custom timeline
+                const bestEvent = visibleEvents.filter(e => e.financial_projection).sort((a, b) => b.confidence - a.confidence)[0];
+                setSelectedTimelineEvent(bestEvent || null);
+                setFinancialTimelineOpen(true);
+              }} className="text-xs">
                         <Clock className="w-3 h-3 mr-1" />
                         Generate Timeline
-                      </Button>
-                    )}
+                      </Button>}
                   </div>}
               </div>
             </div>
@@ -363,34 +421,41 @@ export function VentusChatPanel({
             handleSendMessage();
           }
         }} disabled={isChatLoading} />
-          <Button 
-            variant="outline" 
-            size="icon" 
-            onClick={() => setTranscriptDialogOpen(true)}
-            disabled={isChatLoading}
-            title="Upload Meeting Transcript for Tone Analysis"
-          >
-            <Upload className="w-4 h-4" />
-          </Button>
           <Button size="icon" onClick={handleSendMessage} disabled={isChatLoading || !inputValue.trim()}>
             <Send className="w-4 h-4" />
           </Button>
         </div>
       </div>
 
-      {/* Transcript Upload Dialog */}
-      <TranscriptUploadDialog
-        open={transcriptDialogOpen}
-        onOpenChange={setTranscriptDialogOpen}
-        onSubmitTranscript={(message) => {
-          sendMessage(message);
+      {/* Client Psychology Dialog */}
+      <ClientPsychologyDialog 
+        open={psychologyDialogOpen} 
+        onOpenChange={setPsychologyDialogOpen} 
+        onSaveInsights={(insights) => {
+          if (onExtractNextSteps) {
+            onExtractNextSteps([], insights);
+          }
         }}
       />
 
       <FinancialTimelineTool 
-        open={financialTimelineOpen}
-        onOpenChange={setFinancialTimelineOpen}
-        detectedEvent={selectedTimelineEvent || undefined}
+        open={financialTimelineOpen} 
+        onOpenChange={setFinancialTimelineOpen} 
+        detectedEvent={selectedTimelineEvent || undefined} 
+        onSaveProjection={onSaveProjection}
+        onAddActionItems={onAddTimelineActionItems}
+      />
+
+      <TaxPlanningDialog
+        open={taxPlanningDialogOpen}
+        onOpenChange={setTaxPlanningDialogOpen}
+        clientProfile={clientProfile || null}
+        financialPlanData={(enrichedContext as any)?.financialPlan || null}
+        enrichedTransactions={enrichedTransactions}
+        onAskAI={(prompt) => {
+          setInputValue(prompt);
+          setTaxPlanningDialogOpen(false);
+        }}
       />
     </div>;
 }

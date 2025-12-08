@@ -16,12 +16,9 @@ export interface LifeEvent {
   event_name: string;
   confidence: number;
   evidence: Evidence[];
-  products: ProductRecommendation[];
-  education: string[];
   talking_points: string[];
-  action_items: string[];
   financial_projection?: {
-    project_type: "education" | "home" | "retirement" | "business" | "wedding" | "medical" | "other";
+    project_type: "education" | "home" | "retirement" | "business" | "wedding" | "wealth_transfer" | "liquidity_event" | "family_formation" | "charitable_giving" | "elder_care" | "other";
     estimated_start_year: number;
     duration_years: number;
     estimated_total_cost: number;
@@ -83,4 +80,9 @@ export interface EmotionalToneAnalysis {
   confidence: number;
   supportingQuotes: string[];
   preparationTips: string[];
+}
+
+export interface SavedFinancialProjection extends FinancialProjection {
+  chartImageDataUrl?: string;
+  savedAt: Date;
 }

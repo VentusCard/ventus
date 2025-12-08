@@ -7,6 +7,7 @@ import { BankwidePillarDistribution } from "./BankwidePillarDistribution";
 import { DemographicBreakdown } from "./DemographicBreakdown";
 import { SpendingGapsAnalysis } from "./SpendingGapsAnalysis";
 import { CrossSellMatrix } from "./CrossSellMatrix";
+
 import {
   getBankwideMetrics,
   getPillarDistribution,
@@ -48,6 +49,7 @@ export function BankwideView() {
 
       {/* Overview Metrics */}
       <BankwideMetrics metrics={metrics} />
+
 
       {/* Card Product Matrix */}
       <CardProductMatrix products={cardProducts} />

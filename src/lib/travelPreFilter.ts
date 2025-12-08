@@ -29,12 +29,50 @@ export function preFilterTravelCandidates(
   const locationContext = extractLocationContext(transactions);
   const homeCity = locationContext.homeCity;
   
+  // US Hotels
   const travelAnchors = [
     'hotel', 'marriott', 'hilton', 'hyatt', 'holiday inn', 'airbnb', 'vrbo',
-    'airline', 'delta', 'united', 'southwest', 'american airlines', 'jetblue',
-    'hertz', 'enterprise', 'avis', 'budget', 'car rental',
-    'airport', 'parking'
+    // International Hotels
+    'premier inn', 'travelodge', 'ibis', 'mercure', 'novotel', 'accor', 'radisson',
+    // US Airlines
+    'airline', 'airways', 'delta', 'united', 'southwest', 'american airlines', 'jetblue',
+    // International Airlines
+    'british airways', 'air france', 'lufthansa', 'easyjet', 'ryanair', 
+    'emirates', 'qatar airways', 'singapore airlines', 'cathay', 'klm', 'virgin atlantic',
+    // US Car Rentals
+    'hertz', 'enterprise', 'avis', 'budget', 'car rental', 'alamo',
+    // International Car Rentals
+    'europcar', 'sixt',
+    // Transport
+    'airport', 'parking', 'eurotunnel', 'eurostar', 'channel tunnel'
   ];
+  
+  // International city/location keywords to detect in merchant names
+  const locationKeywords = [
+    'london', 'paris', 'rome', 'berlin', 'tokyo', 'sydney', 'dubai', 'amsterdam',
+    'barcelona', 'munich', 'vienna', 'prague', 'lisbon', 'madrid', 'milan', 'dublin',
+    'brussels', 'zurich', 'geneva', 'singapore', 'hong kong', 'bangkok', 'toronto',
+    'vancouver', 'montreal', 'mexico city', 'cancun', 'heathrow', 'gatwick', 'stansted'
+  ];
+  
+  // Detect international ZIP formats (non-US)
+  const isInternationalZip = (txZip: string, homeZip: string): boolean => {
+    if (!txZip || !homeZip) return false;
+    
+    // US zips are 5 digits (or 5+4)
+    const usZipPattern = /^\d{5}(-\d{4})?$/;
+    const homeIsUS = usZipPattern.test(homeZip);
+    const txIsUS = usZipPattern.test(txZip);
+    
+    // If home is US but transaction isn't, likely international
+    if (homeIsUS && !txIsUS) return true;
+    
+    // UK postcodes: alphanumeric like SW1, WC2, EC3, N1, etc.
+    const ukPattern = /^[A-Z]{1,2}\d[A-Z\d]?\s?\d?[A-Z]{0,2}$/i;
+    if (homeIsUS && ukPattern.test(txZip)) return true;
+    
+    return false;
+  };
   
   const homeZone: EnrichedTransaction[] = [];
   const candidateMap = new Map<string, TravelCandidate>();
@@ -59,7 +97,7 @@ export function preFilterTravelCandidates(
     return zipPrefixToCityMap[zipPrefix] || null;
   };
   
-  // First pass: identify away-from-home (city-based) and travel anchor transactions
+  // First pass: identify away-from-home (city-based), travel anchor, and international transactions
   transactions.forEach(tx => {
     const txZip = tx.zip_code || '';
     const merchant = tx.normalized_merchant.toLowerCase();
@@ -68,15 +106,27 @@ export function preFilterTravelCandidates(
     const txCity = deriveCityFromZip(txZip);
     const isAwayZip = txZip && txCity && homeCity && txCity !== homeCity;
     
+    // Check if international ZIP format (e.g., UK postcodes like SW1, WC2)
+    const isInternational = isInternationalZip(txZip, homeZip);
+    
     // Check if travel anchor merchant
     const isTravelAnchor = travelAnchors.some(anchor => 
       merchant.includes(anchor)
     );
     
-    if (isAwayZip || isTravelAnchor) {
+    // Check if merchant name contains international location keywords
+    const hasLocationInMerchant = locationKeywords.some(city => 
+      merchant.includes(city)
+    );
+    
+    if (isAwayZip || isTravelAnchor || isInternational || hasLocationInMerchant) {
+      let reason: 'away_zip' | 'travel_anchor' | 'temporal_cluster' = 'away_zip';
+      if (isTravelAnchor) reason = 'travel_anchor';
+      else if (isInternational || hasLocationInMerchant) reason = 'away_zip';
+      
       candidateMap.set(tx.transaction_id, {
         transaction: tx,
-        reason: isTravelAnchor ? 'travel_anchor' : 'away_zip'
+        reason
       });
     } else {
       homeZone.push(tx);
