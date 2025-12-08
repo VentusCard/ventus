@@ -211,27 +211,35 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
                     </ResponsiveContainer>
                   </div>
 
-                  {/* Top Merchants */}
-                  <div className="grid grid-cols-3 gap-4 mt-4">
-                    {highlight.topMerchants.map((merchant) => (
-                      <div key={merchant.name} className="bg-muted/50 rounded-lg p-3">
-                        <p className="font-medium text-sm truncate">{merchant.name}</p>
-                        <p className="text-xs text-muted-foreground">{merchant.peakWeeks}</p>
-                        <p className="text-sm font-medium mt-1">{formatCurrency(merchant.spend)}</p>
-                      </div>
-                    ))}
-                  </div>
-
-                  {/* Deal Timing Recommendation */}
-                  <div className="bg-primary/5 border border-primary/20 rounded-lg p-4 mt-4">
-                    <div className="flex items-start gap-3">
-                      <Lightbulb className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
-                      <div>
-                        <p className="font-medium text-sm">Deal Timing Recommendation</p>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {highlight.dealTimingRecommendation}
-                        </p>
-                      </div>
+                  {/* Top Merchants with Individual Deal Recommendations */}
+                  <div className="space-y-3 mt-4">
+                    <p className="text-sm font-medium text-muted-foreground">Top Merchants & Deal Timing Strategies</p>
+                    <div className="space-y-3">
+                      {highlight.topMerchants.map((merchant) => (
+                        <div key={merchant.name} className="bg-muted/30 border border-border/50 rounded-lg p-4">
+                          <div className="flex items-start justify-between gap-4">
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2 mb-1">
+                                <p className="font-semibold text-sm">{merchant.name}</p>
+                                <Badge variant="outline" className="text-xs">
+                                  {merchant.peakWeeks}
+                                </Badge>
+                              </div>
+                              <p className="text-lg font-bold" style={{ color: highlight.color }}>
+                                {formatCurrency(merchant.spend)}
+                              </p>
+                            </div>
+                          </div>
+                          <div className="mt-3 pt-3 border-t border-border/50">
+                            <div className="flex items-start gap-2">
+                              <Lightbulb className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                              <p className="text-sm text-muted-foreground">
+                                {merchant.dealRecommendation}
+                              </p>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
                 </div>
