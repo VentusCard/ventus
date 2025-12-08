@@ -327,6 +327,30 @@ const Privacy = () => {
                 </p>
               </CardContent>
             </Card>
+
+            <Card className="border-0 shadow-lg bg-white/95 backdrop-blur-sm">
+              <CardHeader>
+                <CardTitle className="text-xl font-semibold text-slate-900">Account Deletion</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-slate-600 leading-relaxed mb-3">
+                  Users can delete their account in two ways:
+                </p>
+                <ul className="space-y-2 mb-4">
+                  <li className="text-slate-600 leading-relaxed flex items-start">
+                    <span className="text-blue-600 mr-2 font-semibold">1.</span>
+                    <span><strong>In the app:</strong> Profile → Account Management → Delete Account</span>
+                  </li>
+                  <li className="text-slate-600 leading-relaxed flex items-start">
+                    <span className="text-blue-600 mr-2 font-semibold">2.</span>
+                    <span><strong>Contact us:</strong> Submit a deletion request via our <Link to="/contact" className="text-blue-600 hover:text-blue-700 underline">contact form</Link></span>
+                  </li>
+                </ul>
+                <p className="text-slate-700 font-medium bg-amber-50 p-3 rounded-lg border border-amber-200">
+                  ⚠️ All deletions permanently remove user data.
+                </p>
+              </CardContent>
+            </Card>
           </div>
 
           {/* Contact Section */}
