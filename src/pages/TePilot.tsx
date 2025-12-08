@@ -694,11 +694,11 @@ const TePilot = () => {
                       </div>
                     </div>
                     <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
-                      <RefreshCw className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <Gift className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Adaptive Learning</h4>
+                        <h4 className="font-semibold text-sm mb-1">Personalized Deals & Rewards</h4>
                         <p className="text-sm text-muted-foreground">
-                          Corrections teach the AI to improve future classifications, creating a smarter system over time
+                          Lifestyle pillar signals power rewritten deal descriptions and precision deployment from your rewards aggregator
                         </p>
                       </div>
                     </div>
