@@ -178,7 +178,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
                 <Sparkles className="h-5 w-5 text-primary" />
                 <div>
                   <CardTitle className="text-base font-medium">
-                    Top 3 Spending Pillars
+                    Spending Profile Analysis
                   </CardTitle>
                   <p className="text-sm text-muted-foreground">
                     AI-powered transaction analysis
