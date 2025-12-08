@@ -1090,7 +1090,7 @@ const TePilot = () => {
                 {/* Results */}
                 {!isGeneratingRecommendations && recommendations && <>
                 {/* AI-Powered Top 3 Pillars Analysis */}
-                <TopPillarsAnalysis transactions={enrichedTransactions} />
+                <TopPillarsAnalysis transactions={enrichedTransactions} autoAnalyze={true} />
                 
                 <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
               total_estimated_value: {
