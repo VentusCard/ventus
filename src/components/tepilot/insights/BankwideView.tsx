@@ -6,6 +6,7 @@ import { BankwidePillarExplorer } from "./BankwidePillarExplorer";
 import { BankwidePillarDistribution } from "./BankwidePillarDistribution";
 import { DemographicBreakdown } from "./DemographicBreakdown";
 import { SpendingGapsAnalysis } from "./SpendingGapsAnalysis";
+import { SpendingTimingHighlights } from "./SpendingTimingHighlights";
 import { CrossSellMatrix } from "./CrossSellMatrix";
 
 import {
@@ -15,6 +16,7 @@ import {
   getFilteredAgeRanges,
   getSpendingGaps,
   getCrossSellMatrix,
+  getSpendingTimingHighlights,
 } from "@/lib/mockBankwideData";
 import type { BankwideFilters as Filters } from "@/types/bankwide";
 
@@ -31,6 +33,7 @@ export function BankwideView() {
   const ageRanges = getFilteredAgeRanges(filters);
   const spendingGaps = getSpendingGaps(filters);
   const crossSellMatrix = getCrossSellMatrix(filters);
+  const timingHighlights = getSpendingTimingHighlights(filters);
 
   return (
     <div className="space-y-4">
@@ -65,6 +68,9 @@ export function BankwideView() {
 
       {/* Spending Gaps Analysis */}
       <SpendingGapsAnalysis gaps={spendingGaps} />
+
+      {/* Spending & Timing Highlights */}
+      <SpendingTimingHighlights highlights={timingHighlights} />
 
       {/* Cross-Sell Matrix */}
       <CrossSellMatrix matrixData={crossSellMatrix} />
