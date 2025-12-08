@@ -955,9 +955,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Partner with restaurants for holiday catering deals starting Week 45. Launch Thanksgiving and Christmas dining promotions 2 weeks before peak weeks for maximum engagement.',
       weeklySpendData: generateWeeklySpendData(185_000_000, [22, 23, 24, 25, 48, 49, 50, 51, 52], 2.2),
       topMerchants: [
-        { name: 'DoorDash', peakWeeks: 'Weeks 48-52', spend: 890_000_000 },
-        { name: 'Starbucks', peakWeeks: 'Weeks 47-52', spend: 720_000_000 },
-        { name: 'Cheesecake Factory', peakWeeks: 'Weeks 50-52', spend: 540_000_000 }
+        { name: 'DoorDash', peakWeeks: 'Weeks 48-52', spend: 890_000_000, dealRecommendation: 'Offer 20% cashback on family meal orders starting Week 46 to capture Thanksgiving prep traffic.' },
+        { name: 'Starbucks', peakWeeks: 'Weeks 47-52', spend: 720_000_000, dealRecommendation: 'Partner for holiday drink promotions and gift card bonuses in Week 47-48 before peak gifting.' },
+        { name: 'Cheesecake Factory', peakWeeks: 'Weeks 50-52', spend: 540_000_000, dealRecommendation: 'Launch reservation bonus offers in Week 49 to capture holiday dinner bookings.' }
       ],
       color: '#F97316',
       predictabilityScore: 78,
@@ -973,9 +973,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Launch travel packages in Week 48-50 to capture January bookings. Summer promotion campaigns should start Week 18 for June-July travel peaks.',
       weeklySpendData: generateWeeklySpendData(142_000_000, [1, 2, 3, 4, 22, 23, 24, 25, 26, 27, 28], 2.8),
       topMerchants: [
-        { name: 'Delta Airlines', peakWeeks: 'Weeks 1-4, 24-28', spend: 1_200_000_000 },
-        { name: 'Marriott Hotels', peakWeeks: 'Weeks 22-32', spend: 980_000_000 },
-        { name: 'Airbnb', peakWeeks: 'Weeks 22-30', spend: 750_000_000 }
+        { name: 'Delta Airlines', peakWeeks: 'Weeks 1-4, 24-28', spend: 1_200_000_000, dealRecommendation: 'Offer bonus miles on bookings made in Weeks 48-50 for January travel and Week 18-20 for summer trips.' },
+        { name: 'Marriott Hotels', peakWeeks: 'Weeks 22-32', spend: 980_000_000, dealRecommendation: 'Push points multiplier promotions in Week 18-20 when families are booking summer vacations.' },
+        { name: 'Airbnb', peakWeeks: 'Weeks 22-30', spend: 750_000_000, dealRecommendation: 'Partner for early-bird vacation rental discounts in Weeks 10-14 to capture summer planners.' }
       ],
       color: '#0EA5E9',
       predictabilityScore: 72,
@@ -991,9 +991,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Coordinate fashion deals with Black Friday (Week 47). Holiday gift-giving promotions should run Weeks 48-51 with early bird specials starting Week 45.',
       weeklySpendData: generateWeeklySpendData(168_000_000, [47, 48, 49, 50, 51, 52], 3.0),
       topMerchants: [
-        { name: 'Nordstrom', peakWeeks: 'Weeks 47-52', spend: 680_000_000 },
-        { name: 'Sephora', peakWeeks: 'Weeks 46-51', spend: 520_000_000 },
-        { name: 'Nike', peakWeeks: 'Weeks 47-52', spend: 490_000_000 }
+        { name: 'Nordstrom', peakWeeks: 'Weeks 47-52', spend: 680_000_000, dealRecommendation: 'Activate Black Friday bonus rewards in Week 47 and extend through Cyber Week for maximum engagement.' },
+        { name: 'Sephora', peakWeeks: 'Weeks 46-51', spend: 520_000_000, dealRecommendation: 'Launch beauty gift set cashback offers Week 46 to capture early holiday shoppers.' },
+        { name: 'Nike', peakWeeks: 'Weeks 47-52', spend: 490_000_000, dealRecommendation: 'Partner for exclusive sneaker drop rewards in Week 47-48 during peak gift-buying season.' }
       ],
       color: '#EC4899',
       predictabilityScore: 85,
@@ -1009,9 +1009,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Gym and fitness partnerships are most effective in January. Launch resolution campaigns in Week 52 for maximum Week 1-6 engagement.',
       weeklySpendData: generateWeeklySpendData(98_000_000, [1, 2, 3, 4, 5, 6, 34, 35], 2.5),
       topMerchants: [
-        { name: 'Equinox', peakWeeks: 'Weeks 1-8', spend: 420_000_000 },
-        { name: 'Dick\'s Sporting Goods', peakWeeks: 'Weeks 1-6, 32-36', spend: 380_000_000 },
-        { name: 'Peloton', peakWeeks: 'Weeks 1-6', spend: 290_000_000 }
+        { name: 'Equinox', peakWeeks: 'Weeks 1-8', spend: 420_000_000, dealRecommendation: 'Offer membership signup bonuses in Week 52 to capture New Year resolution momentum.' },
+        { name: 'Dick\'s Sporting Goods', peakWeeks: 'Weeks 1-6, 32-36', spend: 380_000_000, dealRecommendation: 'Launch fitness equipment cashback in Week 1-2 and back-to-sports promotions Week 32.' },
+        { name: 'Peloton', peakWeeks: 'Weeks 1-6', spend: 290_000_000, dealRecommendation: 'Partner for extended financing offers Week 52-1 when home fitness purchases peak.' }
       ],
       color: '#22C55E',
       predictabilityScore: 88,
@@ -1027,9 +1027,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Summer entertainment deals peak with blockbuster releases. Partner with streaming services in Week 48-52 for holiday viewing promotions.',
       weeklySpendData: generateWeeklySpendData(112_000_000, [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 2.0),
       topMerchants: [
-        { name: 'AMC Theatres', peakWeeks: 'Weeks 24-30, 48-52', spend: 340_000_000 },
-        { name: 'Ticketmaster', peakWeeks: 'Weeks 22-36', spend: 480_000_000 },
-        { name: 'Netflix', peakWeeks: 'Weeks 48-52', spend: 290_000_000 }
+        { name: 'AMC Theatres', peakWeeks: 'Weeks 24-30, 48-52', spend: 340_000_000, dealRecommendation: 'Time movie reward offers around blockbuster releases in Week 24-26 and holiday Week 51-52.' },
+        { name: 'Ticketmaster', peakWeeks: 'Weeks 22-36', spend: 480_000_000, dealRecommendation: 'Partner for concert presale bonuses in Week 20-22 before summer tour season kicks off.' },
+        { name: 'Netflix', peakWeeks: 'Weeks 48-52', spend: 290_000_000, dealRecommendation: 'Offer subscription bonus credits Week 48-50 when holiday viewing and gifting peaks.' }
       ],
       color: '#A855F7',
       predictabilityScore: 65,
@@ -1045,9 +1045,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Wellness deals most effective January-February. Partner with pharmacies for flu season promotions in Weeks 40-48.',
       weeklySpendData: generateWeeklySpendData(76_000_000, [1, 2, 3, 4, 5, 6, 7, 8, 42, 43, 44, 45], 2.3),
       topMerchants: [
-        { name: 'CVS Pharmacy', peakWeeks: 'Weeks 1-8, 40-48', spend: 520_000_000 },
-        { name: 'Walgreens', peakWeeks: 'Weeks 1-8, 42-46', spend: 440_000_000 },
-        { name: 'GNC', peakWeeks: 'Weeks 1-10', spend: 180_000_000 }
+        { name: 'CVS Pharmacy', peakWeeks: 'Weeks 1-8, 40-48', spend: 520_000_000, dealRecommendation: 'Launch flu season wellness cashback Week 40-42 and New Year health promotion Week 1.' },
+        { name: 'Walgreens', peakWeeks: 'Weeks 1-8, 42-46', spend: 440_000_000, dealRecommendation: 'Offer immunization bonus rewards Week 42-44 during peak flu shot season.' },
+        { name: 'GNC', peakWeeks: 'Weeks 1-10', spend: 180_000_000, dealRecommendation: 'Partner for supplement bundle deals Week 52-2 when resolution shoppers stock up.' }
       ],
       color: '#14B8A6',
       predictabilityScore: 82,
@@ -1068,9 +1068,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Every year, 96% of ski equipment purchases happen in November. Partner with ski retailers and resorts for early-bird deals starting Week 42.',
       weeklySpendData: generateWeeklySpendData(8_000_000, [44, 45, 46, 47, 48], 5.0),
       topMerchants: [
-        { name: 'REI', peakWeeks: 'Weeks 44-48', spend: 85_000_000 },
-        { name: 'Vail Resorts', peakWeeks: 'Weeks 45-48', spend: 120_000_000 },
-        { name: 'Burton', peakWeeks: 'Weeks 44-47', spend: 45_000_000 }
+        { name: 'REI', peakWeeks: 'Weeks 44-48', spend: 85_000_000, dealRecommendation: 'Launch ski gear bundles in Week 42-43 before the Week 44 surge to capture early planners.' },
+        { name: 'Vail Resorts', peakWeeks: 'Weeks 45-48', spend: 120_000_000, dealRecommendation: 'Push early-bird season pass promotions in Week 40-42 when families are booking winter trips.' },
+        { name: 'Burton', peakWeeks: 'Weeks 44-47', spend: 45_000_000, dealRecommendation: 'Partner for Black Friday snowboard specials Week 47 when gift buyers peak.' }
       ],
       color: '#3B82F6',
       predictabilityScore: 96,
@@ -1087,9 +1087,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: '98% of tax prep spending occurs March-April. Partner with tax services for early filer bonuses in Week 6-8.',
       weeklySpendData: generateWeeklySpendData(6_000_000, [9, 10, 11, 12, 13, 14, 15, 16], 6.0),
       topMerchants: [
-        { name: 'TurboTax', peakWeeks: 'Weeks 9-16', spend: 95_000_000 },
-        { name: 'H&R Block', peakWeeks: 'Weeks 10-16', spend: 78_000_000 },
-        { name: 'Jackson Hewitt', peakWeeks: 'Weeks 12-15', spend: 32_000_000 }
+        { name: 'TurboTax', peakWeeks: 'Weeks 9-16', spend: 95_000_000, dealRecommendation: 'Offer early filer cashback Week 6-8 to capture organized filers before the rush.' },
+        { name: 'H&R Block', peakWeeks: 'Weeks 10-16', spend: 78_000_000, dealRecommendation: 'Partner for tax prep service discounts Week 9-10 when appointment bookings spike.' },
+        { name: 'Jackson Hewitt', peakWeeks: 'Weeks 12-15', spend: 32_000_000, dealRecommendation: 'Target last-minute filers with bonus offers Week 14-15 near the April deadline.' }
       ],
       color: '#6366F1',
       predictabilityScore: 98,
@@ -1106,9 +1106,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: '94% of Halloween spending concentrates in 4 weeks. Launch costume and decor deals in Week 38 to capture early shoppers.',
       weeklySpendData: generateWeeklySpendData(3_000_000, [40, 41, 42, 43], 9.0),
       topMerchants: [
-        { name: 'Spirit Halloween', peakWeeks: 'Weeks 40-43', spend: 45_000_000 },
-        { name: 'Party City', peakWeeks: 'Weeks 41-43', spend: 32_000_000 },
-        { name: 'Amazon (costumes)', peakWeeks: 'Weeks 40-42', spend: 28_000_000 }
+        { name: 'Spirit Halloween', peakWeeks: 'Weeks 40-43', spend: 45_000_000, dealRecommendation: 'Launch costume category rewards in Week 38 to capture early shoppers with best selection.' },
+        { name: 'Party City', peakWeeks: 'Weeks 41-43', spend: 32_000_000, dealRecommendation: 'Offer party supply bundles Week 40-41 when hosts are planning Halloween gatherings.' },
+        { name: 'Amazon (costumes)', peakWeeks: 'Weeks 40-42', spend: 28_000_000, dealRecommendation: 'Activate Halloween category cashback Week 39-41 for last-minute online shoppers.' }
       ],
       color: '#F59E0B',
       predictabilityScore: 94,
@@ -1125,9 +1125,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Restaurant reservations for Valentine\'s spike 97% predictably in Weeks 5-6. Partner with restaurants for special prix fixe promotions.',
       weeklySpendData: generateWeeklySpendData(2_000_000, [5, 6], 25.0),
       topMerchants: [
-        { name: 'OpenTable Restaurants', peakWeeks: 'Weeks 5-6', spend: 38_000_000 },
-        { name: 'Fine Dining Group', peakWeeks: 'Week 6', spend: 28_000_000 },
-        { name: '1-800-Flowers', peakWeeks: 'Weeks 5-6', spend: 22_000_000 }
+        { name: 'OpenTable Restaurants', peakWeeks: 'Weeks 5-6', spend: 38_000_000, dealRecommendation: 'Partner for Valentine\'s reservation bonuses Week 3-4 when couples are booking tables.' },
+        { name: 'Fine Dining Group', peakWeeks: 'Week 6', spend: 28_000_000, dealRecommendation: 'Offer prix fixe dining rewards Week 5-6 for premium Valentine\'s experiences.' },
+        { name: '1-800-Flowers', peakWeeks: 'Weeks 5-6', spend: 22_000_000, dealRecommendation: 'Launch floral delivery cashback Week 4-5 to capture advance orders for guaranteed delivery.' }
       ],
       color: '#EF4444',
       predictabilityScore: 97,
@@ -1144,9 +1144,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: '95% of back-to-school spending happens in a 5-week window. Launch supply deals in Week 28 to capture early planners.',
       weeklySpendData: generateWeeklySpendData(8_500_000, [30, 31, 32, 33, 34], 10.0),
       topMerchants: [
-        { name: 'Target', peakWeeks: 'Weeks 30-34', spend: 145_000_000 },
-        { name: 'Staples', peakWeeks: 'Weeks 31-34', spend: 95_000_000 },
-        { name: 'Amazon (school supplies)', peakWeeks: 'Weeks 30-33', spend: 88_000_000 }
+        { name: 'Target', peakWeeks: 'Weeks 30-34', spend: 145_000_000, dealRecommendation: 'Activate back-to-school category rewards Week 28-29 to capture early organizers.' },
+        { name: 'Staples', peakWeeks: 'Weeks 31-34', spend: 95_000_000, dealRecommendation: 'Partner for office supply cashback Week 30-32 during peak school shopping season.' },
+        { name: 'Amazon (school supplies)', peakWeeks: 'Weeks 30-33', spend: 88_000_000, dealRecommendation: 'Offer Prime back-to-school bonus Week 29-31 for convenient online shopping.' }
       ],
       color: '#8B5CF6',
       predictabilityScore: 95,
@@ -1163,9 +1163,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Summer rental bookings are 92% predictable. Early bird campaigns in Weeks 8-12 capture planners; last-minute deals in Week 20.',
       weeklySpendData: generateWeeklySpendData(42_000_000, [22, 23, 24, 25, 26, 27, 28, 29, 30], 3.0),
       topMerchants: [
-        { name: 'Vrbo', peakWeeks: 'Weeks 22-30', spend: 380_000_000 },
-        { name: 'Airbnb', peakWeeks: 'Weeks 22-28', spend: 450_000_000 },
-        { name: 'Beach house rentals', peakWeeks: 'Weeks 24-28', spend: 180_000_000 }
+        { name: 'Vrbo', peakWeeks: 'Weeks 22-30', spend: 380_000_000, dealRecommendation: 'Launch early-bird vacation rental bonuses Week 8-12 when families plan summer trips.' },
+        { name: 'Airbnb', peakWeeks: 'Weeks 22-28', spend: 450_000_000, dealRecommendation: 'Offer booking cashback Week 10-14 to capture advance summer planners.' },
+        { name: 'Beach house rentals', peakWeeks: 'Weeks 24-28', spend: 180_000_000, dealRecommendation: 'Partner for last-minute beach getaway deals Week 20-22 for spontaneous travelers.' }
       ],
       color: '#06B6D4',
       predictabilityScore: 92,
@@ -1182,9 +1182,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Pool and patio purchases spike 91% predictably as temperatures rise. Partner with home improvement stores in Week 16.',
       weeklySpendData: generateWeeklySpendData(12_000_000, [18, 19, 20, 21, 22, 23, 24], 4.0),
       topMerchants: [
-        { name: 'Home Depot', peakWeeks: 'Weeks 18-24', spend: 125_000_000 },
-        { name: 'Lowe\'s', peakWeeks: 'Weeks 18-22', spend: 98_000_000 },
-        { name: 'Leslie\'s Pool', peakWeeks: 'Weeks 20-26', spend: 45_000_000 }
+        { name: 'Home Depot', peakWeeks: 'Weeks 18-24', spend: 125_000_000, dealRecommendation: 'Launch outdoor furniture cashback Week 16-17 before the Memorial Day rush.' },
+        { name: 'Lowe\'s', peakWeeks: 'Weeks 18-22', spend: 98_000_000, dealRecommendation: 'Partner for patio and grill rewards Week 17-19 as backyard season begins.' },
+        { name: 'Leslie\'s Pool', peakWeeks: 'Weeks 20-26', spend: 45_000_000, dealRecommendation: 'Offer pool opening supply bonuses Week 18-20 when homeowners prep for summer.' }
       ],
       color: '#10B981',
       predictabilityScore: 91,
@@ -1201,9 +1201,9 @@ export function getSpendingTimingHighlights(
       dealTimingRecommendation: 'Gift card purchases are 99% concentrated in the final 4 weeks. Partner with major retailers for bonus value promotions.',
       weeklySpendData: generateWeeklySpendData(10_000_000, [49, 50, 51, 52], 9.0),
       topMerchants: [
-        { name: 'Amazon Gift Cards', peakWeeks: 'Weeks 49-52', spend: 145_000_000 },
-        { name: 'Apple Gift Cards', peakWeeks: 'Weeks 50-52', spend: 85_000_000 },
-        { name: 'Restaurant Gift Cards', peakWeeks: 'Weeks 51-52', spend: 68_000_000 }
+        { name: 'Amazon Gift Cards', peakWeeks: 'Weeks 49-52', spend: 145_000_000, dealRecommendation: 'Offer bonus value promotions Week 49-50 when holiday gift card buying accelerates.' },
+        { name: 'Apple Gift Cards', peakWeeks: 'Weeks 50-52', spend: 85_000_000, dealRecommendation: 'Partner for tech gift card bonuses Week 50-51 during peak electronics gifting.' },
+        { name: 'Restaurant Gift Cards', peakWeeks: 'Weeks 51-52', spend: 68_000_000, dealRecommendation: 'Launch last-minute dining gift card rewards Week 51-52 for procrastinating gifters.' }
       ],
       color: '#DC2626',
       predictabilityScore: 99,

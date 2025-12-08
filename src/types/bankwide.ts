@@ -110,7 +110,7 @@ export interface SpendingTimingHighlight {
   yoyGrowth: number;
   dealTimingRecommendation: string;
   weeklySpendData: Array<{ week: number; month: string; spend: number }>;
-  topMerchants: Array<{ name: string; peakWeeks: string; spend: number }>;
+  topMerchants: Array<{ name: string; peakWeeks: string; spend: number; dealRecommendation: string }>;
   color: string;
   predictabilityScore: number;
   predictabilityReason: string;
