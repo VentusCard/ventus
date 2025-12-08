@@ -1046,59 +1046,27 @@ const TePilot = () => {
                   </Button>
                 </div>
                 
-                {/* Loading State */}
+                {/* AI-Powered Top 3 Pillars Analysis - shows immediately */}
+                <TopPillarsAnalysis transactions={enrichedTransactions} autoAnalyze={true} />
+                
+                {/* Loading State for Recommendations */}
                 {isGeneratingRecommendations && (
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
-                      <Loader2 className="w-5 h-5 animate-spin text-primary" />
-                      <span className="text-muted-foreground">Analyzing spending patterns and generating personalized recommendations...</span>
-                    </div>
-                    
-                    {/* Skeleton for Top Subcategories */}
-                    <Card>
-                      <CardHeader>
-                        <Skeleton className="h-6 w-64" />
-                      </CardHeader>
-                      <CardContent>
-                        <div className="flex gap-3">
-                          {[1, 2, 3, 4, 5].map((i) => (
-                            <Skeleton key={i} className="h-24 w-32 rounded-lg" />
-                          ))}
-                        </div>
-                      </CardContent>
-                    </Card>
-                    
-                    {/* Skeleton for Recommendations */}
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                      {[1, 2, 3, 4, 5, 6].map((i) => (
-                        <Card key={i}>
-                          <CardHeader>
-                            <Skeleton className="h-5 w-3/4" />
-                            <Skeleton className="h-4 w-1/2 mt-2" />
-                          </CardHeader>
-                          <CardContent className="space-y-3">
-                            <Skeleton className="h-4 w-full" />
-                            <Skeleton className="h-4 w-full" />
-                            <Skeleton className="h-4 w-2/3" />
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
+                  <div className="flex items-center gap-3 p-4 bg-muted/50 rounded-lg">
+                    <Loader2 className="w-5 h-5 animate-spin text-primary" />
+                    <span className="text-muted-foreground">Generating partner recommendations...</span>
                   </div>
                 )}
                 
-                {/* Results */}
-                {!isGeneratingRecommendations && recommendations && <>
-                {/* AI-Powered Top 3 Pillars Analysis */}
-                <TopPillarsAnalysis transactions={enrichedTransactions} autoAnalyze={true} />
-                
-                <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-              total_estimated_value: {
-                monthly: 0,
-                annual: 0
-              },
-              message: "No recommendations available"
-            }} />
+                {/* Recommendations Results */}
+                {!isGeneratingRecommendations && recommendations && (
+                  <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
+                    total_estimated_value: {
+                      monthly: 0,
+                      annual: 0
+                    },
+                    message: "No recommendations available"
+                  }} />
+                )}
             
                 {/* Geo-Location Deals Section */}
                 <GeoLocationDealsSection locationContext={locationContext} />
@@ -1119,7 +1087,6 @@ const TePilot = () => {
                   onClose={() => setSelectedTransaction(null)}
                   transaction={selectedTransaction}
                 />
-              </>}
               </div>}
 
             {insightType === 'relationship' && <div className="space-y-6">
