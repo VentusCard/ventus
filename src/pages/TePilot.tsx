@@ -707,7 +707,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Parent-SKU Level Inference</h4>
                         <p className="text-sm text-muted-foreground">
-                          Uses price-matching and merchant context to infer specific purchases (e.g., "$120 Nike" → "running shoes") rather than generic "merchandise"
+                          Uses price-matching and merchant context to infer specific purchases (e.g., "$58.57 Titleist → dozen Pro V1 golf balls + tax") rather than generic "merchandise"
                         </p>
                       </div>
                     </div>
