@@ -91,12 +91,12 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
 
   const totalSpend = pillarAggregates.reduce((sum, p) => sum + p.totalSpend, 0);
 
-  // Auto-trigger analysis when autoAnalyze prop is true AND card is expanded
+  // Auto-trigger analysis on mount when autoAnalyze prop is true (no need to expand)
   useEffect(() => {
-    if (autoAnalyze && isCardExpanded && !hasAnalyzed && !isAnalyzing && pillarAggregates.length > 0) {
+    if (autoAnalyze && !hasAnalyzed && !isAnalyzing && pillarAggregates.length > 0) {
       analyzeWithAI();
     }
-  }, [autoAnalyze, isCardExpanded, hasAnalyzed, isAnalyzing, pillarAggregates.length]);
+  }, [autoAnalyze, hasAnalyzed, isAnalyzing, pillarAggregates.length]);
 
   const togglePillar = (pillar: string) => {
     setExpandedPillars(prev => {
