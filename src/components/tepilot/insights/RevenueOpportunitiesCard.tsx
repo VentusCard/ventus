@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,7 +8,7 @@ import {
   TrendingUp, MapPin, Users, Target, ArrowRight, 
   DollarSign, Download, Handshake, Calendar, 
   Lightbulb, CalendarClock, Clock, Building2, ChevronRight, Percent, UserCheck, Sparkles,
-  Smartphone, Heart, Plane, UtensilsCrossed, Home, GraduationCap
+  Smartphone, Heart, Plane, UtensilsCrossed, Home, GraduationCap, ExternalLink
 } from "lucide-react";
 import type { RevenueOpportunity, MerchantPartnershipPitch } from "@/types/bankwide";
 import { CollapsibleCard } from "./CollapsibleCard";
@@ -260,6 +261,7 @@ function MerchantList({ partnerships, gapTitle }: { partnerships: MerchantPartne
 }
 
 export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunitiesCardProps) {
+  const navigate = useNavigate();
   const [quarterFilter, setQuarterFilter] = useState<string>('all');
   
   // Filter opportunities by quarter based on merchant partnerships
@@ -308,6 +310,14 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
       >
         <Download className="h-4 w-4" />
         <span className="hidden sm:inline">Export All</span>
+      </Button>
+      <Button 
+        size="sm" 
+        onClick={() => navigate('/tepilot/rewards-pipeline')}
+        className="gap-2"
+      >
+        <ExternalLink className="h-4 w-4" />
+        <span className="hidden sm:inline">Open Deal Pipeline</span>
       </Button>
     </div>
   );
