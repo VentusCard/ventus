@@ -87,7 +87,10 @@ export function RecommendationsCard({ recommendations, summary, isLoading = fals
               <div className="flex flex-col items-start gap-2">
                 <CardTitle className="text-2xl">Example Personalized Deals, Rewards and Cross-Sell Opportunities</CardTitle>
                 <div className="text-sm text-muted-foreground">
-                  {recommendations.length} strategic recommendations
+                  {recommendations.length} personalized offers matched to their lifestyle patterns
+                </div>
+                <div className="text-xs text-muted-foreground/70">
+                  Direct deals • Adjacent category expansion • Experience upgrades • Card & financial products — each with AI-personalized messaging
                 </div>
               </div>
               <div className="flex items-center gap-4">
