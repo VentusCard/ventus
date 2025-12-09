@@ -168,17 +168,17 @@ function MerchantList({ partnerships, gapTitle }: { partnerships: MerchantPartne
 
             {/* Win-Win Section */}
             <div className="grid grid-cols-1 gap-3 mb-4">
-              <div className="p-3 bg-muted/50 border rounded-lg">
+              <div className="p-3 bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-200/50 dark:border-emerald-800/30 rounded-lg">
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <Handshake className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="text-xs font-semibold text-muted-foreground uppercase">For {selected.merchantName}</span>
+                  <Handshake className="h-3.5 w-3.5 text-emerald-600/70 dark:text-emerald-400/70" />
+                  <span className="text-xs font-semibold text-emerald-700/80 dark:text-emerald-300/80 uppercase">For {selected.merchantName}</span>
                 </div>
                 <p className="text-xs text-foreground leading-relaxed">{selected.merchantBenefit}</p>
               </div>
-              <div className="p-3 bg-muted/50 border rounded-lg">
+              <div className="p-3 bg-blue-50/50 dark:bg-blue-950/10 border border-blue-200/50 dark:border-blue-800/30 rounded-lg">
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <TrendingUp className="h-3.5 w-3.5 text-muted-foreground" />
-                  <span className="text-xs font-semibold text-muted-foreground uppercase">For Bank</span>
+                  <TrendingUp className="h-3.5 w-3.5 text-blue-600/70 dark:text-blue-400/70" />
+                  <span className="text-xs font-semibold text-blue-700/80 dark:text-blue-300/80 uppercase">For Bank</span>
                 </div>
                 <p className="text-xs text-foreground leading-relaxed">{selected.bankBenefit}</p>
               </div>
@@ -364,23 +364,23 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
                 <div className="space-y-4 pt-2">
                   {/* Gap Context */}
                   <div className="flex items-stretch gap-3 p-3 bg-muted/30 rounded-lg">
-                    <div className="flex-1 p-3 bg-muted/50 rounded-lg border">
-                      <div className="text-xs font-medium text-muted-foreground mb-1">Current State</div>
+                    <div className="flex-1 p-3 bg-rose-50/40 dark:bg-rose-950/10 rounded-lg border border-rose-200/40 dark:border-rose-800/20">
+                      <div className="text-xs font-medium text-rose-600/80 dark:text-rose-400/80 mb-1">Current State</div>
                       <div className="text-sm">{opportunity.currentState}</div>
                     </div>
                     <div className="flex items-center">
                       <ArrowRight className="h-5 w-5 text-muted-foreground" />
                     </div>
-                    <div className="flex-1 p-3 bg-muted/50 rounded-lg border">
-                      <div className="text-xs font-medium text-muted-foreground mb-1">Target State</div>
+                    <div className="flex-1 p-3 bg-emerald-50/40 dark:bg-emerald-950/10 rounded-lg border border-emerald-200/40 dark:border-emerald-800/20">
+                      <div className="text-xs font-medium text-emerald-600/80 dark:text-emerald-400/80 mb-1">Target State</div>
                       <div className="text-sm">{opportunity.potentialState}</div>
                     </div>
                   </div>
 
                   {/* Strategic Insight */}
-                  <div className="p-3 bg-muted/30 border-l-4 border-border rounded-r-lg">
+                  <div className="p-3 bg-amber-50/30 dark:bg-amber-950/10 border-l-4 border-amber-400/60 rounded-r-lg">
                     <div className="flex items-start gap-2">
-                      <Lightbulb className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                      <Lightbulb className="h-4 w-4 mt-0.5 text-amber-500/80 shrink-0" />
                       <p className="text-sm">
                         <span className="font-semibold">Strategic Insight: </span>
                         {opportunity.strategicInsight}
