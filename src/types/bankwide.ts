@@ -69,6 +69,7 @@ export interface RevenueOpportunity {
   // Gap info
   gapTitle: string;
   gapType: 'pillar' | 'geographic' | 'demographic' | 'cross-sell';
+  iconHint?: 'gen-z' | 'health' | 'travel' | 'dining' | 'home' | 'geographic' | 'cross-sell' | 'sports' | 'family' | 'tech';
   currentState: string;
   potentialState: string;
   totalOpportunityAmount: number;
