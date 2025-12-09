@@ -122,9 +122,35 @@ function anonymizeMerchant(merchantName: string): string {
   return tier ? `${tier} ${category}` : category;
 }
 
-const SYSTEM_PROMPT = `You are a deal and product recommendation engine for banks. Your job is analyze a customer's spending history to generate 7 personalized deal and product recommendations that would clearly incentize more spending, more deal utilization and more cross-selling opportunties.
+const SYSTEM_PROMPT = `You are a deal and product recommendation engine for banks. Your job is analyze a customer's spending history AND their persona to generate 8 personalized deal and product recommendations that feel custom-crafted for that specific customer.
 
-CRITICAL: Generate ALL details dynamically based on the customer's actual spending patterns. DO NOT use templates or predefined values.
+CRITICAL: Generate ALL details dynamically based on the customer's actual spending patterns AND their persona. DO NOT use templates or predefined values.
+
+## PERSONA-BASED PERSONALIZATION
+
+Each recommendation MUST include:
+1. personalized_title: A compelling title that references ONE persona trait/interest (under 60 chars)
+2. personalized_hook: A short hook that makes the customer feel understood (1 sentence)
+
+### Title Personalization Guidelines:
+- Reference ONE persona trait, interest, or behavior in the title
+- Use action-oriented, aspirational language that speaks to their lifestyle
+- Keep titles under 60 characters
+- Examples based on persona:
+  ✅ "Fuel Your Marathon Training: 12% Back at Running Stores" (for fitness enthusiast)
+  ✅ "For the Home Chef: 15% Cashback at Premium Grocers" (for cooking enthusiast)
+  ✅ "Elevate Your Wellness Journey: 10% at Fitness Centers" (for health-conscious)
+  ❌ "Cashback at Stores" (generic, no persona reference)
+  ❌ "Special Offer" (no specifics or personalization)
+
+### Hook Personalization Guidelines:
+- Acknowledge the customer's lifestyle in first person voice
+- Connect the offer to their demonstrated interests
+- Make them feel understood with a single impactful sentence
+- Examples:
+  ✅ "Your passion for quality ingredients deserves quality rewards"
+  ✅ "Because your active lifestyle demands the best gear"
+  ✅ "Perfect for someone who values wellness and self-care"
 
 ## Output Structure
 
@@ -369,6 +395,8 @@ Return EXACTLY this structure:
   "recommendations": [
     {
       "deal_id": "CUSTOM_001",
+      "personalized_title": "Fuel Your [Persona Trait]: X% Back at [Category]",
+      "personalized_hook": "Because your [lifestyle trait] deserves premium rewards",
       "title": "Deal for top subcategory #1",
       "description": "Dynamic description based on customer's actual spending",
       "category": "Category name from their spending",
@@ -574,6 +602,22 @@ serve(async (req) => {
       )
       .join("\n") || "No subcategory data available";
 
+    // Build persona context if available
+    const personaContext = insights.userPersona ? `
+CUSTOMER PERSONA:
+- Summary: ${insights.userPersona.summary || "Not available"}
+- Lifestyle Traits: ${(insights.userPersona.lifestyle_traits || []).join(", ") || "Not specified"}
+- Spending Behaviors: ${(insights.userPersona.spending_behaviors || []).join(", ") || "Not specified"}
+- Interests: ${(insights.userPersona.interests || []).join(", ") || "Not specified"}
+
+PERSONALIZATION REQUIREMENT:
+Use the persona above to craft personalized_title and personalized_hook for EACH recommendation.
+- personalized_title: Reference one of their traits/interests (e.g., "Fuel Your Marathon Training: 12% Back at Running Stores")
+- personalized_hook: Make them feel understood (e.g., "Your passion for fitness deserves premium rewards")
+` : `
+CUSTOMER PERSONA: Not available - use spending patterns to infer lifestyle for personalization.
+`;
+
     const userPrompt = `Generate 8 personalized recommendations for this customer:
 
 SPENDING PROFILE:
@@ -581,7 +625,7 @@ SPENDING PROFILE:
 - Monthly Average: $${insights.monthlyAverage}
 - Customer Tier: ${insights.segment.tier}
 - Spending Velocity: ${insights.segment.spendingVelocity}
-
+${personaContext}
 TOP SPENDING CATEGORIES (Pillars):
 ${topPillarsText}
 
@@ -601,6 +645,7 @@ CRITICAL INSTRUCTIONS:
 4. Recommendation 6: Create an aspirational EXPERIENCE aligned with their lifestyle
 5. Recommendation 7: Create a CARD PRODUCT with rewards structure matching their top spending categories
 6. Recommendation 8: Create a non-card FINANCIAL PRODUCT (loan, BNPL, savings, etc.) based on their spending patterns and financial needs
+7. EVERY recommendation MUST include personalized_title and personalized_hook based on persona
 
 Generate EXACTLY 8 recommendations following this structure.
 

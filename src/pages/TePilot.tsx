@@ -67,6 +67,7 @@ const TePilot = () => {
   const [recommendations, setRecommendations] = useState<any>(null);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [recommendationsLoaded, setRecommendationsLoaded] = useState(false);
+  const [userPersona, setUserPersona] = useState<any>(null);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(() => {
     const navState = location.state as { insightType?: 'revenue' | 'relationship' | 'bankwide' } | null;
@@ -160,6 +161,18 @@ const TePilot = () => {
         }
       } catch (error) {
         console.error("Error restoring AI insights:", error);
+      }
+    }
+
+    // Restore user persona
+    const storedPersona = sessionStorage.getItem("tepilot_user_persona");
+    if (storedPersona) {
+      try {
+        const persona = JSON.parse(storedPersona);
+        setUserPersona(persona);
+        console.log("[TePilot] Restored user persona");
+      } catch (error) {
+        console.error("Error restoring user persona:", error);
       }
     }
   }, []);
@@ -395,7 +408,8 @@ const TePilot = () => {
         topPillars,
         topMerchants,
         topSubcategories,
-        segment
+        segment,
+        userPersona: userPersona || null
       };
       console.log('Sending insights to generate-partner-recommendations:', insights);
       const {
@@ -1110,7 +1124,14 @@ const TePilot = () => {
                 </div>
                 
                 {/* AI-Powered Top 3 Pillars Analysis - shows immediately */}
-                <TopPillarsAnalysis transactions={enrichedTransactions} autoAnalyze={true} />
+                <TopPillarsAnalysis 
+                  transactions={enrichedTransactions} 
+                  autoAnalyze={true} 
+                  onPersonaGenerated={(persona) => {
+                    setUserPersona(persona);
+                    console.log("[TePilot] Persona received from analysis");
+                  }}
+                />
                 
                 {/* Loading State for Recommendations */}
                 {isGeneratingRecommendations && !recommendations && (

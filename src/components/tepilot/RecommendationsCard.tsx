@@ -8,15 +8,17 @@ import { Target, CheckCircle2, ChevronDown, Loader2 } from "lucide-react";
 interface Recommendation {
   deal_id: string;
   title: string;
+  personalized_title?: string;
+  personalized_hook?: string;
   description: string;
   matching_data: {
     current_behavior: string;
     opportunity: string;
     lift_opportunity?: string;
   };
-  tier: "deal" | "experience" | "financial_product";
+  tier: "deal" | "experience" | "financial_product" | "card_product";
   priority: number;
-  lift_type?: "frequency" | "amount" | "new_category" | "merchant_expansion";
+  lift_type?: "frequency" | "amount" | "new_category" | "merchant_expansion" | "adjacent_subcategory" | "experience" | "card_product" | "financial_product";
 }
 
 interface RecommendationsCardProps {
@@ -111,7 +113,14 @@ export function RecommendationsCard({ recommendations, summary, isLoading = fals
                   <AccordionTrigger className="hover:no-underline">
                     <div className="flex items-center justify-between w-full pr-4">
                       <div className="flex flex-col items-start gap-2">
-                        <h3 className="font-semibold text-lg text-left">{rec.title}</h3>
+                        <h3 className="font-semibold text-lg text-left">
+                          {rec.personalized_title || rec.title}
+                        </h3>
+                        {rec.personalized_hook && (
+                          <p className="text-sm text-primary/80 italic text-left">
+                            "{rec.personalized_hook}"
+                          </p>
+                        )}
                         <div className="flex gap-2">
                           <Badge className={getTierBadgeClasses(rec.tier)}>
                             {getTierLabel(rec.tier)}
