@@ -46,13 +46,19 @@ export function CrossSellMatrix({ matrixData }: CrossSellMatrixProps) {
     : [];
 
   const totalOpportunity = matrixData.flat().reduce((sum, cell) => sum + cell.annualOpportunity, 0);
-  const highOpportunities = matrixData.flat().filter(c => c.opportunityLevel === 'high').length;
+  const highOpportunities = matrixData.flat().filter(c => c.opportunityLevel === 'high');
+  const topOpportunity = [...matrixData.flat()].sort((a, b) => b.annualOpportunity - a.annualOpportunity)[0];
 
   const previewContent = (
-    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-      <span className="font-medium text-primary">{formatCurrency(totalOpportunity)}</span>
-      <span className="text-muted-foreground/50">•</span>
-      <span>{highOpportunities} high-priority opportunities</span>
+    <div className="text-sm">
+      <span className="text-primary font-medium">{formatCurrency(totalOpportunity)}</span>
+      <span className="text-muted-foreground"> in cross-sell potential. Top opportunity: </span>
+      <span className="text-foreground font-medium">{topOpportunity?.fromCard} → {topOpportunity?.toCard}</span>
+      <span className="text-muted-foreground"> worth </span>
+      <span className="text-primary font-medium">{formatCurrency(topOpportunity?.annualOpportunity || 0)}</span>
+      <span className="text-muted-foreground"> with </span>
+      <span className="text-foreground font-medium">{formatNumber(topOpportunity?.potentialUsers || 0)} users</span>
+      <span className="text-muted-foreground">.</span>
     </div>
   );
 
