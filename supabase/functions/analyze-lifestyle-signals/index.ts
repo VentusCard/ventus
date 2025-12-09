@@ -164,52 +164,58 @@ serve(async (req) => {
 ## DETECTION METHODOLOGY
 
 ### 1. SEMANTIC MERCHANT ANALYSIS
-Scan merchant names for life-event keywords (case-insensitive):
+Scan merchant names for keywords that indicate specific life stages (education, baby, wedding, home, business, elder care, career, legal, insurance, investment).
 
-EDUCATION: "college", "university", "SAT", "ACT", "prep", "tutor", "campus", "admissions", "scholarship", "test", "academy", "learning", "school"
-BABY/FAMILY: "baby", "nursery", "maternity", "pediatric", "prenatal", "OB-GYN", "daycare", "infant", "kids", "children", "toddler"
-WEDDING: "bridal", "wedding", "engagement", "ring", "venue", "catering", "honeymoon", "registry", "jeweler", "tiffany", "florist"
-HOME: "mortgage", "title", "escrow", "inspection", "realtor", "moving", "home depot", "appliance", "furniture", "realty", "zillow"
-BUSINESS: "LLC", "incorporation", "secretary of state", "business license", "quickbooks", "payroll", "wholesale", "commercial"
-ELDER CARE: "senior", "elder", "hospice", "caregiver", "nursing", "assisted living", "life alert", "home health", "medicare"
-CAREER: "linkedin", "resume", "headhunter", "recruiting", "professional", "career", "executive", "coaching"
-LEGAL/ESTATE: "attorney", "law firm", "estate", "trust", "will", "probate", "legal", "notary"
-INSURANCE: "life insurance", "mutual", "policy", "underwriting", "northwestern", "prudential", "metlife"
-INVESTMENT: "401k", "IRA", "rollover", "brokerage", "fidelity", "schwab", "vanguard", "etrade", "ameritrade"
-
-### 2. MCC CATEGORY CLUSTERING
-Look for 3+ transactions within 30 days in related categories:
-- Education services + parking/travel + application fees = Campus visits/College prep
-- Children's stores + medical + insurance = New baby preparation
-- Jewelry + hotels + event services = Wedding planning
-- Mortgage/real estate + insurance + moving services = Home purchase
-- Government fees + software + business insurance = Business formation
-- Social services + legal + medical = Elder care planning
-- Securities + subscriptions + legal = Career/wealth transition
+### 2. PATTERN RECOGNITION
+Look for clusters of 3+ related transactions within 30 days that together tell a coherent story about a life event.
 
 ### 3. AMOUNT ANOMALY DETECTION
-Flag transactions that are:
-- 3x or more above the client's typical category spend
-- First-time activity in a new category with amount >$500
-- Large one-time payments >$2000 to service providers
-- Deposits significantly above typical income patterns (inheritance, bonus)
+Flag transactions that are 3x+ above typical spend, first-time activity in new categories >$500, or large one-time payments >$2000.
 
-### 4. TEMPORAL CLUSTERING
-Group related transactions within a 2-4 week window:
-- Multiple test prep + campus visit + application fee = College preparation
-- Ring purchase + venue deposit + wedding services = Wedding planning
-- OB visit + baby store + insurance inquiry = Expecting baby
-- Attorney + estate services + large deposit = Inheritance received
-- LLC filing + business software + insurance = Starting a business
-
-### 5. CONFIDENCE SCORING FORMULA
-Calculate confidence based on evidence strength:
+### 4. CONFIDENCE SCORING
 - 3 related transactions = 70-75% confidence
 - 4-5 related transactions = 80-85% confidence  
 - 6+ related transactions = 90-95% confidence
-- High-value transactions (>$2000) add +5-10%
-- Recent transactions (last 30 days) add +5%
-- Semantic keyword match in merchant name add +5%
+- High-value (>$2000), recent (last 30 days), or keyword matches add +5-10%
+
+## CRITICAL: EVIDENCE INCLUSION PRINCIPLES
+
+For EACH transaction you consider including as evidence, you MUST apply these reasoning tests:
+
+### CAUSALITY TEST
+Ask: "Is this transaction a DIRECT cause or effect of the life event?"
+- ✅ INCLUDE: "STANFORD VISITOR PARKING" → Directly caused by visiting Stanford campus
+- ✅ INCLUDE: "KAPLAN TEST PREP" → Direct preparation for college admission
+- ❌ EXCLUDE: "DELTA AIR LINES" → Could be for vacation, business, family visit, or anything else
+- ❌ EXCLUDE: "MARRIOTT HOTEL" → Generic travel with no inherent connection to any specific event
+
+### SPECIFICITY TEST  
+Ask: "Does the merchant name contain SPECIFIC context linking it to this event?"
+- ✅ INCLUDE: Merchant contains university/campus/institution name explicitly
+- ✅ INCLUDE: Merchant is PURPOSE-BUILT for this life stage (baby store, test prep center, wedding venue)
+- ❌ EXCLUDE: Generic service providers (airlines, hotels, restaurants, gas stations) without event-specific context in the name
+
+### REASONABLE PERSON TEST
+Ask: "Would an objective, skeptical observer AGREE this transaction proves the event?"
+- If you have to "assume", "infer", or "guess" a connection → EXCLUDE
+- If the transaction could plausibly be for 3+ unrelated purposes → EXCLUDE
+- When in doubt → EXCLUDE. Fewer strong evidence items beat many weak ones.
+
+### RELEVANCE JUSTIFICATION REQUIREMENT
+For every evidence transaction you include, you MUST be able to complete this sentence:
+"This transaction is evidence of [EVENT] because [DIRECT CAUSAL EXPLANATION]"
+
+BAD: "Delta Airlines is evidence of college prep because the client might have flown to visit a campus"
+GOOD: "Stanford Visitor Parking is evidence of college prep because it's a payment directly to Stanford's campus parking system during a college visit"
+
+## FINAL EVIDENCE QUALITY CHECK
+
+Before finalizing each detected event, review your evidence list:
+1. Remove any transaction where the connection requires speculation about intent
+2. Remove generic travel (airlines, hotels, car rentals) unless the merchant name explicitly contains the destination/purpose
+3. Ask: "If I showed only this evidence to an advisor, would they immediately understand why each transaction matters?"
+
+PRECISION OVER RECALL: Missing a weak signal is acceptable. Including irrelevant transactions damages advisor trust.
 
 ## WEALTH MANAGEMENT PRODUCT MAPPING
 Match detected events to appropriate financial products:
@@ -235,7 +241,8 @@ Individual notable transactions as their own events:
 
 ## OUTPUT REQUIREMENTS
 - Event names should be specific: "College Preparation for Child" not "Education"
-- Include ALL supporting transactions as evidence with relevance explanation
+- Include ONLY transactions that pass ALL three evidence tests (causality, specificity, reasonable person)
+- For each evidence item, the "relevance" field MUST explain the DIRECT causal connection
 - Talking points: 3-5 natural, empathetic conversation starters
 - Financial projections with realistic market-rate estimates
 - Funding sources matched to event type from the product mapping`;
