@@ -3,8 +3,9 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Calendar, TrendingUp, Lightbulb, DollarSign, Target, Download, Clock, Users, Megaphone, Handshake, Database, CheckCircle2, AlertTriangle, Info } from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Calendar, TrendingUp, Lightbulb, DollarSign, Target, Download, Clock, Users, Megaphone, Handshake, Database, CheckCircle2, AlertTriangle, Info, BarChart3, CalendarClock } from "lucide-react";
+import { AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts";
 import type { SpendingTimingHighlight } from "@/types/bankwide";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { toast } from "sonner";
@@ -112,23 +113,30 @@ const getConfidenceLevel = (score: number): { label: string; color: string; icon
   return { label: 'Variable Pattern', color: 'text-muted-foreground', icon: <Info className="h-4 w-4" /> };
 };
 
-// Export campaign calendar as CSV
-const exportCampaignCalendar = (highlights: SpendingTimingHighlight[]) => {
+// Generate "Why This Matters" callout based on view mode
+const getWhyThisMatters = (highlight: SpendingTimingHighlight, viewMode: 'amount' | 'predictability'): string => {
+  const name = highlight.subcategory || highlight.category;
+  if (viewMode === 'amount') {
+    return `${name} represents ${formatCurrency(highlight.totalAnnualSpend)} in annual customer spend — high-priority target for cashback partnerships and interchange optimization.`;
+  }
+  return `${name} spending peaks ${highlight.peakWeeks} with ${highlight.predictabilityScore}% consistency — deploy marketing campaigns with confidence during this window.`;
+};
+
+// Export for partnerships (amount view)
+const exportForPartnerships = (highlights: SpendingTimingHighlight[]) => {
   const rows: string[] = [
-    'Category,Merchant,Peak Window (Weeks),Calendar Dates 2025,Customer Spend,Countdown Status,Recommendation'
+    'Merchant,Annual Customer Spend,Peak Season,Recommended Offer,Negotiation Priority'
   ];
   
   highlights.forEach(h => {
     h.topMerchants.forEach(m => {
-      const countdown = getCountdownMessage(m.peakWeeks);
+      const priority = m.spend >= 500_000_000 ? 'Tier 1' : m.spend >= 100_000_000 ? 'Tier 2' : 'Tier 3';
       rows.push([
-        h.subcategory || h.category,
         m.name,
-        m.peakWeeks,
-        weekRangeToCalendarDates(m.peakWeeks),
         `$${(m.spend / 1_000_000).toFixed(0)}M`,
-        countdown.message,
-        `"${m.dealRecommendation.replace(/"/g, '""')}"`
+        h.peakSeason,
+        `"${m.dealRecommendation.replace(/"/g, '""')}"`,
+        priority
       ].join(','));
     });
   });
@@ -138,10 +146,37 @@ const exportCampaignCalendar = (highlights: SpendingTimingHighlight[]) => {
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `campaign-calendar-${new Date().toISOString().split('T')[0]}.csv`;
+  a.download = `partnership-priorities-${new Date().toISOString().split('T')[0]}.csv`;
   a.click();
   URL.revokeObjectURL(url);
-  toast.success('Campaign calendar exported');
+  toast.success('Partnership priorities exported');
+};
+
+// Export for marketing calendar (predictability view)
+const exportForMarketing = (highlights: SpendingTimingHighlight[]) => {
+  const rows: string[] = [
+    'Category,Calendar Window 2025,Predictability Score,Pattern Description,Campaign Recommendation'
+  ];
+  
+  highlights.forEach(h => {
+    rows.push([
+      h.subcategory || h.category,
+      weekRangeToCalendarDates(h.peakWeeks),
+      `${h.predictabilityScore}%`,
+      `"${h.predictabilityReason}"`,
+      `"Schedule campaigns ${weekRangeToCalendarDates(h.peakWeeks)} for ${h.peakSeason} spending surge"`
+    ].join(','));
+  });
+  
+  const csv = rows.join('\n');
+  const blob = new Blob([csv], { type: 'text/csv' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `marketing-calendar-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
+  toast.success('Marketing calendar exported');
 };
 
 export function SpendingTimingHighlights({ highlights, predictabilityHighlights }: SpendingTimingHighlightsProps) {
@@ -165,22 +200,40 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
   );
 
   const headerRight = (
-    <ToggleGroup 
-      type="single" 
-      value={sortBy} 
-      onValueChange={(val) => val && setSortBy(val as 'amount' | 'predictability')}
-      className="border rounded-lg p-1"
-      onClick={(e) => e.stopPropagation()}
-    >
-      <ToggleGroupItem value="amount" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-        <DollarSign className="h-4 w-4" />
-        <span className="hidden sm:inline">Highest Amount</span>
-      </ToggleGroupItem>
-      <ToggleGroupItem value="predictability" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
-        <Target className="h-4 w-4" />
-        <span className="hidden sm:inline">Highest Predictability</span>
-      </ToggleGroupItem>
-    </ToggleGroup>
+    <TooltipProvider>
+      <ToggleGroup 
+        type="single" 
+        value={sortBy} 
+        onValueChange={(val) => val && setSortBy(val as 'amount' | 'predictability')}
+        className="border rounded-lg p-1"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <UITooltip>
+          <TooltipTrigger asChild>
+            <ToggleGroupItem value="amount" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+              <DollarSign className="h-4 w-4" />
+              <span className="hidden sm:inline">Highest Amount</span>
+            </ToggleGroupItem>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" className="max-w-xs">
+            <p className="font-medium">Sort by total annual spend ($)</p>
+            <p className="text-xs text-muted-foreground mt-1">Best for Partnerships team identifying high-volume merchants for deal negotiations</p>
+          </TooltipContent>
+        </UITooltip>
+        <UITooltip>
+          <TooltipTrigger asChild>
+            <ToggleGroupItem value="predictability" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+              <Target className="h-4 w-4" />
+              <span className="hidden sm:inline">Highest Predictability</span>
+            </ToggleGroupItem>
+          </TooltipTrigger>
+          <TooltipContent side="bottom" className="max-w-xs">
+            <p className="font-medium">Sort by pattern reliability (%)</p>
+            <p className="text-xs text-muted-foreground mt-1">Best for Marketing team timing campaigns when customer behavior is most consistent</p>
+          </TooltipContent>
+        </UITooltip>
+      </ToggleGroup>
+    </TooltipProvider>
   );
 
   return (
@@ -194,7 +247,38 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
       headerRight={headerRight}
       previewContent={previewContent}
     >
-      {/* Data Context Header */}
+      {/* Strategic Context Banner */}
+      <div className={`mb-4 p-4 rounded-lg border ${
+        sortBy === 'amount' 
+          ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800' 
+          : 'bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800'
+      }`}>
+        <div className="flex items-start gap-3">
+          {sortBy === 'amount' ? (
+            <>
+              <BarChart3 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-emerald-700 dark:text-emerald-300">Volume-First Analysis</p>
+                <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
+                  Sorted by total annual spend. Use this view to identify which merchants drive the most transaction volume for partnership negotiations and interchange revenue optimization.
+                </p>
+              </div>
+            </>
+          ) : (
+            <>
+              <CalendarClock className="h-5 w-5 text-purple-600 dark:text-purple-400 mt-0.5 flex-shrink-0" />
+              <div>
+                <p className="font-semibold text-purple-700 dark:text-purple-300">Confidence-First Analysis</p>
+                <p className="text-sm text-purple-600 dark:text-purple-400 mt-1">
+                  Sorted by pattern reliability (% of years the same peak weeks held true). Use this view to deploy marketing campaigns with the highest confidence of customer engagement.
+                </p>
+              </div>
+            </>
+          )}
+        </div>
+      </div>
+
+      {/* Data Context Header with Team-Oriented Export */}
       <div className="mb-6 p-4 bg-muted/30 border border-border/50 rounded-lg">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div className="flex flex-wrap items-center gap-6 text-sm">
@@ -214,15 +298,27 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
               <span className="font-medium text-primary">2025</span>
             </div>
           </div>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => exportCampaignCalendar(activeHighlights)}
-            className="gap-2"
-          >
-            <Download className="h-4 w-4" />
-            Export Campaign Calendar
-          </Button>
+          {sortBy === 'amount' ? (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => exportForPartnerships(activeHighlights)}
+              className="gap-2 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-400 dark:hover:bg-emerald-950"
+            >
+              <Handshake className="h-4 w-4" />
+              Export for Partnership Negotiations
+            </Button>
+          ) : (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => exportForMarketing(activeHighlights)}
+              className="gap-2 border-purple-300 text-purple-700 hover:bg-purple-50 dark:border-purple-700 dark:text-purple-400 dark:hover:bg-purple-950"
+            >
+              <Megaphone className="h-4 w-4" />
+              Export for Marketing Calendar
+            </Button>
+          )}
         </div>
       </div>
 
@@ -281,25 +377,56 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
                     </div>
                   </div>
                   
-                  {/* Row 2: Actionable insight summary with calendar dates */}
+                  {/* Row 2: View-specific summary */}
                   <div className="text-left text-sm text-muted-foreground pl-6">
-                    <span className="font-medium text-foreground">{formatCurrency(highlight.totalAnnualSpend)}</span>
-                    <span> portfolio spend</span>
-                    <span className="mx-2">•</span>
-                    <span className={`font-medium ${
-                      highlight.yoyGrowth >= 10 ? 'text-green-600' :
-                      highlight.yoyGrowth >= 5 ? 'text-amber-600' :
-                      'text-foreground'
-                    }`}>
-                      {highlight.yoyGrowth >= 0 ? '+' : ''}{highlight.yoyGrowth}% growth
-                    </span>
-                    <span className="mx-2">→</span>
-                    <span className="font-medium text-primary">Deploy {weekRangeToCalendarDates(highlight.peakWeeks)}</span>
+                    {sortBy === 'amount' ? (
+                      <>
+                        <span className="font-bold text-foreground">{formatCurrency(highlight.totalAnnualSpend)}</span>
+                        <span> annual volume</span>
+                        <span className="mx-2">•</span>
+                        <span className={`font-medium ${
+                          highlight.yoyGrowth >= 10 ? 'text-green-600' :
+                          highlight.yoyGrowth >= 5 ? 'text-amber-600' :
+                          'text-foreground'
+                        }`}>
+                          {highlight.yoyGrowth >= 0 ? '+' : ''}{highlight.yoyGrowth}% YoY
+                        </span>
+                        <span className="mx-2">→</span>
+                        <span className="text-muted-foreground">Peak: {weekRangeToCalendarDates(highlight.peakWeeks)}</span>
+                      </>
+                    ) : (
+                      <>
+                        <span className="font-bold text-foreground">{highlight.predictabilityScore}% predictable</span>
+                        <span className="mx-2">•</span>
+                        <span className="font-medium text-primary">Deploy {weekRangeToCalendarDates(highlight.peakWeeks)}</span>
+                        <span className="mx-2">•</span>
+                        <span className="text-muted-foreground">{formatCurrency(highlight.totalAnnualSpend)} volume</span>
+                      </>
+                    )}
                   </div>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="pt-2 pb-4">
                 <div className="space-y-4">
+                  {/* Why This Matters Callout */}
+                  <div className={`p-3 rounded-lg border-l-4 ${
+                    sortBy === 'amount' 
+                      ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-500' 
+                      : 'bg-purple-50 dark:bg-purple-950/20 border-purple-500'
+                  }`}>
+                    <div className="flex items-start gap-2">
+                      <Lightbulb className={`h-4 w-4 mt-0.5 flex-shrink-0 ${
+                        sortBy === 'amount' ? 'text-emerald-600' : 'text-purple-600'
+                      }`} />
+                      <p className={`text-sm ${
+                        sortBy === 'amount' ? 'text-emerald-700 dark:text-emerald-300' : 'text-purple-700 dark:text-purple-300'
+                      }`}>
+                        <span className="font-medium">Why This Matters: </span>
+                        {getWhyThisMatters(highlight, sortBy)}
+                      </p>
+                    </div>
+                  </div>
+
                   {/* Key Metrics Grid with enhanced context */}
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                     <div className="bg-muted/30 rounded-lg p-3">
@@ -380,7 +507,7 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
                           tickLine={false}
                           width={60}
                         />
-                        <Tooltip
+                        <RechartsTooltip
                           content={({ active, payload }) => {
                             if (active && payload && payload.length) {
                               const data = payload[0].payload;
