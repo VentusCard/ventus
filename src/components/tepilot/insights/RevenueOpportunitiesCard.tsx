@@ -4,16 +4,14 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Separator } from "@/components/ui/separator";
 import { 
   TrendingUp, MapPin, Users, Target, ArrowRight, 
   DollarSign, Download, Handshake, Calendar, 
   Lightbulb, CalendarClock, Clock, Building2, ChevronRight, Percent, UserCheck, Sparkles,
-  Smartphone, Heart, Plane, UtensilsCrossed, Home, GraduationCap, ExternalLink
+  Smartphone, Heart, Plane, UtensilsCrossed, Home, GraduationCap, ExternalLink, Play
 } from "lucide-react";
 import type { RevenueOpportunity, MerchantPartnershipPitch } from "@/types/bankwide";
 import { CollapsibleCard } from "./CollapsibleCard";
-import { DealActivationPreview } from "./DealActivationPreview";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -441,11 +439,36 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
         })}
       </Accordion>
 
-      {/* Deal Activation Preview Section */}
-      <Separator className="my-6" />
-      <DealActivationPreview 
-        merchantPartnerships={opportunities.flatMap(o => o.merchantPartnerships)} 
-      />
+      {/* Link to Deal Activation Engine */}
+      <div className="mt-6 p-4 bg-gradient-to-r from-violet-500/10 via-violet-500/5 to-transparent border border-violet-500/20 rounded-lg">
+        <div className="flex items-center justify-between">
+          <div className="flex items-start gap-3">
+            <Play className="h-5 w-5 text-violet-500 mt-0.5 shrink-0" />
+            <div>
+              <h4 className="font-semibold text-sm mb-1">Test Deal with Individual Customers</h4>
+              <p className="text-xs text-muted-foreground">
+                See how these partnership deals would render for specific customer profiles in the Revenue Recommendations dashboard.
+              </p>
+            </div>
+          </div>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => {
+              // Store the selected gap context for Deal Activation Engine
+              sessionStorage.setItem("deal_activation_context", JSON.stringify({
+                opportunities: opportunities,
+                source: "bankwide"
+              }));
+              navigate("/tepilot", { state: { activeTab: "insights", insightType: "revenue", scrollToDealActivation: true } });
+            }}
+            className="gap-2 shrink-0"
+          >
+            Open Deal Activation
+            <ArrowRight className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
     </CollapsibleCard>
   );
 }
