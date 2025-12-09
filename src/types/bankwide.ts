@@ -40,6 +40,46 @@ export interface SpendingGap {
   recommendations: string[];
 }
 
+// Unified Revenue Opportunity that combines gaps with merchant-specific timing and win-win pitches
+export interface MerchantPartnershipPitch {
+  merchantName: string;
+  merchantLogo?: string;
+  merchantCategory: string;
+  // What we're asking the merchant to do
+  proposedDeal: string;
+  // Why this is good for the merchant
+  merchantBenefit: string;
+  // Why this is good for the bank
+  bankBenefit: string;
+  // Timing
+  peakQuarter: string;
+  negotiationDeadline: string;
+  deploymentWindow: string;
+  // Metrics
+  estimatedRevenueCapture: number;
+  targetedUserCount: number;
+  projectedConversionRate: number;
+  // Predictability
+  patternConfidence: number;
+  patternReason: string;
+}
+
+export interface RevenueOpportunity {
+  id: string;
+  // Gap info
+  gapTitle: string;
+  gapType: 'pillar' | 'geographic' | 'demographic' | 'cross-sell';
+  currentState: string;
+  potentialState: string;
+  totalOpportunityAmount: number;
+  affectedUsers: number;
+  priority: 'high' | 'medium' | 'low';
+  // Strategic context
+  strategicInsight: string;
+  // Merchant partnerships that can address this gap
+  merchantPartnerships: MerchantPartnershipPitch[];
+}
+
 export interface BankwideFilters {
   cardProducts: string[];
   regions: string[];

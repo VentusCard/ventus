@@ -2,43 +2,20 @@ import { useState } from "react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { 
-  TrendingUp, MapPin, Users, Target, ArrowRight, AlertTriangle, 
-  DollarSign, Download, Handshake, Megaphone, Calendar, 
-  Lightbulb, CalendarClock, Clock
+  TrendingUp, MapPin, Users, Target, ArrowRight, 
+  DollarSign, Download, Handshake, Calendar, 
+  Lightbulb, CalendarClock, Clock, Building2, ChevronRight, Percent, UserCheck, Sparkles
 } from "lucide-react";
-import { AreaChart, Area, XAxis, YAxis, Tooltip as RechartsTooltip, ResponsiveContainer } from "recharts";
-import type { SpendingGap, SpendingTimingHighlight } from "@/types/bankwide";
+import type { RevenueOpportunity, MerchantPartnershipPitch } from "@/types/bankwide";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 interface RevenueOpportunitiesCardProps {
-  gaps: SpendingGap[];
-  timingHighlights: SpendingTimingHighlight[];
-  predictabilityHighlights: SpendingTimingHighlight[];
+  opportunities: RevenueOpportunity[];
 }
-
-// Quarter planning data structure
-interface QuarterPlan {
-  quarter: string;
-  label: string;
-  peakStart: string;
-  peakEnd: string;
-  negotiationDeadline: string;
-  contractDeadline: string;
-  months: string;
-}
-
-// 2026 quarterly planning calendar
-const QUARTERLY_CALENDAR: QuarterPlan[] = [
-  { quarter: 'Q1 2026', label: 'Q1 2026 (Jan-Mar)', peakStart: 'Jan 5', peakEnd: 'Mar 29', negotiationDeadline: 'Oct 15, 2025', contractDeadline: 'Dec 1, 2025', months: 'January-March' },
-  { quarter: 'Q2 2026', label: 'Q2 2026 (Apr-Jun)', peakStart: 'Mar 30', peakEnd: 'Jun 28', negotiationDeadline: 'Jan 15, 2026', contractDeadline: 'Mar 1, 2026', months: 'April-June' },
-  { quarter: 'Q3 2026', label: 'Q3 2026 (Jul-Sep)', peakStart: 'Jun 29', peakEnd: 'Sep 27', negotiationDeadline: 'Apr 15, 2026', contractDeadline: 'Jun 1, 2026', months: 'July-September' },
-  { quarter: 'Q4 2026', label: 'Q4 2026 (Oct-Dec)', peakStart: 'Sep 28', peakEnd: 'Jan 3, 2027', negotiationDeadline: 'Jul 15, 2026', contractDeadline: 'Sep 1, 2026', months: 'October-December' },
-];
 
 const formatCurrency = (value: number): string => {
   if (value >= 1_000_000_000) return `$${(value / 1_000_000_000).toFixed(1)}B`;
@@ -48,57 +25,11 @@ const formatCurrency = (value: number): string => {
 };
 
 const formatUsers = (num: number): string => {
-  if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M users`;
-  return `${num.toLocaleString()} users`;
+  if (num >= 1_000_000) return `${(num / 1_000_000).toFixed(1)}M`;
+  return `${(num / 1_000).toFixed(0)}K`;
 };
 
-const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-
-// Parse peak weeks to determine quarter
-const getQuarterFromPeakWeeks = (peakWeeks: string): string => {
-  const match = peakWeeks.match(/Weeks?\s*(\d+)/);
-  if (!match) return 'Q4 2026';
-  const startWeek = parseInt(match[1]);
-  
-  if (startWeek >= 1 && startWeek <= 13) return 'Q1 2026';
-  if (startWeek >= 14 && startWeek <= 26) return 'Q2 2026';
-  if (startWeek >= 27 && startWeek <= 39) return 'Q3 2026';
-  return 'Q4 2026';
-};
-
-const getQuarterPlan = (quarter: string): QuarterPlan => {
-  return QUARTERLY_CALENDAR.find(q => q.quarter === quarter) || QUARTERLY_CALENDAR[3];
-};
-
-// Get planning horizon message
-const getPlanningHorizon = (quarter: string): { status: 'planning' | 'negotiating' | 'contracting' | 'active'; message: string } => {
-  const plan = getQuarterPlan(quarter);
-  const now = new Date();
-  const negotiationDate = new Date(plan.negotiationDeadline);
-  const contractDate = new Date(plan.contractDeadline);
-  const peakStartDate = new Date(`${plan.peakStart}, 2026`);
-  
-  if (now < negotiationDate) {
-    const weeksUntil = Math.ceil((negotiationDate.getTime() - now.getTime()) / (7 * 24 * 60 * 60 * 1000));
-    return { status: 'planning', message: `Start negotiations by ${plan.negotiationDeadline}` };
-  } else if (now < contractDate) {
-    return { status: 'negotiating', message: `Finalize contracts by ${plan.contractDeadline}` };
-  } else if (now < peakStartDate) {
-    return { status: 'contracting', message: `Prepare for ${quarter} peak deployment` };
-  }
-  return { status: 'active', message: `${quarter} peak active — begin ${QUARTERLY_CALENDAR[(QUARTERLY_CALENDAR.findIndex(q => q.quarter === quarter) + 1) % 4].quarter} planning` };
-};
-
-const getStatusColor = (status: 'planning' | 'negotiating' | 'contracting' | 'active'): string => {
-  switch (status) {
-    case 'planning': return 'text-blue-600 bg-blue-100 border-blue-200 dark:bg-blue-950/50 dark:text-blue-400 dark:border-blue-800';
-    case 'negotiating': return 'text-amber-600 bg-amber-100 border-amber-200 dark:bg-amber-950/50 dark:text-amber-400 dark:border-amber-800';
-    case 'contracting': return 'text-purple-600 bg-purple-100 border-purple-200 dark:bg-purple-950/50 dark:text-purple-400 dark:border-purple-800';
-    case 'active': return 'text-green-600 bg-green-100 border-green-200 dark:bg-green-950/50 dark:text-green-400 dark:border-green-800';
-  }
-};
-
-const getPriorityStyles = (priority: SpendingGap['priority']) => {
+const getPriorityStyles = (priority: 'high' | 'medium' | 'low') => {
   switch (priority) {
     case 'high':
       return {
@@ -121,17 +52,10 @@ const getPriorityStyles = (priority: SpendingGap['priority']) => {
         iconBg: 'bg-slate-50 dark:bg-slate-900/50',
         iconColor: 'text-slate-500 dark:text-slate-400',
       };
-    default:
-      return {
-        bar: 'bg-muted',
-        badge: 'bg-muted text-muted-foreground',
-        iconBg: 'bg-muted',
-        iconColor: 'text-muted-foreground',
-      };
   }
 };
 
-const getGapIcon = (type: SpendingGap['type']) => {
+const getGapIcon = (type: RevenueOpportunity['gapType']) => {
   switch (type) {
     case 'pillar': return TrendingUp;
     case 'geographic': return MapPin;
@@ -141,40 +65,34 @@ const getGapIcon = (type: SpendingGap['type']) => {
   }
 };
 
-// Export for partnerships with quarterly planning data
-const exportForPartnerships = (gaps: SpendingGap[], highlights: SpendingTimingHighlight[]) => {
+const getConfidenceColor = (score: number): string => {
+  if (score >= 90) return 'text-emerald-600 bg-emerald-50 border-emerald-200 dark:bg-emerald-950/30 dark:text-emerald-400 dark:border-emerald-800';
+  if (score >= 80) return 'text-teal-600 bg-teal-50 border-teal-200 dark:bg-teal-950/30 dark:text-teal-400 dark:border-teal-800';
+  if (score >= 70) return 'text-amber-600 bg-amber-50 border-amber-200 dark:bg-amber-950/30 dark:text-amber-400 dark:border-amber-800';
+  return 'text-slate-600 bg-slate-50 border-slate-200 dark:bg-slate-800/50 dark:text-slate-400 dark:border-slate-700';
+};
+
+// Export all opportunities with partnership details
+const exportOpportunities = (opportunities: RevenueOpportunity[]) => {
   const rows: string[] = [
-    'Category,Opportunity Amount,Peak Quarter,Negotiation Deadline,Contract Deadline,Priority,Affected Users,Recommendations'
+    'Gap,Merchant,Category,Proposed Deal,Merchant Benefit,Bank Benefit,Peak Quarter,Negotiation Deadline,Est. Revenue,Target Users,Conversion Rate,Pattern Confidence'
   ];
   
-  gaps.forEach(gap => {
-    const quarter = 'Q1 2026'; // Map gaps to appropriate quarters
-    const plan = getQuarterPlan(quarter);
-    rows.push([
-      `"${gap.title}"`,
-      formatCurrency(gap.opportunityAmount),
-      quarter,
-      plan.negotiationDeadline,
-      plan.contractDeadline,
-      gap.priority,
-      formatUsers(gap.affectedUsers),
-      `"${gap.recommendations[0]}"`
-    ].join(','));
-  });
-
-  highlights.forEach(h => {
-    const quarter = getQuarterFromPeakWeeks(h.peakWeeks);
-    const plan = getQuarterPlan(quarter);
-    h.topMerchants.forEach(m => {
+  opportunities.forEach(opp => {
+    opp.merchantPartnerships.forEach(mp => {
       rows.push([
-        `"${m.name} (${h.subcategory || h.category})"`,
-        formatCurrency(m.spend),
-        quarter,
-        plan.negotiationDeadline,
-        plan.contractDeadline,
-        h.predictabilityScore >= 90 ? 'high' : h.predictabilityScore >= 75 ? 'medium' : 'low',
-        '-',
-        `"${m.dealRecommendation}"`
+        `"${opp.gapTitle}"`,
+        `"${mp.merchantName}"`,
+        `"${mp.merchantCategory}"`,
+        `"${mp.proposedDeal}"`,
+        `"${mp.merchantBenefit}"`,
+        `"${mp.bankBenefit}"`,
+        mp.peakQuarter,
+        mp.negotiationDeadline,
+        formatCurrency(mp.estimatedRevenueCapture),
+        formatUsers(mp.targetedUserCount),
+        `${mp.projectedConversionRate}%`,
+        `${mp.patternConfidence}%`
       ].join(','));
     });
   });
@@ -187,407 +105,275 @@ const exportForPartnerships = (gaps: SpendingGap[], highlights: SpendingTimingHi
   a.download = `revenue-opportunities-${new Date().toISOString().split('T')[0]}.csv`;
   a.click();
   URL.revokeObjectURL(url);
-  toast.success('Revenue opportunities exported with quarterly planning');
+  toast.success('Partnership opportunities exported');
 };
 
-export function RevenueOpportunitiesCard({ gaps, timingHighlights, predictabilityHighlights }: RevenueOpportunitiesCardProps) {
-  const [sortBy, setSortBy] = useState<'amount' | 'predictability'>('amount');
+function MerchantCard({ pitch, gapTitle }: { pitch: MerchantPartnershipPitch; gapTitle: string }) {
+  return (
+    <div className="bg-card border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
+      {/* Header */}
+      <div className="flex items-start justify-between mb-3">
+        <div className="flex items-center gap-3">
+          <div className="p-2 rounded-lg bg-primary/10">
+            <Building2 className="h-5 w-5 text-primary" />
+          </div>
+          <div>
+            <h5 className="font-semibold">{pitch.merchantName}</h5>
+            <p className="text-xs text-muted-foreground">{pitch.merchantCategory}</p>
+          </div>
+        </div>
+        <Badge variant="outline" className={cn("text-xs font-medium", getConfidenceColor(pitch.patternConfidence))}>
+          {pitch.patternConfidence}% confidence
+        </Badge>
+      </div>
+
+      {/* Proposed Deal */}
+      <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg mb-4">
+        <p className="text-sm font-medium text-primary">{pitch.proposedDeal}</p>
+      </div>
+
+      {/* Win-Win Section */}
+      <div className="grid grid-cols-2 gap-3 mb-4">
+        <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 rounded-lg">
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <Handshake className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+            <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 uppercase">For {pitch.merchantName}</span>
+          </div>
+          <p className="text-xs text-emerald-800 dark:text-emerald-200 leading-relaxed">{pitch.merchantBenefit}</p>
+        </div>
+        <div className="p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+          <div className="flex items-center gap-1.5 mb-1.5">
+            <TrendingUp className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+            <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase">For Bank</span>
+          </div>
+          <p className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">{pitch.bankBenefit}</p>
+        </div>
+      </div>
+
+      {/* Metrics Row */}
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        <div className="text-center p-2 bg-muted/50 rounded-lg">
+          <DollarSign className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
+          <p className="text-sm font-bold text-foreground">{formatCurrency(pitch.estimatedRevenueCapture)}</p>
+          <p className="text-[10px] text-muted-foreground">Est. Revenue</p>
+        </div>
+        <div className="text-center p-2 bg-muted/50 rounded-lg">
+          <UserCheck className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
+          <p className="text-sm font-bold text-foreground">{formatUsers(pitch.targetedUserCount)}</p>
+          <p className="text-[10px] text-muted-foreground">Target Users</p>
+        </div>
+        <div className="text-center p-2 bg-muted/50 rounded-lg">
+          <Percent className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
+          <p className="text-sm font-bold text-foreground">{pitch.projectedConversionRate}%</p>
+          <p className="text-[10px] text-muted-foreground">Proj. Conversion</p>
+        </div>
+      </div>
+
+      {/* Timing & Deadlines */}
+      <div className="p-3 bg-muted/30 rounded-lg border border-border/50">
+        <div className="flex items-center gap-2 mb-2">
+          <CalendarClock className="h-4 w-4 text-muted-foreground" />
+          <span className="text-xs font-medium text-muted-foreground uppercase">Partnership Timeline</span>
+        </div>
+        <div className="grid grid-cols-3 gap-2 text-xs">
+          <div>
+            <p className="text-muted-foreground">Negotiate by</p>
+            <p className="font-semibold text-amber-600 dark:text-amber-400">{pitch.negotiationDeadline}</p>
+          </div>
+          <div>
+            <p className="text-muted-foreground">Deploy</p>
+            <p className="font-semibold text-primary">{pitch.deploymentWindow.split(' - ')[0]}</p>
+          </div>
+          <div>
+            <p className="text-muted-foreground">Peak Quarter</p>
+            <p className="font-semibold">{pitch.peakQuarter}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Pattern Reason */}
+      <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
+        <Lightbulb className="h-3.5 w-3.5 mt-0.5 shrink-0 text-amber-500" />
+        <p>{pitch.patternReason}</p>
+      </div>
+    </div>
+  );
+}
+
+export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunitiesCardProps) {
   const [quarterFilter, setQuarterFilter] = useState<string>('all');
   
-  const activeHighlights = sortBy === 'amount' ? timingHighlights : predictabilityHighlights;
-  
-  // Filter highlights by quarter
-  const filteredHighlights = quarterFilter === 'all' 
-    ? activeHighlights 
-    : activeHighlights.filter(h => getQuarterFromPeakWeeks(h.peakWeeks) === quarterFilter);
+  // Filter opportunities by quarter based on merchant partnerships
+  const filteredOpportunities = quarterFilter === 'all' 
+    ? opportunities 
+    : opportunities.map(opp => ({
+        ...opp,
+        merchantPartnerships: opp.merchantPartnerships.filter(mp => mp.peakQuarter === quarterFilter)
+      })).filter(opp => opp.merchantPartnerships.length > 0);
 
   // Calculate totals
-  const totalGapOpportunity = gaps.reduce((sum, g) => sum + g.opportunityAmount, 0);
-  const totalTimingOpportunity = activeHighlights.reduce((sum, h) => sum + h.totalAnnualSpend, 0);
-  const totalOpportunity = totalGapOpportunity + totalTimingOpportunity;
-  const totalAffectedUsers = gaps.reduce((sum, g) => sum + g.affectedUsers, 0);
-  const topGap = [...gaps].sort((a, b) => b.opportunityAmount - a.opportunityAmount)[0];
-  const maxOpportunity = Math.max(...gaps.map(g => g.opportunityAmount));
+  const totalOpportunity = opportunities.reduce((sum, o) => sum + o.totalOpportunityAmount, 0);
+  const totalMerchants = opportunities.reduce((sum, o) => sum + o.merchantPartnerships.length, 0);
+  const maxOpportunity = Math.max(...opportunities.map(o => o.totalOpportunityAmount));
+
+  // Get all unique quarters
+  const quarters = ['Q1 2026', 'Q2 2026', 'Q3 2026', 'Q4 2026'];
 
   const previewContent = (
     <div className="text-sm">
       <span className="text-primary font-medium">{formatCurrency(totalOpportunity)}</span>
-      <span className="text-muted-foreground"> total opportunity across </span>
-      <span className="text-foreground font-medium">{gaps.length} gaps</span>
-      <span className="text-muted-foreground"> and </span>
-      <span className="text-foreground font-medium">{activeHighlights.length} seasonal patterns</span>
-      <span className="text-muted-foreground">. Plan partnerships 1-2 quarters ahead.</span>
+      <span className="text-muted-foreground"> total opportunity with </span>
+      <span className="text-foreground font-medium">{totalMerchants} merchant partnership pitches</span>
+      <span className="text-muted-foreground"> ready for negotiation.</span>
     </div>
   );
 
   const headerRight = (
     <div className="flex items-center gap-3" onClick={e => e.stopPropagation()}>
       {/* Quarter Filter */}
-      <TooltipProvider>
-        <select
-          value={quarterFilter}
-          onChange={(e) => setQuarterFilter(e.target.value)}
-          className="text-sm border rounded-md px-2 py-1.5 bg-background"
-        >
-          <option value="all">All Quarters</option>
-          {QUARTERLY_CALENDAR.map(q => (
-            <option key={q.quarter} value={q.quarter}>{q.label}</option>
-          ))}
-        </select>
-      </TooltipProvider>
+      <select
+        value={quarterFilter}
+        onChange={(e) => setQuarterFilter(e.target.value)}
+        className="text-sm border rounded-md px-2 py-1.5 bg-background"
+      >
+        <option value="all">All Quarters</option>
+        {quarters.map(q => (
+          <option key={q} value={q}>{q}</option>
+        ))}
+      </select>
 
-      {/* Volume vs Confidence Toggle */}
-      <TooltipProvider>
-        <ToggleGroup 
-          type="single" 
-          value={sortBy} 
-          onValueChange={(val) => val && setSortBy(val as 'amount' | 'predictability')}
-          className="flex gap-2"
-        >
-          <UITooltip>
-            <TooltipTrigger asChild>
-              <ToggleGroupItem 
-                value="amount" 
-                className="gap-2 px-4 py-2 rounded-full border-2 font-medium transition-all data-[state=on]:bg-emerald-600 data-[state=on]:border-emerald-600 data-[state=on]:text-white data-[state=on]:shadow-lg data-[state=off]:border-emerald-300 data-[state=off]:bg-emerald-50 data-[state=off]:text-emerald-700 data-[state=off]:hover:bg-emerald-100 data-[state=off]:hover:border-emerald-400 dark:data-[state=off]:border-emerald-700 dark:data-[state=off]:bg-emerald-950/50 dark:data-[state=off]:text-emerald-400 dark:data-[state=off]:hover:bg-emerald-900"
-              >
-                <DollarSign className="h-4 w-4" />
-                <span className="hidden sm:inline">Volume-First</span>
-              </ToggleGroupItem>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-xs">
-              <p className="font-medium">Sort by total annual spend ($)</p>
-              <p className="text-xs text-muted-foreground mt-1">Best for Partnerships team identifying high-volume merchants</p>
-            </TooltipContent>
-          </UITooltip>
-          <UITooltip>
-            <TooltipTrigger asChild>
-              <ToggleGroupItem 
-                value="predictability" 
-                className="gap-2 px-4 py-2 rounded-full border-2 font-medium transition-all data-[state=on]:bg-purple-600 data-[state=on]:border-purple-600 data-[state=on]:text-white data-[state=on]:shadow-lg data-[state=off]:border-purple-300 data-[state=off]:bg-purple-50 data-[state=off]:text-purple-700 data-[state=off]:hover:bg-purple-100 data-[state=off]:hover:border-purple-400 dark:data-[state=off]:border-purple-700 dark:data-[state=off]:bg-purple-950/50 dark:data-[state=off]:text-purple-400 dark:data-[state=off]:hover:bg-purple-900"
-              >
-                <Target className="h-4 w-4" />
-                <span className="hidden sm:inline">Confidence-First</span>
-              </ToggleGroupItem>
-            </TooltipTrigger>
-            <TooltipContent side="bottom" className="max-w-xs">
-              <p className="font-medium">Sort by pattern reliability (%)</p>
-              <p className="text-xs text-muted-foreground mt-1">Best for Marketing team timing campaigns</p>
-            </TooltipContent>
-          </UITooltip>
-        </ToggleGroup>
-      </TooltipProvider>
+      <Button 
+        variant="outline" 
+        size="sm" 
+        onClick={() => exportOpportunities(opportunities)}
+        className="gap-2"
+      >
+        <Download className="h-4 w-4" />
+        <span className="hidden sm:inline">Export All</span>
+      </Button>
     </div>
   );
 
   return (
     <CollapsibleCard
-      title="Revenue Opportunities & Optimal Timing"
-      description="Untapped revenue potential with quarterly deployment planning"
-      icon={<AlertTriangle className="h-5 w-5 text-primary" />}
+      title="Revenue Opportunities & Partner Insights"
+      description="Actionable partnership pitches that address spending gaps with win-win merchant deals"
+      icon={<Sparkles className="h-5 w-5 text-primary" />}
       headerRight={headerRight}
       previewContent={previewContent}
     >
-      {/* Quarterly Planning Context */}
+      {/* Intro Context */}
       <div className="mb-6 p-4 bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-border/50 rounded-lg">
-        <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="flex items-start gap-3">
+          <Lightbulb className="h-5 w-5 text-primary mt-0.5 shrink-0" />
           <div>
-            <h4 className="font-semibold text-sm flex items-center gap-2">
-              <CalendarClock className="h-4 w-4 text-primary" />
-              2026 Partnership Planning Calendar
-            </h4>
-            <p className="text-xs text-muted-foreground mt-1">
-              Start negotiations 8-12 weeks before peak • Finalize contracts 4 weeks before deployment
+            <h4 className="font-semibold text-sm mb-1">How to Use These Insights</h4>
+            <p className="text-xs text-muted-foreground leading-relaxed">
+              Each spending gap is paired with specific merchant partnership pitches. For each merchant, you'll see: 
+              <span className="text-emerald-600 dark:text-emerald-400 font-medium"> why it benefits them</span> (their value prop) and 
+              <span className="text-blue-600 dark:text-blue-400 font-medium"> why it benefits the bank</span> (our value prop). 
+              Negotiation deadlines are set 8-12 weeks before peak spending windows to ensure deals are live when customers are ready to spend.
             </p>
           </div>
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => exportForPartnerships(gaps, activeHighlights)}
-            className="gap-2 border-primary/30 text-primary hover:bg-primary/10"
-          >
-            <Download className="h-4 w-4" />
-            Export with Deadlines
-          </Button>
-        </div>
-        
-        {/* Quarterly Timeline */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 mt-4">
-          {QUARTERLY_CALENDAR.map(q => {
-            const horizon = getPlanningHorizon(q.quarter);
-            const isFiltered = quarterFilter === q.quarter;
-            return (
-              <button
-                key={q.quarter}
-                onClick={() => setQuarterFilter(isFiltered ? 'all' : q.quarter)}
-                className={cn(
-                  "p-3 rounded-lg border text-left transition-all",
-                  isFiltered 
-                    ? "border-primary bg-primary/10 shadow-sm" 
-                    : "border-border/50 hover:border-primary/50 hover:bg-muted/50"
-                )}
-              >
-                <div className="font-medium text-sm">{q.quarter}</div>
-                <div className="text-xs text-muted-foreground">{q.months}</div>
-                <Badge variant="outline" className={cn("mt-2 text-xs", getStatusColor(horizon.status))}>
-                  {horizon.status === 'planning' && <Clock className="h-3 w-3 mr-1" />}
-                  {horizon.message.split(' ').slice(0, 3).join(' ')}
-                </Badge>
-              </button>
-            );
-          })}
         </div>
       </div>
 
-      {/* Spending Gaps Section */}
-      <div className="mb-6">
-        <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4 text-rose-400" />
-          Spending Gaps — Untapped Revenue ({formatCurrency(totalGapOpportunity)})
-        </h4>
-        <div className="space-y-2">
-          {gaps.slice(0, 5).map((gap, index) => {
-            const Icon = getGapIcon(gap.type);
-            const styles = getPriorityStyles(gap.priority);
-            const barWidth = (gap.opportunityAmount / maxOpportunity) * 100;
-            
-            return (
-              <Accordion key={index} type="single" collapsible>
-                <AccordionItem value={`gap-${index}`} className="border rounded-lg">
-                  <AccordionTrigger className="hover:no-underline px-4 py-3">
-                    <div className="flex items-center gap-4 w-full pr-4">
-                      <div className={cn("p-2 rounded-lg shrink-0", styles.iconBg)}>
-                        <Icon className={cn("h-4 w-4", styles.iconColor)} />
-                      </div>
+      {/* Opportunities Accordion */}
+      <Accordion type="multiple" className="space-y-3">
+        {filteredOpportunities.map((opportunity) => {
+          const Icon = getGapIcon(opportunity.gapType);
+          const styles = getPriorityStyles(opportunity.priority);
+          const barWidth = (opportunity.totalOpportunityAmount / maxOpportunity) * 100;
+          
+          return (
+            <AccordionItem 
+              key={opportunity.id} 
+              value={opportunity.id}
+              className="border rounded-xl overflow-hidden"
+            >
+              <AccordionTrigger className="hover:no-underline px-4 py-4 bg-muted/20">
+                <div className="flex items-center gap-4 w-full pr-4">
+                  <div className={cn("p-2.5 rounded-lg shrink-0", styles.iconBg)}>
+                    <Icon className={cn("h-5 w-5", styles.iconColor)} />
+                  </div>
 
-                      <div className="flex-1 min-w-0">
-                        <div className="flex items-center gap-2 mb-1">
-                          <span className="font-medium text-sm truncate">{gap.title}</span>
-                          <Badge variant="outline" className={cn("text-xs shrink-0", styles.badge)}>
-                            {gap.priority}
-                          </Badge>
-                        </div>
-                        
-                        <div className="flex items-center gap-3">
-                          <div className="flex-1 h-1.5 bg-muted rounded-full overflow-hidden">
-                            <div className={cn("h-full rounded-full", styles.bar)} style={{ width: `${barWidth}%` }} />
-                          </div>
-                          <span className="text-sm font-semibold text-primary shrink-0">
-                            {formatCurrency(gap.opportunityAmount)}
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </AccordionTrigger>
-                  <AccordionContent className="px-4 pb-4">
-                    <div className="space-y-3 pt-2">
-                      {/* Current → Potential */}
-                      <div className="flex items-stretch gap-3 p-3 bg-muted/30 rounded-lg">
-                        <div className="flex-1 p-2 bg-red-500/5 rounded-lg border border-red-500/20">
-                          <div className="text-xs font-medium text-red-600 dark:text-red-400 mb-1">Current</div>
-                          <div className="text-sm">{gap.currentState}</div>
-                        </div>
-                        <div className="flex items-center">
-                          <ArrowRight className="h-4 w-4 text-muted-foreground" />
-                        </div>
-                        <div className="flex-1 p-2 bg-green-500/5 rounded-lg border border-green-500/20">
-                          <div className="text-xs font-medium text-green-600 dark:text-green-400 mb-1">Potential</div>
-                          <div className="text-sm">{gap.potentialState}</div>
-                        </div>
-                      </div>
-
-                      {/* Quick stats + Quick wins */}
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <span>{formatUsers(gap.affectedUsers)}</span>
-                        <span>•</span>
-                        <span>{gap.recommendations[0]}</span>
-                      </div>
-                    </div>
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Seasonal Timing Section */}
-      <div>
-        <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-primary" />
-          Seasonal Patterns — {sortBy === 'amount' ? 'By Volume' : 'By Predictability'}
-          {quarterFilter !== 'all' && <Badge variant="outline" className="ml-2">{quarterFilter}</Badge>}
-        </h4>
-        
-        <Accordion type="multiple" className="space-y-2">
-          {filteredHighlights.map((highlight, index) => {
-            const quarter = getQuarterFromPeakWeeks(highlight.peakWeeks);
-            const plan = getQuarterPlan(quarter);
-            const horizon = getPlanningHorizon(quarter);
-            
-            return (
-              <AccordionItem
-                key={`${highlight.category}-${highlight.subcategory || index}`}
-                value={`timing-${index}`}
-                className="border rounded-lg"
-              >
-                <AccordionTrigger className="hover:no-underline px-4 py-3">
-                  <div className="flex flex-col gap-2 w-full pr-4">
-                    {/* Row 1: Category and timing */}
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <div className="w-3 h-3 rounded-full shrink-0" style={{ backgroundColor: highlight.color }} />
-                        <div className="text-left">
-                          <span className="font-medium text-sm">
-                            {highlight.subcategory || highlight.category}
-                          </span>
-                          {highlight.subcategory && (
-                            <span className="text-xs text-muted-foreground ml-2">({highlight.category})</span>
-                          )}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="font-medium text-primary bg-primary/10 border-primary/30">
-                          {quarter} Peak
-                        </Badge>
-                        {sortBy === 'predictability' && (
-                          <Badge variant="outline" className={cn(
-                            "font-semibold",
-                            highlight.predictabilityScore >= 90 ? 'text-green-600 bg-green-100 border-green-200' :
-                            highlight.predictabilityScore >= 80 ? 'text-amber-600 bg-amber-100 border-amber-200' :
-                            'text-muted-foreground bg-muted border-border'
-                          )}>
-                            {highlight.predictabilityScore}%
-                          </Badge>
-                        )}
-                      </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <span className="font-semibold text-base truncate">{opportunity.gapTitle}</span>
+                      <Badge variant="outline" className={cn("text-xs shrink-0", styles.badge)}>
+                        {opportunity.priority}
+                      </Badge>
+                      <Badge variant="outline" className="text-xs shrink-0 bg-primary/10 text-primary border-primary/30">
+                        {opportunity.merchantPartnerships.length} partners
+                      </Badge>
                     </div>
                     
-                    {/* Row 2: Planning horizon */}
-                    <div className="text-left text-sm text-muted-foreground pl-6 flex items-center gap-2">
-                      <span className="font-bold text-foreground">{formatCurrency(highlight.totalAnnualSpend)}</span>
-                      <span>•</span>
-                      <span className={cn("font-medium", getStatusColor(horizon.status).split(' ')[0])}>
-                        {horizon.message}
+                    <div className="flex items-center gap-3">
+                      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
+                        <div className={cn("h-full rounded-full", styles.bar)} style={{ width: `${barWidth}%` }} />
+                      </div>
+                      <span className="text-base font-bold text-primary shrink-0">
+                        {formatCurrency(opportunity.totalOpportunityAmount)}
                       </span>
                     </div>
+
+                    <p className="text-xs text-muted-foreground mt-1.5 truncate">
+                      {formatUsers(opportunity.affectedUsers)} users • {opportunity.strategicInsight.slice(0, 80)}...
+                    </p>
                   </div>
-                </AccordionTrigger>
-                
-                <AccordionContent className="px-4 pb-4">
-                  <div className="space-y-4 pt-2">
-                    {/* Planning Timeline */}
-                    <div className="p-3 bg-muted/30 rounded-lg border border-border/50">
-                      <div className="grid grid-cols-3 gap-4 text-center">
-                        <div>
-                          <div className="text-xs text-muted-foreground mb-1">Negotiation Deadline</div>
-                          <div className="font-semibold text-amber-600 dark:text-amber-400">{plan.negotiationDeadline}</div>
-                        </div>
-                        <div>
-                          <div className="text-xs text-muted-foreground mb-1">Contract Deadline</div>
-                          <div className="font-semibold text-purple-600 dark:text-purple-400">{plan.contractDeadline}</div>
-                        </div>
-                        <div>
-                          <div className="text-xs text-muted-foreground mb-1">Peak Period</div>
-                          <div className="font-semibold text-primary">{plan.peakStart} - {plan.peakEnd}</div>
-                        </div>
-                      </div>
+                </div>
+              </AccordionTrigger>
+              
+              <AccordionContent className="px-4 pb-4">
+                <div className="space-y-4 pt-2">
+                  {/* Gap Context */}
+                  <div className="flex items-stretch gap-3 p-3 bg-muted/30 rounded-lg">
+                    <div className="flex-1 p-3 bg-rose-50 dark:bg-rose-950/20 rounded-lg border border-rose-200 dark:border-rose-800">
+                      <div className="text-xs font-medium text-rose-600 dark:text-rose-400 mb-1">Current State</div>
+                      <div className="text-sm text-rose-800 dark:text-rose-200">{opportunity.currentState}</div>
                     </div>
-
-                    {/* Why This Matters */}
-                    <div className={cn(
-                      "p-3 rounded-lg border-l-4",
-                      sortBy === 'amount' 
-                        ? 'bg-emerald-50 dark:bg-emerald-950/20 border-emerald-500' 
-                        : 'bg-purple-50 dark:bg-purple-950/20 border-purple-500'
-                    )}>
-                      <div className="flex items-start gap-2">
-                        <Lightbulb className={cn("h-4 w-4 mt-0.5 shrink-0", sortBy === 'amount' ? 'text-emerald-600' : 'text-purple-600')} />
-                        <p className={cn("text-sm", sortBy === 'amount' ? 'text-emerald-700 dark:text-emerald-300' : 'text-purple-700 dark:text-purple-300')}>
-                          <span className="font-medium">Why This Matters: </span>
-                          {highlight.predictabilityReason}
-                        </p>
-                      </div>
+                    <div className="flex items-center">
+                      <ArrowRight className="h-5 w-5 text-muted-foreground" />
                     </div>
-
-                    {/* 52-Week Chart */}
-                    <div className="h-36 w-full">
-                      <ResponsiveContainer width="100%" height="100%">
-                        <AreaChart data={highlight.weeklySpendData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                          <defs>
-                            <linearGradient id={`gradient-${index}`} x1="0" y1="0" x2="0" y2="1">
-                              <stop offset="5%" stopColor={highlight.color} stopOpacity={0.4} />
-                              <stop offset="95%" stopColor={highlight.color} stopOpacity={0.05} />
-                            </linearGradient>
-                          </defs>
-                          <XAxis
-                            dataKey="week"
-                            tick={{ fontSize: 10 }}
-                            tickFormatter={(week) => {
-                              const monthWeeks = [1, 5, 9, 14, 18, 22, 27, 31, 35, 40, 44, 48];
-                              const monthIndex = monthWeeks.indexOf(week);
-                              if (monthIndex !== -1) return MONTH_LABELS[monthIndex];
-                              return '';
-                            }}
-                            axisLine={false}
-                            tickLine={false}
-                          />
-                          <YAxis
-                            tick={{ fontSize: 10 }}
-                            tickFormatter={(value) => formatCurrency(value)}
-                            axisLine={false}
-                            tickLine={false}
-                            width={50}
-                          />
-                          <RechartsTooltip
-                            content={({ active, payload }) => {
-                              if (active && payload && payload.length) {
-                                const data = payload[0].payload;
-                                return (
-                                  <div className="bg-popover border rounded-lg shadow-lg p-2">
-                                    <p className="font-medium text-sm">Week {data.week}</p>
-                                    <p className="text-xs text-muted-foreground">{formatCurrency(data.spend)}</p>
-                                  </div>
-                                );
-                              }
-                              return null;
-                            }}
-                          />
-                          <Area
-                            type="monotone"
-                            dataKey="spend"
-                            stroke={highlight.color}
-                            strokeWidth={2}
-                            fill={`url(#gradient-${index})`}
-                          />
-                        </AreaChart>
-                      </ResponsiveContainer>
+                    <div className="flex-1 p-3 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
+                      <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 mb-1">Target State</div>
+                      <div className="text-sm text-emerald-800 dark:text-emerald-200">{opportunity.potentialState}</div>
                     </div>
+                  </div>
 
-                    {/* Top Merchants with Planning Deadlines */}
-                    <div className="space-y-2">
-                      <p className="text-sm font-medium text-muted-foreground">Partner Merchants — {quarter} Deployment</p>
-                      {highlight.topMerchants.map((merchant) => (
-                        <div key={merchant.name} className="bg-muted/30 border border-border/50 rounded-lg p-3">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="font-semibold text-sm">{merchant.name}</span>
-                            <span className="font-bold text-sm" style={{ color: highlight.color }}>
-                              {formatCurrency(merchant.spend)}
-                            </span>
-                          </div>
-                          <div className="flex items-start gap-2">
-                            <Handshake className="h-4 w-4 text-muted-foreground mt-0.5 shrink-0" />
-                            <p className="text-xs text-muted-foreground">{merchant.dealRecommendation}</p>
-                          </div>
-                        </div>
+                  {/* Strategic Insight */}
+                  <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-400 rounded-r-lg">
+                    <div className="flex items-start gap-2">
+                      <Lightbulb className="h-4 w-4 mt-0.5 text-amber-600 dark:text-amber-400 shrink-0" />
+                      <p className="text-sm text-amber-800 dark:text-amber-200">
+                        <span className="font-semibold">Strategic Insight: </span>
+                        {opportunity.strategicInsight}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Merchant Partnership Cards */}
+                  <div>
+                    <h5 className="font-semibold text-sm mb-3 flex items-center gap-2">
+                      <Handshake className="h-4 w-4 text-primary" />
+                      Partnership Opportunities to Address This Gap
+                    </h5>
+                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                      {opportunity.merchantPartnerships.map((pitch) => (
+                        <MerchantCard 
+                          key={pitch.merchantName} 
+                          pitch={pitch} 
+                          gapTitle={opportunity.gapTitle} 
+                        />
                       ))}
                     </div>
                   </div>
-                </AccordionContent>
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
-      </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
+          );
+        })}
+      </Accordion>
     </CollapsibleCard>
   );
 }
