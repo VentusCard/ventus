@@ -32,12 +32,18 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
   
   const activeHighlights = sortBy === 'amount' ? highlights : predictabilityHighlights;
 
-  const totalAnnual = activeHighlights.reduce((sum, h) => sum + h.totalAnnualSpend, 0);
+  // Calculate insights for preview
+  const topByGrowth = [...activeHighlights].sort((a, b) => b.yoyGrowth - a.yoyGrowth)[0];
+  const mostPredictable = [...activeHighlights].sort((a, b) => b.predictabilityScore - a.predictabilityScore)[0];
+  
   const previewContent = (
-    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-      <span>{activeHighlights.length} categories</span>
-      <span className="text-muted-foreground/50">•</span>
-      <span>{formatCurrency(totalAnnual)} annual spend tracked</span>
+    <div className="text-sm">
+      <span className="text-foreground font-medium">{topByGrowth?.subcategory || topByGrowth?.category}</span>
+      <span className="text-muted-foreground"> growing fastest at </span>
+      <span className="text-green-600 dark:text-green-400 font-medium">+{topByGrowth?.yoyGrowth}% YoY</span>
+      <span className="text-muted-foreground">. </span>
+      <span className="text-foreground font-medium">{mostPredictable?.subcategory || mostPredictable?.category}</span>
+      <span className="text-muted-foreground"> most predictable ({mostPredictable?.predictabilityScore}%) — ideal for targeted campaigns.</span>
     </div>
   );
 

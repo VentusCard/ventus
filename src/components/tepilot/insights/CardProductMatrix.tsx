@@ -58,13 +58,21 @@ export function CardProductMatrix({ products }: CardProductMatrixProps) {
     return `$${num.toLocaleString()}`;
   };
 
-  const totalAccounts = products.reduce((sum, p) => sum + p.accountCount, 0);
+  // Calculate insights for preview
+  const topProduct = [...products].sort((a, b) => b.avgSpendPerAccount - a.avgSpendPerAccount)[0];
+  const lowestPenetration = [...products].sort((a, b) => a.penetrationRate - b.penetrationRate)[0];
+  const avgPenetration = products.reduce((sum, p) => sum + p.penetrationRate, 0) / products.length;
 
   const previewContent = (
-    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-      <span>{products.length} products</span>
-      <span className="text-muted-foreground/50">•</span>
-      <span>{formatNumber(totalAccounts)} total accounts</span>
+    <div className="text-sm">
+      <span className="text-foreground font-medium">{topProduct?.name}</span>
+      <span className="text-muted-foreground"> leads with </span>
+      <span className="text-primary font-medium">{formatCurrency(topProduct?.avgSpendPerAccount || 0)}/account</span>
+      <span className="text-muted-foreground">. </span>
+      <span className="text-amber-600 dark:text-amber-400 font-medium">{lowestPenetration?.name}</span>
+      <span className="text-muted-foreground"> has lowest penetration at </span>
+      <span className="text-amber-600 dark:text-amber-400 font-medium">{lowestPenetration?.penetrationRate.toFixed(1)}%</span>
+      <span className="text-muted-foreground"> — growth opportunity.</span>
     </div>
   );
 

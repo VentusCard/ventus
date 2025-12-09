@@ -94,16 +94,19 @@ export function SpendingGapsAnalysis({ gaps }: SpendingGapsAnalysisProps) {
   // Group gaps by priority for summary
   const highPriorityGaps = gaps.filter(g => g.priority === 'high');
   const totalOpportunity = gaps.reduce((sum, g) => sum + g.opportunityAmount, 0);
+  const topGap = [...gaps].sort((a, b) => b.opportunityAmount - a.opportunityAmount)[0];
+  const totalAffectedUsers = gaps.reduce((sum, g) => sum + g.affectedUsers, 0);
 
   const previewContent = (
-    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-      <span className="font-medium text-primary">{formatCurrency(totalOpportunity)}</span>
-      <span className="text-muted-foreground/50">•</span>
-      <Badge variant="outline" className="bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30">
-        {highPriorityGaps.length} High Priority
-      </Badge>
-      <span className="text-muted-foreground/50">•</span>
-      <span>{gaps.length} total gaps</span>
+    <div className="text-sm">
+      <span className="text-primary font-medium">{formatCurrency(totalOpportunity)}</span>
+      <span className="text-muted-foreground"> untapped across </span>
+      <span className="text-foreground font-medium">{formatUsers(totalAffectedUsers)}</span>
+      <span className="text-muted-foreground">. Biggest gap: </span>
+      <span className="text-foreground font-medium">{topGap?.title}</span>
+      <span className="text-muted-foreground"> — </span>
+      <span className="text-red-600 dark:text-red-400 font-medium">{formatCurrency(topGap?.opportunityAmount || 0)}</span>
+      <span className="text-muted-foreground"> opportunity.</span>
     </div>
   );
 

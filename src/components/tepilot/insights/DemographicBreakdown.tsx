@@ -42,13 +42,22 @@ export function DemographicBreakdown({ ageRanges }: DemographicBreakdownProps) {
     return null;
   };
 
-  // Preview: quick summary
-  const totalSpend = chartData.reduce((sum, d) => sum + d.totalSpend, 0);
+  // Calculate insights for preview
+  const sortedBySpend = [...chartData].sort((a, b) => b.totalSpend - a.totalSpend);
+  const topGroup = sortedBySpend[0];
+  const topGroupOriginal = ageRanges.find(a => chartData.find(c => c.name.includes(a.range))?.name === topGroup?.name);
+  const highestAvgSpend = [...ageRanges].sort((a, b) => b.avgSpendPerAccount - a.avgSpendPerAccount)[0];
+  
   const previewContent = (
-    <div className="flex items-center gap-4 text-sm text-muted-foreground">
-      <span>{ageRanges.length} age groups</span>
-      <span className="text-muted-foreground/50">•</span>
-      <span>{formatBillions(totalSpend)} total spend</span>
+    <div className="text-sm">
+      <span className="text-foreground font-medium">{topGroup?.name.split('\n')[0]}</span>
+      <span className="text-muted-foreground"> drives </span>
+      <span className="text-primary font-medium">{formatBillions(topGroup?.totalSpend || 0)}</span>
+      <span className="text-muted-foreground"> in spend. </span>
+      <span className="text-foreground font-medium">{highestAvgSpend?.range}</span>
+      <span className="text-muted-foreground"> has highest per-account spend at </span>
+      <span className="text-primary font-medium">${highestAvgSpend?.avgSpendPerAccount.toLocaleString()}</span>
+      <span className="text-muted-foreground">.</span>
     </div>
   );
 

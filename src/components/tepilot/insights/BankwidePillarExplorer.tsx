@@ -60,7 +60,10 @@ export function BankwidePillarExplorer({ filters }: BankwidePillarExplorerProps)
   const selectedPillarData = pillarDetails.find(p => p.pillarName === selectedPillar);
 
   const totalSpend = pillarDetails.reduce((sum, p) => sum + p.totalSpend, 0);
-  const top3 = [...pillarDetails].sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 3);
+  const sortedPillars = [...pillarDetails].sort((a, b) => b.totalSpend - a.totalSpend);
+  const top1 = sortedPillars[0];
+  const top3Combined = sortedPillars.slice(0, 3).reduce((sum, p) => sum + p.percentageOfTotal, 0);
+  const lowestPillar = sortedPillars[sortedPillars.length - 1];
 
   // Chart data for bar chart view
   const chartData = pillarDetails
@@ -86,17 +89,15 @@ export function BankwidePillarExplorer({ filters }: BankwidePillarExplorerProps)
   };
 
   const previewContent = (
-    <div className="flex items-center gap-4">
-      {top3.map((pillar) => (
-        <div key={pillar.pillarName} className="flex items-center gap-2">
-          <div
-            className="w-3 h-3 rounded-full"
-            style={{ backgroundColor: pillar.color }}
-          />
-          <span className="text-sm truncate max-w-24">{pillar.pillarName}</span>
-          <span className="text-sm font-medium">{formatCurrency(pillar.totalSpend)}</span>
-        </div>
-      ))}
+    <div className="text-sm">
+      <span className="text-foreground font-medium" style={{ color: top1?.color }}>{top1?.pillarName}</span>
+      <span className="text-muted-foreground"> leads at </span>
+      <span className="text-primary font-medium">{top1?.percentageOfTotal.toFixed(1)}%</span>
+      <span className="text-muted-foreground"> of spend. Top 3 pillars = </span>
+      <span className="text-foreground font-medium">{top3Combined.toFixed(0)}%</span>
+      <span className="text-muted-foreground"> of total. </span>
+      <span className="text-amber-600 dark:text-amber-400 font-medium">{lowestPillar?.pillarName}</span>
+      <span className="text-muted-foreground"> underperforms — expansion opportunity.</span>
     </div>
   );
 
