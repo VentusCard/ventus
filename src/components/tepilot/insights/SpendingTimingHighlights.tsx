@@ -205,14 +205,14 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
         type="single" 
         value={sortBy} 
         onValueChange={(val) => val && setSortBy(val as 'amount' | 'predictability')}
-        className="border-2 border-primary/30 rounded-lg p-1.5 bg-muted/50 shadow-sm"
+        className="flex gap-2"
         onClick={(e) => e.stopPropagation()}
       >
         <UITooltip>
           <TooltipTrigger asChild>
             <ToggleGroupItem 
               value="amount" 
-              className="gap-2 px-4 py-2 font-medium transition-all data-[state=on]:bg-emerald-600 data-[state=on]:text-white data-[state=on]:shadow-md data-[state=off]:hover:bg-emerald-100 data-[state=off]:text-emerald-700 dark:data-[state=off]:hover:bg-emerald-950 dark:data-[state=off]:text-emerald-400"
+              className="gap-2 px-4 py-2 rounded-full border-2 font-medium transition-all data-[state=on]:bg-emerald-600 data-[state=on]:border-emerald-600 data-[state=on]:text-white data-[state=on]:shadow-lg data-[state=off]:border-emerald-300 data-[state=off]:bg-emerald-50 data-[state=off]:text-emerald-700 data-[state=off]:hover:bg-emerald-100 data-[state=off]:hover:border-emerald-400 dark:data-[state=off]:border-emerald-700 dark:data-[state=off]:bg-emerald-950/50 dark:data-[state=off]:text-emerald-400 dark:data-[state=off]:hover:bg-emerald-900"
             >
               <DollarSign className="h-4 w-4" />
               <span className="hidden sm:inline">Volume-First</span>
@@ -227,7 +227,7 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
           <TooltipTrigger asChild>
             <ToggleGroupItem 
               value="predictability" 
-              className="gap-2 px-4 py-2 font-medium transition-all data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:shadow-md data-[state=off]:hover:bg-purple-100 data-[state=off]:text-purple-700 dark:data-[state=off]:hover:bg-purple-950 dark:data-[state=off]:text-purple-400"
+              className="gap-2 px-4 py-2 rounded-full border-2 font-medium transition-all data-[state=on]:bg-purple-600 data-[state=on]:border-purple-600 data-[state=on]:text-white data-[state=on]:shadow-lg data-[state=off]:border-purple-300 data-[state=off]:bg-purple-50 data-[state=off]:text-purple-700 data-[state=off]:hover:bg-purple-100 data-[state=off]:hover:border-purple-400 dark:data-[state=off]:border-purple-700 dark:data-[state=off]:bg-purple-950/50 dark:data-[state=off]:text-purple-400 dark:data-[state=off]:hover:bg-purple-900"
             >
               <Target className="h-4 w-4" />
               <span className="hidden sm:inline">Confidence-First</span>
