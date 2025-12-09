@@ -33,24 +33,15 @@ const getPriorityStyles = (priority: 'high' | 'medium' | 'low') => {
   switch (priority) {
     case 'high':
       return {
-        bar: 'bg-rose-400/80',
         badge: 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-300 border-rose-200 dark:border-rose-800',
-        iconBg: 'bg-rose-50 dark:bg-rose-950/30',
-        iconColor: 'text-rose-500 dark:text-rose-400',
       };
     case 'medium':
       return {
-        bar: 'bg-amber-400/70',
         badge: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300 border-amber-200 dark:border-amber-800',
-        iconBg: 'bg-amber-50 dark:bg-amber-950/30',
-        iconColor: 'text-amber-500 dark:text-amber-400',
       };
     case 'low':
       return {
-        bar: 'bg-slate-400/60',
-        badge: 'bg-slate-50 text-slate-600 dark:bg-slate-950/30 dark:text-slate-300 border-slate-200 dark:border-slate-700',
-        iconBg: 'bg-slate-50 dark:bg-slate-900/50',
-        iconColor: 'text-slate-500 dark:text-slate-400',
+        badge: 'bg-muted text-muted-foreground border-border',
       };
   }
 };
@@ -177,19 +168,19 @@ function MerchantList({ partnerships, gapTitle }: { partnerships: MerchantPartne
 
             {/* Win-Win Section */}
             <div className="grid grid-cols-1 gap-3 mb-4">
-              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 rounded-lg">
+              <div className="p-3 bg-muted/50 border rounded-lg">
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <Handshake className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-                  <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 uppercase">For {selected.merchantName}</span>
+                  <Handshake className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase">For {selected.merchantName}</span>
                 </div>
-                <p className="text-xs text-emerald-800 dark:text-emerald-200 leading-relaxed">{selected.merchantBenefit}</p>
+                <p className="text-xs text-foreground leading-relaxed">{selected.merchantBenefit}</p>
               </div>
-              <div className="p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+              <div className="p-3 bg-muted/50 border rounded-lg">
                 <div className="flex items-center gap-1.5 mb-1.5">
-                  <TrendingUp className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-                  <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase">For Bank</span>
+                  <TrendingUp className="h-3.5 w-3.5 text-muted-foreground" />
+                  <span className="text-xs font-semibold text-muted-foreground uppercase">For Bank</span>
                 </div>
-                <p className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">{selected.bankBenefit}</p>
+                <p className="text-xs text-foreground leading-relaxed">{selected.bankBenefit}</p>
               </div>
             </div>
 
@@ -265,7 +256,6 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
   // Calculate totals
   const totalOpportunity = opportunities.reduce((sum, o) => sum + o.totalOpportunityAmount, 0);
   const totalMerchants = opportunities.reduce((sum, o) => sum + o.merchantPartnerships.length, 0);
-  const maxOpportunity = Math.max(...opportunities.map(o => o.totalOpportunityAmount));
 
   // Get all unique quarters
   const quarters = ['Q1 2026', 'Q2 2026', 'Q3 2026', 'Q4 2026'];
@@ -334,7 +324,6 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
         {filteredOpportunities.map((opportunity) => {
           const Icon = getGapIcon(opportunity.gapType);
           const styles = getPriorityStyles(opportunity.priority);
-          const barWidth = (opportunity.totalOpportunityAmount / maxOpportunity) * 100;
           
           return (
             <AccordionItem 
@@ -344,30 +333,29 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
             >
               <AccordionTrigger className="hover:no-underline px-4 py-4 bg-muted/20">
                 <div className="flex items-center gap-4 w-full pr-4">
-                  <div className={cn("p-2.5 rounded-lg shrink-0", styles.iconBg)}>
-                    <Icon className={cn("h-5 w-5", styles.iconColor)} />
+                  <div className="p-2.5 rounded-lg shrink-0 bg-muted">
+                    <Icon className="h-5 w-5 text-muted-foreground" />
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2 mb-1.5">
+                    <div className="flex items-center gap-2 mb-1">
                       <span className="font-semibold text-base truncate">{opportunity.gapTitle}</span>
                       <Badge variant="outline" className={cn("text-xs shrink-0", styles.badge)}>
                         {opportunity.priority}
                       </Badge>
-                      <Badge variant="outline" className="text-xs shrink-0 bg-primary/10 text-primary border-primary/30">
+                      <Badge variant="outline" className="text-xs shrink-0">
                         {opportunity.merchantPartnerships.length} partners
                       </Badge>
                     </div>
                     
-                    <div className="flex items-center gap-3">
-                      <div className="flex-1 h-2 bg-muted rounded-full overflow-hidden">
-                        <div className={cn("h-full rounded-full", styles.bar)} style={{ width: `${barWidth}%` }} />
-                      </div>
-                      <span className="text-base font-bold text-primary shrink-0">
+                    <div className="flex items-center gap-2 text-sm">
+                      <span className="font-bold">
                         {formatCurrency(opportunity.totalOpportunityAmount)}
                       </span>
+                      <span className="text-muted-foreground">
+                        ({Math.round((opportunity.totalOpportunityAmount / totalOpportunity) * 100)}% of total)
+                      </span>
                     </div>
-
                   </div>
                 </div>
               </AccordionTrigger>
@@ -376,24 +364,24 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
                 <div className="space-y-4 pt-2">
                   {/* Gap Context */}
                   <div className="flex items-stretch gap-3 p-3 bg-muted/30 rounded-lg">
-                    <div className="flex-1 p-3 bg-rose-50 dark:bg-rose-950/20 rounded-lg border border-rose-200 dark:border-rose-800">
-                      <div className="text-xs font-medium text-rose-600 dark:text-rose-400 mb-1">Current State</div>
-                      <div className="text-sm text-rose-800 dark:text-rose-200">{opportunity.currentState}</div>
+                    <div className="flex-1 p-3 bg-muted/50 rounded-lg border">
+                      <div className="text-xs font-medium text-muted-foreground mb-1">Current State</div>
+                      <div className="text-sm">{opportunity.currentState}</div>
                     </div>
                     <div className="flex items-center">
                       <ArrowRight className="h-5 w-5 text-muted-foreground" />
                     </div>
-                    <div className="flex-1 p-3 bg-emerald-50 dark:bg-emerald-950/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-                      <div className="text-xs font-medium text-emerald-600 dark:text-emerald-400 mb-1">Target State</div>
-                      <div className="text-sm text-emerald-800 dark:text-emerald-200">{opportunity.potentialState}</div>
+                    <div className="flex-1 p-3 bg-muted/50 rounded-lg border">
+                      <div className="text-xs font-medium text-muted-foreground mb-1">Target State</div>
+                      <div className="text-sm">{opportunity.potentialState}</div>
                     </div>
                   </div>
 
                   {/* Strategic Insight */}
-                  <div className="p-3 bg-amber-50 dark:bg-amber-950/20 border-l-4 border-amber-400 rounded-r-lg">
+                  <div className="p-3 bg-muted/30 border-l-4 border-border rounded-r-lg">
                     <div className="flex items-start gap-2">
-                      <Lightbulb className="h-4 w-4 mt-0.5 text-amber-600 dark:text-amber-400 shrink-0" />
-                      <p className="text-sm text-amber-800 dark:text-amber-200">
+                      <Lightbulb className="h-4 w-4 mt-0.5 text-muted-foreground shrink-0" />
+                      <p className="text-sm">
                         <span className="font-semibold">Strategic Insight: </span>
                         {opportunity.strategicInsight}
                       </p>
