@@ -90,7 +90,7 @@ export function RecommendationsCard({ recommendations, summary, isLoading = fals
                   {recommendations.length} personalized offers matched to their lifestyle patterns
                 </div>
                 <div className="text-xs text-muted-foreground/70">
-                  Direct deals • Adjacent category expansion • Experience upgrades • Card & financial products — each with AI-personalized messaging
+                  Direct deals • Adjacent category expansion • Experience upgrades • Card & financial products, each with AI-personalized messaging
                 </div>
               </div>
               <div className="flex items-center gap-4">
