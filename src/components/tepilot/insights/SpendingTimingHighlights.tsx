@@ -205,12 +205,15 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
         type="single" 
         value={sortBy} 
         onValueChange={(val) => val && setSortBy(val as 'amount' | 'predictability')}
-        className="border rounded-lg p-1"
+        className="border-2 border-primary/30 rounded-lg p-1.5 bg-muted/50 shadow-sm"
         onClick={(e) => e.stopPropagation()}
       >
         <UITooltip>
           <TooltipTrigger asChild>
-            <ToggleGroupItem value="amount" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+            <ToggleGroupItem 
+              value="amount" 
+              className="gap-2 px-4 py-2 font-medium transition-all data-[state=on]:bg-emerald-600 data-[state=on]:text-white data-[state=on]:shadow-md data-[state=off]:hover:bg-emerald-100 data-[state=off]:text-emerald-700 dark:data-[state=off]:hover:bg-emerald-950 dark:data-[state=off]:text-emerald-400"
+            >
               <DollarSign className="h-4 w-4" />
               <span className="hidden sm:inline">Volume-First</span>
             </ToggleGroupItem>
@@ -222,7 +225,10 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
         </UITooltip>
         <UITooltip>
           <TooltipTrigger asChild>
-            <ToggleGroupItem value="predictability" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
+            <ToggleGroupItem 
+              value="predictability" 
+              className="gap-2 px-4 py-2 font-medium transition-all data-[state=on]:bg-purple-600 data-[state=on]:text-white data-[state=on]:shadow-md data-[state=off]:hover:bg-purple-100 data-[state=off]:text-purple-700 dark:data-[state=off]:hover:bg-purple-950 dark:data-[state=off]:text-purple-400"
+            >
               <Target className="h-4 w-4" />
               <span className="hidden sm:inline">Confidence-First</span>
             </ToggleGroupItem>
