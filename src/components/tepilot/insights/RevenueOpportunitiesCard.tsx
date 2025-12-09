@@ -4,6 +4,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { Separator } from "@/components/ui/separator";
 import { 
   TrendingUp, MapPin, Users, Target, ArrowRight, 
   DollarSign, Download, Handshake, Calendar, 
@@ -12,6 +13,7 @@ import {
 } from "lucide-react";
 import type { RevenueOpportunity, MerchantPartnershipPitch } from "@/types/bankwide";
 import { CollapsibleCard } from "./CollapsibleCard";
+import { DealActivationPreview } from "./DealActivationPreview";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
@@ -438,6 +440,12 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
           );
         })}
       </Accordion>
+
+      {/* Deal Activation Preview Section */}
+      <Separator className="my-6" />
+      <DealActivationPreview 
+        merchantPartnerships={opportunities.flatMap(o => o.merchantPartnerships)} 
+      />
     </CollapsibleCard>
   );
 }
