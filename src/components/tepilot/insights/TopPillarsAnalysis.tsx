@@ -61,20 +61,7 @@ interface TopPillarsAnalysisProps {
   onPersonaGenerated?: (persona: UserPersona) => void;
 }
 
-const PILLAR_ICONS: Record<string, string> = {
-  "Home & Lifestyle": "🏠",
-  "Health & Wellness": "💪",
-  "Travel & Experiences": "✈️",
-  "Food & Dining": "🍽️",
-  "Shopping & Retail": "🛍️",
-  "Entertainment & Leisure": "🎬",
-  "Financial Services": "💳",
-  "Transportation": "🚗",
-  "Education & Learning": "📚",
-  "Business & Professional": "💼",
-  "Communication & Utilities": "📱",
-  "Miscellaneous & Unclassified": "📦",
-};
+const PILLAR_ICON = "💳";
 
 export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPersonaGenerated }: TopPillarsAnalysisProps) {
   const [analyzedPillars, setAnalyzedPillars] = useState<AnalyzedPillar[]>([]);
@@ -218,7 +205,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPerson
                       className="flex items-center justify-between py-2"
                     >
                       <div className="flex items-center gap-3">
-                        <span className="text-lg">{PILLAR_ICONS[pillar.pillar] || "📦"}</span>
+                        <span className="text-lg">{PILLAR_ICON}</span>
                         <span className="font-semibold">{pillar.pillar}</span>
                       </div>
                       <div className="flex items-center gap-3">
@@ -273,7 +260,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPerson
                         <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors py-3">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-3">
-                              <span className="text-2xl">{PILLAR_ICONS[pillar.pillar] || "📦"}</span>
+                              <span className="text-2xl">{PILLAR_ICON}</span>
                               <div>
                                 <CardTitle className="text-base font-medium">
                                   {pillar.pillar}
@@ -315,7 +302,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPerson
                                   {/* Line 1: Merchant + Amount */}
                                   <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2 min-w-0">
-                                      <span className="text-base">{PILLAR_ICONS[pillar.pillar] || "📦"}</span>
+                                      <span className="text-base">{PILLAR_ICON}</span>
                                       <span className="font-semibold truncate">
                                         {txn.normalized_merchant || txn.merchant_name}
                                       </span>
