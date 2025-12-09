@@ -289,6 +289,10 @@ Descriptions must be written in a warm, customer-focused tone. NO business jargo
 - "projected lift" / "capture" / "incremental revenue"
 - "drives behavior" / "incentivize"
 
+**FORMATTING RULES:**
+- NEVER use em dashes (—) in titles, hooks, or descriptions
+- Use commas, periods, or regular hyphens (-) instead
+
 **Examples (each focusing on ONE category):**
 - "We see how much you love quality ingredients—you've spent $2,800 at places like Whole Foods and Trader Joe's. Earn 15% back at your favorite grocers, plus similar stores like Sprouts and Wegmans. We're here to help every meal be a little more rewarding."
 - "You're clearly passionate about the outdoors! Earn 12% back at REI, Patagonia, and stores like them. Whether it's your next adventure or new gear, we want to support the things you love."
