@@ -422,7 +422,16 @@ serve(async (req) => {
 INPUT:
 ${JSON.stringify(pillarsSummary, null, 2)}
 
-TASK 1: For each transaction, use the pre_tax amount to infer the specific product (e.g., "$55 at Titleist" → "dozen Pro V1 golf balls"). Be specific, not generic.
+TASK 1: For each transaction, use the pre_tax amount to infer the specific product.
+IMPORTANT: Include the reverse tax calculation in your inference text using this format:
+- Standard: "product name ($XX.XX pre-tax @ X.XX% STATE)"
+- If state unknown: "product name ($XX.XX pre-tax)"
+- If tax is 0% (exempt): "product name ($XX.XX, tax-exempt)"
+
+Examples:
+- "$58.57 at Titleist in TX" with pre_tax $55.00, tax_rate 8.25% → "dozen Pro V1 golf balls ($55.00 pre-tax @ 8.25% TX)"
+- "$45.00 at Whole Foods in NJ" with pre_tax $45.00, tax_rate 0% → "weekly produce haul ($45.00, tax-exempt)"
+- "$120.00 at Nike" with unknown state → "running shoes ($110.50 pre-tax)"
 
 TASK 2: Create a customer persona based on all transactions.
 
@@ -435,7 +444,7 @@ RESPOND WITH JSON ONLY:
       "transactions": [
         {
           "transaction_id": "id",
-          "inferred_purchase": "specific product name",
+          "inferred_purchase": "running shoes ($89.00 pre-tax @ 6.25% CA)",
           "confidence": 0.85
         }
       ]
