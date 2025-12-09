@@ -53,7 +53,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
               <div className="flex flex-col items-start gap-2">
                 <CardTitle className="text-2xl">Location-Based Banking Experience: Deals, Experience and Perks</CardTitle>
                 <p className="text-sm text-muted-foreground">
-                  Strategic geo-targeted offers based on customer location patterns
+                  Position your bank as a lifestyle companion—surfacing exclusive experiences in arts, sports, and culture wherever customers call home or travel.
                 </p>
               </div>
               <div className="flex items-center gap-4">
