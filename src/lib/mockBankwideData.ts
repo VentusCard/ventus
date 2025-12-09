@@ -10,6 +10,7 @@ import type {
   PillarDetail,
   StateSpendingData,
   SpendingTimingHighlight,
+  RevenueOpportunity,
 } from '@/types/bankwide';
 import { PILLAR_COLORS, LIFESTYLE_PILLARS } from '@/lib/sampleData';
 
@@ -1216,4 +1217,345 @@ export function getSpendingTimingHighlights(
   }
   
   return amountHighlights.sort((a, b) => b.totalAnnualSpend - a.totalAnnualSpend);
+}
+
+// Unified Revenue Opportunities - combining gaps with merchant-specific timing and win-win pitches
+export function getRevenueOpportunities(filters: BankwideFilters): RevenueOpportunity[] {
+  const opportunities: RevenueOpportunity[] = [
+    {
+      id: 'gen-z-engagement',
+      gapTitle: 'Gen Z Low Engagement',
+      gapType: 'demographic',
+      currentState: 'Gen Z (18-24) has $1,800 avg spend vs $2,600 bank avg',
+      potentialState: 'Increase Gen Z engagement to millennial levels',
+      totalOpportunityAmount: 4_800_000_000,
+      affectedUsers: 5_000_000,
+      priority: 'high',
+      strategicInsight: 'Gen Z travel spending peaks during Spring Break (Weeks 10-14) and Summer (Weeks 22-30). Partner with brands that resonate with this demographic during these high-intent windows.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Delta Airlines',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: '4x points on Delta flights for cardholders 18-24, with $50 statement credit on first booking',
+          merchantBenefit: 'Capture brand loyalty early — Gen Z travelers will become premium customers within 5-7 years. Spring Break bookings drive 23% of annual Gen Z travel revenue.',
+          bankBenefit: 'Increase Gen Z travel card adoption by estimated 340K new accounts. Projected $180M incremental annual spend from this segment.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Oct 15, 2025',
+          deploymentWindow: 'Jan 15 - Mar 20, 2026',
+          estimatedRevenueCapture: 720_000_000,
+          targetedUserCount: 1_200_000,
+          projectedConversionRate: 12.5,
+          patternConfidence: 88,
+          patternReason: 'Spring Break travel bookings are 88% predictable in Weeks 10-14 every year.'
+        },
+        {
+          merchantName: 'Spotify',
+          merchantCategory: 'Entertainment & Culture',
+          proposedDeal: '6 months free Spotify Premium with new card activation for ages 18-24',
+          merchantBenefit: 'Acquire 400K+ potential lifetime subscribers at near-zero CAC. Convert trial users to paying customers post-promotion.',
+          bankBenefit: 'Drive 520K new Gen Z card activations. Music streaming is #1 discretionary spend for this demo.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Aug 1 - Sep 15, 2026 (Back to School)',
+          estimatedRevenueCapture: 380_000_000,
+          targetedUserCount: 850_000,
+          projectedConversionRate: 18.2,
+          patternConfidence: 91,
+          patternReason: 'Back-to-school card activations peak 91% predictably in August.'
+        },
+        {
+          merchantName: 'Uber',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: '5x points on Uber rides + $25 monthly Uber Cash credit for cardholders under 25',
+          merchantBenefit: 'Lock in habitual rideshare users before car ownership. Gen Z takes 3.2x more rideshares than millennials did at same age.',
+          bankBenefit: 'High-frequency transaction category drives 8.4 swipes/month per user. Builds card-top-of-wallet behavior.',
+          peakQuarter: 'Q4 2026',
+          negotiationDeadline: 'Jul 15, 2026',
+          deploymentWindow: 'Oct 1 - Dec 31, 2026 (Holiday Season)',
+          estimatedRevenueCapture: 290_000_000,
+          targetedUserCount: 1_400_000,
+          projectedConversionRate: 22.8,
+          patternConfidence: 85,
+          patternReason: 'Holiday rideshare usage peaks in Q4 with 85% consistency year-over-year.'
+        }
+      ]
+    },
+    {
+      id: 'health-wellness-penetration',
+      gapTitle: 'Low Health & Wellness Penetration',
+      gapType: 'pillar',
+      currentState: 'Only 15% of cardholders spend on Health & Wellness',
+      potentialState: 'National average is 28% for gym/wellness spending',
+      totalOpportunityAmount: 3_200_000_000,
+      affectedUsers: 38_000_000,
+      priority: 'high',
+      strategicInsight: 'New Year resolution spending is the most predictable wellness window (Weeks 1-8, 88% confidence). Gym memberships and fitness equipment peak in January — partner BEFORE the surge.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Equinox',
+          merchantCategory: 'Health & Wellness',
+          proposedDeal: 'Waive $500 initiation fee + 3x points on membership for new cardholder signups',
+          merchantBenefit: 'Acquire 85K high-LTV members at reduced CAC. Bank cardholders have 2.3x higher retention than walk-in signups.',
+          bankBenefit: 'Drive $420M in annual recurring wellness spend. Premium gym members have 34% higher overall card utilization.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Oct 15, 2025',
+          deploymentWindow: 'Dec 26, 2025 - Feb 15, 2026',
+          estimatedRevenueCapture: 840_000_000,
+          targetedUserCount: 2_100_000,
+          projectedConversionRate: 8.5,
+          patternConfidence: 88,
+          patternReason: '88% of new gym memberships are purchased in Weeks 1-6 every year.'
+        },
+        {
+          merchantName: 'Peloton',
+          merchantCategory: 'Health & Wellness',
+          proposedDeal: '0% APR 24-month financing + 5x points on equipment and subscription',
+          merchantBenefit: 'Reduce financing friction for $2,500+ purchases. Bank customers have 40% lower default rates on fitness equipment.',
+          bankBenefit: 'Capture $290M in high-ticket home fitness purchases. Equipment buyers spend 3.2x more on wellness overall.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Oct 15, 2025',
+          deploymentWindow: 'Dec 20, 2025 - Jan 31, 2026',
+          estimatedRevenueCapture: 290_000_000,
+          targetedUserCount: 420_000,
+          projectedConversionRate: 6.2,
+          patternConfidence: 92,
+          patternReason: '92% of home fitness equipment purchases occur in the 6 weeks around New Year.'
+        },
+        {
+          merchantName: 'CVS Pharmacy',
+          merchantCategory: 'Health & Wellness',
+          proposedDeal: '4x points on all pharmacy and wellness purchases, with bonus rewards during flu season',
+          merchantBenefit: 'Increase basket size by 18% through rewards motivation. Drive pharmacy loyalty in competitive market.',
+          bankBenefit: 'High-frequency category (2.8 visits/month avg). Wellness spending correlates with long-term card retention.',
+          peakQuarter: 'Q4 2026',
+          negotiationDeadline: 'Jul 15, 2026',
+          deploymentWindow: 'Oct 1 - Nov 30, 2026 (Flu Season)',
+          estimatedRevenueCapture: 520_000_000,
+          targetedUserCount: 8_500_000,
+          projectedConversionRate: 24.5,
+          patternConfidence: 82,
+          patternReason: '82% of flu-related pharmacy spending occurs in Weeks 40-48.'
+        }
+      ]
+    },
+    {
+      id: 'travel-cross-sell',
+      gapTitle: 'Travel Card Cross-Sell Opportunity',
+      gapType: 'cross-sell',
+      currentState: '8.2M Cashback Card holders travel 5+ times/year',
+      potentialState: 'Could hold Travel Card for better rewards',
+      totalOpportunityAmount: 2_400_000_000,
+      affectedUsers: 8_200_000,
+      priority: 'high',
+      strategicInsight: 'Summer vacation bookings peak Weeks 22-30 but are BOOKED in Weeks 8-14. Target cross-sell campaigns during booking season, not travel season.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Marriott',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: 'Automatic Gold Elite status + 50K bonus points for Cashback Card holders who upgrade to Travel Card',
+          merchantBenefit: 'Acquire 420K new loyalty members with proven travel spend. Gold members book 2.8x more nights than standard.',
+          bankBenefit: 'Convert 420K accounts from Cashback to Travel Card (higher interchange). Projected $1.2B incremental travel spend.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Oct 15, 2025',
+          deploymentWindow: 'Feb 1 - Apr 15, 2026 (Booking Season)',
+          estimatedRevenueCapture: 680_000_000,
+          targetedUserCount: 2_400_000,
+          projectedConversionRate: 5.2,
+          patternConfidence: 92,
+          patternReason: '92% of summer vacation bookings are made in Weeks 8-14.'
+        },
+        {
+          merchantName: 'Expedia',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: '10% statement credit on vacation packages booked through Expedia + Travel Card',
+          merchantBenefit: 'Drive $380M in bookings from high-intent travelers. Bundle purchases average $2,400 vs $890 for flight-only.',
+          bankBenefit: 'High-AOV transactions drive interchange revenue. Package bookers have 78% card renewal rate.',
+          peakQuarter: 'Q2 2026',
+          negotiationDeadline: 'Jan 15, 2026',
+          deploymentWindow: 'Mar 15 - May 31, 2026',
+          estimatedRevenueCapture: 480_000_000,
+          targetedUserCount: 1_800_000,
+          projectedConversionRate: 7.8,
+          patternConfidence: 89,
+          patternReason: '89% of vacation package purchases occur in the 10 weeks before peak travel.'
+        },
+        {
+          merchantName: 'Hertz',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: 'Free rental car upgrade + 3x points on all Hertz rentals with Travel Card',
+          merchantBenefit: 'Fill mid-tier fleet (normally 40% vacancy). Bank customers rent 4.2 days avg vs 2.8 walk-up.',
+          bankBenefit: 'Add ancillary travel category spend. Car renters also book 2.1x more hotels on same card.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Jun 15 - Aug 31, 2026 (Peak Travel)',
+          estimatedRevenueCapture: 245_000_000,
+          targetedUserCount: 1_100_000,
+          projectedConversionRate: 11.4,
+          patternConfidence: 86,
+          patternReason: '86% of rental car spend occurs during summer travel (Weeks 24-35).'
+        }
+      ]
+    },
+    {
+      id: 'dining-entertainment-gap',
+      gapTitle: 'Dining & Entertainment Rewards Gap',
+      gapType: 'pillar',
+      currentState: 'Only 22% of users maximize dining rewards potential',
+      potentialState: 'Increase dining category penetration to 40%',
+      totalOpportunityAmount: 2_100_000_000,
+      affectedUsers: 18_500_000,
+      priority: 'high',
+      strategicInsight: 'Valentine\'s Day dining is 97% predictable (Weeks 5-6). Summer entertainment peaks Weeks 24-35. Partner for these high-confidence windows.',
+      merchantPartnerships: [
+        {
+          merchantName: 'OpenTable Restaurants',
+          merchantCategory: 'Food & Dining',
+          proposedDeal: '5x points on OpenTable bookings + $30 dining credit for Valentine\'s reservations',
+          merchantBenefit: 'Drive 280K incremental reservations during peak demand. Premium cardholders tip 22% higher.',
+          bankBenefit: 'Capture $38M in Valentine\'s dining spend. OpenTable users dine out 3.4x monthly average.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Nov 15, 2025',
+          deploymentWindow: 'Jan 20 - Feb 14, 2026',
+          estimatedRevenueCapture: 185_000_000,
+          targetedUserCount: 2_800_000,
+          projectedConversionRate: 14.2,
+          patternConfidence: 97,
+          patternReason: '97% of Valentine\'s dining reservations occur in Weeks 5-6.'
+        },
+        {
+          merchantName: 'DoorDash',
+          merchantCategory: 'Food & Dining',
+          proposedDeal: 'Free DashPass (annual value $96) + 4x points on all delivery orders',
+          merchantBenefit: 'Acquire 850K new DashPass subscribers. Bank cardholders order 2.4x more frequently than non-subscribers.',
+          bankBenefit: 'High-frequency transactions (6.2 orders/month avg). Delivery spending increased 34% YoY in target demo.',
+          peakQuarter: 'Q4 2026',
+          negotiationDeadline: 'Jul 15, 2026',
+          deploymentWindow: 'Oct 1 - Dec 31, 2026 (Holiday Season)',
+          estimatedRevenueCapture: 420_000_000,
+          targetedUserCount: 4_200_000,
+          projectedConversionRate: 28.5,
+          patternConfidence: 78,
+          patternReason: 'Food delivery peaks during holiday season and cold weather months.'
+        },
+        {
+          merchantName: 'Ticketmaster',
+          merchantCategory: 'Entertainment & Culture',
+          proposedDeal: 'Presale access + 4x points on concert and event tickets',
+          merchantBenefit: 'Drive $480M in ticket sales through exclusive presale windows. Cardholders buy 2.8 tickets avg vs 2.1.',
+          bankBenefit: 'High-AOV transactions ($180 avg). Event-goers also spend 45% more on dining/transportation same-day.',
+          peakQuarter: 'Q2 2026',
+          negotiationDeadline: 'Jan 15, 2026',
+          deploymentWindow: 'Apr 1 - Jun 30, 2026 (Summer Tour Announcements)',
+          estimatedRevenueCapture: 340_000_000,
+          targetedUserCount: 3_100_000,
+          projectedConversionRate: 16.8,
+          patternConfidence: 65,
+          patternReason: 'Concert spending is 65% predictable, dependent on tour announcements.'
+        }
+      ]
+    },
+    {
+      id: 'gen-x-home-living',
+      gapTitle: 'Gen X Home & Living Underutilization',
+      gapType: 'demographic',
+      currentState: 'Gen X (35-54) only spends 12% on Home & Living vs 18% potential',
+      potentialState: 'Increase Home & Living penetration among homeowners',
+      totalOpportunityAmount: 2_850_000_000,
+      affectedUsers: 19_000_000,
+      priority: 'high',
+      strategicInsight: 'Pool/patio equipment purchases peak Weeks 18-24 (91% confidence). Home improvement peaks in spring. Target Gen X homeowners before Memorial Day.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Home Depot',
+          merchantCategory: 'Home & Living',
+          proposedDeal: '5x points on all purchases + 18-month 0% financing on projects over $2,000',
+          merchantBenefit: 'Increase average project size by 35%. Bank financing approval rate is 40% higher than store card.',
+          bankBenefit: 'Capture $125M in spring home improvement surge. Project buyers have 89% card renewal rate.',
+          peakQuarter: 'Q2 2026',
+          negotiationDeadline: 'Jan 15, 2026',
+          deploymentWindow: 'Apr 1 - Jun 15, 2026 (Spring Season)',
+          estimatedRevenueCapture: 680_000_000,
+          targetedUserCount: 4_200_000,
+          projectedConversionRate: 8.9,
+          patternConfidence: 91,
+          patternReason: '91% of pool/patio spending occurs Weeks 18-24 as homeowners prep for summer.'
+        },
+        {
+          merchantName: 'Lowe\'s',
+          merchantCategory: 'Home & Living',
+          proposedDeal: '4x points on appliances and outdoor equipment + free installation on major purchases',
+          merchantBenefit: 'Drive $98M in appliance sales. Free installation increases conversion 42% on big-ticket items.',
+          bankBenefit: 'High-AOV transactions ($850 avg). Appliance buyers renovate other areas within 18 months.',
+          peakQuarter: 'Q2 2026',
+          negotiationDeadline: 'Jan 15, 2026',
+          deploymentWindow: 'May 1 - Jul 4, 2026 (Pre-Summer)',
+          estimatedRevenueCapture: 520_000_000,
+          targetedUserCount: 3_600_000,
+          projectedConversionRate: 7.2,
+          patternConfidence: 88,
+          patternReason: '88% of outdoor equipment purchases occur in the 8 weeks before July 4th.'
+        },
+        {
+          merchantName: 'Wayfair',
+          merchantCategory: 'Home & Living',
+          proposedDeal: '5x points + 15% statement credit on first $500+ furniture purchase',
+          merchantBenefit: 'Acquire 380K new customers with proven home spending. First purchase leads to 2.4 additional purchases/year.',
+          bankBenefit: 'Online furniture is growing 28% YoY. Wayfair shoppers have 45% higher discretionary spend overall.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Aug 1 - Sep 30, 2026 (Back-to-Home)',
+          estimatedRevenueCapture: 285_000_000,
+          targetedUserCount: 2_100_000,
+          projectedConversionRate: 11.5,
+          patternConfidence: 74,
+          patternReason: 'Furniture purchases peak in late summer as families prepare for fall.'
+        }
+      ]
+    },
+    {
+      id: 'southeast-underperformance',
+      gapTitle: 'Southeast Region Underperformance',
+      gapType: 'geographic',
+      currentState: 'Southeast has 1.50 accounts/user vs 1.56 national avg',
+      potentialState: 'Bringing Southeast to national average',
+      totalOpportunityAmount: 1_800_000_000,
+      affectedUsers: 10_000_000,
+      priority: 'medium',
+      strategicInsight: 'Southeast has unique seasonal patterns: hurricane prep (Aug-Sep), college football (Sep-Dec), spring break travel (Mar). Partner with regional merchants.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Publix',
+          merchantCategory: 'Food & Dining',
+          proposedDeal: '4x points on groceries + special hurricane prep bonus rewards in Aug-Sep',
+          merchantBenefit: 'Increase market share in competitive Southeast grocery. Storm prep drives 340% basket size increase.',
+          bankBenefit: 'High-frequency regional loyalty. Publix shoppers visit 2.2x/week, driving consistent card usage.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Aug 1 - Sep 30, 2026 (Hurricane Season)',
+          estimatedRevenueCapture: 380_000_000,
+          targetedUserCount: 4_800_000,
+          projectedConversionRate: 32.5,
+          patternConfidence: 94,
+          patternReason: '94% of Southeast hurricane prep shopping occurs in Aug-Sep annually.'
+        },
+        {
+          merchantName: 'SEC Network / ESPN+',
+          merchantCategory: 'Entertainment & Culture',
+          proposedDeal: 'Free SEC Network subscription + 3x points on sports merchandise during football season',
+          merchantBenefit: 'Acquire 520K new streaming subscribers. College football fans have 78% retention rate.',
+          bankBenefit: 'Build regional brand loyalty through passion category. Football fans spend 3.1x on gameday dining.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Aug 15 - Dec 15, 2026 (Football Season)',
+          estimatedRevenueCapture: 195_000_000,
+          targetedUserCount: 2_200_000,
+          projectedConversionRate: 18.4,
+          patternConfidence: 96,
+          patternReason: '96% of college football spending occurs during the Sep-Dec season.'
+        }
+      ]
+    }
+  ];
+
+  return opportunities.sort((a, b) => b.totalOpportunityAmount - a.totalOpportunityAmount);
 }

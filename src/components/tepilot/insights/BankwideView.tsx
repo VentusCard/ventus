@@ -11,9 +11,8 @@ import {
   getBankwideMetrics,
   getFilteredCardProducts,
   getFilteredAgeRanges,
-  getSpendingGaps,
   getCrossSellMatrix,
-  getSpendingTimingHighlights,
+  getRevenueOpportunities,
 } from "@/lib/mockBankwideData";
 import type { BankwideFilters as Filters } from "@/types/bankwide";
 
@@ -27,10 +26,8 @@ export function BankwideView() {
   const metrics = getBankwideMetrics(filters);
   const cardProducts = getFilteredCardProducts(filters);
   const ageRanges = getFilteredAgeRanges(filters);
-  const spendingGaps = getSpendingGaps(filters);
   const crossSellMatrix = getCrossSellMatrix(filters);
-  const timingHighlights = getSpendingTimingHighlights(filters, 'amount');
-  const predictabilityHighlights = getSpendingTimingHighlights(filters, 'predictability');
+  const revenueOpportunities = getRevenueOpportunities(filters);
 
   return (
     <div className="space-y-4">
@@ -50,7 +47,6 @@ export function BankwideView() {
       {/* Overview Metrics */}
       <BankwideMetrics metrics={metrics} />
 
-
       {/* Card Product Matrix */}
       <CardProductMatrix products={cardProducts} />
 
@@ -60,12 +56,8 @@ export function BankwideView() {
       {/* Demographic Breakdown */}
       <DemographicBreakdown ageRanges={ageRanges} />
 
-      {/* Revenue Opportunities & Optimal Timing (merged) */}
-      <RevenueOpportunitiesCard 
-        gaps={spendingGaps} 
-        timingHighlights={timingHighlights} 
-        predictabilityHighlights={predictabilityHighlights} 
-      />
+      {/* Revenue Opportunities with Merchant Partnership Insights */}
+      <RevenueOpportunitiesCard opportunities={revenueOpportunities} />
 
       {/* Cross-Sell Matrix */}
       <CrossSellMatrix matrixData={crossSellMatrix} />
