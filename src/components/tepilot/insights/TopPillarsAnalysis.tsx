@@ -58,6 +58,7 @@ interface UserPersona {
 interface TopPillarsAnalysisProps {
   transactions: EnrichedTransaction[];
   autoAnalyze?: boolean;
+  onPersonaGenerated?: (persona: UserPersona) => void;
 }
 
 const PILLAR_ICONS: Record<string, string> = {
@@ -75,7 +76,7 @@ const PILLAR_ICONS: Record<string, string> = {
   "Miscellaneous & Unclassified": "📦",
 };
 
-export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPillarsAnalysisProps) {
+export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPersonaGenerated }: TopPillarsAnalysisProps) {
   const [analyzedPillars, setAnalyzedPillars] = useState<AnalyzedPillar[]>([]);
   const [userPersona, setUserPersona] = useState<UserPersona | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -150,6 +151,9 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false }: TopPil
       }
       if (data.user_persona) {
         setUserPersona(data.user_persona);
+        // Notify parent and persist to sessionStorage
+        onPersonaGenerated?.(data.user_persona);
+        sessionStorage.setItem("tepilot_user_persona", JSON.stringify(data.user_persona));
       }
       setHasAnalyzed(true);
       setAnalysisSucceeded(true);
