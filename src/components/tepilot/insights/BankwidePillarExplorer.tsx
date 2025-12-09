@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronUp, LayoutGrid } from "lucide-react";
 import { getPillarDetails } from "@/lib/mockBankwideData";
-import type { BankwideFilters, PillarDetail } from "@/types/bankwide";
+import type { BankwideFilters } from "@/types/bankwide";
+import { CollapsibleCard } from "./CollapsibleCard";
 
 interface BankwidePillarExplorerProps {
   filters: BankwideFilters;
@@ -39,15 +39,40 @@ export function BankwidePillarExplorer({ filters }: BankwidePillarExplorerProps)
 
   const selectedPillarData = pillarDetails.find(p => p.pillarName === selectedPillar);
 
+  const totalSpend = pillarDetails.reduce((sum, p) => sum + p.totalSpend, 0);
+  const top3 = [...pillarDetails].sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 3);
+
+  const previewContent = (
+    <div className="flex items-center gap-4">
+      {top3.map((pillar) => (
+        <div key={pillar.pillarName} className="flex items-center gap-2">
+          <div
+            className="w-3 h-3 rounded-full"
+            style={{ backgroundColor: pillar.color }}
+          />
+          <span className="text-sm truncate max-w-24">{pillar.pillarName}</span>
+          <span className="text-sm font-medium">{formatCurrency(pillar.totalSpend)}</span>
+        </div>
+      ))}
+    </div>
+  );
+
+  const headerRight = (
+    <div className="text-right">
+      <div className="text-xl font-bold text-primary">{formatCurrency(totalSpend)}</div>
+      <div className="text-xs text-muted-foreground">Total Spend</div>
+    </div>
+  );
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Spending Distribution by Lifestyle Pillar</CardTitle>
-        <CardDescription>
-          Click any pillar to explore detailed breakdown by card product, region, and demographics
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
+    <CollapsibleCard
+      title="Spending Distribution by Lifestyle Pillar"
+      description="Click any pillar to explore detailed breakdown by card product, region, and demographics"
+      icon={<LayoutGrid className="h-5 w-5 text-primary" />}
+      headerRight={headerRight}
+      previewContent={previewContent}
+    >
+      <div className="space-y-6">
         {/* Pillar Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
           {pillarDetails.map((pillar) => {
@@ -237,7 +262,7 @@ export function BankwidePillarExplorer({ filters }: BankwidePillarExplorerProps)
             </div>
           </div>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </CollapsibleCard>
   );
 }

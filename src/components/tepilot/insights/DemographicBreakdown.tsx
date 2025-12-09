@@ -1,6 +1,7 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Users } from "lucide-react";
 import type { AgeRange } from "@/types/bankwide";
+import { CollapsibleCard } from "./CollapsibleCard";
 
 interface DemographicBreakdownProps {
   ageRanges: AgeRange[];
@@ -41,39 +42,46 @@ export function DemographicBreakdown({ ageRanges }: DemographicBreakdownProps) {
     return null;
   };
 
+  // Preview: quick summary
+  const totalSpend = chartData.reduce((sum, d) => sum + d.totalSpend, 0);
+  const previewContent = (
+    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+      <span>{ageRanges.length} age groups</span>
+      <span className="text-muted-foreground/50">•</span>
+      <span>{formatBillions(totalSpend)} total spend</span>
+    </div>
+  );
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Age Demographic Spending Patterns</CardTitle>
-        <CardDescription>
-          Total annual spending and account distribution across age groups
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis 
-              dataKey="name" 
-              tick={{ fontSize: 11 }}
-              className="text-muted-foreground"
-              height={80}
-            />
-            <YAxis 
-              tick={{ fontSize: 12 }}
-              className="text-muted-foreground"
-              label={{ value: 'Total Annual Spend ($B)', angle: -90, position: 'insideLeft' }}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar 
-              dataKey="totalSpend" 
-              fill="hsl(var(--primary))"
-              radius={[8, 8, 0, 0]}
-              className="cursor-pointer hover:opacity-80 transition-opacity"
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
+    <CollapsibleCard
+      title="Age Demographic Spending Patterns"
+      description="Total annual spending and account distribution across age groups"
+      icon={<Users className="h-5 w-5 text-primary" />}
+      previewContent={previewContent}
+    >
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+          <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fontSize: 11 }}
+            className="text-muted-foreground"
+            height={80}
+          />
+          <YAxis 
+            tick={{ fontSize: 12 }}
+            className="text-muted-foreground"
+            label={{ value: 'Total Annual Spend ($B)', angle: -90, position: 'insideLeft' }}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Bar 
+            dataKey="totalSpend" 
+            fill="hsl(var(--primary))"
+            radius={[8, 8, 0, 0]}
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </CollapsibleCard>
   );
 }

@@ -1,10 +1,10 @@
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, CreditCard } from "lucide-react";
 import { useState } from "react";
 import type { CardProduct } from "@/types/bankwide";
 import { PILLAR_COLORS } from "@/lib/sampleData";
+import { CollapsibleCard } from "./CollapsibleCard";
 
 // Extended pillar colors for all pillars used in bankwide data
 const PILLAR_COLOR_MAP: Record<string, string> = {
@@ -58,85 +58,94 @@ export function CardProductMatrix({ products }: CardProductMatrixProps) {
     return `$${num.toLocaleString()}`;
   };
 
+  const totalAccounts = products.reduce((sum, p) => sum + p.accountCount, 0);
+
+  const previewContent = (
+    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+      <span>{products.length} products</span>
+      <span className="text-muted-foreground/50">•</span>
+      <span>{formatNumber(totalAccounts)} total accounts</span>
+    </div>
+  );
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Card Product Performance Matrix</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <div className="rounded-md border overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-semibold">Product Name</TableHead>
-                <TableHead 
-                  className="cursor-pointer hover:bg-muted/50 font-semibold"
-                  onClick={() => handleSort('accountCount')}
-                >
-                  <div className="flex items-center gap-1">
-                    Accounts
-                    <ArrowUpDown className="h-3 w-3" />
-                  </div>
-                </TableHead>
-                <TableHead 
-                  className="cursor-pointer hover:bg-muted/50 font-semibold"
-                  onClick={() => handleSort('uniqueUsers')}
-                >
-                  <div className="flex items-center gap-1">
-                    Unique Users
-                    <ArrowUpDown className="h-3 w-3" />
-                  </div>
-                </TableHead>
-                <TableHead 
-                  className="cursor-pointer hover:bg-muted/50 font-semibold"
-                  onClick={() => handleSort('penetrationRate')}
-                >
-                  <div className="flex items-center gap-1">
-                    Penetration
-                    <ArrowUpDown className="h-3 w-3" />
-                  </div>
-                </TableHead>
-                <TableHead 
-                  className="cursor-pointer hover:bg-muted/50 font-semibold"
-                  onClick={() => handleSort('avgSpendPerAccount')}
-                >
-                  <div className="flex items-center gap-1">
-                    Avg Spend/Account
-                    <ArrowUpDown className="h-3 w-3" />
-                  </div>
-                </TableHead>
-                <TableHead className="font-semibold">Top Pillar</TableHead>
+    <CollapsibleCard
+      title="Card Product Performance Matrix"
+      icon={<CreditCard className="h-5 w-5 text-primary" />}
+      previewContent={previewContent}
+    >
+      <div className="rounded-md border overflow-x-auto">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="font-semibold">Product Name</TableHead>
+              <TableHead 
+                className="cursor-pointer hover:bg-muted/50 font-semibold"
+                onClick={() => handleSort('accountCount')}
+              >
+                <div className="flex items-center gap-1">
+                  Accounts
+                  <ArrowUpDown className="h-3 w-3" />
+                </div>
+              </TableHead>
+              <TableHead 
+                className="cursor-pointer hover:bg-muted/50 font-semibold"
+                onClick={() => handleSort('uniqueUsers')}
+              >
+                <div className="flex items-center gap-1">
+                  Unique Users
+                  <ArrowUpDown className="h-3 w-3" />
+                </div>
+              </TableHead>
+              <TableHead 
+                className="cursor-pointer hover:bg-muted/50 font-semibold"
+                onClick={() => handleSort('penetrationRate')}
+              >
+                <div className="flex items-center gap-1">
+                  Penetration
+                  <ArrowUpDown className="h-3 w-3" />
+                </div>
+              </TableHead>
+              <TableHead 
+                className="cursor-pointer hover:bg-muted/50 font-semibold"
+                onClick={() => handleSort('avgSpendPerAccount')}
+              >
+                <div className="flex items-center gap-1">
+                  Avg Spend/Account
+                  <ArrowUpDown className="h-3 w-3" />
+                </div>
+              </TableHead>
+              <TableHead className="font-semibold">Top Pillar</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {sortedProducts.map((product) => (
+              <TableRow key={product.name} className="hover:bg-muted/30 cursor-pointer">
+                <TableCell className="font-medium">{product.name}</TableCell>
+                <TableCell>{formatNumber(product.accountCount)}</TableCell>
+                <TableCell>{formatNumber(product.uniqueUsers)}</TableCell>
+                <TableCell>
+                  <Badge variant="secondary">
+                    {product.penetrationRate.toFixed(1)}%
+                  </Badge>
+                </TableCell>
+                <TableCell>{formatCurrency(product.avgSpendPerAccount)}</TableCell>
+                <TableCell>
+                  <Badge 
+                    variant="outline"
+                    style={{ 
+                      borderColor: PILLAR_COLOR_MAP[product.topPillar] || "#64748b",
+                      color: PILLAR_COLOR_MAP[product.topPillar] || "#64748b"
+                    }}
+                  >
+                    {product.topPillar}
+                  </Badge>
+                </TableCell>
               </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sortedProducts.map((product) => (
-                <TableRow key={product.name} className="hover:bg-muted/30 cursor-pointer">
-                  <TableCell className="font-medium">{product.name}</TableCell>
-                  <TableCell>{formatNumber(product.accountCount)}</TableCell>
-                  <TableCell>{formatNumber(product.uniqueUsers)}</TableCell>
-                  <TableCell>
-                    <Badge variant="secondary">
-                      {product.penetrationRate.toFixed(1)}%
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{formatCurrency(product.avgSpendPerAccount)}</TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant="outline"
-                      style={{ 
-                        borderColor: PILLAR_COLOR_MAP[product.topPillar] || "#64748b",
-                        color: PILLAR_COLOR_MAP[product.topPillar] || "#64748b"
-                      }}
-                    >
-                      {product.topPillar}
-                    </Badge>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </div>
-      </CardContent>
-    </Card>
+            ))}
+          </TableBody>
+        </Table>
+      </div>
+    </CollapsibleCard>
   );
 }
