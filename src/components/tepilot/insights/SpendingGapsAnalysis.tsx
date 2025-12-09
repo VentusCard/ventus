@@ -1,9 +1,9 @@
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { TrendingUp, MapPin, Users, Target, ArrowRight, ChevronDown } from "lucide-react";
+import { TrendingUp, MapPin, Users, Target, ArrowRight, ChevronDown, AlertTriangle } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import type { SpendingGap } from "@/types/bankwide";
+import { CollapsibleCard } from "./CollapsibleCard";
 
 interface SpendingGapsAnalysisProps {
   gaps: SpendingGap[];
@@ -95,37 +95,34 @@ export function SpendingGapsAnalysis({ gaps }: SpendingGapsAnalysisProps) {
   const highPriorityGaps = gaps.filter(g => g.priority === 'high');
   const totalOpportunity = gaps.reduce((sum, g) => sum + g.opportunityAmount, 0);
 
+  const previewContent = (
+    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+      <span className="font-medium text-primary">{formatCurrency(totalOpportunity)}</span>
+      <span className="text-muted-foreground/50">•</span>
+      <Badge variant="outline" className="bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30">
+        {highPriorityGaps.length} High Priority
+      </Badge>
+      <span className="text-muted-foreground/50">•</span>
+      <span>{gaps.length} total gaps</span>
+    </div>
+  );
+
+  const headerRight = (
+    <div className="text-right">
+      <div className="text-xl font-bold text-primary">{formatCurrency(totalOpportunity)}</div>
+      <div className="text-xs text-muted-foreground">Total Opportunity</div>
+    </div>
+  );
+
   return (
-    <Card>
-      <CardHeader className="pb-4">
-        <div className="flex items-start justify-between">
-          <div>
-            <CardTitle>Spending Gaps & Opportunities</CardTitle>
-            <CardDescription className="mt-1">
-              Where customers are NOT using their cards—untapped revenue potential
-            </CardDescription>
-          </div>
-          <div className="text-right">
-            <div className="text-2xl font-bold text-primary">{formatCurrency(totalOpportunity)}</div>
-            <div className="text-xs text-muted-foreground">Total Opportunity</div>
-          </div>
-        </div>
-
-        {/* Quick summary badges */}
-        <div className="flex flex-wrap gap-2 mt-4">
-          <Badge variant="outline" className="bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/30">
-            {highPriorityGaps.length} High Priority
-          </Badge>
-          <Badge variant="outline" className="text-muted-foreground">
-            {gaps.length} Total Gaps
-          </Badge>
-          <Badge variant="outline" className="text-muted-foreground">
-            {formatUsers(gaps.reduce((sum, g) => sum + g.affectedUsers, 0))} affected
-          </Badge>
-        </div>
-      </CardHeader>
-
-      <CardContent className="space-y-3">
+    <CollapsibleCard
+      title="Spending Gaps & Opportunities"
+      description="Where customers are NOT using their cards—untapped revenue potential"
+      icon={<AlertTriangle className="h-5 w-5 text-primary" />}
+      headerRight={headerRight}
+      previewContent={previewContent}
+    >
+      <div className="space-y-3">
         {gaps.map((gap, index) => {
           const Icon = getIcon(gap.type);
           const styles = getPriorityStyles(gap.priority);
@@ -233,7 +230,7 @@ export function SpendingGapsAnalysis({ gaps }: SpendingGapsAnalysisProps) {
             </div>
           );
         })}
-      </CardContent>
-    </Card>
+      </div>
+    </CollapsibleCard>
   );
 }
