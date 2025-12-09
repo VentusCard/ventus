@@ -317,9 +317,6 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
                       </span>
                     </div>
 
-                    <p className="text-xs text-muted-foreground mt-1.5 truncate">
-                      {formatUsers(opportunity.affectedUsers)} users • {opportunity.strategicInsight.slice(0, 80)}...
-                    </p>
                   </div>
                 </div>
               </AccordionTrigger>
