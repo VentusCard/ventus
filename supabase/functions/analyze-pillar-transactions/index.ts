@@ -397,11 +397,11 @@ serve(async (req) => {
       throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    // Pre-compute tax breakdown for each transaction - limit to 5 per pillar to prevent response truncation
+    // Pre-compute tax breakdown for each transaction - send ALL transactions for analysis
     const pillarsSummary = pillars.map(p => ({
       pillar: p.pillar,
       totalSpend: p.totalSpend,
-      transactions: p.transactions.slice(0, 5).map(t => {
+      transactions: p.transactions.map(t => {
         const zip = t.zip_code || t.home_zip || home_zip || '';
         const tax = calculateTaxBreakdown(t.amount, zip, p.pillar, t.subcategory);
         
