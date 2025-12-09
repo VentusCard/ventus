@@ -85,24 +85,25 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
             className="border rounded-lg px-4"
           >
             <AccordionTrigger className="hover:no-underline py-4">
-              <div className="flex items-center justify-between w-full pr-4">
-                <div className="flex items-center gap-3">
-                  <div
-                    className="w-3 h-3 rounded-full"
-                    style={{ backgroundColor: highlight.color }}
-                  />
-                  <div className="text-left">
-                    <span className="font-medium">
-                      {highlight.subcategory || highlight.category}
-                    </span>
-                    {highlight.subcategory && (
-                      <span className="text-xs text-muted-foreground ml-2">
-                        ({highlight.category})
+              <div className="flex flex-col gap-2 w-full pr-4">
+                {/* Row 1: Category name and peak timing */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <div
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: highlight.color }}
+                    />
+                    <div className="text-left">
+                      <span className="font-medium">
+                        {highlight.subcategory || highlight.category}
                       </span>
-                    )}
+                      {highlight.subcategory && (
+                        <span className="text-xs text-muted-foreground ml-2">
+                          ({highlight.category})
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
                   {sortBy === 'predictability' && (
                     <Badge 
                       variant="outline" 
@@ -111,46 +112,60 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
                       {highlight.predictabilityScore}% Predictable
                     </Badge>
                   )}
-                  <Badge variant="secondary" className="font-normal">
-                    {highlight.peakWeeks}
-                  </Badge>
-                  <span className="text-sm text-muted-foreground">
-                    {formatCurrency(highlight.totalAnnualSpend)} annual
-                  </span>
-                  <div className={`flex items-center gap-1 text-sm ${
+                </div>
+                
+                {/* Row 2: Actionable insight summary */}
+                <div className="text-left text-sm text-muted-foreground pl-6">
+                  <span className="font-medium text-foreground">{formatCurrency(highlight.totalAnnualSpend)}</span>
+                  <span> portfolio spend</span>
+                  <span className="mx-2">•</span>
+                  <span className={`font-medium ${
                     highlight.yoyGrowth >= 10 ? 'text-green-600' :
                     highlight.yoyGrowth >= 5 ? 'text-yellow-600' :
-                    'text-muted-foreground'
+                    'text-foreground'
                   }`}>
-                    {highlight.yoyGrowth >= 0 ? (
-                      <TrendingUp className="h-4 w-4" />
-                    ) : (
-                      <TrendingDown className="h-4 w-4" />
-                    )}
-                    {highlight.yoyGrowth >= 0 ? '+' : ''}{highlight.yoyGrowth}% YoY
-                  </div>
+                    {highlight.yoyGrowth >= 0 ? '+' : ''}{highlight.yoyGrowth}% growth
+                  </span>
+                  <span className="mx-2">→</span>
+                  <span className="font-medium text-primary">Launch deals {highlight.peakWeeks}</span>
+                  <span> for peak engagement</span>
                 </div>
               </div>
             </AccordionTrigger>
             <AccordionContent className="pt-2 pb-4">
               <div className="space-y-4">
-                {/* Peak Season Badge + Predictability (if in predictability mode) */}
-                <div className="flex items-center gap-2 text-sm flex-wrap">
-                  <span className="text-muted-foreground">Peak Season:</span>
-                  <Badge variant="outline">{highlight.peakSeason}</Badge>
-                  <span className="text-muted-foreground ml-4">Avg Weekly:</span>
-                  <span className="font-medium">{formatCurrency(highlight.avgWeeklySpend)}</span>
-                  {sortBy === 'predictability' && (
-                    <>
-                      <span className="text-muted-foreground ml-4">Predictability:</span>
-                      <Badge 
-                        variant="outline" 
-                        className={getPredictabilityColor(highlight.predictabilityScore)}
-                      >
-                        {highlight.predictabilityScore}%
-                      </Badge>
-                    </>
-                  )}
+                {/* Key Metrics Grid - Now with context */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1">Portfolio Share</p>
+                    <p className="text-lg font-bold">{formatCurrency(highlight.totalAnnualSpend)}</p>
+                    <p className="text-xs text-muted-foreground">of total bank spend</p>
+                  </div>
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1">Weekly Run Rate</p>
+                    <p className="text-lg font-bold">{formatCurrency(highlight.avgWeeklySpend)}</p>
+                    <p className="text-xs text-muted-foreground">avg. weekly volume</p>
+                  </div>
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1">Best Deal Launch Window</p>
+                    <p className="text-lg font-bold text-primary">{highlight.peakWeeks}</p>
+                    <p className="text-xs text-muted-foreground">{highlight.peakSeason}</p>
+                  </div>
+                  <div className="bg-muted/30 rounded-lg p-3">
+                    <p className="text-xs text-muted-foreground mb-1">YoY Trend</p>
+                    <p className={`text-lg font-bold ${
+                      highlight.yoyGrowth >= 10 ? 'text-green-600' :
+                      highlight.yoyGrowth >= 5 ? 'text-yellow-600' :
+                      'text-muted-foreground'
+                    }`}>
+                      {highlight.yoyGrowth >= 0 ? '+' : ''}{highlight.yoyGrowth}%
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {highlight.yoyGrowth >= 10 ? 'Strong growth' :
+                       highlight.yoyGrowth >= 5 ? 'Moderate growth' :
+                       highlight.yoyGrowth >= 0 ? 'Stable' : 'Declining'}
+                    </p>
+                  </div>
                 </div>
 
                 {/* Predictability Insight (only in predictability mode) */}
@@ -224,28 +239,35 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
 
                 {/* Top Merchants with Individual Deal Recommendations */}
                 <div className="space-y-3 mt-4">
-                  <p className="text-sm font-medium text-muted-foreground">Top Merchants & Deal Timing Strategies</p>
+                  <p className="text-sm font-medium text-muted-foreground">Partner Merchants — Deal Deployment Strategy</p>
                   <div className="space-y-3">
                     {highlight.topMerchants.map((merchant) => (
                       <div key={merchant.name} className="bg-muted/30 border border-border/50 rounded-lg p-4">
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2 mb-1">
-                              <p className="font-semibold text-sm">{merchant.name}</p>
-                              <Badge variant="outline" className="text-xs">
-                                {merchant.peakWeeks}
-                              </Badge>
+                            <div className="flex items-center gap-2 mb-2">
+                              <p className="font-semibold">{merchant.name}</p>
                             </div>
-                            <p className="text-lg font-bold" style={{ color: highlight.color }}>
-                              {formatCurrency(merchant.spend)}
-                            </p>
+                            <div className="flex items-center gap-4 text-sm">
+                              <div>
+                                <span className="text-muted-foreground">Customer Spend: </span>
+                                <span className="font-bold" style={{ color: highlight.color }}>
+                                  {formatCurrency(merchant.spend)}
+                                </span>
+                              </div>
+                              <div>
+                                <span className="text-muted-foreground">Deploy Deals: </span>
+                                <span className="font-semibold text-primary">{merchant.peakWeeks}</span>
+                              </div>
+                            </div>
                           </div>
                         </div>
                         <div className="mt-3 pt-3 border-t border-border/50">
                           <div className="flex items-start gap-2">
                             <Lightbulb className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
-                            <p className="text-sm text-muted-foreground">
-                              {merchant.dealRecommendation}
+                            <p className="text-sm">
+                              <span className="font-medium">Recommendation: </span>
+                              <span className="text-muted-foreground">{merchant.dealRecommendation}</span>
                             </p>
                           </div>
                         </div>
