@@ -378,9 +378,6 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
                           </TooltipContent>
                         </UITooltip>
                       </TooltipProvider>
-                      <span className="text-muted-foreground">
-                        ({Math.round((opportunity.totalOpportunityAmount / totalOpportunity) * 100)}% of {formatCurrency(totalOpportunity)} total identified opportunities)
-                      </span>
                     </div>
                   </div>
                 </div>
