@@ -37,7 +37,7 @@ export default function RewardsPipelinePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="container mx-auto px-4 py-6 max-w-7xl space-y-6">
+      <div className="container mx-auto px-4 py-6 max-w-[1600px] space-y-6">
         {/* Header */}
         <PipelineHeader 
           opportunities={opportunities}
