@@ -392,16 +392,16 @@ serve(async (req) => {
       );
     }
 
-    const PERPLEXITY_API_KEY = Deno.env.get('PERPLEXITY_API_KEY');
-    if (!PERPLEXITY_API_KEY) {
-      throw new Error('PERPLEXITY_API_KEY is not configured');
+    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    if (!LOVABLE_API_KEY) {
+      throw new Error('LOVABLE_API_KEY is not configured');
     }
 
-    // Pre-compute tax breakdown for each transaction
+    // Pre-compute tax breakdown for each transaction - limit to 5 per pillar to prevent response truncation
     const pillarsSummary = pillars.map(p => ({
       pillar: p.pillar,
       totalSpend: p.totalSpend,
-      transactions: p.transactions.slice(0, 10).map(t => {
+      transactions: p.transactions.slice(0, 5).map(t => {
         const zip = t.zip_code || t.home_zip || home_zip || '';
         const tax = calculateTaxBreakdown(t.amount, zip, p.pillar, t.subcategory);
         
@@ -409,89 +409,24 @@ serve(async (req) => {
           id: t.transaction_id,
           merchant: t.merchant_name,
           amount: t.amount,
-          pre_tax_amount: tax.pre_tax_amount,
-          estimated_tax: tax.estimated_tax,
+          pre_tax: tax.pre_tax_amount,
           tax_rate: tax.tax_rate_pct,
-          tax_category: tax.tax_category,
           state: tax.state,
-          is_tax_exempt: tax.is_exempt,
-          date: t.date,
           subcategory: t.subcategory
         };
       })
     }));
 
-    const prompt = `Analyze these spending transactions from a customer's top 3 spending pillars and provide insights.
+    const prompt = `Analyze these customer transactions and infer what they purchased.
 
-IMPORTANT: Use your web search capability to look up CURRENT prices for these merchants. Search retailer websites (nike.com, target.com, lululemon.com, titleist.com, etc.) to validate your SKU inferences against real product prices.
-
-INPUT DATA:
+INPUT:
 ${JSON.stringify(pillarsSummary, null, 2)}
 
-TASK 1 - TAX-ADJUSTED PARENT-SKU INFERENCE - USE WEB SEARCH:
+TASK 1: For each transaction, use the pre_tax amount to infer the specific product (e.g., "$55 at Titleist" → "dozen Pro V1 golf balls"). Be specific, not generic.
 
-Each transaction includes CATEGORY-AWARE STATE SALES TAX calculations:
-- amount: What customer paid (includes tax)
-- pre_tax_amount: Product price BEFORE tax (USE THIS for SKU matching!)
-- estimated_tax: Calculated tax amount
-- tax_rate: Category-specific rate for the state
-- tax_category: grocery | clothing | prepared_food | medical | digital | general
-- is_tax_exempt: true if this category is untaxed in the state
-- state: Customer's state (derived from ZIP code)
+TASK 2: Create a customer persona based on all transactions.
 
-CATEGORY TAX EXEMPTIONS TO KNOW:
-- Groceries: Tax-exempt in TX, FL, NY, PA, NJ, OH, VA, CA, etc.
-- Clothing: Tax-exempt in PA, NJ, MN, NY (under $110)
-- Medical/Pharmacy: Tax-exempt in most states
-- Prepared Food: Often HIGHER than general rate (FL ~9%, ME ~8%)
-- Digital Services: Exempt in CA, WA; taxed elsewhere
-
-PRICE MATCHING WORKFLOW:
-1. Start with the pre_tax_amount (not the original amount with tax)
-2. Round to the nearest common retail price point ($5, $10, $15, $25, $50, $55, $100, $120, etc.)
-3. Use web search to validate that rounded price against actual retailer prices
-4. Infer the specific product category that matches
-
-EXAMPLE WITH TAX CALCULATION:
-- Titleist $58.57 (TX, Sports Equipment, general rate 8.25%)
-  → Tax calculation: $58.57 ÷ 1.0825 = $54.12
-  → Nearest price: $55
-  → Web search: Pro V1 golf balls = $55/dozen, Pro V1x = $55/dozen
-  → Inference: "dozen Pro V1 golf balls" (confidence: 0.95)
-
-- Whole Foods $45.00 (TX, Grocery, 0% tax exempt)
-  → Tax calculation: $45.00 ÷ 1.00 = $45.00 (no tax on groceries in TX)
-  → Inference: "weekly produce + specialty items" (confidence: 0.80)
-
-- Lululemon $108.50 (CA, Clothing, 8.75% tax)
-  → Tax calculation: $108.50 ÷ 1.0875 = $99.77
-  → Nearest price: $98-$100
-  → Web search: Lululemon leggings ~$98-$128
-  → Inference: "Align leggings" (confidence: 0.88)
-
-- Starbucks $12.47 (PA, Prepared Food, 6.34% tax)  
-  → Tax calculation: $12.47 ÷ 1.0634 = $11.73
-  → Inference: "latte + breakfast item" (confidence: 0.82)
-
-SPECIFICITY GUIDELINES:
-- Be as specific as possible while remaining confident
-- Target parent-SKU level (e.g., "dozen Pro V1 golf balls" not "golf merchandise")
-- Do NOT be generic (avoid: "merchandise", "items", "goods", "purchase", "products")
-
-CONFIDENCE SCORING:
-- 0.9+ : Pre-tax amount matches exactly to a known product price (e.g., $55 = Pro V1 golf balls)
-- 0.75-0.89: Pre-tax amount falls within a narrow product range (e.g., $98-$108 = athletic leggings)
-- 0.6-0.74: Multiple plausible products at similar price points
-- <0.6: Very ambiguous, could be many things
-
-TASK 2 - USER PERSONA:
-Based on ALL transactions across the 3 pillars, create a unified customer persona that describes:
-- A brief summary of their lifestyle (2-3 sentences)
-- 3-5 lifestyle traits
-- 3-5 spending behaviors
-- 3-5 interests/priorities
-
-RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
+RESPOND WITH JSON ONLY:
 {
   "analyzed_pillars": [
     {
@@ -500,61 +435,50 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
       "transactions": [
         {
           "transaction_id": "id",
-          "inferred_purchase": "Specific product with tax logic shown (e.g., dozen Pro V1 golf balls [$55 + $3.57 tax])",
-          "confidence": 0.95,
-          "tax_breakdown": {
-            "pre_tax": 55.00,
-            "tax": 3.57,
-            "rate": "8.25%",
-            "state": "TX",
-            "category": "general"
-          }
+          "inferred_purchase": "specific product name",
+          "confidence": 0.85
         }
       ]
     }
   ],
   "user_persona": {
-    "summary": "Brief lifestyle summary...",
-    "lifestyle_traits": ["trait1", "trait2"],
+    "summary": "2-3 sentence lifestyle summary",
+    "lifestyle_traits": ["trait1", "trait2", "trait3"],
     "spending_behaviors": ["behavior1", "behavior2"],
     "interests": ["interest1", "interest2"]
   }
 }`;
 
-    console.log('Calling Perplexity AI for pillar analysis with category-aware tax calculation...');
+    console.log('Calling Lovable AI for pillar analysis...');
     
-    // Add timeout to prevent function from hanging
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 55000); // 55 second timeout
+    const timeoutId = setTimeout(() => controller.abort(), 55000);
     
     let response;
     try {
-      response = await fetch('https://api.perplexity.ai/chat/completions', {
+      response = await fetch('https://ai.gateway.lovable.dev/v1/chat/completions', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
+          'Authorization': `Bearer ${LOVABLE_API_KEY}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'sonar', // Use faster sonar model instead of sonar-pro
+          model: 'google/gemini-2.5-flash',
           messages: [
             { 
               role: 'system', 
-              content: 'You are a financial analyst expert at inferring customer behavior from transaction data. Use the pre-computed tax breakdowns to match pre-tax amounts to actual product prices. Always respond with valid JSON only, no markdown formatting. Keep responses concise - limit inferred_purchase to 15 words max.' 
+              content: 'You are a financial analyst. Infer specific products from transaction amounts. Respond with valid JSON only, no markdown.' 
             },
             { role: 'user', content: prompt }
           ],
-          temperature: 0.2,
-          max_tokens: 4500, // Increased to prevent truncation
         }),
         signal: controller.signal,
       });
     } catch (fetchError) {
       clearTimeout(timeoutId);
       if (fetchError.name === 'AbortError') {
-        console.error('Perplexity API request timed out after 55 seconds');
         return new Response(
-          JSON.stringify({ error: 'AI analysis timed out. Please try again.' }),
+          JSON.stringify({ error: 'AI analysis timed out.' }),
           { status: 504, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
@@ -564,7 +488,7 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Perplexity AI error:', response.status, errorText);
+      console.error('Lovable AI error:', response.status, errorText);
       
       if (response.status === 429) {
         return new Response(
@@ -572,8 +496,14 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
           { status: 429, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
+      if (response.status === 402) {
+        return new Response(
+          JSON.stringify({ error: 'AI credits exhausted.' }),
+          { status: 402, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
       
-      throw new Error(`Perplexity AI error: ${response.status}`);
+      throw new Error(`AI error: ${response.status}`);
     }
 
     const aiResponse = await response.json();
