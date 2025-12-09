@@ -187,7 +187,7 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPerson
             <div className="flex items-center justify-between">
               <div className="flex flex-col items-start gap-2">
                 <CardTitle className="text-2xl">
-                  Spending Profile Analysis
+                  Spending Profile Deep Dive
                 </CardTitle>
                 <p className="text-sm text-muted-foreground">
                   Analyze parent-SKU level spending insight and construct spending persona
