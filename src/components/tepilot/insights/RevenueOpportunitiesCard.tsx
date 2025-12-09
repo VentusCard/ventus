@@ -349,11 +349,20 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
                     </div>
                     
                     <div className="flex items-center gap-2 text-sm">
-                      <span className="font-bold">
-                        {formatCurrency(opportunity.totalOpportunityAmount)}
-                      </span>
+                      <TooltipProvider>
+                        <UITooltip>
+                          <TooltipTrigger asChild>
+                            <span className="font-bold cursor-help underline decoration-dotted decoration-muted-foreground/50 underline-offset-2">
+                              {formatCurrency(opportunity.totalOpportunityAmount)} addressable revenue
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent side="bottom" className="max-w-xs">
+                            <p className="text-xs">Estimated annual revenue that could be captured by addressing this spending gap through targeted merchant partnerships.</p>
+                          </TooltipContent>
+                        </UITooltip>
+                      </TooltipProvider>
                       <span className="text-muted-foreground">
-                        ({Math.round((opportunity.totalOpportunityAmount / totalOpportunity) * 100)}% of total)
+                        ({Math.round((opportunity.totalOpportunityAmount / totalOpportunity) * 100)}% of {formatCurrency(totalOpportunity)} total identified opportunities)
                       </span>
                     </div>
                   </div>
