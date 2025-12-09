@@ -212,7 +212,7 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
           <TooltipTrigger asChild>
             <ToggleGroupItem value="amount" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
               <DollarSign className="h-4 w-4" />
-              <span className="hidden sm:inline">Highest Amount</span>
+              <span className="hidden sm:inline">Volume-First</span>
             </ToggleGroupItem>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="max-w-xs">
@@ -224,7 +224,7 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
           <TooltipTrigger asChild>
             <ToggleGroupItem value="predictability" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
               <Target className="h-4 w-4" />
-              <span className="hidden sm:inline">Highest Predictability</span>
+              <span className="hidden sm:inline">Confidence-First</span>
             </ToggleGroupItem>
           </TooltipTrigger>
           <TooltipContent side="bottom" className="max-w-xs">
@@ -247,37 +247,6 @@ export function SpendingTimingHighlights({ highlights, predictabilityHighlights 
       headerRight={headerRight}
       previewContent={previewContent}
     >
-      {/* Strategic Context Banner */}
-      <div className={`mb-4 p-4 rounded-lg border ${
-        sortBy === 'amount' 
-          ? 'bg-emerald-50 dark:bg-emerald-950/30 border-emerald-200 dark:border-emerald-800' 
-          : 'bg-purple-50 dark:bg-purple-950/30 border-purple-200 dark:border-purple-800'
-      }`}>
-        <div className="flex items-start gap-3">
-          {sortBy === 'amount' ? (
-            <>
-              <BarChart3 className="h-5 w-5 text-emerald-600 dark:text-emerald-400 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-semibold text-emerald-700 dark:text-emerald-300">Volume-First Analysis</p>
-                <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
-                  Sorted by total annual spend. Use this view to identify which merchants drive the most transaction volume for partnership negotiations and interchange revenue optimization.
-                </p>
-              </div>
-            </>
-          ) : (
-            <>
-              <CalendarClock className="h-5 w-5 text-purple-600 dark:text-purple-400 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="font-semibold text-purple-700 dark:text-purple-300">Confidence-First Analysis</p>
-                <p className="text-sm text-purple-600 dark:text-purple-400 mt-1">
-                  Sorted by pattern reliability (% of years the same peak weeks held true). Use this view to deploy marketing campaigns with the highest confidence of customer engagement.
-                </p>
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-
       {/* Data Context Header with Team-Oriented Export */}
       <div className="mb-6 p-4 bg-muted/30 border border-border/50 rounded-lg">
         <div className="flex flex-wrap items-center justify-between gap-4">
