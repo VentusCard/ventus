@@ -54,6 +54,7 @@ const TePilot = () => {
     // Check if navigation state specifies a tab
     const navState = location.state as {
       activeTab?: string;
+      insightType?: 'revenue' | 'relationship' | 'bankwide';
     } | null;
     return navState?.activeTab || "upload";
   });
@@ -67,7 +68,10 @@ const TePilot = () => {
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
   const [recommendationsLoaded, setRecommendationsLoaded] = useState(false);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
-  const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(null);
+  const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(() => {
+    const navState = location.state as { insightType?: 'revenue' | 'relationship' | 'bankwide' } | null;
+    return navState?.insightType || null;
+  });
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
   const [selectedSubcategory, setSelectedSubcategory] = useState<{ subcategory: string; pillar: string } | null>(null);
@@ -159,6 +163,21 @@ const TePilot = () => {
       }
     }
   }, []);
+
+  // Handle navigation state changes (e.g., from Bank-wide to Revenue Recommendations)
+  useEffect(() => {
+    const navState = location.state as { 
+      activeTab?: string; 
+      insightType?: 'revenue' | 'relationship' | 'bankwide';
+    } | null;
+    
+    if (navState?.activeTab) {
+      setActiveTab(navState.activeTab);
+    }
+    if (navState?.insightType) {
+      setInsightType(navState.insightType);
+    }
+  }, [location.state]);
 
   // Persist enriched transactions when enrichment completes
   useEffect(() => {
