@@ -1160,11 +1160,11 @@ const TePilot = () => {
                   icon={<Sparkles className="h-5 w-5 text-violet-500" />}
                   previewContent={
                     <p className="text-sm text-muted-foreground">
-                      Test how partnership deals would render for specific customer profiles based on their transaction history and lifestyle signals.
+                      Test how partnership deals would render for this customer based on their transaction history and lifestyle signals.
                     </p>
                   }
                 >
-                  <DealActivationPreview />
+                  <DealActivationPreview enrichedTransactions={enrichedTransactions} />
                 </CollapsibleCard>
                 
                 {/* Subcategory Transactions Modal */}
