@@ -156,3 +156,21 @@ export interface SpendingTimingHighlight {
   predictabilityScore: number;
   predictabilityReason: string;
 }
+
+// Pipeline Status Types for Consumer Rewards Dashboard
+export type PipelineStage = 'not_started' | 'contacted' | 'negotiating' | 'contract_sent' | 'live';
+
+export interface ContactLogEntry {
+  date: string;
+  type: 'email' | 'call' | 'meeting' | 'note';
+  summary: string;
+}
+
+export interface PipelineStatus {
+  merchantName: string;
+  opportunityId: string;
+  status: PipelineStage;
+  notes: string[];
+  lastUpdated: string;
+  contactLog: ContactLogEntry[];
+}
