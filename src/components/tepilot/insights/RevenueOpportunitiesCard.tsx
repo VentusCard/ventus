@@ -6,7 +6,8 @@ import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger }
 import { 
   TrendingUp, MapPin, Users, Target, ArrowRight, 
   DollarSign, Download, Handshake, Calendar, 
-  Lightbulb, CalendarClock, Clock, Building2, ChevronRight, Percent, UserCheck, Sparkles
+  Lightbulb, CalendarClock, Clock, Building2, ChevronRight, Percent, UserCheck, Sparkles,
+  Smartphone, Heart, Plane, UtensilsCrossed, Home, GraduationCap
 } from "lucide-react";
 import type { RevenueOpportunity, MerchantPartnershipPitch } from "@/types/bankwide";
 import { CollapsibleCard } from "./CollapsibleCard";
@@ -46,8 +47,24 @@ const getPriorityStyles = (priority: 'high' | 'medium' | 'low') => {
   }
 };
 
-const getGapIcon = (type: RevenueOpportunity['gapType']) => {
-  switch (type) {
+const getOpportunityIcon = (iconHint?: RevenueOpportunity['iconHint'], gapType?: RevenueOpportunity['gapType']) => {
+  // Use iconHint first for persona-specific icons
+  if (iconHint) {
+    switch (iconHint) {
+      case 'gen-z': return Smartphone;
+      case 'health': return Heart;
+      case 'travel': return Plane;
+      case 'dining': return UtensilsCrossed;
+      case 'home': return Home;
+      case 'geographic': return MapPin;
+      case 'cross-sell': return Target;
+      case 'sports': return TrendingUp;
+      case 'family': return Users;
+      case 'tech': return Smartphone;
+    }
+  }
+  // Fallback to gapType
+  switch (gapType) {
     case 'pillar': return TrendingUp;
     case 'geographic': return MapPin;
     case 'demographic': return Users;
@@ -322,7 +339,7 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
       {/* Opportunities Accordion */}
       <Accordion type="multiple" className="space-y-3">
         {filteredOpportunities.map((opportunity) => {
-          const Icon = getGapIcon(opportunity.gapType);
+          const Icon = getOpportunityIcon(opportunity.iconHint, opportunity.gapType);
           const styles = getPriorityStyles(opportunity.priority);
           
           return (
