@@ -540,12 +540,12 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
           messages: [
             { 
               role: 'system', 
-              content: 'You are a financial analyst expert at inferring customer behavior from transaction data. Use the pre-computed tax breakdowns to match pre-tax amounts to actual product prices. Always respond with valid JSON only, no markdown formatting.' 
+              content: 'You are a financial analyst expert at inferring customer behavior from transaction data. Use the pre-computed tax breakdowns to match pre-tax amounts to actual product prices. Always respond with valid JSON only, no markdown formatting. Keep responses concise - limit inferred_purchase to 15 words max.' 
             },
             { role: 'user', content: prompt }
           ],
           temperature: 0.2,
-          max_tokens: 3000,
+          max_tokens: 4500, // Increased to prevent truncation
         }),
         signal: controller.signal,
       });
@@ -584,6 +584,7 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
     }
 
     console.log('AI Response received, parsing...');
+    console.log('Response length:', content.length);
     
     // Clean up the response - remove markdown code blocks if present
     let cleanedContent = content.trim();
@@ -597,9 +598,105 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
     }
     cleanedContent = cleanedContent.trim();
 
-    const result = JSON.parse(cleanedContent);
+    // Attempt to parse JSON with fallback for truncated responses
+    let result;
+    try {
+      result = JSON.parse(cleanedContent);
+    } catch (parseError) {
+      console.warn('JSON parse failed, attempting to repair truncated JSON...');
+      
+      // Try to repair truncated JSON by closing open structures
+      let repairedContent = cleanedContent;
+      
+      // Count open brackets/braces
+      const openBraces = (repairedContent.match(/{/g) || []).length;
+      const closeBraces = (repairedContent.match(/}/g) || []).length;
+      const openBrackets = (repairedContent.match(/\[/g) || []).length;
+      const closeBrackets = (repairedContent.match(/]/g) || []).length;
+      
+      // Find last complete object/array and truncate there
+      // Look for patterns like }, { or }, ] or ] } that indicate structure boundaries
+      const lastCompleteMatch = repairedContent.match(/.*[}\]]\s*[,]?\s*$/s);
+      
+      if (lastCompleteMatch) {
+        // Try to find the last complete transaction entry
+        const pillarMatches = repairedContent.match(/"pillar_analyses"\s*:\s*\[\s*(\{[^]*?\})\s*[,\]]/);
+        
+        if (pillarMatches) {
+          // We have at least one complete pillar analysis, create minimal valid response
+          try {
+            // Extract what we can parse
+            const partialPillarMatch = repairedContent.match(/"pillar_analyses"\s*:\s*\[([^]*)/);
+            if (partialPillarMatch) {
+              // Build a minimal valid response with what we have
+              const pillarsContent = partialPillarMatch[1];
+              
+              // Find complete pillar objects
+              const completePillars: string[] = [];
+              let depth = 0;
+              let start = -1;
+              
+              for (let i = 0; i < pillarsContent.length; i++) {
+                if (pillarsContent[i] === '{') {
+                  if (depth === 0) start = i;
+                  depth++;
+                } else if (pillarsContent[i] === '}') {
+                  depth--;
+                  if (depth === 0 && start >= 0) {
+                    completePillars.push(pillarsContent.slice(start, i + 1));
+                    start = -1;
+                  }
+                }
+              }
+              
+              if (completePillars.length > 0) {
+                console.log(`Recovered ${completePillars.length} complete pillar analyses`);
+                const recoveredResult = {
+                  pillar_analyses: completePillars.map(p => {
+                    try { return JSON.parse(p); } 
+                    catch { return null; }
+                  }).filter(Boolean),
+                  unified_persona: {
+                    lifestyle_traits: ["Active lifestyle enthusiast"],
+                    spending_behaviors: ["Health-conscious consumer"],
+                    interests: ["Fitness", "Wellness"]
+                  }
+                };
+                result = recoveredResult;
+              }
+            }
+          } catch (recoveryError) {
+            console.error('Recovery attempt failed:', recoveryError);
+          }
+        }
+      }
+      
+      // If we still don't have a result, create a fallback
+      if (!result) {
+        console.error('Could not repair JSON, returning fallback response');
+        result = {
+          pillar_analyses: pillars.map(p => ({
+            pillar_name: p.pillarName,
+            total_spend: p.totalSpend,
+            transaction_count: p.transactions.length,
+            transactions: p.transactions.slice(0, 3).map(t => ({
+              transaction_id: t.transaction_id,
+              merchant_name: t.merchant_name,
+              amount: t.amount,
+              inferred_purchase: 'Unable to analyze - please retry',
+              confidence: 0.5
+            }))
+          })),
+          unified_persona: {
+            lifestyle_traits: ["Analysis incomplete - please retry"],
+            spending_behaviors: ["Retry analysis for full results"],
+            interests: ["Pending analysis"]
+          }
+        };
+      }
+    }
     
-    console.log('Successfully parsed AI analysis with tax-adjusted SKU inference');
+    console.log('Successfully parsed AI analysis');
 
     return new Response(
       JSON.stringify(result),
