@@ -523,25 +523,44 @@ RESPOND WITH VALID JSON ONLY (no markdown, no code blocks):
 
     console.log('Calling Perplexity AI for pillar analysis with category-aware tax calculation...');
     
-    const response = await fetch('https://api.perplexity.ai/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'sonar-pro',
-        messages: [
-          { 
-            role: 'system', 
-            content: 'You are a financial analyst expert at inferring customer behavior from transaction data. Use web search to look up current product prices from retailer websites to validate your SKU inferences. Use the pre-computed tax breakdowns to match pre-tax amounts to actual product prices. Always respond with valid JSON only, no markdown formatting.' 
-          },
-          { role: 'user', content: prompt }
-        ],
-        temperature: 0.2,
-        max_tokens: 4000,
-      }),
-    });
+    // Add timeout to prevent function from hanging
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 55000); // 55 second timeout
+    
+    let response;
+    try {
+      response = await fetch('https://api.perplexity.ai/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${PERPLEXITY_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: 'sonar', // Use faster sonar model instead of sonar-pro
+          messages: [
+            { 
+              role: 'system', 
+              content: 'You are a financial analyst expert at inferring customer behavior from transaction data. Use the pre-computed tax breakdowns to match pre-tax amounts to actual product prices. Always respond with valid JSON only, no markdown formatting.' 
+            },
+            { role: 'user', content: prompt }
+          ],
+          temperature: 0.2,
+          max_tokens: 3000,
+        }),
+        signal: controller.signal,
+      });
+    } catch (fetchError) {
+      clearTimeout(timeoutId);
+      if (fetchError.name === 'AbortError') {
+        console.error('Perplexity API request timed out after 55 seconds');
+        return new Response(
+          JSON.stringify({ error: 'AI analysis timed out. Please try again.' }),
+          { status: 504, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
+      throw fetchError;
+    }
+    clearTimeout(timeoutId);
 
     if (!response.ok) {
       const errorText = await response.text();
