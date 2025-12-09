@@ -102,23 +102,31 @@ const getPriorityStyles = (priority: SpendingGap['priority']) => {
   switch (priority) {
     case 'high':
       return {
-        bar: 'bg-red-500',
-        badge: 'bg-red-500/15 text-red-600 dark:text-red-400 border-red-500/30',
+        bar: 'bg-rose-400/80',
+        badge: 'bg-rose-50 text-rose-700 dark:bg-rose-950/30 dark:text-rose-300 border-rose-200 dark:border-rose-800',
+        iconBg: 'bg-rose-50 dark:bg-rose-950/30',
+        iconColor: 'text-rose-500 dark:text-rose-400',
       };
     case 'medium':
       return {
-        bar: 'bg-amber-500',
-        badge: 'bg-amber-500/15 text-amber-600 dark:text-amber-400 border-amber-500/30',
+        bar: 'bg-amber-400/70',
+        badge: 'bg-amber-50 text-amber-700 dark:bg-amber-950/30 dark:text-amber-300 border-amber-200 dark:border-amber-800',
+        iconBg: 'bg-amber-50 dark:bg-amber-950/30',
+        iconColor: 'text-amber-500 dark:text-amber-400',
       };
     case 'low':
       return {
-        bar: 'bg-blue-500',
-        badge: 'bg-blue-500/15 text-blue-600 dark:text-blue-400 border-blue-500/30',
+        bar: 'bg-slate-400/60',
+        badge: 'bg-slate-50 text-slate-600 dark:bg-slate-950/30 dark:text-slate-300 border-slate-200 dark:border-slate-700',
+        iconBg: 'bg-slate-50 dark:bg-slate-900/50',
+        iconColor: 'text-slate-500 dark:text-slate-400',
       };
     default:
       return {
         bar: 'bg-muted',
         badge: 'bg-muted text-muted-foreground',
+        iconBg: 'bg-muted',
+        iconColor: 'text-muted-foreground',
       };
   }
 };
@@ -333,7 +341,7 @@ export function RevenueOpportunitiesCard({ gaps, timingHighlights, predictabilit
       {/* Spending Gaps Section */}
       <div className="mb-6">
         <h4 className="font-semibold text-sm mb-3 flex items-center gap-2">
-          <AlertTriangle className="h-4 w-4 text-red-500" />
+          <AlertTriangle className="h-4 w-4 text-rose-400" />
           Spending Gaps — Untapped Revenue ({formatCurrency(totalGapOpportunity)})
         </h4>
         <div className="space-y-2">
@@ -347,16 +355,8 @@ export function RevenueOpportunitiesCard({ gaps, timingHighlights, predictabilit
                 <AccordionItem value={`gap-${index}`} className="border rounded-lg">
                   <AccordionTrigger className="hover:no-underline px-4 py-3">
                     <div className="flex items-center gap-4 w-full pr-4">
-                      <div className={cn(
-                        "p-2 rounded-lg shrink-0",
-                        gap.priority === 'high' ? 'bg-red-500/10' : 
-                        gap.priority === 'medium' ? 'bg-amber-500/10' : 'bg-blue-500/10'
-                      )}>
-                        <Icon className={cn(
-                          "h-4 w-4",
-                          gap.priority === 'high' ? 'text-red-500' : 
-                          gap.priority === 'medium' ? 'text-amber-500' : 'text-blue-500'
-                        )} />
+                      <div className={cn("p-2 rounded-lg shrink-0", styles.iconBg)}>
+                        <Icon className={cn("h-4 w-4", styles.iconColor)} />
                       </div>
 
                       <div className="flex-1 min-w-0">
