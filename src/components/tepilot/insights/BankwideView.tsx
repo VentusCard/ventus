@@ -4,8 +4,7 @@ import { BankwideMetrics } from "./BankwideMetrics";
 import { CardProductMatrix } from "./CardProductMatrix";
 import { BankwidePillarExplorer } from "./BankwidePillarExplorer";
 import { DemographicBreakdown } from "./DemographicBreakdown";
-import { SpendingGapsAnalysis } from "./SpendingGapsAnalysis";
-import { SpendingTimingHighlights } from "./SpendingTimingHighlights";
+import { RevenueOpportunitiesCard } from "./RevenueOpportunitiesCard";
 import { CrossSellMatrix } from "./CrossSellMatrix";
 
 import {
@@ -61,11 +60,12 @@ export function BankwideView() {
       {/* Demographic Breakdown */}
       <DemographicBreakdown ageRanges={ageRanges} />
 
-      {/* Spending Gaps Analysis */}
-      <SpendingGapsAnalysis gaps={spendingGaps} />
-
-      {/* Spending & Timing Highlights */}
-      <SpendingTimingHighlights highlights={timingHighlights} predictabilityHighlights={predictabilityHighlights} />
+      {/* Revenue Opportunities & Optimal Timing (merged) */}
+      <RevenueOpportunitiesCard 
+        gaps={spendingGaps} 
+        timingHighlights={timingHighlights} 
+        predictabilityHighlights={predictabilityHighlights} 
+      />
 
       {/* Cross-Sell Matrix */}
       <CrossSellMatrix matrixData={crossSellMatrix} />
