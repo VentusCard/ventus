@@ -108,93 +108,144 @@ const exportOpportunities = (opportunities: RevenueOpportunity[]) => {
   toast.success('Partnership opportunities exported');
 };
 
-function MerchantCard({ pitch, gapTitle }: { pitch: MerchantPartnershipPitch; gapTitle: string }) {
+function MerchantList({ partnerships, gapTitle }: { partnerships: MerchantPartnershipPitch[]; gapTitle: string }) {
+  const [selectedMerchant, setSelectedMerchant] = useState<string | null>(null);
+  
+  // Sort by confidence descending
+  const sortedPartnerships = [...partnerships].sort((a, b) => b.patternConfidence - a.patternConfidence);
+  const selected = sortedPartnerships.find(p => p.merchantName === selectedMerchant);
+
   return (
-    <div className="bg-card border rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow">
-      {/* Header */}
-      <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-primary/10">
-            <Building2 className="h-5 w-5 text-primary" />
-          </div>
-          <div>
-            <h5 className="font-semibold">{pitch.merchantName}</h5>
-            <p className="text-xs text-muted-foreground">{pitch.merchantCategory}</p>
-          </div>
-        </div>
-        <Badge variant="outline" className={cn("text-xs font-medium", getConfidenceColor(pitch.patternConfidence))}>
-          {pitch.patternConfidence}% confidence
-        </Badge>
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      {/* Merchant List */}
+      <div className="space-y-1">
+        <p className="text-xs text-muted-foreground mb-2">Ranked by pattern confidence</p>
+        {sortedPartnerships.map((pitch, idx) => (
+          <button
+            key={pitch.merchantName}
+            onClick={() => setSelectedMerchant(pitch.merchantName)}
+            className={cn(
+              "w-full flex items-center gap-3 p-3 rounded-lg text-left transition-all",
+              selectedMerchant === pitch.merchantName
+                ? "bg-primary/10 border-2 border-primary"
+                : "bg-muted/30 border border-transparent hover:bg-muted/50"
+            )}
+          >
+            <span className="text-xs font-bold text-muted-foreground w-5">#{idx + 1}</span>
+            <div className="p-1.5 rounded-md bg-background border">
+              <Building2 className="h-4 w-4 text-muted-foreground" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className="font-medium text-sm truncate">{pitch.merchantName}</p>
+              <p className="text-xs text-muted-foreground truncate">{pitch.merchantCategory}</p>
+            </div>
+            <Badge variant="outline" className={cn("text-xs shrink-0", getConfidenceColor(pitch.patternConfidence))}>
+              {pitch.patternConfidence}%
+            </Badge>
+            <ChevronRight className={cn(
+              "h-4 w-4 text-muted-foreground transition-transform",
+              selectedMerchant === pitch.merchantName && "text-primary"
+            )} />
+          </button>
+        ))}
       </div>
 
-      {/* Proposed Deal */}
-      <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg mb-4">
-        <p className="text-sm font-medium text-primary">{pitch.proposedDeal}</p>
-      </div>
+      {/* Selected Merchant Details */}
+      <div className="lg:sticky lg:top-4">
+        {selected ? (
+          <div className="bg-card border rounded-xl p-4 shadow-sm">
+            {/* Header */}
+            <div className="flex items-start justify-between mb-3">
+              <div className="flex items-center gap-3">
+                <div className="p-2 rounded-lg bg-primary/10">
+                  <Building2 className="h-5 w-5 text-primary" />
+                </div>
+                <div>
+                  <h5 className="font-semibold">{selected.merchantName}</h5>
+                  <p className="text-xs text-muted-foreground">{selected.merchantCategory}</p>
+                </div>
+              </div>
+              <Badge variant="outline" className={cn("text-xs font-medium", getConfidenceColor(selected.patternConfidence))}>
+                {selected.patternConfidence}% confidence
+              </Badge>
+            </div>
 
-      {/* Win-Win Section */}
-      <div className="grid grid-cols-2 gap-3 mb-4">
-        <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 rounded-lg">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <Handshake className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
-            <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 uppercase">For {pitch.merchantName}</span>
-          </div>
-          <p className="text-xs text-emerald-800 dark:text-emerald-200 leading-relaxed">{pitch.merchantBenefit}</p>
-        </div>
-        <div className="p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
-          <div className="flex items-center gap-1.5 mb-1.5">
-            <TrendingUp className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
-            <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase">For Bank</span>
-          </div>
-          <p className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">{pitch.bankBenefit}</p>
-        </div>
-      </div>
+            {/* Proposed Deal */}
+            <div className="p-3 bg-primary/5 border border-primary/20 rounded-lg mb-4">
+              <p className="text-sm font-medium text-primary">{selected.proposedDeal}</p>
+            </div>
 
-      {/* Metrics Row */}
-      <div className="grid grid-cols-3 gap-2 mb-4">
-        <div className="text-center p-2 bg-muted/50 rounded-lg">
-          <DollarSign className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
-          <p className="text-sm font-bold text-foreground">{formatCurrency(pitch.estimatedRevenueCapture)}</p>
-          <p className="text-[10px] text-muted-foreground">Est. Revenue</p>
-        </div>
-        <div className="text-center p-2 bg-muted/50 rounded-lg">
-          <UserCheck className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
-          <p className="text-sm font-bold text-foreground">{formatUsers(pitch.targetedUserCount)}</p>
-          <p className="text-[10px] text-muted-foreground">Target Users</p>
-        </div>
-        <div className="text-center p-2 bg-muted/50 rounded-lg">
-          <Percent className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
-          <p className="text-sm font-bold text-foreground">{pitch.projectedConversionRate}%</p>
-          <p className="text-[10px] text-muted-foreground">Proj. Conversion</p>
-        </div>
-      </div>
+            {/* Win-Win Section */}
+            <div className="grid grid-cols-1 gap-3 mb-4">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800 rounded-lg">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <Handshake className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400" />
+                  <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 uppercase">For {selected.merchantName}</span>
+                </div>
+                <p className="text-xs text-emerald-800 dark:text-emerald-200 leading-relaxed">{selected.merchantBenefit}</p>
+              </div>
+              <div className="p-3 bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800 rounded-lg">
+                <div className="flex items-center gap-1.5 mb-1.5">
+                  <TrendingUp className="h-3.5 w-3.5 text-blue-600 dark:text-blue-400" />
+                  <span className="text-xs font-semibold text-blue-700 dark:text-blue-300 uppercase">For Bank</span>
+                </div>
+                <p className="text-xs text-blue-800 dark:text-blue-200 leading-relaxed">{selected.bankBenefit}</p>
+              </div>
+            </div>
 
-      {/* Timing & Deadlines */}
-      <div className="p-3 bg-muted/30 rounded-lg border border-border/50">
-        <div className="flex items-center gap-2 mb-2">
-          <CalendarClock className="h-4 w-4 text-muted-foreground" />
-          <span className="text-xs font-medium text-muted-foreground uppercase">Partnership Timeline</span>
-        </div>
-        <div className="grid grid-cols-3 gap-2 text-xs">
-          <div>
-            <p className="text-muted-foreground">Negotiate by</p>
-            <p className="font-semibold text-amber-600 dark:text-amber-400">{pitch.negotiationDeadline}</p>
-          </div>
-          <div>
-            <p className="text-muted-foreground">Deploy</p>
-            <p className="font-semibold text-primary">{pitch.deploymentWindow.split(' - ')[0]}</p>
-          </div>
-          <div>
-            <p className="text-muted-foreground">Peak Quarter</p>
-            <p className="font-semibold">{pitch.peakQuarter}</p>
-          </div>
-        </div>
-      </div>
+            {/* Metrics Row */}
+            <div className="grid grid-cols-3 gap-2 mb-4">
+              <div className="text-center p-2 bg-muted/50 rounded-lg">
+                <DollarSign className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
+                <p className="text-sm font-bold text-foreground">{formatCurrency(selected.estimatedRevenueCapture)}</p>
+                <p className="text-[10px] text-muted-foreground">Est. Revenue</p>
+              </div>
+              <div className="text-center p-2 bg-muted/50 rounded-lg">
+                <UserCheck className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
+                <p className="text-sm font-bold text-foreground">{formatUsers(selected.targetedUserCount)}</p>
+                <p className="text-[10px] text-muted-foreground">Target Users</p>
+              </div>
+              <div className="text-center p-2 bg-muted/50 rounded-lg">
+                <Percent className="h-4 w-4 mx-auto text-muted-foreground mb-1" />
+                <p className="text-sm font-bold text-foreground">{selected.projectedConversionRate}%</p>
+                <p className="text-[10px] text-muted-foreground">Proj. Conversion</p>
+              </div>
+            </div>
 
-      {/* Pattern Reason */}
-      <div className="mt-3 flex items-start gap-2 text-xs text-muted-foreground">
-        <Lightbulb className="h-3.5 w-3.5 mt-0.5 shrink-0 text-amber-500" />
-        <p>{pitch.patternReason}</p>
+            {/* Timing & Deadlines */}
+            <div className="p-3 bg-muted/30 rounded-lg border border-border/50 mb-3">
+              <div className="flex items-center gap-2 mb-2">
+                <CalendarClock className="h-4 w-4 text-muted-foreground" />
+                <span className="text-xs font-medium text-muted-foreground uppercase">Partnership Timeline</span>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-xs">
+                <div>
+                  <p className="text-muted-foreground">Negotiate by</p>
+                  <p className="font-semibold text-amber-600 dark:text-amber-400">{selected.negotiationDeadline}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Deploy</p>
+                  <p className="font-semibold text-primary">{selected.deploymentWindow.split(' - ')[0]}</p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">Peak Quarter</p>
+                  <p className="font-semibold">{selected.peakQuarter}</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Pattern Reason */}
+            <div className="flex items-start gap-2 text-xs text-muted-foreground">
+              <Lightbulb className="h-3.5 w-3.5 mt-0.5 shrink-0 text-amber-500" />
+              <p>{selected.patternReason}</p>
+            </div>
+          </div>
+        ) : (
+          <div className="bg-muted/20 border border-dashed rounded-xl p-8 flex flex-col items-center justify-center text-center h-full min-h-[300px]">
+            <Building2 className="h-10 w-10 text-muted-foreground/50 mb-3" />
+            <p className="text-sm text-muted-foreground">Select a merchant to view partnership details</p>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -349,21 +400,16 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
                     </div>
                   </div>
 
-                  {/* Merchant Partnership Cards */}
+                  {/* Merchant Partnership List */}
                   <div>
                     <h5 className="font-semibold text-sm mb-3 flex items-center gap-2">
                       <Handshake className="h-4 w-4 text-primary" />
                       Partnership Opportunities to Address This Gap
                     </h5>
-                    <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                      {opportunity.merchantPartnerships.map((pitch) => (
-                        <MerchantCard 
-                          key={pitch.merchantName} 
-                          pitch={pitch} 
-                          gapTitle={opportunity.gapTitle} 
-                        />
-                      ))}
-                    </div>
+                    <MerchantList 
+                      partnerships={opportunity.merchantPartnerships} 
+                      gapTitle={opportunity.gapTitle} 
+                    />
                   </div>
                 </div>
               </AccordionContent>
