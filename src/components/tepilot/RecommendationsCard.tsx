@@ -85,7 +85,7 @@ export function RecommendationsCard({ recommendations, summary, isLoading = fals
           <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
             <div className="flex items-center justify-between w-full">
               <div className="flex flex-col items-start gap-2">
-                <CardTitle className="text-2xl">Example Deal, Rewards and Cross-Sell Opportunities</CardTitle>
+                <CardTitle className="text-2xl">Example Personalized Deal, Rewards and Cross-Sell Opportunities</CardTitle>
                 <div className="text-sm text-muted-foreground">
                   {recommendations.length} strategic recommendations
                 </div>
