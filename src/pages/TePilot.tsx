@@ -43,6 +43,8 @@ import { PILLAR_COLORS } from "@/lib/sampleData";
 import { SubcategoryTransactionsModal } from "@/components/tepilot/insights/SubcategoryTransactionsModal";
 import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailModal";
 import { TopPillarsAnalysis } from "@/components/tepilot/insights/TopPillarsAnalysis";
+import { DealActivationPreview } from "@/components/tepilot/insights/DealActivationPreview";
+import { CollapsibleCard } from "@/components/tepilot/insights/CollapsibleCard";
 const CURRENT_VERSION = "V2.4";
 const TePilot = () => {
   const [password, setPassword] = useState("");
@@ -1131,6 +1133,20 @@ const TePilot = () => {
             
                 {/* Geo-Location Deals Section */}
                 <GeoLocationDealsSection locationContext={locationContext} />
+                
+                {/* Deal Activation Engine - Test deals with individual customers */}
+                <CollapsibleCard
+                  title="Deal Activation Engine"
+                  description="Preview how bank-defined deals translate into personalized customer messaging"
+                  icon={<Sparkles className="h-5 w-5 text-violet-500" />}
+                  previewContent={
+                    <p className="text-sm text-muted-foreground">
+                      Test how partnership deals would render for specific customer profiles based on their transaction history and lifestyle signals.
+                    </p>
+                  }
+                >
+                  <DealActivationPreview />
+                </CollapsibleCard>
                 
                 {/* Subcategory Transactions Modal */}
                 <SubcategoryTransactionsModal
