@@ -406,7 +406,7 @@ serve(async (req) => {
         const tax = calculateTaxBreakdown(t.amount, zip, p.pillar, t.subcategory);
         
         return {
-          id: t.transaction_id,
+          transaction_id: t.transaction_id,
           merchant: t.merchant_name,
           amount: t.amount,
           pre_tax: tax.pre_tax_amount,
