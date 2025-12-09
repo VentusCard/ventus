@@ -422,16 +422,28 @@ serve(async (req) => {
 INPUT:
 ${JSON.stringify(pillarsSummary, null, 2)}
 
-TASK 1: For each transaction, use the pre_tax amount to infer the specific product.
-IMPORTANT: Include the reverse tax calculation in your inference text using this format:
+TASK 1: For each transaction, use the pre_tax amount to infer the SPECIFIC PARENT SKU product.
+BE EXTREMELY SPECIFIC - try to identify the actual product/SKU when price-matching is possible:
+- Use your knowledge of retail pricing to match pre_tax amounts to specific products
+- Include brand + product line + size/quantity when identifiable
+- If exact SKU unknown, give the most specific category possible with likely options
+
+SPECIFICITY HIERARCHY (most to least preferred):
+1. Exact product: "Titleist Pro V1 golf balls (dozen)" - when price matches exactly
+2. Product line: "Nike Air Max 270 running shoes" - when price range narrows it down
+3. Category with options: "premium yoga pants (Lululemon Align or similar)" - when brand/category clear but exact item uncertain
+4. AVOID generic terms: "clothing", "merchandise", "items", "purchase", "goods"
+
+INCLUDE reverse tax calculation in your inference:
 - Standard: "product name ($XX.XX pre-tax @ X.XX% STATE)"
 - If state unknown: "product name ($XX.XX pre-tax)"
 - If tax is 0% (exempt): "product name ($XX.XX, tax-exempt)"
 
 Examples:
-- "$58.57 at Titleist in TX" with pre_tax $55.00, tax_rate 8.25% → "dozen Pro V1 golf balls ($55.00 pre-tax @ 8.25% TX)"
-- "$45.00 at Whole Foods in NJ" with pre_tax $45.00, tax_rate 0% → "weekly produce haul ($45.00, tax-exempt)"
-- "$120.00 at Nike" with unknown state → "running shoes ($110.50 pre-tax)"
+- "$58.57 at Titleist in TX" with pre_tax $55.00 → "Titleist Pro V1 golf balls, dozen ($55.00 pre-tax @ 8.25% TX)"
+- "$189.99 at Lululemon in CA" with pre_tax $175.00 → "Lululemon Align High-Rise Pant 28\" ($175.00 pre-tax @ 8.57% CA)"
+- "$45.00 at Whole Foods in NJ" with pre_tax $45.00 → "organic produce haul + specialty items ($45.00, tax-exempt)"
+- "$329.00 at Apple" with pre_tax $304.00 → "AirPods Pro 2nd Gen ($304.00 pre-tax @ 8.25% TX)"
 
 TASK 2: Create a customer persona based on all transactions.
 
