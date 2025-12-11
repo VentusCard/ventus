@@ -95,7 +95,7 @@ const AppDownload = () => {
             </p>
             
             <p className="text-sm text-slate-500 mb-4 text-center">
-              Available now on iOS • Coming soon to Android
+              Available now on iOS and Android
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
@@ -119,15 +119,18 @@ const AppDownload = () => {
               
               <Button 
                 size="lg" 
-                className="h-auto w-48 sm:w-56 px-4 sm:px-6 py-2 sm:py-3 text-base bg-gray-700 cursor-not-allowed text-white rounded-xl flex items-center gap-2 sm:gap-3 border-2 border-gray-600 opacity-75"
-                disabled
+                className="h-auto w-48 sm:w-56 px-4 sm:px-6 py-2 sm:py-3 text-base bg-black hover:bg-gray-900 text-white rounded-xl flex items-center gap-2 sm:gap-3 border-2 border-green-500/50"
+                onClick={() => {
+                  window.open("https://play.google.com/store/apps/details?id=com.ventuscard.ventus", "_blank");
+                }}
               >
-                <PlayIcon className="w-6 h-6 sm:w-8 sm:h-8 opacity-50" />
+                <PlayIcon className="w-6 h-6 sm:w-8 sm:h-8" />
                 <div className="flex flex-col items-start gap-0.5">
                   <span className="text-[9px] sm:text-[10px] leading-tight opacity-80">GET IT ON</span>
                   <span className="text-lg sm:text-xl font-semibold leading-tight">Google Play</span>
-                  <span className="text-[9px] sm:text-[10px] leading-tight text-blue-400 font-semibold">
-                    Coming Soon
+                  <span className="text-[9px] sm:text-[10px] leading-tight text-green-400 font-semibold flex items-center gap-1">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
+                    Available Now
                   </span>
                 </div>
               </Button>
