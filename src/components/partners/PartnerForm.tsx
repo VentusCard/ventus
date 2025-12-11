@@ -72,17 +72,22 @@ const PartnerForm = () => {
           />
 
           {/* CTA Card to External Signup */}
-          <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-r from-blue-600 to-blue-700">
-            <CardContent className="p-6 md:p-8 text-center">
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
-                Ready to Partner with Ventus?
-              </h3>
-              <p className="text-blue-100 mb-6">
+          <Card className="overflow-hidden border-0 shadow-premium bg-white/95 backdrop-blur-sm">
+            <CardContent className="p-4 md:p-6">
+              <div className="flex items-center gap-2 md:gap-3 mb-3">
+                <div className="relative p-1.5 bg-gradient-to-br from-blue-400 via-blue-500 to-blue-600 rounded-lg shadow-md">
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-black/5 rounded-lg"></div>
+                  <div className="absolute inset-0.5 border border-white/40 rounded-md"></div>
+                  <ExternalLink size={16} className="text-white relative z-10 md:w-[18px] md:h-[18px]" strokeWidth={2} />
+                </div>
+                <h3 className="text-base md:text-2xl font-bold">Ready to Partner with Ventus?</h3>
+              </div>
+              <p className="text-slate-600 text-sm md:text-base mb-4">
                 Complete your merchant registration to start reaching customers who love what you offer.
               </p>
               <Button 
                 size="lg"
-                className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-8"
+                className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-8"
                 onClick={() => window.open("https://www.ventusrewards.com/signup", "_blank")}
               >
                 Sign Up Now
