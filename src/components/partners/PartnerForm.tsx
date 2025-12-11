@@ -1,8 +1,9 @@
-
 import { useState, useEffect } from "react";
 import BusinessInformationSection from "./BusinessInformationSection";
 import TargetingToolsSection from "./TargetingToolsSection";
-import ContactInformationSection from "./ContactInformationSection";
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
 
 const subcategories = {
   Sports: ["Golf", "Tennis", "Running", "Skiing", "Team Sports"],
@@ -17,7 +18,7 @@ const PartnerForm = () => {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [selectedTargeting, setSelectedTargeting] = useState<string[]>(["geographic"]);
-  const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false, 3: false });
+  const [expandedSections, setExpandedSections] = useState({ 1: true, 2: false });
 
   // Section validation functions
   const isSection1Complete = () => {
@@ -27,24 +28,12 @@ const PartnerForm = () => {
     );
   };
 
-  const isSection2Complete = () => {
-    // At least one tool selected beyond geographic (which is always included)
-    const nonGeographicTools = selectedTargeting.filter(tool => tool !== "geographic");
-    return nonGeographicTools.length > 0;
-  };
-
-  // Auto-expand sections when previous section is complete
+  // Auto-expand section 2 when section 1 is complete
   useEffect(() => {
     if (isSection1Complete() && !expandedSections[2]) {
       setExpandedSections(prev => ({ ...prev, 2: true }));
     }
   }, [selectedCategory, selectedSubcategories, expandedSections]);
-
-  useEffect(() => {
-    if (isSection2Complete() && !expandedSections[3]) {
-      setExpandedSections(prev => ({ ...prev, 3: true }));
-    }
-  }, [selectedTargeting, expandedSections]);
 
   const toggleSection = (section: number) => {
     setExpandedSections(prev => ({ ...prev, [section]: !prev[section] }));
@@ -79,17 +68,28 @@ const PartnerForm = () => {
             setSelectedTargeting={setSelectedTargeting}
             isExpanded={expandedSections[2]}
             onToggle={() => toggleSection(2)}
-            isComplete={isSection2Complete()}
+            isComplete={selectedTargeting.filter(t => t !== "geographic").length > 0}
           />
 
-          {/* Section 3: Contact Information */}
-          <ContactInformationSection
-            selectedCategory={selectedCategory}
-            selectedSubcategories={selectedSubcategories}
-            selectedTargeting={selectedTargeting}
-            isExpanded={expandedSections[3]}
-            onToggle={() => toggleSection(3)}
-          />
+          {/* CTA Card to External Signup */}
+          <Card className="overflow-hidden border-0 shadow-lg bg-gradient-to-r from-blue-600 to-blue-700">
+            <CardContent className="p-6 md:p-8 text-center">
+              <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
+                Ready to Partner with Ventus?
+              </h3>
+              <p className="text-blue-100 mb-6">
+                Complete your merchant registration to start reaching customers who love what you offer.
+              </p>
+              <Button 
+                size="lg"
+                className="bg-white text-blue-600 hover:bg-blue-50 font-semibold px-8"
+                onClick={() => window.open("https://www.ventusrewards.com/signup", "_blank")}
+              >
+                Sign Up Now
+                <ExternalLink className="w-4 h-4 ml-2" />
+              </Button>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </section>
