@@ -422,28 +422,42 @@ serve(async (req) => {
 INPUT:
 ${JSON.stringify(pillarsSummary, null, 2)}
 
-TASK 1: For each transaction, use the pre_tax amount to infer the SPECIFIC PARENT SKU product.
-BE EXTREMELY SPECIFIC - try to identify the actual product/SKU when price-matching is possible:
-- Use your knowledge of retail pricing to match pre_tax amounts to specific products
-- Include brand + product line + size/quantity when identifiable
-- If exact SKU unknown, give the most specific category possible with likely options
+TASK 1: For each transaction, infer SPECIFIC products using STRICT PRICE MATCHING.
 
-SPECIFICITY HIERARCHY (most to least preferred):
-1. Exact product: "Titleist Pro V1 golf balls (dozen)" - when price matches exactly
-2. Product line: "Nike Air Max 270 running shoes" - when price range narrows it down
-3. Category with options: "premium yoga pants (Lululemon Align or similar)" - when brand/category clear but exact item uncertain
-4. AVOID generic terms: "clothing", "merchandise", "items", "purchase", "goods"
+PRICE-MATCHING RULES (STRICT - FOLLOW EXACTLY):
 
-INCLUDE reverse tax calculation in your inference:
-- Standard: "product name ($XX.XX pre-tax @ X.XX% STATE)"
-- If state unknown: "product name ($XX.XX pre-tax)"
-- If tax is 0% (exempt): "product name ($XX.XX, tax-exempt)"
+OPTION 1 - EXACT SINGLE-ITEM MATCH (95%+ confidence):
+- The pre_tax amount matches a known product price EXACTLY (±$1)
+- Example: pre_tax $55.00 at Titleist → "Titleist Pro V1 golf balls, dozen"
+- Example: pre_tax $249.00 at Apple → "AirPods Pro 2nd Gen"
 
-Examples:
-- "$58.57 at Titleist in TX" with pre_tax $55.00 → "Titleist Pro V1 golf balls, dozen ($55.00 pre-tax @ 8.25% TX)"
-- "$189.99 at Lululemon in CA" with pre_tax $175.00 → "Lululemon Align High-Rise Pant 28\" ($175.00 pre-tax @ 8.57% CA)"
-- "$45.00 at Whole Foods in NJ" with pre_tax $45.00 → "organic produce haul + specialty items ($45.00, tax-exempt)"
-- "$329.00 at Apple" with pre_tax $304.00 → "AirPods Pro 2nd Gen ($304.00 pre-tax @ 8.25% TX)"
+OPTION 2 - EXACT MULTI-ITEM MATCH (85-95% confidence):
+- When NO single product matches the pre_tax amount exactly, find multiple items that SUM TO EXACTLY the pre_tax amount
+- List each item with its individual price
+- The item prices MUST add up to the pre_tax total exactly
+- Example: pre_tax $152.72 at golf shop → "TaylorMade golf glove ($28) + Titleist Pro V1 dozen ($55) + golf shorts ($69.72)"
+- Example: pre_tax $89.50 at sporting goods → "yoga mat ($45) + resistance bands ($25) + water bottle ($19.50)"
+
+CRITICAL RULES - NEVER VIOLATE:
+❌ NEVER guess a single expensive item that doesn't match the price
+❌ NEVER add notes like "*seems low for this item*" or "*likely discounted*"
+❌ NEVER suggest an item costs less than its actual retail price
+❌ NEVER use approximate language like "roughly" or "around"
+
+✅ ALWAYS: If single item doesn't fit → break into multiple items that sum exactly
+✅ ALWAYS: Use real product prices from your knowledge
+✅ ALWAYS: Be specific about each item in a multi-item purchase
+✅ ALWAYS: Item prices must mathematically add to pre_tax amount
+
+FORMAT: Include tax info in output:
+- "product(s) description ($XX.XX pre-tax @ X.XX% STATE)"
+- If multi-item: "item1 ($X) + item2 ($Y) + item3 ($Z) ($XX.XX pre-tax @ X.XX% STATE)"
+
+EXAMPLES:
+✅ CORRECT: pre_tax $54.11 at Titleist → "Titleist Pro V1 golf balls, dozen ($54.11 pre-tax @ 8.25% TX)"
+✅ CORRECT: pre_tax $152.72 at PGA Superstore → "golf glove ($28) + dozen Pro V1s ($55) + golf shorts ($69.72) ($152.72 pre-tax @ 8.25% TX)"
+✅ CORRECT: pre_tax $165.00 at TaylorMade → "TaylorMade Tour Response balls ($45) + golf glove ($35) + 2 headcovers ($85) ($165.00 pre-tax)"
+❌ WRONG: "TaylorMade Stealth Driver ($165 pre-tax) - *Note: seems low for this item*"
 
 TASK 2: Create a customer persona based on all transactions.
 
@@ -456,7 +470,7 @@ RESPOND WITH JSON ONLY:
       "transactions": [
         {
           "transaction_id": "id",
-          "inferred_purchase": "running shoes ($89.00 pre-tax @ 6.25% CA)",
+          "inferred_purchase": "item1 ($X) + item2 ($Y) ($89.00 pre-tax @ 6.25% CA)",
           "confidence": 0.85
         }
       ]
