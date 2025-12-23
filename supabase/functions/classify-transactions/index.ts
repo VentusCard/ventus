@@ -8,14 +8,15 @@ const ALLOWED_ORIGINS = [
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
   /^https:\/\/.*\.lovableproject\.com$/,
+  /^https:\/\/.*\.amplifyapp\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
-    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
-  );
-  
+  const isAllowed =
+    origin &&
+    ALLOWED_ORIGINS.some((allowed) => (typeof allowed === "string" ? allowed === origin : allowed.test(origin)));
+
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin! : "",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -323,7 +324,7 @@ async function classifyBatch(
 
 Deno.serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
-  
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -355,19 +356,19 @@ Deno.serve(async (req) => {
 
     // Validate transaction structure
     for (const txn of transactions) {
-      if (!txn.transaction_id || typeof txn.transaction_id !== 'string') {
+      if (!txn.transaction_id || typeof txn.transaction_id !== "string") {
         return new Response(JSON.stringify({ error: "Invalid transaction ID" }), {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (!txn.merchant_name || typeof txn.merchant_name !== 'string') {
+      if (!txn.merchant_name || typeof txn.merchant_name !== "string") {
         return new Response(JSON.stringify({ error: "Invalid merchant name" }), {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
       }
-      if (typeof txn.amount !== 'number' || txn.amount < 0) {
+      if (typeof txn.amount !== "number" || txn.amount < 0) {
         return new Response(JSON.stringify({ error: "Invalid amount" }), {
           status: 400,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
