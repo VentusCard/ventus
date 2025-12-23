@@ -8,14 +8,15 @@ const ALLOWED_ORIGINS = [
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
   /^https:\/\/.*\.lovableproject\.com$/,
+  /^https:\/\/.*\.amplifyapp\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
-    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
-  );
-  
+  const isAllowed =
+    origin &&
+    ALLOWED_ORIGINS.some((allowed) => (typeof allowed === "string" ? allowed === origin : allowed.test(origin)));
+
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin! : "",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -49,10 +50,10 @@ interface ClientProfile {
     investments: string;
   };
   holdingsChange?: {
-    deposit: { percent: number; direction: 'up' | 'down' };
-    credit: { percent: number; direction: 'up' | 'down' };
-    mortgage: { percent: number; direction: 'down' };
-    investments: { percent: number; direction: 'up' | 'down' };
+    deposit: { percent: number; direction: "up" | "down" };
+    credit: { percent: number; direction: "up" | "down" };
+    mortgage: { percent: number; direction: "down" };
+    investments: { percent: number; direction: "up" | "down" };
   };
   compliance: {
     kycStatus: string;
@@ -261,14 +262,17 @@ function formatContextForPrompt(context: AdvisorContext): string {
     if (cp.holdingsChange) {
       const hc = cp.holdingsChange;
       prompt += `- Holdings Changes (Recent Trend):\n`;
-      prompt += `  * Deposits: ${hc.deposit.direction === 'up' ? '↑' : '↓'} ${hc.deposit.percent}%\n`;
-      prompt += `  * Credit Usage: ${hc.credit.direction === 'up' ? '↑' : '↓'} ${hc.credit.percent}%\n`;
+      prompt += `  * Deposits: ${hc.deposit.direction === "up" ? "↑" : "↓"} ${hc.deposit.percent}%\n`;
+      prompt += `  * Credit Usage: ${hc.credit.direction === "up" ? "↑" : "↓"} ${hc.credit.percent}%\n`;
       prompt += `  * Mortgage: ↓ ${hc.mortgage.percent}% (paydown)\n`;
-      prompt += `  * Investments: ${hc.investments.direction === 'up' ? '↑' : '↓'} ${hc.investments.percent}%\n`;
+      prompt += `  * Investments: ${hc.investments.direction === "up" ? "↑" : "↓"} ${hc.investments.percent}%\n`;
     }
     prompt += `- KYC Status: ${cp.compliance.kycStatus}, Last Review: ${cp.compliance.lastReview}, Next Review: ${cp.compliance.nextReview}\n`;
     if (cp.milestones && cp.milestones.length > 0) {
-      prompt += `- Recent Milestones: ${cp.milestones.slice(0, 3).map(m => `${m.event} (${m.date})`).join(", ")}\n`;
+      prompt += `- Recent Milestones: ${cp.milestones
+        .slice(0, 3)
+        .map((m) => `${m.event} (${m.date})`)
+        .join(", ")}\n`;
     }
     prompt += `\n`;
   }
@@ -288,7 +292,7 @@ function formatContextForPrompt(context: AdvisorContext): string {
     context.topPillars.slice(0, 5).forEach((p, i) => {
       prompt += `${i + 1}. ${p.pillar}: $${p.totalSpend.toLocaleString()} (${p.percentage}%, ${p.transactionCount} transactions)\n`;
       if (p.topSubcategories.length > 0) {
-        prompt += `   Top subcategories: ${p.topSubcategories.map(s => `${s.name} ($${s.spend.toLocaleString()})`).join(", ")}\n`;
+        prompt += `   Top subcategories: ${p.topSubcategories.map((s) => `${s.name} ($${s.spend.toLocaleString()})`).join(", ")}\n`;
       }
     });
     prompt += `\n`;
@@ -302,7 +306,7 @@ function formatContextForPrompt(context: AdvisorContext): string {
     prompt += `- Destinations: ${context.travelAnalysis.destinations.join(", ")}\n`;
     if (context.travelAnalysis.travelPeriods.length > 0) {
       prompt += `- Travel Periods:\n`;
-      context.travelAnalysis.travelPeriods.forEach(period => {
+      context.travelAnalysis.travelPeriods.forEach((period) => {
         prompt += `  * ${period.start} to ${period.end}: ${period.destination}\n`;
       });
     }
@@ -359,8 +363,8 @@ function formatContextForPrompt(context: AdvisorContext): string {
   if (context.clientPsychology && context.clientPsychology.length > 0) {
     prompt += `CLIENT PSYCHOLOGY PROFILE:\n`;
     prompt += `(Adapt ALL responses to match this client's psychological profile)\n`;
-    context.clientPsychology.forEach(p => {
-      const scaleInfo = p.sliderValue ? ` (${p.sliderValue}/5 scale)` : '';
+    context.clientPsychology.forEach((p) => {
+      const scaleInfo = p.sliderValue ? ` (${p.sliderValue}/5 scale)` : "";
       prompt += `- ${p.aspect}: ${p.assessment}${scaleInfo}\n`;
     });
     prompt += `\nUSE THIS PROFILE TO:\n`;
@@ -400,7 +404,7 @@ function formatContextForPrompt(context: AdvisorContext): string {
 
     if (fp.taxAdvantagedAccounts && fp.taxAdvantagedAccounts.length > 0) {
       prompt += `TAX-ADVANTAGED ACCOUNTS:\n`;
-      fp.taxAdvantagedAccounts.forEach(a => {
+      fp.taxAdvantagedAccounts.forEach((a) => {
         prompt += `- ${a.label}: $${a.currentBalance.toLocaleString()} balance, $${a.annualContribution.toLocaleString()}/$${a.maxContribution.toLocaleString()} contributed (${a.utilizationPercent}% utilized)\n`;
       });
       prompt += `\n`;
@@ -448,27 +452,27 @@ function formatContextForPrompt(context: AdvisorContext): string {
 
 serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
-  
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const { message, conversationHistory, context } = await req.json();
-    
+
     // Input validation
-    if (!message || typeof message !== 'string') {
-      return new Response(
-        JSON.stringify({ error: "Invalid message format" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+    if (!message || typeof message !== "string") {
+      return new Response(JSON.stringify({ error: "Invalid message format" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
-    
+
     if (message.length > 5000) {
-      return new Response(
-        JSON.stringify({ error: "Message too long" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Message too long" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     if (!LOVABLE_API_KEY) {
@@ -476,9 +480,7 @@ serve(async (req) => {
     }
 
     // Build messages array
-    const messages: Array<{ role: string; content: string }> = [
-      { role: "system", content: SYSTEM_PROMPT },
-    ];
+    const messages: Array<{ role: string; content: string }> = [{ role: "system", content: SYSTEM_PROMPT }];
 
     // Add context as system message
     if (context) {
@@ -517,22 +519,16 @@ serve(async (req) => {
 
     if (!response.ok) {
       if (response.status === 429) {
-        return new Response(
-          JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }),
-          {
-            status: 429,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
+        return new Response(JSON.stringify({ error: "Rate limit exceeded. Please try again in a moment." }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
       if (response.status === 402) {
-        return new Response(
-          JSON.stringify({ error: "AI credits depleted. Please add credits to continue." }),
-          {
-            status: 402,
-            headers: { ...corsHeaders, "Content-Type": "application/json" },
-          }
-        );
+        return new Response(JSON.stringify({ error: "AI credits depleted. Please add credits to continue." }), {
+          status: 402,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
 
       const errorText = await response.text();
@@ -547,20 +543,14 @@ serve(async (req) => {
       throw new Error("No response from AI");
     }
 
-    return new Response(
-      JSON.stringify({ message: aiMessage }),
-      {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify({ message: aiMessage }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("Advisor chat error:", error);
-    return new Response(
-      JSON.stringify({ error: "Service error" }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      }
-    );
+    return new Response(JSON.stringify({ error: "Service error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

@@ -6,14 +6,15 @@ const ALLOWED_ORIGINS = [
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
   /^https:\/\/.*\.lovableproject\.com$/,
+  /^https:\/\/.*\.amplifyapp\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
-    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
-  );
-  
+  const isAllowed =
+    origin &&
+    ALLOWED_ORIGINS.some((allowed) => (typeof allowed === "string" ? allowed === origin : allowed.test(origin)));
+
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin! : "",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -569,7 +570,7 @@ REMEMBER:
 
 serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
-  
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -578,14 +579,14 @@ serve(async (req) => {
     const { insights } = await req.json();
 
     // Input validation
-    if (!insights || typeof insights !== 'object') {
+    if (!insights || typeof insights !== "object") {
       return new Response(JSON.stringify({ error: "Invalid insights data" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    
-    if (!insights.totalSpend || typeof insights.totalSpend !== 'number') {
+
+    if (!insights.totalSpend || typeof insights.totalSpend !== "number") {
       return new Response(JSON.stringify({ error: "Invalid total spend" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -609,20 +610,24 @@ serve(async (req) => {
       .join("\n");
 
     // Handle lifestyle interests safely
-    const lifestyleText = Array.isArray(insights.segment.lifestyle) && insights.segment.lifestyle.length > 0
-      ? insights.segment.lifestyle.join(", ")
-      : "Diversified spending across categories";
+    const lifestyleText =
+      Array.isArray(insights.segment.lifestyle) && insights.segment.lifestyle.length > 0
+        ? insights.segment.lifestyle.join(", ")
+        : "Diversified spending across categories";
 
     // Format top subcategories
-    const topSubcategoriesText = insights.topSubcategories
-      ?.slice(0, 3)
-      .map((s: any, i: number) => 
-        `${i + 1}. ${s.subcategory} ($${Math.round(s.totalSpend)}, ${s.visits} transactions, pillar: ${s.pillar})`
-      )
-      .join("\n") || "No subcategory data available";
+    const topSubcategoriesText =
+      insights.topSubcategories
+        ?.slice(0, 3)
+        .map(
+          (s: any, i: number) =>
+            `${i + 1}. ${s.subcategory} ($${Math.round(s.totalSpend)}, ${s.visits} transactions, pillar: ${s.pillar})`,
+        )
+        .join("\n") || "No subcategory data available";
 
     // Build persona context if available
-    const personaContext = insights.userPersona ? `
+    const personaContext = insights.userPersona
+      ? `
 CUSTOMER PERSONA:
 - Summary: ${insights.userPersona.summary || "Not available"}
 - Lifestyle Traits: ${(insights.userPersona.lifestyle_traits || []).join(", ") || "Not specified"}
@@ -633,7 +638,8 @@ PERSONALIZATION REQUIREMENT:
 Use the persona above to craft personalized_title and personalized_hook for EACH recommendation.
 - personalized_title: Reference one of their traits/interests (e.g., "Fuel Your Marathon Training: 12% Back at Running Stores")
 - personalized_hook: Make them feel understood (e.g., "Your passion for fitness deserves premium rewards")
-` : `
+`
+      : `
 CUSTOMER PERSONA: Not available - use spending patterns to infer lifestyle for personalization.
 `;
 
@@ -710,10 +716,13 @@ Remember to anonymize all merchant names in your output!`;
 
     const aiData = await aiResponse.json();
     let content = aiData.choices[0].message.content;
-    
+
     // Strip markdown code fences if present
-    content = content.replace(/^```json?\s*/i, '').replace(/```\s*$/, '').trim();
-    
+    content = content
+      .replace(/^```json?\s*/i, "")
+      .replace(/```\s*$/, "")
+      .trim();
+
     const recommendations = JSON.parse(content);
 
     console.log("Generated recommendations:", JSON.stringify(recommendations, null, 2));
@@ -723,12 +732,9 @@ Remember to anonymize all merchant names in your output!`;
     });
   } catch (error) {
     console.error("Error generating recommendations:", error);
-    return new Response(
-      JSON.stringify({ error: "Service error" }),
-      {
-        status: 500,
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
-      },
-    );
+    return new Response(JSON.stringify({ error: "Service error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

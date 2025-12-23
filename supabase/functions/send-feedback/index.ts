@@ -7,14 +7,15 @@ const ALLOWED_ORIGINS = [
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
   /^https:\/\/.*\.lovableproject\.com$/,
+  /^https:\/\/.*\.amplifyapp\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
-    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
-  );
-  
+  const isAllowed =
+    origin &&
+    ALLOWED_ORIGINS.some((allowed) => (typeof allowed === "string" ? allowed === origin : allowed.test(origin)));
+
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin! : "",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -23,35 +24,35 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
 
 serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
-  
-  if (req.method === 'OPTIONS') {
+
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const { transaction, correction } = await req.json();
-    
+
     // Input validation
-    if (!transaction || typeof transaction !== 'object') {
-      return new Response(JSON.stringify({ success: false, error: 'Invalid transaction data' }), {
+    if (!transaction || typeof transaction !== "object") {
+      return new Response(JSON.stringify({ success: false, error: "Invalid transaction data" }), {
         status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    
-    if (!correction || typeof correction !== 'object') {
-      return new Response(JSON.stringify({ success: false, error: 'Invalid correction data' }), {
+
+    if (!correction || typeof correction !== "object") {
+      return new Response(JSON.stringify({ success: false, error: "Invalid correction data" }), {
         status: 400,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
-    const LOVABLE_API_KEY = Deno.env.get('LOVABLE_API_KEY');
+    const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
     if (!LOVABLE_API_KEY) {
-      console.error('LOVABLE_API_KEY not configured');
+      console.error("LOVABLE_API_KEY not configured");
       return new Response(JSON.stringify({ success: false }), {
         status: 200,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' }
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
@@ -76,40 +77,34 @@ This feedback should be used to improve future transaction classifications.
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+        Authorization: `Bearer ${LOVABLE_API_KEY}`,
       },
       body: JSON.stringify({
         model: "google/gemini-2.5-flash-lite",
         messages: [
-          { 
-            role: "system", 
-            content: "You are receiving user correction feedback for transaction classification training. Log this feedback for model improvement." 
+          {
+            role: "system",
+            content:
+              "You are receiving user correction feedback for transaction classification training. Log this feedback for model improvement.",
           },
-          { 
-            role: "user", 
-            content: feedbackMessage 
-          }
+          {
+            role: "user",
+            content: feedbackMessage,
+          },
         ],
         max_completion_tokens: 50,
       }),
     });
 
-    return new Response(
-      JSON.stringify({ success: true }), 
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 200 
-      }
-    );
-
+    return new Response(JSON.stringify({ success: true }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 200,
+    });
   } catch (error) {
-    console.error('Error sending feedback:', error);
-    return new Response(
-      JSON.stringify({ success: false, error: 'Failed to send feedback' }), 
-      { 
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-        status: 500 
-      }
-    );
+    console.error("Error sending feedback:", error);
+    return new Response(JSON.stringify({ success: false, error: "Failed to send feedback" }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 500,
+    });
   }
 });
