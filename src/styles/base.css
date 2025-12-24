@@ -102,7 +102,57 @@
   }
 
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    @apply bg-background text-foreground font-sans antialiased;
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Professional typography hierarchy */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-sans tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl sm:text-5xl lg:text-6xl font-semibold leading-[1.1];
+  }
+
+  h2 {
+    @apply text-3xl sm:text-4xl font-semibold leading-tight;
+  }
+
+  h3 {
+    @apply text-2xl sm:text-3xl font-medium leading-snug;
+  }
+
+  h4 {
+    @apply text-xl sm:text-2xl font-medium;
+  }
+
+  h5 {
+    @apply text-lg font-medium;
+  }
+
+  h6 {
+    @apply text-base font-medium;
+  }
+
+  p {
+    @apply text-base leading-relaxed;
+  }
+
+  /* Small/caption text */
+  small {
+    @apply text-sm leading-normal;
+  }
+
+  /* Labels and UI text */
+  label {
+    @apply text-sm font-medium;
+  }
+
+  /* Code/mono text */
+  code, pre, kbd {
+    @apply font-mono;
   }
 }
