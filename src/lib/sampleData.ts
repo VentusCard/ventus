@@ -70,7 +70,11 @@ txn_068,CENTRAL PARK CAFE,Lunch in park,5814,28.60,2025-09-27,10024
 txn_069,UBER NYC,Ride to airport,4121,52.90,2025-09-28,11101
 txn_070,DELTA AIR LINES,Return flight home,4511,480.00,2025-09-28,
 txn_071,SHELL OIL LOCAL,Gas station home,5541,49.10,2025-09-29,94102
-txn_072,STARBUCKS COFFEE,Morning coffee home,5814,6.75,2025-09-30,94102`;
+txn_072,STARBUCKS COFFEE,Morning coffee home,5814,6.75,2025-09-30,94102
+txn_073,COLLEGEBOARD SAT,SAT registration fee,8299,68.00,2025-10-05,
+txn_074,KAPLAN TEST PREP,SAT prep course,8299,1299.00,2025-10-08,94102
+txn_075,STANFORD VISITOR PARKING,Campus tour parking,7523,25.00,2025-10-14,94305
+`;
 
 export const SAMPLE_CSV_SPORTS_WELLNESS = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_s001,LULULEMON ATHLETICA,Yoga pants and sports bra,5655,189.00,2025-08-15,
@@ -147,7 +151,11 @@ txn_s071,RESTORE HYPER WELLNESS,IV therapy session,7298,175.00,2025-09-20,
 txn_s072,LULULEMON ATHLETICA,Workout jacket,5655,148.00,2025-09-21,
 txn_s073,PICNIK AUSTIN,Breakfast and coffee,5814,16.90,2025-09-22,
 txn_s074,ATHLETA,Yoga pants and bra,5655,134.50,2025-09-23,
-txn_s075,WHOLE FOODS MARKET,Final weekly groceries,5411,145.23,2025-09-24,78701`;
+txn_s075,WHOLE FOODS MARKET,Final weekly groceries,5411,145.23,2025-09-24,78701
+txn_s076,BUY BUY BABY,Nursery furniture and crib,5641,1250.00,2025-10-02,78701
+txn_s077,AUSTIN OB GYN ASSOCIATES,Prenatal checkup,8011,350.00,2025-10-05,78701
+txn_s078,POTTERY BARN KIDS,Nursery decor and bedding,5712,485.00,2025-10-08,78701
+`;
 
 export const SAMPLE_CSV_FOOD_HOME = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_h001,GIBSONS BAR & STEAKHOUSE,Anniversary dinner,5812,287.50,2025-08-15,60614
@@ -224,7 +232,11 @@ txn_h071,WALGREENS,Pharmacy and sundries,5912,28.90,2025-09-17,60614
 txn_h072,AMC THEATRES,Movie night,7832,42.00,2025-09-17,60610
 txn_h073,MUSIC BOX THEATRE,Indie film tickets,7832,28.00,2025-09-18,60614
 txn_h074,WHOLE FOODS MARKET,Final weekly groceries,5411,167.34,2025-09-19,60614
-txn_h075,ETSY,Handmade home décor,5969,78.25,2025-09-19,`;
+txn_h075,ETSY,Handmade home décor,5969,78.25,2025-09-19,
+txn_h076,GUARANTEED RATE MORTGAGE,Pre-approval application fee,6163,500.00,2025-10-03,60601
+txn_h077,CHICAGO HOME INSPECTIONS,Home inspection service,7389,450.00,2025-10-08,60614
+txn_h078,CHICAGO TITLE COMPANY,Title search and escrow,6411,1200.00,2025-10-12,60601
+`;
 
 export const PILLAR_COLORS: Record<string, string> = {
   "Sports & Active Living": "#3b82f6",
@@ -455,7 +467,13 @@ txn_sf195,TRADER JOES,Weekly groceries,5411,167.89,2025-10-20,94102
 txn_sf196,CHEVRON,Gas station,5541,71.20,2025-10-23,94102
 txn_sf197,WHOLE FOODS MARKET,Organic groceries,5411,234.67,2025-10-27,94102
 txn_sf198,AMAZON.COM,Halloween costumes,5999,102.50,2025-10-25,
-txn_sf199,SAFEWAY,Final October groceries,5411,189.45,2025-10-30,94102`;
+txn_sf199,SAFEWAY,Final October groceries,5411,189.45,2025-10-30,94102
+txn_sf200,ACT REGISTRATION,ACT test registration,8299,68.00,2025-11-02,
+txn_sf201,PRINCETON REVIEW,12-week ACT prep intensive,8299,1599.00,2025-11-05,94102
+txn_sf202,UC BERKELEY PARKING,Campus visit parking,7523,20.00,2025-11-12,94720
+txn_sf203,DEL WEBB COMMUNITY,Retirement community tour,6531,0.00,2025-11-08,
+txn_sf204,ESTATE PLANNING ATTORNEY,Trust and will consultation,8111,750.00,2025-11-12,94102
+txn_sf205,KELLER WILLIAMS REALTY,Home valuation consultation,6531,0.00,2025-11-16,94102`;
 
 export const SAMPLE_CSV_NYC_SPORTS_HOME_12 = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_ny001,EQUINOX GRAMERCY,Monthly gym membership,7997,245.00,2024-11-01,10003
@@ -692,7 +710,13 @@ txn_ny231,HOME DEPOT NYC,Halloween decorations,5211,67.80,2025-10-21,10003
 txn_ny232,BROOKLYN BOULDERS,Climbing session,7997,32.00,2025-10-22,11206
 txn_ny233,WHOLE FOODS UNION SQ,Final October groceries,5411,134.56,2025-10-27,10003
 txn_ny234,SOULCYCLE FLATIRON,Class pack,7997,175.00,2025-10-28,10010
-txn_ny235,AMAZON.COM,Home office supplies,5999,98.70,2025-10-29,`;
+txn_ny235,AMAZON.COM,Home office supplies,5999,98.70,2025-10-29,
+txn_ny236,LINKEDIN PREMIUM,Career subscription annual,5968,359.88,2025-11-02,
+txn_ny237,E*TRADE STOCK OPTIONS,Stock option exercise fee,6211,75.00,2025-11-08,
+txn_ny238,FIDELITY 401K ROLLOVER,Retirement account transfer,6211,0.00,2025-11-12,
+txn_ny239,WEIL GOTSHAL ESTATE,Estate attorney consultation,8111,1500.00,2025-11-05,10153
+txn_ny240,KPMG TAX ADVISORY,Inheritance tax planning,8721,2500.00,2025-11-10,10154
+txn_ny241,FIDELITY TRUST SERVICES,Trust account setup fee,6211,250.00,2025-11-14,`;
 
 export const SAMPLE_CSV_CHICAGO_TENNIS_WELLNESS_12 = `transaction_id,merchant_name,description,mcc,amount,date,zip_code
 txn_ch001,EAST BANK CLUB,November membership,7997,295.00,2024-11-01,60610
@@ -936,4 +960,10 @@ txn_ch238,GNC CHICAGO,Pre-workout and BCAAs,5499,89.50,2025-10-22,60610
 txn_ch239,CHIPOTLE,Dinner,5814,14.50,2025-10-23,60610
 txn_ch240,TRADER JOES,Final October shopping,5411,87.45,2025-10-27,60610
 txn_ch241,LULULEMON CHICAGO,Winter workout preview,5655,178.00,2025-10-28,60610
-txn_ch242,TENNIS LESSONS,Private coaching,7999,120.00,2025-10-29,60610`;
+txn_ch242,TENNIS LESSONS,Private coaching,7999,120.00,2025-10-29,60610
+txn_ch243,JAMES ALLEN DIAMONDS,Engagement ring purchase,5944,8500.00,2025-11-03,
+txn_ch244,FOUR SEASONS CHICAGO,Wedding venue deposit,7011,10000.00,2025-11-08,60611
+txn_ch245,SHANNON GAIL WEDDINGS,Wedding planner retainer,7399,3500.00,2025-11-12,60614
+txn_ch246,NORTHWESTERN OB GYN,First prenatal visit,8011,400.00,2025-11-15,60611
+txn_ch247,NORTHWESTERN MUTUAL,Life insurance application,6311,150.00,2025-11-18,
+txn_ch248,SIDLEY AUSTIN LLP,Estate planning will update,8111,1200.00,2025-11-22,60603`;

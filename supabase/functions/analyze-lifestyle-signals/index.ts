@@ -23,7 +23,7 @@ const LIFESTYLE_SIGNAL_TOOL = {
             properties: {
               event_name: { 
                 type: "string",
-                description: "Specific name of the detected life event (e.g., 'College Preparation Phase')"
+                description: "Specific name of the detected event. For standout transactions, prefix with: '[URGENT]' for concerns, '[OPPORTUNITY]' for positive signals, '[NOTABLE]' for major purchases"
               },
               confidence: { 
                 type: "number", 
@@ -47,42 +47,10 @@ const LIFESTYLE_SIGNAL_TOOL = {
                   required: ["merchant", "amount", "date", "relevance"]
                 }
               },
-              products: {
-                type: "array",
-                items: {
-                  type: "object",
-                  properties: {
-                    name: { type: "string" },
-                    rationale: { 
-                      type: "string",
-                      description: "Detailed explanation of why this product is relevant NOW"
-                    },
-                    estimated_value: { 
-                      type: "string",
-                      description: "Tangible estimated value or savings"
-                    },
-                    priority: { 
-                      type: "string", 
-                      enum: ["high", "medium", "low"] 
-                    }
-                  },
-                  required: ["name", "rationale", "estimated_value", "priority"]
-                }
-              },
-              education: {
-                type: "array",
-                items: { type: "string" },
-                description: "10 practical bullet points about the life event"
-              },
               talking_points: {
                 type: "array",
                 items: { type: "string" },
                 description: "3-5 natural conversation starters for advisor"
-              },
-              action_items: {
-                type: "array",
-                items: { type: "string" },
-                description: "2-3 concrete next steps for advisor"
               },
               financial_projection: {
                 type: "object",
@@ -90,7 +58,7 @@ const LIFESTYLE_SIGNAL_TOOL = {
                 properties: {
                   project_type: { 
                     type: "string", 
-                    enum: ["education", "home", "retirement", "business", "wedding", "medical", "other"],
+                    enum: ["education", "home", "retirement", "business", "wedding", "wealth_transfer", "liquidity_event", "family_formation", "charitable_giving", "elder_care", "other"],
                     description: "Category of the financial project"
                   },
                   estimated_start_year: { 
@@ -136,7 +104,7 @@ const LIFESTYLE_SIGNAL_TOOL = {
                       properties: {
                         type: { 
                           type: "string",
-                          enum: ["529", "gifts", "taxable", "roth_ira", "utma", "loan", "savings", "other"],
+                          enum: ["529", "gifts", "taxable", "roth_ira", "utma", "loan", "savings", "home_equity", "pension", "social_security", "401k", "ira_traditional", "business_loan", "investor", "grant", "credit", "inheritance", "other"],
                           description: "Type of funding source"
                         },
                         rationale: { 
@@ -155,7 +123,7 @@ const LIFESTYLE_SIGNAL_TOOL = {
                 required: ["project_type", "estimated_start_year", "duration_years", "estimated_total_cost", "cost_breakdown", "recommended_funding_sources"]
               }
             },
-            required: ["event_name", "confidence", "evidence", "products", "education", "talking_points", "action_items"]
+            required: ["event_name", "confidence", "evidence", "talking_points"]
           }
         }
       },
@@ -175,37 +143,110 @@ serve(async (req) => {
     console.log('Analyzing lifestyle signals for client:', client.name);
     console.log('Transaction count:', transactions.length);
 
+    // Sort by date (most recent first) to prioritize recent life events
+    const sortedTransactions = [...transactions].sort((a: any, b: any) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
+      return dateB.getTime() - dateA.getTime();
+    });
+
+    console.log('Top 10 transactions by date:', 
+      sortedTransactions.slice(0, 10).map((t: any) => `${t.date}: ${t.merchant_name || t.merchant}`));
+
     // Build dynamic prompt based on transaction data
-    const transactionSummary = transactions
-      .slice(0, 50) // Limit to most recent 50 for context
-      .map((t: any) => `- ${t.merchant}: $${t.amount} (${t.category || 'Unknown'}) on ${t.date}`)
+    const transactionSummary = sortedTransactions
+      .slice(0, 75) // Increased from 50 to catch more life event clusters
+      .map((t: any) => `- ${t.merchant_name || t.merchant}: $${t.amount} (${t.pillar || t.category || 'Unknown'}, ${t.subcategory || ''}) on ${t.date}`)
       .join('\n');
 
-    const systemPrompt = `You are a wealth management AI advisor analyzing client transaction patterns to detect life events and generate actionable recommendations.
+    const systemPrompt = `You are a wealth management AI advisor analyzing client transaction patterns to detect life events with wealth management implications.
 
-Your task is to identify significant life stage signals from spending patterns and generate:
-1. LIFE EVENTS: Detect patterns like college preparation (SAT prep, campus tours), new baby (baby products, pediatrician), home purchase (realtor, inspections), retirement planning (senior services), etc.
-2. FINANCIAL PRODUCTS: 2-3 highly relevant banking/investment products with specific rationale
-3. EDUCATIONAL CONTENT: Exactly 10 practical, specific bullet points about the detected life event
-4. TALKING POINTS: 3-5 natural, empathetic conversation starters
-5. ACTION ITEMS: 2-3 concrete next steps for the advisor
-6. FINANCIAL PROJECTION: Detailed cost breakdown, timeline, and funding recommendations
+## DETECTION METHODOLOGY
 
-IMPORTANT RULES:
-- Only detect life events with STRONG evidence (multiple related transactions forming a clear pattern)
-- Be SPECIFIC (not "family event" but "College Preparation for Dependent Child")
-- Provide confidence score 0-100 based on evidence strength and pattern clarity
-- Focus on HIGH-IMPACT opportunities with significant financial benefit
-- Make recommendations timely and relevant to the client's current situation
-- Educational content should be practical, specific, and actionable (not generic advice)
+### 1. SEMANTIC MERCHANT ANALYSIS
+Scan merchant names for keywords that indicate specific life stages (education, baby, wedding, home, business, elder care, career, legal, insurance, investment).
 
-FINANCIAL PROJECTION GUIDELINES:
-- Generate realistic cost estimates based on current market data for the life event
-- Break down costs into specific categories (e.g., for college: tuition, room/board, books)
-- Provide year-by-year cost projections accounting for typical inflation
-- Recommend appropriate funding sources based on the event type (529 for education, etc.)
-- Estimate current savings from patterns like recurring deposits to savings accounts
-- Suggest practical monthly contribution amounts the client can afford`;
+### 2. PATTERN RECOGNITION
+Look for clusters of 3+ related transactions within 30 days that together tell a coherent story about a life event.
+
+### 3. AMOUNT ANOMALY DETECTION
+Flag transactions that are 3x+ above typical spend, first-time activity in new categories >$500, or large one-time payments >$2000.
+
+### 4. CONFIDENCE SCORING
+- 3 related transactions = 70-75% confidence
+- 4-5 related transactions = 80-85% confidence  
+- 6+ related transactions = 90-95% confidence
+- High-value (>$2000), recent (last 30 days), or keyword matches add +5-10%
+
+## CRITICAL: EVIDENCE INCLUSION PRINCIPLES
+
+For EACH transaction you consider including as evidence, you MUST apply these reasoning tests:
+
+### CAUSALITY TEST
+Ask: "Is this transaction a DIRECT cause or effect of the life event?"
+- ✅ INCLUDE: "STANFORD VISITOR PARKING" → Directly caused by visiting Stanford campus
+- ✅ INCLUDE: "KAPLAN TEST PREP" → Direct preparation for college admission
+- ❌ EXCLUDE: "DELTA AIR LINES" → Could be for vacation, business, family visit, or anything else
+- ❌ EXCLUDE: "MARRIOTT HOTEL" → Generic travel with no inherent connection to any specific event
+
+### SPECIFICITY TEST  
+Ask: "Does the merchant name contain SPECIFIC context linking it to this event?"
+- ✅ INCLUDE: Merchant contains university/campus/institution name explicitly
+- ✅ INCLUDE: Merchant is PURPOSE-BUILT for this life stage (baby store, test prep center, wedding venue)
+- ❌ EXCLUDE: Generic service providers (airlines, hotels, restaurants, gas stations) without event-specific context in the name
+
+### REASONABLE PERSON TEST
+Ask: "Would an objective, skeptical observer AGREE this transaction proves the event?"
+- If you have to "assume", "infer", or "guess" a connection → EXCLUDE
+- If the transaction could plausibly be for 3+ unrelated purposes → EXCLUDE
+- When in doubt → EXCLUDE. Fewer strong evidence items beat many weak ones.
+
+### RELEVANCE JUSTIFICATION REQUIREMENT
+For every evidence transaction you include, you MUST be able to complete this sentence:
+"This transaction is evidence of [EVENT] because [DIRECT CAUSAL EXPLANATION]"
+
+BAD: "Delta Airlines is evidence of college prep because the client might have flown to visit a campus"
+GOOD: "Stanford Visitor Parking is evidence of college prep because it's a payment directly to Stanford's campus parking system during a college visit"
+
+## FINAL EVIDENCE QUALITY CHECK
+
+Before finalizing each detected event, review your evidence list:
+1. Remove any transaction where the connection requires speculation about intent
+2. Remove generic travel (airlines, hotels, car rentals) unless the merchant name explicitly contains the destination/purpose
+3. Ask: "If I showed only this evidence to an advisor, would they immediately understand why each transaction matters?"
+
+PRECISION OVER RECALL: Missing a weak signal is acceptable. Including irrelevant transactions damages advisor trust.
+
+## WEALTH MANAGEMENT PRODUCT MAPPING
+Match detected events to appropriate financial products:
+
+| Life Event | Products | Urgency |
+|------------|----------|---------|
+| College-bound child | 529 Plan optimization, financial aid strategy, FAFSA prep | 1-4 years |
+| New baby expected | 529 Plan setup, life insurance, will/trust, guardian designation | Immediate |
+| Wedding/Engagement | Joint financial planning, beneficiary updates, prenup discussion | 6-18 months |
+| Home purchase | Mortgage optimization, down payment strategy, homeowner's insurance | 3-6 months |
+| Job change + equity | 401k rollover, stock option timing, tax planning, RSU strategy | Immediate |
+| Business formation | SEP-IRA, Solo 401k, business succession, liability insurance | 1-2 years |
+| Aging parent care | Long-term care insurance, POA, inheritance planning, Medicaid | Varies |
+| Empty nest | Downsizing strategy, accelerated retirement savings, estate updates | 2-5 years |
+| Inheritance/windfall | Tax planning, trust considerations, philanthropy, debt payoff | Immediate |
+
+## TYPE 2: STANDOUT TRANSACTION SIGNALS
+Individual notable transactions as their own events:
+
+🔴 CONCERNING (prefix "[URGENT]"): Gambling, payday loans, crypto losses, unusual withdrawals
+🟡 MAJOR PURCHASES (prefix "[NOTABLE]"): 3x+ above typical, vehicles, luxury items, renovations
+🟢 POSITIVE (prefix "[OPPORTUNITY]"): Large deposits, investment contributions, debt payoffs
+
+## OUTPUT REQUIREMENTS
+- Event names should be specific: "College Preparation for Child" not "Education"
+- Include ONLY transactions that pass ALL three evidence tests (causality, specificity, reasonable person)
+- For each evidence item, the "relevance" field MUST explain the DIRECT causal connection
+- Talking points: 3-5 natural, empathetic conversation starters
+- Financial projections with realistic market-rate estimates
+- Funding sources matched to event type from the product mapping`;
+
 
     const userPrompt = `Analyze this client's transaction patterns and detect life events:
 

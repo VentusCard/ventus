@@ -6,14 +6,15 @@ const ALLOWED_ORIGINS = [
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
   /^https:\/\/.*\.lovableproject\.com$/,
+  /^https:\/\/.*\.amplifyapp\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
-    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
-  );
-  
+  const isAllowed =
+    origin &&
+    ALLOWED_ORIGINS.some((allowed) => (typeof allowed === "string" ? allowed === origin : allowed.test(origin)));
+
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin! : "",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -25,32 +26,32 @@ const CATEGORY_PROMPTS: Record<string, string> = {
   entertainment: "entertainment venues, sports stadiums, arenas, fitness centers, gyms, and recreation facilities",
   dining: "restaurants, dining establishments, bars, cafes, and food venues",
   shopping: "shopping districts, malls, boutiques, markets, and retail areas",
-  travelMobility: "airports, transportation hubs, tourist attractions, landmarks, and transit services"
+  travelMobility: "airports, transportation hubs, tourist attractions, landmarks, and transit services",
 };
 
 serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
-  
-  if (req.method === 'OPTIONS') {
+
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const { city, category } = await req.json();
-    
+
     // Input validation
-    if (!city || typeof city !== 'string' || city.length > 100) {
-      return new Response(
-        JSON.stringify({ error: 'Invalid city parameter' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    if (!city || typeof city !== "string" || city.length > 100) {
+      return new Response(JSON.stringify({ error: "Invalid city parameter" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
-    
-    if (!category || typeof category !== 'string' || category.length > 50) {
-      return new Response(
-        JSON.stringify({ error: 'Invalid category parameter' }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+
+    if (!category || typeof category !== "string" || category.length > 50) {
+      return new Response(JSON.stringify({ error: "Invalid category parameter" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
@@ -59,7 +60,7 @@ serve(async (req) => {
     }
 
     const categoryDescription = CATEGORY_PROMPTS[category] || "local venues and services";
-    
+
     const prompt = `Generate 3 realistic, well-known ${categoryDescription} in ${city}. 
     
 Return ONLY a JSON array with this exact structure:
@@ -87,11 +88,12 @@ Requirements:
       body: JSON.stringify({
         model: "google/gemini-2.5-flash",
         messages: [
-          { 
-            role: "system", 
-            content: "You are a local city expert. Generate realistic venue examples for deal categories. Always return valid JSON arrays only." 
+          {
+            role: "system",
+            content:
+              "You are a local city expert. Generate realistic venue examples for deal categories. Always return valid JSON arrays only.",
           },
-          { role: "user", content: prompt }
+          { role: "user", content: prompt },
         ],
         temperature: 0.7,
       }),
@@ -100,23 +102,23 @@ Requirements:
     if (!response.ok) {
       const errorText = await response.text();
       console.error(`[CITY DEALS] AI API error:`, response.status, errorText);
-      
+
       // Return generic fallback on error
       return new Response(
-        JSON.stringify({ 
+        JSON.stringify({
           deals: [
             { type: "Local attractions", merchantExample: `${city} area venues` },
             { type: "Neighborhood favorites", merchantExample: `Popular ${city} locations` },
-            { type: "City highlights", merchantExample: `${city} landmarks` }
-          ]
+            { type: "City highlights", merchantExample: `${city} landmarks` },
+          ],
         }),
-        { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
     const data = await response.json();
     const content = data.choices?.[0]?.message?.content;
-    
+
     if (!content) {
       throw new Error("No content in AI response");
     }
@@ -138,22 +140,18 @@ Requirements:
       deals = [
         { type: "Local attractions", merchantExample: `${city} area venues` },
         { type: "Neighborhood favorites", merchantExample: `Popular ${city} locations` },
-        { type: "City highlights", merchantExample: `${city} landmarks` }
+        { type: "City highlights", merchantExample: `${city} landmarks` },
       ];
     }
 
     console.log(`[CITY DEALS] Generated ${deals.length} deals for ${city}/${category}`);
 
-    return new Response(
-      JSON.stringify({ deals }),
-      { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
-
+    return new Response(JSON.stringify({ deals }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (error) {
-    console.error('[CITY DEALS] Error:', error);
-    return new Response(
-      JSON.stringify({ error: 'Service error' }),
-      { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-    );
+    console.error("[CITY DEALS] Error:", error);
+    return new Response(JSON.stringify({ error: "Service error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

@@ -8,7 +8,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Target, Brain, Zap, CheckCircle, ArrowRight, ArrowLeft, Upload, BarChart3, Scan, RefreshCw, TrendingUp, Sparkles, Gift, Users, MapPin, Briefcase, PieChart, Shield, Building2, Award, TrendingDown, Loader2, ShoppingBag, CalendarClock, CalendarHeart, MessageSquare, ChevronDown } from "lucide-react";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
@@ -39,7 +40,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { useSSEEnrichment } from "@/hooks/useSSEEnrichment";
 import { AIInsights } from "@/types/lifestyle-signals";
 import { PILLAR_COLORS } from "@/lib/sampleData";
-const CURRENT_VERSION = "V2.2";
+import { SubcategoryTransactionsModal } from "@/components/tepilot/insights/SubcategoryTransactionsModal";
+import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailModal";
+import { TopPillarsAnalysis } from "@/components/tepilot/insights/TopPillarsAnalysis";
+import { DealActivationPreview } from "@/components/tepilot/insights/DealActivationPreview";
+import { CollapsibleCard } from "@/components/tepilot/insights/CollapsibleCard";
+const CURRENT_VERSION = "V2.4";
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,6 +54,7 @@ const TePilot = () => {
     // Check if navigation state specifies a tab
     const navState = location.state as {
       activeTab?: string;
+      insightType?: 'revenue' | 'relationship' | 'bankwide';
     } | null;
     return navState?.activeTab || "upload";
   });
@@ -59,10 +66,17 @@ const TePilot = () => {
   const [corrections, setCorrections] = useState<Map<string, Correction>>(new Map());
   const [recommendations, setRecommendations] = useState<any>(null);
   const [isGeneratingRecommendations, setIsGeneratingRecommendations] = useState(false);
+  const [recommendationsLoaded, setRecommendationsLoaded] = useState(false);
+  const [userPersona, setUserPersona] = useState<any>(null);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
-  const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(null);
+  const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(() => {
+    const navState = location.state as { insightType?: 'revenue' | 'relationship' | 'bankwide' } | null;
+    return navState?.insightType || null;
+  });
   const [lifestyleSignals, setLifestyleSignals] = useState<AIInsights | null>(null);
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<{ subcategory: string; pillar: string } | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<EnrichedTransaction | null>(null);
   const navigate = useNavigate();
   const handleNavigateToAdvisorConsole = async () => {
     // Ensure analysis runs before navigating if not already done
@@ -112,29 +126,86 @@ const TePilot = () => {
     const auth = sessionStorage.getItem("tepilot_auth");
     if (auth === "authenticated") setIsAuthenticated(true);
 
-    // Restore workflow state when returning from Advisor Console
+    // Restore parsed transactions
+    const storedParsed = sessionStorage.getItem("tepilot_parsed_transactions");
+    if (storedParsed) {
+      try {
+        const parsed = JSON.parse(storedParsed);
+        setParsedTransactions(parsed);
+        console.log(`[TePilot] Restored ${parsed.length} parsed transactions`);
+      } catch (e) {
+        console.error("Error restoring parsed transactions:", e);
+      }
+    }
+
+    // Restore enriched transactions
+    const storedEnriched = sessionStorage.getItem("tepilot_enriched_transactions");
+    if (storedEnriched) {
+      try {
+        const enriched = JSON.parse(storedEnriched);
+        restoreEnrichedTransactions(enriched);
+        setActiveTab("results");
+        console.log(`[TePilot] Restored ${enriched.length} enriched transactions`);
+      } catch (e) {
+        console.error("Error restoring enriched transactions:", e);
+      }
+    }
+
+    // Restore AI insights from advisor context
     const advisorContext = sessionStorage.getItem("tepilot_advisor_context");
     if (advisorContext) {
       try {
         const contextData = JSON.parse(advisorContext);
-        if (contextData.enrichedTransactions && contextData.enrichedTransactions.length > 0) {
-          // Restore enriched transactions to the hook
-          restoreEnrichedTransactions(contextData.enrichedTransactions);
-
-          // Set active tab to results to show the analyzed transactions
-          setActiveTab("results");
-
-          // Restore AI insights if available
-          if (contextData.aiInsights) {
-            setLifestyleSignals(contextData.aiInsights);
-          }
-          console.log(`Restored ${contextData.enrichedTransactions.length} transactions from session`);
+        if (contextData.aiInsights) {
+          setLifestyleSignals(contextData.aiInsights);
         }
       } catch (error) {
-        console.error("Error restoring workflow state:", error);
+        console.error("Error restoring AI insights:", error);
+      }
+    }
+
+    // Restore user persona
+    const storedPersona = sessionStorage.getItem("tepilot_user_persona");
+    if (storedPersona) {
+      try {
+        const persona = JSON.parse(storedPersona);
+        setUserPersona(persona);
+        console.log("[TePilot] Restored user persona");
+      } catch (error) {
+        console.error("Error restoring user persona:", error);
       }
     }
   }, []);
+
+  // Handle navigation state changes (e.g., from Bank-wide to Revenue Recommendations)
+  useEffect(() => {
+    const navState = location.state as { 
+      activeTab?: string; 
+      insightType?: 'revenue' | 'relationship' | 'bankwide';
+    } | null;
+    
+    if (navState?.activeTab) {
+      setActiveTab(navState.activeTab);
+    }
+    if (navState?.insightType) {
+      setInsightType(navState.insightType);
+    }
+  }, [location.state]);
+
+  // Persist enriched transactions when enrichment completes
+  useEffect(() => {
+    if (enrichedTransactions.length > 0 && currentPhase === 'complete') {
+      sessionStorage.setItem("tepilot_enriched_transactions", JSON.stringify(enrichedTransactions));
+      console.log(`[TePilot] Persisted ${enrichedTransactions.length} enriched transactions`);
+    }
+  }, [enrichedTransactions, currentPhase]);
+
+  // Persist parsed transactions when they change
+  useEffect(() => {
+    if (parsedTransactions.length > 0) {
+      sessionStorage.setItem("tepilot_parsed_transactions", JSON.stringify(parsedTransactions));
+    }
+  }, [parsedTransactions]);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (password === "2025proto") {
@@ -337,7 +408,8 @@ const TePilot = () => {
         topPillars,
         topMerchants,
         topSubcategories,
-        segment
+        segment,
+        userPersona: userPersona || null
       };
       console.log('Sending insights to generate-partner-recommendations:', insights);
       const {
@@ -355,9 +427,8 @@ const TePilot = () => {
         topSubcategories
       };
       setRecommendations(recommendationsWithSubcategories);
+      setRecommendationsLoaded(true);
       sessionStorage.setItem("tepilot_recommendations", JSON.stringify(recommendationsWithSubcategories));
-      setInsightType('revenue');
-      setActiveTab('insights');
       toast.success("Generated personalized recommendations!");
     } catch (error) {
       console.error('Error generating recommendations:', error);
@@ -433,17 +504,25 @@ const TePilot = () => {
     return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
         <Card className="w-full max-w-6xl">
           <CardHeader>
-            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment & Analytics Tool</CardTitle>
+            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment & Personalization Engine</CardTitle>
             <CardDescription className="text-base">
               Unlock deep customer insights from existing data with next-generation contextual AI
               <Accordion type="single" collapsible className="w-full mt-2">
                 <AccordionItem value="release-notes" className="border-none">
-                  <AccordionTrigger className="text-sm text-foreground py-1 hover:no-underline font-semibold">
-                    Release Notes ({CURRENT_VERSION})
+                  <AccordionTrigger className="text-sm text-foreground py-1 hover:no-underline">
+                    <span><span className="font-semibold">Release Notes ({CURRENT_VERSION})</span> <span className="text-xs text-muted-foreground font-normal">— Parent-SKU purchase inference and seasonality purchase correlation intelligence, updated WM-CoPilot to detect 15 major life events</span></span>
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V2.2 - Current</p>
+                      <p className="font-semibold">V2.4 - Current</p>
+                      <p>Parent-SKU purchase inference and seasonality purchase correlation intelligence, updated WM-CoPilot to detect 15 major life events</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V2.3 - December 2025</p>
+                      <p>Added more features into wealth management tool, unlocked</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V2.2 - December 2025</p>
                       <p>Improved user experience with tool selection tab</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
@@ -600,9 +679,9 @@ const TePilot = () => {
               <AccordionItem value="item-3">
                 <AccordionTrigger className="text-lg font-semibold group">
                   <div className="flex flex-col items-start gap-1 text-left">
-                    <span>Key Features</span>
+                    <span>Key Features <span className="text-primary">(New!)</span></span>
                     <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
-                      Full-stack AI features for transaction intelligence
+                      Full-stack AI capabilities from enrichment to personalization
                     </span>
                   </div>
                 </AccordionTrigger>
@@ -613,7 +692,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Context-Aware</h4>
                         <p className="text-sm text-muted-foreground">
-                          Understands "Ticketmaster" + "Sabrina Carpenter" = concert experience
+                          Recognizes messy transactions like "PAYPAL *UBER" or "APPLE PAY STARBUCKS" and extracts the true merchant for accurate classification
                         </p>
                       </div>
                     </div>
@@ -622,7 +701,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Semantic Intelligence</h4>
                         <p className="text-sm text-muted-foreground">
-                          Goes beyond keywords to understand actual intent and meaning
+                          Infinitely scalable knowledge base that continuously learns new merchants, categories, and spending patterns without manual updates
                         </p>
                       </div>
                     </div>
@@ -631,7 +710,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Multi-Category Mapping</h4>
                         <p className="text-sm text-muted-foreground">
-                          Maps to lifestyle goals, not just generic expense categories
+                          Semantic merchant clustering maps disparate entities (Titleist, Country Club, PGA Superstore) to unified Sports → Golf taxonomy
                         </p>
                       </div>
                     </div>
@@ -640,7 +719,7 @@ const TePilot = () => {
                       <div>
                         <h4 className="font-semibold text-sm mb-1">Higher Accuracy</h4>
                         <p className="text-sm text-muted-foreground">
-                          Better confidence scores with transparent reasoning
+                          Multi-algorithm ensemble dynamically routes each task to the optimal model for maximum classification precision
                         </p>
                       </div>
                     </div>
@@ -654,11 +733,47 @@ const TePilot = () => {
                       </div>
                     </div>
                     <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
-                      <RefreshCw className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <Gift className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Adaptive Learning</h4>
+                        <h4 className="font-semibold text-sm mb-1">Personalized Deals & Rewards</h4>
                         <p className="text-sm text-muted-foreground">
-                          Corrections teach the AI to improve future classifications, creating a smarter system over time
+                          Lifestyle pillar signals power rewritten deal descriptions and precision deployment from your rewards aggregator
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <ShoppingBag className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Parent-SKU Level Inference</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Uses price-matching and merchant context to infer specific purchases (e.g., "$58.57 Titleist → dozen Pro V1 golf balls + tax") rather than generic "merchandise"
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <CalendarClock className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Merchant Deal Timing Optimization</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Analyzes 52-week spending patterns to identify optimal weeks for merchant promotions, maximizing campaign ROI
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <CalendarHeart className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Life Event Financial Planning</h4>
+                        <p className="text-sm text-muted-foreground">
+                          Automatically detects life events (new baby, home purchase, career change) and generates multi-year financial projections
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                      <MessageSquare className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                      <div>
+                        <h4 className="font-semibold text-sm mb-1">Wealth Management Relationship Co-Pilot</h4>
+                        <p className="text-sm text-muted-foreground">
+                          AI advisor chatbot with client psychology profiling, transaction-grounded insights, and Monte Carlo retirement planning
                         </p>
                       </div>
                     </div>
@@ -759,7 +874,7 @@ const TePilot = () => {
       <div className="max-w-[95%] 2xl:max-w-[1800px] mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment and Analytics Tool</h1>
+            <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment & Personalization Engine</h1>
             <p className="text-muted-foreground mt-2">Unlock deep customer insights from existing data with next-generation contextual AI</p>
           </div>
         <Button variant="outline" onClick={() => {
@@ -774,6 +889,11 @@ const TePilot = () => {
           // Clear enrichment state
           resetEnrichment();
           setRecommendations(null); // Clear old recommendations
+
+          // Clear persisted transaction data
+          sessionStorage.removeItem("tepilot_enriched_transactions");
+          sessionStorage.removeItem("tepilot_parsed_transactions");
+          sessionStorage.removeItem("tepilot_advisor_context");
 
           // Clear all input data
           setRawInput("");
@@ -804,7 +924,7 @@ const TePilot = () => {
             <TabsTrigger value="upload">Setup</TabsTrigger>
             <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
             <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Enrichment</TabsTrigger>
-            <TabsTrigger value="analytics" disabled={enrichedTransactions.length === 0}>Analytics</TabsTrigger>
+            <TabsTrigger value="analytics" disabled={enrichedTransactions.length === 0}>Dashboard</TabsTrigger>
             <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Insight Tools</TabsTrigger>
           </TabsList>
 
@@ -919,27 +1039,62 @@ const TePilot = () => {
                 {/* Persona Cards Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {/* Bank Leadership Card */}
-                  <PersonaCard icon={Building2} title="Bank Leadership" valueProposition="Make data-driven decisions across your entire portfolio" description="Discover actionable insights from portfolio-wide spending patterns to optimize product strategy and identify untapped growth opportunities across your customer base." keyFeatures={["Portfolio-wide behavioral analysis across all card products", "Demographic insights by age, region, and spending behavior", "Cross-sell opportunity matrix with projected impact", "Spending category distribution and opportunity gap analysis"]} buttonText="View Bank-wide Dashboard" onClick={() => setInsightType('bankwide')} />
+                  <PersonaCard icon={Building2} title="Bank Leadership" valueProposition="Make data-driven decisions across your entire portfolio" description="Discover actionable insights from portfolio-wide spending patterns to optimize product strategy and identify untapped growth opportunities across your customer base." keyFeatures={[
+                    "Portfolio-wide behavioral analysis across 70M+ accounts",
+                    "12-Pillar interactive spending category explorer with drill-down",
+                    "Card product performance matrix comparing spend and frequency",
+                    "Demographic breakdown and spending insights by age cohort",
+                    "Cross-sell opportunity matrix with projected revenue impact",
+                    "Regional spending gap analysis to identify missed opportunities",
+                    "Multi-dimension filtering by card product, region, and demographics",
+                    "Pillar distribution visualization of aggregate spending allocation",
+                    "Regional customer acquisition insights with category-specific marketing recommendations"
+                  ]} buttonText="View Bank-wide Dashboard" buttonVariant="ai" onClick={() => setInsightType('bankwide')} />
 
                   {/* Rewards Team Card */}
-                  <PersonaCard icon={TrendingUp} title="Rewards Team" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={["Intelligent detection of spending gaps across lifestyle categories", "Targeted merchant partnerships with impact projections", "Card product optimization suggestions", "Impact estimates for each revenue opportunity"]} buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"} buttonVariant="ai" onClick={() => {
+                  <PersonaCard icon={TrendingUp} title="Consumer Rewards" valueProposition="Unlock millions in untapped revenue potential" description="Identify where customers are spending outside your ecosystem and generate data-driven strategies to capture more wallet share through targeted engagement." keyFeatures={[
+                    "Top 5 spending subcategories analysis with impact ranking",
+                    "AI-powered revenue recommendations with projected ROI",
+                    "Spending gap detection revealing out-of-ecosystem spend",
+                    "Location-based deal targeting for home city and travel destinations",
+                    "Travel pattern intelligence across all transaction categories",
+                    "Geo-targeted merchant partnership suggestions by category",
+                    "Monthly and annual impact estimates for each opportunity",
+                    "Transaction reclassification insights with travel context",
+                    "Powers next-gen consumer profile dashboards with personalized experiences"
+                  ]} buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"} buttonVariant="ai" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error("Please enrich transactions first");
                   return;
                 }
+                // Navigate immediately, run API in background
+                setInsightType('revenue');
+                setActiveTab('insights');
                 handleGenerateRecommendations();
               }} disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations} />
 
                   {/* Wealth Management Card */}
-                  <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={["Automatic life event detection from spending patterns", "Contextual product recommendations with supporting rationale", "Ready-to-use conversation starters", "Prioritized action items based on relationship depth and opportunity"]} buttonText="Access Wealth Management CoPilot" onClick={() => {
+                  <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={[
+                    "AI life event detection from transaction patterns (new baby, home, retirement)",
+                    "Standout transaction alerts for unusual or significant activity",
+                    "Life Event Planner with per-year cost modeling and funding sources",
+                    "Tax Planning Analyzer with state-based P&L and optimization tips",
+                    "Financial Planning Dashboard: 30-year projections, goals, retirement readiness",
+                    "Client Psychology Profiler with actionable communication cues",
+                    "Smart conversation chips for Meeting Prep, Financial Standing, and more",
+                    "AI-extracted action items from chat and planning tools"
+                  ]} buttonText="Access Wealth Management CoPilot" buttonVariant="ai" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error('Please enrich transactions first to access this tool');
                   return;
                 }
-                toast.info('Analyzing lifestyle signals...');
-                fetchLifestyleSignals().then(() => {
-                  handleNavigateToAdvisorConsole();
-                });
+                // Save enriched transactions immediately and navigate - analysis happens on target page
+                sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
+                  enrichedTransactions: enrichedTransactions,
+                  aiInsights: null,
+                  needsAnalysis: true
+                }));
+                navigate('/tepilot/advisor-console');
               }} disabled={enrichedTransactions.length === 0} />
                 </div>
               </>}
@@ -956,7 +1111,7 @@ const TePilot = () => {
                 <BankwideView />
               </div>}
 
-            {insightType === 'revenue' && recommendations && <div className="space-y-6">
+            {insightType === 'revenue' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
                   <Button variant="outline" onClick={() => {
@@ -968,70 +1123,87 @@ const TePilot = () => {
                   </Button>
                 </div>
                 
-                {/* Top 5 Subcategories Card */}
-                {recommendations.topSubcategories && <Card>
-                    <CardHeader>
-                      <CardTitle>Top 5 Spending Subcategories</CardTitle>
-                      <CardDescription>
-                        Most significant subcategory spending patterns
-                      </CardDescription>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-                        {recommendations.topSubcategories.map((subcat: any, index: number) => {
-                    const color = PILLAR_COLORS[subcat.pillar] || "#64748b";
-                    return <Card key={subcat.subcategory} className="relative overflow-hidden hover:shadow-lg transition-all">
-                              <div className="absolute top-0 left-0 right-0 h-1" style={{
-                        backgroundColor: color
-                      }} />
-                              <CardContent className="pt-6 p-4">
-                                <div className="space-y-3">
-                                  <div className="flex items-center justify-between">
-                                    <div className="flex items-center justify-center w-8 h-8 rounded-full font-semibold text-sm" style={{
-                              backgroundColor: `${color}20`,
-                              color: color
-                            }}>
-                                      {index + 1}
-                                    </div>
-                                  </div>
-                                  
-                                  <div>
-                                    <div className="font-medium text-sm mb-1 line-clamp-2">
-                                      {subcat.subcategory}
-                                    </div>
-                                    <div className="text-xs text-muted-foreground">
-                                      {subcat.pillar}
-                                    </div>
-                                  </div>
-                                  
-                                  <div>
-                                    <div className="text-xl font-bold" style={{
-                              color
-                            }}>
-                                      ${subcat.totalSpend.toLocaleString()}
-                                    </div>
-                                    <div className="text-xs text-muted-foreground">
-                                      {subcat.visits} transactions
-                                    </div>
-                                  </div>
-                                </div>
-                              </CardContent>
-                            </Card>;
-                  })}
-                      </div>
-                    </CardContent>
-                  </Card>}
+                {/* AI-Powered Top 3 Pillars Analysis - shows immediately */}
+                <TopPillarsAnalysis 
+                  transactions={enrichedTransactions} 
+                  autoAnalyze={true} 
+                  onPersonaGenerated={(persona) => {
+                    setUserPersona(persona);
+                    console.log("[TePilot] Persona received from analysis");
+                  }}
+                />
                 
-                <RecommendationsCard recommendations={recommendations.recommendations || []} summary={recommendations.summary || {
-              total_estimated_value: {
-                monthly: 0,
-                annual: 0
-              },
-              message: "No recommendations available"
-            }} />
+                {/* Loading State for Recommendations */}
+                {isGeneratingRecommendations && !recommendations && (
+                  <Card className="overflow-hidden">
+                    <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                      <div className="flex items-center justify-between">
+                        <div className="flex flex-col items-start gap-2">
+                          <CardTitle className="text-2xl">
+                            Example Deal, Rewards and Cross-Sell Opportunities
+                          </CardTitle>
+                          <p className="text-sm text-muted-foreground">
+                            AI-powered strategic recommendations based on spending patterns
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-4">
+                          <Loader2 className="h-5 w-5 animate-spin text-primary" />
+                          <ChevronDown className="h-5 w-5" />
+                        </div>
+                      </div>
+                    </CardHeader>
+                  </Card>
+                )}
+                
+                {/* Recommendations Results */}
+                {!isGeneratingRecommendations && recommendations && (
+                  <RecommendationsCard 
+                    recommendations={recommendations.recommendations || []} 
+                    summary={recommendations.summary || {
+                      total_estimated_value: {
+                        monthly: 0,
+                        annual: 0
+                      },
+                      message: "No recommendations available"
+                    }}
+                    isLoading={isGeneratingRecommendations}
+                    hasSucceeded={recommendationsLoaded}
+                  />
+                )}
             
                 {/* Geo-Location Deals Section */}
                 <GeoLocationDealsSection locationContext={locationContext} />
+                
+                {/* Deal Activation Engine - Test deals with individual customers */}
+                <CollapsibleCard
+                  title="Deal Activation Engine (Placeholder, NOT WORKING)"
+                  description="Preview how bank-defined deals translate into personalized customer messaging"
+                  icon={<Sparkles className="h-5 w-5 text-violet-500" />}
+                  previewContent={
+                    <p className="text-sm text-muted-foreground">
+                      Test how partnership deals would render for this customer based on their transaction history and lifestyle signals.
+                    </p>
+                  }
+                >
+                  <DealActivationPreview enrichedTransactions={enrichedTransactions} />
+                </CollapsibleCard>
+                
+                {/* Subcategory Transactions Modal */}
+                <SubcategoryTransactionsModal
+                  isOpen={!!selectedSubcategory}
+                  onClose={() => setSelectedSubcategory(null)}
+                  subcategory={selectedSubcategory?.subcategory || ""}
+                  pillar={selectedSubcategory?.pillar || ""}
+                  transactions={enrichedTransactions.filter(t => t.subcategory === selectedSubcategory?.subcategory)}
+                  onTransactionClick={(t) => setSelectedTransaction(t)}
+                />
+
+                {/* Transaction Detail Modal */}
+                <TransactionDetailModal
+                  isOpen={!!selectedTransaction}
+                  onClose={() => setSelectedTransaction(null)}
+                  transaction={selectedTransaction}
+                />
               </div>}
 
             {insightType === 'relationship' && <div className="space-y-6">

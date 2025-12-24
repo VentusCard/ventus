@@ -28,6 +28,8 @@ import AppDownload from "./pages/AppDownload";
 import Archive from "./pages/Archive";
 import RecommendationsPage from "./pages/RecommendationsPage";
 import AdvisorConsolePage from "./pages/AdvisorConsolePage";
+import FinancialPlanningPage from "./pages/FinancialPlanningPage";
+import RewardsPipelinePage from "./pages/RewardsPipelinePage";
 
 const queryClient = new QueryClient();
 
@@ -61,6 +63,8 @@ const App = () => (
           <Route path="/tepilot" element={<TePilot />} />
           <Route path="/tepilot/recommendations" element={<RecommendationsPage />} />
           <Route path="/tepilot/advisor-console" element={<AdvisorConsolePage />} />
+          <Route path="/tepilot/financial-planning" element={<FinancialPlanningPage />} />
+          <Route path="/tepilot/rewards-pipeline" element={<RewardsPipelinePage />} />
           <Route path="/app" element={<AppDownload />} />
           <Route path="/archive" element={<Archive />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

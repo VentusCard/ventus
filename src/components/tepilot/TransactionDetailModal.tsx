@@ -12,12 +12,14 @@ import { PILLAR_COLORS } from "@/lib/sampleData";
 import { Plane, MapPin } from "lucide-react";
 
 interface TransactionDetailModalProps {
-  transaction: EnrichedTransaction;
+  transaction: EnrichedTransaction | null;
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function TransactionDetailModal({ transaction, isOpen, onClose }: TransactionDetailModalProps) {
+  if (!transaction) return null;
+  
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl">

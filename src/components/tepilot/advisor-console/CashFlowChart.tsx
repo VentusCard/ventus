@@ -99,15 +99,6 @@ export function CashFlowChart({ years, costCategories, fundingSources, currentSa
               />
             ))}
             
-            {/* Cumulative savings line */}
-            <Line 
-              type="monotone" 
-              dataKey="cumulative" 
-              stroke="hsl(var(--primary))"
-              strokeWidth={3}
-              name="Cumulative Savings"
-              dot={{ r: 4 }}
-            />
           </ComposedChart>
         </ResponsiveContainer>
 
