@@ -275,29 +275,62 @@ Titles must be specific, benefit-focused, and include the value proposition for 
 - ❌ BAD: "Cashback at Stores" (too vague)
 - ❌ BAD: "Special Offer" (no specifics)
 
-### Description Guidelines (Customer-Focused, 2-3 sentences max)
-Descriptions must be written in a warm, customer-focused tone. NO business jargon.
+### Description Guidelines (Persona-Driven, One Sentence with Deal Value)
 
-**WRITE LIKE THIS:**
-- Start with acknowledgment: "We see how much you love [activity/category]..."
-- Explain what they get: "Earn X% back at [merchants] like [example1], [example2]..."
-- Connect to their life: "...so you can keep doing what you love" or "...to help you enjoy even more of what matters"
+Descriptions must be CONCISE, ACTION-ORIENTED, and PERSONALIZED to the customer's persona.
 
-**AVOID THESE WORDS/PHRASES:**
-- "strategically incentivizes"
-- "wallet share" / "share of wallet"
-- "transaction frequency" / "basket size"
-- "projected lift" / "capture" / "incremental revenue"
-- "drives behavior" / "incentivize"
+**FORMAT:** [Action verb matching persona] + [lifestyle benefit] + with [X% off/cashback] + at [Featured Merchant]
 
-**FORMATTING RULES:**
-- NEVER use em dashes (—) in titles, hooks, or descriptions
-- Use commas, periods, or regular hyphens (-) instead
+**PERSONA-TO-ACTION MAPPING:**
 
-**Examples (each focusing on ONE category):**
-- "We see how much you love quality ingredients—you've spent $2,800 at places like Whole Foods and Trader Joe's. Earn 15% back at your favorite grocers, plus similar stores like Sprouts and Wegmans. We're here to help every meal be a little more rewarding."
-- "You're clearly passionate about the outdoors! Earn 12% back at REI, Patagonia, and stores like them. Whether it's your next adventure or new gear, we want to support the things you love."
-- "Your dedication to wellness is inspiring. Get 10% back at fitness centers like Equinox and Orangetheory—we're proud to be part of your journey."
+| Persona Trait/Interest | Action Verbs | Lifestyle Benefits |
+|------------------------|--------------|-------------------|
+| Family-focused | Capture, Create, Celebrate, Cherish | precious family moments, memories, traditions |
+| Fitness/Wellness | Power, Fuel, Recharge, Strengthen | your workouts, your fitness journey, your goals |
+| Adventure/Outdoor | Conquer, Explore, Gear up for, Discover | your next summit, new trails, the outdoors |
+| Home/Nesting | Transform, Create, Build, Elevate | your space, your sanctuary, your oasis |
+| Foodie/Culinary | Elevate, Savor, Master, Craft | every meal, your kitchen, your palate |
+| Travel | Escape to, Discover, Experience, Explore | new destinations, the world, hidden gems |
+| Career-focused | Level up, Invest in, Upgrade, Accelerate | your success, your wardrobe, your goals |
+| Value-conscious | Stretch, Maximize, Stock up, Save on | your budget, every dollar, essentials |
+| Premium/Luxury | Indulge in, Treat yourself to, Experience | the finest, premium quality, luxury |
+| Tech-savvy | Upgrade, Connect, Streamline, Power up | your devices, your home, your setup |
+| Parent/Kids | Nurture, Support, Inspire, Equip | their growth, their dreams, their journey |
+
+**EXAMPLES BY PERSONA:**
+
+For a "Family-focused, Health-conscious" persona:
+- "Capture precious family moments with 15% off at GoPro"
+- "Fuel your family's active weekends with 12% cashback at REI"
+- "Nourish your crew with 10% back at Whole Foods"
+
+For an "Adventure-seeker, Fitness enthusiast" persona:
+- "Conquer your next summit with 12% cashback at Patagonia"
+- "Power your marathon training with 10% off at Orangetheory"
+- "Gear up for the trails with 15% back at REI"
+
+For a "Home-nester, Premium quality" persona:
+- "Transform your sanctuary with 20% cashback at Restoration Hardware"
+- "Elevate your space with 15% off at Design Within Reach"
+- "Create your dream kitchen with 12% back at Williams-Sonoma"
+
+For a "Value-conscious, Family-focused" persona:
+- "Stretch your family's budget with 8% cashback at Costco"
+- "Stock up for the week with 10% back at Aldi"
+- "Maximize every grocery run with 12% cashback at Kroger"
+
+**RULES:**
+- ONE sentence maximum (under 15 words)
+- Start with an action verb that MATCHES their persona traits
+- Include the actual deal percentage AND type (off/cashback/back)
+- End with ONE featured merchant name from the merchants array
+- Make them FEEL UNDERSTOOD through word choice
+- NO "we see you love..." preambles
+- NO business jargon
+
+**FORMATTING:**
+- NEVER use em dashes (—) in descriptions
+- Use commas or periods instead
 
 ## Experience Generation (Recommendation 6)
 
@@ -497,7 +530,7 @@ Return EXACTLY this structure:
       "personalized_title": "Fuel Your [Persona Trait]: X% Back at [Category]",
       "personalized_hook": "Because your [lifestyle trait] deserves premium rewards",
       "title": "Deal for top subcategory #1",
-      "description": "Dynamic description based on customer's actual spending",
+      "description": "Transform your space with 15% cashback at Home Depot",
       "category": "Category name from their spending",
       "merchants": ["Home Depot", "Lowe's", "Menards"],
       "value_type": "cashback",
@@ -515,7 +548,7 @@ Return EXACTLY this structure:
     {
       "deal_id": "CUSTOM_002",
       "title": "Adjacent deal related to subcategory #1",
-      "description": "Based on spending at [subcategory #1], this adjacent category...",
+      "description": "Elevate your next project with 12% cashback at Sherwin-Williams",
       "category": "Related category",
       "merchants": ["Sherwin-Williams", "Benjamin Moore", "PPG Paints"],
       "value_type": "cashback",
@@ -533,7 +566,7 @@ Return EXACTLY this structure:
     {
       "deal_id": "CUSTOM_003",
       "title": "Deal for top subcategory #2",
-      "description": "Dynamic description based on spending",
+      "description": "Nourish your family with 10% cashback at Whole Foods",
       "category": "Category from spending",
       "merchants": ["Whole Foods", "Trader Joe's", "Sprouts"],
       "value_type": "cashback",
@@ -551,7 +584,7 @@ Return EXACTLY this structure:
     {
       "deal_id": "CUSTOM_004",
       "title": "Adjacent deal related to subcategory #2",
-      "description": "Based on spending at [subcategory #2], this adjacent category...",
+      "description": "Fuel your healthy lifestyle with 15% cashback at HelloFresh",
       "category": "Related category",
       "merchants": ["HelloFresh", "Blue Apron", "Factor"],
       "value_type": "cashback",
@@ -569,7 +602,7 @@ Return EXACTLY this structure:
     {
       "deal_id": "CUSTOM_005",
       "title": "Deal for top subcategory #3",
-      "description": "Dynamic description based on spending",
+      "description": "Power your fitness journey with 8% cashback at Equinox",
       "category": "Category from spending",
       "merchants": ["Equinox", "Orangetheory", "SoulCycle"],
       "value_type": "cashback",
@@ -713,13 +746,41 @@ CUSTOMER PERSONA:
 - Spending Behaviors: ${(insights.userPersona.spending_behaviors || []).join(", ") || "Not specified"}
 - Interests: ${(insights.userPersona.interests || []).join(", ") || "Not specified"}
 
-PERSONALIZATION REQUIREMENT:
-Use the persona above to craft personalized_title and personalized_hook for EACH recommendation.
+DESCRIPTION PERSONALIZATION REQUIREMENT:
+Every "description" field MUST be persona-driven with the deal value included:
+
+1. Choose an ACTION VERB that matches their persona traits:
+   - Family-focused → Capture, Create, Celebrate, Cherish
+   - Fitness/Wellness → Power, Fuel, Recharge, Strengthen
+   - Adventure/Outdoor → Conquer, Explore, Gear up for, Discover
+   - Home/Nesting → Transform, Create, Build, Elevate
+   - Foodie/Culinary → Elevate, Savor, Master, Craft
+   - Value-conscious → Stretch, Maximize, Stock up, Save on
+
+2. Include a LIFESTYLE BENEFIT that resonates with their interests
+
+3. Include the DEAL VALUE (e.g., "15% cashback", "12% off", "10% back")
+
+4. End with ONE featured MERCHANT NAME
+
+FORMAT: "[Action verb] [lifestyle benefit] with [X% off/cashback] at [Merchant]"
+
+EXAMPLES based on this persona:
+- "Capture precious family moments with 15% off at GoPro"
+- "Power your fitness journey with 12% cashback at Equinox"
+- "Transform your space with 20% back at Home Depot"
+
+PERSONALIZATION REQUIREMENT FOR TITLES/HOOKS:
 - personalized_title: Reference one of their traits/interests (e.g., "Fuel Your Marathon Training: 12% Back at Running Stores")
 - personalized_hook: Make them feel understood (e.g., "Your passion for fitness deserves premium rewards")
 `
       : `
-CUSTOMER PERSONA: Not available - use spending patterns to infer lifestyle for personalization.
+CUSTOMER PERSONA: Not available - infer persona from spending patterns:
+- High grocery spend → likely family-focused → use "Nourish", "Stock up"
+- High fitness spend → health-conscious → use "Power", "Fuel", "Recharge"
+- High outdoor spend → adventure-seeker → use "Conquer", "Explore", "Gear up"
+- High home spend → nester/homemaker → use "Transform", "Create", "Elevate"
+- High dining spend → foodie → use "Savor", "Elevate", "Craft"
 `;
 
     const userPrompt = `Generate 8 personalized recommendations for this customer:
