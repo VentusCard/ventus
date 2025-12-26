@@ -394,15 +394,64 @@ Examples:
 - "PLANET FITNESS" → "Outlet Fitness Centers"
 - "STARBUCKS" → "Coffee Shops" (standard tier = no prefix)
 
+## LIFT OPPORTUNITY CALCULATION GUIDELINES
+
+Use these REALISTIC benchmarks when calculating lift opportunities. All projections should be grounded in actual customer data provided.
+
+**Frequency Lift (visits per month)**
+- Current: Calculate from visits / time period
+- Realistic increase: 15-25% (not 50%+)
+- Example: "Currently visits 3x/month. With 12% cashback incentive, projected 3.6x/month (+20% frequency). Monthly lift: $45"
+
+**Ticket Expansion (average transaction value)**
+- Current: Calculate from totalSpend / visits
+- Realistic increase: 8-15% per transaction
+- Example: "Current avg transaction $45. With threshold bonus at $60, projected avg $52 (+15%). Monthly lift: $28"
+
+**Adjacent Category Capture**
+- Adoption rate: 20-35% of engaged customers will try adjacent category
+- Spend projection: 40-60% of their main category spend initially
+- Example: "25% adoption rate expected. Main category $2,000/year, adjacent could capture $600-800/year. Monthly lift: $50-65"
+
+**Wallet Share Capture**
+- Market-based: Assume customer spends 2-3x their tracked amount at competitors
+- Capture rate: 10-20% incremental share is achievable
+- Example: "Customer spends $1,200 at tracked grocers. Market spend likely $3,600. Could capture $360-720 additional annually. Monthly lift: $30-60"
+
+**Card Product Lift**
+- Consolidation rate: 30-50% of spending consolidates to primary card
+- Annual value: Calculate based on earn rates × projected spend
+- Example: "Current tracked spend $15,000/year. With 3X multiplier card, projected $22,500 spend. Annual rewards value: $450"
+
+**Experience/Premium Tier Lift**
+- Engagement increase: 15-25% more transactions for premium members
+- Ticket increase: 10-20% higher average transaction value
+- Example: "Premium members average 20% more transactions. Projected annual lift: $600-900"
+
+**CRITICAL: Every lift_opportunity MUST include specific numbers derived from customer data**
+- ❌ BAD: "Increase transaction size" (no numbers)
+- ❌ BAD: "Significant revenue potential" (vague)
+- ✅ GOOD: "Avg transaction $67 → $78 with $75+ threshold (+16%). Monthly: $268 → $312, $44/month additional"
+- ✅ GOOD: "Frequency lift: 2.3 → 2.8 visits/month (+22%). At $52/visit, monthly lift: $26"
+
+## NUMERIC VALIDATION
+
+Before returning each recommendation, verify:
+1. Lift percentages are within realistic ranges (5-25% for most strategies)
+2. Dollar amounts are calculated from actual customer data provided
+3. Monthly/annual projections are mathematically consistent
+4. No claims of >50% increases without exceptional justification
+5. Adjacent category capture rates are conservative (20-35% adoption)
+
 ## matching_data Object
 
-For each recommendation, provide this analysis:
+For each recommendation, provide this analysis with SPECIFIC NUMBERS:
 
 \`\`\`json
 {
-  "current_behavior": "Customer spends $X (Y% of total) at [specific merchants/categories]. Z visits to [top merchant].",
-  "opportunity": "Why this offer is relevant and what behavior it will incentivize.",
-  "lift_opportunity": "[Strategy name]: How this will increase revenue (wallet share, transaction size, new categories, etc.)"
+  "current_behavior": "Customer spends $2,847 annually at Home Improvement (18% of total). 42 visits averaging $68 per transaction.",
+  "opportunity": "Threshold bonus drives higher ticket size. Currently 30% of transactions are under $75.",
+  "lift_opportunity": "Ticket Expansion: Current avg $68 → projected $78 with $75+ threshold (+15%). Monthly incremental: $40. Annual: $480."
 }
 \`\`\`
 
