@@ -85,7 +85,7 @@ export function RecommendationsCard({ recommendations, summary, isLoading = fals
           <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
             <div className="flex items-center justify-between w-full">
               <div className="flex flex-col items-start gap-2">
-                <CardTitle className="text-2xl">Example Personalized Deals, Rewards and Cross-Sell Opportunities</CardTitle>
+                <CardTitle className="text-2xl">Deal, Rewards and Product Opportunities with Personalized Messaging</CardTitle>
                 <div className="text-sm text-muted-foreground">
                   {recommendations.length} personalized offers matched to their lifestyle patterns
                 </div>
