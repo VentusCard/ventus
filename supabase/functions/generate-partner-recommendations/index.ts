@@ -443,6 +443,36 @@ Before returning each recommendation, verify:
 4. No claims of >50% increases without exceptional justification
 5. Adjacent category capture rates are conservative (20-35% adoption)
 
+## MERCHANT NAME GUIDELINES
+
+For each recommendation, provide exactly 3 REALISTIC merchant names that match the category and tier:
+
+**Requirements:**
+- Use real, well-known merchant brand names (not made-up names)
+- Match the tier of the recommendation (Premium → premium brands, Outlet → value brands, Standard → everyday brands)
+- Merchants should be nationally recognized and relevant to the category
+
+**Examples by Category & Tier:**
+
+| Category | Premium | Standard | Outlet |
+|----------|---------|----------|--------|
+| Grocers | Whole Foods, Wegmans, Sprouts | Kroger, Safeway, Publix | Aldi, Food 4 Less, Save-A-Lot |
+| Fitness | Equinox, Orangetheory, Barry's | LA Fitness, Crunch, 24 Hour Fitness | Planet Fitness, Chuze, Blink |
+| Athletic Apparel | Lululemon, Vuori, Athleta | Nike, Adidas, Under Armour | TJ Maxx, Ross, Marshalls |
+| Outdoor Stores | REI, Patagonia, Arc'teryx | Dick's Sporting Goods, Cabela's, Bass Pro | Big 5, Academy Sports, Sportsman's |
+| Coffee Shops | Blue Bottle, Intelligentsia, Stumptown | Starbucks, Peet's, Dutch Bros | Dunkin', 7-Eleven, Wawa |
+| Hotels | Ritz-Carlton, Four Seasons, St. Regis | Marriott, Hilton, Hyatt | Hampton Inn, Holiday Inn, La Quinta |
+| Home Improvement | Restoration Hardware, Design Within Reach | Home Depot, Lowe's, Menards | Harbor Freight, Habitat ReStore, Surplus |
+| Dining | Capital Grille, STK, Nobu | Cheesecake Factory, Olive Garden, Red Lobster | Applebee's, Chili's, IHOP |
+| Electronics | Apple Store, Best Buy Magnolia | Best Buy, Target, Costco | Micro Center, Newegg, eBay |
+| Travel | Delta Sky Club, United Polaris | Southwest, JetBlue, Alaska | Spirit, Frontier, Allegiant |
+
+**CRITICAL:** 
+- Every "merchants" array MUST contain exactly 3 real merchant names
+- Do NOT use category names (e.g., "Fitness Centers") as merchant names
+- Match the tier mentioned in the deal title/description
+- If customer data shows specific merchants, include those in the 3
+
 ## matching_data Object
 
 For each recommendation, provide this analysis with SPECIFIC NUMBERS:
@@ -469,7 +499,7 @@ Return EXACTLY this structure:
       "title": "Deal for top subcategory #1",
       "description": "Dynamic description based on customer's actual spending",
       "category": "Category name from their spending",
-      "merchants": ["Anonymized merchant category"],
+      "merchants": ["Home Depot", "Lowe's", "Menards"],
       "value_type": "cashback",
       "value_percentage": 15,
       "strategy": "ticket_expansion",
@@ -487,7 +517,7 @@ Return EXACTLY this structure:
       "title": "Adjacent deal related to subcategory #1",
       "description": "Based on spending at [subcategory #1], this adjacent category...",
       "category": "Related category",
-      "merchants": ["Adjacent merchant category"],
+      "merchants": ["Sherwin-Williams", "Benjamin Moore", "PPG Paints"],
       "value_type": "cashback",
       "value_percentage": 12,
       "strategy": "adjacent_category",
@@ -505,7 +535,7 @@ Return EXACTLY this structure:
       "title": "Deal for top subcategory #2",
       "description": "Dynamic description based on spending",
       "category": "Category from spending",
-      "merchants": ["Anonymized merchant category"],
+      "merchants": ["Whole Foods", "Trader Joe's", "Sprouts"],
       "value_type": "cashback",
       "value_percentage": 10,
       "strategy": "frequency_multiplier",
@@ -523,7 +553,7 @@ Return EXACTLY this structure:
       "title": "Adjacent deal related to subcategory #2",
       "description": "Based on spending at [subcategory #2], this adjacent category...",
       "category": "Related category",
-      "merchants": ["Adjacent merchant category"],
+      "merchants": ["HelloFresh", "Blue Apron", "Factor"],
       "value_type": "cashback",
       "value_percentage": 15,
       "strategy": "adjacent_category",
@@ -541,7 +571,7 @@ Return EXACTLY this structure:
       "title": "Deal for top subcategory #3",
       "description": "Dynamic description based on spending",
       "category": "Category from spending",
-      "merchants": ["Anonymized merchant category"],
+      "merchants": ["Equinox", "Orangetheory", "SoulCycle"],
       "value_type": "cashback",
       "value_percentage": 8,
       "strategy": "premium_upsell",
@@ -611,7 +641,7 @@ REMEMBER:
 - Recommendation 6: Experience (tier="experience", lift_type="experience")
 - Recommendation 7: Card Product (tier="card_product", use card_id not product_id)
 - Recommendation 8: Financial Product (tier="financial_product", use product_id)
-- All merchant names MUST be anonymized
+- Each deal MUST have exactly 3 real merchant names (not category names)
 - Adjacent deals must be DIFFERENT but logically connected subcategories
 - Card and financial product must be DISTINCT offerings
 - Return ONLY valid JSON, no markdown
