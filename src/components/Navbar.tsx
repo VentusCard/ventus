@@ -74,38 +74,48 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-3 md:space-x-4 lg:space-x-8">
           <Link 
             to="/about"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            About Us
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              About Us
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
           <Link 
             to="/smartrewards"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            Smart Rewards
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              Smart Rewards
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
           <Link 
             to="/ventus-ai"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            Ventus AI
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              Ventus AI
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
           <Link 
             to="/app"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            Download App
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              Download App
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
           <Link 
             to="/contact"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            Contact Us
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              Contact Us
+              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
         </div>
         
