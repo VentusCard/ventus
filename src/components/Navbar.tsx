@@ -78,7 +78,7 @@ const Navbar = () => {
           >
             <span className="relative">
               About Us
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
           <Link 
@@ -87,7 +87,7 @@ const Navbar = () => {
           >
             <span className="relative">
               Smart Rewards
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
           <Link 
@@ -96,7 +96,7 @@ const Navbar = () => {
           >
             <span className="relative">
               Ventus AI
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
           <Link 
@@ -105,7 +105,7 @@ const Navbar = () => {
           >
             <span className="relative">
               Download App
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
           <Link 
@@ -114,7 +114,7 @@ const Navbar = () => {
           >
             <span className="relative">
               Contact Us
-              <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
         </div>
