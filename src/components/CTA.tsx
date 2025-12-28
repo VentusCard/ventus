@@ -9,7 +9,7 @@ const CTA = () => {
           {/* Main CTA Content */}
           <div className="text-center mb-12">
             <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-              Ready to Experience Ventus Card?
+              Ready to Experience Ventus Card? <span className="text-blue-400">Coming Soon</span>
             </h2>
             <p className="text-lg opacity-90 max-w-2xl mx-auto mb-6">
               Join the waitlist today and elevate your financial experience with premium benefits and rewards designed for your lifestyle.
