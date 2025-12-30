@@ -133,7 +133,7 @@ const TermsOfService = () => {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Navbar />
       
-      <main className="container mx-auto px-4 py-16 max-w-5xl">
+      <main className="container mx-auto px-4 pt-24 md:pt-28 pb-16 max-w-5xl">
         {/* Hero Section */}
         <div className="text-center mb-12">
           <h1 className="text-5xl font-bold text-slate-900 mb-4">
