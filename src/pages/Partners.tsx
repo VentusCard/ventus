@@ -13,7 +13,7 @@ const Partners = () => {
       <div className="w-full">
         <PartnerHero />
         <PartnerToolsSection />
-        <PartnerTestimonials />
+        
         <PartnerForm />
       </div>
       

@@ -34,7 +34,7 @@ const Privacy = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <div className="pt-[80px] pb-8 px-4 md:px-8">
+      <div className="pt-24 md:pt-28 pb-8 px-4 md:px-8">
         <div className="max-w-4xl mx-auto text-center">
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
             Privacy Policy
