@@ -40,6 +40,47 @@ export interface SpendingGap {
   recommendations: string[];
 }
 
+// Unified Revenue Opportunity that combines gaps with merchant-specific timing and win-win pitches
+export interface MerchantPartnershipPitch {
+  merchantName: string;
+  merchantLogo?: string;
+  merchantCategory: string;
+  // What we're asking the merchant to do
+  proposedDeal: string;
+  // Why this is good for the merchant
+  merchantBenefit: string;
+  // Why this is good for the bank
+  bankBenefit: string;
+  // Timing
+  peakQuarter: string;
+  negotiationDeadline: string;
+  deploymentWindow: string;
+  // Metrics
+  estimatedRevenueCapture: number;
+  targetedUserCount: number;
+  projectedConversionRate: number;
+  // Predictability
+  patternConfidence: number;
+  patternReason: string;
+}
+
+export interface RevenueOpportunity {
+  id: string;
+  // Gap info
+  gapTitle: string;
+  gapType: 'pillar' | 'geographic' | 'demographic' | 'cross-sell';
+  iconHint?: 'gen-z' | 'health' | 'travel' | 'dining' | 'home' | 'geographic' | 'cross-sell' | 'sports' | 'family' | 'tech';
+  currentState: string;
+  potentialState: string;
+  totalOpportunityAmount: number;
+  affectedUsers: number;
+  priority: 'high' | 'medium' | 'low';
+  // Strategic context
+  strategicInsight: string;
+  // Merchant partnerships that can address this gap
+  merchantPartnerships: MerchantPartnershipPitch[];
+}
+
 export interface BankwideFilters {
   cardProducts: string[];
   regions: string[];
@@ -98,4 +139,38 @@ export interface StateSpendingData {
     percentage: number;
     spend: number;
   }>;
+}
+
+export interface SpendingTimingHighlight {
+  category: string;
+  subcategory?: string;
+  peakWeeks: string;
+  peakSeason: string;
+  avgWeeklySpend: number;
+  totalAnnualSpend: number;
+  yoyGrowth: number;
+  dealTimingRecommendation: string;
+  weeklySpendData: Array<{ week: number; month: string; spend: number }>;
+  topMerchants: Array<{ name: string; peakWeeks: string; spend: number; dealRecommendation: string }>;
+  color: string;
+  predictabilityScore: number;
+  predictabilityReason: string;
+}
+
+// Pipeline Status Types for Consumer Rewards Dashboard
+export type PipelineStage = 'not_started' | 'contacted' | 'negotiating' | 'contract_sent' | 'live';
+
+export interface ContactLogEntry {
+  date: string;
+  type: 'email' | 'call' | 'meeting' | 'note';
+  summary: string;
+}
+
+export interface PipelineStatus {
+  merchantName: string;
+  opportunityId: string;
+  status: PipelineStage;
+  notes: string[];
+  lastUpdated: string;
+  contactLog: ContactLogEntry[];
 }

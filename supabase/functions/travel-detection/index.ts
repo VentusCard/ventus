@@ -5,17 +5,19 @@ const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 // Allowed origins for CORS
 const ALLOWED_ORIGINS = [
   "https://ventuscard.com",
+  "https://ventusai.com",
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
   /^https:\/\/.*\.lovableproject\.com$/,
+  /^https:\/\/.*\.amplifyapp\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
-    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
-  );
-  
+  const isAllowed =
+    origin &&
+    ALLOWED_ORIGINS.some((allowed) => (typeof allowed === "string" ? allowed === origin : allowed.test(origin)));
+
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin! : "",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -113,48 +115,47 @@ const TRAVEL_DETECTION_TOOL = [
                 original_pillar: { type: "string" },
                 reclassified_pillar: { type: "string" },
                 reclassified_subcategory: { type: "string" },
-                reclassification_reason: { type: "string" }
+                reclassification_reason: { type: "string" },
               },
-              required: ["transaction_id", "is_travel_related"]
-            }
-          }
+              required: ["transaction_id", "is_travel_related"],
+            },
+          },
         },
-        required: ["travel_updates"]
-      }
-    }
-  }
+        required: ["travel_updates"],
+      },
+    },
+  },
 ];
 
 // Helper function to call AI with a specific model
-async function callTravelDetectionAI(
-  model: string,
-  transactionSummary: any[],
-  homeZip: string
-): Promise<any[]> {
+async function callTravelDetectionAI(model: string, transactionSummary: any[], homeZip: string): Promise<any[]> {
   console.log(`[Travel Detection] Calling AI with model: ${model}`);
-  
+
   // Use correct token parameter based on model type
   // OpenAI GPT-5 models require max_completion_tokens and need more tokens for reasoning
   const isOpenAI = model.startsWith("openai/");
-  const tokenParam = isOpenAI 
-    ? { max_completion_tokens: 16000 }  // Higher limit for reasoning + output
+  const tokenParam = isOpenAI
+    ? { max_completion_tokens: 16000 } // Higher limit for reasoning + output
     : { max_tokens: 4000 };
-  
+
   const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${LOVABLE_API_KEY}`,
+      Authorization: `Bearer ${LOVABLE_API_KEY}`,
     },
     body: JSON.stringify({
       model,
       ...tokenParam,
       messages: [
         { role: "system", content: TRAVEL_DETECTION_PROMPT.replace("{homeZip}", homeZip) },
-        { role: "user", content: `Analyze these PRE-FILTERED travel candidates:\n\n${JSON.stringify(transactionSummary, null, 2)}` }
+        {
+          role: "user",
+          content: `Analyze these PRE-FILTERED travel candidates:\n\n${JSON.stringify(transactionSummary, null, 2)}`,
+        },
       ],
       tools: TRAVEL_DETECTION_TOOL,
-      tool_choice: { type: "function", function: { name: "detect_travel_patterns" } }
+      tool_choice: { type: "function", function: { name: "detect_travel_patterns" } },
     }),
   });
 
@@ -166,23 +167,23 @@ async function callTravelDetectionAI(
 
   const data = await response.json();
   console.log(`[Travel Detection] ${model} raw response:`, JSON.stringify(data, null, 2));
-  
+
   // Check for API errors
   const choice = data.choices?.[0];
   if (choice?.error) {
     console.error(`[Travel Detection] ${model} API error:`, choice.error);
-    throw new Error(`AI API error: ${choice.error.message || 'Unknown error'}`);
+    throw new Error(`AI API error: ${choice.error.message || "Unknown error"}`);
   }
-  
+
   const toolCalls = choice?.message?.tool_calls;
   if (!toolCalls || toolCalls.length === 0) {
     console.warn(`[Travel Detection] ${model} returned no tool calls`);
     return [];
   }
-  
+
   try {
     const args = toolCalls[0].function.arguments;
-    const results = typeof args === 'string' ? JSON.parse(args) : args;
+    const results = typeof args === "string" ? JSON.parse(args) : args;
     return results.travel_updates || [];
   } catch (parseError: any) {
     console.error(`[Travel Detection] Failed to parse ${model} response:`, parseError.message);
@@ -192,7 +193,7 @@ async function callTravelDetectionAI(
 
 Deno.serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
-  
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -202,32 +203,31 @@ Deno.serve(async (req) => {
 
     // Input validation
     if (!Array.isArray(transactions)) {
-      return new Response(
-        JSON.stringify({ error: "Invalid input format" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Invalid input format" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
-    
+
     if (transactions.length === 0) {
-      return new Response(
-        JSON.stringify({ error: "Empty transactions array" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Empty transactions array" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
-    
+
     if (transactions.length > 1000) {
-      return new Response(
-        JSON.stringify({ error: "Too many transactions (max 1000)" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-      );
+      return new Response(JSON.stringify({ error: "Too many transactions (max 1000)" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     console.log(`[Travel Detection] Starting for ${transactions.length} pre-classified transactions`);
 
     // Extract home ZIP code
-    const homeZip = transactions.find(t => t.home_zip)?.home_zip || 
-                    transactions.find(t => t.zip_code)?.zip_code || 
-                    "Unknown";
+    const homeZip =
+      transactions.find((t) => t.home_zip)?.home_zip || transactions.find((t) => t.zip_code)?.zip_code || "Unknown";
 
     // Create SSE stream
     const encoder = new TextEncoder();
@@ -247,10 +247,10 @@ Deno.serve(async (req) => {
             id: t.transaction_id,
             date: t.date,
             merchant: t.normalized_merchant || t.merchant_name,
-            description: t.description || '',
+            description: t.description || "",
             amount: t.amount,
             pillar: t.pillar,
-            zip: t.zip_code || 'unknown'
+            zip: t.zip_code || "unknown",
           }));
 
           let travelUpdates: any[] = [];
@@ -269,7 +269,7 @@ Deno.serve(async (req) => {
           if (travelUpdates.length === 0) {
             console.log(`[Travel Detection] Retrying with backup model (${BACKUP_MODEL})...`);
             sendEvent("status", { message: "Retrying with backup AI model..." });
-            
+
             try {
               travelUpdates = await callTravelDetectionAI(BACKUP_MODEL, transactionSummary, homeZip);
               console.log(`[Travel Detection] Backup model returned ${travelUpdates.length} updates`);
@@ -280,17 +280,17 @@ Deno.serve(async (req) => {
 
           // If both models failed, return unclassified (no keyword guessing)
           if (travelUpdates.length === 0) {
-            console.warn('[Travel Detection] Both AI models failed - returning unclassified');
-            travelUpdates = transactions.map(t => ({
+            console.warn("[Travel Detection] Both AI models failed - returning unclassified");
+            travelUpdates = transactions.map((t) => ({
               transaction_id: t.transaction_id,
               is_travel_related: false,
               travel_destination: null,
               travel_period_start: null,
               travel_period_end: null,
-              original_pillar: t.pillar || 'Unknown',
-              reclassified_pillar: t.pillar || 'Unknown',
-              reclassified_subcategory: t.subcategory || 'Unknown',
-              reclassification_reason: 'AI classification unavailable - unable to determine travel status'
+              original_pillar: t.pillar || "Unknown",
+              reclassified_pillar: t.pillar || "Unknown",
+              reclassified_subcategory: t.subcategory || "Unknown",
+              reclassification_reason: "AI classification unavailable - unable to determine travel status",
             }));
           }
 
@@ -302,13 +302,12 @@ Deno.serve(async (req) => {
           console.log(`[Travel Detection] Completed in ${totalTime}ms`);
           sendEvent("done", { message: "Travel detection complete" });
           controller.close();
-
         } catch (error: any) {
           console.error("[Travel Detection] Error:", error);
           sendEvent("error", { message: "Travel detection failed" });
           controller.close();
         }
-      }
+      },
     });
 
     return new Response(stream, {
@@ -316,15 +315,14 @@ Deno.serve(async (req) => {
         ...corsHeaders,
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache",
-        "Connection": "keep-alive"
-      }
+        Connection: "keep-alive",
+      },
     });
-
   } catch (error: any) {
     console.error("[Travel Detection] Error:", error);
-    return new Response(
-      JSON.stringify({ error: "Service error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
+    return new Response(JSON.stringify({ error: "Service error" }), {
+      status: 500,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   }
 });

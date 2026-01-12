@@ -74,38 +74,48 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-3 md:space-x-4 lg:space-x-8">
           <Link 
             to="/about"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            About Us
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              About Us
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
           <Link 
             to="/smartrewards"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            Smart Rewards
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              Smart Rewards
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
           <Link 
             to="/ventus-ai"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            Ventus AI
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              Ventus AI
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
           <Link 
             to="/app"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            Download App
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              Download App
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
           <Link 
             to="/contact"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 relative group"
+            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
           >
-            Contact Us
-            <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            <span className="relative">
+              Contact Us
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
+            </span>
           </Link>
         </div>
         
@@ -155,20 +165,7 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <Link to="/smartrewards" onClick={closeMobileMenu}>
-              <div className="relative group">
-                <div className="absolute inset-0 bg-blue-600/20 rounded-lg blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                <div className="relative bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-4 md:px-5 lg:px-8 py-2.5 shadow-lg group-hover:shadow-xl transition-all duration-300 border border-blue-700/30">
-                  <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-white/4 to-transparent rounded-lg"></div>
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent rounded-lg"></div>
-                  <span className="relative text-white font-semibold text-xs md:text-sm tracking-wide">
-                    Join Waitlist
-                  </span>
-                </div>
-              </div>
-            </Link>
-          )}
+          ) : null}
         </div>
       </div>
       
@@ -252,15 +249,7 @@ const Navbar = () => {
                   Logout
                 </Button>
               </div>
-            ) : (
-              <Link to="/smartrewards" onClick={() => { closeMobileMenu(); scrollToTop(); }}>
-                <div className="w-full bg-gradient-to-br from-blue-800 via-blue-900 to-blue-950 rounded-lg px-6 py-4 shadow-lg border border-blue-700/30 text-center hover:bg-gradient-to-br hover:from-blue-700 hover:via-blue-800 hover:to-blue-900 transition-all duration-300">
-                  <span className="text-white font-semibold text-base tracking-wide">
-                    Join Waitlist
-                  </span>
-                </div>
-              </Link>
-            )}
+            ) : null}
           </div>
         </div>
       </div>

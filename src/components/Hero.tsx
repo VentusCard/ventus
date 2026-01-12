@@ -74,7 +74,7 @@ const Hero = () => {
   };
 
   return (
-    <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden h-screen">
+    <div id="hero" className="relative bg-black text-white flex items-center justify-center overflow-hidden min-h-screen pt-20">
       {/* Seamless gradient overlay for smooth transition to footer */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-black/80 to-slate-900 z-20 pointer-events-none"></div>
       
@@ -150,7 +150,7 @@ const Hero = () => {
             <Link to="/smartrewards">
               <Button 
                 size="sm"
-                className="bg-gradient-to-r from-[#1E40AF] to-[#2563EB] text-white hover:from-[#1E3A8A] hover:to-[#1E40AF] hover:brightness-110 rounded-full px-8 md:px-12 py-3 md:py-4 text-sm md:text-base font-medium transition-all duration-300 shadow-[0_0_30px_rgba(30,64,175,0.4)] hover:shadow-[0_0_40px_rgba(30,64,175,0.6)] hover:scale-105 min-h-[40px] md:min-h-[48px] min-w-[120px] md:min-w-[160px] border-0 opacity-100 visible animate-fade-in"
+                className="bg-gradient-to-r from-[#1E40AF] to-[#2563EB] text-white hover:from-[#1E3A8A] hover:to-[#1E40AF] hover:brightness-110 rounded-full px-8 md:px-12 py-3 md:py-4 text-sm md:text-base font-medium transition-all duration-300 hover:scale-105 min-h-[40px] md:min-h-[48px] min-w-[120px] md:min-w-[160px] border-0 opacity-100 visible animate-fade-in"
               >
                 Learn More
               </Button>

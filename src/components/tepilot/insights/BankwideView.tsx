@@ -3,18 +3,16 @@ import { BankwideFilters } from "./BankwideFilters";
 import { BankwideMetrics } from "./BankwideMetrics";
 import { CardProductMatrix } from "./CardProductMatrix";
 import { BankwidePillarExplorer } from "./BankwidePillarExplorer";
-import { BankwidePillarDistribution } from "./BankwidePillarDistribution";
 import { DemographicBreakdown } from "./DemographicBreakdown";
-import { SpendingGapsAnalysis } from "./SpendingGapsAnalysis";
+import { RevenueOpportunitiesCard } from "./RevenueOpportunitiesCard";
 import { CrossSellMatrix } from "./CrossSellMatrix";
 
 import {
   getBankwideMetrics,
-  getPillarDistribution,
   getFilteredCardProducts,
   getFilteredAgeRanges,
-  getSpendingGaps,
   getCrossSellMatrix,
+  getRevenueOpportunities,
 } from "@/lib/mockBankwideData";
 import type { BankwideFilters as Filters } from "@/types/bankwide";
 
@@ -26,11 +24,10 @@ export function BankwideView() {
   });
 
   const metrics = getBankwideMetrics(filters);
-  const pillarDistribution = getPillarDistribution(filters);
   const cardProducts = getFilteredCardProducts(filters);
   const ageRanges = getFilteredAgeRanges(filters);
-  const spendingGaps = getSpendingGaps(filters);
   const crossSellMatrix = getCrossSellMatrix(filters);
+  const revenueOpportunities = getRevenueOpportunities(filters);
 
   return (
     <div className="space-y-4">
@@ -50,21 +47,17 @@ export function BankwideView() {
       {/* Overview Metrics */}
       <BankwideMetrics metrics={metrics} />
 
-
       {/* Card Product Matrix */}
       <CardProductMatrix products={cardProducts} />
 
-      {/* 12-Pillar Interactive Grid */}
+      {/* 12-Pillar Interactive Grid with Chart Toggle */}
       <BankwidePillarExplorer filters={filters} />
-
-      {/* Pillar Distribution */}
-      <BankwidePillarDistribution distribution={pillarDistribution} />
 
       {/* Demographic Breakdown */}
       <DemographicBreakdown ageRanges={ageRanges} />
 
-      {/* Spending Gaps Analysis */}
-      <SpendingGapsAnalysis gaps={spendingGaps} />
+      {/* Revenue Opportunities with Merchant Partnership Insights */}
+      <RevenueOpportunitiesCard opportunities={revenueOpportunities} />
 
       {/* Cross-Sell Matrix */}
       <CrossSellMatrix matrixData={crossSellMatrix} />

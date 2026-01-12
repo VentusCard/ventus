@@ -4,17 +4,19 @@ import PDFParser from "npm:pdf-parse@1.1.1";
 // Allowed origins for CORS
 const ALLOWED_ORIGINS = [
   "https://ventuscard.com",
+  "https://ventusai.com",
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
   /^https:\/\/.*\.lovableproject\.com$/,
+  /^https:\/\/.*\.amplifyapp\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
-    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
-  );
-  
+  const isAllowed =
+    origin &&
+    ALLOWED_ORIGINS.some((allowed) => (typeof allowed === "string" ? allowed === origin : allowed.test(origin)));
+
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin! : "",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -23,32 +25,32 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
 
 serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
-  
-  if (req.method === 'OPTIONS') {
+
+  if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
   try {
     const { fileData, fileName } = await req.json();
-    
+
     // Input validation
-    if (!fileData || typeof fileData !== 'string') {
-      return new Response(
-        JSON.stringify({ error: "Invalid file data" }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+    if (!fileData || typeof fileData !== "string") {
+      return new Response(JSON.stringify({ error: "Invalid file data" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
-    
+
     // Check file size (base64 string length, rough estimate: 5MB = ~6.7M chars)
     if (fileData.length > 7000000) {
-      return new Response(
-        JSON.stringify({ error: "File too large (max 5MB)" }),
-        { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: "File too large (max 5MB)" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
     console.log(`Processing PDF: ${fileName}`);
-    
+
     const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
     if (!LOVABLE_API_KEY) {
       throw new Error("LOVABLE_API_KEY is not configured");
@@ -56,17 +58,19 @@ serve(async (req) => {
 
     // Extract text from PDF
     console.log("Extracting text from PDF...");
-    const base64Data = fileData.replace(/^data:application\/pdf;base64,/, '');
-    const pdfBuffer = Uint8Array.from(atob(base64Data), c => c.charCodeAt(0));
-    
+    const base64Data = fileData.replace(/^data:application\/pdf;base64,/, "");
+    const pdfBuffer = Uint8Array.from(atob(base64Data), (c) => c.charCodeAt(0));
+
     const pdfData = await PDFParser(pdfBuffer);
     const extractedText = pdfData.text;
-    
+
     console.log(`Extracted ${extractedText.length} characters from PDF`);
-    
+
     // Validate that we got meaningful text
     if (!extractedText || extractedText.trim().length < 50) {
-      throw new Error("Could not extract text from PDF. The file may be password-protected, corrupted, or an image-based scan. Please try a text-based PDF.");
+      throw new Error(
+        "Could not extract text from PDF. The file may be password-protected, corrupted, or an image-based scan. Please try a text-based PDF.",
+      );
     }
 
     // Call Lovable AI with the extracted text
@@ -81,12 +85,13 @@ serve(async (req) => {
         messages: [
           {
             role: "system",
-            content: "You are a bank statement parser. Extract transactions from bank statements. IGNORE payment transactions (like 'PAYMENT - THANK YOU', autopay to credit card). Include purchases (positive amounts) and refunds/credits (negative amounts)."
+            content:
+              "You are a bank statement parser. Extract transactions from bank statements. IGNORE payment transactions (like 'PAYMENT - THANK YOU', autopay to credit card). Include purchases (positive amounts) and refunds/credits (negative amounts).",
           },
           {
             role: "user",
-            content: `Extract transactions from this bank statement:\n\n${extractedText}\n\nFor each transaction:\n- SKIP payment transactions to the credit card account\n- Purchases/debits: positive amounts\n- Refunds/credits: negative amounts\n- Identify: merchant name, transaction date, amount, description, and MCC code if visible.\n\nReturn the data in the exact format specified by the tool.`
-          }
+            content: `Extract transactions from this bank statement:\n\n${extractedText}\n\nFor each transaction:\n- SKIP payment transactions to the credit card account\n- Purchases/debits: positive amounts\n- Refunds/credits: negative amounts\n- Identify: merchant name, transaction date, amount, description, and MCC code if visible.\n\nReturn the data in the exact format specified by the tool.`,
+          },
         ],
         tools: [
           {
@@ -102,53 +107,54 @@ serve(async (req) => {
                     items: {
                       type: "object",
                       properties: {
-                        merchant_name: { 
+                        merchant_name: {
                           type: "string",
-                          description: "The merchant or payee name"
+                          description: "The merchant or payee name",
                         },
-                        date: { 
+                        date: {
                           type: "string",
-                          description: "Transaction date in ISO format (YYYY-MM-DD)"
+                          description: "Transaction date in ISO format (YYYY-MM-DD)",
                         },
-                        amount: { 
+                        amount: {
                           type: "number",
-                          description: "Transaction amount: positive for purchases/debits, negative for refunds/credits"
+                          description:
+                            "Transaction amount: positive for purchases/debits, negative for refunds/credits",
                         },
-                        description: { 
+                        description: {
                           type: "string",
-                          description: "Optional transaction description or memo"
+                          description: "Optional transaction description or memo",
                         },
-                        mcc: { 
+                        mcc: {
                           type: "string",
-                          description: "Optional MCC (Merchant Category Code) if visible"
-                        }
+                          description: "Optional MCC (Merchant Category Code) if visible",
+                        },
                       },
                       required: ["merchant_name", "date", "amount"],
-                      additionalProperties: false
-                    }
-                  }
+                      additionalProperties: false,
+                    },
+                  },
                 },
                 required: ["transactions"],
-                additionalProperties: false
-              }
-            }
-          }
+                additionalProperties: false,
+              },
+            },
+          },
         ],
-        tool_choice: { type: "function", function: { name: "extract_transactions" } }
+        tool_choice: { type: "function", function: { name: "extract_transactions" } },
       }),
     });
 
     if (!response.ok) {
       if (response.status === 429) {
-        return new Response(
-          JSON.stringify({ error: "Rate limits exceeded, please try again later." }), 
-          { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
+        return new Response(JSON.stringify({ error: "Rate limits exceeded, please try again later." }), {
+          status: 429,
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+        });
       }
       if (response.status === 402) {
         return new Response(
-          JSON.stringify({ error: "Payment required, please add funds to your Lovable AI workspace." }), 
-          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          JSON.stringify({ error: "Payment required, please add funds to your Lovable AI workspace." }),
+          { status: 402, headers: { ...corsHeaders, "Content-Type": "application/json" } },
         );
       }
       const errorText = await response.text();
@@ -166,21 +172,22 @@ serve(async (req) => {
     }
 
     const transactions = JSON.parse(toolCall.function.arguments).transactions;
-    
+
     // Filter out payment transactions but keep refunds/credits
     const filteredTransactions = transactions.filter((txn: any) => {
       const merchantLower = txn.merchant_name.toLowerCase();
-      const descLower = (txn.description || '').toLowerCase();
-      
+      const descLower = (txn.description || "").toLowerCase();
+
       // Remove only payment transactions (not refunds/credits)
-      const isPayment = 
-        (merchantLower.includes('payment') && merchantLower.includes('thank you')) ||
-        merchantLower.includes('autopay');
-      
+      const isPayment =
+        (merchantLower.includes("payment") && merchantLower.includes("thank you")) || merchantLower.includes("autopay");
+
       return !isPayment;
     });
-    
-    console.log(`Extracted ${filteredTransactions.length} transactions from PDF (filtered ${transactions.length - filteredTransactions.length} payments)`);
+
+    console.log(
+      `Extracted ${filteredTransactions.length} transactions from PDF (filtered ${transactions.length - filteredTransactions.length} payments)`,
+    );
 
     // Add transaction IDs and ensure correct signs
     const enrichedTransactions = filteredTransactions.map((txn: any, index: number) => ({
@@ -191,21 +198,19 @@ serve(async (req) => {
       amount: txn.amount > 0 ? txn.amount : txn.amount, // Keep positive for purchases, negative for refunds
       date: txn.date,
       zip_code: undefined,
-      home_zip: undefined
+      home_zip: undefined,
     }));
 
-    return new Response(
-      JSON.stringify({ transactions: enrichedTransactions }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-    );
-
+    return new Response(JSON.stringify({ transactions: enrichedTransactions }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
   } catch (error) {
     console.error("PDF parsing error:", error);
     return new Response(
-      JSON.stringify({ 
-        error: error instanceof Error ? error.message : "Failed to parse PDF"
+      JSON.stringify({
+        error: error instanceof Error ? error.message : "Failed to parse PDF",
       }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });

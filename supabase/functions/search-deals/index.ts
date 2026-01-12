@@ -4,17 +4,19 @@ import { createClient } from "jsr:@supabase/supabase-js@2";
 // Allowed origins for CORS
 const ALLOWED_ORIGINS = [
   "https://ventuscard.com",
+  "https://ventusai.com",
   /^https:\/\/.*\.lovable\.app$/,
   /^https:\/\/.*\.lovable\.dev$/,
   /^https:\/\/.*\.lovableproject\.com$/,
+  /^https:\/\/.*\.amplifyapp\.com$/,
   /^http:\/\/localhost:\d+$/,
 ];
 
 function getCorsHeaders(origin: string | null): Record<string, string> {
-  const isAllowed = origin && ALLOWED_ORIGINS.some(allowed => 
-    typeof allowed === "string" ? allowed === origin : allowed.test(origin)
-  );
-  
+  const isAllowed =
+    origin &&
+    ALLOWED_ORIGINS.some((allowed) => (typeof allowed === "string" ? allowed === origin : allowed.test(origin)));
+
   return {
     "Access-Control-Allow-Origin": isAllowed ? origin! : "",
     "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
@@ -23,7 +25,7 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
 
 Deno.serve(async (req) => {
   const corsHeaders = getCorsHeaders(req.headers.get("origin"));
-  
+
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
@@ -32,14 +34,14 @@ Deno.serve(async (req) => {
     const { query, userId } = await req.json();
 
     // Input validation
-    if (!query || typeof query !== 'string' || query.length > 500) {
+    if (!query || typeof query !== "string" || query.length > 500) {
       return new Response(JSON.stringify({ error: "Invalid query" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
     }
 
-    if (!userId || typeof userId !== 'string') {
+    if (!userId || typeof userId !== "string") {
       return new Response(JSON.stringify({ error: "Invalid user ID" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -165,10 +167,19 @@ Prioritize:
         return_related_questions: false,
         search_recency_filter: "month",
         search_domain_filter: [
-          "amazon.com", "target.com", "bestbuy.com", "walmart.com",
-          "rei.com", "dickssportinggoods.com", "golfgalaxy.com",
-          "pgasuperstore.com", "nike.com", "adidas.com",
-          "macys.com", "nordstrom.com", "kohls.com"
+          "amazon.com",
+          "target.com",
+          "bestbuy.com",
+          "walmart.com",
+          "rei.com",
+          "dickssportinggoods.com",
+          "golfgalaxy.com",
+          "pgasuperstore.com",
+          "nike.com",
+          "adidas.com",
+          "macys.com",
+          "nordstrom.com",
+          "kohls.com",
         ],
       }),
     });
@@ -191,16 +202,16 @@ Prioritize:
     function hasValidUrlPattern(url: string): boolean {
       try {
         const urlObj = new URL(url);
-        
+
         // Must be HTTPS
         if (urlObj.protocol !== "https:") return false;
-        
+
         // Only reject obvious placeholders/construction artifacts
         const hasPlaceholder = /PLACEHOLDER|EXAMPLE|TODO|XXX|item-name-or-sku|product-name|ID\d{4,}/i.test(url);
-        
+
         // Must have a meaningful path (not just domain root)
         const hasPath = urlObj.pathname.length > 5;
-        
+
         return !hasPlaceholder && hasPath;
       } catch {
         return false;
@@ -212,17 +223,18 @@ Prioritize:
         try {
           const controller = new AbortController();
           const timeoutId = setTimeout(() => controller.abort(), 8000);
-          
+
           // Try HEAD first (faster)
           let response = await fetch(url, {
             method: "HEAD",
             signal: controller.signal,
             redirect: "follow",
             headers: {
-              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-            }
+              "User-Agent":
+                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            },
           });
-          
+
           // If HEAD fails, try GET
           if (!response.ok && response.status === 405) {
             response = await fetch(url, {
@@ -230,30 +242,31 @@ Prioritize:
               signal: controller.signal,
               redirect: "follow",
               headers: {
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-              }
+                "User-Agent":
+                  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+              },
             });
           }
-          
+
           clearTimeout(timeoutId);
-          
+
           if (response.ok) {
             console.log(`✓ URL validated (${response.status}): ${url}`);
             return true;
           }
-          
+
           // Accept 403 - page exists, just blocking bots
           if (response.status === 403) {
             console.log(`⚠ URL exists but blocked validation (403): ${url}`);
             return true;
           }
-          
+
           console.log(`✗ URL returned ${response.status}: ${url}`);
           return false;
         } catch (error) {
           if (attempt === 0) {
             console.log(`Retrying URL validation for ${url} (attempt 2/2)`);
-            await new Promise(resolve => setTimeout(resolve, 2000));
+            await new Promise((resolve) => setTimeout(resolve, 2000));
             continue;
           }
           console.error(`✗ URL validation failed for ${url}:`, error);
@@ -267,16 +280,16 @@ Prioritize:
     let parsedResponse;
     try {
       let cleanResponse = aiResponse.trim();
-      
+
       // Remove markdown code blocks if present
       cleanResponse = cleanResponse.replace(/```json\n?|\n?```/g, "");
-      
+
       // Try to extract JSON if it's wrapped in text
       const jsonMatch = cleanResponse.match(/{[\s\S]*}/);
       if (jsonMatch) {
         cleanResponse = jsonMatch[0];
       }
-      
+
       parsedResponse = JSON.parse(cleanResponse);
       console.log(`✓ Successfully parsed JSON with ${parsedResponse.deals?.length || 0} deals`);
     } catch (parseError) {
@@ -332,7 +345,7 @@ Prioritize:
         }
         return true;
       });
-      
+
       if (preFilterCount > parsedResponse.deals.length) {
         console.log(`Filtered out ${preFilterCount - parsedResponse.deals.length} deals below 5% discount`);
       }
@@ -345,7 +358,7 @@ Prioritize:
       if (parsedResponse.deals.length === 0 && rejectedUrls.length > 0) {
         parsedResponse.message = "Found deals but couldn't verify working product links. Try refining your search.";
       }
-      
+
       console.log(`=== Final Result: ${parsedResponse.deals.length} valid deals ===`);
     }
 

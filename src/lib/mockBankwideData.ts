@@ -9,6 +9,8 @@ import type {
   BankwideFilters,
   PillarDetail,
   StateSpendingData,
+  SpendingTimingHighlight,
+  RevenueOpportunity,
 } from '@/types/bankwide';
 import { PILLAR_COLORS, LIFESTYLE_PILLARS } from '@/lib/sampleData';
 
@@ -903,4 +905,663 @@ export function getStateSpendingData(filters: BankwideFilters): StateSpendingDat
   }
   
   return data;
+}
+
+// Generate 52-week spending data with seasonal patterns
+function generateWeeklySpendData(
+  baseSpend: number,
+  peakWeeks: number[],
+  peakMultiplier: number = 2.5
+): Array<{ week: number; month: string; spend: number }> {
+  const months = ['Jan', 'Jan', 'Jan', 'Jan', 'Feb', 'Feb', 'Feb', 'Feb', 'Mar', 'Mar', 'Mar', 'Mar', 'Mar',
+    'Apr', 'Apr', 'Apr', 'Apr', 'May', 'May', 'May', 'May', 'Jun', 'Jun', 'Jun', 'Jun', 'Jun',
+    'Jul', 'Jul', 'Jul', 'Jul', 'Aug', 'Aug', 'Aug', 'Aug', 'Aug', 'Sep', 'Sep', 'Sep', 'Sep',
+    'Oct', 'Oct', 'Oct', 'Oct', 'Nov', 'Nov', 'Nov', 'Nov', 'Dec', 'Dec', 'Dec', 'Dec', 'Dec'];
+  
+  return Array.from({ length: 52 }, (_, i) => {
+    const week = i + 1;
+    let multiplier = 1;
+    
+    // Calculate distance to nearest peak week for smooth curve
+    const minDistance = Math.min(...peakWeeks.map(pw => Math.abs(week - pw)));
+    if (minDistance <= 4) {
+      multiplier = 1 + (peakMultiplier - 1) * Math.exp(-minDistance * 0.5);
+    }
+    
+    // Add some random variation
+    const variance = 0.9 + Math.random() * 0.2;
+    
+    return {
+      week,
+      month: months[i],
+      spend: Math.round(baseSpend * multiplier * variance)
+    };
+  });
+}
+
+// Get spending timing highlights
+export function getSpendingTimingHighlights(
+  filters: BankwideFilters,
+  sortBy: 'amount' | 'predictability' = 'amount'
+): SpendingTimingHighlight[] {
+  // High-volume categories (sorted by amount)
+  const amountHighlights: SpendingTimingHighlight[] = [
+    {
+      category: 'Food & Dining',
+      peakWeeks: 'Weeks 47-52',
+      peakSeason: 'Holiday Season',
+      avgWeeklySpend: 185_000_000,
+      totalAnnualSpend: 9_620_000_000,
+      yoyGrowth: 8,
+      dealTimingRecommendation: 'Partner with restaurants for holiday catering deals starting Week 45. Launch Thanksgiving and Christmas dining promotions 2 weeks before peak weeks for maximum engagement.',
+      weeklySpendData: generateWeeklySpendData(185_000_000, [22, 23, 24, 25, 48, 49, 50, 51, 52], 2.2),
+      topMerchants: [
+        { name: 'DoorDash', peakWeeks: 'Weeks 48-52', spend: 890_000_000, dealRecommendation: 'Offer 20% cashback on family meal orders starting Week 46 to capture Thanksgiving prep traffic.' },
+        { name: 'Starbucks', peakWeeks: 'Weeks 47-52', spend: 720_000_000, dealRecommendation: 'Partner for holiday drink promotions and gift card bonuses in Week 47-48 before peak gifting.' },
+        { name: 'Cheesecake Factory', peakWeeks: 'Weeks 50-52', spend: 540_000_000, dealRecommendation: 'Launch reservation bonus offers in Week 49 to capture holiday dinner bookings.' }
+      ],
+      color: '#F97316',
+      predictabilityScore: 78,
+      predictabilityReason: '78% of annual holiday dining spend occurs within a consistent 6-week window each year.'
+    },
+    {
+      category: 'Travel & Exploration',
+      peakWeeks: 'Weeks 1-4, 22-26',
+      peakSeason: 'New Year + Summer',
+      avgWeeklySpend: 142_000_000,
+      totalAnnualSpend: 7_384_000_000,
+      yoyGrowth: 15,
+      dealTimingRecommendation: 'Launch travel packages in Week 48-50 to capture January bookings. Summer promotion campaigns should start Week 18 for June-July travel peaks.',
+      weeklySpendData: generateWeeklySpendData(142_000_000, [1, 2, 3, 4, 22, 23, 24, 25, 26, 27, 28], 2.8),
+      topMerchants: [
+        { name: 'Delta Airlines', peakWeeks: 'Weeks 1-4, 24-28', spend: 1_200_000_000, dealRecommendation: 'Offer bonus miles on bookings made in Weeks 48-50 for January travel and Week 18-20 for summer trips.' },
+        { name: 'Marriott Hotels', peakWeeks: 'Weeks 22-32', spend: 980_000_000, dealRecommendation: 'Push points multiplier promotions in Week 18-20 when families are booking summer vacations.' },
+        { name: 'Airbnb', peakWeeks: 'Weeks 22-30', spend: 750_000_000, dealRecommendation: 'Partner for early-bird vacation rental discounts in Weeks 10-14 to capture summer planners.' }
+      ],
+      color: '#0EA5E9',
+      predictabilityScore: 72,
+      predictabilityReason: 'Bimodal pattern - 72% of travel bookings follow consistent January + Summer peaks.'
+    },
+    {
+      category: 'Style & Beauty',
+      peakWeeks: 'Weeks 46-52',
+      peakSeason: 'Black Friday → Holidays',
+      avgWeeklySpend: 168_000_000,
+      totalAnnualSpend: 8_736_000_000,
+      yoyGrowth: 6,
+      dealTimingRecommendation: 'Coordinate fashion deals with Black Friday (Week 47). Holiday gift-giving promotions should run Weeks 48-51 with early bird specials starting Week 45.',
+      weeklySpendData: generateWeeklySpendData(168_000_000, [47, 48, 49, 50, 51, 52], 3.0),
+      topMerchants: [
+        { name: 'Nordstrom', peakWeeks: 'Weeks 47-52', spend: 680_000_000, dealRecommendation: 'Activate Black Friday bonus rewards in Week 47 and extend through Cyber Week for maximum engagement.' },
+        { name: 'Sephora', peakWeeks: 'Weeks 46-51', spend: 520_000_000, dealRecommendation: 'Launch beauty gift set cashback offers Week 46 to capture early holiday shoppers.' },
+        { name: 'Nike', peakWeeks: 'Weeks 47-52', spend: 490_000_000, dealRecommendation: 'Partner for exclusive sneaker drop rewards in Week 47-48 during peak gift-buying season.' }
+      ],
+      color: '#EC4899',
+      predictabilityScore: 85,
+      predictabilityReason: '85% of annual fashion/beauty spend concentrates in the same 7-week holiday window.'
+    },
+    {
+      category: 'Sports & Active Living',
+      peakWeeks: 'Weeks 1-6',
+      peakSeason: 'New Year Resolutions',
+      avgWeeklySpend: 98_000_000,
+      totalAnnualSpend: 5_096_000_000,
+      yoyGrowth: 22,
+      dealTimingRecommendation: 'Gym and fitness partnerships are most effective in January. Launch resolution campaigns in Week 52 for maximum Week 1-6 engagement.',
+      weeklySpendData: generateWeeklySpendData(98_000_000, [1, 2, 3, 4, 5, 6, 34, 35], 2.5),
+      topMerchants: [
+        { name: 'Equinox', peakWeeks: 'Weeks 1-8', spend: 420_000_000, dealRecommendation: 'Offer membership signup bonuses in Week 52 to capture New Year resolution momentum.' },
+        { name: 'Dick\'s Sporting Goods', peakWeeks: 'Weeks 1-6, 32-36', spend: 380_000_000, dealRecommendation: 'Launch fitness equipment cashback in Week 1-2 and back-to-sports promotions Week 32.' },
+        { name: 'Peloton', peakWeeks: 'Weeks 1-6', spend: 290_000_000, dealRecommendation: 'Partner for extended financing offers Week 52-1 when home fitness purchases peak.' }
+      ],
+      color: '#22C55E',
+      predictabilityScore: 88,
+      predictabilityReason: '88% of new gym memberships and fitness equipment purchases happen in weeks 1-6 every year.'
+    },
+    {
+      category: 'Entertainment & Culture',
+      peakWeeks: 'Weeks 24-35',
+      peakSeason: 'Summer',
+      avgWeeklySpend: 112_000_000,
+      totalAnnualSpend: 5_824_000_000,
+      yoyGrowth: 11,
+      dealTimingRecommendation: 'Summer entertainment deals peak with blockbuster releases. Partner with streaming services in Week 48-52 for holiday viewing promotions.',
+      weeklySpendData: generateWeeklySpendData(112_000_000, [24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35], 2.0),
+      topMerchants: [
+        { name: 'AMC Theatres', peakWeeks: 'Weeks 24-30, 48-52', spend: 340_000_000, dealRecommendation: 'Time movie reward offers around blockbuster releases in Week 24-26 and holiday Week 51-52.' },
+        { name: 'Ticketmaster', peakWeeks: 'Weeks 22-36', spend: 480_000_000, dealRecommendation: 'Partner for concert presale bonuses in Week 20-22 before summer tour season kicks off.' },
+        { name: 'Netflix', peakWeeks: 'Weeks 48-52', spend: 290_000_000, dealRecommendation: 'Offer subscription bonus credits Week 48-50 when holiday viewing and gifting peaks.' }
+      ],
+      color: '#A855F7',
+      predictabilityScore: 65,
+      predictabilityReason: '65% predictable - dependent on movie release schedules and festival dates.'
+    },
+    {
+      category: 'Health & Wellness',
+      peakWeeks: 'Weeks 1-8',
+      peakSeason: 'New Year + Winter',
+      avgWeeklySpend: 76_000_000,
+      totalAnnualSpend: 3_952_000_000,
+      yoyGrowth: 18,
+      dealTimingRecommendation: 'Wellness deals most effective January-February. Partner with pharmacies for flu season promotions in Weeks 40-48.',
+      weeklySpendData: generateWeeklySpendData(76_000_000, [1, 2, 3, 4, 5, 6, 7, 8, 42, 43, 44, 45], 2.3),
+      topMerchants: [
+        { name: 'CVS Pharmacy', peakWeeks: 'Weeks 1-8, 40-48', spend: 520_000_000, dealRecommendation: 'Launch flu season wellness cashback Week 40-42 and New Year health promotion Week 1.' },
+        { name: 'Walgreens', peakWeeks: 'Weeks 1-8, 42-46', spend: 440_000_000, dealRecommendation: 'Offer immunization bonus rewards Week 42-44 during peak flu shot season.' },
+        { name: 'GNC', peakWeeks: 'Weeks 1-10', spend: 180_000_000, dealRecommendation: 'Partner for supplement bundle deals Week 52-2 when resolution shoppers stock up.' }
+      ],
+      color: '#14B8A6',
+      predictabilityScore: 82,
+      predictabilityReason: '82% of wellness spending follows New Year resolution + flu season patterns.'
+    }
+  ];
+
+  // High-predictability subcategories (seasonal patterns)
+  const predictabilityHighlights: SpendingTimingHighlight[] = [
+    {
+      category: 'Sports & Active Living',
+      subcategory: 'Ski Equipment & Resorts',
+      peakWeeks: 'Weeks 44-48',
+      peakSeason: 'Pre-Ski Season',
+      avgWeeklySpend: 42_000_000,
+      totalAnnualSpend: 420_000_000,
+      yoyGrowth: 12,
+      dealTimingRecommendation: 'Every year, 96% of ski equipment purchases happen in November. Partner with ski retailers and resorts for early-bird deals starting Week 42.',
+      weeklySpendData: generateWeeklySpendData(8_000_000, [44, 45, 46, 47, 48], 5.0),
+      topMerchants: [
+        { name: 'REI', peakWeeks: 'Weeks 44-48', spend: 85_000_000, dealRecommendation: 'Launch ski gear bundles in Week 42-43 before the Week 44 surge to capture early planners.' },
+        { name: 'Vail Resorts', peakWeeks: 'Weeks 45-48', spend: 120_000_000, dealRecommendation: 'Push early-bird season pass promotions in Week 40-42 when families are booking winter trips.' },
+        { name: 'Burton', peakWeeks: 'Weeks 44-47', spend: 45_000_000, dealRecommendation: 'Partner for Black Friday snowboard specials Week 47 when gift buyers peak.' }
+      ],
+      color: '#3B82F6',
+      predictabilityScore: 96,
+      predictabilityReason: 'Every year, 96% of annual ski equipment and resort bookings occur in Weeks 44-48. This pattern has held consistently for 5+ years.'
+    },
+    {
+      category: 'Financial & Aspirational',
+      subcategory: 'Tax Preparation Services',
+      peakWeeks: 'Weeks 9-16',
+      peakSeason: 'Tax Season',
+      avgWeeklySpend: 38_000_000,
+      totalAnnualSpend: 304_000_000,
+      yoyGrowth: 5,
+      dealTimingRecommendation: '98% of tax prep spending occurs March-April. Partner with tax services for early filer bonuses in Week 6-8.',
+      weeklySpendData: generateWeeklySpendData(6_000_000, [9, 10, 11, 12, 13, 14, 15, 16], 6.0),
+      topMerchants: [
+        { name: 'TurboTax', peakWeeks: 'Weeks 9-16', spend: 95_000_000, dealRecommendation: 'Offer early filer cashback Week 6-8 to capture organized filers before the rush.' },
+        { name: 'H&R Block', peakWeeks: 'Weeks 10-16', spend: 78_000_000, dealRecommendation: 'Partner for tax prep service discounts Week 9-10 when appointment bookings spike.' },
+        { name: 'Jackson Hewitt', peakWeeks: 'Weeks 12-15', spend: 32_000_000, dealRecommendation: 'Target last-minute filers with bonus offers Week 14-15 near the April deadline.' }
+      ],
+      color: '#6366F1',
+      predictabilityScore: 98,
+      predictabilityReason: 'Tax deadline drives 98% predictable spending in Weeks 9-16. Last-minute filers spike in Week 15.'
+    },
+    {
+      category: 'Style & Beauty',
+      subcategory: 'Halloween Costumes & Decor',
+      peakWeeks: 'Weeks 40-43',
+      peakSeason: 'Halloween',
+      avgWeeklySpend: 28_000_000,
+      totalAnnualSpend: 112_000_000,
+      yoyGrowth: 8,
+      dealTimingRecommendation: '94% of Halloween spending concentrates in 4 weeks. Launch costume and decor deals in Week 38 to capture early shoppers.',
+      weeklySpendData: generateWeeklySpendData(3_000_000, [40, 41, 42, 43], 9.0),
+      topMerchants: [
+        { name: 'Spirit Halloween', peakWeeks: 'Weeks 40-43', spend: 45_000_000, dealRecommendation: 'Launch costume category rewards in Week 38 to capture early shoppers with best selection.' },
+        { name: 'Party City', peakWeeks: 'Weeks 41-43', spend: 32_000_000, dealRecommendation: 'Offer party supply bundles Week 40-41 when hosts are planning Halloween gatherings.' },
+        { name: 'Amazon (costumes)', peakWeeks: 'Weeks 40-42', spend: 28_000_000, dealRecommendation: 'Activate Halloween category cashback Week 39-41 for last-minute online shoppers.' }
+      ],
+      color: '#F59E0B',
+      predictabilityScore: 94,
+      predictabilityReason: '94% of Halloween spending occurs in Weeks 40-43 every year without exception.'
+    },
+    {
+      category: 'Food & Dining',
+      subcategory: 'Valentine\'s Day Dining',
+      peakWeeks: 'Weeks 5-6',
+      peakSeason: 'Valentine\'s Day',
+      avgWeeklySpend: 52_000_000,
+      totalAnnualSpend: 104_000_000,
+      yoyGrowth: 4,
+      dealTimingRecommendation: 'Restaurant reservations for Valentine\'s spike 97% predictably in Weeks 5-6. Partner with restaurants for special prix fixe promotions.',
+      weeklySpendData: generateWeeklySpendData(2_000_000, [5, 6], 25.0),
+      topMerchants: [
+        { name: 'OpenTable Restaurants', peakWeeks: 'Weeks 5-6', spend: 38_000_000, dealRecommendation: 'Partner for Valentine\'s reservation bonuses Week 3-4 when couples are booking tables.' },
+        { name: 'Fine Dining Group', peakWeeks: 'Week 6', spend: 28_000_000, dealRecommendation: 'Offer prix fixe dining rewards Week 5-6 for premium Valentine\'s experiences.' },
+        { name: '1-800-Flowers', peakWeeks: 'Weeks 5-6', spend: 22_000_000, dealRecommendation: 'Launch floral delivery cashback Week 4-5 to capture advance orders for guaranteed delivery.' }
+      ],
+      color: '#EF4444',
+      predictabilityScore: 97,
+      predictabilityReason: '97% of Valentine\'s dining and gift spending occurs in Weeks 5-6 - the most predictable holiday spending.'
+    },
+    {
+      category: 'Family & Community',
+      subcategory: 'Back-to-School Supplies',
+      peakWeeks: 'Weeks 30-34',
+      peakSeason: 'Back-to-School',
+      avgWeeklySpend: 85_000_000,
+      totalAnnualSpend: 425_000_000,
+      yoyGrowth: 6,
+      dealTimingRecommendation: '95% of back-to-school spending happens in a 5-week window. Launch supply deals in Week 28 to capture early planners.',
+      weeklySpendData: generateWeeklySpendData(8_500_000, [30, 31, 32, 33, 34], 10.0),
+      topMerchants: [
+        { name: 'Target', peakWeeks: 'Weeks 30-34', spend: 145_000_000, dealRecommendation: 'Activate back-to-school category rewards Week 28-29 to capture early organizers.' },
+        { name: 'Staples', peakWeeks: 'Weeks 31-34', spend: 95_000_000, dealRecommendation: 'Partner for office supply cashback Week 30-32 during peak school shopping season.' },
+        { name: 'Amazon (school supplies)', peakWeeks: 'Weeks 30-33', spend: 88_000_000, dealRecommendation: 'Offer Prime back-to-school bonus Week 29-31 for convenient online shopping.' }
+      ],
+      color: '#8B5CF6',
+      predictabilityScore: 95,
+      predictabilityReason: 'School start dates make back-to-school spending 95% predictable in Weeks 30-34.'
+    },
+    {
+      category: 'Travel & Exploration',
+      subcategory: 'Summer Vacation Rentals',
+      peakWeeks: 'Weeks 22-30',
+      peakSeason: 'Summer',
+      avgWeeklySpend: 125_000_000,
+      totalAnnualSpend: 1_125_000_000,
+      yoyGrowth: 18,
+      dealTimingRecommendation: 'Summer rental bookings are 92% predictable. Early bird campaigns in Weeks 8-12 capture planners; last-minute deals in Week 20.',
+      weeklySpendData: generateWeeklySpendData(42_000_000, [22, 23, 24, 25, 26, 27, 28, 29, 30], 3.0),
+      topMerchants: [
+        { name: 'Vrbo', peakWeeks: 'Weeks 22-30', spend: 380_000_000, dealRecommendation: 'Launch early-bird vacation rental bonuses Week 8-12 when families plan summer trips.' },
+        { name: 'Airbnb', peakWeeks: 'Weeks 22-28', spend: 450_000_000, dealRecommendation: 'Offer booking cashback Week 10-14 to capture advance summer planners.' },
+        { name: 'Beach house rentals', peakWeeks: 'Weeks 24-28', spend: 180_000_000, dealRecommendation: 'Partner for last-minute beach getaway deals Week 20-22 for spontaneous travelers.' }
+      ],
+      color: '#06B6D4',
+      predictabilityScore: 92,
+      predictabilityReason: '92% of vacation rental spending follows predictable summer patterns in Weeks 22-30.'
+    },
+    {
+      category: 'Home & Living',
+      subcategory: 'Pool & Patio Equipment',
+      peakWeeks: 'Weeks 18-24',
+      peakSeason: 'Spring → Early Summer',
+      avgWeeklySpend: 48_000_000,
+      totalAnnualSpend: 336_000_000,
+      yoyGrowth: 14,
+      dealTimingRecommendation: 'Pool and patio purchases spike 91% predictably as temperatures rise. Partner with home improvement stores in Week 16.',
+      weeklySpendData: generateWeeklySpendData(12_000_000, [18, 19, 20, 21, 22, 23, 24], 4.0),
+      topMerchants: [
+        { name: 'Home Depot', peakWeeks: 'Weeks 18-24', spend: 125_000_000, dealRecommendation: 'Launch outdoor furniture cashback Week 16-17 before the Memorial Day rush.' },
+        { name: 'Lowe\'s', peakWeeks: 'Weeks 18-22', spend: 98_000_000, dealRecommendation: 'Partner for patio and grill rewards Week 17-19 as backyard season begins.' },
+        { name: 'Leslie\'s Pool', peakWeeks: 'Weeks 20-26', spend: 45_000_000, dealRecommendation: 'Offer pool opening supply bonuses Week 18-20 when homeowners prep for summer.' }
+      ],
+      color: '#10B981',
+      predictabilityScore: 91,
+      predictabilityReason: '91% of pool/patio spending occurs in Weeks 18-24 as homeowners prepare for summer.'
+    },
+    {
+      category: 'Financial & Aspirational',
+      subcategory: 'Holiday Gift Cards',
+      peakWeeks: 'Weeks 49-52',
+      peakSeason: 'Holiday Gifting',
+      avgWeeklySpend: 95_000_000,
+      totalAnnualSpend: 380_000_000,
+      yoyGrowth: 3,
+      dealTimingRecommendation: 'Gift card purchases are 99% concentrated in the final 4 weeks. Partner with major retailers for bonus value promotions.',
+      weeklySpendData: generateWeeklySpendData(10_000_000, [49, 50, 51, 52], 9.0),
+      topMerchants: [
+        { name: 'Amazon Gift Cards', peakWeeks: 'Weeks 49-52', spend: 145_000_000, dealRecommendation: 'Offer bonus value promotions Week 49-50 when holiday gift card buying accelerates.' },
+        { name: 'Apple Gift Cards', peakWeeks: 'Weeks 50-52', spend: 85_000_000, dealRecommendation: 'Partner for tech gift card bonuses Week 50-51 during peak electronics gifting.' },
+        { name: 'Restaurant Gift Cards', peakWeeks: 'Weeks 51-52', spend: 68_000_000, dealRecommendation: 'Launch last-minute dining gift card rewards Week 51-52 for procrastinating gifters.' }
+      ],
+      color: '#DC2626',
+      predictabilityScore: 99,
+      predictabilityReason: '99% of holiday gift card purchases occur in Weeks 49-52 - the most predictable category.'
+    }
+  ];
+
+  if (sortBy === 'predictability') {
+    return predictabilityHighlights.sort((a, b) => b.predictabilityScore - a.predictabilityScore);
+  }
+  
+  return amountHighlights.sort((a, b) => b.totalAnnualSpend - a.totalAnnualSpend);
+}
+
+// Unified Revenue Opportunities - combining gaps with merchant-specific timing and win-win pitches
+export function getRevenueOpportunities(filters: BankwideFilters): RevenueOpportunity[] {
+  const opportunities: RevenueOpportunity[] = [
+    {
+      id: 'gen-z-engagement',
+      gapTitle: 'Gen Z Low Engagement',
+      gapType: 'demographic',
+      iconHint: 'gen-z',
+      currentState: 'Gen Z (18-24) has $1,800 avg spend vs $2,600 bank avg',
+      potentialState: 'Increase Gen Z engagement to millennial levels',
+      totalOpportunityAmount: 4_800_000_000,
+      affectedUsers: 5_000_000,
+      priority: 'high',
+      strategicInsight: 'Gen Z travel spending peaks during Spring Break (Weeks 10-14) and Summer (Weeks 22-30). Partner with brands that resonate with this demographic during these high-intent windows.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Delta Airlines',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: '4x points on Delta flights for cardholders 18-24, with $50 statement credit on first booking',
+          merchantBenefit: 'Capture brand loyalty early — Gen Z travelers will become premium customers within 5-7 years. Spring Break bookings drive 23% of annual Gen Z travel revenue.',
+          bankBenefit: 'Increase Gen Z travel card adoption by estimated 340K new accounts. Projected $180M incremental annual spend from this segment.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Oct 15, 2025',
+          deploymentWindow: 'Jan 15 - Mar 20, 2026',
+          estimatedRevenueCapture: 720_000_000,
+          targetedUserCount: 1_200_000,
+          projectedConversionRate: 12.5,
+          patternConfidence: 88,
+          patternReason: 'Spring Break travel bookings are 88% predictable in Weeks 10-14 every year.'
+        },
+        {
+          merchantName: 'Spotify',
+          merchantCategory: 'Entertainment & Culture',
+          proposedDeal: '6 months free Spotify Premium with new card activation for ages 18-24',
+          merchantBenefit: 'Acquire 400K+ potential lifetime subscribers at near-zero CAC. Convert trial users to paying customers post-promotion.',
+          bankBenefit: 'Drive 520K new Gen Z card activations. Music streaming is #1 discretionary spend for this demo.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Aug 1 - Sep 15, 2026 (Back to School)',
+          estimatedRevenueCapture: 380_000_000,
+          targetedUserCount: 850_000,
+          projectedConversionRate: 18.2,
+          patternConfidence: 91,
+          patternReason: 'Back-to-school card activations peak 91% predictably in August.'
+        },
+        {
+          merchantName: 'Uber',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: '5x points on Uber rides + $25 monthly Uber Cash credit for cardholders under 25',
+          merchantBenefit: 'Lock in habitual rideshare users before car ownership. Gen Z takes 3.2x more rideshares than millennials did at same age.',
+          bankBenefit: 'High-frequency transaction category drives 8.4 swipes/month per user. Builds card-top-of-wallet behavior.',
+          peakQuarter: 'Q4 2026',
+          negotiationDeadline: 'Jul 15, 2026',
+          deploymentWindow: 'Oct 1 - Dec 31, 2026 (Holiday Season)',
+          estimatedRevenueCapture: 290_000_000,
+          targetedUserCount: 1_400_000,
+          projectedConversionRate: 22.8,
+          patternConfidence: 85,
+          patternReason: 'Holiday rideshare usage peaks in Q4 with 85% consistency year-over-year.'
+        }
+      ]
+    },
+    {
+      id: 'health-wellness-penetration',
+      gapTitle: 'Low Health & Wellness Penetration',
+      gapType: 'pillar',
+      iconHint: 'health',
+      currentState: 'Only 15% of cardholders spend on Health & Wellness',
+      potentialState: 'National average is 28% for gym/wellness spending',
+      totalOpportunityAmount: 3_200_000_000,
+      affectedUsers: 38_000_000,
+      priority: 'high',
+      strategicInsight: 'New Year resolution spending is the most predictable wellness window (Weeks 1-8, 88% confidence). Gym memberships and fitness equipment peak in January — partner BEFORE the surge.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Equinox',
+          merchantCategory: 'Health & Wellness',
+          proposedDeal: 'Waive $500 initiation fee + 3x points on membership for new cardholder signups',
+          merchantBenefit: 'Acquire 85K high-LTV members at reduced CAC. Bank cardholders have 2.3x higher retention than walk-in signups.',
+          bankBenefit: 'Drive $420M in annual recurring wellness spend. Premium gym members have 34% higher overall card utilization.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Oct 15, 2025',
+          deploymentWindow: 'Dec 26, 2025 - Feb 15, 2026',
+          estimatedRevenueCapture: 840_000_000,
+          targetedUserCount: 2_100_000,
+          projectedConversionRate: 8.5,
+          patternConfidence: 88,
+          patternReason: '88% of new gym memberships are purchased in Weeks 1-6 every year.'
+        },
+        {
+          merchantName: 'Peloton',
+          merchantCategory: 'Health & Wellness',
+          proposedDeal: '0% APR 24-month financing + 5x points on equipment and subscription',
+          merchantBenefit: 'Reduce financing friction for $2,500+ purchases. Bank customers have 40% lower default rates on fitness equipment.',
+          bankBenefit: 'Capture $290M in high-ticket home fitness purchases. Equipment buyers spend 3.2x more on wellness overall.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Oct 15, 2025',
+          deploymentWindow: 'Dec 20, 2025 - Jan 31, 2026',
+          estimatedRevenueCapture: 290_000_000,
+          targetedUserCount: 420_000,
+          projectedConversionRate: 6.2,
+          patternConfidence: 92,
+          patternReason: '92% of home fitness equipment purchases occur in the 6 weeks around New Year.'
+        },
+        {
+          merchantName: 'CVS Pharmacy',
+          merchantCategory: 'Health & Wellness',
+          proposedDeal: '4x points on all pharmacy and wellness purchases, with bonus rewards during flu season',
+          merchantBenefit: 'Increase basket size by 18% through rewards motivation. Drive pharmacy loyalty in competitive market.',
+          bankBenefit: 'High-frequency category (2.8 visits/month avg). Wellness spending correlates with long-term card retention.',
+          peakQuarter: 'Q4 2026',
+          negotiationDeadline: 'Jul 15, 2026',
+          deploymentWindow: 'Oct 1 - Nov 30, 2026 (Flu Season)',
+          estimatedRevenueCapture: 520_000_000,
+          targetedUserCount: 8_500_000,
+          projectedConversionRate: 24.5,
+          patternConfidence: 82,
+          patternReason: '82% of flu-related pharmacy spending occurs in Weeks 40-48.'
+        }
+      ]
+    },
+    {
+      id: 'travel-cross-sell',
+      gapTitle: 'Travel Card Cross-Sell Opportunity',
+      gapType: 'cross-sell',
+      iconHint: 'travel',
+      currentState: '8.2M Cashback Card holders travel 5+ times/year',
+      potentialState: 'Could hold Travel Card for better rewards',
+      totalOpportunityAmount: 2_400_000_000,
+      affectedUsers: 8_200_000,
+      priority: 'high',
+      strategicInsight: 'Summer vacation bookings peak Weeks 22-30 but are BOOKED in Weeks 8-14. Target cross-sell campaigns during booking season, not travel season.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Marriott',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: 'Automatic Gold Elite status + 50K bonus points for Cashback Card holders who upgrade to Travel Card',
+          merchantBenefit: 'Acquire 420K new loyalty members with proven travel spend. Gold members book 2.8x more nights than standard.',
+          bankBenefit: 'Convert 420K accounts from Cashback to Travel Card (higher interchange). Projected $1.2B incremental travel spend.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Oct 15, 2025',
+          deploymentWindow: 'Feb 1 - Apr 15, 2026 (Booking Season)',
+          estimatedRevenueCapture: 680_000_000,
+          targetedUserCount: 2_400_000,
+          projectedConversionRate: 5.2,
+          patternConfidence: 92,
+          patternReason: '92% of summer vacation bookings are made in Weeks 8-14.'
+        },
+        {
+          merchantName: 'Expedia',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: '10% statement credit on vacation packages booked through Expedia + Travel Card',
+          merchantBenefit: 'Drive $380M in bookings from high-intent travelers. Bundle purchases average $2,400 vs $890 for flight-only.',
+          bankBenefit: 'High-AOV transactions drive interchange revenue. Package bookers have 78% card renewal rate.',
+          peakQuarter: 'Q2 2026',
+          negotiationDeadline: 'Jan 15, 2026',
+          deploymentWindow: 'Mar 15 - May 31, 2026',
+          estimatedRevenueCapture: 480_000_000,
+          targetedUserCount: 1_800_000,
+          projectedConversionRate: 7.8,
+          patternConfidence: 89,
+          patternReason: '89% of vacation package purchases occur in the 10 weeks before peak travel.'
+        },
+        {
+          merchantName: 'Hertz',
+          merchantCategory: 'Travel & Exploration',
+          proposedDeal: 'Free rental car upgrade + 3x points on all Hertz rentals with Travel Card',
+          merchantBenefit: 'Fill mid-tier fleet (normally 40% vacancy). Bank customers rent 4.2 days avg vs 2.8 walk-up.',
+          bankBenefit: 'Add ancillary travel category spend. Car renters also book 2.1x more hotels on same card.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Jun 15 - Aug 31, 2026 (Peak Travel)',
+          estimatedRevenueCapture: 245_000_000,
+          targetedUserCount: 1_100_000,
+          projectedConversionRate: 11.4,
+          patternConfidence: 86,
+          patternReason: '86% of rental car spend occurs during summer travel (Weeks 24-35).'
+        }
+      ]
+    },
+    {
+      id: 'dining-entertainment-gap',
+      gapTitle: 'Dining & Entertainment Rewards Gap',
+      gapType: 'pillar',
+      iconHint: 'dining',
+      currentState: 'Only 22% of users maximize dining rewards potential',
+      potentialState: 'Increase dining category penetration to 40%',
+      totalOpportunityAmount: 2_100_000_000,
+      affectedUsers: 18_500_000,
+      priority: 'high',
+      strategicInsight: 'Valentine\'s Day dining is 97% predictable (Weeks 5-6). Summer entertainment peaks Weeks 24-35. Partner for these high-confidence windows.',
+      merchantPartnerships: [
+        {
+          merchantName: 'OpenTable Restaurants',
+          merchantCategory: 'Food & Dining',
+          proposedDeal: '5x points on OpenTable bookings + $30 dining credit for Valentine\'s reservations',
+          merchantBenefit: 'Drive 280K incremental reservations during peak demand. Premium cardholders tip 22% higher.',
+          bankBenefit: 'Capture $38M in Valentine\'s dining spend. OpenTable users dine out 3.4x monthly average.',
+          peakQuarter: 'Q1 2026',
+          negotiationDeadline: 'Nov 15, 2025',
+          deploymentWindow: 'Jan 20 - Feb 14, 2026',
+          estimatedRevenueCapture: 185_000_000,
+          targetedUserCount: 2_800_000,
+          projectedConversionRate: 14.2,
+          patternConfidence: 97,
+          patternReason: '97% of Valentine\'s dining reservations occur in Weeks 5-6.'
+        },
+        {
+          merchantName: 'DoorDash',
+          merchantCategory: 'Food & Dining',
+          proposedDeal: 'Free DashPass (annual value $96) + 4x points on all delivery orders',
+          merchantBenefit: 'Acquire 850K new DashPass subscribers. Bank cardholders order 2.4x more frequently than non-subscribers.',
+          bankBenefit: 'High-frequency transactions (6.2 orders/month avg). Delivery spending increased 34% YoY in target demo.',
+          peakQuarter: 'Q4 2026',
+          negotiationDeadline: 'Jul 15, 2026',
+          deploymentWindow: 'Oct 1 - Dec 31, 2026 (Holiday Season)',
+          estimatedRevenueCapture: 420_000_000,
+          targetedUserCount: 4_200_000,
+          projectedConversionRate: 28.5,
+          patternConfidence: 78,
+          patternReason: 'Food delivery peaks during holiday season and cold weather months.'
+        },
+        {
+          merchantName: 'Ticketmaster',
+          merchantCategory: 'Entertainment & Culture',
+          proposedDeal: 'Presale access + 4x points on concert and event tickets',
+          merchantBenefit: 'Drive $480M in ticket sales through exclusive presale windows. Cardholders buy 2.8 tickets avg vs 2.1.',
+          bankBenefit: 'High-AOV transactions ($180 avg). Event-goers also spend 45% more on dining/transportation same-day.',
+          peakQuarter: 'Q2 2026',
+          negotiationDeadline: 'Jan 15, 2026',
+          deploymentWindow: 'Apr 1 - Jun 30, 2026 (Summer Tour Announcements)',
+          estimatedRevenueCapture: 340_000_000,
+          targetedUserCount: 3_100_000,
+          projectedConversionRate: 16.8,
+          patternConfidence: 65,
+          patternReason: 'Concert spending is 65% predictable, dependent on tour announcements.'
+        }
+      ]
+    },
+    {
+      id: 'gen-x-home-living',
+      gapTitle: 'Gen X Home & Living Underutilization',
+      gapType: 'demographic',
+      iconHint: 'home',
+      currentState: 'Gen X (35-54) only spends 12% on Home & Living vs 18% potential',
+      potentialState: 'Increase Home & Living penetration among homeowners',
+      totalOpportunityAmount: 2_850_000_000,
+      affectedUsers: 19_000_000,
+      priority: 'high',
+      strategicInsight: 'Pool/patio equipment purchases peak Weeks 18-24 (91% confidence). Home improvement peaks in spring. Target Gen X homeowners before Memorial Day.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Home Depot',
+          merchantCategory: 'Home & Living',
+          proposedDeal: '5x points on all purchases + 18-month 0% financing on projects over $2,000',
+          merchantBenefit: 'Increase average project size by 35%. Bank financing approval rate is 40% higher than store card.',
+          bankBenefit: 'Capture $125M in spring home improvement surge. Project buyers have 89% card renewal rate.',
+          peakQuarter: 'Q2 2026',
+          negotiationDeadline: 'Jan 15, 2026',
+          deploymentWindow: 'Apr 1 - Jun 15, 2026 (Spring Season)',
+          estimatedRevenueCapture: 680_000_000,
+          targetedUserCount: 4_200_000,
+          projectedConversionRate: 8.9,
+          patternConfidence: 91,
+          patternReason: '91% of pool/patio spending occurs Weeks 18-24 as homeowners prep for summer.'
+        },
+        {
+          merchantName: 'Lowe\'s',
+          merchantCategory: 'Home & Living',
+          proposedDeal: '4x points on appliances and outdoor equipment + free installation on major purchases',
+          merchantBenefit: 'Drive $98M in appliance sales. Free installation increases conversion 42% on big-ticket items.',
+          bankBenefit: 'High-AOV transactions ($850 avg). Appliance buyers renovate other areas within 18 months.',
+          peakQuarter: 'Q2 2026',
+          negotiationDeadline: 'Jan 15, 2026',
+          deploymentWindow: 'May 1 - Jul 4, 2026 (Pre-Summer)',
+          estimatedRevenueCapture: 520_000_000,
+          targetedUserCount: 3_600_000,
+          projectedConversionRate: 7.2,
+          patternConfidence: 88,
+          patternReason: '88% of outdoor equipment purchases occur in the 8 weeks before July 4th.'
+        },
+        {
+          merchantName: 'Wayfair',
+          merchantCategory: 'Home & Living',
+          proposedDeal: '5x points + 15% statement credit on first $500+ furniture purchase',
+          merchantBenefit: 'Acquire 380K new customers with proven home spending. First purchase leads to 2.4 additional purchases/year.',
+          bankBenefit: 'Online furniture is growing 28% YoY. Wayfair shoppers have 45% higher discretionary spend overall.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Aug 1 - Sep 30, 2026 (Back-to-Home)',
+          estimatedRevenueCapture: 285_000_000,
+          targetedUserCount: 2_100_000,
+          projectedConversionRate: 11.5,
+          patternConfidence: 74,
+          patternReason: 'Furniture purchases peak in late summer as families prepare for fall.'
+        }
+      ]
+    },
+    {
+      id: 'southeast-underperformance',
+      gapTitle: 'Southeast Region Underperformance',
+      gapType: 'geographic',
+      iconHint: 'geographic',
+      currentState: 'Southeast has 1.50 accounts/user vs 1.56 national avg',
+      potentialState: 'Bringing Southeast to national average',
+      totalOpportunityAmount: 1_800_000_000,
+      affectedUsers: 10_000_000,
+      priority: 'medium',
+      strategicInsight: 'Southeast has unique seasonal patterns: hurricane prep (Aug-Sep), college football (Sep-Dec), spring break travel (Mar). Partner with regional merchants.',
+      merchantPartnerships: [
+        {
+          merchantName: 'Publix',
+          merchantCategory: 'Food & Dining',
+          proposedDeal: '4x points on groceries + special hurricane prep bonus rewards in Aug-Sep',
+          merchantBenefit: 'Increase market share in competitive Southeast grocery. Storm prep drives 340% basket size increase.',
+          bankBenefit: 'High-frequency regional loyalty. Publix shoppers visit 2.2x/week, driving consistent card usage.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Aug 1 - Sep 30, 2026 (Hurricane Season)',
+          estimatedRevenueCapture: 380_000_000,
+          targetedUserCount: 4_800_000,
+          projectedConversionRate: 32.5,
+          patternConfidence: 94,
+          patternReason: '94% of Southeast hurricane prep shopping occurs in Aug-Sep annually.'
+        },
+        {
+          merchantName: 'SEC Network / ESPN+',
+          merchantCategory: 'Entertainment & Culture',
+          proposedDeal: 'Free SEC Network subscription + 3x points on sports merchandise during football season',
+          merchantBenefit: 'Acquire 520K new streaming subscribers. College football fans have 78% retention rate.',
+          bankBenefit: 'Build regional brand loyalty through passion category. Football fans spend 3.1x on gameday dining.',
+          peakQuarter: 'Q3 2026',
+          negotiationDeadline: 'Apr 15, 2026',
+          deploymentWindow: 'Aug 15 - Dec 15, 2026 (Football Season)',
+          estimatedRevenueCapture: 195_000_000,
+          targetedUserCount: 2_200_000,
+          projectedConversionRate: 18.4,
+          patternConfidence: 96,
+          patternReason: '96% of college football spending occurs during the Sep-Dec season.'
+        }
+      ]
+    }
+  ];
+
+  return opportunities.sort((a, b) => b.totalOpportunityAmount - a.totalOpportunityAmount);
 }

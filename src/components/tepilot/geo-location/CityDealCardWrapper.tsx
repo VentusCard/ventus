@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { useCityDeals } from "@/hooks/useCityDeals";
 import { GeoLocationDealCard } from "./GeoLocationDealCard";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -12,15 +13,26 @@ interface CityDealCardWrapperProps {
   };
   city: string | null;
   isTravel: boolean;
+  onLoaded?: () => void;
 }
 
 export function CityDealCardWrapper({ 
   categoryKey, 
   categoryData, 
   city, 
-  isTravel 
+  isTravel,
+  onLoaded
 }: CityDealCardWrapperProps) {
   const { deals, loading } = useCityDeals(city, categoryKey);
+  const hasNotified = useRef(false);
+
+  // Notify parent when loading completes
+  useEffect(() => {
+    if (!loading && !hasNotified.current && onLoaded) {
+      hasNotified.current = true;
+      onLoaded();
+    }
+  }, [loading, onLoaded]);
 
   if (loading) {
     return (

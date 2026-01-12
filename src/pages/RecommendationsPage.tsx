@@ -6,10 +6,19 @@ import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
 import { ArrowLeft, AlertCircle } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { PILLAR_COLORS } from "@/lib/sampleData";
+import { SubcategoryTransactionsModal } from "@/components/tepilot/insights/SubcategoryTransactionsModal";
+import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailModal";
+import { EnrichedTransaction } from "@/types/transaction";
 
 const RecommendationsPage = () => {
   const navigate = useNavigate();
   const [recommendations, setRecommendations] = useState<any>(null);
+  const [enrichedTransactions, setEnrichedTransactions] = useState<EnrichedTransaction[]>([]);
+  const [selectedSubcategory, setSelectedSubcategory] = useState<{
+    subcategory: string;
+    pillar: string;
+  } | null>(null);
+  const [selectedTransaction, setSelectedTransaction] = useState<EnrichedTransaction | null>(null);
 
   useEffect(() => {
     // Load recommendations from sessionStorage
@@ -21,7 +30,21 @@ const RecommendationsPage = () => {
         console.error("Failed to parse recommendations:", error);
       }
     }
+
+    // Load enriched transactions from sessionStorage
+    const storedTransactions = sessionStorage.getItem("tepilot_enriched_transactions");
+    if (storedTransactions) {
+      try {
+        setEnrichedTransactions(JSON.parse(storedTransactions));
+      } catch (error) {
+        console.error("Failed to parse enriched transactions:", error);
+      }
+    }
   }, []);
+
+  const filteredTransactions = selectedSubcategory
+    ? enrichedTransactions.filter(t => t.subcategory === selectedSubcategory.subcategory)
+    : [];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-secondary/20 p-6">
@@ -63,7 +86,11 @@ const RecommendationsPage = () => {
                       return (
                         <Card
                           key={subcat.subcategory}
-                          className="relative overflow-hidden hover:shadow-lg transition-all"
+                          className="relative overflow-hidden hover:shadow-lg transition-all cursor-pointer"
+                          onClick={() => setSelectedSubcategory({
+                            subcategory: subcat.subcategory,
+                            pillar: subcat.pillar
+                          })}
                         >
                           <div 
                             className="absolute top-0 left-0 right-0 h-1"
@@ -144,6 +171,27 @@ const RecommendationsPage = () => {
               </Button>
             </CardContent>
           </Card>
+        )}
+
+        {/* Subcategory Transactions Modal */}
+        {selectedSubcategory && (
+          <SubcategoryTransactionsModal
+            isOpen={!!selectedSubcategory}
+            onClose={() => setSelectedSubcategory(null)}
+            subcategory={selectedSubcategory.subcategory}
+            pillar={selectedSubcategory.pillar}
+            transactions={filteredTransactions}
+            onTransactionClick={(t) => setSelectedTransaction(t)}
+          />
+        )}
+
+        {/* Transaction Detail Modal */}
+        {selectedTransaction && (
+          <TransactionDetailModal
+            isOpen={!!selectedTransaction}
+            onClose={() => setSelectedTransaction(null)}
+            transaction={selectedTransaction}
+          />
         )}
       </div>
     </div>

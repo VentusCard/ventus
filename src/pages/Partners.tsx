@@ -8,17 +8,17 @@ import PartnerForm from "@/components/partners/PartnerForm";
 
 const Partners = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-slate-100">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       <Navbar />
       <div className="w-full">
         <PartnerHero />
         <PartnerToolsSection />
-        <PartnerTestimonials />
+        
         <PartnerForm />
       </div>
       
       {/* Seamless gradient transition to footer */}
-      <div className="h-32 bg-gradient-to-b from-slate-100 via-slate-600 to-slate-900"></div>
+      <div className="h-32 bg-gradient-to-b from-slate-900 via-slate-700 to-slate-900"></div>
       
       <Footer />
     </div>

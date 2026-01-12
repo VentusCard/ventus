@@ -1,6 +1,7 @@
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Users } from "lucide-react";
 import type { AgeRange } from "@/types/bankwide";
+import { CollapsibleCard } from "./CollapsibleCard";
 
 interface DemographicBreakdownProps {
   ageRanges: AgeRange[];
@@ -41,39 +42,55 @@ export function DemographicBreakdown({ ageRanges }: DemographicBreakdownProps) {
     return null;
   };
 
+  // Calculate insights for preview
+  const sortedBySpend = [...chartData].sort((a, b) => b.totalSpend - a.totalSpend);
+  const topGroup = sortedBySpend[0];
+  const topGroupOriginal = ageRanges.find(a => chartData.find(c => c.name.includes(a.range))?.name === topGroup?.name);
+  const highestAvgSpend = [...ageRanges].sort((a, b) => b.avgSpendPerAccount - a.avgSpendPerAccount)[0];
+  
+  const previewContent = (
+    <div className="text-sm">
+      <span className="text-foreground font-medium">{topGroup?.name.split('\n')[0]}</span>
+      <span className="text-muted-foreground"> drives </span>
+      <span className="text-primary font-medium">{formatBillions(topGroup?.totalSpend || 0)}</span>
+      <span className="text-muted-foreground"> in spend. </span>
+      <span className="text-foreground font-medium">{highestAvgSpend?.range}</span>
+      <span className="text-muted-foreground"> has highest per-account spend at </span>
+      <span className="text-primary font-medium">${highestAvgSpend?.avgSpendPerAccount.toLocaleString()}</span>
+      <span className="text-muted-foreground">.</span>
+    </div>
+  );
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Age Demographic Spending Patterns</CardTitle>
-        <CardDescription>
-          Total annual spending and account distribution across age groups
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
-        <ResponsiveContainer width="100%" height={400}>
-          <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
-            <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-            <XAxis 
-              dataKey="name" 
-              tick={{ fontSize: 11 }}
-              className="text-muted-foreground"
-              height={80}
-            />
-            <YAxis 
-              tick={{ fontSize: 12 }}
-              className="text-muted-foreground"
-              label={{ value: 'Total Annual Spend ($B)', angle: -90, position: 'insideLeft' }}
-            />
-            <Tooltip content={<CustomTooltip />} />
-            <Bar 
-              dataKey="totalSpend" 
-              fill="hsl(var(--primary))"
-              radius={[8, 8, 0, 0]}
-              className="cursor-pointer hover:opacity-80 transition-opacity"
-            />
-          </BarChart>
-        </ResponsiveContainer>
-      </CardContent>
-    </Card>
+    <CollapsibleCard
+      title="Age Demographic Spending Patterns"
+      description="Total annual spending and account distribution across age groups"
+      icon={<Users className="h-5 w-5 text-primary" />}
+      previewContent={previewContent}
+    >
+      <ResponsiveContainer width="100%" height={400}>
+        <BarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 60 }}>
+          <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fontSize: 11 }}
+            className="text-muted-foreground"
+            height={80}
+          />
+          <YAxis 
+            tick={{ fontSize: 12 }}
+            className="text-muted-foreground"
+            label={{ value: 'Total Annual Spend ($B)', angle: -90, position: 'insideLeft' }}
+          />
+          <Tooltip content={<CustomTooltip />} />
+          <Bar 
+            dataKey="totalSpend" 
+            fill="hsl(var(--primary))"
+            radius={[8, 8, 0, 0]}
+            className="cursor-pointer hover:opacity-80 transition-opacity"
+          />
+        </BarChart>
+      </ResponsiveContainer>
+    </CollapsibleCard>
   );
 }

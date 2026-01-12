@@ -26,3 +26,6 @@ verify_jwt = false
 
 [functions.advisor-chat]
 verify_jwt = false
+
+[functions.analyze-pillar-transactions]
+verify_jwt = false
