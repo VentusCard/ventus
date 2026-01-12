@@ -45,7 +45,7 @@ import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailMo
 import { TopPillarsAnalysis } from "@/components/tepilot/insights/TopPillarsAnalysis";
 import { DealActivationPreview } from "@/components/tepilot/insights/DealActivationPreview";
 import { CollapsibleCard } from "@/components/tepilot/insights/CollapsibleCard";
-const CURRENT_VERSION = "V2.4";
+const CURRENT_VERSION = "V2.5";
 const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -510,11 +510,15 @@ const TePilot = () => {
               <Accordion type="single" collapsible className="w-full mt-2">
                 <AccordionItem value="release-notes" className="border-none">
                   <AccordionTrigger className="text-sm text-foreground py-1 hover:no-underline">
-                    <span><span className="font-semibold">Release Notes ({CURRENT_VERSION})</span> <span className="text-xs text-muted-foreground font-normal">— Parent-SKU purchase inference and seasonality purchase correlation intelligence, updated WM-CoPilot to detect 15 major life events</span></span>
+                    <span><span className="font-semibold">Release Notes ({CURRENT_VERSION})</span> <span className="text-xs text-muted-foreground font-normal">— Deal messaging personalization engine and merchant aggregator compatibility layer</span></span>
                   </AccordionTrigger>
                   <AccordionContent className="text-xs text-muted-foreground space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
-                      <p className="font-semibold">V2.4 - Current</p>
+                      <p className="font-semibold">V2.5 - Current</p>
+                      <p>Deal messaging personalization engine for dynamic customer-specific deal messaging, plus merchant aggregator compatibility layer for seamless integration with third-party deal providers</p>
+                    </div>
+                    <div className="border-l-2 border-muted pl-3 py-1">
+                      <p className="font-semibold">V2.4 - January 2026</p>
                       <p>Parent-SKU purchase inference and seasonality purchase correlation intelligence, updated WM-CoPilot to detect 15 major life events</p>
                     </div>
                     <div className="border-l-2 border-muted pl-3 py-1">
