@@ -32,17 +32,6 @@ const Navbar = () => {
     return () => subscription.unsubscribe();
   }, []);
 
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
@@ -57,16 +46,12 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-white/5">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border">
       <div className="flex h-16 md:h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
         {/* Logo/Brand */}
         <div className="flex items-center flex-1 md:flex-initial">
-          <Link to="/" onClick={closeMobileMenu} className="group">
-            <img 
-              src={ventusLogo} 
-              alt="Ventus Card" 
-              className="h-8 md:h-10 w-auto transition-opacity duration-300 group-hover:opacity-90"
-            />
+          <Link to="/" onClick={closeMobileMenu} className="group flex items-center gap-2">
+            <span className="text-foreground font-bold tracking-widest text-sm md:text-base">VENTUS REWARDS</span>
           </Link>
         </div>
         
@@ -74,48 +59,32 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-3 md:space-x-4 lg:space-x-8">
           <Link 
             to="/about"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            className="text-muted-foreground hover:text-foreground font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4"
           >
-            <span className="relative">
-              About Us
-              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </span>
-          </Link>
-          <Link 
-            to="/smartrewards"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
-          >
-            <span className="relative">
-              Smart Rewards
-              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </span>
+            About Us
           </Link>
           <Link 
             to="/ventus-ai"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            className="text-muted-foreground hover:text-foreground font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4"
           >
-            <span className="relative">
-              Ventus AI
-              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </span>
+            Ventus AI
           </Link>
           <Link 
-            to="/app"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            to="/partners"
+            className="text-muted-foreground hover:text-foreground font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4"
           >
-            <span className="relative">
-              Download App
-              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </span>
+            Partners
           </Link>
           <Link 
-            to="/contact"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            to="/login"
+            className="text-muted-foreground hover:text-foreground font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4"
           >
-            <span className="relative">
-              Contact Us
-              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </span>
+            Sign In
+          </Link>
+          <Link to="/join-waitlist">
+            <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-medium px-6 py-2 rounded-full text-sm">
+              Join Now
+            </Button>
           </Link>
         </div>
         
@@ -123,7 +92,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center justify-end pr-2">
           <button
             onClick={toggleMobileMenu}
-            className="text-white/90 hover:text-white flex items-center justify-end w-16 h-12 pr-2 transition-colors duration-300 z-50 relative"
+            className="text-foreground/90 hover:text-foreground flex items-center justify-end w-16 h-12 pr-2 transition-colors duration-300 z-50 relative"
             aria-label="Toggle mobile menu"
             type="button"
           >
@@ -140,26 +109,26 @@ const Navbar = () => {
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2 bg-white/10 border-white/20 hover:bg-white/20 text-white text-xs md:text-sm px-3 md:px-4">
+                <Button variant="outline" className="flex items-center gap-2 bg-secondary border-border hover:bg-secondary/80 text-foreground text-xs md:text-sm px-3 md:px-4">
                   <User className="h-4 w-4" />
                   Account
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
+              <DropdownMenuContent align="end" className="w-48 bg-card border-border">
+                <DropdownMenuItem onClick={() => navigate("/dashboard")} className="text-foreground hover:bg-secondary">
                   <LayoutDashboard className="h-4 w-4 mr-2" />
                   Dashboard
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/deals")}>
+                <DropdownMenuItem onClick={() => navigate("/deals")} className="text-foreground hover:bg-secondary">
                   <Tag className="h-4 w-4 mr-2" />
                   Find Deals
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/saved-deals")}>
+                <DropdownMenuItem onClick={() => navigate("/saved-deals")} className="text-foreground hover:bg-secondary">
                   <Heart className="h-4 w-4 mr-2" />
                   Saved Deals
                 </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
+                <DropdownMenuSeparator className="bg-border" />
+                <DropdownMenuItem onClick={handleLogout} className="text-foreground hover:bg-secondary">
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
                 </DropdownMenuItem>
@@ -170,7 +139,7 @@ const Navbar = () => {
       </div>
       
       {/* Mobile Menu Overlay */}
-      <div className={`md:hidden absolute top-full left-0 right-0 bg-black/95 backdrop-blur-lg border-b border-white/10 transition-all duration-300 ease-in-out ${
+      <div className={`md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-lg border-b border-border transition-all duration-300 ease-in-out ${
         isMobileMenuOpen 
           ? 'opacity-100 visible translate-y-0' 
           : 'opacity-0 invisible -translate-y-2'
@@ -179,47 +148,45 @@ const Navbar = () => {
           <Link 
             to="/about"
             onClick={closeMobileMenu}
-            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
+            className="block text-foreground/90 hover:text-foreground font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-border hover:bg-secondary rounded"
           >
             About Us
           </Link>
           <Link 
-            to="/smartrewards"
-            onClick={closeMobileMenu}
-            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
-          >
-            Smart Rewards
-          </Link>
-          <Link 
             to="/ventus-ai"
             onClick={closeMobileMenu}
-            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
+            className="block text-foreground/90 hover:text-foreground font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-border hover:bg-secondary rounded"
           >
             Ventus AI
           </Link>
           <Link 
-            to="/app"
+            to="/partners"
             onClick={closeMobileMenu}
-            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
+            className="block text-foreground/90 hover:text-foreground font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-border hover:bg-secondary rounded"
           >
-            Download App
+            Partners
           </Link>
           <Link 
-            to="/contact"
+            to="/login"
             onClick={closeMobileMenu}
-            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
+            className="block text-foreground/90 hover:text-foreground font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-border hover:bg-secondary rounded"
           >
-            Contact Us
+            Sign In
           </Link>
           
           {/* Mobile User Menu */}
           <div className="pt-4">
+            <Link to="/join-waitlist" onClick={closeMobileMenu}>
+              <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium rounded-full">
+                Join Now
+              </Button>
+            </Link>
             {user ? (
-              <div className="space-y-2">
+              <div className="space-y-2 mt-4">
                 <Button 
                   onClick={() => { closeMobileMenu(); navigate("/dashboard"); }}
                   variant="outline"
-                  className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  className="w-full bg-secondary border-border text-foreground hover:bg-secondary/80"
                 >
                   <LayoutDashboard className="h-4 w-4 mr-2" />
                   Dashboard
@@ -227,7 +194,7 @@ const Navbar = () => {
                 <Button 
                   onClick={() => { closeMobileMenu(); navigate("/deals"); }}
                   variant="outline"
-                  className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  className="w-full bg-secondary border-border text-foreground hover:bg-secondary/80"
                 >
                   <Tag className="h-4 w-4 mr-2" />
                   Find Deals
@@ -235,7 +202,7 @@ const Navbar = () => {
                 <Button 
                   onClick={() => { closeMobileMenu(); navigate("/saved-deals"); }}
                   variant="outline"
-                  className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  className="w-full bg-secondary border-border text-foreground hover:bg-secondary/80"
                 >
                   <Heart className="h-4 w-4 mr-2" />
                   Saved Deals
@@ -243,7 +210,7 @@ const Navbar = () => {
                 <Button 
                   onClick={() => { closeMobileMenu(); handleLogout(); }}
                   variant="outline"
-                  className="w-full bg-red-500/20 border-red-500/30 text-white hover:bg-red-500/30"
+                  className="w-full bg-destructive/20 border-destructive/30 text-foreground hover:bg-destructive/30"
                 >
                   <LogOut className="h-4 w-4 mr-2" />
                   Logout
