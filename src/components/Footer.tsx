@@ -58,6 +58,9 @@ const Footer = () => {
               <a href="/join-waitlist" onClick={handleJoinWaitlistClick} className="block text-muted-foreground hover:text-foreground transition-colors text-sm">
                 Card Users
               </a>
+              <Link to="/benefits" className="block text-muted-foreground hover:text-foreground transition-colors text-sm">
+                Benefits
+              </Link>
               <Link to="/partners" className="block text-muted-foreground hover:text-foreground transition-colors text-sm">
                 Merchant Partners
               </Link>
