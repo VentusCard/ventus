@@ -3,7 +3,7 @@ import { Card } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { Brain, Target, TrendingUp, Zap, Shield, ArrowRight, Sparkles } from "lucide-react";
+import { Brain, Target, TrendingUp, Zap, Shield, ArrowRight, Sparkles, ChevronDown } from "lucide-react";
 
 const VentusAI = () => {
   // Auto-scroll disabled per user request
@@ -76,6 +76,15 @@ const VentusAI = () => {
               Get Started
             </Button>
           </Link>
+          
+          {/* Scroll indicator */}
+          <button 
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            className="mt-8 animate-fade-in"
+            aria-label="Scroll down"
+          >
+            <ChevronDown className="h-6 w-6 text-muted-foreground/60 hover:text-muted-foreground transition-colors" />
+          </button>
         </div>
         
         {/* Subtle bottom line separator */}
