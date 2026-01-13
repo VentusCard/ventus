@@ -53,19 +53,19 @@ const Benefits = () => {
   return (
     <section id="benefits" className="py-12">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
+        {/* Coming Soon Notice */}
+        <div className="mb-8 p-4 rounded-lg border border-border bg-muted/30 text-center">
+          <p className="text-muted-foreground">
+            <span className="font-medium text-foreground">Coming Soon</span> — These benefit tiers will be available when the Ventus card launches.
+          </p>
+        </div>
+        
         <div className="grid md:grid-cols-3 gap-6">
           {benefitTiers.map((tier, index) => (
             <Card 
               key={index} 
               className={`bg-card border-border ${tier.highlighted ? 'relative ring-1 ring-primary/50 shadow-lg' : ''}`}
             >
-              {tier.highlighted && (
-                <div className="absolute -top-4 left-0 right-0 flex justify-center">
-                  <span className="bg-primary text-primary-foreground text-sm font-medium py-1 px-3 rounded-full">
-                    Most Popular
-                  </span>
-                </div>
-              )}
               <CardHeader className={`pb-4 ${tier.highlighted ? 'pt-8' : 'pt-6'}`}>
                 <CardTitle className="font-display text-xl text-foreground">{tier.name}</CardTitle>
                 <p className="text-muted-foreground mt-2">{tier.description}</p>
