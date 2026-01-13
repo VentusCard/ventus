@@ -339,7 +339,7 @@ const TermsOfService = () => {
       </main>
 
       {/* Seamless gradient transition to footer */}
-      <div className="h-32 bg-gradient-to-b from-purple-50 via-slate-600 to-slate-900"></div>
+      <div className="h-16 bg-gradient-to-b from-purple-50 to-slate-900"></div>
 
       <Footer />
     </div>
