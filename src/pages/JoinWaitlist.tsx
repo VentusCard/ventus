@@ -111,7 +111,7 @@ const JoinWaitlist = () => {
         <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
       </section>
 
-      <section className="pb-12 md:pb-20 px-3 md:px-6">
+      <section className="pt-24 pb-12 md:pb-20 px-3 md:px-6">
         <div className="max-w-2xl mx-auto">
           <Card className="bg-card border-border overflow-hidden mx-2 md:mx-0 rounded-xl">
             <CardHeader className="text-center pb-4 md:pb-6 px-4 md:px-8 pt-6 md:pt-8">
