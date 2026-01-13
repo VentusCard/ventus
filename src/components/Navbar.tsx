@@ -58,23 +58,23 @@ const Navbar = () => {
 
   return (
     <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
-      <div className="flex h-16 md:h-20 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
+      <div className="flex h-14 md:h-16 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
         {/* Logo/Brand */}
         <div className="flex items-center flex-1 md:flex-initial">
           <Link to="/" onClick={closeMobileMenu} className="group">
             <img 
               src={ventusLogo} 
               alt="Ventus Card" 
-              className="h-8 md:h-10 w-auto transition-opacity duration-300 group-hover:opacity-90"
+              className="h-6 md:h-8 w-auto transition-opacity duration-300 group-hover:opacity-90"
             />
           </Link>
         </div>
         
         {/* Desktop Navigation */}
-        <div className="hidden md:flex items-center space-x-3 md:space-x-4 lg:space-x-8">
+        <div className="hidden md:flex items-center space-x-2 md:space-x-3 lg:space-x-6">
           <Link 
             to="/about"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            className="text-white/90 hover:text-white font-medium text-xs lg:text-sm transition-all duration-300 px-2 lg:px-3 group"
           >
             <span className="relative">
               About Us
@@ -83,7 +83,7 @@ const Navbar = () => {
           </Link>
           <Link 
             to="/smartrewards"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            className="text-white/90 hover:text-white font-medium text-xs lg:text-sm transition-all duration-300 px-2 lg:px-3 group"
           >
             <span className="relative">
               Smart Rewards
@@ -92,7 +92,7 @@ const Navbar = () => {
           </Link>
           <Link 
             to="/ventus-ai"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            className="text-white/90 hover:text-white font-medium text-xs lg:text-sm transition-all duration-300 px-2 lg:px-3 group"
           >
             <span className="relative">
               Ventus AI
@@ -101,7 +101,7 @@ const Navbar = () => {
           </Link>
           <Link 
             to="/app"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            className="text-white/90 hover:text-white font-medium text-xs lg:text-sm transition-all duration-300 px-2 lg:px-3 group"
           >
             <span className="relative">
               Download App
@@ -110,7 +110,7 @@ const Navbar = () => {
           </Link>
           <Link 
             to="/contact"
-            className="text-white/90 hover:text-white font-medium text-sm md:text-sm lg:text-base transition-all duration-300 px-2 md:px-2 lg:px-4 group"
+            className="text-white/90 hover:text-white font-medium text-xs lg:text-sm transition-all duration-300 px-2 lg:px-3 group"
           >
             <span className="relative">
               Contact Us
