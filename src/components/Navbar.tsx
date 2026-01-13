@@ -108,15 +108,6 @@ const Navbar = () => {
               <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
-          <Link 
-            to="/contact"
-            className="text-white/90 hover:text-white font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group"
-          >
-            <span className="relative">
-              Contact Us
-              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
-            </span>
-          </Link>
         </div>
         
         {/* Mobile Menu Button */}
@@ -203,13 +194,6 @@ const Navbar = () => {
             className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
           >
             Download App
-          </Link>
-          <Link 
-            to="/contact"
-            onClick={closeMobileMenu}
-            className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
-          >
-            Contact Us
           </Link>
           
           {/* Mobile User Menu */}
