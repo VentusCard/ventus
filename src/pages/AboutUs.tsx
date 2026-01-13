@@ -27,19 +27,13 @@ const AboutUs = () => {
     <div className="min-h-screen bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Hero Section - Matching other pages */}
-      <section className="relative min-h-[60vh] flex items-center pt-20">
-        {/* Background elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl"></div>
-        </div>
-
+      {/* Hero Section */}
+      <section className="relative min-h-[75vh] flex items-center pt-20">
         <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
-          <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">About Ventus</p>
+          <p className="text-muted-foreground font-medium mb-4 tracking-wide uppercase text-sm">About Ventus</p>
           
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
-            Our <span className="text-primary">Story</span>
+            Our <span className="italic font-light text-muted-foreground">Story</span>
           </h1>
           
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
