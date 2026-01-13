@@ -74,9 +74,9 @@ const Hero = () => {
   };
 
   return (
-    <div id="hero" className="relative bg-[#1e3a5f] text-white flex items-center justify-center overflow-hidden min-h-screen pt-20">
+    <div id="hero" className="relative bg-[hsl(220,50%,8%)] text-white flex items-center justify-center overflow-hidden min-h-screen pt-20">
       {/* Seamless gradient overlay for smooth transition to footer */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-[#1e3a5f]/80 to-[#1e3a5f] z-20 pointer-events-none"></div>
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-[hsl(220,50%,8%)]/80 to-[hsl(220,50%,8%)] z-20 pointer-events-none"></div>
       
       <div className="max-w-6xl mx-auto px-6 md:px-8 relative z-10 text-center py-2 w-full flex flex-col justify-center h-full">
         {/* Add spacing between navbar and hero content */}
@@ -110,7 +110,7 @@ const Hero = () => {
                 <path d="M5,15 Q25,8 50,12 T100,10 Q125,8 150,11 T190,13" stroke="url(#brushstroke-gradient)" strokeWidth="3" strokeLinecap="round" fill="none" filter="url(#shimmer)" className="animate-[shimmer_3s_ease-in-out_infinite]" />
               </svg>
               {/* Brushstroke reveal overlay */}
-              <div className="absolute inset-0 bg-[#1e3a5f] animate-[brushstroke_1.5s_ease-out_0.5s_both] origin-left z-10"></div>
+              <div className="absolute inset-0 bg-[hsl(220,50%,8%)] animate-[brushstroke_1.5s_ease-out_0.5s_both] origin-left z-10"></div>
             </span>
           </h1>
           
@@ -125,13 +125,13 @@ const Hero = () => {
               {/* Enhanced gradient overlays for seamless blending */}
               <div className="absolute inset-0 z-10 pointer-events-none">
                 {/* Stronger feathered edges that blend into black background */}
-                <div className="absolute top-0 left-0 right-0 h-8 md:h-12 bg-gradient-to-b from-[#1e3a5f] via-[#1e3a5f]/60 to-transparent"></div>
-                <div className="absolute bottom-0 left-0 right-0 h-12 md:h-16 bg-gradient-to-t from-[#1e3a5f] via-[#1e3a5f]/80 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 left-0 w-8 md:w-12 bg-gradient-to-r from-[#1e3a5f] via-[#1e3a5f]/60 to-transparent"></div>
-                <div className="absolute top-0 bottom-0 right-0 w-8 md:w-12 bg-gradient-to-l from-[#1e3a5f] via-[#1e3a5f]/60 to-transparent"></div>
+                <div className="absolute top-0 left-0 right-0 h-8 md:h-12 bg-gradient-to-b from-[hsl(220,50%,8%)] via-[hsl(220,50%,8%)]/60 to-transparent"></div>
+                <div className="absolute bottom-0 left-0 right-0 h-12 md:h-16 bg-gradient-to-t from-[hsl(220,50%,8%)] via-[hsl(220,50%,8%)]/80 to-transparent"></div>
+                <div className="absolute top-0 bottom-0 left-0 w-8 md:w-12 bg-gradient-to-r from-[hsl(220,50%,8%)] via-[hsl(220,50%,8%)]/60 to-transparent"></div>
+                <div className="absolute top-0 bottom-0 right-0 w-8 md:w-12 bg-gradient-to-l from-[hsl(220,50%,8%)] via-[hsl(220,50%,8%)]/60 to-transparent"></div>
                 
                 {/* Subtle vignette effect */}
-                <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-[#1e3a5f]/20"></div>
+                <div className="absolute inset-0 bg-gradient-radial from-transparent via-transparent to-[hsl(220,50%,8%)]/20"></div>
               </div>
               
               {/* Video element with reduced opacity for better blending */}
@@ -142,7 +142,7 @@ const Hero = () => {
             </div>
             
             {/* Softer shadow effects that blend with background */}
-            <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-[#1e3a5f]/10 via-[#1e3a5f]/30 to-[#1e3a5f] opacity-60 blur-3xl -z-10"></div>
+            <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-[hsl(220,50%,8%)]/10 via-[hsl(220,50%,8%)]/30 to-[hsl(220,50%,8%)] opacity-60 blur-3xl -z-10"></div>
           </div>
           
           {/* Enhanced Learn More button - now smaller on mobile */}
