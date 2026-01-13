@@ -73,8 +73,8 @@ const Footer = () => {
             <p className="text-muted-foreground text-sm mb-4">
               Have questions? We're here to help.
             </p>
-            <Link to="/contact" className="inline-block bg-primary hover:bg-primary/90 text-primary-foreground px-4 py-2 rounded-lg transition-colors text-sm font-medium">
-              Contact Us
+            <Link to="/contact">
+              <Button size="sm">Contact Us</Button>
             </Link>
           </div>
         </div>

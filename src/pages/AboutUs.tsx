@@ -101,7 +101,7 @@ const AboutUs = () => {
                 </p>
               </div>
               <Link to="/smartrewards">
-                <Button className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-4 text-lg rounded-xl shadow-lg hover:shadow-xl transition-all duration-300">
+                <Button size="lg">
                   Learn How Ventus Smart Rewards Works
                 </Button>
               </Link>
