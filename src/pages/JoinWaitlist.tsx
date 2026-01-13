@@ -87,7 +87,7 @@ const JoinWaitlist = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center pt-20">
+      <section className="relative min-h-[90vh] flex items-center pt-20">
         <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
           <p className="text-muted-foreground font-medium mb-4 tracking-wide uppercase text-sm">Join the Waitlist</p>
           
@@ -99,6 +99,9 @@ const JoinWaitlist = () => {
             Join thousands of others waiting for the personalized credit card that adapts to your lifestyle.
           </p>
         </div>
+        
+        {/* Subtle bottom line separator */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
       </section>
 
       <section className="pb-12 md:pb-20 px-3 md:px-6">
