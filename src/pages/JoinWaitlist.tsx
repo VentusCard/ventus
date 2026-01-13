@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Mail, User, Target } from "lucide-react";
+import { Mail, User, Target, ChevronDown } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 const categories = [
@@ -96,6 +96,15 @@ const JoinWaitlist = () => {
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Join thousands of others waiting for the personalized credit card that adapts to your lifestyle.
           </p>
+          
+          {/* Scroll indicator */}
+          <button 
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            className="mt-8 animate-fade-in"
+            aria-label="Scroll down"
+          >
+            <ChevronDown className="h-6 w-6 text-muted-foreground/60 hover:text-muted-foreground transition-colors" />
+          </button>
         </div>
         
         {/* Subtle bottom line separator */}

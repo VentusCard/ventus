@@ -1,3 +1,4 @@
+import { ChevronDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Benefits from "@/components/Benefits";
@@ -18,6 +19,15 @@ const BenefitsPage = () => {
             <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               One card, three tiers—designed to grow with your lifestyle
             </p>
+            
+            {/* Scroll indicator */}
+            <button 
+              onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+              className="mt-8 animate-fade-in"
+              aria-label="Scroll down"
+            >
+              <ChevronDown className="h-6 w-6 text-muted-foreground/60 hover:text-muted-foreground transition-colors" />
+            </button>
           </div>
           
           {/* Subtle bottom line separator */}

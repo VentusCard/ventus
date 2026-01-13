@@ -154,12 +154,6 @@ const Hero = () => {
             </Link>
           </div>
           
-          {/* Scroll cue with extremely subtle animation - always reserve space, control visibility */}
-          <div className="mt-4 md:mt-6 h-6 flex flex-col items-center justify-center">
-            <div className="opacity-100 visible animate-fade-in">
-              <ChevronDown className="h-5 w-5 md:h-6 md:w-6 text-white/60" />
-            </div>
-          </div>
         </div>
       </div>
       
