@@ -81,7 +81,7 @@ const Footer = () => {
 
         <div className="border-t border-border mt-8 pt-8 text-center">
           <p className="text-muted-foreground text-sm">© 2025 Ventus Financial Technologies Inc. All rights reserved.</p>
-          <p className="text-muted-foreground text-sm mt-2">Ventus is not live yet. At launch, all Ventus accounts will be FDIC-insured, giving you the security you expect from modern financial services trusted by millions of Americans.</p>
+          
         </div>
       </div>
     </footer>
