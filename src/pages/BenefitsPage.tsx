@@ -11,7 +11,7 @@ const BenefitsPage = () => {
         
         {/* Hero Section */}
         <section className="relative min-h-[95vh] flex items-center pt-20">
-          <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
+          <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center flex flex-col items-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
               Choose Your <span className="italic font-light text-muted-foreground">Benefits</span>
             </h1>
@@ -34,7 +34,7 @@ const BenefitsPage = () => {
           <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
         </section>
         
-        <main>
+        <main className="pt-16">
           <Benefits />
         </main>
         <Footer />
