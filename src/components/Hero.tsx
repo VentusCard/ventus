@@ -146,7 +146,7 @@ const Hero = () => {
           </div>
           
           {/* Learn More button */}
-          <div className="mt-6 md:mt-8 flex items-center justify-center">
+          <div className="mt-6 md:mt-8 flex items-center justify-center relative z-30">
             <Link to="/smartrewards">
               <Button size="lg">
                 Learn More

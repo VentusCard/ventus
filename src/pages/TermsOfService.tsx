@@ -314,7 +314,7 @@ const TermsOfService = () => {
         </Card>
 
         {/* Contact Section */}
-        <Card className="border-0 shadow-xl bg-white mt-12">
+        <Card className="border-0 bg-white mt-12">
           <CardHeader>
             <CardTitle className="text-xl font-bold text-slate-900 text-center">Contact Us</CardTitle>
           </CardHeader>
