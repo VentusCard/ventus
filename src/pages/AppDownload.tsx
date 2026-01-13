@@ -9,7 +9,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
-import appHeroImage from "@/assets/app-hero.png";
+import appScreensPreview from "@/assets/app-screens-preview.png";
 
 const AppDownload = () => {
   const pageUrl = "https://ventuscard.com/app";
@@ -71,24 +71,9 @@ const AppDownload = () => {
       
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center pt-20">
-        {/* Animated background elements */}
+        {/* Background elements - simplified, less AI-generated look */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Dotted circle pattern - top right */}
-          <div className="absolute -top-20 -right-20 w-[500px] h-[500px] opacity-20">
-            <svg viewBox="0 0 400 400" className="w-full h-full">
-              <circle cx="200" cy="200" r="180" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" className="text-primary animate-[spin_60s_linear_infinite]" />
-              <circle cx="200" cy="200" r="140" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" className="text-primary/60 animate-[spin_45s_linear_infinite_reverse]" />
-              <circle cx="200" cy="200" r="100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="4 8" className="text-primary/40 animate-[spin_30s_linear_infinite]" />
-            </svg>
-          </div>
-          
-          {/* Floating shapes */}
-          <div className="absolute top-1/4 left-[10%] w-4 h-4 bg-primary/40 rounded-full animate-[bounce_3s_ease-in-out_infinite]"></div>
-          <div className="absolute top-1/3 right-[15%] w-3 h-3 bg-green-400/50 rounded-full animate-[bounce_4s_ease-in-out_infinite_0.5s]"></div>
-          <div className="absolute bottom-1/3 left-[20%] w-2 h-2 bg-blue-400/60 rounded-full animate-[bounce_3.5s_ease-in-out_infinite_1s]"></div>
-          <div className="absolute top-[60%] right-[25%] w-3 h-3 bg-cyan-400/40 rotate-45 animate-[bounce_4s_ease-in-out_infinite_0.3s]"></div>
-          
-          {/* Gradient blobs */}
+          {/* Subtle gradient blobs */}
           <div className="absolute top-1/4 -left-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl"></div>
           <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl"></div>
         </div>
@@ -100,8 +85,8 @@ const AppDownload = () => {
               <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Ventus helps you to</p>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
-                Get Your Deals{" "}
-                <span className="text-primary">Working</span>
+                Discover Your{" "}
+                <span className="text-primary">Deals</span>
               </h1>
               
               <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
@@ -121,11 +106,11 @@ const AppDownload = () => {
                 ))}
               </div>
 
-              {/* Download Buttons */}
+              {/* Download Buttons - Blackish blue style */}
               <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
                 <Button 
                   size="lg" 
-                  className="h-auto w-full sm:w-auto px-6 py-3 text-base bg-foreground hover:bg-foreground/90 text-background rounded-xl flex items-center gap-3"
+                  className="h-auto w-full sm:w-auto px-6 py-3 text-base bg-[#1a1f3c] hover:bg-[#252b4d] text-white rounded-xl flex items-center gap-3 border border-white/10"
                   onClick={() => {
                     window.open("https://apps.apple.com/us/app/ventus-smart-rewards/id6754831937", "_blank");
                   }}
@@ -139,7 +124,7 @@ const AppDownload = () => {
                 
                 <Button 
                   size="lg" 
-                  className="h-auto w-full sm:w-auto px-6 py-3 text-base bg-foreground hover:bg-foreground/90 text-background rounded-xl flex items-center gap-3"
+                  className="h-auto w-full sm:w-auto px-6 py-3 text-base bg-[#1a1f3c] hover:bg-[#252b4d] text-white rounded-xl flex items-center gap-3 border border-white/10"
                   onClick={() => {
                     window.open("https://play.google.com/store/apps/details?id=com.ventuscard.ventus", "_blank");
                   }}
@@ -225,27 +210,15 @@ const AppDownload = () => {
               </div>
             </div>
 
-            {/* Right Content - Phone Mockup */}
+            {/* Right Content - App Screens Preview */}
             <div className="order-1 lg:order-2 flex justify-center lg:justify-end relative">
-              {/* Decorative rings behind phone */}
-              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                <div className="w-[300px] h-[300px] md:w-[400px] md:h-[400px] border border-primary/10 rounded-full"></div>
-                <div className="absolute w-[250px] h-[250px] md:w-[350px] md:h-[350px] border border-primary/5 rounded-full"></div>
-              </div>
-              
-              {/* Phone image */}
+              {/* App screens image */}
               <div className="relative z-10">
                 <img 
-                  src={appHeroImage} 
-                  alt="Ventus AI Co-Pilot App" 
-                  className="w-full max-w-sm md:max-w-md h-auto object-contain drop-shadow-2xl"
+                  src={appScreensPreview} 
+                  alt="Ventus App Screenshots" 
+                  className="w-full max-w-xl lg:max-w-2xl h-auto object-contain"
                 />
-                
-                {/* Floating badge */}
-                <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 bg-green-500/20 backdrop-blur-sm rounded-full border border-green-500/30">
-                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
-                  <span className="text-sm font-medium text-green-400">Available Now</span>
-                </div>
               </div>
             </div>
           </div>
