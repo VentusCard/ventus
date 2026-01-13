@@ -62,7 +62,7 @@ const VentusAI = () => {
       {/* Hero Section - Full Height */}
       <section className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
             <span className="text-foreground">Ventus AI:</span>{" "}
             <span className="italic font-light text-muted-foreground">Your Intelligent</span>
             <br />
