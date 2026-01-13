@@ -62,13 +62,13 @@ const VentusAI = () => {
       {/* Hero Section - Full Height */}
       <section className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
             <span className="text-foreground">Ventus AI:</span>{" "}
             <span className="italic font-light text-muted-foreground">Your Intelligent</span>
             <br />
             <span className="italic font-light text-muted-foreground">Rewards Partner</span>
           </h1>
-          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
             Harness the power of AI to maximize your rewards and unlock personalized deals with zero complexity.
           </p>
           <Link to="/app">
@@ -81,9 +81,9 @@ const VentusAI = () => {
 
       {/* What Ventus AI Does Section */}
       <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Our Suite of Advanced AI Tools</h2>
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Our Suite of Advanced AI Tools</h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Powerful capabilities that put the right deals in front of you at the right time.
           </p>
         </div>

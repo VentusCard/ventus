@@ -82,7 +82,7 @@ const Hero = () => {
         {/* Add spacing between navbar and hero content */}
         <div className="flex flex-col items-center justify-center space-y-4 md:space-y-6 pt-8 md:pt-12">
           {/* Headline with enhanced typography and brushstroke animation */}
-          <h1 className="font-sans text-3xl md:text-4xl lg:text-5xl xl:text-6xl leading-tight tracking-tight">
+          <h1 className="font-sans text-4xl md:text-5xl lg:text-6xl xl:text-7xl leading-tight tracking-tight">
             <span className="font-bold text-white">Rewards</span>, <span className="relative font-display font-normal italic text-white inline-block">
               <span className="relative z-20 animate-[unleashed_2s_ease-out_0.5s_both]">
                 Made Smarter
@@ -115,7 +115,7 @@ const Hero = () => {
           </h1>
           
           {/* Enhanced subheading with soft blue-gray tone */}
-          <p className="text-sm md:text-base font-medium text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-base md:text-lg font-bold text-blue-gray-300 max-w-2xl mx-auto leading-relaxed">
             AI-powered smart rewards personalized to you
           </p>
           
