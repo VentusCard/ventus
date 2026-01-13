@@ -14,7 +14,7 @@ const PartnerHero = () => {
         <Button 
           size="lg"
           className="text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
-          onClick={() => window.open("https://www.ventusrewards.com/signup", "_blank")}
+          onClick={() => window.open("https://www.ventusrewards.com", "_blank")}
         >
           Sign Up Now
           <ExternalLink className="w-5 h-5 ml-2" />
