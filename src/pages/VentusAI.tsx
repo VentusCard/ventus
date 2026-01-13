@@ -60,7 +60,7 @@ const VentusAI = () => {
       <Navbar />
       
       {/* Hero Section - Full Height */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8">
+      <section className="relative min-h-screen flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
             <span className="text-foreground">Ventus AI:</span>{" "}
@@ -77,6 +77,9 @@ const VentusAI = () => {
             </Button>
           </Link>
         </div>
+        
+        {/* Subtle bottom line separator */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
       </section>
 
       {/* What Ventus AI Does Section */}
