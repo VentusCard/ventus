@@ -62,7 +62,7 @@ ${name}
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-[40vh] flex items-center pt-20">
+      <section className="relative min-h-[90vh] flex items-center pt-20">
         <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
           <p className="text-muted-foreground font-medium mb-4 tracking-wide uppercase text-sm">Get in Touch</p>
           
@@ -74,6 +74,9 @@ ${name}
             Have questions about Ventus Card? We're here to help. Reach out to our team and we'll get back to you as soon as possible.
           </p>
         </div>
+        
+        {/* Subtle bottom line separator */}
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
       </section>
 
       {/* Contact Form */}
