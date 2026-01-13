@@ -1,12 +1,27 @@
+import { Button } from "@/components/ui/button";
+import { ExternalLink } from "lucide-react";
+
 const PartnerHero = () => {
-  return <section className="pt-16 pb-2 px-4 md:px-8">
-      <div className="max-w-7xl mx-auto text-center">
-        <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mt-8 mb-2 md:mb-3 bg-gradient-to-r from-white via-blue-100 to-white bg-clip-text text-transparent leading-tight">
-          Partner with <span className="text-blue-400">Ventus Card</span>
+  return (
+    <section className="min-h-[50vh] flex flex-col items-center justify-center pt-24 pb-12 px-4 md:px-8">
+      <div className="max-w-4xl mx-auto text-center">
+        <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-foreground leading-tight">
+          Partner with <span className="italic font-light text-muted-foreground">Ventus</span>
         </h1>
-        
-        
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
+          Reach customers who are actively pursuing the lifestyle goals that align with your brand.
+        </p>
+        <Button 
+          size="lg"
+          className="text-lg px-8 py-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300"
+          onClick={() => window.open("https://www.ventusrewards.com/signup", "_blank")}
+        >
+          Sign Up Now
+          <ExternalLink className="w-5 h-5 ml-2" />
+        </Button>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default PartnerHero;
