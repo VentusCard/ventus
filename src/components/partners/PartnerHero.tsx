@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, ChevronDown } from "lucide-react";
 
 const PartnerHero = () => {
   return (
@@ -19,6 +19,15 @@ const PartnerHero = () => {
           Sign Up Now
           <ExternalLink className="w-5 h-5 ml-2" />
         </Button>
+        
+        {/* Scroll indicator */}
+        <button 
+          onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+          className="mt-8 animate-fade-in"
+          aria-label="Scroll down"
+        >
+          <ChevronDown className="h-6 w-6 text-muted-foreground/60 hover:text-muted-foreground transition-colors" />
+        </button>
       </div>
       
       {/* Subtle bottom line separator */}

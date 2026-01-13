@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Mail, CheckCircle } from "lucide-react";
+import { Mail, CheckCircle, ChevronDown } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -71,6 +71,15 @@ ${name}
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Have questions about Ventus Card? We're here to help. Reach out to our team and we'll get back to you as soon as possible.
           </p>
+          
+          {/* Scroll indicator */}
+          <button 
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            className="mt-8 animate-fade-in"
+            aria-label="Scroll down"
+          >
+            <ChevronDown className="h-6 w-6 text-muted-foreground/60 hover:text-muted-foreground transition-colors" />
+          </button>
         </div>
         
         {/* Subtle bottom line separator */}

@@ -1,4 +1,4 @@
-import { Users, Target, Award, Heart } from "lucide-react";
+import { Users, Target, Award, Heart, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -37,6 +37,15 @@ const AboutUs = () => {
           <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
             Ventus was born out of a simple frustration: juggling multiple credit cards to chase rewards and still missing out.
           </p>
+          
+          {/* Scroll indicator */}
+          <button 
+            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
+            className="mt-8 animate-fade-in"
+            aria-label="Scroll down"
+          >
+            <ChevronDown className="h-6 w-6 text-muted-foreground/60 hover:text-muted-foreground transition-colors" />
+          </button>
         </div>
         
         {/* Subtle bottom line separator */}
