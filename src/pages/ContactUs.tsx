@@ -63,7 +63,7 @@ ${name}
       
       {/* Hero Section */}
       <section className="relative min-h-[95vh] flex items-center pt-20">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
+        <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center flex flex-col items-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
             Contact <span className="italic font-light text-muted-foreground">Us</span>
           </h1>
@@ -87,7 +87,7 @@ ${name}
       </section>
 
       {/* Contact Form */}
-      <div className="px-4 md:px-8 pb-12 md:pb-16">
+      <div className="px-4 md:px-8 pt-16 pb-12 md:pb-16">
         <div className={`mx-auto relative ${isMobile ? 'max-w-full' : 'max-w-2xl'}`}>
           <Card className="bg-card border-border">
             <CardHeader className="text-center p-4 md:p-6">
