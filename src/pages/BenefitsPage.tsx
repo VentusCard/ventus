@@ -34,7 +34,7 @@ const BenefitsPage = () => {
           <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
         </section>
         
-        <main className="pt-24">
+        <main>
           <Benefits />
         </main>
         <Footer />
