@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react";
 
 const PartnerHero = () => {
   return (
-    <section className="min-h-[50vh] flex flex-col items-center justify-center pt-24 pb-12 px-4 md:px-8">
+    <section className="min-h-[75vh] flex flex-col items-center justify-center pt-24 pb-16 px-4 md:px-8">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-4 text-foreground leading-tight">
           Partner with <span className="italic font-light text-muted-foreground">Ventus</span>
