@@ -10,18 +10,18 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-premium hover:from-blue-700 hover:to-blue-800 hover:shadow-titanium transform hover:scale-[1.02] active:scale-[0.98]",
+        default: "bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]",
         destructive:
-          "bg-gradient-to-r from-red-500 to-red-600 text-white shadow-premium hover:from-red-600 hover:to-red-700",
+          "bg-destructive text-white shadow-lg hover:bg-destructive/90",
         outline:
-          "border border-slate-300 bg-white/80 backdrop-blur-sm hover:bg-slate-50 hover:text-slate-900 shadow-metallic hover:shadow-premium",
+          "border border-border bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground",
         secondary:
-          "bg-gradient-to-r from-slate-100 to-slate-200 text-slate-900 shadow-metallic hover:from-slate-200 hover:to-slate-300 hover:shadow-premium",
-        ghost: "hover:bg-slate-100/80 hover:text-slate-900 backdrop-blur-sm",
-        link: "text-blue-600 underline-offset-4 hover:underline font-medium",
-        premium: "bg-gradient-to-r from-slate-800 to-slate-900 text-white shadow-premium hover:shadow-titanium border border-slate-600/50 backdrop-blur-sm before:absolute before:inset-0 before:bg-gradient-to-r before:from-transparent before:via-white/10 before:to-transparent before:translate-x-[-100%] hover:before:translate-x-[100%] before:transition-transform before:duration-700",
-        whiteText: "bg-white hover:bg-white/90 transition-all duration-300 hover:scale-105 text-white",
-        ai: "bg-gradient-to-r from-blue-600 via-blue-600 to-purple-600 text-white shadow-premium hover:from-blue-700 hover:via-blue-700 hover:to-purple-700 hover:shadow-titanium transform hover:scale-[1.02] active:scale-[0.98]",
+          "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+        ghost: "hover:bg-accent hover:text-accent-foreground",
+        link: "text-primary underline-offset-4 hover:underline font-medium",
+        premium: "bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl",
+        whiteText: "bg-primary text-white hover:bg-primary/90 transition-all duration-300",
+        ai: "bg-primary text-white hover:bg-primary/90 shadow-lg hover:shadow-xl transform hover:scale-[1.02] active:scale-[0.98]",
       },
       size: {
         default: "h-11 px-6 py-2",
