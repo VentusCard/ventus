@@ -217,7 +217,7 @@ const AppDownload = () => {
                 <img 
                   src={appScreensPreview} 
                   alt="Ventus App Screenshots" 
-                  className="w-full max-w-xl lg:max-w-2xl h-auto object-contain"
+                  className="w-full max-w-2xl lg:max-w-3xl h-auto object-contain"
                 />
               </div>
             </div>
