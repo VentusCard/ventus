@@ -162,6 +162,9 @@ const Hero = () => {
           </div>
         </div>
       </div>
+      
+      {/* Subtle bottom line separator */}
+      <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
     </div>
   );
 };
