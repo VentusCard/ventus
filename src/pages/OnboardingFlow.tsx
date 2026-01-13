@@ -148,12 +148,12 @@ const OnboardingFlow = () => {
       {/* Hero Section - Full Height */}
       <section className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6">
             <span className="text-foreground">Discover Your</span>
             <br />
             <span className="italic font-light text-muted-foreground">Ventus Smart Rewards</span>
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
             Most cards reward categories. Ventus rewards you. Set your goals and earn cross-category rewards with personalized deals.
           </p>
           <Button 
