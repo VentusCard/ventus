@@ -145,13 +145,10 @@ const Hero = () => {
             <div className="absolute -inset-8 md:-inset-12 bg-gradient-radial from-[hsl(220,50%,8%)]/10 via-[hsl(220,50%,8%)]/30 to-[hsl(220,50%,8%)] opacity-60 blur-3xl -z-10"></div>
           </div>
           
-          {/* Enhanced Learn More button - now smaller on mobile */}
-          <div className="mt-6 md:mt-8 h-[48px] md:h-[64px] flex items-center justify-center">
+          {/* Learn More button */}
+          <div className="mt-6 md:mt-8 flex items-center justify-center">
             <Link to="/smartrewards">
-              <Button 
-                size="sm"
-                className="bg-gradient-to-r from-[#1E40AF] to-[#2563EB] text-white hover:from-[#1E3A8A] hover:to-[#1E40AF] hover:brightness-110 rounded-full px-8 md:px-12 py-3 md:py-4 text-sm md:text-base font-medium transition-all duration-300 hover:scale-105 min-h-[40px] md:min-h-[48px] min-w-[120px] md:min-w-[160px] border-0 opacity-100 visible animate-fade-in"
-              >
+              <Button size="lg">
                 Learn More
               </Button>
             </Link>

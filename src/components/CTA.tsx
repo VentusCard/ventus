@@ -16,7 +16,7 @@ const CTA = () => {
             </p>
             <div className="flex flex-wrap justify-center gap-4">
               <Link to="/join-waitlist">
-                <Button size="lg" className="bg-white text-primary hover:bg-white/90 transition-all duration-300">
+                <Button size="lg" className="bg-white text-primary hover:bg-white/90">
                   Join Waitlist
                 </Button>
               </Link>
