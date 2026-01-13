@@ -314,19 +314,26 @@ const TermsOfService = () => {
         </Card>
 
         {/* Contact Section */}
-        <Card className="border-0 shadow-xl bg-gradient-to-br from-blue-600 to-purple-600 text-white mt-12">
+        <Card className="border-0 shadow-xl bg-[hsl(220,50%,8%)] text-white mt-12">
           <CardHeader>
-            <CardTitle className="text-2xl font-bold text-center">Contact Information</CardTitle>
+            <CardTitle className="text-2xl font-bold text-white text-center">Contact Us</CardTitle>
           </CardHeader>
           <CardContent className="text-center">
+            <p className="text-white/80 text-lg leading-relaxed mb-6">
+              If you have any questions about these Terms of Service, please contact us:
+            </p>
             <div className="space-y-2 mb-4">
               <p className="text-white font-semibold text-lg">
-                Email: <a href="mailto:hello@ventuscard.com" className="text-white hover:text-blue-100 underline">hello@ventuscard.com</a>
+                Email: <a href="mailto:hello@ventuscard.com" className="text-white hover:text-white/80 underline">hello@ventuscard.com</a>
               </p>
               <p className="text-white font-semibold text-lg">
-                Website: <a href="https://www.ventuscard.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-blue-100 underline">https://www.ventuscard.com</a>
+                Website: <a href="https://www.ventuscard.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 underline">https://www.ventuscard.com</a>
               </p>
             </div>
+            <p className="text-white/60 text-sm mt-4">
+              Ventus<br />
+              Smart shopping with AI-powered deal discovery
+            </p>
           </CardContent>
         </Card>
       </main>

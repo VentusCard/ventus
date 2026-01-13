@@ -294,23 +294,23 @@ const Privacy = () => {
           </div>
 
           {/* Contact Section */}
-          <Card className="border-0 shadow-xl bg-white/95 backdrop-blur-sm">
+          <Card className="border-0 shadow-xl bg-[hsl(220,50%,8%)] text-white">
             <CardHeader>
-              <CardTitle className="text-2xl font-bold text-slate-900 text-center">Contact Us</CardTitle>
+              <CardTitle className="text-2xl font-bold text-white text-center">Contact Us</CardTitle>
             </CardHeader>
             <CardContent className="text-center">
-              <p className="text-slate-600 text-lg leading-relaxed mb-6">
+              <p className="text-white/80 text-lg leading-relaxed mb-6">
                 If you have any questions about this Privacy Policy or our data practices, please contact us:
               </p>
               <div className="space-y-2 mb-6">
-                <p className="text-slate-700 font-semibold">
-                  Email: <a href="mailto:hello@ventuscard.com" className="text-blue-600 hover:text-blue-700">hello@ventuscard.com</a>
+                <p className="text-white font-semibold text-lg">
+                  Email: <a href="mailto:hello@ventuscard.com" className="text-white hover:text-white/80 underline">hello@ventuscard.com</a>
                 </p>
-                <p className="text-slate-700 font-semibold">
-                  Website: <a href="https://www.ventuscard.com" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-700">https://www.ventuscard.com</a>
+                <p className="text-white font-semibold text-lg">
+                  Website: <a href="https://www.ventuscard.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-white/80 underline">https://www.ventuscard.com</a>
                 </p>
               </div>
-              <p className="text-slate-500 text-sm mt-4">
+              <p className="text-white/60 text-sm mt-4">
                 Ventus<br />
                 Smart shopping with AI-powered deal discovery
               </p>
