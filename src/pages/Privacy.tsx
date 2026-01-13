@@ -294,7 +294,7 @@ const Privacy = () => {
           </div>
 
           {/* Contact Section */}
-          <Card className="border-0 shadow-xl bg-white">
+          <Card className="border-0 bg-white">
             <CardHeader>
               <CardTitle className="text-xl font-bold text-slate-900 text-center">Contact Us</CardTitle>
             </CardHeader>
