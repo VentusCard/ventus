@@ -12,15 +12,16 @@ const getAuthHeaders = (): HeadersInit => {
   };
 };
 
-// Helper for retry logic (handles Render cold starts)
+// Helper for retry logic
 const fetchWithRetry = async (url: string, options: RequestInit, retries = 2): Promise<Response> => {
   for (let i = 0; i <= retries; i++) {
     try {
       const response = await fetch(url, options);
       return response;
     } catch (error) {
+      console.error(`Fetch attempt ${i + 1} failed:`, error);
       if (i === retries) {
-        throw new Error('Server is waking up. Please try again in a few seconds.');
+        throw new Error('Unable to connect to server. Please check your internet connection and try again.');
       }
       // Wait 2 seconds before retrying
       await new Promise(resolve => setTimeout(resolve, 2000));
