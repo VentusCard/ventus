@@ -137,7 +137,7 @@ export default function VentusProfile() {
   const handleLogout = async () => {
     setIsLoading(true);
     await logout();
-    navigate('/app');
+    navigate('/smartrewards');
   };
 
   return (
