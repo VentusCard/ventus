@@ -6,7 +6,6 @@ interface SubcategoryChipProps {
   count?: number;
   isActive?: boolean;
   onClick?: () => void;
-  color?: string;
 }
 
 export const SubcategoryChip = ({ 
@@ -15,34 +14,25 @@ export const SubcategoryChip = ({
   count, 
   isActive = false, 
   onClick,
-  color
 }: SubcategoryChipProps) => {
-  const getBackgroundStyle = () => {
-    if (isActive) {
-      return color ? { backgroundColor: color } : {};
-    }
-    return {};
-  };
-
   return (
     <button
       onClick={onClick}
       className={cn(
-        "flex flex-col items-center min-w-[100px] p-3 rounded-xl border transition-all",
+        "flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-all whitespace-nowrap",
         isActive 
-          ? "border-[#0064E0] bg-[#0064E0]/10 text-foreground" 
-          : "border-border bg-card hover:border-[#0064E0]/50"
+          ? "border-primary bg-primary/10 text-foreground" 
+          : "border-border bg-card hover:border-primary/40 text-muted-foreground hover:text-foreground"
       )}
-      style={getBackgroundStyle()}
     >
-      {emoji && <span className="text-xl mb-1">{emoji}</span>}
-      <span className="font-medium text-sm">{label}</span>
+      {emoji && <span className="text-base">{emoji}</span>}
+      <span>{label}</span>
       {typeof count === 'number' && (
         <span className={cn(
-          "text-lg font-bold mt-1",
-          isActive ? "text-[#0064E0]" : "text-foreground"
+          "text-xs",
+          isActive ? "text-primary" : "text-muted-foreground"
         )}>
-          {count} <span className="text-xs font-normal text-muted-foreground">offers</span>
+          {count}
         </span>
       )}
     </button>
