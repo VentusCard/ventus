@@ -72,19 +72,32 @@ export default function VentusHome() {
       }
     });
 
+    // Start with "All" option
     const options = [
       { name: 'All', emoji: '🏆', count: counts.All },
-      ...userSubcategories
-        .filter((sub) => sub !== 'General')
-        .map((sub) => {
-          const cat = categories.find((c) => c.subcategory === sub);
-          return {
-            name: sub,
-            emoji: cat?.emoji || '🎯',
-            count: counts[sub] || 0,
-          };
-        }),
     ];
+
+    // Add "General" first if it's in the user's subcategories
+    if (userSubcategories.includes('General')) {
+      const generalCat = categories.find((c) => c.subcategory === 'General');
+      options.push({
+        name: 'General',
+        emoji: generalCat?.emoji || '🎯',
+        count: counts['General'] || 0,
+      });
+    }
+
+    // Then add the rest of the user's selected subcategories
+    userSubcategories
+      .filter((sub) => sub !== 'General')
+      .forEach((sub) => {
+        const cat = categories.find((c) => c.subcategory === sub);
+        options.push({
+          name: sub,
+          emoji: cat?.emoji || '🎯',
+          count: counts[sub] || 0,
+        });
+      });
 
     return options;
   }, [offers, categories, user]);
