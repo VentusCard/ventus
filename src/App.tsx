@@ -78,10 +78,10 @@ const App = () => (
           <Route path="/tepilot/advisor-console" element={<AdvisorConsolePage />} />
           <Route path="/tepilot/financial-planning" element={<FinancialPlanningPage />} />
           <Route path="/tepilot/rewards-pipeline" element={<RewardsPipelinePage />} />
-          <Route path="/app" element={<AppDownload />} />
+          <Route path="/download" element={<AppDownload />} />
           <Route path="/archive" element={<Archive />} />
 
-          {/* Ventus Web App Routes */}
+          {/* Ventus Web App Routes - All wrapped in VentusAuthProvider */}
           <Route path="/app" element={<VentusAuthProvider><VentusLanding /></VentusAuthProvider>} />
           <Route path="/app/signup" element={<VentusAuthProvider><VentusSignup /></VentusAuthProvider>} />
           <Route path="/app/signup/lifestyle" element={<VentusAuthProvider><VentusSignupLifestyle /></VentusAuthProvider>} />
