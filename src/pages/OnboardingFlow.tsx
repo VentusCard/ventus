@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, ChevronDown } from "lucide-react";
 import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
 import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
@@ -171,14 +171,12 @@ const OnboardingFlow = () => {
             </Link>
           </div>
           
-          <Button 
-            size="lg" 
-            variant="ghost"
-            className="px-10 py-6 text-lg rounded-full text-muted-foreground"
+          <button 
+            className="mt-4 p-3 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors"
             onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            Learn More ↓
-          </Button>
+            <ChevronDown className="w-6 h-6" />
+          </button>
         </div>
       </section>
       
@@ -216,16 +214,27 @@ const OnboardingFlow = () => {
                 <ArrowLeft size={18} /> Back
               </Button> : <div></div>}
             
-            <Button 
-              type="button" 
-              onClick={goToNextStep} 
-              disabled={isNextButtonDisabled() || loading} 
-              className={`flex items-center gap-2 px-8 py-3 text-base font-semibold min-h-[48px] min-w-[120px] touch-manipulation ${isNextButtonDisabled() || loading ? 'opacity-50 cursor-not-allowed' : ''}`} 
-              style={{ touchAction: 'manipulation' }}
-            >
-              {step === totalSteps ? "Learn More" : "Next"} 
-              {!loading && <ArrowRight size={18} />}
-            </Button>
+            {step === totalSteps ? (
+              <Link to="/app/signup">
+                <Button 
+                  type="button" 
+                  className="flex items-center gap-2 px-8 py-3 text-base font-semibold min-h-[48px] min-w-[120px] touch-manipulation"
+                  style={{ touchAction: 'manipulation' }}
+                >
+                  Create Your Account <ArrowRight size={18} />
+                </Button>
+              </Link>
+            ) : (
+              <Button 
+                type="button" 
+                onClick={goToNextStep} 
+                disabled={isNextButtonDisabled() || loading} 
+                className={`flex items-center gap-2 px-8 py-3 text-base font-semibold min-h-[48px] min-w-[120px] touch-manipulation ${isNextButtonDisabled() || loading ? 'opacity-50 cursor-not-allowed' : ''}`} 
+                style={{ touchAction: 'manipulation' }}
+              >
+                Next <ArrowRight size={18} />
+              </Button>
+            )}
           </div>
         </div>
       </div>
