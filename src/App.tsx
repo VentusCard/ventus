@@ -31,6 +31,19 @@ import AdvisorConsolePage from "./pages/AdvisorConsolePage";
 import FinancialPlanningPage from "./pages/FinancialPlanningPage";
 import RewardsPipelinePage from "./pages/RewardsPipelinePage";
 
+// Ventus Web App imports
+import { VentusAuthProvider } from "./contexts/VentusAuthContext";
+import { ProtectedRoute } from "./components/ventus-app/ProtectedRoute";
+import VentusLanding from "./pages/ventus-app/VentusLanding";
+import VentusSignup from "./pages/ventus-app/VentusSignup";
+import VentusSignupLifestyle from "./pages/ventus-app/VentusSignupLifestyle";
+import VentusSignupSports from "./pages/ventus-app/VentusSignupSports";
+import VentusSignupLocation from "./pages/ventus-app/VentusSignupLocation";
+import VentusLogin from "./pages/ventus-app/VentusLogin";
+import VentusHome from "./pages/ventus-app/VentusHome";
+import VentusSearch from "./pages/ventus-app/VentusSearch";
+import VentusProfile from "./pages/ventus-app/VentusProfile";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -67,6 +80,18 @@ const App = () => (
           <Route path="/tepilot/rewards-pipeline" element={<RewardsPipelinePage />} />
           <Route path="/app" element={<AppDownload />} />
           <Route path="/archive" element={<Archive />} />
+
+          {/* Ventus Web App Routes */}
+          <Route path="/app" element={<VentusAuthProvider><VentusLanding /></VentusAuthProvider>} />
+          <Route path="/app/signup" element={<VentusAuthProvider><VentusSignup /></VentusAuthProvider>} />
+          <Route path="/app/signup/lifestyle" element={<VentusAuthProvider><VentusSignupLifestyle /></VentusAuthProvider>} />
+          <Route path="/app/signup/sports" element={<VentusAuthProvider><VentusSignupSports /></VentusAuthProvider>} />
+          <Route path="/app/signup/location" element={<VentusAuthProvider><VentusSignupLocation /></VentusAuthProvider>} />
+          <Route path="/app/login" element={<VentusAuthProvider><VentusLogin /></VentusAuthProvider>} />
+          <Route path="/app/home" element={<VentusAuthProvider><ProtectedRoute><VentusHome /></ProtectedRoute></VentusAuthProvider>} />
+          <Route path="/app/search" element={<VentusAuthProvider><ProtectedRoute><VentusSearch /></ProtectedRoute></VentusAuthProvider>} />
+          <Route path="/app/profile" element={<VentusAuthProvider><ProtectedRoute><VentusProfile /></ProtectedRoute></VentusAuthProvider>} />
+
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
