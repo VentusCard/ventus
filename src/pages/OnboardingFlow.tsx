@@ -45,6 +45,7 @@ const OnboardingFlow = () => {
       navigate("/ventus-ai");
     } else {
       setStep(prev => prev + 1);
+      document.getElementById('onboarding-content')?.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
@@ -95,6 +96,7 @@ const OnboardingFlow = () => {
   };
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
+    document.getElementById('onboarding-content')?.scrollIntoView({ behavior: 'smooth' });
   };
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
