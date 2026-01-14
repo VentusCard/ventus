@@ -33,7 +33,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           ) : (
             <div className="w-14 h-14 rounded-lg bg-muted flex items-center justify-center">
               <span className="text-lg font-bold text-muted-foreground">
-                {product.merchant.charAt(0)}
+                {product.merchant?.charAt(0) || '?'}
               </span>
             </div>
           )}
@@ -61,7 +61,7 @@ export const ProductCard = ({ product }: ProductCardProps) => {
           onClick={() => setIsExpanded(!isExpanded)}
           className="w-full flex items-center justify-between mt-3 pt-3 border-t border-border text-muted-foreground"
         >
-          <span className="text-sm">{product.merchant}</span>
+          <span className="text-sm">{product.merchant || 'Unknown'}</span>
           {isExpanded ? (
             <ChevronUp className="w-4 h-4" />
           ) : (
