@@ -67,9 +67,12 @@ export default function VentusHome() {
     const userSubcategories = user?.subcategories || [];
     const counts: Record<string, number> = { All: offers.length };
     
+    // Count offers per subcategory
+    const availableSubcategories = new Set<string>();
     offers.forEach((offer) => {
       if (offer.subcategory) {
         counts[offer.subcategory] = (counts[offer.subcategory] || 0) + 1;
+        availableSubcategories.add(offer.subcategory);
       }
     });
 
@@ -80,23 +83,40 @@ export default function VentusHome() {
 
     // Always add General first
     const generalCat = categories.find((c) => c.subcategory === 'General');
-    options.push({
-      name: 'General',
-      emoji: generalCat?.emoji || '🎯',
-      count: counts['General'] || 0,
-    });
-
-    // Then add the rest of the user's selected subcategories (excluding General)
-    userSubcategories
-      .filter((sub) => sub !== 'General')
-      .forEach((sub) => {
-        const cat = categories.find((c) => c.subcategory === sub);
-        options.push({
-          name: sub,
-          emoji: cat?.emoji || '🎯',
-          count: counts[sub] || 0,
-        });
+    if (counts['General'] || availableSubcategories.has('General')) {
+      options.push({
+        name: 'General',
+        emoji: generalCat?.emoji || '🎯',
+        count: counts['General'] || 0,
       });
+    }
+
+    // If user has subcategories, use those
+    if (userSubcategories.length > 0) {
+      userSubcategories
+        .filter((sub) => sub !== 'General')
+        .forEach((sub) => {
+          const cat = categories.find((c) => c.subcategory === sub);
+          options.push({
+            name: sub,
+            emoji: cat?.emoji || '🎯',
+            count: counts[sub] || 0,
+          });
+        });
+    } else {
+      // Fallback: show all available subcategories from offers
+      Array.from(availableSubcategories)
+        .filter((sub) => sub !== 'General')
+        .sort()
+        .forEach((sub) => {
+          const cat = categories.find((c) => c.subcategory === sub);
+          options.push({
+            name: sub,
+            emoji: cat?.emoji || '🎯',
+            count: counts[sub] || 0,
+          });
+        });
+    }
 
     return options;
   }, [offers, categories, user]);
