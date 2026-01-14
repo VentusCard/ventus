@@ -13,7 +13,7 @@ export default function VentusSignupSports() {
   const [subcategories, setSubcategories] = useState<string[]>([]);
   const [selected, setSelected] = useState<string[]>([]);
 
-  // Emoji mapping for sports
+  // Emoji mapping for all sports
   const sportEmojis: Record<string, string> = {
     'Baseball/Softball': '⚾',
     'Basketball': '🏀',
@@ -24,7 +24,7 @@ export default function VentusSignupSports() {
     'Hockey': '🏒',
     'Martial Arts': '🥋',
     'Outdoor Activities': '🏕️',
-    'Pickleball': '🎾',
+    'Pickleball': '🏓',
     'Running/Track': '🏃',
     'Snow Sports': '🎿',
     'Soccer': '⚽',
