@@ -35,7 +35,7 @@ const OnboardingFlow = () => {
     minCashbackPercentage: 5,
     maxCashbackPercentage: 15
   });
-  const totalSteps = 3;
+  const totalSteps = 2;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -114,9 +114,19 @@ const OnboardingFlow = () => {
           subcategories
         })} />;
       case 2:
-        return <StepTwoMerged selectedGoal={onboardingData.mainGoal as LifestyleGoal} selectedSubcategories={onboardingData.subcategories} />;
-      case 3:
-        return <StepFourSpendingInput onboardingData={onboardingData} updateOnboardingData={updateOnboardingData} />;
+        return (
+          <>
+            <StepTwoMerged selectedGoal={onboardingData.mainGoal as LifestyleGoal} selectedSubcategories={onboardingData.subcategories} />
+            <div className="text-center mt-12 pt-8 border-t border-border/40">
+              <h2 className="font-display text-xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+                Ready to Experience Smart Rewards?
+              </h2>
+              <p className="text-base md:text-xl text-muted-foreground max-w-4xl mx-auto">
+                Create your account to start earning personalized rewards tailored to your lifestyle.
+              </p>
+            </div>
+          </>
+        );
       default:
         return <StepOneMerged selectedGoal={onboardingData.mainGoal} selectedSubcategories={onboardingData.subcategories} onSelectGoal={goal => updateOnboardingData({
           mainGoal: goal,
@@ -136,8 +146,6 @@ const OnboardingFlow = () => {
         return 'Choose Your Reward Profile and Subcategories';
       case 2:
         return 'Understand Ventus Smart Rewards And Ventus AI Deals';
-      case 3:
-        return 'Input Your Spending & Join Waitlist';
       default:
         return '';
     }
