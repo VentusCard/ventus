@@ -45,7 +45,6 @@ const OnboardingFlow = () => {
       navigate("/ventus-ai");
     } else {
       setStep(prev => prev + 1);
-      window.scrollTo(0, 0);
     }
   };
 
@@ -96,7 +95,6 @@ const OnboardingFlow = () => {
   };
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
-    window.scrollTo(0, 0);
   };
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
