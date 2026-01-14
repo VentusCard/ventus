@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
@@ -30,10 +32,24 @@ const HeroSection = () => {
               One card. 5x rewards. All your lifestyle spending.
             </p>
           </div>
-          <p className="text-lg max-w-3xl mx-auto text-slate-300 leading-relaxed font-light">
+          <p className="text-lg max-w-3xl mx-auto text-slate-300 leading-relaxed font-light mb-8">
             Discover how Ventus simplifies and amplifies rewards across all your spending — 
             eliminating the need to juggle multiple cards.
           </p>
+          
+          {/* Get Started / Sign In buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link to="/app/signup">
+              <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8">
+                Get Started Free
+              </Button>
+            </Link>
+            <Link to="/app/login">
+              <Button size="lg" variant="outline" className="px-8 border-white/20 text-white hover:bg-white/10">
+                Sign In
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
       
