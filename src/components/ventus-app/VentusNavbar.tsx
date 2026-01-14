@@ -10,7 +10,7 @@ export const VentusNavbar = () => {
 
   const handleLogout = async () => {
     await logout();
-    navigate('/app');
+    navigate('/smartrewards');
   };
 
   const navItems = [
