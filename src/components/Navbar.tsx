@@ -127,7 +127,7 @@ const Navbar = () => {
         </div>
         
         {/* User Menu / Login - Desktop */}
-        <div className="hidden md:flex items-center">
+        <div className="hidden md:flex items-center gap-3">
           {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -156,7 +156,20 @@ const Navbar = () => {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : null}
+          ) : (
+            <>
+              <Link to="/app/login">
+                <Button variant="ghost" className="text-white/90 hover:text-white hover:bg-white/10 text-xs md:text-sm">
+                  Sign In
+                </Button>
+              </Link>
+              <Link to="/app/signup">
+                <Button className="bg-primary hover:bg-primary/90 text-white text-xs md:text-sm">
+                  Sign Up
+                </Button>
+              </Link>
+            </>
+          )}
         </div>
       </div>
       
@@ -233,7 +246,25 @@ const Navbar = () => {
                   Logout
                 </Button>
               </div>
-            ) : null}
+            ) : (
+              <div className="space-y-2">
+                <Link to="/app/login" onClick={closeMobileMenu}>
+                  <Button 
+                    variant="outline"
+                    className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
+                  >
+                    Sign In
+                  </Button>
+                </Link>
+                <Link to="/app/signup" onClick={closeMobileMenu}>
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-white"
+                  >
+                    Sign Up
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </div>
       </div>
