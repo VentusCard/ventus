@@ -87,7 +87,7 @@ ${name}
       </section>
 
       {/* Contact Form */}
-      <div className="px-4 md:px-8 pb-12 md:pb-16">
+      <div className="px-4 md:px-8 pt-12 md:pt-16 pb-12 md:pb-16">
         <div className={`mx-auto relative ${isMobile ? 'max-w-full' : 'max-w-2xl'}`}>
           <Card className="bg-card border-border">
             <CardHeader className="text-center p-4 md:p-6">
