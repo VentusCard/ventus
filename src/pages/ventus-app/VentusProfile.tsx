@@ -145,13 +145,13 @@ export default function VentusProfile() {
       <div className="min-h-screen">
         {/* Header */}
         <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
-          <div className="max-w-2xl mx-auto px-6 py-4">
+          <div className="px-6 py-4">
             <h1 className="text-lg font-semibold text-foreground">Profile Settings</h1>
             <p className="text-xs text-muted-foreground">Manage your account and preferences</p>
           </div>
         </header>
 
-        <div className="max-w-2xl mx-auto px-6 py-6 space-y-4">
+        <div className="px-6 py-6 space-y-4 max-w-2xl">
           {/* Our Story Card */}
           <Card 
             className="bg-card border-border cursor-pointer hover:border-primary/50 transition-colors"

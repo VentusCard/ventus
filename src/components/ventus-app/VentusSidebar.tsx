@@ -36,22 +36,34 @@ export const VentusSidebar = ({ children }: VentusSidebarProps) => {
       <aside 
         className={cn(
           "fixed left-0 top-0 h-full bg-sidebar-background border-r border-sidebar-border flex flex-col z-40 transition-all duration-200",
-          collapsed ? "w-0 overflow-hidden" : "w-20"
+          collapsed ? "w-14" : "w-52"
         )}
       >
-        {/* Logo */}
-        <div className="p-4 border-b border-sidebar-border flex justify-center">
-          <Link to="/app/home">
-            <img 
-              src={ventusLogo} 
-              alt="Ventus" 
-              className="h-8 w-auto"
-            />
-          </Link>
+        {/* Logo & Toggle */}
+        <div className="p-4 border-b border-sidebar-border flex items-center justify-between">
+          {!collapsed && (
+            <Link to="/app/home" className="flex items-center">
+              <img 
+                src={ventusLogo} 
+                alt="Ventus" 
+                className="h-6 w-auto"
+              />
+            </Link>
+          )}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            className={cn(
+              "w-8 h-8 flex items-center justify-center rounded-lg hover:bg-sidebar-accent transition-colors",
+              collapsed && "w-full"
+            )}
+            title={collapsed ? "Expand sidebar" : "Collapse sidebar"}
+          >
+            <PanelLeft className={cn("w-4 h-4 text-sidebar-foreground/60", collapsed && "rotate-180")} />
+          </button>
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-3 space-y-2">
+        <nav className="flex-1 p-2 space-y-1">
           {navItems.map(({ path, icon: Icon, label }) => {
             const isActive = location.pathname === path;
             return (
@@ -60,47 +72,41 @@ export const VentusSidebar = ({ children }: VentusSidebarProps) => {
                 to={path}
                 title={label}
                 className={cn(
-                  "flex items-center justify-center w-full h-12 rounded-lg transition-colors",
+                  "flex items-center gap-3 px-3 h-10 rounded-lg transition-colors",
+                  collapsed && "justify-center px-0",
                   isActive 
                     ? "bg-sidebar-accent text-primary" 
                     : "text-sidebar-foreground/60 hover:bg-sidebar-accent/50 hover:text-sidebar-foreground"
                 )}
               >
-                <Icon className="w-5 h-5" />
+                <Icon className="w-4 h-4 flex-shrink-0" />
+                {!collapsed && <span className="text-sm font-medium">{label}</span>}
               </Link>
             );
           })}
         </nav>
 
         {/* Footer */}
-        <div className="p-3 border-t border-sidebar-border">
+        <div className="p-2 border-t border-sidebar-border">
           <button
             onClick={handleLogout}
             title="Logout"
-            className="flex items-center justify-center w-full h-12 rounded-lg text-sidebar-foreground/60 hover:bg-destructive/10 hover:text-destructive transition-colors"
+            className={cn(
+              "flex items-center gap-3 px-3 h-10 rounded-lg w-full text-sidebar-foreground/60 hover:bg-destructive/10 hover:text-destructive transition-colors",
+              collapsed && "justify-center px-0"
+            )}
           >
-            <LogOut className="w-5 h-5" />
+            <LogOut className="w-4 h-4 flex-shrink-0" />
+            {!collapsed && <span className="text-sm font-medium">Logout</span>}
           </button>
         </div>
       </aside>
-
-      {/* Toggle button - always visible */}
-      <button
-        onClick={() => setCollapsed(!collapsed)}
-        className={cn(
-          "fixed top-4 z-50 w-9 h-9 flex items-center justify-center rounded-lg bg-card border border-border hover:bg-muted transition-all duration-200",
-          collapsed ? "left-4" : "left-24"
-        )}
-        title={collapsed ? "Open sidebar" : "Close sidebar"}
-      >
-        <PanelLeft className={cn("w-4 h-4 text-muted-foreground transition-transform", collapsed && "rotate-180")} />
-      </button>
 
       {/* Main content */}
       <main 
         className={cn(
           "flex-1 min-h-screen transition-all duration-200",
-          collapsed ? "ml-0" : "ml-20"
+          collapsed ? "ml-14" : "ml-52"
         )}
       >
         {children}
