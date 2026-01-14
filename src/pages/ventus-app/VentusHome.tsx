@@ -1,10 +1,10 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, Search, Sparkles, User } from 'lucide-react';
+import { Loader2, Search, Sparkles, TrendingUp } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
-import { VentusNavbar } from '@/components/ventus-app/VentusNavbar';
+import { VentusSidebar } from '@/components/ventus-app/VentusSidebar';
 import { SubcategoryChip } from '@/components/ventus-app/SubcategoryChip';
 import { DealCategoryChip } from '@/components/ventus-app/DealCategoryChip';
 import { MerchantCard } from '@/components/ventus-app/MerchantCard';
@@ -158,121 +158,115 @@ export default function VentusHome() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-background flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-primary" />
-      </div>
+      <VentusSidebar>
+        <div className="min-h-screen flex items-center justify-center">
+          <Loader2 className="w-6 h-6 animate-spin text-primary" />
+        </div>
+      </VentusSidebar>
     );
   }
 
   return (
-    <div className="min-h-screen bg-background pb-20">
-      {/* Header */}
-      <div className="bg-gradient-to-b from-[#0064E0]/10 to-background px-4 pt-6 pb-4">
-        <h1 className="text-2xl font-bold text-foreground">
-          Welcome, {user?.first_name || 'there'}!
-        </h1>
-        <p className="text-muted-foreground">Here's your personalized offers</p>
-
-        {/* Lifestyle card */}
-        <div className="mt-4 bg-[#0064E0] rounded-xl p-4 flex items-center justify-between">
-          <div>
-            <p className="text-white font-semibold">Sports Enthusiast</p>
-            <p className="text-white/80 text-sm">
-              {user?.subcategories?.length || 3} sports • Personalized for you
-            </p>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-2xl">⛳</span>
-            <span className="text-2xl">🏀</span>
-            <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-              <User className="w-5 h-5 text-white" />
+    <VentusSidebar>
+      <div className="min-h-screen">
+        {/* Header */}
+        <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
+          <div className="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div>
+              <h1 className="text-xl font-semibold text-foreground">
+                Welcome back, {user?.first_name || 'there'}
+              </h1>
+              <p className="text-sm text-muted-foreground">Your personalized deals</p>
+            </div>
+            
+            {/* Stats pill */}
+            <div className="hidden sm:flex items-center gap-2 bg-primary/10 text-primary px-3 py-1.5 rounded-full text-sm font-medium">
+              <TrendingUp className="w-4 h-4" />
+              <span>{offers.length} active deals</span>
             </div>
           </div>
-        </div>
-      </div>
+        </header>
 
-      {/* Search bar */}
-      <div className="px-4 py-4">
-        <h2 className="font-semibold text-foreground mb-2">Search for Deals</h2>
-        <div 
-          onClick={handleSearchClick}
-          className="relative cursor-pointer"
-        >
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-          <Input
-            readOnly
-            placeholder={ROTATING_PLACEHOLDERS[placeholderIndex]}
-            className="pl-10 pr-10 cursor-pointer"
-          />
-          <Sparkles className="absolute right-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[#0064E0]" />
-        </div>
-      </div>
-
-      {/* Browse by Sport */}
-      <div className="px-4 py-2">
-        <h2 className="font-semibold text-foreground mb-3">Browse by Sport</h2>
-        <ScrollArea className="w-full whitespace-nowrap">
-          <div className="flex gap-3 pb-2">
-            {subcategoryOptions.map((opt) => (
-              <SubcategoryChip
-                key={opt.name}
-                label={opt.name}
-                emoji={opt.emoji}
-                count={opt.count}
-                isActive={selectedSubcategory === opt.name}
-                onClick={() => {
-                  setSelectedSubcategory(opt.name);
-                  setSelectedDealCategory('All');
-                }}
-              />
-            ))}
-          </div>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </div>
-
-      {/* Deal Categories */}
-      {selectedSubcategory !== 'All' && dealCategoryOptions.length > 1 && (
-        <div className="px-4 py-2">
-          <ScrollArea className="w-full whitespace-nowrap">
-            <div className="flex gap-2 pb-2">
-              {dealCategoryOptions.map((cat) => (
-                <DealCategoryChip
-                  key={cat}
-                  label={cat}
-                  isActive={selectedDealCategory === cat}
-                  onClick={() => setSelectedDealCategory(cat)}
-                />
-              ))}
-            </div>
-            <ScrollBar orientation="horizontal" />
-          </ScrollArea>
-        </div>
-      )}
-
-      {/* Offers list */}
-      <div className="px-4 py-4 space-y-4">
-        {groupedMerchants.length === 0 ? (
-          <div className="text-center py-12">
-            <p className="text-muted-foreground">No offers match your filters</p>
-            <p className="text-sm text-muted-foreground mt-1">
-              Try adjusting your filters or check back soon
-            </p>
-          </div>
-        ) : (
-          groupedMerchants.map((merchant) => (
-            <MerchantCard
-              key={merchant.merchantName}
-              merchantName={merchant.merchantName}
-              domain={merchant.domain}
-              offers={merchant.offers}
-              isPartner={merchant.isPartner}
+        <div className="max-w-5xl mx-auto px-6 py-6 space-y-6">
+          {/* Search bar */}
+          <div 
+            onClick={handleSearchClick}
+            className="relative cursor-pointer group"
+          >
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Input
+              readOnly
+              placeholder={ROTATING_PLACEHOLDERS[placeholderIndex]}
+              className="pl-9 pr-9 h-10 text-sm cursor-pointer bg-card border-border group-hover:border-primary/50 transition-colors"
             />
-          ))
-        )}
-      </div>
+            <Sparkles className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-primary" />
+          </div>
 
-      <VentusNavbar />
-    </div>
+          {/* Browse by Sport */}
+          <div>
+            <h2 className="text-sm font-medium text-foreground mb-3">Browse by Sport</h2>
+            <ScrollArea className="w-full whitespace-nowrap">
+              <div className="flex gap-2 pb-2">
+                {subcategoryOptions.map((opt) => (
+                  <SubcategoryChip
+                    key={opt.name}
+                    label={opt.name}
+                    emoji={opt.emoji}
+                    count={opt.count}
+                    isActive={selectedSubcategory === opt.name}
+                    onClick={() => {
+                      setSelectedSubcategory(opt.name);
+                      setSelectedDealCategory('All');
+                    }}
+                  />
+                ))}
+              </div>
+              <ScrollBar orientation="horizontal" />
+            </ScrollArea>
+          </div>
+
+          {/* Deal Categories */}
+          {selectedSubcategory !== 'All' && dealCategoryOptions.length > 1 && (
+            <div>
+              <ScrollArea className="w-full whitespace-nowrap">
+                <div className="flex gap-2 pb-2">
+                  {dealCategoryOptions.map((cat) => (
+                    <DealCategoryChip
+                      key={cat}
+                      label={cat}
+                      isActive={selectedDealCategory === cat}
+                      onClick={() => setSelectedDealCategory(cat)}
+                    />
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
+            </div>
+          )}
+
+          {/* Offers grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {groupedMerchants.length === 0 ? (
+              <div className="col-span-full text-center py-12">
+                <p className="text-muted-foreground text-sm">No offers match your filters</p>
+                <p className="text-xs text-muted-foreground mt-1">
+                  Try adjusting your filters or check back soon
+                </p>
+              </div>
+            ) : (
+              groupedMerchants.map((merchant) => (
+                <MerchantCard
+                  key={merchant.merchantName}
+                  merchantName={merchant.merchantName}
+                  domain={merchant.domain}
+                  offers={merchant.offers}
+                  isPartner={merchant.isPartner}
+                />
+              ))
+            )}
+          </div>
+        </div>
+      </div>
+    </VentusSidebar>
   );
 }

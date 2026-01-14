@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { 
   Accordion, 
   AccordionContent, 
@@ -21,10 +20,10 @@ import {
 } from '@/components/ui/dialog';
 import { 
   Loader2, Book, User, MapPin, Settings, 
-  ExternalLink, Check, Lock, LogOut, ChevronRight 
+  ExternalLink, Check, LogOut, ChevronRight 
 } from 'lucide-react';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
-import { VentusNavbar } from '@/components/ventus-app/VentusNavbar';
+import { VentusSidebar } from '@/components/ventus-app/VentusSidebar';
 import { AppStoreBadges } from '@/components/ventus-app/AppStoreBadges';
 import { profileApi, categoriesApi, VentusCategory } from '@/lib/ventusApi';
 import { toast } from 'sonner';
@@ -142,271 +141,246 @@ export default function VentusProfile() {
   };
 
   return (
-    <div className="min-h-screen bg-background pb-24">
-      <div className="px-4 py-6 space-y-4">
-        {/* Our Story Card */}
-        <Card 
-          className="bg-card border-border cursor-pointer hover:border-[#0064E0]/50 transition-colors"
-          onClick={() => window.open('https://www.ventuscard.com/about', '_blank')}
-        >
-          <CardContent className="p-4 flex items-center gap-4">
-            <div className="w-12 h-12 bg-[#0064E0]/10 rounded-full flex items-center justify-center flex-shrink-0">
-              <Book className="w-6 h-6 text-[#0064E0]" />
-            </div>
-            <div className="flex-1">
-              <h3 className="font-semibold text-foreground">Our Story</h3>
-              <p className="text-sm text-muted-foreground">Learn about Ventus and our mission</p>
-            </div>
-            <ExternalLink className="w-5 h-5 text-muted-foreground" />
-          </CardContent>
-        </Card>
+    <VentusSidebar>
+      <div className="min-h-screen">
+        {/* Header */}
+        <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
+          <div className="max-w-2xl mx-auto px-6 py-4">
+            <h1 className="text-lg font-semibold text-foreground">Profile Settings</h1>
+            <p className="text-xs text-muted-foreground">Manage your account and preferences</p>
+          </div>
+        </header>
 
-        {/* Lifestyle Card */}
-        <Card className="bg-[#0064E0] border-none">
-          <CardContent className="p-4 flex items-center justify-between">
-            <div>
-              <p className="text-white font-semibold">{user?.lifestyle || 'Sports'} Enthusiast</p>
-              <p className="text-white/80 text-sm">
-                {selectedSubcategories.length} sports • Personalized for you
-              </p>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-2xl">⛳🏀🎾</span>
-              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                <User className="w-5 h-5 text-white" />
+        <div className="max-w-2xl mx-auto px-6 py-6 space-y-4">
+          {/* Our Story Card */}
+          <Card 
+            className="bg-card border-border cursor-pointer hover:border-primary/50 transition-colors"
+            onClick={() => window.open('https://www.ventuscard.com/about', '_blank')}
+          >
+            <CardContent className="p-4 flex items-center gap-4">
+              <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Book className="w-5 h-5 text-primary" />
               </div>
-            </div>
-          </CardContent>
-        </Card>
+              <div className="flex-1">
+                <h3 className="font-medium text-foreground text-sm">Our Story</h3>
+                <p className="text-xs text-muted-foreground">Learn about Ventus and our mission</p>
+              </div>
+              <ExternalLink className="w-4 h-4 text-muted-foreground" />
+            </CardContent>
+          </Card>
 
-        {/* Accordion sections */}
-        <Accordion type="single" collapsible className="space-y-2">
-          {/* Personal Information */}
-          <AccordionItem value="personal" className="bg-card border border-border rounded-xl px-4">
-            <AccordionTrigger className="hover:no-underline">
-              <div className="flex items-center gap-3">
-                <User className="w-5 h-5 text-muted-foreground" />
-                <span className="font-medium">Personal Information</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="space-y-4 pt-2">
-              <div className="space-y-2">
-                <Label>First Name</Label>
-                <Input value={user?.first_name || ''} disabled className="bg-muted" />
-              </div>
-              <div className="space-y-2">
-                <Label>Last Name</Label>
-                <Input value={user?.last_name || ''} disabled className="bg-muted" />
-              </div>
-              <div className="space-y-2">
-                <Label>Email</Label>
-                <Input value={user?.email || ''} disabled className="bg-muted" />
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Personal information cannot be changed
-              </p>
-            </AccordionContent>
-          </AccordionItem>
+          {/* Accordion sections */}
+          <Accordion type="single" collapsible className="space-y-2">
+            {/* Personal Information */}
+            <AccordionItem value="personal" className="bg-card border border-border rounded-lg px-4">
+              <AccordionTrigger className="hover:no-underline py-3">
+                <div className="flex items-center gap-3">
+                  <User className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm font-medium">Personal Information</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-3 pt-1 pb-4">
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <Label className="text-xs">First Name</Label>
+                    <Input value={user?.first_name || ''} disabled className="bg-muted h-9 text-sm" />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">Last Name</Label>
+                    <Input value={user?.last_name || ''} disabled className="bg-muted h-9 text-sm" />
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <Label className="text-xs">Email</Label>
+                  <Input value={user?.email || ''} disabled className="bg-muted h-9 text-sm" />
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Personal information cannot be changed
+                </p>
+              </AccordionContent>
+            </AccordionItem>
 
-          {/* Location */}
-          <AccordionItem value="location" className="bg-card border border-border rounded-xl px-4">
-            <AccordionTrigger className="hover:no-underline">
-              <div className="flex items-center gap-3">
-                <MapPin className="w-5 h-5 text-muted-foreground" />
-                <span className="font-medium">Location</span>
-              </div>
-            </AccordionTrigger>
-            <AccordionContent className="space-y-4 pt-2">
-              <div className="space-y-2">
-                <Label>City</Label>
-                <Input 
-                  value={location.city} 
-                  onChange={(e) => setLocation({ ...location, city: e.target.value })}
-                />
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>State</Label>
+            {/* Location */}
+            <AccordionItem value="location" className="bg-card border border-border rounded-lg px-4">
+              <AccordionTrigger className="hover:no-underline py-3">
+                <div className="flex items-center gap-3">
+                  <MapPin className="w-4 h-4 text-muted-foreground" />
+                  <span className="text-sm font-medium">Location</span>
+                </div>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-3 pt-1 pb-4">
+                <div className="space-y-1">
+                  <Label className="text-xs">City</Label>
                   <Input 
-                    value={location.state} 
-                    onChange={(e) => handleStateChange(e.target.value)}
-                    maxLength={2}
-                    placeholder="NY"
+                    value={location.city} 
+                    onChange={(e) => setLocation({ ...location, city: e.target.value })}
+                    className="h-9 text-sm"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label>Zipcode</Label>
-                  <Input 
-                    value={location.zipcode} 
-                    onChange={(e) => handleZipcodeChange(e.target.value)}
-                    maxLength={5}
-                    placeholder="10001"
-                  />
+                <div className="grid grid-cols-2 gap-3">
+                  <div className="space-y-1">
+                    <Label className="text-xs">State</Label>
+                    <Input 
+                      value={location.state} 
+                      onChange={(e) => handleStateChange(e.target.value)}
+                      maxLength={2}
+                      placeholder="NY"
+                      className="h-9 text-sm"
+                    />
+                  </div>
+                  <div className="space-y-1">
+                    <Label className="text-xs">Zipcode</Label>
+                    <Input 
+                      value={location.zipcode} 
+                      onChange={(e) => handleZipcodeChange(e.target.value)}
+                      maxLength={5}
+                      placeholder="10001"
+                      className="h-9 text-sm"
+                    />
+                  </div>
                 </div>
-              </div>
-              <p className="text-xs text-muted-foreground">
-                Your location helps us find deals near you
-              </p>
-            </AccordionContent>
-          </AccordionItem>
-        </Accordion>
+                <p className="text-xs text-muted-foreground">
+                  Your location helps us find deals near you
+                </p>
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
-        {/* Preferences */}
-        <Card className="bg-card border-border">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base flex items-center gap-2">
-              <Settings className="w-5 h-5" />
-              Preferences
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <Dialog open={isSubcategoryModalOpen} onOpenChange={setIsSubcategoryModalOpen}>
-              <DialogTrigger asChild>
-                <button className="w-full flex items-center justify-between py-3 border-b border-border">
-                  <div>
-                    <p className="font-medium text-foreground text-left">Your Subcategories</p>
-                    <p className="text-sm text-muted-foreground text-left">
-                      General, {selectedSubcategories.join(', ')}
-                    </p>
-                  </div>
-                  <ChevronRight className="w-5 h-5 text-muted-foreground" />
-                </button>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>Select Subcategories</DialogTitle>
-                  <DialogDescription>
-                    Choose up to 3 sports ({selectedSubcategories.length}/3 selected) • General is always included
-                  </DialogDescription>
-                </DialogHeader>
-
-                <div className="space-y-2 max-h-[50vh] overflow-y-auto">
-                  {/* General - locked */}
-                  <div className="flex items-center justify-between py-3 px-3 bg-muted rounded-lg">
-                    <div className="flex items-center gap-2">
-                      <span>🏆</span>
-                      <span className="font-medium">General (Always included)</span>
+          {/* Preferences */}
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-2 pt-4 px-4">
+              <CardTitle className="text-sm flex items-center gap-2">
+                <Settings className="w-4 h-4" />
+                Preferences
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="px-4 pb-4">
+              <Dialog open={isSubcategoryModalOpen} onOpenChange={setIsSubcategoryModalOpen}>
+                <DialogTrigger asChild>
+                  <button className="w-full flex items-center justify-between py-2">
+                    <div>
+                      <p className="text-sm font-medium text-foreground text-left">Your Sports</p>
+                      <p className="text-xs text-muted-foreground text-left">
+                        General, {selectedSubcategories.join(', ')}
+                      </p>
                     </div>
-                    <div className="w-6 h-6 bg-[#10B981] rounded-full flex items-center justify-center">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
-                  </div>
+                    <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                  </button>
+                </DialogTrigger>
+                <DialogContent className="max-w-md">
+                  <DialogHeader>
+                    <DialogTitle className="text-base">Select Sports</DialogTitle>
+                    <DialogDescription className="text-xs">
+                      Choose up to 3 sports ({selectedSubcategories.length}/3) • General is always included
+                    </DialogDescription>
+                  </DialogHeader>
 
-                  {/* Other subcategories */}
-                  {allSubcategories.map((cat) => {
-                    const isSelected = selectedSubcategories.includes(cat.subcategory);
-                    return (
-                      <button
-                        key={cat.subcategory}
-                        onClick={() => toggleSubcategory(cat.subcategory)}
-                        className="w-full flex items-center justify-between py-3 px-3 bg-card border border-border rounded-lg hover:border-[#0064E0]/50 transition-colors"
-                      >
-                        <div className="flex items-center gap-2">
-                          <span>{cat.emoji || '🎯'}</span>
-                          <span className="font-medium">{cat.subcategory}</span>
-                        </div>
-                        {isSelected && (
-                          <div className="w-6 h-6 bg-[#0064E0] rounded-full flex items-center justify-center">
-                            <Check className="w-4 h-4 text-white" />
+                  <div className="space-y-2 max-h-[50vh] overflow-y-auto">
+                    {/* General - locked */}
+                    <div className="flex items-center justify-between py-2.5 px-3 bg-muted rounded-lg">
+                      <div className="flex items-center gap-2">
+                        <span>🏆</span>
+                        <span className="text-sm font-medium">General (Always included)</span>
+                      </div>
+                      <div className="w-5 h-5 bg-green-500 rounded-full flex items-center justify-center">
+                        <Check className="w-3 h-3 text-white" />
+                      </div>
+                    </div>
+
+                    {/* Other subcategories */}
+                    {allSubcategories.map((cat) => {
+                      const isSelected = selectedSubcategories.includes(cat.subcategory);
+                      return (
+                        <button
+                          key={cat.subcategory}
+                          onClick={() => toggleSubcategory(cat.subcategory)}
+                          className="w-full flex items-center justify-between py-2.5 px-3 bg-card border border-border rounded-lg hover:border-primary/50 transition-colors"
+                        >
+                          <div className="flex items-center gap-2">
+                            <span>{cat.emoji || '🎯'}</span>
+                            <span className="text-sm font-medium">{cat.subcategory}</span>
                           </div>
-                        )}
-                      </button>
-                    );
-                  })}
-                </div>
+                          {isSelected && (
+                            <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
+                              <Check className="w-3 h-3 text-white" />
+                            </div>
+                          )}
+                        </button>
+                      );
+                    })}
+                  </div>
 
-                <Button 
-                  onClick={handleSaveSubcategories}
-                  disabled={isSaving}
-                  className="w-full bg-[#0064E0] hover:bg-[#0064E0]/90 text-white"
-                >
-                  {isSaving ? (
-                    <>
-                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                      Saving...
-                    </>
-                  ) : (
-                    'Save Subcategories'
-                  )}
-                </Button>
-              </DialogContent>
-            </Dialog>
-          </CardContent>
-        </Card>
+                  <Button 
+                    onClick={handleSaveSubcategories}
+                    disabled={isSaving}
+                    size="sm"
+                    className="w-full"
+                  >
+                    {isSaving ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Saving...
+                      </>
+                    ) : (
+                      'Save Sports'
+                    )}
+                  </Button>
+                </DialogContent>
+              </Dialog>
+            </CardContent>
+          </Card>
 
-        {/* Support */}
-        <Card className="bg-card border-border">
-          <CardContent className="p-4 space-y-3">
+          {/* Actions */}
+          <div className="flex gap-3">
+            <Button 
+              onClick={handleSaveChanges}
+              disabled={isSaving}
+              size="sm"
+              className="flex-1"
+            >
+              {isSaving ? (
+                <>
+                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  Saving...
+                </>
+              ) : (
+                'Save Changes'
+              )}
+            </Button>
+
             <Button 
               variant="outline" 
-              className="w-full justify-start"
-              onClick={() => window.open('https://ventuscard.com/contact', '_blank')}
+              onClick={handleLogout}
+              disabled={isLoading}
+              size="sm"
+              className="border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
             >
-              <ExternalLink className="w-4 h-4 mr-2" />
-              Contact Support
+              {isLoading ? (
+                <Loader2 className="w-4 h-4 animate-spin" />
+              ) : (
+                <LogOut className="w-4 h-4" />
+              )}
             </Button>
-            <div className="text-sm text-muted-foreground text-center">
-              App Version: 1.0.4
-            </div>
-          </CardContent>
-        </Card>
+          </div>
 
-        {/* Save & Logout buttons */}
-        <div className="space-y-3">
-          <Button 
-            onClick={handleSaveChanges}
-            disabled={isSaving}
-            className="w-full bg-[#0064E0] hover:bg-[#0064E0]/90 text-white"
-          >
-            {isSaving ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Saving...
-              </>
-            ) : (
-              'Save Changes'
-            )}
-          </Button>
-
-          <Button 
-            variant="outline" 
-            onClick={handleLogout}
-            disabled={isLoading}
-            className="w-full border-destructive text-destructive hover:bg-destructive hover:text-destructive-foreground"
-          >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                Logging out...
-              </>
-            ) : (
-              <>
-                <LogOut className="w-4 h-4 mr-2" />
-                Log Out
-              </>
-            )}
-          </Button>
+          {/* App download CTA */}
+          <Card className="bg-gradient-to-br from-primary/5 to-green-500/5 border-border">
+            <CardContent className="p-5 text-center">
+              <h3 className="font-medium text-foreground text-sm mb-2">
+                Download the Ventus App
+              </h3>
+              <ul className="text-xs text-muted-foreground space-y-1 mb-4">
+                <li>• Personal wishlist</li>
+                <li>• Instant deal notifications</li>
+                <li>• Location-based offers</li>
+              </ul>
+              <div className="flex justify-center">
+                <AppStoreBadges />
+              </div>
+            </CardContent>
+          </Card>
         </div>
-
-        {/* App download CTA */}
-        <Card className="bg-gradient-to-br from-[#0064E0]/10 to-[#10B981]/10 border-none">
-          <CardContent className="p-6 text-center">
-            <h3 className="font-semibold text-foreground mb-2">
-              Download the Ventus app for:
-            </h3>
-            <ul className="text-sm text-muted-foreground space-y-1 mb-4">
-              <li>• Personal wishlist</li>
-              <li>• Instant deal notifications</li>
-              <li>• Location-based offers</li>
-            </ul>
-            <div className="flex justify-center">
-              <AppStoreBadges />
-            </div>
-          </CardContent>
-        </Card>
       </div>
-
-      <VentusNavbar />
-    </div>
+    </VentusSidebar>
   );
 }

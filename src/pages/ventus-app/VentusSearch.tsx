@@ -3,7 +3,7 @@ import { Loader2, Search, Send, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { VentusNavbar } from '@/components/ventus-app/VentusNavbar';
+import { VentusSidebar } from '@/components/ventus-app/VentusSidebar';
 import { ChatBubble } from '@/components/ventus-app/ChatBubble';
 import { ProductCard } from '@/components/ventus-app/ProductCard';
 import { chatbotApi, VentusProduct } from '@/lib/ventusApi';
@@ -79,102 +79,106 @@ export default function VentusSearch() {
   };
 
   return (
-    <div className="min-h-screen bg-background flex flex-col pb-20">
-      {/* Header */}
-      <div className="border-b border-border px-4 py-4">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-[#0064E0] rounded-xl flex items-center justify-center">
-            <Sparkles className="w-5 h-5 text-white" />
+    <VentusSidebar>
+      <div className="min-h-screen flex flex-col">
+        {/* Header */}
+        <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
+          <div className="max-w-3xl mx-auto px-6 py-4">
+            <div className="flex items-center gap-3">
+              <div className="w-9 h-9 bg-primary/10 rounded-lg flex items-center justify-center">
+                <Sparkles className="w-4 h-4 text-primary" />
+              </div>
+              <div>
+                <h1 className="text-lg font-semibold text-foreground">AI Deal Search</h1>
+                <p className="text-xs text-muted-foreground">Ask me to find deals for you</p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h1 className="text-lg font-bold text-foreground">AI Deal Search</h1>
-            <p className="text-sm text-muted-foreground">Ask me to find deals for you</p>
+        </header>
+
+        {/* Chat area */}
+        <div className="flex-1 overflow-hidden">
+          <ScrollArea className="h-[calc(100vh-180px)] px-6" ref={scrollRef}>
+            <div className="max-w-3xl mx-auto py-6">
+              {messages.length === 0 ? (
+                <div className="flex flex-col items-center justify-center py-16">
+                  <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                    <Search className="w-8 h-8 text-primary" />
+                  </div>
+                  <h2 className="text-lg font-semibold text-foreground mb-1">
+                    Find Your Perfect Deal
+                  </h2>
+                  <p className="text-muted-foreground text-sm text-center mb-8 max-w-sm">
+                    Ask me anything about sports gear, equipment, or deals
+                  </p>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 w-full max-w-lg">
+                    {EXAMPLE_SEARCHES.map((example) => (
+                      <button
+                        key={example}
+                        onClick={() => handleExampleClick(example)}
+                        className="text-left px-4 py-3 bg-card border border-border rounded-lg hover:border-primary/50 transition-colors text-sm"
+                      >
+                        {example}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {messages.map((message, index) => (
+                    <div key={index}>
+                      <ChatBubble role={message.role} content={message.content} />
+                      
+                      {/* Show products if available */}
+                      {message.products && message.products.length > 0 && (
+                        <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          {message.products.map((product, pIndex) => (
+                            <ProductCard key={pIndex} product={product} />
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+
+                  {isLoading && (
+                    <div className="flex items-center gap-2 text-muted-foreground">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      <span className="text-sm">Searching for deals...</span>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </ScrollArea>
+        </div>
+
+        {/* Input area */}
+        <div className="border-t border-border bg-card/50 backdrop-blur-sm">
+          <div className="max-w-3xl mx-auto px-6 py-4">
+            <form onSubmit={handleSubmit} className="flex gap-2">
+              <div className="relative flex-1">
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                <Input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Search for deals..."
+                  disabled={isLoading}
+                  className="pl-9 h-10 text-sm"
+                />
+              </div>
+              <Button 
+                type="submit" 
+                disabled={isLoading || !input.trim()}
+                size="sm"
+                className="h-10 px-4"
+              >
+                <Send className="w-4 h-4" />
+              </Button>
+            </form>
           </div>
         </div>
       </div>
-
-      {/* Chat area */}
-      <ScrollArea className="flex-1 px-4 py-4" ref={scrollRef}>
-        {messages.length === 0 ? (
-          <div className="h-full flex flex-col items-center justify-center py-12">
-            <div className="w-20 h-20 bg-[#0064E0]/10 rounded-full flex items-center justify-center mb-4">
-              <Search className="w-10 h-10 text-[#0064E0]" />
-            </div>
-            <h2 className="text-xl font-semibold text-foreground mb-2">
-              Find Your Perfect Deal
-            </h2>
-            <p className="text-muted-foreground text-center mb-8 max-w-sm">
-              Ask me anything about sports gear, equipment, or deals you're looking for
-            </p>
-
-            <div className="space-y-2 w-full max-w-sm">
-              <p className="text-sm text-muted-foreground text-center mb-3">Try these:</p>
-              {EXAMPLE_SEARCHES.map((example) => (
-                <button
-                  key={example}
-                  onClick={() => handleExampleClick(example)}
-                  className="w-full text-left px-4 py-3 bg-card border border-border rounded-xl hover:border-[#0064E0]/50 transition-colors text-sm"
-                >
-                  {example}
-                </button>
-              ))}
-            </div>
-          </div>
-        ) : (
-          <div className="space-y-4">
-            {messages.map((message, index) => (
-              <div key={index}>
-                <ChatBubble role={message.role} content={message.content} />
-                
-                {/* Show products if available */}
-                {message.products && message.products.length > 0 && (
-                  <div className="mt-4 space-y-3">
-                    {message.products.map((product, pIndex) => (
-                      <ProductCard key={pIndex} product={product} />
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-
-            {isLoading && (
-              <div className="flex items-center gap-2 text-muted-foreground">
-                <Loader2 className="w-4 h-4 animate-spin" />
-                <span className="text-sm">Searching for deals...</span>
-              </div>
-            )}
-          </div>
-        )}
-      </ScrollArea>
-
-      {/* Input area */}
-      <div className="border-t border-border px-4 py-4 bg-card">
-        <form onSubmit={handleSubmit} className="flex gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Search for deals..."
-              disabled={isLoading}
-              className="pl-10"
-            />
-          </div>
-          <Button 
-            type="submit" 
-            disabled={isLoading || !input.trim()}
-            className="bg-[#0064E0] hover:bg-[#0064E0]/90 text-white"
-          >
-            <Send className="w-4 h-4" />
-          </Button>
-        </form>
-
-        <p className="text-xs text-muted-foreground text-center mt-3">
-          💡 Download the app to save your searches to wishlist
-        </p>
-      </div>
-
-      <VentusNavbar />
-    </div>
+    </VentusSidebar>
   );
 }
