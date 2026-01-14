@@ -82,15 +82,21 @@ const App = () => (
           <Route path="/archive" element={<Archive />} />
 
           {/* Ventus Web App Routes - All wrapped in VentusAuthProvider */}
-          <Route path="/app" element={<VentusAuthProvider><VentusLanding /></VentusAuthProvider>} />
-          <Route path="/app/signup" element={<VentusAuthProvider><VentusSignup /></VentusAuthProvider>} />
-          <Route path="/app/signup/lifestyle" element={<VentusAuthProvider><VentusSignupLifestyle /></VentusAuthProvider>} />
-          <Route path="/app/signup/sports" element={<VentusAuthProvider><VentusSignupSports /></VentusAuthProvider>} />
-          <Route path="/app/signup/location" element={<VentusAuthProvider><VentusSignupLocation /></VentusAuthProvider>} />
-          <Route path="/app/login" element={<VentusAuthProvider><VentusLogin /></VentusAuthProvider>} />
-          <Route path="/app/home" element={<VentusAuthProvider><ProtectedRoute><VentusHome /></ProtectedRoute></VentusAuthProvider>} />
-          <Route path="/app/search" element={<VentusAuthProvider><ProtectedRoute><VentusSearch /></ProtectedRoute></VentusAuthProvider>} />
-          <Route path="/app/profile" element={<VentusAuthProvider><ProtectedRoute><VentusProfile /></ProtectedRoute></VentusAuthProvider>} />
+          <Route path="/app/*" element={
+            <VentusAuthProvider>
+              <Routes>
+                <Route index element={<VentusLanding />} />
+                <Route path="signup" element={<VentusSignup />} />
+                <Route path="signup/lifestyle" element={<VentusSignupLifestyle />} />
+                <Route path="signup/sports" element={<VentusSignupSports />} />
+                <Route path="signup/location" element={<VentusSignupLocation />} />
+                <Route path="login" element={<VentusLogin />} />
+                <Route path="home" element={<ProtectedRoute><VentusHome /></ProtectedRoute>} />
+                <Route path="search" element={<ProtectedRoute><VentusSearch /></ProtectedRoute>} />
+                <Route path="profile" element={<ProtectedRoute><VentusProfile /></ProtectedRoute>} />
+              </Routes>
+            </VentusAuthProvider>
+          } />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
