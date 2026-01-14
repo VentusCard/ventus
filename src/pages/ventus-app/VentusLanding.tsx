@@ -1,40 +1,18 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Sparkles, Search, Trophy, Smartphone } from 'lucide-react';
+import { Search, Trophy, Smartphone } from 'lucide-react';
 import { AppStoreBadges } from '@/components/ventus-app/AppStoreBadges';
+import Navbar from '@/components/Navbar';
 
 export default function VentusLanding() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#0064E0]/10 via-background to-background">
-      {/* Header */}
-      <header className="fixed top-0 left-0 right-0 bg-background/80 backdrop-blur-md border-b border-border z-50">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <Link to="/app" className="flex items-center gap-2">
-            <div className="w-8 h-8 bg-[#0064E0] rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-lg">V</span>
-            </div>
-            <span className="text-xl font-bold text-foreground">VENTUS</span>
-          </Link>
-          <div className="flex items-center gap-3">
-            <Link to="/app/login">
-              <Button variant="ghost" size="sm">Sign In</Button>
-            </Link>
-            <Link to="/app/signup">
-              <Button size="sm" className="bg-[#0064E0] hover:bg-[#0064E0]/90 text-white">
-                Get Started
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* Use the main Navbar */}
+      <Navbar />
 
       {/* Hero Section */}
       <section className="pt-32 pb-20 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#0064E0]/10 text-[#0064E0] text-sm font-medium mb-6">
-            <Sparkles className="w-4 h-4" />
-            AI-Powered Deal Discovery
-          </div>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground mb-6 leading-tight">
             Smart Rewards for<br />
             <span className="text-[#0064E0]">Sports Enthusiasts</span>
@@ -65,7 +43,7 @@ export default function VentusLanding() {
           </h2>
           <div className="grid md:grid-cols-3 gap-8">
             <FeatureCard
-              icon={<Sparkles className="w-8 h-8" />}
+              icon={<Trophy className="w-8 h-8" />}
               title="Personalized Deals"
               description="AI matches deals to your interests. The more you use Ventus, the better it gets at finding deals you'll love."
             />
