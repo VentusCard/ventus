@@ -199,7 +199,7 @@ export default function VentusHome() {
       <div className="min-h-screen">
         {/* Header */}
         <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
-          <div className="max-w-4xl mx-auto px-6 py-4">
+          <div className="px-6 py-4">
             <h1 className="text-lg font-semibold text-foreground">
               Welcome, {user?.first_name || 'there'}
             </h1>
@@ -207,7 +207,7 @@ export default function VentusHome() {
           </div>
         </header>
 
-        <div className="max-w-4xl mx-auto px-6 py-5 space-y-5">
+        <div className="px-6 py-5 space-y-5 max-w-4xl">
           {/* Search bar */}
           <div 
             onClick={handleSearchClick}
