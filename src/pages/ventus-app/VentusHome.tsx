@@ -35,6 +35,9 @@ export default function VentusHome() {
   const [selectedDealCategory, setSelectedDealCategory] = useState<string>('All');
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
+  // Debug: log user object to see what's available
+  console.log('VentusHome user:', user);
+
   // Rotate placeholders
   useEffect(() => {
     const interval = setInterval(() => {

@@ -85,7 +85,7 @@ export default function VentusSearch() {
       <div className="h-screen flex flex-col">
         {/* Header */}
         <header className="border-b border-border bg-card/50 backdrop-blur-sm flex-shrink-0">
-          <div className="px-6 py-4">
+          <div className="max-w-3xl mx-auto px-6 py-4">
             <h1 className="text-lg font-semibold text-foreground">Deal Search</h1>
             <p className="text-xs text-muted-foreground">Find the best deals for you</p>
           </div>
@@ -94,7 +94,7 @@ export default function VentusSearch() {
         {/* Chat area */}
         <div className="flex-1 overflow-hidden">
           <ScrollArea className="h-full" ref={scrollRef}>
-            <div className="px-6 py-6 max-w-3xl">
+            <div className="max-w-3xl mx-auto px-6 py-6">
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12">
                   <div className="w-14 h-14 bg-muted rounded-full flex items-center justify-center mb-4">
@@ -149,7 +149,7 @@ export default function VentusSearch() {
 
         {/* Input area - always visible */}
         <div className="border-t border-border bg-card/50 backdrop-blur-sm flex-shrink-0">
-          <div className="px-6 py-4 max-w-3xl">
+          <div className="max-w-3xl mx-auto px-6 py-4">
             <form onSubmit={handleSubmit} className="flex gap-2">
               <div className="relative flex-1">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
