@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -156,12 +156,28 @@ const OnboardingFlow = () => {
           <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
             Most cards reward categories. Ventus rewards you. Set your goals and earn cross-category rewards with personalized deals.
           </p>
+          
+          {/* Get Started / Sign In buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+            <Link to="/app/signup">
+              <Button size="lg" className="px-8 py-6 text-lg">
+                Get Started Free
+              </Button>
+            </Link>
+            <Link to="/app/login">
+              <Button size="lg" variant="outline" className="px-8 py-6 text-lg">
+                Sign In
+              </Button>
+            </Link>
+          </div>
+          
           <Button 
             size="lg" 
-            className="px-10 py-6 text-lg rounded-full"
+            variant="ghost"
+            className="px-10 py-6 text-lg rounded-full text-muted-foreground"
             onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({ behavior: 'smooth' })}
           >
-            Get Started
+            Learn More ↓
           </Button>
         </div>
       </section>
