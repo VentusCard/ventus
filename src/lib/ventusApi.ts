@@ -12,10 +12,27 @@ const getAuthHeaders = (): HeadersInit => {
   };
 };
 
+// Helper for retry logic (handles Render cold starts)
+const fetchWithRetry = async (url: string, options: RequestInit, retries = 2): Promise<Response> => {
+  for (let i = 0; i <= retries; i++) {
+    try {
+      const response = await fetch(url, options);
+      return response;
+    } catch (error) {
+      if (i === retries) {
+        throw new Error('Server is waking up. Please try again in a few seconds.');
+      }
+      // Wait 2 seconds before retrying
+      await new Promise(resolve => setTimeout(resolve, 2000));
+    }
+  }
+  throw new Error('Failed to connect to server');
+};
+
 // Auth APIs
 export const authApi = {
   signup: async (data: { email: string; password: string; firstName: string; lastName: string }) => {
-    const response = await fetch(`${API_URL}/auth/signup`, {
+    const response = await fetchWithRetry(`${API_URL}/auth/signup`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
@@ -28,7 +45,7 @@ export const authApi = {
   },
 
   login: async (data: { email: string; password: string }) => {
-    const response = await fetch(`${API_URL}/auth/login`, {
+    const response = await fetchWithRetry(`${API_URL}/auth/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data),
