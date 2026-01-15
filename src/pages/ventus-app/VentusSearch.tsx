@@ -255,9 +255,15 @@ export default function VentusSearch() {
                                 : "bg-muted rounded-bl-sm"
                             )}
                           >
-                            <p className="text-sm whitespace-pre-wrap text-white">
-                              {message.content}
-                            </p>
+                            {isUser ? (
+                              <p className="text-sm whitespace-pre-wrap text-white">
+                                {message.content}
+                              </p>
+                            ) : (
+                              <div className="text-sm prose prose-sm prose-invert max-w-none [&>p]:m-0 [&>ul]:my-2 [&>ul]:pl-4 [&>ol]:my-2 [&>ol]:pl-4 text-white [&_strong]:text-white [&_strong]:font-semibold">
+                                <ReactMarkdown>{message.content}</ReactMarkdown>
+                              </div>
+                            )}
                           </div>
                         </div>
                         
