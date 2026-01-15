@@ -864,7 +864,14 @@ const TePilot = () => {
                 All data processing is ephemeral. Your transaction data is analyzed in real-time and never stored on our servers.
               </p>
               <form onSubmit={handleSubmit} className="space-y-4">
-                <Input type="password" placeholder="Enter password" value={password} onChange={e => setPassword(e.target.value)} autoFocus />
+                <Input 
+                  type="password" 
+                  placeholder="Enter password" 
+                  value={password} 
+                  onChange={e => setPassword(e.target.value)} 
+                  autoFocus 
+                  className="bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 focus-visible:ring-slate-400"
+                />
                 <Button type="submit" className="w-full">
                   Access Pilot
                 </Button>
