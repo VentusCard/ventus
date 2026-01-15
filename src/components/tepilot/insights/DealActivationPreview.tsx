@@ -608,39 +608,43 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
 
             {/* Semantic Search Bar */}
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                <Search className="h-5 w-5 text-primary" />
+              </div>
               <Input
                 type="text"
-                placeholder='Search deals... (e.g., "t-shirt", "coffee", "gym")'
+                placeholder='Search deals semantically... (e.g., "t-shirt", "coffee", "gym", "vacation")'
                 value={searchQuery}
                 onChange={(e) => handleSearchChange(e.target.value)}
-                className="pl-9 pr-9 h-9 text-sm bg-white border-slate-200"
+                className="pl-12 pr-12 h-12 text-base bg-white border-2 border-primary/20 focus:border-primary rounded-xl shadow-sm placeholder:text-slate-400"
               />
               {isSearching && (
-                <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 animate-spin" />
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                  <Loader2 className="h-5 w-5 text-primary animate-spin" />
+                </div>
               )}
               {searchQuery && !isSearching && (
                 <button
                   onClick={clearSearch}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 hover:text-slate-600"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
                 >
-                  <X className="h-4 w-4" />
+                  <X className="h-4 w-4 text-slate-500" />
                 </button>
               )}
             </div>
 
             {/* Search Results Info */}
             {isSearchActive && !isSearching && matchingDealIds && (
-              <div className="flex items-center gap-2 text-xs text-slate-500">
-                <Sparkles className="h-3 w-3 text-primary" />
-                <span>
+              <div className="flex items-center gap-2 px-1 py-2 text-sm">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <span className="font-medium text-slate-700">
                   {searchResultCount > 0 
-                    ? `Found ${searchResultCount} deals for "${searchQuery}"` 
+                    ? `${searchResultCount} deals match "${searchQuery}"` 
                     : `No deals found for "${searchQuery}"`
                   }
                 </span>
                 {searchReasoning && searchResultCount > 0 && (
-                  <span className="text-slate-400">• {searchReasoning}</span>
+                  <span className="text-slate-400 text-xs">— {searchReasoning}</span>
                 )}
               </div>
             )}
