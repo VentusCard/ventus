@@ -11,6 +11,7 @@ import { offersApi, categoriesApi, VentusOffer, VentusCategory, getMerchantLogoU
 import { Badge } from '@/components/ui/badge';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
+import { getSubcategoryIcon } from '@/lib/categoryIcons';
 
 interface GroupedMerchant {
   merchantName: string;
@@ -83,15 +84,14 @@ export default function VentusHome() {
 
     // Start with "All" option
     const options = [
-      { name: 'All', emoji: '🏆', count: counts.All },
+      { name: 'All', emoji: getSubcategoryIcon('All'), count: counts.All },
     ];
 
     // Always add General first
-    const generalCat = categories.find((c) => c.subcategory === 'General');
     if (counts['General'] || availableSubcategories.has('General')) {
       options.push({
         name: 'General',
-        emoji: generalCat?.emoji || '🎯',
+        emoji: getSubcategoryIcon('General'),
         count: counts['General'] || 0,
       });
     }
@@ -101,10 +101,9 @@ export default function VentusHome() {
       userSubcategories
         .filter((sub) => sub !== 'General')
         .forEach((sub) => {
-          const cat = categories.find((c) => c.subcategory === sub);
           options.push({
             name: sub,
-            emoji: cat?.emoji || '🎯',
+            emoji: getSubcategoryIcon(sub),
             count: counts[sub] || 0,
           });
         });
@@ -114,17 +113,16 @@ export default function VentusHome() {
         .filter((sub) => sub !== 'General')
         .sort()
         .forEach((sub) => {
-          const cat = categories.find((c) => c.subcategory === sub);
           options.push({
             name: sub,
-            emoji: cat?.emoji || '🎯',
+            emoji: getSubcategoryIcon(sub),
             count: counts[sub] || 0,
           });
         });
     }
 
     return options;
-  }, [offers, categories, user]);
+  }, [offers, user]);
 
   // Build deal category options from offers in the selected subcategory
   const dealCategoryOptions = useMemo(() => {
