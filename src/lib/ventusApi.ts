@@ -1,7 +1,7 @@
 // Ventus API Utilities
 const API_URL = 'https://ventusserver.onrender.com/web';
 const CHATBOT_URL = 'https://ventusserver.onrender.com/chatbot-v2';
-const LOGO_DEV_TOKEN = 'pk_a2V3X5oRR7iKwGFODFlS3A';
+const LOGO_DEV_TOKEN = 'pk_JIfjg8dCRT-5dWEXFy01YQ';
 
 // Helper to get auth headers
 const getAuthHeaders = (): HeadersInit => {
