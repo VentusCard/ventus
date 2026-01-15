@@ -89,16 +89,22 @@ export default function VentusSearch() {
     loadHistory();
   }, []);
 
-  // Focus input after loading
+  // Focus input and scroll to bottom after loading history
   useEffect(() => {
     if (!isLoadingHistory) {
       inputRef.current?.focus();
+      // Scroll to bottom after history loads
+      setTimeout(() => {
+        if (scrollRef.current) {
+          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+        }
+      }, 100);
     }
   }, [isLoadingHistory]);
 
-  // Auto-scroll to bottom when messages change
+  // Auto-scroll to bottom when new messages are added
   useEffect(() => {
-    if (scrollRef.current) {
+    if (scrollRef.current && messages.length > 0) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
