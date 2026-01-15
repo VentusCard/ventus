@@ -38,7 +38,7 @@ export function AvailableDealCard({ deal, categoryConfig }: AvailableDealCardPro
       {/* Header */}
       <div className="p-3 pb-2 flex items-start justify-between gap-2 border-b border-slate-100">
         <div className="flex items-center gap-2 min-w-0 flex-1">
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center text-lg shrink-0 ${categoryConfig.color}`}>
+          <div className="w-9 h-9 rounded-lg flex items-center justify-center text-lg shrink-0 bg-slate-100">
             {categoryConfig.icon}
           </div>
           <div className="min-w-0 flex-1">
