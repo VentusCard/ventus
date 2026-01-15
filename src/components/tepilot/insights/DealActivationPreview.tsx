@@ -734,38 +734,38 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
           </div>
         </div>
 
-        {/* Right: Deal Detail Panel (1/3 width) - Warm Red Theme */}
+        {/* Right: Deal Detail Panel (1/3 width) - Deep Red Theme */}
         <div className="w-1/3">
-          <div className="bg-gradient-to-br from-rose-50 via-red-50 to-orange-50 border border-rose-200 rounded-xl p-5 h-full min-h-[500px]">
+          <div className="bg-gradient-to-br from-red-900 via-rose-900 to-red-950 rounded-xl p-5 h-full min-h-[500px] text-white">
             {selectedDeal ? (
               <div className="space-y-5">
                 {/* Header */}
                 <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-rose-500" />
-                    <span className="text-xs font-medium text-rose-600 uppercase tracking-wide">Selected Deal</span>
+                    <Sparkles className="h-4 w-4 text-rose-300" />
+                    <span className="text-xs font-medium text-rose-300 uppercase tracking-wide">Selected Deal</span>
                   </div>
-                  <Badge variant="outline" className="text-[10px] border-rose-300 bg-white/60 text-rose-700">
+                  <Badge variant="outline" className="text-[10px] border-rose-700 bg-rose-800/50 text-rose-200">
                     {selectedDeal.subcategory}
                   </Badge>
                 </div>
 
                 {/* Deal Info */}
                 <div className="space-y-1">
-                  <p className="text-sm text-rose-400">{selectedDeal.merchantName}</p>
-                  <h3 className="text-lg font-bold text-rose-900">{selectedDeal.dealTitle}</h3>
+                  <p className="text-sm text-rose-300/80">{selectedDeal.merchantName}</p>
+                  <h3 className="text-lg font-bold text-white">{selectedDeal.dealTitle}</h3>
                 </div>
 
                 {/* Personalized Message */}
-                <div className="space-y-2 pt-3 border-t border-rose-200">
-                  <span className="text-[10px] font-medium text-rose-500 uppercase tracking-wide">AI-Personalized Message</span>
-                  <h4 className="text-base font-semibold text-rose-800">{personalizedMessage.headline}</h4>
-                  <p className="text-xs text-rose-600/80 leading-relaxed">{personalizedMessage.body}</p>
+                <div className="space-y-2 pt-3 border-t border-rose-800/50">
+                  <span className="text-[10px] font-medium text-rose-400 uppercase tracking-wide">AI-Personalized Message</span>
+                  <h4 className="text-base font-semibold text-rose-100">{personalizedMessage.headline}</h4>
+                  <p className="text-xs text-rose-300/70 leading-relaxed">{personalizedMessage.body}</p>
                 </div>
 
                 {/* Reward & Validity */}
-                <div className="flex items-center gap-3 pt-3 border-t border-rose-200">
-                  <Badge className="bg-rose-100 text-rose-700 border-rose-300">
+                <div className="flex items-center gap-3 pt-3 border-t border-rose-800/50">
+                  <Badge className="bg-rose-700 text-rose-100 border-rose-600">
                     {selectedDeal.rewardValue}
                   </Badge>
                   <span className="text-xs text-rose-400">{selectedDeal.validityPeriod}</span>
@@ -773,38 +773,38 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
 
                 {/* Projected Impact */}
                 {dealImpact && (
-                  <div className="space-y-3 pt-3 border-t border-rose-200">
-                    <span className="text-[10px] font-medium text-rose-500 uppercase tracking-wide">Projected Impact</span>
+                  <div className="space-y-3 pt-3 border-t border-rose-800/50">
+                    <span className="text-[10px] font-medium text-rose-400 uppercase tracking-wide">Projected Impact</span>
                     
                     {/* Eligibility */}
                     <div className="flex items-center justify-between">
-                      <span className="text-xs text-rose-500">Eligibility</span>
+                      <span className="text-xs text-rose-300">Eligibility</span>
                       <Badge variant="outline" className={cn(
                         "text-[10px]",
-                        dealImpact.eligibility === 'high' && "border-emerald-400 bg-emerald-50 text-emerald-700",
-                        dealImpact.eligibility === 'medium' && "border-amber-400 bg-amber-50 text-amber-700",
-                        dealImpact.eligibility === 'low' && "border-rose-300 bg-rose-100 text-rose-600"
+                        dealImpact.eligibility === 'high' && "border-emerald-500 bg-emerald-900/50 text-emerald-300",
+                        dealImpact.eligibility === 'medium' && "border-amber-500 bg-amber-900/50 text-amber-300",
+                        dealImpact.eligibility === 'low' && "border-rose-600 bg-rose-800/50 text-rose-300"
                       )}>
                         {dealImpact.eligibility.charAt(0).toUpperCase() + dealImpact.eligibility.slice(1)} Match
                       </Badge>
                     </div>
-                    <p className="text-[10px] text-rose-400">{dealImpact.eligibilityReason}</p>
+                    <p className="text-[10px] text-rose-400/80">{dealImpact.eligibilityReason}</p>
 
                     {/* Impact Metrics */}
                     <div className="grid grid-cols-3 gap-2">
-                      <div className="text-center p-2 bg-white/70 border border-rose-200 rounded-lg">
+                      <div className="text-center p-2 bg-rose-800/40 border border-rose-700/50 rounded-lg">
                         <DollarSign className="h-3 w-3 mx-auto text-rose-400 mb-1" />
-                        <p className="text-sm font-bold text-rose-800">{formatCurrency(dealImpact.projectedNewSpend)}</p>
+                        <p className="text-sm font-bold text-white">{formatCurrency(dealImpact.projectedNewSpend)}</p>
                         <p className="text-[8px] text-rose-400">New Spend</p>
                       </div>
-                      <div className="text-center p-2 bg-white/70 border border-rose-200 rounded-lg">
+                      <div className="text-center p-2 bg-rose-800/40 border border-rose-700/50 rounded-lg">
                         <Percent className="h-3 w-3 mx-auto text-rose-400 mb-1" />
-                        <p className="text-sm font-bold text-rose-800">{dealImpact.walletShareIncrease.toFixed(1)}%</p>
+                        <p className="text-sm font-bold text-white">{dealImpact.walletShareIncrease.toFixed(1)}%</p>
                         <p className="text-[8px] text-rose-400">Wallet Lift</p>
                       </div>
-                      <div className="text-center p-2 bg-white/70 border border-rose-200 rounded-lg">
+                      <div className="text-center p-2 bg-rose-800/40 border border-rose-700/50 rounded-lg">
                         <TrendingUp className="h-3 w-3 mx-auto text-rose-400 mb-1" />
-                        <p className="text-sm font-bold text-rose-800">{formatCurrency(dealImpact.ltvImpact)}</p>
+                        <p className="text-sm font-bold text-white">{formatCurrency(dealImpact.ltvImpact)}</p>
                         <p className="text-[8px] text-rose-400">5-Yr LTV</p>
                       </div>
                     </div>
@@ -812,14 +812,14 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                 )}
 
                 {/* Activation Count */}
-                <div className="pt-3 border-t border-rose-200 text-center">
+                <div className="pt-3 border-t border-rose-800/50 text-center">
                   <p className="text-xs text-rose-400">
                     {selectedDeal.activationCount.toLocaleString()} customers have activated this deal
                   </p>
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center h-full text-rose-400">
+              <div className="flex flex-col items-center justify-center h-full text-rose-400/60">
                 <Target className="h-10 w-10 mb-3 opacity-50" />
                 <p className="text-sm">Select a deal to view details</p>
               </div>
