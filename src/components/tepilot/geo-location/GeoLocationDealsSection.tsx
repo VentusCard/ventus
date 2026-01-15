@@ -45,14 +45,14 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
   }
   
   return (
-    <Card className="overflow-hidden">
+    <Card className="overflow-hidden bg-white border-slate-200">
       <Collapsible open={isExpanded} onOpenChange={setIsExpanded}>
         <CollapsibleTrigger asChild>
-          <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+          <CardHeader className="cursor-pointer hover:bg-slate-50 transition-colors">
             <div className="flex items-center justify-between">
               <div className="flex flex-col items-start gap-2">
-                <CardTitle className="text-2xl">Location-Based Banking Experience: Deals, Experience and Perks</CardTitle>
-                <p className="text-sm text-muted-foreground">
+                <CardTitle className="text-2xl text-slate-900">Location-Based Banking Experience: Deals, Experience and Perks</CardTitle>
+                <p className="text-sm text-slate-500">
                   Position your bank as a lifestyle companion—surfacing exclusive experiences in arts, sports, and culture wherever customers call home or travel.
                 </p>
               </div>
@@ -77,7 +77,7 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
               <div>
                 <div className="flex items-center gap-2 mb-4">
                   <MapPin className="h-4 w-4 text-primary" />
-                  <h3 className="font-semibold text-lg">
+                  <h3 className="font-semibold text-lg text-slate-900">
                     Home Location: {homeCity}
                   </h3>
                 </div>
@@ -104,10 +104,10 @@ export function GeoLocationDealsSection({ locationContext }: GeoLocationDealsSec
                   <div key={travel.destination}>
                     <div className="flex items-center gap-2 mb-4">
                       <Plane className="h-4 w-4 text-blue-600" />
-                      <h3 className="font-semibold text-lg">
+                      <h3 className="font-semibold text-lg text-slate-900">
                         Travel Destination: {travel.destination}
                       </h3>
-                      <span className="text-sm text-muted-foreground">
+                      <span className="text-sm text-slate-500">
                         ({travel.transactionCount} transactions detected)
                       </span>
                     </div>

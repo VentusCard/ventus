@@ -80,16 +80,16 @@ export function RecommendationsCard({ recommendations, summary, isLoading = fals
 
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full mt-6">
-      <Card className="overflow-hidden">
+      <Card className="overflow-hidden bg-white border-slate-200">
         <CollapsibleTrigger className="w-full">
-          <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+          <CardHeader className="cursor-pointer hover:bg-slate-50 transition-colors">
             <div className="flex items-center justify-between w-full">
               <div className="flex flex-col items-start gap-2">
-                <CardTitle className="text-2xl">Deal, Rewards and Product Opportunities with Personalized Messaging</CardTitle>
-                <div className="text-sm text-muted-foreground">
+                <CardTitle className="text-2xl text-slate-900">Deal, Rewards and Product Opportunities with Personalized Messaging</CardTitle>
+                <div className="text-sm text-slate-500">
                   {recommendations.length} personalized offers matched to their lifestyle patterns
                 </div>
-                <div className="text-xs text-muted-foreground/70">
+                <div className="text-xs text-slate-500">
                   Direct deals • Adjacent category expansion • Experience upgrades • Card & financial products, each with AI-personalized messaging
                 </div>
               </div>
@@ -141,7 +141,7 @@ export function RecommendationsCard({ recommendations, summary, isLoading = fals
                     <div className="space-y-4 pt-2">
                       
                       {/* Description */}
-                      <p className="text-muted-foreground">{rec.description}</p>
+                      <p className="text-slate-500">{rec.description}</p>
 
                       {/* Matching Data */}
                       <Card className="bg-blue-50/30 border-blue-100">
@@ -187,7 +187,7 @@ export function RecommendationsCard({ recommendations, summary, isLoading = fals
             {/* Summary Footer */}
             <Card className="mt-4 bg-primary/5 border-primary/20">
               <CardContent className="pt-4">
-                <p className="text-sm text-center text-muted-foreground">
+                <p className="text-sm text-center text-slate-500">
                   {summary.message}
                 </p>
               </CardContent>
