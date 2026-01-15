@@ -255,12 +255,15 @@ export default function VentusSearch() {
                                 : "bg-muted rounded-bl-sm"
                             )}
                           >
-                            <p className={cn(
-                              "text-sm whitespace-pre-wrap",
-                              isUser ? "text-white" : "text-white"
-                            )}>
-                              {message.content}
-                            </p>
+                            {isUser ? (
+                              <p className="text-sm whitespace-pre-wrap text-white">
+                                {message.content}
+                              </p>
+                            ) : (
+                              <div className="text-sm text-white [&_p]:my-1 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_ul]:my-2 [&_ul]:pl-4 [&_ul]:list-disc [&_ol]:my-2 [&_ol]:pl-4 [&_ol]:list-decimal [&_li]:my-0.5 [&_strong]:font-bold [&_em]:italic [&_code]:bg-white/20 [&_code]:px-1 [&_code]:rounded">
+                                <ReactMarkdown>{message.content}</ReactMarkdown>
+                              </div>
+                            )}
                           </div>
                         </div>
                         
