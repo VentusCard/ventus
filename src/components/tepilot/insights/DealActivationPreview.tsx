@@ -565,6 +565,51 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
         </div>
       )}
 
+      {/* Semantic Search Bar - Full Width */}
+      <div className="space-y-3">
+        <div className="relative">
+          <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+            <Search className="h-5 w-5 text-primary" />
+          </div>
+          <Input
+            type="text"
+            placeholder='Search deals semantically... (e.g., "t-shirt", "coffee", "gym", "vacation")'
+            value={searchQuery}
+            onChange={(e) => handleSearchChange(e.target.value)}
+            className="pl-12 pr-12 h-14 text-base bg-white border-2 border-primary/20 focus:border-primary rounded-xl shadow-sm placeholder:text-slate-400"
+          />
+          {isSearching && (
+            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
+              <Loader2 className="h-5 w-5 text-primary animate-spin" />
+            </div>
+          )}
+          {searchQuery && !isSearching && (
+            <button
+              onClick={clearSearch}
+              className="absolute right-4 top-1/2 -translate-y-1/2 h-7 w-7 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
+            >
+              <X className="h-4 w-4 text-slate-500" />
+            </button>
+          )}
+        </div>
+
+        {/* Search Results Info */}
+        {isSearchActive && !isSearching && matchingDealIds && (
+          <div className="flex items-center gap-2 px-1 text-sm">
+            <Sparkles className="h-4 w-4 text-primary" />
+            <span className="font-medium text-slate-700">
+              {searchResultCount > 0 
+                ? `${searchResultCount} deals match "${searchQuery}"` 
+                : `No deals found for "${searchQuery}"`
+              }
+            </span>
+            {searchReasoning && searchResultCount > 0 && (
+              <span className="text-slate-400 text-xs">— {searchReasoning}</span>
+            )}
+          </div>
+        )}
+      </div>
+
       {/* Category Summary */}
       {hasData && (
         <div className="flex items-center gap-2 flex-wrap">
@@ -605,49 +650,6 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                 </Badge>
               )}
             </div>
-
-            {/* Semantic Search Bar */}
-            <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                <Search className="h-5 w-5 text-primary" />
-              </div>
-              <Input
-                type="text"
-                placeholder='Search deals semantically... (e.g., "t-shirt", "coffee", "gym", "vacation")'
-                value={searchQuery}
-                onChange={(e) => handleSearchChange(e.target.value)}
-                className="pl-12 pr-12 h-12 text-base bg-white border-2 border-primary/20 focus:border-primary rounded-xl shadow-sm placeholder:text-slate-400"
-              />
-              {isSearching && (
-                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                  <Loader2 className="h-5 w-5 text-primary animate-spin" />
-                </div>
-              )}
-              {searchQuery && !isSearching && (
-                <button
-                  onClick={clearSearch}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 h-6 w-6 rounded-full bg-slate-100 hover:bg-slate-200 flex items-center justify-center transition-colors"
-                >
-                  <X className="h-4 w-4 text-slate-500" />
-                </button>
-              )}
-            </div>
-
-            {/* Search Results Info */}
-            {isSearchActive && !isSearching && matchingDealIds && (
-              <div className="flex items-center gap-2 px-1 py-2 text-sm">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <span className="font-medium text-slate-700">
-                  {searchResultCount > 0 
-                    ? `${searchResultCount} deals match "${searchQuery}"` 
-                    : `No deals found for "${searchQuery}"`
-                  }
-                </span>
-                {searchReasoning && searchResultCount > 0 && (
-                  <span className="text-slate-400 text-xs">— {searchReasoning}</span>
-                )}
-              </div>
-            )}
             
             <div className="max-h-[400px] overflow-y-auto space-y-3 pr-1">
               {sortedCategories.length === 0 && isSearchActive && !isSearching && (
