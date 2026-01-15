@@ -36,25 +36,25 @@ export const ChatProductCard = ({ product }: ChatProductCardProps) => {
 
   return (
     <Card className="bg-[#0064E0]/10 border border-[#0064E0]/20 rounded-xl overflow-hidden">
-      <CardContent className="p-3.5">
+      <CardContent className="p-4">
         {/* Header: Logo + Price */}
-        <div className="flex items-start justify-between gap-3">
+        <div className="flex items-start justify-between gap-4">
           <div className="flex items-center gap-3 flex-1 min-w-0">
             {/* Merchant Logo */}
             {logoUrl && !logoError ? (
               <img 
                 src={logoUrl} 
                 alt={merchantName}
-                className="w-11 h-11 rounded-lg object-contain bg-white p-1.5 flex-shrink-0"
+                className="w-12 h-12 rounded-lg object-contain bg-white p-1.5 flex-shrink-0"
                 onError={() => setLogoError(true)}
               />
             ) : (
               <div 
-                className="w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0"
+                className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: `hsl(${merchantName.length * 30 % 360}, 60%, 90%)` }}
               >
                 <span 
-                  className="text-base font-bold"
+                  className="text-lg font-bold"
                   style={{ color: `hsl(${merchantName.length * 30 % 360}, 60%, 40%)` }}
                 >
                   {merchantInitial}
@@ -63,18 +63,18 @@ export const ChatProductCard = ({ product }: ChatProductCardProps) => {
             )}
 
             {/* Product Name */}
-            <h3 className={`text-sm font-semibold text-foreground ${isExpanded ? '' : 'line-clamp-2'}`}>
+            <h3 className={`text-base font-semibold text-foreground ${isExpanded ? '' : 'line-clamp-2'}`}>
               {product.name}
             </h3>
           </div>
 
           {/* Price */}
           <div className="text-right flex-shrink-0">
-            <span className="text-lg font-bold text-[#0064E0]">
+            <span className="text-xl font-bold text-[#0064E0]">
               ${product.price.toFixed(2)}
             </span>
             {hasDiscount && (
-              <div className="text-[10px] text-muted-foreground line-through">
+              <div className="text-xs text-muted-foreground line-through">
                 ${product.original_price?.toFixed(2)}
               </div>
             )}
@@ -84,9 +84,9 @@ export const ChatProductCard = ({ product }: ChatProductCardProps) => {
         {/* Footer: Merchant name + Expand */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full flex items-center justify-between mt-3 pt-2.5 border-t border-[#0064E0]/20 text-muted-foreground"
+          className="w-full flex items-center justify-between mt-3 pt-3 border-t border-[#0064E0]/20 text-muted-foreground"
         >
-          <span className="text-xs">{merchantName}</span>
+          <span className="text-sm">{merchantName}</span>
           {isExpanded ? (
             <ChevronUp className="w-4 h-4" />
           ) : (
