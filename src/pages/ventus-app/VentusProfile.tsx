@@ -297,13 +297,7 @@ export default function VentusProfile() {
 
           {/* Preferences */}
           <Card className="bg-card border-border">
-            <CardHeader className="pb-2 pt-4 px-4">
-              <CardTitle className="text-sm flex items-center gap-2">
-                <Settings className="w-4 h-4" />
-                Preferences
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="px-4 pb-4">
+            <CardContent className="p-4">
               <Dialog open={isSubcategoryModalOpen} onOpenChange={setIsSubcategoryModalOpen}>
                 <DialogTrigger asChild>
                   <button className="w-full flex items-center justify-between py-2">
@@ -414,18 +408,21 @@ export default function VentusProfile() {
           </div>
 
           {/* App download CTA */}
-          <Card className="bg-gradient-to-br from-primary/5 to-green-500/5 border-border">
-            <CardContent className="p-5 text-center">
-              <h3 className="font-medium text-foreground text-sm mb-2">
-                Download the Ventus App
-              </h3>
-              <ul className="text-xs text-muted-foreground space-y-1 mb-4">
-                <li>• Personal wishlist</li>
-                <li>• Instant deal notifications</li>
-                <li>• Location-based offers</li>
-              </ul>
-              <div className="flex justify-center">
-                <AppStoreBadges />
+          <Card className="bg-gradient-to-r from-primary to-blue-600 border-0 overflow-hidden">
+            <CardContent className="p-5">
+              <div className="flex items-center gap-4">
+                <div className="flex-1">
+                  <h3 className="font-semibold text-white text-sm mb-1">
+                    Get the Ventus App
+                  </h3>
+                  <p className="text-xs text-white/70 mb-3">
+                    Wishlist, notifications & location-based deals
+                  </p>
+                  <AppStoreBadges />
+                </div>
+                <div className="hidden sm:flex w-16 h-16 bg-white/10 rounded-xl items-center justify-center">
+                  <ExternalLink className="w-8 h-8 text-white/80" />
+                </div>
               </div>
             </CardContent>
           </Card>
