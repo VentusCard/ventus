@@ -971,7 +971,7 @@ const TePilot = () => {
                 <CardContent className="pt-6 flex flex-col items-center gap-4">
                   <div className="text-center">
                     <h3 className="text-lg font-semibold mb-2">Ready to explore enriched customer profile dashboard?</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
+                    <p className="text-sm text-slate-600 mb-4">
                       View aggregated spending patterns, travel analysis, and lifestyle breakdowns
                     </p>
                   </div>
@@ -991,7 +991,7 @@ const TePilot = () => {
                   <h2 className="text-2xl font-bold">
                     {analyticsView === "single" ? "Customer Lifestyle Dashboard" : "Bank-wide Analytics"}
                   </h2>
-                  <p className="text-sm text-muted-foreground mt-1">
+                  <p className="text-sm text-slate-600 mt-1">
                     {analyticsView === "single" ? "Detailed analysis of individual spending patterns and opportunities" : "Aggregated portfolio insights across 70M accounts • 45M users • $180B"}
                   </p>
                 </div>
@@ -1012,7 +1012,7 @@ const TePilot = () => {
                   <CardContent className="pt-6 flex flex-col items-center gap-4">
                     <div className="text-center">
                       <h3 className="text-lg font-semibold mb-2">Ready to Explore Ventus Insight Tools?</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
+                      <p className="text-sm text-slate-600 mb-4">
                         Access specialized dashboards for Bank Leadership, Rewards Team, or Wealth Management
                       </p>
                     </div>
@@ -1027,7 +1027,7 @@ const TePilot = () => {
                   <AccordionTrigger className="text-lg hover:no-underline">
                     <div className="flex items-center justify-between w-full pr-4">
                       <span className="font-semibold">🏦 Bank-wide Analytics Dashboard</span>
-                      <span className="text-sm text-muted-foreground">70M accounts • 45M users • $180B portfolio</span>
+                      <span className="text-sm text-slate-500">70M accounts • 45M users • $180B portfolio</span>
                     </div>
                   </AccordionTrigger>
                   <AccordionContent>
@@ -1042,7 +1042,7 @@ const TePilot = () => {
                 {/* Header */}
                 <div className="text-center mb-8 mt-10">
                   <h2 className="text-3xl font-bold mb-2">One Tech Core, Three Insight Tools</h2>
-                  <p className="text-muted-foreground">
+                  <p className="text-slate-600">
                     Select the view that matches your role to access tailored insights and analytics
                   </p>
                 </div>
@@ -1153,7 +1153,7 @@ const TePilot = () => {
                           <CardTitle className="text-2xl">
                             Example Deal, Rewards and Cross-Sell Opportunities
                           </CardTitle>
-                          <p className="text-sm text-muted-foreground">
+                          <p className="text-sm text-slate-600">
                             AI-powered strategic recommendations based on spending patterns
                           </p>
                         </div>

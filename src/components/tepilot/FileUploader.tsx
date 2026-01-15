@@ -82,7 +82,7 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
 
   return (
     <div className="space-y-4">
-      <Alert>
+      <Alert className="bg-slate-50 border-slate-200 text-slate-700">
         <File className="h-4 w-4" />
         <AlertDescription>
           <strong>Supported formats:</strong> CSV, JSON, XLSX, PDF (max 50MB)
@@ -91,12 +91,12 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
 
       <TooltipProvider>
         <div className="space-y-2">
-          <label className="text-sm font-medium flex items-center gap-2">
+          <label className="text-sm font-medium flex items-center gap-2 text-slate-900">
             <Sparkles className="h-4 w-4 text-blue-600" />
             Anchor ZIP Code (Optional)
             <Tooltip>
               <TooltipTrigger asChild>
-                <HelpCircle className="h-4 w-4 text-muted-foreground cursor-help" />
+                <HelpCircle className="h-4 w-4 text-slate-500 cursor-help" />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Used for travel analysis</p>
@@ -109,7 +109,7 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
             value={anchorZip}
             onChange={(e) => onAnchorZipChange(e.target.value)}
             maxLength={5}
-            className="font-mono"
+            className="font-mono bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 focus-visible:ring-slate-400"
           />
         </div>
       </TooltipProvider>
@@ -117,19 +117,19 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
       <div
         className={cn(
           "border-2 border-dashed rounded-lg p-8 text-center transition-colors",
-          isDragging ? "border-primary bg-primary/5" : "border-border",
-          "hover:border-primary/50 cursor-pointer"
+          isDragging ? "border-blue-500 bg-blue-50" : "border-slate-300",
+          "hover:border-blue-500/50 cursor-pointer"
         )}
         onDrop={handleDrop}
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onClick={() => fileInputRef.current?.click()}
       >
-        <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-        <p className="text-sm font-medium mb-2">
+        <Upload className="w-12 h-12 mx-auto mb-4 text-slate-400" />
+        <p className="text-sm font-medium mb-2 text-slate-900">
           Drag and drop your files here, or click to browse
         </p>
-        <p className="text-xs text-muted-foreground">
+        <p className="text-xs text-slate-500">
           CSV, JSON, XLSX, or PDF bank statements (up to 10 files, 10MB each)
         </p>
         <input
@@ -149,9 +149,9 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
       {selectedFiles.length > 0 && (
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium">
+            <p className="text-sm font-medium text-slate-900">
               {selectedFiles.length} file{selectedFiles.length > 1 ? 's' : ''} selected
-              <span className="text-muted-foreground ml-2">
+              <span className="text-slate-500 ml-2">
                 ({(selectedFiles.reduce((sum, f) => sum + f.size, 0) / 1024).toFixed(1)} KB total)
               </span>
             </p>
@@ -168,12 +168,12 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
           </div>
           <div className="space-y-2 max-h-48 overflow-y-auto">
             {selectedFiles.map((file, index) => (
-              <div key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-secondary/20 rounded-lg">
+              <div key={`${file.name}-${index}`} className="flex items-center justify-between p-3 bg-slate-100 rounded-lg">
                 <div className="flex items-center gap-3">
-                  <File className="w-5 h-5 text-primary" />
+                  <File className="w-5 h-5 text-blue-600" />
                   <div>
-                    <p className="text-sm font-medium">{file.name}</p>
-                    <p className="text-xs text-muted-foreground">
+                    <p className="text-sm font-medium text-slate-900">{file.name}</p>
+                    <p className="text-xs text-slate-500">
                       {(file.size / 1024).toFixed(1)} KB
                     </p>
                   </div>
