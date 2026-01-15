@@ -1,68 +1,170 @@
 import { useState, useRef, useEffect } from 'react';
-import { Loader2, Search, Send } from 'lucide-react';
+import { Loader2, Search, Send, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { VentusSidebar } from '@/components/ventus-app/VentusSidebar';
-import { ChatBubble } from '@/components/ventus-app/ChatBubble';
-import { ProductCard } from '@/components/ventus-app/ProductCard';
-import { chatbotApi, VentusProduct } from '@/lib/ventusApi';
+import { ChatProductCard } from '@/components/ventus-app/ChatProductCard';
+import { chatbotApi, chatApi, VentusProduct, ChatMessage } from '@/lib/ventusApi';
 import { toast } from 'sonner';
+import ReactMarkdown from 'react-markdown';
+import { cn } from '@/lib/utils';
 
-interface Message {
-  role: 'user' | 'assistant';
+interface DisplayMessage {
+  id?: string;
+  sender: 'user' | 'ventus';
+  type: 'text' | 'results';
   content: string;
   products?: VentusProduct[];
+  item?: string;
+  query?: string;
+  timestamp: Date;
 }
 
 const EXAMPLE_SEARCHES = [
-  'Basketball shoes under $100',
-  'Best golf clubs on sale',
-  'Running gear for beginners',
-  'Home gym equipment deals',
+  'Wireless headphones',
+  'Running shoes',
+  'Gym apparel',
+  'Golf clubs on sale',
 ];
 
+// Date formatting helpers
+const formatDateSeparator = (date: Date): string => {
+  const today = new Date();
+  const yesterday = new Date(today);
+  yesterday.setDate(yesterday.getDate() - 1);
+
+  if (date.toDateString() === today.toDateString()) {
+    return 'Today';
+  }
+  if (date.toDateString() === yesterday.toDateString()) {
+    return 'Yesterday';
+  }
+  return date.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+};
+
+const shouldShowDateSeparator = (currentMsg: DisplayMessage, previousMsg?: DisplayMessage): boolean => {
+  if (!previousMsg) return true;
+  const currentDate = new Date(currentMsg.timestamp).toDateString();
+  const previousDate = new Date(previousMsg.timestamp).toDateString();
+  return currentDate !== previousDate;
+};
+
 export default function VentusSearch() {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<DisplayMessage[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Load chat history on mount
   useEffect(() => {
-    // Focus input on mount
-    inputRef.current?.focus();
+    const loadHistory = async () => {
+      try {
+        const token = localStorage.getItem('ventus_token');
+        if (!token) {
+          setIsLoadingHistory(false);
+          return;
+        }
+
+        const data = await chatApi.getHistory();
+        const formattedMessages: DisplayMessage[] = (data.messages || []).map((msg: ChatMessage) => ({
+          id: msg.id,
+          sender: msg.sender,
+          type: msg.message_type,
+          content: msg.content,
+          products: msg.products,
+          item: msg.item,
+          query: msg.query,
+          timestamp: new Date(msg.created_at),
+        }));
+        setMessages(formattedMessages);
+      } catch (error) {
+        console.error('Failed to load chat history:', error);
+      } finally {
+        setIsLoadingHistory(false);
+      }
+    };
+    loadHistory();
   }, []);
 
+  // Focus input after loading
+  useEffect(() => {
+    if (!isLoadingHistory) {
+      inputRef.current?.focus();
+    }
+  }, [isLoadingHistory]);
+
+  // Auto-scroll to bottom when messages change
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [messages]);
 
+  // Build conversation context from last 6 messages
+  const buildContext = () => {
+    return messages.slice(-6).map((m) => ({
+      role: m.sender === 'user' ? 'user' : 'assistant',
+      content: m.sender === 'user' 
+        ? m.content 
+        : (m.type === 'results' ? `Found ${m.products?.length || 0} products for ${m.item || 'your search'}` : m.content),
+    }));
+  };
+
+  // Save message to backend
+  const saveMessage = async (message: DisplayMessage) => {
+    try {
+      await chatApi.saveMessage({
+        sender: message.sender,
+        messageType: message.type,
+        content: message.content,
+        products: message.products || null,
+        item: message.item || null,
+        query: message.query || null,
+      });
+    } catch (error) {
+      console.error('Failed to save message:', error);
+    }
+  };
+
   const sendMessage = async (query: string) => {
     if (!query.trim()) return;
 
-    const userMessage: Message = { role: 'user', content: query };
+    const userMessage: DisplayMessage = { 
+      sender: 'user', 
+      type: 'text',
+      content: query,
+      timestamp: new Date(),
+    };
     setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
-    try {
-      const history = messages.slice(-6).map((m) => ({
-        role: m.role,
-        content: m.content,
-      }));
+    // Save user message
+    saveMessage(userMessage);
 
+    try {
+      const history = buildContext();
       const response = await chatbotApi.search(query, history);
 
-      const assistantMessage: Message = {
-        role: 'assistant',
+      const isSearchResult = response.type === 'search' && response.products?.length > 0;
+      
+      const assistantMessage: DisplayMessage = {
+        sender: 'ventus',
+        type: isSearchResult ? 'results' : 'text',
         content: response.message,
-        products: response.type === 'search' ? response.products : undefined,
+        products: isSearchResult ? response.products : undefined,
+        item: response.item,
+        query: query,
+        timestamp: new Date(),
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
+      
+      // Save assistant message
+      saveMessage(assistantMessage);
     } catch (error) {
       toast.error('Search failed. Please try again.');
       setMessages((prev) => prev.slice(0, -1));
@@ -82,31 +184,46 @@ export default function VentusSearch() {
 
   return (
     <VentusSidebar>
-      <div className="h-screen flex flex-col">
-        {/* Header - removed */}
+      <div className="h-screen flex flex-col bg-background">
+        {/* Header */}
+        <div className="border-b border-border bg-card/80 backdrop-blur-sm px-6 py-4">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0064E0] to-[#0064E0]/70 flex items-center justify-center">
+              <Sparkles className="w-4 h-4 text-white" />
+            </div>
+            <div>
+              <h1 className="text-lg font-semibold text-foreground">Ventus AI</h1>
+              <p className="text-xs text-muted-foreground">Your personal deal finder</p>
+            </div>
+          </div>
+        </div>
 
         {/* Chat area */}
         <div className="flex-1 overflow-hidden">
           <ScrollArea className="h-full" ref={scrollRef}>
             <div className="max-w-3xl mx-auto px-6 py-6">
-              {messages.length === 0 ? (
+              {isLoadingHistory ? (
+                <div className="flex items-center justify-center py-12">
+                  <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+                </div>
+              ) : messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center py-12">
-                  <div className="w-14 h-14 bg-muted rounded-full flex items-center justify-center mb-4">
-                    <Search className="w-6 h-6 text-muted-foreground" />
+                  <div className="w-16 h-16 bg-gradient-to-br from-[#0064E0]/20 to-[#0064E0]/10 rounded-full flex items-center justify-center mb-4">
+                    <Search className="w-7 h-7 text-[#0064E0]" />
                   </div>
-                  <h2 className="text-base font-medium text-foreground mb-1">
+                  <h2 className="text-xl font-semibold text-foreground mb-2">
                     Find Your Perfect Deal
                   </h2>
-                  <p className="text-muted-foreground text-sm text-center mb-6 max-w-sm">
-                    Search for any sports gear, equipment, or deals
+                  <p className="text-muted-foreground text-sm text-center mb-8 max-w-sm">
+                    Search for products and I'll find the best prices for you
                   </p>
 
-                  <div className="grid grid-cols-2 gap-2 w-full max-w-md">
+                  <div className="flex flex-wrap gap-2 justify-center">
                     {EXAMPLE_SEARCHES.map((example) => (
                       <button
                         key={example}
                         onClick={() => handleExampleClick(example)}
-                        className="text-left px-3 py-2.5 bg-card border border-border rounded-lg hover:border-primary/50 transition-colors text-xs"
+                        className="px-4 py-2 bg-card border border-border rounded-full hover:border-[#0064E0]/50 hover:bg-[#0064E0]/5 transition-all text-sm text-foreground"
                       >
                         {example}
                       </button>
@@ -115,24 +232,62 @@ export default function VentusSearch() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {messages.map((message, index) => (
-                    <div key={index}>
-                      <ChatBubble role={message.role} content={message.content} />
-                      
-                      {message.products && message.products.length > 0 && (
-                        <div className="mt-3 space-y-2">
-                          {message.products.map((product, pIndex) => (
-                            <ProductCard key={pIndex} product={product} />
-                          ))}
+                  {messages.map((message, index) => {
+                    const previousMessage = index > 0 ? messages[index - 1] : undefined;
+                    const showDateSeparator = shouldShowDateSeparator(message, previousMessage);
+                    const isUser = message.sender === 'user';
+
+                    return (
+                      <div key={message.id || index}>
+                        {/* Date separator */}
+                        {showDateSeparator && (
+                          <div className="flex items-center justify-center my-6">
+                            <div className="bg-muted px-3 py-1 rounded-full">
+                              <span className="text-xs text-muted-foreground font-medium">
+                                {formatDateSeparator(message.timestamp)}
+                              </span>
+                            </div>
+                          </div>
+                        )}
+
+                        {/* Message bubble */}
+                        <div className={cn("flex", isUser ? "justify-end" : "justify-start")}>
+                          <div
+                            className={cn(
+                              "max-w-[85%] rounded-2xl px-4 py-3",
+                              isUser 
+                                ? "bg-[#0064E0] text-white rounded-br-sm" 
+                                : "bg-muted text-foreground rounded-bl-sm"
+                            )}
+                          >
+                            {isUser ? (
+                              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                            ) : (
+                              <div className="text-sm prose prose-sm dark:prose-invert max-w-none">
+                                <ReactMarkdown>{message.content}</ReactMarkdown>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                      )}
-                    </div>
-                  ))}
+                        
+                        {/* Product cards */}
+                        {message.products && message.products.length > 0 && (
+                          <div className="mt-3 space-y-2 ml-0">
+                            {message.products.map((product, pIndex) => (
+                              <ChatProductCard key={pIndex} product={product} />
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
 
                   {isLoading && (
-                    <div className="flex items-center gap-2 text-muted-foreground">
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      <span className="text-xs">Searching...</span>
+                    <div className="flex justify-start">
+                      <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-2">
+                        <Loader2 className="w-4 h-4 animate-spin text-[#0064E0]" />
+                        <span className="text-sm text-muted-foreground">Searching for deals...</span>
+                      </div>
                     </div>
                   )}
                 </div>
@@ -141,8 +296,8 @@ export default function VentusSearch() {
           </ScrollArea>
         </div>
 
-        {/* Input area - always visible */}
-        <div className="border-t border-border bg-card/50 backdrop-blur-sm flex-shrink-0">
+        {/* Input area */}
+        <div className="border-t border-border bg-card/80 backdrop-blur-sm flex-shrink-0">
           <div className="max-w-3xl mx-auto px-6 py-4">
             <form onSubmit={handleSubmit} className="flex gap-2">
               <div className="relative flex-1">
@@ -151,16 +306,16 @@ export default function VentusSearch() {
                   ref={inputRef}
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
-                  placeholder="Search for deals..."
+                  placeholder="Ask me to find deals..."
                   disabled={isLoading}
-                  className="pl-9 h-10 text-sm"
+                  className="pl-9 h-11 text-sm rounded-full border-border"
                 />
               </div>
               <Button 
                 type="submit" 
                 disabled={isLoading || !input.trim()}
-                size="sm"
-                className="h-10 px-4"
+                size="icon"
+                className="h-11 w-11 rounded-full bg-[#0064E0] hover:bg-[#0064E0]/90"
               >
                 <Send className="w-4 h-4" />
               </Button>
