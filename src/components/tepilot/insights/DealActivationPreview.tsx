@@ -641,61 +641,6 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
             </div>
           </div>
 
-          {/* Derived Customer Profile */}
-          {hasData && (
-            <div className="space-y-2">
-              <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Customer Spending Profile</label>
-              <Card className="p-4 bg-white border-slate-200">
-                <div className="flex items-start gap-3">
-                  <div className="p-2 rounded-full bg-primary/10">
-                    <User className="h-5 w-5 text-primary" />
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h5 className="font-semibold">Uploaded Customer</h5>
-                      <Badge variant="outline" className="text-xs">{enrichedTransactions.length} transactions</Badge>
-                    </div>
-                    <p className="text-xs text-slate-500 mb-2">
-                      Total Spend: {formatCurrency(customerProfile.totalSpend)} • Avg: {formatCurrency(customerProfile.avgTransactionSize)}/txn
-                    </p>
-                    
-                    {/* Top Pillars */}
-                    <div className="space-y-1.5">
-                      {customerProfile.topPillars.slice(0, 3).map((pillar, idx) => {
-                        const PillarIcon = getPillarIcon(pillar.pillar);
-                        return (
-                          <div key={idx} className="flex items-center gap-2 text-xs">
-                            <PillarIcon className="h-3 w-3 text-slate-500" />
-                            <span className="text-slate-500">{pillar.pillar}:</span>
-                            <span className="font-medium text-slate-900">{formatCurrency(pillar.annualSpend)}</span>
-                            <span className="text-slate-500">via {pillar.topMerchant}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* Location Context */}
-                    {customerProfile.locationContext.travelDestinations.length > 0 && (
-                      <div className="flex items-center gap-2 mt-2 text-xs">
-                        <MapPin className="h-3 w-3 text-slate-500" />
-                        <span className="text-slate-500">Travel:</span>
-                        <span className="font-medium text-slate-900">{customerProfile.locationContext.travelDestinations.join(', ')}</span>
-                      </div>
-                    )}
-
-                    {/* Lifestyle Signals */}
-                    <div className="flex flex-wrap gap-1 mt-2">
-                      {customerProfile.lifestyleSignals.map((signal, idx) => (
-                        <Badge key={idx} variant="secondary" className="text-[10px] px-1.5 py-0">
-                          {signal}
-                        </Badge>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            </div>
-          )}
         </div>
 
         {/* Right: Personalized Output */}
