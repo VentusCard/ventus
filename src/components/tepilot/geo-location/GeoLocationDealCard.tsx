@@ -33,8 +33,8 @@ export function GeoLocationDealCard({ category, location, isTravel }: GeoLocatio
       {/* COLLAPSED TRIGGER */}
       <AccordionTrigger className="hover:no-underline">
         <div className="flex flex-col items-start gap-1 w-full pr-4 text-left">
-          <h3 className="font-semibold text-lg">{category.title}</h3>
-          <p className="text-sm text-muted-foreground font-normal">
+          <h3 className="font-semibold text-lg text-slate-900">{category.title}</h3>
+          <p className="text-sm text-slate-500 font-normal">
             {category.description}
           </p>
         </div>
