@@ -505,7 +505,7 @@ const TePilot = () => {
     }
   };
   if (!isAuthenticated) {
-    return <div className="min-h-screen flex items-center justify-center bg-white p-4">
+    return <div className="min-h-screen flex items-center justify-center bg-white p-4 tepilot-container">
         <Card className="w-full max-w-6xl bg-white border-slate-200">
           <CardHeader>
             <CardTitle className="text-3xl text-slate-900">Ventus AI Transaction Enrichment & Personalization Engine</CardTitle>
@@ -885,7 +885,7 @@ const TePilot = () => {
         </Card>
       </div>;
   }
-  return <div className="min-h-screen bg-white p-4 md:p-8">
+  return <div className="min-h-screen bg-white p-4 md:p-8 tepilot-container">
       <div className="max-w-[95%] 2xl:max-w-[1800px] mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>

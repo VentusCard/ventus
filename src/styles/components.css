@@ -258,3 +258,60 @@
     0 8px 32px hsla(222, 47%, 3%, 0.6),
     0 4px 16px hsla(222, 47%, 3%, 0.4);
 }
+
+/* Light scrollbar for TePilot and light-themed containers */
+.scrollbar-light {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(220 10% 78%) transparent;
+}
+
+.scrollbar-light::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.scrollbar-light::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.scrollbar-light::-webkit-scrollbar-thumb {
+  background: hsl(220 10% 78%);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.scrollbar-light::-webkit-scrollbar-thumb:hover {
+  background: hsl(220 10% 65%);
+  background-clip: content-box;
+}
+
+/* Apply light scrollbars to all scrollable elements within tepilot container */
+.tepilot-container,
+.tepilot-container * {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(220 10% 78%) transparent;
+}
+
+.tepilot-container ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.tepilot-container ::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 4px;
+}
+
+.tepilot-container ::-webkit-scrollbar-thumb {
+  background: hsl(220 10% 78%);
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+.tepilot-container ::-webkit-scrollbar-thumb:hover {
+  background: hsl(220 10% 65%);
+  background-clip: content-box;
+}
