@@ -501,60 +501,60 @@ const TePilot = () => {
     }
   };
   if (!isAuthenticated) {
-    return <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-secondary/20 p-4">
-        <Card className="w-full max-w-6xl">
+    return <div className="min-h-screen flex items-center justify-center bg-white p-4">
+        <Card className="w-full max-w-6xl bg-white border-slate-200">
           <CardHeader>
-            <CardTitle className="text-3xl">Ventus AI Transaction Enrichment & Personalization Engine</CardTitle>
-            <CardDescription className="text-base">
+            <CardTitle className="text-3xl text-slate-900">Ventus AI Transaction Enrichment & Personalization Engine</CardTitle>
+            <CardDescription className="text-base text-slate-600">
               Unlock deep customer insights from existing data with next-generation contextual AI
               <Accordion type="single" collapsible className="w-full mt-2">
                 <AccordionItem value="release-notes" className="border-none">
-                  <AccordionTrigger className="text-sm text-foreground py-1 hover:no-underline">
-                    <span><span className="font-semibold">Release Notes ({CURRENT_VERSION})</span> <span className="text-xs text-muted-foreground font-normal">— Deal messaging personalization engine and merchant aggregator compatibility layer</span></span>
+                  <AccordionTrigger className="text-sm text-slate-900 py-1 hover:no-underline">
+                    <span><span className="font-semibold">Release Notes ({CURRENT_VERSION})</span> <span className="text-xs text-slate-500 font-normal">— Deal messaging personalization engine and merchant aggregator compatibility layer</span></span>
                   </AccordionTrigger>
-                  <AccordionContent className="text-xs text-muted-foreground space-y-2">
+                  <AccordionContent className="text-xs text-slate-500 space-y-2">
                     <div className="border-l-2 border-blue-600 pl-3 py-1">
                       <p className="font-semibold">V2.5 - Current</p>
                       <p>Deal messaging personalization engine for dynamic customer-specific deal messaging, plus merchant aggregator compatibility layer for seamless integration with third-party deal providers</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V2.4 - January 2026</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V2.4 - January 2026</p>
                       <p>Parent-SKU purchase inference and seasonality purchase correlation intelligence, updated WM-CoPilot to detect 15 major life events</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V2.3 - December 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V2.3 - December 2025</p>
                       <p>Added more features into wealth management tool, unlocked</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V2.2 - December 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V2.2 - December 2025</p>
                       <p>Improved user experience with tool selection tab</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V2.1 - November 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V2.1 - November 2025</p>
                       <p>Upgraded merchant deal generation and core wealth management tools</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V2.0 - November 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V2.0 - November 2025</p>
                       <p>Added bank-wide macro analytics tool. Now allows user to upload multiple files to process.</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V1.4 - October 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V1.4 - October 2025</p>
                       <p>Support for multiple file uploads including PDF bank statements (MCCs might not be available in PDFs)</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V1.3 - October 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V1.3 - October 2025</p>
                       <p>Third working AI flow generating revenue opportunities based on holistic customer spending profile</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V1.2 - October 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V1.2 - October 2025</p>
                       <p>Added smart travel detection system (pattern training) with double labeling</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V1.1 - September 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V1.1 - September 2025</p>
                       <p>Enhanced merchant categorization with improved semantic matching</p>
                     </div>
-                    <div className="border-l-2 border-muted pl-3 py-1">
-                      <p className="font-semibold">V1.0 - September 2025</p>
+                    <div className="border-l-2 border-slate-300 pl-3 py-1">
+                      <p className="font-semibold text-slate-700">V1.0 - September 2025</p>
                       <p>Initial release with AI-powered transaction enrichment and classification</p>
                     </div>
                   </AccordionContent>
@@ -564,12 +564,12 @@ const TePilot = () => {
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Introduction */}
-            <div className="prose prose-sm max-w-none text-muted-foreground">
+            <div className="prose prose-sm max-w-none text-slate-600">
               <p>
                 Traditional transaction categorization relies on outdated methods like MCC codes or simple text matching, 
-                often producing generic or incorrect results. <strong className="text-foreground">Ventus AI uses semantic understanding</strong> to 
+                often producing generic or incorrect results. <strong className="text-slate-900">Ventus AI uses semantic understanding</strong> to 
                 analyze the full context of each transaction, delivering accurate lifestyle-based categorization that 
-                understands what you're actually spending on. This enables financial institutions to unlock richer consumer insights and <strong className="text-foreground">turning vast, unstructured transaction data into actionable intelligence.</strong>
+                understands what you're actually spending on. This enables financial institutions to unlock richer consumer insights and <strong className="text-slate-900">turning vast, unstructured transaction data into actionable intelligence.</strong>
               </p>
             </div>
 
@@ -577,40 +577,40 @@ const TePilot = () => {
             <Accordion type="single" collapsible className="w-full">
               {/* Section 1: Ventus AI Workflows */}
               <AccordionItem value="item-1">
-                <AccordionTrigger className="text-lg font-semibold group">
+                <AccordionTrigger className="text-lg font-semibold group text-slate-900">
                   <div className="flex flex-col items-start gap-1 text-left">
                     <span>Ventus AI Workflows</span>
-                    <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
+                    <span className="text-sm font-normal text-slate-500 group-data-[state=closed]:block group-data-[state=open]:hidden">
                       Three workflows transform raw data to insights
                     </span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <div className="flex items-center gap-2">
                         <Brain className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">Transaction Enrichment</h4>
+                        <h4 className="font-semibold text-sm text-slate-900">Transaction Enrichment</h4>
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-slate-600">
                         Semantic AI enriches raw transaction data with lifestyle categories, merchant context, and travel indicators, each tagged with confidence scores and explanations for quality assurance.
                       </p>
                     </div>
-                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <div className="flex items-center gap-2">
                         <TrendingUp className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">Pattern Analysis & Prediction</h4>
+                        <h4 className="font-semibold text-sm text-slate-900">Pattern Analysis & Prediction</h4>
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-slate-600">
                         Uncover hidden spending behaviors and trends across lifestyle pillars, merchant patterns, and travel behaviors for deeper customer understanding. <span className="text-primary">Prediction capabilities coming soon.</span>
                       </p>
                     </div>
-                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex flex-col gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <div className="flex items-center gap-2">
                         <Sparkles className="h-5 w-5 text-primary" />
-                        <h4 className="font-semibold text-sm">Insights and Recommendation</h4>
+                        <h4 className="font-semibold text-sm text-slate-900">Insights and Recommendation</h4>
                       </div>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-sm text-slate-600">
                         Transform insights into actionable marketing signals and reward engine parameters, ready for seamless integration into your customer engagement platforms.
                       </p>
                     </div>
@@ -620,55 +620,55 @@ const TePilot = () => {
 
               {/* Section 2: Why Semantic AI is Different */}
               <AccordionItem value="item-2">
-                <AccordionTrigger className="text-lg font-semibold group">
+                <AccordionTrigger className="text-lg font-semibold group text-slate-900">
                   <div className="flex flex-col items-start gap-1 text-left">
                     <span>Why Semantic AI is Different</span>
-                    <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
+                    <span className="text-sm font-normal text-slate-500 group-data-[state=closed]:block group-data-[state=open]:hidden">
                       AI delivers accuracy legacy methods can't match
                     </span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
-                  <div className="border rounded-lg overflow-hidden">
+                  <div className="border border-slate-200 rounded-lg overflow-hidden">
                     <Table>
                       <TableHeader>
-                        <TableRow className="bg-muted/50">
-                          <TableHead className="font-semibold">Approach</TableHead>
-                          <TableHead className="font-semibold">Example Transaction</TableHead>
-                          <TableHead className="font-semibold">Categorization</TableHead>
-                          <TableHead className="font-semibold">Result</TableHead>
+                        <TableRow className="bg-slate-50">
+                          <TableHead className="font-semibold text-slate-900">Approach</TableHead>
+                          <TableHead className="font-semibold text-slate-900">Example Transaction</TableHead>
+                          <TableHead className="font-semibold text-slate-900">Categorization</TableHead>
+                          <TableHead className="font-semibold text-slate-900">Result</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
                         <TableRow>
-                          <TableCell className="font-medium">MCC-Based</TableCell>
-                          <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
+                          <TableCell className="font-medium text-slate-900">MCC-Based</TableCell>
+                          <TableCell className="font-mono text-sm text-slate-700">Ticketmaster* Sabrina Carpenter</TableCell>
                           <TableCell>
-                            <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-700 dark:text-yellow-400 border-yellow-500/20">
+                            <Badge variant="secondary" className="bg-yellow-500/10 text-yellow-700 border-yellow-500/20">
                               Events
                             </Badge>
                           </TableCell>
-                          <TableCell className="text-muted-foreground text-sm">Too generic</TableCell>
+                          <TableCell className="text-slate-500 text-sm">Too generic</TableCell>
                         </TableRow>
                         <TableRow>
-                          <TableCell className="font-medium">Text-Based</TableCell>
-                          <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
+                          <TableCell className="font-medium text-slate-900">Text-Based</TableCell>
+                          <TableCell className="font-mono text-sm text-slate-700">Ticketmaster* Sabrina Carpenter</TableCell>
                           <TableCell>
-                            <Badge variant="destructive" className="bg-red-500/10 text-red-700 dark:text-red-400 border-red-500/20">
+                            <Badge variant="destructive" className="bg-red-500/10 text-red-700 border-red-500/20">
                               Furniture
                             </Badge>
                           </TableCell>
-                          <TableCell className="text-muted-foreground text-sm">Completely wrong</TableCell>
+                          <TableCell className="text-slate-500 text-sm">Completely wrong</TableCell>
                         </TableRow>
                         <TableRow className="bg-green-500/5">
-                          <TableCell className="font-medium">Ventus AI (Semantic)</TableCell>
-                          <TableCell className="font-mono text-sm">Ticketmaster* Sabrina Carpenter</TableCell>
+                          <TableCell className="font-medium text-slate-900">Ventus AI (Semantic)</TableCell>
+                          <TableCell className="font-mono text-sm text-slate-700">Ticketmaster* Sabrina Carpenter</TableCell>
                           <TableCell>
-                            <Badge className="bg-green-500/10 text-green-700 dark:text-green-400 border-green-500/20">
+                            <Badge className="bg-green-500/10 text-green-700 border-green-500/20">
                               Entertainment & Culture
                             </Badge>
                           </TableCell>
-                          <TableCell className="text-green-700 dark:text-green-400 font-medium text-sm flex items-center gap-1">
+                          <TableCell className="text-green-700 font-medium text-sm flex items-center gap-1">
                             <CheckCircle className="h-4 w-4" />
                             Accurate and insightful
                           </TableCell>
@@ -681,102 +681,102 @@ const TePilot = () => {
 
               {/* Section 3: Key Features */}
               <AccordionItem value="item-3">
-                <AccordionTrigger className="text-lg font-semibold group">
+                <AccordionTrigger className="text-lg font-semibold group text-slate-900">
                   <div className="flex flex-col items-start gap-1 text-left">
                     <span>Key Features <span className="text-primary">(New!)</span></span>
-                    <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
+                    <span className="text-sm font-normal text-slate-500 group-data-[state=closed]:block group-data-[state=open]:hidden">
                       Full-stack AI capabilities from enrichment to personalization
                     </span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <Target className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Context-Aware</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Context-Aware</h4>
+                        <p className="text-sm text-slate-600">
                           Recognizes messy transactions like "PAYPAL *UBER" or "APPLE PAY STARBUCKS" and extracts the true merchant for accurate classification
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <Brain className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Semantic Intelligence</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Semantic Intelligence</h4>
+                        <p className="text-sm text-slate-600">
                           Infinitely scalable knowledge base that continuously learns new merchants, categories, and spending patterns without manual updates
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <Zap className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Multi-Category Mapping</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Multi-Category Mapping</h4>
+                        <p className="text-sm text-slate-600">
                           Semantic merchant clustering maps disparate entities (Titleist, Country Club, PGA Superstore) to unified Sports → Golf taxonomy
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <CheckCircle className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Higher Accuracy</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Higher Accuracy</h4>
+                        <p className="text-sm text-slate-600">
                           Multi-algorithm ensemble dynamically routes each task to the optimal model for maximum classification precision
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <Scan className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Pattern Recognition</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Pattern Recognition</h4>
+                        <p className="text-sm text-slate-600">
                           Currently detects travel spending patterns and destinations. Additional behavioral patterns in training to unlock deeper insights.
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <Gift className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Personalized Deals & Rewards</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Personalized Deals & Rewards</h4>
+                        <p className="text-sm text-slate-600">
                           Lifestyle pillar signals power rewritten deal descriptions and precision deployment from your rewards aggregator
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <ShoppingBag className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Parent-SKU Level Inference</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Parent-SKU Level Inference</h4>
+                        <p className="text-sm text-slate-600">
                           Uses price-matching and merchant context to infer specific purchases (e.g., "$58.57 Titleist → dozen Pro V1 golf balls + tax") rather than generic "merchandise"
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <CalendarClock className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Merchant Deal Timing Optimization</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Merchant Deal Timing Optimization</h4>
+                        <p className="text-sm text-slate-600">
                           Analyzes 52-week spending patterns to identify optimal weeks for merchant promotions, maximizing campaign ROI
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <CalendarHeart className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Life Event Financial Planning</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Life Event Financial Planning</h4>
+                        <p className="text-sm text-slate-600">
                           Automatically detects life events (new baby, home purchase, career change) and generates multi-year financial projections
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <MessageSquare className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Wealth Management Relationship Co-Pilot</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Wealth Management Relationship Co-Pilot</h4>
+                        <p className="text-sm text-slate-600">
                           AI advisor chatbot with client psychology profiling, transaction-grounded insights, and Monte Carlo retirement planning
                         </p>
                       </div>
@@ -874,12 +874,12 @@ const TePilot = () => {
         </Card>
       </div>;
   }
-  return <div className="min-h-screen bg-background p-4 md:p-8">
+  return <div className="min-h-screen bg-white p-4 md:p-8">
       <div className="max-w-[95%] 2xl:max-w-[1800px] mx-auto">
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl md:text-4xl font-bold">Ventus AI Transaction Enrichment & Personalization Engine</h1>
-            <p className="text-muted-foreground mt-2">Unlock deep customer insights from existing data with next-generation contextual AI</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900">Ventus AI Transaction Enrichment & Personalization Engine</h1>
+            <p className="text-slate-600 mt-2">Unlock deep customer insights from existing data with next-generation contextual AI</p>
           </div>
         <Button variant="outline" onClick={() => {
           // Clear authentication
