@@ -252,7 +252,7 @@ export default function VentusSearch() {
                               "max-w-[85%] rounded-2xl px-4 py-3",
                               isUser 
                                 ? "bg-[#0064E0] rounded-br-sm" 
-                                : "bg-[#0064E0]/80 rounded-bl-sm"
+                                : "bg-muted rounded-bl-sm"
                             )}
                           >
                             <p className="text-sm whitespace-pre-wrap text-white">
