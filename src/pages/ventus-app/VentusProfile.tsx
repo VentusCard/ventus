@@ -31,33 +31,49 @@ import { toast } from 'sonner';
 export default function VentusProfile() {
   const navigate = useNavigate();
   const { user, logout, setUser } = useVentusAuth();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [allSubcategories, setAllSubcategories] = useState<VentusCategory[]>([]);
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [isSubcategoryModalOpen, setIsSubcategoryModalOpen] = useState(false);
   const [location, setLocation] = useState({
-    city: user?.city || '',
-    state: user?.state || '',
-    zipcode: user?.zipcode || '',
+    city: '',
+    state: '',
+    zipcode: '',
   });
 
+  // Fetch full profile and subcategories on mount
   useEffect(() => {
-    fetchSubcategories();
+    const init = async () => {
+      await Promise.all([fetchProfile(), fetchSubcategories()]);
+      setIsLoading(false);
+    };
+    init();
   }, []);
 
-  useEffect(() => {
-    if (user) {
+  const fetchProfile = async () => {
+    if (!user?.id) return;
+    
+    try {
+      const profile = await profileApi.getProfile(user.id);
+      console.log('Fetched profile:', profile);
+      
+      // Update local state with full profile data
       setLocation({
-        city: user.city || '',
-        state: user.state || '',
-        zipcode: user.zipcode || '',
+        city: profile.city || '',
+        state: profile.state || '',
+        zipcode: profile.zipcode || '',
       });
       setSelectedSubcategories(
-        (user.subcategories || []).filter((s) => s !== 'General')
+        (profile.subcategories || []).filter((s: string) => s !== 'General')
       );
+      
+      // Also update auth context with full profile
+      setUser({ ...user, ...profile });
+    } catch (error) {
+      console.error('Failed to fetch profile:', error);
     }
-  }, [user]);
+  };
 
   const fetchSubcategories = async () => {
     try {
@@ -165,6 +181,11 @@ export default function VentusProfile() {
           </div>
         </header>
 
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-5 h-5 animate-spin text-primary" />
+          </div>
+        ) : (
         <div className="px-6 py-6 space-y-4 max-w-2xl">
           {/* Our Story Card */}
           <Card 
@@ -394,6 +415,7 @@ export default function VentusProfile() {
             </CardContent>
           </Card>
         </div>
+        )}
       </div>
     </VentusSidebar>
   );
