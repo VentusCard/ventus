@@ -3,10 +3,11 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader2, Eye, EyeOff } from 'lucide-react';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
 import { toast } from 'sonner';
+import ventusLogo from '@/assets/ventus-logo.png';
 
 export default function VentusLogin() {
   const navigate = useNavigate();
@@ -40,9 +41,7 @@ export default function VentusLogin() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <Link to="/app" className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 bg-[#0064E0] rounded-xl flex items-center justify-center">
-              <span className="text-white font-bold text-xl">V</span>
-            </div>
+            <img src={ventusLogo} alt="Ventus" className="h-10" />
           </Link>
           <h1 className="text-2xl font-bold text-foreground">Welcome back</h1>
           <p className="text-muted-foreground mt-2">Sign in to your Ventus account</p>
@@ -51,7 +50,6 @@ export default function VentusLogin() {
         <Card className="bg-card border-border">
           <CardHeader>
             <CardTitle>Sign In</CardTitle>
-            <CardDescription>Enter your credentials to continue</CardDescription>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -64,6 +62,7 @@ export default function VentusLogin() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                   placeholder="john@example.com"
+                  className="text-white"
                 />
               </div>
 
@@ -82,6 +81,7 @@ export default function VentusLogin() {
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
                     placeholder="Enter password"
+                    className="text-white"
                   />
                   <button
                     type="button"
