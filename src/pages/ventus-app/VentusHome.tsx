@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, Search, ArrowRight, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
+import { Loader2, Search, ArrowRight, ChevronDown, ChevronUp, ExternalLink, Smartphone } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
@@ -9,6 +9,8 @@ import { SubcategoryChip } from '@/components/ventus-app/SubcategoryChip';
 import { DealCategoryChip } from '@/components/ventus-app/DealCategoryChip';
 import { offersApi, categoriesApi, VentusOffer, VentusCategory, getMerchantLogoUrl, trackingApi } from '@/lib/ventusApi';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { AppStoreBadges } from '@/components/ventus-app/AppStoreBadges';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
 import { getSubcategoryIcon } from '@/lib/categoryIcons';
@@ -414,6 +416,22 @@ export default function VentusHome() {
               })
             )}
           </div>
+
+          {/* App Download CTA */}
+          <Card className="bg-card border-border overflow-hidden">
+            <CardContent className="p-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <Smartphone className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-foreground text-sm">Get the Ventus App</h3>
+                  <p className="text-xs text-muted-foreground">Wishlist, notifications & more</p>
+                </div>
+                <AppStoreBadges compact />
+              </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </VentusSidebar>
