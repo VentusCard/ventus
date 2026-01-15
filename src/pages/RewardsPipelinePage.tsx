@@ -10,9 +10,9 @@ export default function RewardsPipelinePage() {
         {/* Back Button */}
         <div className="mb-6">
           <Button variant="outline" asChild className="border-slate-300 text-slate-700 hover:bg-slate-100">
-            <Link to="/tepilot">
+            <Link to="/tepilot?view=bankwide">
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Insight Tools
+              Back to Bank-wide Analytics
             </Link>
           </Button>
         </div>

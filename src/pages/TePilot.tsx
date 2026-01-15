@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -50,6 +50,7 @@ const TePilot = () => {
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState(() => {
     // Check if navigation state specifies a tab
     const navState = location.state as {
@@ -70,6 +71,9 @@ const TePilot = () => {
   const [userPersona, setUserPersona] = useState<any>(null);
   const [analyticsView, setAnalyticsView] = useState<"single" | "bankwide">("single");
   const [insightType, setInsightType] = useState<'revenue' | 'relationship' | 'bankwide' | null>(() => {
+    // Check URL search params first, then navigation state
+    const viewParam = searchParams.get('view');
+    if (viewParam === 'bankwide') return 'bankwide';
     const navState = location.state as { insightType?: 'revenue' | 'relationship' | 'bankwide' } | null;
     return navState?.insightType || null;
   });
