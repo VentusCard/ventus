@@ -690,15 +690,9 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                       <span className="text-[11px] text-slate-500 truncate flex-1">{deal.merchantName}</span>
                       <Badge 
                         variant="outline" 
-                        className={cn(
-                          "text-[9px] px-1 py-0 h-4 shrink-0",
-                          deal.popularity === 'trending' && "border-amber-300 bg-amber-50 text-amber-700",
-                          deal.popularity === 'featured' && "border-purple-300 bg-purple-50 text-purple-700",
-                          deal.popularity === 'popular' && "border-blue-300 bg-blue-50 text-blue-700",
-                          deal.popularity === 'new' && "border-green-300 bg-green-50 text-green-700"
-                        )}
+                        className="text-[9px] px-1 py-0 h-4 shrink-0 border-slate-300 bg-slate-50 text-slate-600"
                       >
-                        {deal.popularity}
+                        {deal.subcategory}
                       </Badge>
                     </div>
                     
