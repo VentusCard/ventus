@@ -763,12 +763,23 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                   <p className="text-xs text-rose-300/70 leading-relaxed">{personalizedMessage.body}</p>
                 </div>
 
-                {/* Reward & Validity */}
-                <div className="flex items-center gap-3 pt-3 border-t border-rose-800/50">
-                  <Badge className="bg-rose-700 text-rose-100 border-rose-600">
-                    {selectedDeal.rewardValue}
-                  </Badge>
-                  <span className="text-xs text-rose-400">{selectedDeal.validityPeriod}</span>
+                {/* Deal Terms */}
+                <div className="space-y-2 pt-3 border-t border-rose-800/50">
+                  <span className="text-[10px] font-medium text-rose-400 uppercase tracking-wide">Deal Terms</span>
+                  <div className="space-y-1.5 text-xs text-rose-200">
+                    <div className="flex items-center justify-between">
+                      <span className="text-rose-300">Reward</span>
+                      <span className="font-medium">{selectedDeal.rewardValue}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-rose-300">Valid Until</span>
+                      <span className="font-medium">{selectedDeal.validityPeriod.replace('Until ', '')}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-rose-300">Min. Purchase</span>
+                      <span className="font-medium">None</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Activate Deal Button */}
