@@ -35,26 +35,26 @@ export const ChatProductCard = ({ product }: ChatProductCardProps) => {
   const merchantInitial = merchantName.charAt(0).toUpperCase();
 
   return (
-    <Card className="bg-white border border-border rounded-xl shadow-sm overflow-hidden">
-      <CardContent className="p-4">
+    <Card className="bg-[#0064E0]/10 border border-[#0064E0]/20 rounded-lg overflow-hidden">
+      <CardContent className="p-3">
         {/* Header: Logo + Price */}
-        <div className="flex items-start justify-between gap-3">
-          <div className="flex items-center gap-3 flex-1 min-w-0">
+        <div className="flex items-start justify-between gap-2">
+          <div className="flex items-center gap-2 flex-1 min-w-0">
             {/* Merchant Logo */}
             {logoUrl && !logoError ? (
               <img 
                 src={logoUrl} 
                 alt={merchantName}
-                className="w-12 h-12 rounded-lg object-contain bg-gray-50 p-1.5 flex-shrink-0"
+                className="w-9 h-9 rounded-md object-contain bg-white p-1 flex-shrink-0"
                 onError={() => setLogoError(true)}
               />
             ) : (
               <div 
-                className="w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0"
+                className="w-9 h-9 rounded-md flex items-center justify-center flex-shrink-0"
                 style={{ backgroundColor: `hsl(${merchantName.length * 30 % 360}, 60%, 90%)` }}
               >
                 <span 
-                  className="text-lg font-bold"
+                  className="text-sm font-bold"
                   style={{ color: `hsl(${merchantName.length * 30 % 360}, 60%, 40%)` }}
                 >
                   {merchantInitial}
@@ -63,18 +63,18 @@ export const ChatProductCard = ({ product }: ChatProductCardProps) => {
             )}
 
             {/* Product Name */}
-            <h3 className={`font-semibold text-foreground ${isExpanded ? '' : 'line-clamp-2'}`}>
+            <h3 className={`text-sm font-medium text-foreground ${isExpanded ? '' : 'line-clamp-2'}`}>
               {product.name}
             </h3>
           </div>
 
           {/* Price */}
           <div className="text-right flex-shrink-0">
-            <span className="text-xl font-bold text-[#0064E0]">
+            <span className="text-base font-bold text-[#0064E0]">
               ${product.price.toFixed(2)}
             </span>
             {hasDiscount && (
-              <div className="text-xs text-muted-foreground line-through">
+              <div className="text-[10px] text-muted-foreground line-through">
                 ${product.original_price?.toFixed(2)}
               </div>
             )}
@@ -84,37 +84,38 @@ export const ChatProductCard = ({ product }: ChatProductCardProps) => {
         {/* Footer: Merchant name + Expand */}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="w-full flex items-center justify-between mt-3 pt-3 border-t border-border text-muted-foreground"
+          className="w-full flex items-center justify-between mt-2 pt-2 border-t border-[#0064E0]/20 text-muted-foreground"
         >
-          <span className="text-sm">{merchantName}</span>
+          <span className="text-xs">{merchantName}</span>
           {isExpanded ? (
-            <ChevronUp className="w-4 h-4" />
+            <ChevronUp className="w-3.5 h-3.5" />
           ) : (
-            <ChevronDown className="w-4 h-4" />
+            <ChevronDown className="w-3.5 h-3.5" />
           )}
         </button>
 
         {/* Expanded Content */}
         {isExpanded && (
-          <div className="mt-3 space-y-3">
+          <div className="mt-2 space-y-2">
             {product.description && (
-              <div className="bg-muted/50 rounded-lg p-3">
-                <p className="text-sm text-muted-foreground">
+              <div className="bg-background/50 rounded-md p-2">
+                <p className="text-xs text-muted-foreground">
                   {product.description}
                 </p>
               </div>
             )}
             
-            <div className="flex items-start gap-2 text-xs text-muted-foreground bg-blue-50 rounded-lg p-2.5">
-              <Info className="w-3.5 h-3.5 mt-0.5 flex-shrink-0 text-blue-500" />
+            <div className="flex items-start gap-1.5 text-[10px] text-muted-foreground bg-blue-50 rounded-md p-2">
+              <Info className="w-3 h-3 mt-0.5 flex-shrink-0 text-blue-500" />
               <span>Link may take you to product category - search by name on site</span>
             </div>
 
             <Button 
               onClick={handleViewDeal}
-              className="w-full bg-[#0064E0] hover:bg-[#0064E0]/90 text-white"
+              size="sm"
+              className="w-full h-8 text-xs bg-[#0064E0] hover:bg-[#0064E0]/90 text-white"
             >
-              View Deal <ExternalLink className="w-4 h-4 ml-2" />
+              View Deal <ExternalLink className="w-3 h-3 ml-1.5" />
             </Button>
           </div>
         )}
