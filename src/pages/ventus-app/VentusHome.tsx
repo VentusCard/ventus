@@ -124,12 +124,26 @@ export default function VentusHome() {
     return options;
   }, [offers, categories, user]);
 
-  // Build deal category options from the selected subcategory's categories
+  // Build deal category options from offers in the selected subcategory
   const dealCategoryOptions = useMemo(() => {
-    const selectedCat = categories.find((c) => c.subcategory === selectedSubcategory);
-    const dealCats = selectedCat?.deal_categories || [];
-    return ['All', ...dealCats];
-  }, [categories, selectedSubcategory]);
+    if (selectedSubcategory === 'All') return ['All'];
+    
+    // Get all deal categories from offers in this subcategory
+    const filteredOffers = offers.filter((o) => o.subcategory === selectedSubcategory);
+    const dealCatsSet = new Set<string>();
+    
+    filteredOffers.forEach((offer) => {
+      if (offer.deal_categories) {
+        offer.deal_categories.forEach((cat) => dealCatsSet.add(cat));
+      }
+      if (offer.deal_category) {
+        dealCatsSet.add(offer.deal_category);
+      }
+    });
+    
+    const dealCats = Array.from(dealCatsSet).sort();
+    return dealCats.length > 0 ? ['All', ...dealCats] : ['All'];
+  }, [offers, selectedSubcategory]);
 
   // Filter and group offers
   const groupedMerchants = useMemo(() => {

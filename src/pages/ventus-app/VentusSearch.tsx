@@ -83,13 +83,7 @@ export default function VentusSearch() {
   return (
     <VentusSidebar>
       <div className="h-screen flex flex-col">
-        {/* Header */}
-        <header className="border-b border-border bg-card/50 backdrop-blur-sm flex-shrink-0">
-          <div className="max-w-3xl mx-auto px-6 py-4">
-            <h1 className="text-lg font-semibold text-foreground">Deal Search</h1>
-            <p className="text-xs text-muted-foreground">Find the best deals for you</p>
-          </div>
-        </header>
+        {/* Header - removed */}
 
         {/* Chat area */}
         <div className="flex-1 overflow-hidden">
