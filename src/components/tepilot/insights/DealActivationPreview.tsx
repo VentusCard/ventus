@@ -740,11 +740,7 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
             {selectedDeal ? (
               <div className="space-y-5">
                 {/* Header */}
-                <div className="space-y-2">
-                  <div className="flex items-center gap-2">
-                    <Sparkles className="h-4 w-4 text-rose-300" />
-                    <span className="text-xs font-medium text-rose-300 uppercase tracking-wide">Selected Deal</span>
-                  </div>
+                <div className="flex items-center justify-between">
                   <Badge variant="outline" className="text-[10px] border-rose-700 bg-rose-800/50 text-rose-200">
                     {selectedDeal.subcategory}
                   </Badge>
