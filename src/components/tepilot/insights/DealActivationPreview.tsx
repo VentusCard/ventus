@@ -415,6 +415,7 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [locationCity, setLocationCity] = useState<string>("San Francisco");
   const [localExperiencesExpanded, setLocalExperiencesExpanded] = useState(false);
+  const [syntheticLocalDeal, setSyntheticLocalDeal] = useState<BankDeal | null>(null);
   
   // Location-based experiences from edge function
   const { deals: locationDeals, loading: locationLoading } = useCityDeals(locationCity, "entertainment");
@@ -481,11 +482,14 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
 
   // Set default selected deal
   const selectedDeal = useMemo(() => {
+    if (selectedDealId?.startsWith('local-') && syntheticLocalDeal) {
+      return syntheticLocalDeal;
+    }
     if (selectedDealId) {
       return deals.find(d => d.id === selectedDealId) || deals[0];
     }
     return deals[0];
-  }, [selectedDealId, deals]);
+  }, [selectedDealId, deals, syntheticLocalDeal]);
 
   const personalizedMessage = useMemo(() => 
     selectedDeal ? personalizeDealMessage(selectedDeal, customerProfile) : { headline: '', body: '' },
@@ -708,21 +712,22 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                           <button
                             key={idx}
                             onClick={() => {
-                              const syntheticDeal = {
+                              const syntheticDeal: BankDeal = {
                                 id: `local-${idx}`,
                                 merchantName: deal.merchantExample,
                                 merchantCategory: 'Entertainment & Culture',
-                                dealType: deal.type,
                                 dealTitle: deal.type,
-                                dealDescription: deal.merchantExample,
+                                dealDescription: `Experience ${deal.type} at ${deal.merchantExample} in ${locationCity}`,
+                                headlineTemplate: `Discover ${deal.type}`,
+                                bodyTemplate: `Enjoy local experiences at ${deal.merchantExample}`,
+                                targetPillars: ['Entertainment & Culture'],
                                 rewardValue: '10% Back',
-                                rewardType: 'cashback' as const,
-                                averageRedemption: 45,
-                                activationCount: 1200,
-                                popularity: 'popular' as const,
+                                validityPeriod: '30 days',
                                 subcategory: 'Local Experience',
-                                minPurchase: null,
+                                activationCount: 1200,
+                                popularity: 'popular',
                               };
+                              setSyntheticLocalDeal(syntheticDeal);
                               setSelectedDealId(syntheticDeal.id);
                             }}
                             className="w-full p-2 bg-slate-50 hover:bg-slate-100 rounded text-left transition-colors border border-slate-100 hover:border-slate-200 flex items-center justify-between"
