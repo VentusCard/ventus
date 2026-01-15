@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils';
+import { getSubcategoryIcon } from '@/lib/categoryIcons';
 
 interface SubcategoryChipProps {
   label: string;
@@ -15,6 +16,8 @@ export const SubcategoryChip = ({
   isActive = false, 
   onClick,
 }: SubcategoryChipProps) => {
+  const icon = emoji || getSubcategoryIcon(label);
+  
   return (
     <button
       onClick={onClick}
@@ -25,7 +28,7 @@ export const SubcategoryChip = ({
           : "border-border bg-card hover:border-primary/40 text-muted-foreground hover:text-foreground"
       )}
     >
-      {emoji && <span className="text-base">{emoji}</span>}
+      <span className="text-base">{icon}</span>
       <span>{label}</span>
       {typeof count === 'number' && (
         <span className={cn(
