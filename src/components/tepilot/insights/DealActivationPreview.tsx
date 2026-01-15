@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -8,12 +8,13 @@ import {
   UtensilsCrossed, Dumbbell, ShoppingBag, ArrowRight,
   Target, DollarSign, Percent, Users, MapPin, AlertCircle,
   Home, Tv, Cpu, Baby, PawPrint, Wallet, Car, ChevronDown, ChevronUp,
-  Search, X, Loader2
+  Search, X, Loader2, Globe, Navigation
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedTransaction } from "@/types/transaction";
 import { availableDeals as AVAILABLE_DEALS, AvailableDeal, DEAL_CATEGORIES, DealCategory } from "@/lib/availableDealsData";
 import { useSemanticDealSearch } from "@/hooks/useSemanticDealSearch";
+import { useCityDeals } from "@/hooks/useCityDeals";
 
 // Bank-defined deal format for personalization
 export interface BankDeal {
@@ -412,6 +413,10 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
   const [selectedDealId, setSelectedDealId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
+  const [locationCity, setLocationCity] = useState<string>("San Francisco");
+  
+  // Location-based experiences from edge function
+  const { deals: locationDeals, loading: locationLoading } = useCityDeals(locationCity, "entertainment");
 
   // Derive customer profile from real transaction data
   const customerProfile = useMemo(() => 
@@ -668,6 +673,44 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
             )}
             
             <div className="grid grid-cols-2 gap-2">
+              {/* Location-Based Experiences Card - Double Wide */}
+              <div className="col-span-2 p-4 rounded-xl bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white relative overflow-hidden">
+                <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yIDItNCAyLTRzMiAyIDIgNC0yIDQtMiA0LTItMi0yLTR6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30"></div>
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm">
+                        <Navigation className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm">Location-Based Experiences</h4>
+                        <p className="text-[10px] text-white/70">Powered by AI</p>
+                      </div>
+                    </div>
+                    <Badge className="bg-white/20 text-white border-white/30 text-[10px]">
+                      <MapPin className="h-3 w-3 mr-1" />
+                      {locationCity}
+                    </Badge>
+                  </div>
+                  
+                  {locationLoading ? (
+                    <div className="flex items-center gap-2 py-2">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span className="text-xs text-white/80">Discovering local experiences...</span>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-3 gap-2">
+                      {locationDeals.slice(0, 3).map((deal, idx) => (
+                        <div key={idx} className="p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                          <p className="text-[11px] font-medium line-clamp-1">{deal.type}</p>
+                          <p className="text-[9px] text-white/70 line-clamp-1">{deal.merchantExample}</p>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+              
               {displayedDeals.map(deal => {
                 const Icon = getPillarIcon(deal.merchantCategory);
                 const isSelected = selectedDeal?.id === deal.id;
