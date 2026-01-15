@@ -1,21 +1,5 @@
 import { cn } from '@/lib/utils';
-import { 
-  Shirt, ShoppingBag, Footprints, Wrench, Ticket, 
-  MapPin, Dumbbell, Bike, Mountain, Gift 
-} from 'lucide-react';
-
-const categoryIcons: Record<string, React.ElementType> = {
-  'Apparel': Shirt,
-  'Footwear': Footprints,
-  'Equipment': Wrench,
-  'Gear': ShoppingBag,
-  'Events & Merch': Ticket,
-  'Courses': MapPin,
-  'Fitness': Dumbbell,
-  'Cycling': Bike,
-  'Outdoor': Mountain,
-  'Accessories': Gift,
-};
+import { getDealCategoryIcon } from '@/lib/categoryIcons';
 
 interface DealCategoryChipProps {
   label: string;
@@ -30,7 +14,7 @@ export const DealCategoryChip = ({
   isActive = false, 
   onClick 
 }: DealCategoryChipProps) => {
-  const Icon = categoryIcons[label] || ShoppingBag;
+  const icon = emoji || getDealCategoryIcon(label);
 
   return (
     <button
@@ -42,11 +26,7 @@ export const DealCategoryChip = ({
           : "bg-card border-border hover:border-[#0064E0]/50 text-foreground"
       )}
     >
-      {emoji ? (
-        <span className="text-sm">{emoji}</span>
-      ) : (
-        <Icon className="w-4 h-4" />
-      )}
+      <span className="text-sm">{icon}</span>
       <span className="text-sm font-medium">{label}</span>
     </button>
   );
