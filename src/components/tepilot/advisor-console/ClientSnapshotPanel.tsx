@@ -232,7 +232,7 @@ export function ClientSnapshotPanel({
                     <div className="text-slate-500 mt-1">{event.evidence.length} supporting transactions</div>
                   </div>
                 )) : (
-                  <p className="text-xs text-muted-foreground py-2">No life events detected yet</p>
+                  <p className="text-xs text-slate-500 py-2">No life events detected yet</p>
                 )}
                 {!isLoadingInsights && (
                   <Button
