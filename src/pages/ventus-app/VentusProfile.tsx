@@ -20,8 +20,9 @@ import {
 } from '@/components/ui/dialog';
 import { 
   Loader2, Book, User, MapPin, Settings, 
-  ExternalLink, Check, LogOut, ChevronRight 
+  ExternalLink, Check, LogOut, ChevronRight, Trophy
 } from 'lucide-react';
+import { getSubcategoryIcon } from '@/lib/categoryIcons';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
 import { VentusSidebar } from '@/components/ventus-app/VentusSidebar';
 import { AppStoreBadges } from '@/components/ventus-app/AppStoreBadges';
@@ -33,7 +34,7 @@ export default function VentusProfile() {
   const { user, logout, setUser } = useVentusAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
-  const [allSubcategories, setAllSubcategories] = useState<VentusCategory[]>([]);
+  const [allSubcategories, setAllSubcategories] = useState<string[]>([]);
   const [selectedSubcategories, setSelectedSubcategories] = useState<string[]>([]);
   const [isSubcategoryModalOpen, setIsSubcategoryModalOpen] = useState(false);
   const [location, setLocation] = useState({
@@ -80,20 +81,16 @@ export default function VentusProfile() {
       const data = await categoriesApi.getSubcategories();
       console.log('Fetched subcategories raw:', data);
       
-      // Handle different response formats
-      let subcategories: VentusCategory[] = [];
+      // Handle different response formats - API returns { subcategories: string[] }
+      let subcategories: string[] = [];
       if (Array.isArray(data)) {
         subcategories = data;
       } else if (data.subcategories && Array.isArray(data.subcategories)) {
         subcategories = data.subcategories;
-      } else if (data.categories && Array.isArray(data.categories)) {
-        subcategories = data.categories;
       }
       
       // Filter out General
-      const filtered = subcategories.filter(
-        (cat: VentusCategory) => cat.subcategory !== 'General'
-      );
+      const filtered = subcategories.filter((cat: string) => cat !== 'General');
       console.log('Filtered subcategories:', filtered);
       setAllSubcategories(filtered);
     } catch (error) {
@@ -187,6 +184,23 @@ export default function VentusProfile() {
           </div>
         ) : (
         <div className="px-6 py-6 space-y-4 max-w-2xl">
+          {/* Sports Enthusiast Banner */}
+          <Card className="bg-gradient-to-r from-primary to-blue-600 border-0 text-white overflow-hidden">
+            <CardContent className="p-4 flex items-center gap-4">
+              <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                <Trophy className="w-6 h-6 text-white" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-base">Sports Enthusiast</h3>
+                <p className="text-sm text-white/80">
+                  {selectedSubcategories.length > 0 
+                    ? `Following ${selectedSubcategories.length} sport${selectedSubcategories.length > 1 ? 's' : ''}: ${selectedSubcategories.join(', ')}`
+                    : 'Select your favorite sports to get personalized deals'}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+
           {/* Our Story Card */}
           <Card 
             className="bg-card border-border cursor-pointer hover:border-primary/50 transition-colors"
@@ -323,17 +337,18 @@ export default function VentusProfile() {
                     </div>
 
                     {/* Other subcategories */}
-                    {allSubcategories.map((cat) => {
-                      const isSelected = selectedSubcategories.includes(cat.subcategory);
+                    {allSubcategories.map((subcategory) => {
+                      const isSelected = selectedSubcategories.includes(subcategory);
+                      const emoji = getSubcategoryIcon(subcategory);
                       return (
                         <button
-                          key={cat.subcategory}
-                          onClick={() => toggleSubcategory(cat.subcategory)}
+                          key={subcategory}
+                          onClick={() => toggleSubcategory(subcategory)}
                           className="w-full flex items-center justify-between py-2.5 px-3 bg-card border border-border rounded-lg hover:border-primary/50 transition-colors"
                         >
                           <div className="flex items-center gap-2">
-                            <span>{cat.emoji || '🎯'}</span>
-                            <span className="text-sm font-medium">{cat.subcategory}</span>
+                            <span>{emoji}</span>
+                            <span className="text-sm font-medium">{subcategory}</span>
                           </div>
                           {isSelected && (
                             <div className="w-5 h-5 bg-primary rounded-full flex items-center justify-center">
