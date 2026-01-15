@@ -308,7 +308,7 @@ export default function VentusSearch() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask me to find deals..."
                   disabled={isLoading}
-                  className="pl-9 h-11 text-sm rounded-full border-border"
+                  className="pl-9 h-11 text-sm rounded-full border-border text-white placeholder:text-muted-foreground"
                 />
               </div>
               <Button 
