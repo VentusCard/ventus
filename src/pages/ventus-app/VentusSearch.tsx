@@ -245,34 +245,33 @@ export default function VentusSearch() {
                           </div>
                         )}
 
-                        {/* Message bubble */}
-                        <div className={cn("flex", isUser ? "justify-end" : "justify-start")}>
-                          <div
-                            className={cn(
-                              "max-w-[85%] rounded-2xl px-4 py-3",
-                              isUser 
-                                ? "bg-[#0064E0] rounded-br-sm" 
-                                : "bg-muted rounded-bl-sm"
-                            )}
-                          >
-                            {isUser ? (
-                              <p className="text-sm whitespace-pre-wrap text-white">
+                        {/* Message bubble or plain text for product results */}
+                        {isUser ? (
+                          <div className="flex justify-end">
+                            <div className="max-w-[85%] rounded-2xl rounded-br-sm px-4 py-3 bg-[#0064E0]">
+                              <p className="text-base whitespace-pre-wrap text-white">
                                 {message.content}
                               </p>
-                            ) : (
-                              <div className="text-sm text-white [&_p]:my-1 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_ul]:my-2 [&_ul]:pl-4 [&_ul]:list-disc [&_ol]:my-2 [&_ol]:pl-4 [&_ol]:list-decimal [&_li]:my-0.5 [&_strong]:font-bold [&_em]:italic [&_code]:bg-white/20 [&_code]:px-1 [&_code]:rounded">
+                            </div>
+                          </div>
+                        ) : message.products && message.products.length > 0 ? (
+                          <>
+                            <p className="text-base text-muted-foreground mb-3">
+                              {message.content}
+                            </p>
+                            <div className="space-y-2">
+                              {message.products.map((product, pIndex) => (
+                                <ChatProductCard key={pIndex} product={product} />
+                              ))}
+                            </div>
+                          </>
+                        ) : (
+                          <div className="flex justify-start">
+                            <div className="max-w-[85%] rounded-2xl rounded-bl-sm px-4 py-3 bg-muted">
+                              <div className="text-base text-white [&_p]:my-1 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_ul]:my-2 [&_ul]:pl-4 [&_ul]:list-disc [&_ol]:my-2 [&_ol]:pl-4 [&_ol]:list-decimal [&_li]:my-0.5 [&_strong]:font-bold [&_em]:italic [&_code]:bg-white/20 [&_code]:px-1 [&_code]:rounded">
                                 <ReactMarkdown>{message.content}</ReactMarkdown>
                               </div>
-                            )}
-                          </div>
-                        </div>
-                        
-                        {/* Product cards */}
-                        {message.products && message.products.length > 0 && (
-                          <div className="mt-3 space-y-2 ml-0">
-                            {message.products.map((product, pIndex) => (
-                              <ChatProductCard key={pIndex} product={product} />
-                            ))}
+                            </div>
                           </div>
                         )}
                       </div>
