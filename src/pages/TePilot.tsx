@@ -1041,7 +1041,7 @@ const TePilot = () => {
             {!insightType && <>
                 {/* Header */}
                 <div className="text-center mb-8 mt-10">
-                  <h2 className="text-3xl font-bold mb-2">One Tech Core, Three Insight Tools</h2>
+                  <h2 className="text-3xl font-bold mb-2 text-slate-900">One Tech Core, Three Insight Tools</h2>
                   <p className="text-slate-600">
                     Select the view that matches your role to access tailored insights and analytics
                   </p>
@@ -1113,7 +1113,7 @@ const TePilot = () => {
             {/* Bank-wide Dashboard View */}
             {insightType === 'bankwide' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold">Bank-wide Analytics</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">Bank-wide Analytics</h2>
                   <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900" onClick={() => setInsightType(null)}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Insight Tools Selection
@@ -1124,7 +1124,7 @@ const TePilot = () => {
 
             {insightType === 'revenue' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">Revenue Recommendations</h2>
                   <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900" onClick={() => {
                 setActiveTab("insights");
                 setInsightType(null);
@@ -1219,7 +1219,7 @@ const TePilot = () => {
 
             {insightType === 'relationship' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold">Wealth Management Relationship Analysis</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">Wealth Management Relationship Analysis</h2>
                   <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900" onClick={() => {
                 setActiveTab("insights");
                 setInsightType(null);
