@@ -260,7 +260,7 @@ export default function VentusSearch() {
                                 {message.content}
                               </p>
                             ) : (
-                              <div className="text-sm prose prose-sm prose-invert max-w-none [&>p]:m-0 [&>ul]:my-2 [&>ul]:pl-4 [&>ol]:my-2 [&>ol]:pl-4 text-white [&_strong]:text-white [&_strong]:font-semibold">
+                              <div className="text-sm max-w-none text-white [&>p]:m-0 [&>ul]:my-2 [&>ul]:pl-4 [&>ol]:my-2 [&>ol]:pl-4 [&_strong]:text-white [&_strong]:font-semibold [&_li]:text-white [&_em]:text-white">
                                 <ReactMarkdown>{message.content}</ReactMarkdown>
                               </div>
                             )}
