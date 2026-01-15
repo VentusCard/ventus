@@ -251,17 +251,13 @@ export default function VentusSearch() {
                             className={cn(
                               "max-w-[85%] rounded-2xl px-4 py-3",
                               isUser 
-                                ? "bg-[#0064E0] text-white rounded-br-sm" 
-                                : "bg-muted text-foreground rounded-bl-sm"
+                                ? "bg-[#0064E0] rounded-br-sm" 
+                                : "bg-[#0064E0]/80 rounded-bl-sm"
                             )}
                           >
-                            {isUser ? (
-                              <p className="text-sm whitespace-pre-wrap text-white">{message.content}</p>
-                            ) : (
-                              <div className="text-sm prose prose-sm dark:prose-invert max-w-none">
-                                <ReactMarkdown>{message.content}</ReactMarkdown>
-                              </div>
-                            )}
+                            <p className="text-sm whitespace-pre-wrap text-white">
+                              {message.content}
+                            </p>
                           </div>
                         </div>
                         
