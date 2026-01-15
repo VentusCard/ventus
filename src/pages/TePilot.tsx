@@ -786,66 +786,66 @@ const TePilot = () => {
               </AccordionItem>
 
               <AccordionItem value="item-4">
-                <AccordionTrigger className="text-lg font-semibold group">
+                <AccordionTrigger className="text-lg font-semibold text-slate-900 group">
                   <div className="flex flex-col items-start gap-1 text-left">
                     <span>Use Cases</span>
-                    <span className="text-sm font-normal text-muted-foreground group-data-[state=closed]:block group-data-[state=open]:hidden">
+                    <span className="text-sm font-normal text-slate-500 group-data-[state=closed]:block group-data-[state=open]:hidden">
                       Real-world applications across financial services
                     </span>
                   </div>
                 </AccordionTrigger>
                 <AccordionContent>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <Gift className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Personalized Deal Recommendations</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Personalized Deal Recommendations</h4>
+                        <p className="text-sm text-slate-600">
                           Generate targeted merchant offers based on actual spending patterns. A customer who spends $800/month at Whole Foods receives automated 15% cashback offers at premium grocery stores.
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <Users className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Customer Segmentation & Profiling</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Customer Segmentation & Profiling</h4>
+                        <p className="text-sm text-slate-600">
                           Automatically segment customers into lifestyle personas (Premium Travelers, Home Enthusiasts, Fitness Focused) for precision marketing and product recommendations.
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <MapPin className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Travel Pattern Intelligence</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Travel Pattern Intelligence</h4>
+                        <p className="text-sm text-slate-600">
                           Detect travel destinations, frequency, and spending patterns. Identify luxury travelers for premium card upsells or frequent visitors for location-based partnership deals.
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <TrendingUp className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Cross-Sell Optimization</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Cross-Sell Optimization</h4>
+                        <p className="text-sm text-slate-600">
                           Identify customers spending heavily on home improvement for HELOC offers, or high restaurant spenders for dining rewards cards with matched earn rates.
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <PieChart className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Portfolio Analytics</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Portfolio Analytics</h4>
+                        <p className="text-sm text-slate-600">
                           Aggregate insights across millions of accounts to identify spending gaps, card product fit, and revenue opportunities at bank-wide scale.
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-3 p-4 rounded-lg bg-muted/50 border">
+                    <div className="flex gap-3 p-4 rounded-lg bg-slate-50 border border-slate-200">
                       <Briefcase className="h-5 w-5 text-primary shrink-0 mt-0.5" />
                       <div>
-                        <h4 className="font-semibold text-sm mb-1">Wealth Management Intelligence</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <h4 className="font-semibold text-sm mb-1 text-slate-900">Wealth Management Intelligence</h4>
+                        <p className="text-sm text-slate-600">
                           Provide advisors with conversation-ready insights: detect life events (new home purchase), spending increases (new baby), and personalized product recommendations.
                         </p>
                       </div>
@@ -859,8 +859,8 @@ const TePilot = () => {
 
             {/* Password Form */}
             <div>
-              <h3 className="font-semibold text-lg mb-2">Enter Password to Continue</h3>
-              <p className="text-sm text-muted-foreground mb-4">
+              <h3 className="font-semibold text-lg mb-2 text-slate-900">Enter Password to Continue</h3>
+              <p className="text-sm text-slate-600 mb-4">
                 All data processing is ephemeral. Your transaction data is analyzed in real-time and never stored on our servers.
               </p>
               <form onSubmit={handleSubmit} className="space-y-4">
