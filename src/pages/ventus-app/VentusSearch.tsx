@@ -56,6 +56,7 @@ export default function VentusSearch() {
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingHistory, setIsLoadingHistory] = useState(true);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Load chat history on mount
@@ -89,23 +90,24 @@ export default function VentusSearch() {
     loadHistory();
   }, []);
 
+  // Scroll to bottom helper
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'auto' });
+  };
+
   // Focus input and scroll to bottom after loading history
   useEffect(() => {
     if (!isLoadingHistory) {
       inputRef.current?.focus();
       // Scroll to bottom after history loads
-      setTimeout(() => {
-        if (scrollRef.current) {
-          scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        }
-      }, 100);
+      setTimeout(scrollToBottom, 150);
     }
   }, [isLoadingHistory]);
 
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
-    if (scrollRef.current && messages.length > 0) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (messages.length > 0) {
+      scrollToBottom();
     }
   }, [messages]);
 
@@ -292,6 +294,9 @@ export default function VentusSearch() {
                       </div>
                     </div>
                   )}
+                  
+                  {/* Scroll anchor */}
+                  <div ref={messagesEndRef} />
                 </div>
               )}
             </div>
