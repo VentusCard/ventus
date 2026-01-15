@@ -188,7 +188,7 @@ export default function VentusSearch() {
         {/* Header */}
         <div className="border-b border-border bg-card/80 backdrop-blur-sm px-6 py-4">
           <div>
-            <h1 className="text-lg font-semibold text-foreground">Search</h1>
+            <h1 className="text-lg font-semibold text-foreground">Ventus AI</h1>
             <p className="text-xs text-muted-foreground">Find deals across all merchants</p>
           </div>
         </div>
