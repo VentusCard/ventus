@@ -742,7 +742,7 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                 {/* Header */}
                 <div className="flex items-center justify-between">
                   <Badge variant="outline" className="text-[10px] border-rose-700 bg-rose-800/50 text-rose-200">
-                    {selectedDeal.subcategory}
+                    {selectedDeal.merchantCategory.split(' ')[0]}
                   </Badge>
                 </div>
 
