@@ -206,6 +206,46 @@ export const chatbotApi = {
   },
 };
 
+// Chat History APIs
+export const chatApi = {
+  getHistory: async () => {
+    const response = await fetch(`${API_URL}/chat/history`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to get chat history');
+    return response.json();
+  },
+
+  saveMessage: async (message: {
+    sender: 'user' | 'ventus';
+    messageType: 'text' | 'results';
+    content: string;
+    products?: VentusProduct[] | null;
+    item?: string | null;
+    query?: string | null;
+  }) => {
+    const response = await fetch(`${API_URL}/chat/message`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(message),
+    });
+    if (!response.ok) throw new Error('Failed to save message');
+    return response.json();
+  },
+};
+
+// Track click API
+export const trackClickApi = {
+  trackProductClick: async (productUrl: string, productName: string) => {
+    const response = await fetch(`${API_URL}/track/click`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify({ url: productUrl, product_name: productName }),
+    });
+    return response.json();
+  },
+};
+
 // Helper to get merchant logo URL
 export const getMerchantLogoUrl = (domain: string) => {
   if (!domain) return null;
@@ -265,7 +305,21 @@ export interface VentusProduct {
   price: number;
   original_price?: number;
   merchant: string;
+  merchant_name?: string;
+  merchant_domain?: string;
   domain: string;
   url: string;
   description?: string;
+}
+
+export interface ChatMessage {
+  id: string;
+  user_id: string;
+  sender: 'user' | 'ventus';
+  message_type: 'text' | 'results';
+  content: string;
+  products?: VentusProduct[];
+  item?: string;
+  query?: string;
+  created_at: string;
 }
