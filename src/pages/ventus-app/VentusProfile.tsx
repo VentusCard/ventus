@@ -408,20 +408,20 @@ export default function VentusProfile() {
           </div>
 
           {/* App download CTA */}
-          <Card className="bg-gradient-to-r from-primary to-blue-600 border-0 overflow-hidden">
+          <Card className="bg-card border-border overflow-hidden">
             <CardContent className="p-5">
               <div className="flex items-center gap-4">
                 <div className="flex-1">
-                  <h3 className="font-semibold text-white text-sm mb-1">
+                  <h3 className="font-semibold text-foreground text-sm mb-1">
                     Get the Ventus App
                   </h3>
-                  <p className="text-xs text-white/70 mb-3">
+                  <p className="text-xs text-muted-foreground mb-3">
                     Wishlist, notifications & location-based deals
                   </p>
                   <AppStoreBadges />
                 </div>
-                <div className="hidden sm:flex w-16 h-16 bg-white/10 rounded-xl items-center justify-center">
-                  <ExternalLink className="w-8 h-8 text-white/80" />
+                <div className="hidden sm:flex w-16 h-16 bg-primary/10 rounded-xl items-center justify-center">
+                  <ExternalLink className="w-8 h-8 text-primary" />
                 </div>
               </div>
             </CardContent>
