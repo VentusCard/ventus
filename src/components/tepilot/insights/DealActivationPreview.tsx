@@ -7,7 +7,7 @@ import {
   User, Sparkles, TrendingUp, Heart, Music, Plane, 
   UtensilsCrossed, Dumbbell, ShoppingBag, ArrowRight,
   Target, DollarSign, Percent, Users, MapPin, AlertCircle,
-  Home, Tv, Cpu, Baby, PawPrint, Wallet, Car, ChevronDown, ChevronUp,
+  Home, Tv, Cpu, Baby, PawPrint, Wallet, Car, ChevronDown, ChevronUp, ChevronRight,
   Search, X, Loader2, Globe, Navigation
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -703,12 +703,11 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                         <span className="text-[10px] text-slate-500">Discovering...</span>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-3 gap-1.5 pt-2">
+                      <div className="flex flex-col gap-1 pt-2">
                         {locationDeals.slice(0, 3).map((deal, idx) => (
                           <button
                             key={idx}
                             onClick={() => {
-                              // Create a synthetic deal object for the detail view
                               const syntheticDeal = {
                                 id: `local-${idx}`,
                                 merchantName: deal.merchantExample,
@@ -726,10 +725,13 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                               };
                               setSelectedDealId(syntheticDeal.id);
                             }}
-                            className="p-2 bg-slate-50 hover:bg-slate-100 rounded text-left transition-colors border border-slate-100 hover:border-slate-200"
+                            className="w-full p-2 bg-slate-50 hover:bg-slate-100 rounded text-left transition-colors border border-slate-100 hover:border-slate-200 flex items-center justify-between"
                           >
-                            <p className="text-[10px] font-medium text-slate-700 line-clamp-1">{deal.type}</p>
-                            <p className="text-[8px] text-slate-500 line-clamp-1">{deal.merchantExample}</p>
+                            <div>
+                              <p className="text-[10px] font-medium text-slate-700">{deal.type}</p>
+                              <p className="text-[8px] text-slate-500">{deal.merchantExample}</p>
+                            </div>
+                            <ChevronRight className="h-3 w-3 text-slate-400" />
                           </button>
                         ))}
                       </div>
