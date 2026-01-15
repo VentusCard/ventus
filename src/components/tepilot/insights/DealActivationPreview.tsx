@@ -675,46 +675,68 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
             
             <div className="grid grid-cols-2 gap-2">
               {/* Local Experiences Card - Double Wide Accordion */}
-              <button
-                onClick={() => setLocalExperiencesExpanded(!localExperiencesExpanded)}
-                className="col-span-2 p-2.5 rounded-lg bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-500 text-white relative overflow-hidden text-left"
-              >
-                <div className="relative z-10 flex items-center justify-between">
+              <div className="col-span-2 rounded-lg bg-white border border-slate-200 overflow-hidden">
+                <button
+                  onClick={() => setLocalExperiencesExpanded(!localExperiencesExpanded)}
+                  className="w-full p-2.5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors"
+                >
                   <div className="flex items-center gap-2">
-                    <Navigation className="h-4 w-4" />
-                    <span className="font-medium text-sm">Local Experiences</span>
-                    <Badge className="bg-white/20 text-white border-white/30 text-[9px] px-1.5 py-0">
+                    <Navigation className="h-4 w-4 text-slate-600" />
+                    <span className="font-medium text-sm text-slate-800">Local Experiences</span>
+                    <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-slate-300">
                       <MapPin className="h-2.5 w-2.5 mr-0.5" />
                       {locationCity}
                     </Badge>
                   </div>
                   {localExperiencesExpanded ? (
-                    <ChevronUp className="h-4 w-4 text-white/70" />
+                    <ChevronUp className="h-4 w-4 text-slate-400" />
                   ) : (
-                    <ChevronDown className="h-4 w-4 text-white/70" />
+                    <ChevronDown className="h-4 w-4 text-slate-400" />
                   )}
-                </div>
+                </button>
                 
                 {localExperiencesExpanded && (
-                  <div className="mt-2 pt-2 border-t border-white/20" onClick={(e) => e.stopPropagation()}>
+                  <div className="px-2.5 pb-2.5 border-t border-slate-100">
                     {locationLoading ? (
-                      <div className="flex items-center gap-2 py-1">
-                        <Loader2 className="h-3 w-3 animate-spin" />
-                        <span className="text-[10px] text-white/80">Discovering...</span>
+                      <div className="flex items-center gap-2 py-2">
+                        <Loader2 className="h-3 w-3 animate-spin text-slate-400" />
+                        <span className="text-[10px] text-slate-500">Discovering...</span>
                       </div>
                     ) : (
-                      <div className="grid grid-cols-3 gap-1.5">
+                      <div className="grid grid-cols-3 gap-1.5 pt-2">
                         {locationDeals.slice(0, 3).map((deal, idx) => (
-                          <div key={idx} className="p-1.5 bg-white/10 rounded backdrop-blur-sm">
-                            <p className="text-[10px] font-medium line-clamp-1">{deal.type}</p>
-                            <p className="text-[8px] text-white/70 line-clamp-1">{deal.merchantExample}</p>
-                          </div>
+                          <button
+                            key={idx}
+                            onClick={() => {
+                              // Create a synthetic deal object for the detail view
+                              const syntheticDeal = {
+                                id: `local-${idx}`,
+                                merchantName: deal.merchantExample,
+                                merchantCategory: 'Entertainment & Culture',
+                                dealType: deal.type,
+                                dealTitle: deal.type,
+                                dealDescription: deal.merchantExample,
+                                rewardValue: '10% Back',
+                                rewardType: 'cashback' as const,
+                                averageRedemption: 45,
+                                activationCount: 1200,
+                                popularity: 'popular' as const,
+                                subcategory: 'Local Experience',
+                                minPurchase: null,
+                              };
+                              setSelectedDealId(syntheticDeal.id);
+                            }}
+                            className="p-2 bg-slate-50 hover:bg-slate-100 rounded text-left transition-colors border border-slate-100 hover:border-slate-200"
+                          >
+                            <p className="text-[10px] font-medium text-slate-700 line-clamp-1">{deal.type}</p>
+                            <p className="text-[8px] text-slate-500 line-clamp-1">{deal.merchantExample}</p>
+                          </button>
                         ))}
                       </div>
                     )}
                   </div>
                 )}
-              </button>
+              </div>
               
               {displayedDeals.map(deal => {
                 const Icon = getPillarIcon(deal.merchantCategory);
