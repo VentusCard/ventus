@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, Search, ArrowRight } from 'lucide-react';
+import { Loader2, Search, ArrowRight, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
@@ -9,6 +9,7 @@ import { SubcategoryChip } from '@/components/ventus-app/SubcategoryChip';
 import { DealCategoryChip } from '@/components/ventus-app/DealCategoryChip';
 import { offersApi, categoriesApi, VentusOffer, VentusCategory, getMerchantLogoUrl, trackingApi } from '@/lib/ventusApi';
 import { Badge } from '@/components/ui/badge';
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { cn } from '@/lib/utils';
 
 interface GroupedMerchant {
@@ -33,6 +34,7 @@ export default function VentusHome() {
   const [categories, setCategories] = useState<VentusCategory[]>([]);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('All');
   const [selectedDealCategory, setSelectedDealCategory] = useState<string>('All');
+  const [expandedMerchants, setExpandedMerchants] = useState<Set<string>>(new Set());
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
   // Debug: log user object to see what's available
@@ -133,13 +135,17 @@ export default function VentusHome() {
     const dealCatsSet = new Set<string>();
     
     filteredOffers.forEach((offer) => {
-      if (offer.deal_categories) {
+      if (offer.deal_categories && offer.deal_categories.length > 0) {
         offer.deal_categories.forEach((cat) => dealCatsSet.add(cat));
       }
       if (offer.deal_category) {
         dealCatsSet.add(offer.deal_category);
       }
     });
+    
+    // Debug log
+    console.log('Deal categories for', selectedSubcategory, ':', Array.from(dealCatsSet), 'from', filteredOffers.length, 'offers');
+    console.log('Sample offer:', filteredOffers[0]);
     
     const dealCats = Array.from(dealCatsSet).sort();
     return dealCats.length > 0 ? ['All', ...dealCats] : ['All'];
@@ -190,6 +196,18 @@ export default function VentusHome() {
 
   const handleSearchClick = () => {
     navigate('/app/search');
+  };
+
+  const toggleMerchant = (merchantName: string) => {
+    setExpandedMerchants((prev) => {
+      const next = new Set(prev);
+      if (next.has(merchantName)) {
+        next.delete(merchantName);
+      } else {
+        next.add(merchantName);
+      }
+      return next;
+    });
   };
 
   const handleOfferClick = async (offer: VentusOffer) => {
@@ -262,21 +280,26 @@ export default function VentusHome() {
           </div>
 
           {/* Deal Categories */}
-          {selectedSubcategory !== 'All' && dealCategoryOptions.length > 1 && (
+          {selectedSubcategory !== 'All' && (
             <div>
-              <ScrollArea className="w-full whitespace-nowrap">
-                <div className="flex gap-2 pb-2">
-                  {dealCategoryOptions.map((cat) => (
-                    <DealCategoryChip
-                      key={cat}
-                      label={cat}
-                      isActive={selectedDealCategory === cat}
-                      onClick={() => setSelectedDealCategory(cat)}
-                    />
-                  ))}
-                </div>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
+              <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">Deal Categories</h2>
+              {dealCategoryOptions.length > 1 ? (
+                <ScrollArea className="w-full whitespace-nowrap">
+                  <div className="flex gap-2 pb-2">
+                    {dealCategoryOptions.map((cat) => (
+                      <DealCategoryChip
+                        key={cat}
+                        label={cat}
+                        isActive={selectedDealCategory === cat}
+                        onClick={() => setSelectedDealCategory(cat)}
+                      />
+                    ))}
+                  </div>
+                  <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+              ) : (
+                <p className="text-xs text-muted-foreground">No deal categories available for this sport</p>
+              )}
             </div>
           )}
 
@@ -290,71 +313,114 @@ export default function VentusHome() {
                 </p>
               </div>
             ) : (
-              groupedMerchants.map((merchant) => (
-                <div 
-                  key={merchant.merchantName}
-                  className="group bg-card border border-border rounded-lg p-4 hover:border-primary/30 transition-colors"
-                >
-                  <div className="flex items-center gap-3">
-                    {/* Logo */}
-                    <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
-                      <img 
-                        src={getMerchantLogoUrl(merchant.domain)} 
-                        alt={merchant.merchantName}
-                        className="w-8 h-8 object-contain"
-                        onError={(e) => {
-                          (e.target as HTMLImageElement).style.display = 'none';
-                        }}
-                      />
-                    </div>
+              groupedMerchants.map((merchant) => {
+                const isExpanded = expandedMerchants.has(merchant.merchantName);
+                const hasMultipleOffers = merchant.offers.length > 1;
+                
+                return (
+                  <Collapsible
+                    key={merchant.merchantName}
+                    open={isExpanded}
+                    onOpenChange={() => hasMultipleOffers && toggleMerchant(merchant.merchantName)}
+                  >
+                    <div className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary/30 transition-colors">
+                      {/* Main merchant header */}
+                      <CollapsibleTrigger asChild disabled={!hasMultipleOffers}>
+                        <div className={cn(
+                          "flex items-center gap-3 p-4",
+                          hasMultipleOffers && "cursor-pointer"
+                        )}>
+                          {/* Logo */}
+                          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
+                            <img 
+                              src={getMerchantLogoUrl(merchant.domain)} 
+                              alt={merchant.merchantName}
+                              className="w-8 h-8 object-contain"
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).style.display = 'none';
+                              }}
+                            />
+                          </div>
 
-                    {/* Content */}
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-sm font-medium text-foreground truncate">
-                          {merchant.merchantName}
-                        </h3>
-                        {merchant.isPartner && (
-                          <Badge className="bg-primary/10 text-primary text-[10px] px-1.5 py-0">
-                            Partner
-                          </Badge>
-                        )}
-                      </div>
-                      <p className="text-xs text-muted-foreground truncate mt-0.5">
-                        {merchant.offers[0]?.title}
-                      </p>
-                    </div>
+                          {/* Content */}
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center gap-2">
+                              <h3 className="text-sm font-medium text-foreground truncate">
+                                {merchant.merchantName}
+                              </h3>
+                              {merchant.isPartner && (
+                                <Badge className="bg-primary/10 text-primary text-[10px] px-1.5 py-0">
+                                  Partner
+                                </Badge>
+                              )}
+                              {hasMultipleOffers && (
+                                <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                                  {merchant.offers.length} deals
+                                </Badge>
+                              )}
+                            </div>
+                            <p className="text-xs text-muted-foreground truncate mt-0.5">
+                              {merchant.offers[0]?.title}
+                            </p>
+                          </div>
 
-                    {/* Action */}
-                    <button
-                      onClick={() => handleOfferClick(merchant.offers[0])}
-                      className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors flex-shrink-0"
-                    >
-                      <span>View</span>
-                      <ArrowRight className="w-3.5 h-3.5" />
-                    </button>
-                  </div>
+                          {/* Expand/Action */}
+                          {hasMultipleOffers ? (
+                            <div className="flex-shrink-0 text-muted-foreground">
+                              {isExpanded ? (
+                                <ChevronUp className="w-4 h-4" />
+                              ) : (
+                                <ChevronDown className="w-4 h-4" />
+                              )}
+                            </div>
+                          ) : (
+                            <button
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleOfferClick(merchant.offers[0]);
+                              }}
+                              className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors flex-shrink-0"
+                            >
+                              <span>View</span>
+                              <ExternalLink className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      </CollapsibleTrigger>
 
-                  {/* Categories */}
-                  {merchant.offers[0]?.deal_categories && merchant.offers[0].deal_categories.length > 0 && (
-                    <div className="flex gap-1.5 mt-3 flex-wrap">
-                      {merchant.offers[0].deal_categories.slice(0, 3).map((cat) => (
-                        <span 
-                          key={cat} 
-                          className="text-[10px] px-2 py-0.5 bg-muted rounded-full text-muted-foreground"
-                        >
-                          {cat}
-                        </span>
-                      ))}
-                      {merchant.offers.length > 1 && (
-                        <span className="text-[10px] px-2 py-0.5 bg-primary/10 rounded-full text-primary">
-                          +{merchant.offers.length - 1} more
-                        </span>
-                      )}
+                      {/* Expanded offers list */}
+                      <CollapsibleContent>
+                        <div className="border-t border-border">
+                          {merchant.offers.map((offer, idx) => (
+                            <button
+                              key={offer.id || idx}
+                              onClick={() => handleOfferClick(offer)}
+                              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors text-left border-b border-border last:border-b-0"
+                            >
+                              <div className="flex-1 min-w-0">
+                                <p className="text-sm text-foreground truncate">{offer.title}</p>
+                                {offer.deal_categories && offer.deal_categories.length > 0 && (
+                                  <div className="flex gap-1 mt-1 flex-wrap">
+                                    {offer.deal_categories.slice(0, 2).map((cat) => (
+                                      <span 
+                                        key={cat} 
+                                        className="text-[9px] px-1.5 py-0.5 bg-muted rounded text-muted-foreground"
+                                      >
+                                        {cat}
+                                      </span>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                              <ExternalLink className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                            </button>
+                          ))}
+                        </div>
+                      </CollapsibleContent>
                     </div>
-                  )}
-                </div>
-              ))
+                  </Collapsible>
+                );
+              })
             )}
           </div>
         </div>
