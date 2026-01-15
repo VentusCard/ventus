@@ -771,46 +771,6 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                   <span className="text-xs text-rose-400">{selectedDeal.validityPeriod}</span>
                 </div>
 
-                {/* Projected Impact */}
-                {dealImpact && (
-                  <div className="space-y-3 pt-3 border-t border-rose-800/50">
-                    <span className="text-[10px] font-medium text-rose-400 uppercase tracking-wide">Projected Impact</span>
-                    
-                    {/* Eligibility */}
-                    <div className="flex items-center justify-between">
-                      <span className="text-xs text-rose-300">Eligibility</span>
-                      <Badge variant="outline" className={cn(
-                        "text-[10px]",
-                        dealImpact.eligibility === 'high' && "border-emerald-500 bg-emerald-900/50 text-emerald-300",
-                        dealImpact.eligibility === 'medium' && "border-amber-500 bg-amber-900/50 text-amber-300",
-                        dealImpact.eligibility === 'low' && "border-rose-600 bg-rose-800/50 text-rose-300"
-                      )}>
-                        {dealImpact.eligibility.charAt(0).toUpperCase() + dealImpact.eligibility.slice(1)} Match
-                      </Badge>
-                    </div>
-                    <p className="text-[10px] text-rose-400/80">{dealImpact.eligibilityReason}</p>
-
-                    {/* Impact Metrics */}
-                    <div className="grid grid-cols-3 gap-2">
-                      <div className="text-center p-2 bg-rose-800/40 border border-rose-700/50 rounded-lg">
-                        <DollarSign className="h-3 w-3 mx-auto text-rose-400 mb-1" />
-                        <p className="text-sm font-bold text-white">{formatCurrency(dealImpact.projectedNewSpend)}</p>
-                        <p className="text-[8px] text-rose-400">New Spend</p>
-                      </div>
-                      <div className="text-center p-2 bg-rose-800/40 border border-rose-700/50 rounded-lg">
-                        <Percent className="h-3 w-3 mx-auto text-rose-400 mb-1" />
-                        <p className="text-sm font-bold text-white">{dealImpact.walletShareIncrease.toFixed(1)}%</p>
-                        <p className="text-[8px] text-rose-400">Wallet Lift</p>
-                      </div>
-                      <div className="text-center p-2 bg-rose-800/40 border border-rose-700/50 rounded-lg">
-                        <TrendingUp className="h-3 w-3 mx-auto text-rose-400 mb-1" />
-                        <p className="text-sm font-bold text-white">{formatCurrency(dealImpact.ltvImpact)}</p>
-                        <p className="text-[8px] text-rose-400">5-Yr LTV</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
                 {/* Activation Count */}
                 <div className="pt-3 border-t border-rose-800/50 text-center">
                   <p className="text-xs text-rose-400">
