@@ -1189,9 +1189,9 @@ const TePilot = () => {
                 {/* Geo-Location Deals Section */}
                 <GeoLocationDealsSection locationContext={locationContext} />
                 
-                {/* Deal Activation Engine - Test deals with individual customers */}
+                {/* Reward Personalization Experience - Test deals with individual customers */}
                 <CollapsibleCard
-                  title="Deal Activation Engine (Placeholder, NOT WORKING)"
+                  title="Reward Personalization Experience"
                   description="Preview how bank-defined deals translate into personalized customer messaging"
                   icon={<Sparkles className="h-5 w-5 text-violet-500" />}
                   previewContent={
