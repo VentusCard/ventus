@@ -261,7 +261,7 @@ export default function VentusSearch() {
                             )}
                           >
                             {isUser ? (
-                              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                              <p className="text-sm whitespace-pre-wrap text-white">{message.content}</p>
                             ) : (
                               <div className="text-sm prose prose-sm dark:prose-invert max-w-none">
                                 <ReactMarkdown>{message.content}</ReactMarkdown>
