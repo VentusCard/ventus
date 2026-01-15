@@ -16,7 +16,7 @@ export function UploadOrPasteContainer({
   onLoadSample,
   children
 }: UploadOrPasteContainerProps) {
-  return <Card>
+  return <Card className="bg-white border-slate-200">
       <CardHeader>
         <div className="flex items-center justify-between">
           <div>
@@ -32,7 +32,7 @@ export function UploadOrPasteContainer({
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-48 bg-background">
+            <DropdownMenuContent align="end" className="w-48 bg-white border-slate-200">
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV, "94102")}>
                 Dataset 1 (1 month)
               </DropdownMenuItem>

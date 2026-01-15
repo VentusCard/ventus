@@ -34,7 +34,7 @@ export function ResultsTable({ transactions, currentPhase = "idle", statusMessag
 
   return (
     <>
-      <Card>
+      <Card className="bg-white border-slate-200">
         <CardHeader>
           <CardTitle>Enriched Results</CardTitle>
           <CardDescription>
@@ -58,10 +58,10 @@ export function ResultsTable({ transactions, currentPhase = "idle", statusMessag
             </div>
           )}
           {transactions.length > 0 && (
-            <div className="border rounded-lg overflow-hidden">
+            <div className="border border-slate-200 rounded-lg overflow-hidden">
             <div className="max-h-[600px] overflow-y-auto">
               <Table>
-                <TableHeader className="sticky top-0 bg-background">
+                <TableHeader className="sticky top-0 bg-white">
                   <TableRow>
                     <TableHead>Merchant</TableHead>
                     <TableHead>Amount</TableHead>
