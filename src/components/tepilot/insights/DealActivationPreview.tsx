@@ -635,189 +635,214 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
         )}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        {/* Left: Deal Selection + Customer Profile */}
-        <div className="space-y-4">
-          {/* Category-Grouped Deal Selector */}
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">
-                Available Deals ({isSearchActive ? `${searchResultCount} results` : `${deals.length} from library`})
-              </label>
-              {(selectedCategory || isSearchActive) && (
-                <Badge variant="outline" className="text-xs">
-                  {isSearchActive ? `"${searchQuery}"` : `Filtered: ${selectedCategory}`}
-                </Badge>
-              )}
-            </div>
+      {/* Available Deals Section Header */}
+      <div className="flex items-center justify-between">
+        <label className="text-sm font-semibold text-slate-700">
+          Available Deals ({isSearchActive ? `${searchResultCount} results` : `${deals.length} from library`})
+        </label>
+        {(selectedCategory || isSearchActive) && (
+          <Badge variant="outline" className="text-xs">
+            {isSearchActive ? `"${searchQuery}"` : `Filtered: ${selectedCategory}`}
+          </Badge>
+        )}
+      </div>
+
+      {/* Main Content: 2/3 Deal Cards + 1/3 Detail Panel */}
+      <div className="flex gap-4">
+        {/* Left: Deal Cards Grid (2/3 width) */}
+        <div className="w-2/3 space-y-3">
+          {/* Category Pills for quick filtering */}
+          <div className="flex items-center gap-2 flex-wrap pb-2 border-b border-slate-100">
+            <Button
+              variant={selectedCategory === null ? "default" : "outline"}
+              size="sm"
+              className="h-7 text-xs"
+              onClick={() => setSelectedCategory(null)}
+            >
+              All
+            </Button>
+            {sortedCategories.slice(0, 6).map(category => {
+              const Icon = getPillarIcon(category);
+              const isCustomerPillar = customerProfile.topPillars.some(p => p.pillar === category);
+              return (
+                <Button
+                  key={category}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  size="sm"
+                  className={cn(
+                    "h-7 text-xs gap-1",
+                    isCustomerPillar && selectedCategory !== category && "border-primary/30 bg-primary/5"
+                  )}
+                  onClick={() => setSelectedCategory(selectedCategory === category ? null : category)}
+                >
+                  <Icon className="h-3 w-3" />
+                  {category.split(' ')[0]}
+                </Button>
+              );
+            })}
+          </div>
+
+          {/* Deal Cards Grid - 2 per row */}
+          <div className="max-h-[500px] overflow-y-auto pr-1">
+            {displayedDeals.length === 0 && isSearchActive && !isSearching && (
+              <div className="text-center py-12 text-slate-400">
+                <Search className="h-10 w-10 mx-auto mb-3 opacity-50" />
+                <p className="text-sm font-medium">No matching deals found</p>
+                <p className="text-xs mt-1">Try a different search term</p>
+              </div>
+            )}
             
-            <div className="max-h-[400px] overflow-y-auto space-y-3 pr-1">
-              {sortedCategories.length === 0 && isSearchActive && !isSearching && (
-                <div className="text-center py-6 text-slate-400">
-                  <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
-                  <p className="text-sm">No matching deals found</p>
-                  <p className="text-xs mt-1">Try a different search term</p>
-                </div>
-              )}
-              {sortedCategories.map(category => {
-                const categoryDeals = (isSearchActive ? filteredDealsByCategory : dealsByCategory)[category] || [];
-                if (selectedCategory && selectedCategory !== category) return null;
-                if (categoryDeals.length === 0) return null;
-                
-                const isExpanded = expandedCategories.has(category) || selectedCategory === category || isSearchActive;
-                const displayDeals = isExpanded ? categoryDeals : categoryDeals.slice(0, 2);
-                const Icon = getPillarIcon(category);
-                const isCustomerPillar = customerProfile.topPillars.some(p => p.pillar === category);
+            <div className="grid grid-cols-2 gap-3">
+              {displayedDeals.map(deal => {
+                const Icon = getPillarIcon(deal.merchantCategory);
+                const isSelected = selectedDeal?.id === deal.id;
                 
                 return (
-                  <div key={category} className="space-y-1.5">
-                    {/* Category Header */}
-                    <button
-                      onClick={() => toggleCategory(category)}
-                      className={cn(
-                        "w-full flex items-center justify-between p-2 rounded-lg text-left transition-all",
-                        isCustomerPillar ? "bg-primary/5 border border-primary/20" : "bg-slate-50 border border-transparent"
-                      )}
-                    >
-                      <div className="flex items-center gap-2">
-                        <Icon className={cn("h-4 w-4", isCustomerPillar ? "text-primary" : "text-slate-500")} />
-                        <span className={cn("text-sm font-medium", isCustomerPillar ? "text-primary" : "text-slate-700")}>
-                          {category}
-                        </span>
-                        <Badge variant="secondary" className="text-[10px] px-1.5">
-                          {categoryDeals.length}
-                        </Badge>
-                        {isCustomerPillar && (
-                          <Badge className="text-[10px] px-1.5 bg-primary/20 text-primary border-primary/30">
-                            Matched
-                          </Badge>
-                        )}
+                  <button
+                    key={deal.id}
+                    onClick={() => setSelectedDealId(deal.id)}
+                    className={cn(
+                      "p-4 rounded-xl text-left transition-all border-2",
+                      isSelected
+                        ? "bg-primary/10 border-primary shadow-md"
+                        : "bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm"
+                    )}
+                  >
+                    {/* Deal Header */}
+                    <div className="flex items-start justify-between gap-2 mb-2">
+                      <div className={cn(
+                        "p-2 rounded-lg",
+                        isSelected ? "bg-primary/20" : "bg-slate-100"
+                      )}>
+                        <Icon className={cn("h-4 w-4", isSelected ? "text-primary" : "text-slate-500")} />
                       </div>
-                      {categoryDeals.length > 2 && !isSearchActive && (
-                        isExpanded ? <ChevronUp className="h-4 w-4 text-slate-400" /> : <ChevronDown className="h-4 w-4 text-slate-400" />
-                      )}
-                    </button>
-                    
-                    {/* Deals in Category */}
-                    <div className="pl-2 space-y-1">
-                      {displayDeals.map(deal => (
-                        <button
-                          key={deal.id}
-                          onClick={() => setSelectedDealId(deal.id)}
-                          className={cn(
-                            "w-full flex items-center gap-3 p-2.5 rounded-lg text-left transition-all border",
-                            selectedDeal?.id === deal.id
-                              ? "bg-primary/10 border-primary"
-                              : "bg-white border-slate-200 hover:bg-slate-50"
-                          )}
-                        >
-                          <div className="flex-1 min-w-0">
-                            <p className="font-medium text-sm truncate">{deal.dealTitle}</p>
-                            <p className="text-xs text-slate-500 truncate">
-                              {deal.merchantName} • {deal.rewardValue}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-1.5 shrink-0">
-                            <Badge 
-                              variant="outline" 
-                              className={cn(
-                                "text-[10px] px-1.5",
-                                deal.popularity === 'trending' && "border-amber-300 bg-amber-50 text-amber-700",
-                                deal.popularity === 'featured' && "border-purple-300 bg-purple-50 text-purple-700",
-                                deal.popularity === 'popular' && "border-blue-300 bg-blue-50 text-blue-700",
-                                deal.popularity === 'new' && "border-green-300 bg-green-50 text-green-700"
-                              )}
-                            >
-                              {deal.popularity}
-                            </Badge>
-                          </div>
-                        </button>
-                      ))}
-                      
-                      {/* Show more button */}
-                      {!isExpanded && categoryDeals.length > 2 && (
-                        <button
-                          onClick={() => toggleCategory(category)}
-                          className="w-full text-xs text-primary hover:underline py-1"
-                        >
-                          + {categoryDeals.length - 2} more deals
-                        </button>
-                      )}
+                      <Badge 
+                        variant="outline" 
+                        className={cn(
+                          "text-[10px] px-1.5",
+                          deal.popularity === 'trending' && "border-amber-300 bg-amber-50 text-amber-700",
+                          deal.popularity === 'featured' && "border-purple-300 bg-purple-50 text-purple-700",
+                          deal.popularity === 'popular' && "border-blue-300 bg-blue-50 text-blue-700",
+                          deal.popularity === 'new' && "border-green-300 bg-green-50 text-green-700"
+                        )}
+                      >
+                        {deal.popularity}
+                      </Badge>
                     </div>
-                  </div>
+                    
+                    {/* Merchant Name */}
+                    <p className="text-xs text-slate-500 mb-1">{deal.merchantName}</p>
+                    
+                    {/* Deal Title */}
+                    <h4 className="font-semibold text-sm line-clamp-2 mb-2">{deal.dealTitle}</h4>
+                    
+                    {/* Reward Value */}
+                    <div className="flex items-center justify-between">
+                      <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-xs">
+                        {deal.rewardValue}
+                      </Badge>
+                      <span className="text-[10px] text-slate-400">
+                        {deal.activationCount.toLocaleString()} active
+                      </span>
+                    </div>
+                  </button>
                 );
               })}
             </div>
           </div>
-
         </div>
 
-        {/* Right: Personalized Output */}
-        <div className="space-y-4">
-          {/* Personalized Message Preview */}
-          <div className="space-y-2">
-            <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Personalized Deal Message</label>
-            <Card className="p-4 border-2 border-primary/30 bg-gradient-to-br from-primary/5 to-transparent">
-              <div className="flex items-center gap-2 mb-3">
-                <Sparkles className="h-4 w-4 text-primary" />
-                <span className="text-xs font-medium text-primary uppercase">AI-Personalized</span>
-                <Badge variant="outline" className="text-[10px] ml-auto">
-                  {selectedDeal.subcategory}
-                </Badge>
-              </div>
-              <h3 className="text-lg font-bold mb-2">{personalizedMessage.headline}</h3>
-              <p className="text-sm text-slate-500 leading-relaxed">{personalizedMessage.body}</p>
-              
-              <div className="flex items-center gap-3 mt-4 pt-3 border-t">
-                <Badge className="bg-primary/20 text-primary border-primary/30">
-                  {selectedDeal.rewardValue}
-                </Badge>
-                <span className="text-xs text-slate-500">{selectedDeal.validityPeriod}</span>
-                <Badge variant="outline" className="text-[10px] ml-auto">
-                  {selectedDeal.activationCount.toLocaleString()} activations
-                </Badge>
-              </div>
-            </Card>
-          </div>
-
-          {/* Projected Impact */}
-          {dealImpact && (
-            <div className="space-y-2">
-              <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">Projected Customer Impact</label>
-              <Card className="p-4 bg-white border-slate-200">
-                {/* Eligibility */}
-                <div className="flex items-center justify-between mb-4">
+        {/* Right: Deal Detail Panel (1/3 width) - Dark Theme */}
+        <div className="w-1/3">
+          <div className="bg-slate-900 rounded-xl p-5 h-full min-h-[500px] text-white">
+            {selectedDeal ? (
+              <div className="space-y-5">
+                {/* Header */}
+                <div className="space-y-2">
                   <div className="flex items-center gap-2">
-                    <Target className="h-4 w-4 text-slate-500" />
-                    <span className="text-sm font-medium">Deal Eligibility</span>
+                    <Sparkles className="h-4 w-4 text-primary" />
+                    <span className="text-xs font-medium text-primary uppercase tracking-wide">Selected Deal</span>
                   </div>
-                  <Badge variant="outline" className={eligibilityStyles[dealImpact.eligibility]}>
-                    {dealImpact.eligibility.charAt(0).toUpperCase() + dealImpact.eligibility.slice(1)} Match
+                  <Badge variant="outline" className="text-[10px] border-slate-600 text-slate-300">
+                    {selectedDeal.subcategory}
                   </Badge>
                 </div>
-                <p className="text-xs text-slate-500 mb-4">{dealImpact.eligibilityReason}</p>
 
-                {/* Impact Metrics */}
-                <div className="grid grid-cols-3 gap-2">
-                  <div className="text-center p-3 bg-slate-100 rounded-lg">
-                    <DollarSign className="h-4 w-4 mx-auto text-slate-500 mb-1" />
-                    <p className="text-lg font-bold text-slate-900">{formatCurrency(dealImpact.projectedNewSpend)}</p>
-                    <p className="text-[10px] text-slate-500">Projected New Spend</p>
-                  </div>
-                  <div className="text-center p-3 bg-slate-100 rounded-lg">
-                    <Percent className="h-4 w-4 mx-auto text-slate-500 mb-1" />
-                    <p className="text-lg font-bold text-slate-900">{dealImpact.walletShareIncrease.toFixed(1)}%</p>
-                    <p className="text-[10px] text-slate-500">Wallet Share Lift</p>
-                  </div>
-                  <div className="text-center p-3 bg-slate-100 rounded-lg">
-                    <TrendingUp className="h-4 w-4 mx-auto text-slate-500 mb-1" />
-                    <p className="text-lg font-bold text-slate-900">{formatCurrency(dealImpact.ltvImpact)}</p>
-                    <p className="text-[10px] text-slate-500">5-Year LTV Impact</p>
-                  </div>
+                {/* Deal Info */}
+                <div className="space-y-1">
+                  <p className="text-sm text-slate-400">{selectedDeal.merchantName}</p>
+                  <h3 className="text-lg font-bold">{selectedDeal.dealTitle}</h3>
                 </div>
-              </Card>
-            </div>
-          )}
+
+                {/* Personalized Message */}
+                <div className="space-y-2 pt-3 border-t border-slate-700">
+                  <span className="text-[10px] font-medium text-primary uppercase tracking-wide">AI-Personalized Message</span>
+                  <h4 className="text-base font-semibold text-white">{personalizedMessage.headline}</h4>
+                  <p className="text-xs text-slate-400 leading-relaxed">{personalizedMessage.body}</p>
+                </div>
+
+                {/* Reward & Validity */}
+                <div className="flex items-center gap-3 pt-3 border-t border-slate-700">
+                  <Badge className="bg-primary/30 text-primary border-primary/50">
+                    {selectedDeal.rewardValue}
+                  </Badge>
+                  <span className="text-xs text-slate-500">{selectedDeal.validityPeriod}</span>
+                </div>
+
+                {/* Projected Impact */}
+                {dealImpact && (
+                  <div className="space-y-3 pt-3 border-t border-slate-700">
+                    <span className="text-[10px] font-medium text-slate-400 uppercase tracking-wide">Projected Impact</span>
+                    
+                    {/* Eligibility */}
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-slate-400">Eligibility</span>
+                      <Badge variant="outline" className={cn(
+                        "text-[10px]",
+                        dealImpact.eligibility === 'high' && "border-emerald-500 text-emerald-400",
+                        dealImpact.eligibility === 'medium' && "border-amber-500 text-amber-400",
+                        dealImpact.eligibility === 'low' && "border-slate-500 text-slate-400"
+                      )}>
+                        {dealImpact.eligibility.charAt(0).toUpperCase() + dealImpact.eligibility.slice(1)} Match
+                      </Badge>
+                    </div>
+                    <p className="text-[10px] text-slate-500">{dealImpact.eligibilityReason}</p>
+
+                    {/* Impact Metrics */}
+                    <div className="grid grid-cols-3 gap-2">
+                      <div className="text-center p-2 bg-slate-800 rounded-lg">
+                        <DollarSign className="h-3 w-3 mx-auto text-slate-500 mb-1" />
+                        <p className="text-sm font-bold text-white">{formatCurrency(dealImpact.projectedNewSpend)}</p>
+                        <p className="text-[8px] text-slate-500">New Spend</p>
+                      </div>
+                      <div className="text-center p-2 bg-slate-800 rounded-lg">
+                        <Percent className="h-3 w-3 mx-auto text-slate-500 mb-1" />
+                        <p className="text-sm font-bold text-white">{dealImpact.walletShareIncrease.toFixed(1)}%</p>
+                        <p className="text-[8px] text-slate-500">Wallet Lift</p>
+                      </div>
+                      <div className="text-center p-2 bg-slate-800 rounded-lg">
+                        <TrendingUp className="h-3 w-3 mx-auto text-slate-500 mb-1" />
+                        <p className="text-sm font-bold text-white">{formatCurrency(dealImpact.ltvImpact)}</p>
+                        <p className="text-[8px] text-slate-500">5-Yr LTV</p>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Activation Count */}
+                <div className="pt-3 border-t border-slate-700 text-center">
+                  <p className="text-xs text-slate-500">
+                    {selectedDeal.activationCount.toLocaleString()} customers have activated this deal
+                  </p>
+                </div>
+              </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center h-full text-slate-500">
+                <Target className="h-10 w-10 mb-3 opacity-50" />
+                <p className="text-sm">Select a deal to view details</p>
+              </div>
+            )}
+          </div>
         </div>
       </div>
     </div>
