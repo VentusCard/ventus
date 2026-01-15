@@ -690,9 +690,23 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                       <span className="text-[11px] text-slate-500 truncate flex-1">{deal.merchantName}</span>
                       <Badge 
                         variant="outline" 
-                        className="text-[9px] px-1 py-0 h-4 shrink-0 border-slate-300 bg-slate-50 text-slate-600"
+                        className={cn(
+                          "text-[9px] px-1 py-0 h-4 shrink-0",
+                          deal.merchantCategory === 'Travel & Exploration' && "border-sky-300 bg-sky-50 text-sky-700",
+                          deal.merchantCategory === 'Food & Dining' && "border-orange-300 bg-orange-50 text-orange-700",
+                          deal.merchantCategory === 'Entertainment & Culture' && "border-purple-300 bg-purple-50 text-purple-700",
+                          deal.merchantCategory === 'Sports & Active Living' && "border-emerald-300 bg-emerald-50 text-emerald-700",
+                          deal.merchantCategory === 'Style & Beauty' && "border-pink-300 bg-pink-50 text-pink-700",
+                          deal.merchantCategory === 'Health & Wellness' && "border-teal-300 bg-teal-50 text-teal-700",
+                          deal.merchantCategory === 'Home & Living' && "border-amber-300 bg-amber-50 text-amber-700",
+                          deal.merchantCategory === 'Technology & Digital Life' && "border-indigo-300 bg-indigo-50 text-indigo-700",
+                          deal.merchantCategory === 'Family & Community' && "border-rose-300 bg-rose-50 text-rose-700",
+                          deal.merchantCategory === 'Pets' && "border-lime-300 bg-lime-50 text-lime-700",
+                          deal.merchantCategory === 'Financial & Aspirational' && "border-slate-300 bg-slate-50 text-slate-700",
+                          deal.merchantCategory === 'Automotive' && "border-red-300 bg-red-50 text-red-700"
+                        )}
                       >
-                        {deal.subcategory}
+                        {deal.merchantCategory.split(' ')[0]}
                       </Badge>
                     </div>
                     
