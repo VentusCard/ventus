@@ -771,8 +771,18 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                   <span className="text-xs text-rose-400">{selectedDeal.validityPeriod}</span>
                 </div>
 
+                {/* Activate Deal Button */}
+                <div className="pt-4">
+                  <Button 
+                    className="w-full bg-white hover:bg-rose-50 text-rose-900 font-semibold py-3 rounded-lg transition-all hover:shadow-lg"
+                    onClick={() => {}}
+                  >
+                    Activate Deal
+                  </Button>
+                </div>
+
                 {/* Activation Count */}
-                <div className="pt-3 border-t border-rose-800/50 text-center">
+                <div className="pt-3 text-center">
                   <p className="text-xs text-rose-400">
                     {selectedDeal.activationCount.toLocaleString()} customers have activated this deal
                   </p>
