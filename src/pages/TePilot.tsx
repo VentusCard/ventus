@@ -208,7 +208,7 @@ const TePilot = () => {
   }, [parsedTransactions]);
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (password === "2025proto") {
+    if (password === "2026proto") {
       setIsAuthenticated(true);
       sessionStorage.setItem("tepilot_auth", "authenticated");
       toast.success("Access granted");
