@@ -565,6 +565,31 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
         </div>
       )}
 
+      {/* Category Summary */}
+      {hasData && (
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Based on spending profile:</span>
+          {customerProfile.topPillars.slice(0, 3).map((pillar, idx) => {
+            const dealCount = dealsByCategory[pillar.pillar]?.length || 0;
+            return (
+              <Badge 
+                key={idx} 
+                variant="secondary" 
+                className="text-xs cursor-pointer hover:bg-slate-200"
+                onClick={() => setSelectedCategory(selectedCategory === pillar.pillar ? null : pillar.pillar)}
+              >
+                {pillar.pillar} ({dealCount} deals)
+              </Badge>
+            );
+          })}
+          {selectedCategory && (
+            <Button variant="ghost" size="sm" onClick={() => setSelectedCategory(null)} className="text-xs h-6 px-2">
+              Show All
+            </Button>
+          )}
+        </div>
+      )}
+
       {/* Semantic Search Bar - Full Width */}
       <div className="space-y-3">
         <div className="relative">
@@ -609,31 +634,6 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
           </div>
         )}
       </div>
-
-      {/* Category Summary */}
-      {hasData && (
-        <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs font-medium text-slate-500 uppercase tracking-wide">Based on spending profile:</span>
-          {customerProfile.topPillars.slice(0, 3).map((pillar, idx) => {
-            const dealCount = dealsByCategory[pillar.pillar]?.length || 0;
-            return (
-              <Badge 
-                key={idx} 
-                variant="secondary" 
-                className="text-xs cursor-pointer hover:bg-slate-200"
-                onClick={() => setSelectedCategory(selectedCategory === pillar.pillar ? null : pillar.pillar)}
-              >
-                {pillar.pillar} ({dealCount} deals)
-              </Badge>
-            );
-          })}
-          {selectedCategory && (
-            <Button variant="ghost" size="sm" onClick={() => setSelectedCategory(null)} className="text-xs h-6 px-2">
-              Show All
-            </Button>
-          )}
-        </div>
-      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Left: Deal Selection + Customer Profile */}
