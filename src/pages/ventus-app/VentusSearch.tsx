@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Loader2, Search, Send, Sparkles } from 'lucide-react';
+import { Loader2, Search, Send } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
@@ -187,14 +187,9 @@ export default function VentusSearch() {
       <div className="h-screen flex flex-col bg-background">
         {/* Header */}
         <div className="border-b border-border bg-card/80 backdrop-blur-sm px-6 py-4">
-          <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#0064E0] to-[#0064E0]/70 flex items-center justify-center">
-              <Sparkles className="w-4 h-4 text-white" />
-            </div>
-            <div>
-              <h1 className="text-lg font-semibold text-foreground">Ventus AI</h1>
-              <p className="text-xs text-muted-foreground">Your personal deal finder</p>
-            </div>
+          <div>
+            <h1 className="text-lg font-semibold text-foreground">Search</h1>
+            <p className="text-xs text-muted-foreground">Find deals across all merchants</p>
           </div>
         </div>
 
