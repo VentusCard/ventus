@@ -2,15 +2,18 @@ import { useState, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { 
   User, Sparkles, TrendingUp, Heart, Music, Plane, 
   UtensilsCrossed, Dumbbell, ShoppingBag, ArrowRight,
   Target, DollarSign, Percent, Users, MapPin, AlertCircle,
-  Home, Tv, Cpu, Baby, PawPrint, Wallet, Car, ChevronDown, ChevronUp
+  Home, Tv, Cpu, Baby, PawPrint, Wallet, Car, ChevronDown, ChevronUp,
+  Search, X, Loader2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedTransaction } from "@/types/transaction";
 import { availableDeals as AVAILABLE_DEALS, AvailableDeal, DEAL_CATEGORIES, DealCategory } from "@/lib/availableDealsData";
+import { useSemanticDealSearch } from "@/hooks/useSemanticDealSearch";
 
 // Bank-defined deal format for personalization
 export interface BankDeal {
@@ -422,6 +425,54 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
     [customerProfile]
   );
 
+  // Prepare deals for semantic search (need merchantName for the hook)
+  const dealsForSearch = useMemo(() => 
+    deals.map(d => ({
+      id: d.id,
+      merchantName: d.merchantName,
+      category: d.merchantCategory,
+      subcategory: d.subcategory,
+      dealTitle: d.dealTitle,
+      rewardValue: d.rewardValue,
+    })),
+    [deals]
+  );
+
+  // Semantic search hook
+  const {
+    searchQuery,
+    isSearching,
+    handleSearchChange,
+    clearSearch,
+    matchingDealIds,
+    searchReasoning,
+  } = useSemanticDealSearch(dealsForSearch);
+
+  // Filter deals based on semantic search results
+  const filteredDealsByCategory = useMemo(() => {
+    if (!matchingDealIds || matchingDealIds.length === 0) {
+      return dealsByCategory;
+    }
+    
+    // Filter each category to only include matching deals
+    const filtered: Record<string, typeof deals> = {};
+    Object.entries(dealsByCategory).forEach(([category, categoryDeals]) => {
+      const matchingDeals = categoryDeals.filter(d => matchingDealIds.includes(d.id));
+      if (matchingDeals.length > 0) {
+        filtered[category] = matchingDeals;
+      }
+    });
+    return filtered;
+  }, [dealsByCategory, matchingDealIds]);
+
+  // Get filtered deals list
+  const filteredDeals = useMemo(() => {
+    if (!matchingDealIds || matchingDealIds.length === 0) {
+      return deals;
+    }
+    return deals.filter(d => matchingDealIds.includes(d.id));
+  }, [deals, matchingDealIds]);
+
   // Set default selected deal
   const selectedDeal = useMemo(() => {
     if (selectedDealId) {
@@ -447,11 +498,14 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
   };
 
   const hasData = enrichedTransactions.length > 0;
+  const isSearchActive = searchQuery.length >= 2;
+  const searchResultCount = matchingDealIds?.length || 0;
 
   // Get sorted categories (customer's top pillars first)
   const sortedCategories = useMemo(() => {
     const customerPillars = customerProfile.topPillars.map(p => p.pillar);
-    const allCategories = Object.keys(dealsByCategory);
+    const categoriesToShow = isSearchActive ? filteredDealsByCategory : dealsByCategory;
+    const allCategories = Object.keys(categoriesToShow);
     
     // Sort: customer pillars first, then alphabetically
     return allCategories.sort((a, b) => {
@@ -462,7 +516,7 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
       if (bIndex !== -1) return 1;
       return a.localeCompare(b);
     });
-  }, [dealsByCategory, customerProfile.topPillars]);
+  }, [dealsByCategory, filteredDealsByCategory, customerProfile.topPillars, isSearchActive]);
 
   // Toggle category expansion
   const toggleCategory = (category: string) => {
@@ -477,13 +531,15 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
     });
   };
 
-  // Filter deals by selected category
+  // Filter deals by selected category (respecting search)
   const displayedDeals = useMemo(() => {
+    const baseDeals = isSearchActive ? filteredDeals : deals;
     if (selectedCategory) {
-      return dealsByCategory[selectedCategory] || [];
+      const categoryDeals = (isSearchActive ? filteredDealsByCategory : dealsByCategory)[selectedCategory] || [];
+      return categoryDeals;
     }
-    return deals;
-  }, [selectedCategory, dealsByCategory, deals]);
+    return baseDeals;
+  }, [selectedCategory, dealsByCategory, filteredDealsByCategory, deals, filteredDeals, isSearchActive]);
 
   if (!selectedDeal) {
     return (
@@ -541,21 +597,68 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="text-xs font-medium text-slate-500 uppercase tracking-wide">
-                Available Deals ({deals.length} from library)
+                Available Deals ({isSearchActive ? `${searchResultCount} results` : `${deals.length} from library`})
               </label>
-              {selectedCategory && (
+              {(selectedCategory || isSearchActive) && (
                 <Badge variant="outline" className="text-xs">
-                  Filtered: {selectedCategory}
+                  {isSearchActive ? `"${searchQuery}"` : `Filtered: ${selectedCategory}`}
                 </Badge>
               )}
             </div>
+
+            {/* Semantic Search Bar */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+              <Input
+                type="text"
+                placeholder='Search deals... (e.g., "t-shirt", "coffee", "gym")'
+                value={searchQuery}
+                onChange={(e) => handleSearchChange(e.target.value)}
+                className="pl-9 pr-9 h-9 text-sm bg-white border-slate-200"
+              />
+              {isSearching && (
+                <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 animate-spin" />
+              )}
+              {searchQuery && !isSearching && (
+                <button
+                  onClick={clearSearch}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 hover:text-slate-600"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+
+            {/* Search Results Info */}
+            {isSearchActive && !isSearching && matchingDealIds && (
+              <div className="flex items-center gap-2 text-xs text-slate-500">
+                <Sparkles className="h-3 w-3 text-primary" />
+                <span>
+                  {searchResultCount > 0 
+                    ? `Found ${searchResultCount} deals for "${searchQuery}"` 
+                    : `No deals found for "${searchQuery}"`
+                  }
+                </span>
+                {searchReasoning && searchResultCount > 0 && (
+                  <span className="text-slate-400">• {searchReasoning}</span>
+                )}
+              </div>
+            )}
             
             <div className="max-h-[400px] overflow-y-auto space-y-3 pr-1">
+              {sortedCategories.length === 0 && isSearchActive && !isSearching && (
+                <div className="text-center py-6 text-slate-400">
+                  <Search className="h-8 w-8 mx-auto mb-2 opacity-50" />
+                  <p className="text-sm">No matching deals found</p>
+                  <p className="text-xs mt-1">Try a different search term</p>
+                </div>
+              )}
               {sortedCategories.map(category => {
-                const categoryDeals = dealsByCategory[category] || [];
+                const categoryDeals = (isSearchActive ? filteredDealsByCategory : dealsByCategory)[category] || [];
                 if (selectedCategory && selectedCategory !== category) return null;
+                if (categoryDeals.length === 0) return null;
                 
-                const isExpanded = expandedCategories.has(category) || selectedCategory === category;
+                const isExpanded = expandedCategories.has(category) || selectedCategory === category || isSearchActive;
                 const displayDeals = isExpanded ? categoryDeals : categoryDeals.slice(0, 2);
                 const Icon = getPillarIcon(category);
                 const isCustomerPillar = customerProfile.topPillars.some(p => p.pillar === category);
@@ -584,7 +687,7 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                           </Badge>
                         )}
                       </div>
-                      {categoryDeals.length > 2 && (
+                      {categoryDeals.length > 2 && !isSearchActive && (
                         isExpanded ? <ChevronUp className="h-4 w-4 text-slate-400" /> : <ChevronDown className="h-4 w-4 text-slate-400" />
                       )}
                     </button>
