@@ -124,12 +124,13 @@ export default function VentusHome() {
     return options;
   }, [offers, user]);
 
-  // Build deal category options from offers in the selected subcategory
+  // Build deal category options from offers in the selected subcategory (or all offers if "All")
   const dealCategoryOptions = useMemo(() => {
-    if (selectedSubcategory === 'All') return ['All'];
+    // Get offers based on selected subcategory
+    const filteredOffers = selectedSubcategory === 'All' 
+      ? offers 
+      : offers.filter((o) => o.subcategory === selectedSubcategory);
     
-    // Get all deal categories from offers in this subcategory
-    const filteredOffers = offers.filter((o) => o.subcategory === selectedSubcategory);
     const dealCatsSet = new Set<string>();
     
     filteredOffers.forEach((offer) => {
@@ -140,10 +141,6 @@ export default function VentusHome() {
         dealCatsSet.add(offer.deal_category);
       }
     });
-    
-    // Debug log
-    console.log('Deal categories for', selectedSubcategory, ':', Array.from(dealCatsSet), 'from', filteredOffers.length, 'offers');
-    console.log('Sample offer:', filteredOffers[0]);
     
     const dealCats = Array.from(dealCatsSet).sort();
     return dealCats.length > 0 ? ['All', ...dealCats] : ['All'];
@@ -277,27 +274,23 @@ export default function VentusHome() {
             </ScrollArea>
           </div>
 
-          {/* Deal Categories */}
-          {selectedSubcategory !== 'All' && (
+          {/* Deal Categories - always show if there are any */}
+          {dealCategoryOptions.length > 1 && (
             <div>
               <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">Deal Categories</h2>
-              {dealCategoryOptions.length > 1 ? (
-                <ScrollArea className="w-full whitespace-nowrap">
-                  <div className="flex gap-2 pb-2">
-                    {dealCategoryOptions.map((cat) => (
-                      <DealCategoryChip
-                        key={cat}
-                        label={cat}
-                        isActive={selectedDealCategory === cat}
-                        onClick={() => setSelectedDealCategory(cat)}
-                      />
-                    ))}
-                  </div>
-                  <ScrollBar orientation="horizontal" />
-                </ScrollArea>
-              ) : (
-                <p className="text-xs text-muted-foreground">No deal categories available for this sport</p>
-              )}
+              <ScrollArea className="w-full whitespace-nowrap">
+                <div className="flex gap-2 pb-2">
+                  {dealCategoryOptions.map((cat) => (
+                    <DealCategoryChip
+                      key={cat}
+                      label={cat}
+                      isActive={selectedDealCategory === cat}
+                      onClick={() => setSelectedDealCategory(cat)}
+                    />
+                  ))}
+                </div>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
             </div>
           )}
 

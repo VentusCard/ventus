@@ -62,12 +62,26 @@ export default function VentusProfile() {
   const fetchSubcategories = async () => {
     try {
       const data = await categoriesApi.getSubcategories();
-      const filtered = (data.subcategories || data || []).filter(
+      console.log('Fetched subcategories raw:', data);
+      
+      // Handle different response formats
+      let subcategories: VentusCategory[] = [];
+      if (Array.isArray(data)) {
+        subcategories = data;
+      } else if (data.subcategories && Array.isArray(data.subcategories)) {
+        subcategories = data.subcategories;
+      } else if (data.categories && Array.isArray(data.categories)) {
+        subcategories = data.categories;
+      }
+      
+      // Filter out General
+      const filtered = subcategories.filter(
         (cat: VentusCategory) => cat.subcategory !== 'General'
       );
+      console.log('Filtered subcategories:', filtered);
       setAllSubcategories(filtered);
     } catch (error) {
-      console.error('Failed to fetch subcategories');
+      console.error('Failed to fetch subcategories:', error);
     }
   };
 
