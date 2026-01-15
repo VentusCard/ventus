@@ -692,34 +692,31 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
               </div>
             )}
             
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 gap-2">
               {displayedDeals.map(deal => {
                 const Icon = getPillarIcon(deal.merchantCategory);
                 const isSelected = selectedDeal?.id === deal.id;
+                const personalizedMsg = personalizeDealMessage(deal, customerProfile);
                 
                 return (
                   <button
                     key={deal.id}
                     onClick={() => setSelectedDealId(deal.id)}
                     className={cn(
-                      "p-4 rounded-xl text-left transition-all border-2",
+                      "p-3 rounded-lg text-left transition-all border",
                       isSelected
-                        ? "bg-primary/10 border-primary shadow-md"
-                        : "bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm"
+                        ? "bg-primary/10 border-primary shadow-sm"
+                        : "bg-white border-slate-200 hover:border-slate-300"
                     )}
                   >
-                    {/* Deal Header */}
-                    <div className="flex items-start justify-between gap-2 mb-2">
-                      <div className={cn(
-                        "p-2 rounded-lg",
-                        isSelected ? "bg-primary/20" : "bg-slate-100"
-                      )}>
-                        <Icon className={cn("h-4 w-4", isSelected ? "text-primary" : "text-slate-500")} />
-                      </div>
+                    {/* Top Row: Icon + Merchant + Popularity */}
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <Icon className={cn("h-3.5 w-3.5 shrink-0", isSelected ? "text-primary" : "text-slate-400")} />
+                      <span className="text-[11px] text-slate-500 truncate flex-1">{deal.merchantName}</span>
                       <Badge 
                         variant="outline" 
                         className={cn(
-                          "text-[10px] px-1.5",
+                          "text-[9px] px-1 py-0 h-4 shrink-0",
                           deal.popularity === 'trending' && "border-amber-300 bg-amber-50 text-amber-700",
                           deal.popularity === 'featured' && "border-purple-300 bg-purple-50 text-purple-700",
                           deal.popularity === 'popular' && "border-blue-300 bg-blue-50 text-blue-700",
@@ -730,18 +727,20 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                       </Badge>
                     </div>
                     
-                    {/* Merchant Name */}
-                    <p className="text-xs text-slate-500 mb-1">{deal.merchantName}</p>
+                    {/* Personalized Caption */}
+                    <p className={cn(
+                      "text-xs font-medium line-clamp-1 mb-1",
+                      isSelected ? "text-primary" : "text-slate-700"
+                    )}>
+                      {personalizedMsg.headline}
+                    </p>
                     
-                    {/* Deal Title */}
-                    <h4 className="font-semibold text-sm line-clamp-2 mb-2">{deal.dealTitle}</h4>
-                    
-                    {/* Reward Value */}
+                    {/* Bottom Row: Reward + Activations */}
                     <div className="flex items-center justify-between">
-                      <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-xs">
+                      <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-[10px] px-1.5 py-0 h-4">
                         {deal.rewardValue}
                       </Badge>
-                      <span className="text-[10px] text-slate-400">
+                      <span className="text-[9px] text-slate-400">
                         {deal.activationCount.toLocaleString()} active
                       </span>
                     </div>
