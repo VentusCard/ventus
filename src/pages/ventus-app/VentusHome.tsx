@@ -235,7 +235,7 @@ export default function VentusHome() {
             <h1 className="text-lg font-semibold text-foreground">
               Welcome, {user?.first_name || 'there'}
             </h1>
-            <p className="text-xs text-muted-foreground">{offers.length} deals available</p>
+            <p className="text-xs text-muted-foreground">Here's your personalized offers</p>
           </div>
         </header>
 
@@ -270,8 +270,8 @@ export default function VentusHome() {
           </div>
 
           {/* Browse by Sport */}
-          <div>
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">Browse by Sport</h2>
+          <div className="space-y-3">
+            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Browse by Sport</h2>
             <ScrollArea className="w-full whitespace-nowrap">
               <div className="flex gap-2 pb-2">
                 {subcategoryOptions.map((opt) => (
@@ -290,12 +290,9 @@ export default function VentusHome() {
               </div>
               <ScrollBar orientation="horizontal" />
             </ScrollArea>
-          </div>
 
-          {/* Deal Categories - always show if there are any */}
-          {dealCategoryOptions.length > 1 && (
-            <div>
-              <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide mb-3">Deal Categories</h2>
+            {/* Deal Categories - show under subcategory filters */}
+            {dealCategoryOptions.length > 1 && (
               <ScrollArea className="w-full whitespace-nowrap">
                 <div className="flex gap-2 pb-2">
                   {dealCategoryOptions.map((cat) => (
@@ -309,8 +306,8 @@ export default function VentusHome() {
                 </div>
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
-            </div>
-          )}
+            )}
+          </div>
 
           {/* Offers list - stacked */}
           <div className="space-y-3">
