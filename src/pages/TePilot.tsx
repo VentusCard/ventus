@@ -888,7 +888,7 @@ const TePilot = () => {
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900">Ventus AI Transaction Enrichment & Personalization Engine</h1>
             <p className="text-slate-600 mt-2">Unlock deep customer insights from existing data with next-generation contextual AI</p>
           </div>
-        <Button variant="outline" onClick={() => {
+        <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900" onClick={() => {
           // Clear authentication
           sessionStorage.removeItem("tepilot_auth");
           setIsAuthenticated(false);
@@ -931,12 +931,12 @@ const TePilot = () => {
         </div>
 
         <Tabs value={activeTab} onValueChange={setActiveTab}>
-          <TabsList className="grid w-full grid-cols-5">
-            <TabsTrigger value="upload">Setup</TabsTrigger>
-            <TabsTrigger value="preview" disabled={parsedTransactions.length === 0}>Preview</TabsTrigger>
-            <TabsTrigger value="results" disabled={enrichedTransactions.length === 0}>Enrichment</TabsTrigger>
-            <TabsTrigger value="analytics" disabled={enrichedTransactions.length === 0}>Dashboard</TabsTrigger>
-            <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0}>Insight Tools</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-5 bg-slate-100 text-slate-600">
+            <TabsTrigger value="upload" className="data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm">Setup</TabsTrigger>
+            <TabsTrigger value="preview" disabled={parsedTransactions.length === 0} className="data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm">Preview</TabsTrigger>
+            <TabsTrigger value="results" disabled={enrichedTransactions.length === 0} className="data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm">Enrichment</TabsTrigger>
+            <TabsTrigger value="analytics" disabled={enrichedTransactions.length === 0} className="data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm">Dashboard</TabsTrigger>
+            <TabsTrigger value="insights" disabled={enrichedTransactions.length === 0} className="data-[state=active]:bg-white data-[state=active]:text-slate-900 data-[state=active]:shadow-sm">Insight Tools</TabsTrigger>
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">
@@ -954,10 +954,10 @@ const TePilot = () => {
           </TabsContent>
 
           <TabsContent value="results" className="space-y-6">
-            {currentPhase === "travel" && <Card className="border-yellow-500/20 bg-yellow-500/5">
+            {currentPhase === "travel" && <Card className="border-yellow-200 bg-yellow-50">
                 <CardContent className="pt-6 flex items-center gap-3">
                   <div className="h-5 w-5 animate-spin rounded-full border-2 border-yellow-600 border-t-transparent" />
-                  <p className="text-sm font-medium text-yellow-700 dark:text-yellow-400">
+                  <p className="text-sm font-medium text-yellow-700">
                     {statusMessage || "Analyzing travel patterns..."}
                   </p>
                 </CardContent>
@@ -967,10 +967,10 @@ const TePilot = () => {
             </div>
             <ResultsTable transactions={enrichedTransactions} currentPhase={currentPhase} statusMessage={statusMessage} onCorrection={handleCorrection} />
             
-            {currentPhase === "complete" && enrichedTransactions.length > 0 && <Card className="border-primary/20 bg-primary/5">
+            {currentPhase === "complete" && enrichedTransactions.length > 0 && <Card className="border-blue-200 bg-blue-50">
                 <CardContent className="pt-6 flex flex-col items-center gap-4">
                   <div className="text-center">
-                    <h3 className="text-lg font-semibold mb-2">Ready to explore enriched customer profile dashboard?</h3>
+                    <h3 className="text-lg font-semibold text-slate-900 mb-2">Ready to explore enriched customer profile dashboard?</h3>
                     <p className="text-sm text-slate-600 mb-4">
                       View aggregated spending patterns, travel analysis, and lifestyle breakdowns
                     </p>
@@ -985,10 +985,10 @@ const TePilot = () => {
 
           <TabsContent value="analytics" className="space-y-6">
             {/* View Header */}
-            <Card className="p-6">
+            <Card className="p-6 bg-white border-slate-200">
               <div className="flex items-center justify-between">
                 <div>
-                  <h2 className="text-2xl font-bold">
+                  <h2 className="text-2xl font-bold text-slate-900">
                     {analyticsView === "single" ? "Customer Lifestyle Dashboard" : "Bank-wide Analytics"}
                   </h2>
                   <p className="text-sm text-slate-600 mt-1">
@@ -1008,10 +1008,10 @@ const TePilot = () => {
                 
                 <BeforeAfterTransformation originalTransactions={parsedTransactions} enrichedTransactions={displayTransactions} />
                 
-                <Card className="border-primary/20 bg-primary/5">
+                <Card className="border-blue-200 bg-blue-50">
                   <CardContent className="pt-6 flex flex-col items-center gap-4">
                     <div className="text-center">
-                      <h3 className="text-lg font-semibold mb-2">Ready to Explore Ventus Insight Tools?</h3>
+                      <h3 className="text-lg font-semibold text-slate-900 mb-2">Ready to Explore Ventus Insight Tools?</h3>
                       <p className="text-sm text-slate-600 mb-4">
                         Access specialized dashboards for Bank Leadership, Rewards Team, or Wealth Management
                       </p>
@@ -1023,8 +1023,8 @@ const TePilot = () => {
                   </CardContent>
                 </Card>
               </> : <Accordion type="single" collapsible defaultValue="bankwide">
-                <AccordionItem value="bankwide">
-                  <AccordionTrigger className="text-lg hover:no-underline">
+                <AccordionItem value="bankwide" className="border-slate-200">
+                  <AccordionTrigger className="text-lg hover:no-underline text-slate-900">
                     <div className="flex items-center justify-between w-full pr-4">
                       <span className="font-semibold">🏦 Bank-wide Analytics Dashboard</span>
                       <span className="text-sm text-slate-500">70M accounts • 45M users • $180B portfolio</span>
@@ -1114,7 +1114,7 @@ const TePilot = () => {
             {insightType === 'bankwide' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Bank-wide Analytics</h2>
-                  <Button variant="outline" onClick={() => setInsightType(null)}>
+                  <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900" onClick={() => setInsightType(null)}>
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Insight Tools Selection
                   </Button>
@@ -1125,7 +1125,7 @@ const TePilot = () => {
             {insightType === 'revenue' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Revenue Recommendations</h2>
-                  <Button variant="outline" onClick={() => {
+                  <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900" onClick={() => {
                 setActiveTab("insights");
                 setInsightType(null);
               }}>
@@ -1146,11 +1146,11 @@ const TePilot = () => {
                 
                 {/* Loading State for Recommendations */}
                 {isGeneratingRecommendations && !recommendations && (
-                  <Card className="overflow-hidden">
-                    <CardHeader className="cursor-pointer hover:bg-muted/50 transition-colors">
+                  <Card className="overflow-hidden bg-white border-slate-200">
+                    <CardHeader className="cursor-pointer hover:bg-slate-50 transition-colors">
                       <div className="flex items-center justify-between">
                         <div className="flex flex-col items-start gap-2">
-                          <CardTitle className="text-2xl">
+                          <CardTitle className="text-2xl text-slate-900">
                             Example Deal, Rewards and Cross-Sell Opportunities
                           </CardTitle>
                           <p className="text-sm text-slate-600">
@@ -1159,7 +1159,7 @@ const TePilot = () => {
                         </div>
                         <div className="flex items-center gap-4">
                           <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                          <ChevronDown className="h-5 w-5" />
+                          <ChevronDown className="h-5 w-5 text-slate-500" />
                         </div>
                       </div>
                     </CardHeader>
@@ -1191,7 +1191,7 @@ const TePilot = () => {
                   description="Preview how bank-defined deals translate into personalized customer messaging"
                   icon={<Sparkles className="h-5 w-5 text-violet-500" />}
                   previewContent={
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-slate-500">
                       Test how partnership deals would render for this customer based on their transaction history and lifestyle signals.
                     </p>
                   }
@@ -1220,7 +1220,7 @@ const TePilot = () => {
             {insightType === 'relationship' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
                   <h2 className="text-2xl font-bold">Wealth Management Relationship Analysis</h2>
-                  <Button variant="outline" onClick={() => {
+                  <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900" onClick={() => {
                 setActiveTab("insights");
                 setInsightType(null);
               }}>
