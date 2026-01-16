@@ -92,32 +92,6 @@ export default function VentusAuth() {
               {mode === 'signin' ? 'Sign in to access your account' : 'Create your account'}
             </p>
 
-            {/* Tab Switcher */}
-            <div className="flex mb-6 bg-muted rounded-lg p-1">
-              <button
-                type="button"
-                onClick={() => setMode('signin')}
-                className={`flex-1 py-2.5 text-sm font-medium rounded-md transition-all ${
-                  mode === 'signin'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                Sign In
-              </button>
-              <button
-                type="button"
-                onClick={() => setMode('signup')}
-                className={`flex-1 py-2.5 text-sm font-medium rounded-md transition-all ${
-                  mode === 'signup'
-                    ? 'bg-background text-foreground shadow-sm'
-                    : 'text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                Sign Up
-              </button>
-            </div>
-
             <form onSubmit={handleSubmit} className="space-y-4">
               {mode === 'signup' && (
                 <div className="grid grid-cols-2 gap-4">
@@ -129,7 +103,7 @@ export default function VentusAuth() {
                       onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                       required
                       placeholder="John"
-                      className="bg-background border-border"
+                      className="bg-background border-border text-white"
                     />
                   </div>
                   <div className="space-y-2">
@@ -140,7 +114,7 @@ export default function VentusAuth() {
                       onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                       required
                       placeholder="Doe"
-                      className="bg-background border-border"
+                      className="bg-background border-border text-white"
                     />
                   </div>
                 </div>
@@ -155,7 +129,7 @@ export default function VentusAuth() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                   placeholder="john@example.com"
-                  className="bg-background border-border"
+                  className="bg-background border-border text-white"
                 />
               </div>
 
@@ -176,7 +150,7 @@ export default function VentusAuth() {
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
                     placeholder={mode === 'signup' ? 'Min 8 characters' : 'Enter password'}
-                    className="bg-background border-border pr-10"
+                    className="bg-background border-border text-white pr-10"
                   />
                   <button
                     type="button"
@@ -198,7 +172,7 @@ export default function VentusAuth() {
                     onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                     required
                     placeholder="Re-enter password"
-                    className="bg-background border-border"
+                    className="bg-background border-border text-white"
                   />
                 </div>
               )}
@@ -218,6 +192,32 @@ export default function VentusAuth() {
                 )}
               </Button>
             </form>
+
+            <p className="text-center text-sm text-muted-foreground mt-6">
+              {mode === 'signin' ? (
+                <>
+                  Don't have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => setMode('signup')}
+                    className="text-[#0064E0] hover:underline font-medium"
+                  >
+                    Sign Up
+                  </button>
+                </>
+              ) : (
+                <>
+                  Already have an account?{' '}
+                  <button
+                    type="button"
+                    onClick={() => setMode('signin')}
+                    className="text-[#0064E0] hover:underline font-medium"
+                  >
+                    Log In
+                  </button>
+                </>
+              )}
+            </p>
           </CardContent>
         </Card>
       </div>
