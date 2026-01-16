@@ -20,12 +20,28 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
   };
 }
 
-// Dynamic prompt - handles any deal count with privacy guardrails
+// Dynamic prompt - handles any deal count with privacy guardrails and personal context
 const buildSystemPrompt = (dealCount: number) => `You personalize deal cards. Generate SHORT messages (15-25 words max).
 
 You will receive ${dealCount} deals. Return EXACTLY ${dealCount} personalized recs.
 
-INPUT: deals (id, m=merchant, c=category, r=reward), profile (pillars with spend, signals)
+INPUT:
+- deals (id, m=merchant, c=category, r=reward)
+- profile (pillars with spend, signals from transactions)
+- ctx (optional personal context: demo with occ/fam/inc, persona with traits/interests)
+
+PERSONALIZATION STRATEGY:
+When ctx is available, COMBINE signals naturally to create emotionally resonant messages:
+- Demo (occupation, family status) + Lifestyle signals (activities from transactions) + Merchant benefit
+- Focus on EMOTIONAL BENEFITS, not data exposure
+
+Examples of GREAT context-aware personalization:
+| Context | Merchant | Message |
+| Family + Snowsports spending | GoPro | "Capture precious family moments on the mountain with GoPro" |
+| Busy professional + Coffee lover | Starbucks | "Your morning fuel, now with 5% back every visit" |
+| Fitness enthusiast + Active lifestyle | Lululemon | "Gear up for your next workout with 15% off" |
+| Parent + Dining out | DoorDash | "Easy family dinners delivered - save $5 on orders $25+" |
+| Wellness focused + Self-care | Sephora | "Treat yourself to something special with 10% rewards" |
 
 OUTPUT: Valid JSON array with EXACTLY ${dealCount} entries:
 {"recs":[{"id":"deal_id","msg":"short personal message","cta":"2-5 word CTA"},...]}
@@ -37,20 +53,23 @@ CRITICAL RULES:
 
 PRIVACY RULES (MANDATORY):
 - NEVER mention specific numbers (transaction counts, visit counts, exact spend amounts)
-- NEVER reference other merchants by name - only personalize based on the CURRENT deal's merchant
-- Use general lifestyle affinity language like "as a foodie", "for active lifestyles", "coffee lover"
-- Reference spending CATEGORIES broadly, not specific amounts or frequencies
-- Keep personalization warm but non-intrusive
+- NEVER reference other merchants by name - only personalize for the CURRENT deal's merchant
+- NEVER mention exact income levels or specific demographic details
+- Reference occupations/family in GENERAL terms only ("busy professional", "family time", "adventure seeker")
+- Focus on emotional benefits and aspirations, not data points
+- Keep personalization warm and inspirational
 
 GOOD examples:
-- "Perfect for coffee lovers - earn 5% on every visit"
+- "Capture precious family moments on the mountain" (combines family + activity)
+- "Perfect for busy professionals - earn 5% on every visit"
 - "Fuel your active lifestyle with 10% rewards"
-- "A foodie favorite - get $10 off your next order"
+- "More family adventures with 10% back on dining"
 
 BAD examples (NEVER DO):
-- "Your 26 annual coffee stops..." (specific count)
+- "Your 26 annual coffee stops..." (specific count - creepy)
 - "After your Barry's workout..." (mentions other merchant)
 - "Based on your $4,500 dining spend..." (specific amount)
+- "As a Senior Product Manager at a tech company..." (too specific occupation)
 
 ONLY return valid JSON, no markdown.`;
 
@@ -63,9 +82,9 @@ serve(async (req) => {
   }
 
   try {
-    const { deals, profile, txCount } = await req.json();
+    const { deals, profile, ctx, txCount } = await req.json();
     
-    console.log(`[personalize] ${deals?.length || 0} deals, ${txCount || 0} txns`);
+    console.log(`[personalize] ${deals?.length || 0} deals, ${txCount || 0} txns, ctx: ${ctx ? 'yes' : 'no'}`);
 
     if (!deals || deals.length === 0) {
       return new Response(
@@ -76,10 +95,11 @@ serve(async (req) => {
 
     const dealCount = deals.length;
 
-    // Compact prompt with explicit count
+    // Compact prompt with explicit count and personal context
     const userPrompt = `Personalize ALL ${dealCount} deals. Return exactly ${dealCount} recs.
 Deals:${JSON.stringify(deals)}
-Profile:${profile ? JSON.stringify(profile) : "none"}`;
+Profile:${profile ? JSON.stringify(profile) : "none"}
+Context:${ctx ? JSON.stringify(ctx) : "none"}`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
       method: "POST",

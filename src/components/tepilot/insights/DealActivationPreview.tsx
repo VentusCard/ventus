@@ -419,9 +419,23 @@ export interface SelectedDealForPersonalization {
 
 interface DealActivationPreviewProps {
   enrichedTransactions?: EnrichedTransaction[];
+  personalContext?: {
+    demographics?: {
+      age?: string;
+      occupation?: string;
+      familyStatus?: string;
+      incomeLevel?: string;
+      industry?: string;
+    };
+    persona?: {
+      summary?: string;
+      lifestyle_traits?: string[];
+      interests?: string[];
+    };
+  };
 }
 
-export function DealActivationPreview({ enrichedTransactions = [] }: DealActivationPreviewProps) {
+export function DealActivationPreview({ enrichedTransactions = [], personalContext }: DealActivationPreviewProps) {
   const [selectedDealId, setSelectedDealId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
@@ -613,8 +627,21 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
           signals: customerProfile.lifestyleSignals?.slice(0, 3) || []
         };
         
+        // Build slim personal context for AI personalization
+        const slimContext = {
+          demo: personalContext?.demographics ? {
+            occ: personalContext.demographics.occupation,
+            fam: personalContext.demographics.familyStatus,
+            inc: personalContext.demographics.incomeLevel
+          } : null,
+          persona: personalContext?.persona ? {
+            traits: personalContext.persona.lifestyle_traits?.slice(0, 3),
+            interests: personalContext.persona.interests?.slice(0, 3)
+          } : null
+        };
+        
         const { data, error } = await supabase.functions.invoke("generate-partner-recommendations", {
-          body: { deals: slimDeals, profile: slimProfile, txCount: enrichedTransactions.length },
+          body: { deals: slimDeals, profile: slimProfile, ctx: slimContext, txCount: enrichedTransactions.length },
         });
         
         if (error) throw error;
