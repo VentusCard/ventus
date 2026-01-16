@@ -241,25 +241,25 @@ export default function VentusHome() {
       <div className="min-h-screen">
         {/* Header */}
         <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
-          <div className="px-6 py-4">
-            <h1 className="text-lg font-semibold text-foreground">
+          <div className="px-8 py-6">
+            <h1 className="text-2xl font-semibold text-foreground">
               Welcome, {user?.first_name || 'there'}
             </h1>
-            <p className="text-xs text-muted-foreground">Here's your personalized offers</p>
+            <p className="text-sm text-muted-foreground mt-1">Here's your personalized offers</p>
           </div>
         </header>
 
-        <div className="px-6 py-5 space-y-5 max-w-6xl">
+        <div className="px-8 py-6 space-y-6 max-w-6xl">
           {/* App Download CTA */}
           <Card className="bg-card border-border overflow-hidden">
-            <CardContent className="p-4">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Smartphone className="w-5 h-5 text-primary" />
+            <CardContent className="p-5">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <Smartphone className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-foreground text-sm">Get the Ventus App</h3>
-                  <p className="text-xs text-muted-foreground">Wishlist, notifications & more</p>
+                  <h3 className="font-medium text-foreground text-base">Get the Ventus App</h3>
+                  <p className="text-sm text-muted-foreground">Wishlist, notifications & more</p>
                 </div>
                 <AppStoreBadges compact />
               </div>
@@ -271,19 +271,19 @@ export default function VentusHome() {
             onClick={handleSearchClick}
             className="relative cursor-pointer group"
           >
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
             <Input
               readOnly
               placeholder={ROTATING_PLACEHOLDERS[placeholderIndex]}
-              className="pl-9 h-10 text-sm cursor-pointer bg-card border-border group-hover:border-primary/50 transition-colors"
+              className="pl-11 h-12 text-base cursor-pointer bg-card border-border group-hover:border-primary/50 transition-colors"
             />
           </div>
 
           {/* Browse by Sport */}
-          <div className="space-y-3">
-            <h2 className="text-xs font-medium text-muted-foreground uppercase tracking-wide">Browse by Sport</h2>
+          <div className="space-y-4">
+            <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Browse by Sport</h2>
             <ScrollArea className="w-full whitespace-nowrap">
-              <div className="flex gap-2 pb-2">
+              <div className="flex gap-3 pb-2">
                 {subcategoryOptions.map((opt) => (
                   <SubcategoryChip
                     key={opt.name}
@@ -304,7 +304,7 @@ export default function VentusHome() {
             {/* Deal Categories - show under subcategory filters */}
             {dealCategoryOptions.length > 1 && (
               <ScrollArea className="w-full whitespace-nowrap">
-                <div className="flex gap-2 pb-2">
+                <div className="flex gap-3 pb-2">
                   {dealCategoryOptions.map((cat) => (
                     <DealCategoryChip
                       key={cat}
@@ -320,11 +320,11 @@ export default function VentusHome() {
           </div>
 
           {/* Offers list - stacked */}
-          <div className="space-y-3">
+          <div className="space-y-4">
             {groupedMerchants.length === 0 ? (
-              <div className="text-center py-16">
-                <p className="text-muted-foreground text-sm">No offers match your filters</p>
-                <p className="text-xs text-muted-foreground mt-1">
+              <div className="text-center py-20">
+                <p className="text-muted-foreground text-base">No offers match your filters</p>
+                <p className="text-sm text-muted-foreground mt-2">
                   Try adjusting your filters
                 </p>
               </div>
@@ -339,19 +339,19 @@ export default function VentusHome() {
                     open={isExpanded}
                     onOpenChange={() => hasMultipleOffers && toggleMerchant(merchant.merchantName)}
                   >
-                    <div className="bg-card border border-border rounded-lg overflow-hidden hover:border-primary/30 transition-colors">
+                    <div className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-colors">
                       {/* Main merchant header */}
                       <CollapsibleTrigger asChild disabled={!hasMultipleOffers}>
                         <div className={cn(
-                          "flex items-center gap-3 p-4",
+                          "flex items-center gap-4 p-5",
                           hasMultipleOffers && "cursor-pointer"
                         )}>
                           {/* Logo */}
-                          <div className="w-10 h-10 rounded-lg bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
+                          <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
                             <img 
                               src={getMerchantLogoUrl(merchant.domain)} 
                               alt={merchant.merchantName}
-                              className="w-8 h-8 object-contain"
+                              className="w-10 h-10 object-contain"
                               onError={(e) => {
                                 (e.target as HTMLImageElement).style.display = 'none';
                               }}
@@ -361,21 +361,21 @@ export default function VentusHome() {
                           {/* Content */}
                           <div className="flex-1 min-w-0">
                             <div className="flex items-center gap-2">
-                              <h3 className="text-sm font-medium text-foreground truncate">
+                              <h3 className="text-base font-medium text-foreground truncate">
                                 {merchant.merchantName}
                               </h3>
                               {merchant.isPartner && (
-                                <Badge className="bg-primary/10 text-primary text-[10px] px-1.5 py-0">
+                                <Badge className="bg-primary/10 text-primary text-xs px-2 py-0.5">
                                   Partner
                                 </Badge>
                               )}
                               {hasMultipleOffers && (
-                                <Badge variant="secondary" className="text-[10px] px-1.5 py-0">
+                                <Badge variant="secondary" className="text-xs px-2 py-0.5">
                                   {merchant.offers.length} deals
                                 </Badge>
                               )}
                             </div>
-                            <p className="text-xs text-muted-foreground truncate mt-0.5">
+                            <p className="text-sm text-muted-foreground truncate mt-1">
                               {merchant.offers[0]?.title}
                             </p>
                           </div>
@@ -384,9 +384,9 @@ export default function VentusHome() {
                           {hasMultipleOffers ? (
                             <div className="flex-shrink-0 text-muted-foreground">
                               {isExpanded ? (
-                                <ChevronUp className="w-4 h-4" />
+                                <ChevronUp className="w-5 h-5" />
                               ) : (
-                                <ChevronDown className="w-4 h-4" />
+                                <ChevronDown className="w-5 h-5" />
                               )}
                             </div>
                           ) : (
@@ -395,10 +395,10 @@ export default function VentusHome() {
                                 e.stopPropagation();
                                 handleOfferClick(merchant.offers[0]);
                               }}
-                              className="flex items-center gap-1 text-xs font-medium text-primary hover:text-primary/80 transition-colors flex-shrink-0"
+                              className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors flex-shrink-0"
                             >
                               <span>View</span>
-                              <ExternalLink className="w-3.5 h-3.5" />
+                              <ExternalLink className="w-4 h-4" />
                             </button>
                           )}
                         </div>
@@ -411,16 +411,16 @@ export default function VentusHome() {
                             <button
                               key={offer.id || idx}
                               onClick={() => handleOfferClick(offer)}
-                              className="w-full flex items-center gap-3 px-4 py-3 hover:bg-muted/50 transition-colors text-left border-b border-border last:border-b-0"
+                              className="w-full flex items-center gap-4 px-5 py-4 hover:bg-muted/50 transition-colors text-left border-b border-border last:border-b-0"
                             >
                               <div className="flex-1 min-w-0">
-                                <p className="text-sm text-foreground truncate">{offer.title}</p>
+                                <p className="text-base text-foreground truncate">{offer.title}</p>
                                 {offer.deal_categories && offer.deal_categories.length > 0 && (
-                                  <div className="flex gap-1 mt-1 flex-wrap">
+                                  <div className="flex gap-1.5 mt-1.5 flex-wrap">
                                     {offer.deal_categories.slice(0, 2).map((cat) => (
                                       <span 
                                         key={cat} 
-                                        className="text-[9px] px-1.5 py-0.5 bg-muted rounded text-muted-foreground"
+                                        className="text-xs px-2 py-0.5 bg-muted rounded text-muted-foreground"
                                       >
                                         {cat}
                                       </span>
@@ -428,7 +428,7 @@ export default function VentusHome() {
                                   </div>
                                 )}
                               </div>
-                              <ExternalLink className="w-3.5 h-3.5 text-primary flex-shrink-0" />
+                              <ExternalLink className="w-4 h-4 text-primary flex-shrink-0" />
                             </button>
                           ))}
                         </div>
