@@ -23,6 +23,7 @@ export function DemographicsGenerator({
     onZipChange("");
   };
 
+  // No sample data loaded - show editable ZIP field only
   if (!demographics) {
     return (
       <div className="space-y-2">
@@ -30,10 +31,7 @@ export function DemographicsGenerator({
           <Sparkles className="h-3.5 w-3.5 text-blue-600" />
           Customer Context
         </label>
-        <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg space-y-3">
-          <p className="text-sm text-slate-500">
-            Load a sample dataset above to populate customer demographics
-          </p>
+        <div className="p-3 bg-slate-50 border border-slate-200 rounded-lg">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-slate-700">
               <MapPin className="h-3.5 w-3.5 text-slate-500" />
@@ -54,6 +52,7 @@ export function DemographicsGenerator({
     );
   }
 
+  // Sample data loaded - show demographics with fixed ZIP
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium flex items-center gap-1.5 text-slate-900">
@@ -80,17 +79,10 @@ export function DemographicsGenerator({
             <span className="text-sm">{demographics.demographics.familyStatus}</span>
           </div>
 
-          {/* ZIP Code */}
+          {/* Fixed ZIP Code */}
           <div className="flex items-center gap-1.5 text-slate-700">
             <MapPin className="h-3.5 w-3.5 text-slate-500" />
-            <Input
-              type="text"
-              value={anchorZip}
-              onChange={(e) => onZipChange(e.target.value)}
-              placeholder="ZIP"
-              className="w-[80px] h-7 bg-white border-slate-300 text-sm font-mono"
-              maxLength={5}
-            />
+            <span className="text-sm font-mono">{anchorZip}</span>
           </div>
         </div>
 
@@ -110,7 +102,7 @@ export function DemographicsGenerator({
                 </Button>
               </TooltipTrigger>
               <TooltipContent>
-                <p className="text-xs">Clear</p>
+                <p className="text-xs">Clear sample data</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
