@@ -98,23 +98,8 @@ export function FileUploader({
         demographics={demographics}
         onDemographicsChange={onDemographicsChange}
         onZipChange={onAnchorZipChange}
+        anchorZip={anchorZip}
       />
-
-      <div className="space-y-2">
-        <label className="text-sm font-medium flex items-center gap-1.5 text-slate-900">
-          <MapPin className="h-3.5 w-3.5 text-slate-500" />
-          Anchor ZIP Code
-        </label>
-        <Input
-          type="text"
-          value={anchorZip}
-          onChange={(e) => onAnchorZipChange(e.target.value)}
-          placeholder="e.g., 94102"
-          className="max-w-[200px] bg-white border-slate-300"
-          maxLength={5}
-        />
-        <p className="text-xs text-slate-500">Used to identify home location vs travel transactions</p>
-      </div>
 
       <div
         className={cn(
