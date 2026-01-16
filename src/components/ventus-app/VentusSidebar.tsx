@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, Search, User, LogOut, PanelLeft } from 'lucide-react';
+import { Home, Sparkles, User, LogOut, PanelLeft } from 'lucide-react';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
 import { cn } from '@/lib/utils';
 import { useState } from 'react';
@@ -22,7 +22,7 @@ export const VentusSidebar = ({ children }: VentusSidebarProps) => {
 
   const navItems = [
     { path: '/app/home', icon: Home, label: 'Home' },
-    { path: '/app/search', icon: Search, label: 'Search' },
+    { path: '/app/search', icon: Sparkles, label: 'Ventus AI' },
     { path: '/app/profile', icon: User, label: 'Profile' },
   ];
 
