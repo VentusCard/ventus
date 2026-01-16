@@ -16,14 +16,28 @@ interface UploadOrPasteContainerProps {
   onModeChange: (mode: "paste" | "upload") => void;
   onLoadSample: (sampleData: string, zipCode: string, demographics: ClientProfileData) => void;
   children: React.ReactNode;
+  activeSelection: "sample" | "paste" | "upload";
+  onActiveSelectionChange: (selection: "sample" | "paste" | "upload") => void;
 }
 
 export function UploadOrPasteContainer({
   mode,
   onModeChange,
   onLoadSample,
-  children
+  children,
+  activeSelection,
+  onActiveSelectionChange
 }: UploadOrPasteContainerProps) {
+  const handleLoadSample = (data: string, zip: string, demographics: ClientProfileData) => {
+    onActiveSelectionChange("sample");
+    onLoadSample(data, zip, demographics);
+  };
+
+  const handleModeChange = (newMode: "paste" | "upload") => {
+    onActiveSelectionChange(newMode);
+    onModeChange(newMode);
+  };
+
   return <Card className="bg-white border-slate-200">
       <CardHeader>
         <div>
@@ -35,43 +49,43 @@ export function UploadOrPasteContainer({
         <div className="flex gap-2 mt-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="default" size="sm" className="flex-1">
+              <Button variant={activeSelection === "sample" ? "default" : "outline"} size="sm" className="flex-1">
                 Load Sample Data
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-64 bg-white border-slate-200">
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV, "94102", SAMPLE_CUSTOMER_1)}>
+              <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV, "94102", SAMPLE_CUSTOMER_1)}>
                 <div className="flex flex-col">
                   <span className="font-medium">Dataset 1 (1 month)</span>
                   <span className="text-xs text-slate-500">Tech Professional, SF</span>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_SPORTS_WELLNESS, "78701", SAMPLE_CUSTOMER_2)}>
+              <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_SPORTS_WELLNESS, "78701", SAMPLE_CUSTOMER_2)}>
                 <div className="flex flex-col">
                   <span className="font-medium">Dataset 2 (1 month)</span>
                   <span className="text-xs text-slate-500">Software Engineer, Austin</span>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_FOOD_HOME, "60614", SAMPLE_CUSTOMER_3)}>
+              <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_FOOD_HOME, "60614", SAMPLE_CUSTOMER_3)}>
                 <div className="flex flex-col">
                   <span className="font-medium">Dataset 3 (1 month)</span>
                   <span className="text-xs text-slate-500">Healthcare Director, Chicago</span>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_TRAVEL_FAMILY_12, "94102", SAMPLE_CUSTOMER_4)}>
+              <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_TRAVEL_FAMILY_12, "94102", SAMPLE_CUSTOMER_4)}>
                 <div className="flex flex-col">
                   <span className="font-medium">Dataset 4 (12 months)</span>
                   <span className="text-xs text-slate-500">Legal Partner, SF</span>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_NYC_SPORTS_HOME_12, "10003", SAMPLE_CUSTOMER_5)}>
+              <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_NYC_SPORTS_HOME_12, "10003", SAMPLE_CUSTOMER_5)}>
                 <div className="flex flex-col">
                   <span className="font-medium">Dataset 5 (12 months)</span>
                   <span className="text-xs text-slate-500">Investment Banker, NYC</span>
                 </div>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV_CHICAGO_TENNIS_WELLNESS_12, "60610", SAMPLE_CUSTOMER_6)}>
+              <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_CHICAGO_TENNIS_WELLNESS_12, "60610", SAMPLE_CUSTOMER_6)}>
                 <div className="flex flex-col">
                   <span className="font-medium">Dataset 6 (12 months)</span>
                   <span className="text-xs text-slate-500">Tech CTO, Chicago</span>
@@ -79,11 +93,11 @@ export function UploadOrPasteContainer({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant={mode === "paste" ? "default" : "outline"} size="sm" onClick={() => onModeChange("paste")} className="flex-1">
+          <Button variant={activeSelection === "paste" ? "default" : "outline"} size="sm" onClick={() => handleModeChange("paste")} className="flex-1">
             <FileText className="w-4 h-4 mr-2" />
             Paste Text
           </Button>
-          <Button variant={mode === "upload" ? "default" : "outline"} size="sm" onClick={() => onModeChange("upload")} className="flex-1">
+          <Button variant={activeSelection === "upload" ? "default" : "outline"} size="sm" onClick={() => handleModeChange("upload")} className="flex-1">
             <Upload className="w-4 h-4 mr-2" />
             Upload Files
           </Button>
