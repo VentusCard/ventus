@@ -7,6 +7,7 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Loader2, Eye, EyeOff, ArrowLeft } from 'lucide-react';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
 import { toast } from 'sonner';
+import ventusLogo from '@/assets/ventus-logo.png';
 
 type AuthMode = 'signin' | 'signup';
 
@@ -83,10 +84,10 @@ export default function VentusAuth() {
               Back to home
             </Link>
 
-            {/* Title */}
-            <h1 className="text-xl font-bold tracking-wider text-center mb-2 text-foreground">
-              VENTUS REWARDS
-            </h1>
+            {/* Logo */}
+            <div className="flex justify-center mb-2">
+              <img src={ventusLogo} alt="Ventus Rewards" className="h-8" />
+            </div>
             <p className="text-muted-foreground text-center text-sm mb-6">
               {mode === 'signin' ? 'Sign in to access your account' : 'Create your account'}
             </p>
