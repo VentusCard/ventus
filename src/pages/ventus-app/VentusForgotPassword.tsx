@@ -93,7 +93,7 @@ export default function VentusForgotPassword() {
               <div className="space-y-3">
                 <Button 
                   variant="outline" 
-                  className="w-full"
+                  className="w-full text-white hover:text-black"
                   onClick={handleSendAnother}
                 >
                   Send Another Email
@@ -149,7 +149,7 @@ export default function VentusForgotPassword() {
                       setError('');
                     }}
                     placeholder="john@example.com"
-                    className={error ? 'border-red-500' : ''}
+                    className={`text-white ${error ? 'border-red-500' : ''}`}
                   />
                 </div>
                 {error && (
