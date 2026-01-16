@@ -17,11 +17,6 @@ import Gallery from "./pages/Gallery";
 import Privacy from "./pages/Privacy";
 import TermsOfService from "./pages/TermsOfService";
 import VentusAI from "./pages/VentusAI";
-import Login from "./pages/Login";
-import ResetPassword from "./pages/ResetPassword";
-import Dashboard from "./pages/Dashboard";
-import Deals from "./pages/Deals";
-import SavedDeals from "./pages/SavedDeals";
 import TePilot from "./pages/TePilot";
 import NotFound from "./pages/NotFound";
 import AppDownload from "./pages/AppDownload";
@@ -54,13 +49,8 @@ const App = () => (
         <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/auth" element={<Login />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
           <Route path="/smartrewards" element={<OnboardingFlow />} />
           <Route path="/smartreward" element={<Navigate to="/smartrewards" replace />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/deals" element={<Deals />} />
-          <Route path="/saved-deals" element={<SavedDeals />} />
           <Route path="/join-waitlist" element={<JoinWaitlist />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/partner" element={<Navigate to="/partners" replace />} />
