@@ -105,8 +105,8 @@ export const ChatProductCard = ({ product }: ChatProductCardProps) => {
               </div>
             )}
             
-            <div className="flex items-start gap-1.5 text-[10px] text-muted-foreground bg-blue-50 rounded-md p-2">
-              <Info className="w-3 h-3 mt-0.5 flex-shrink-0 text-blue-500" />
+            <div className="flex items-start gap-1.5 text-[10px] text-[#0064E0] bg-[#0064E0]/20 rounded-md p-2">
+              <Info className="w-3 h-3 mt-0.5 flex-shrink-0" />
               <span>Link may take you to product category - search by name on site</span>
             </div>
 
