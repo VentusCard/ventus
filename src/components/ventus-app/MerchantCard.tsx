@@ -11,9 +11,11 @@ interface MerchantCardProps {
   offers: VentusOffer[];
   isExpanded: boolean;
   onToggle: () => void;
+  showSubcategory?: boolean;
+  showDealCategory?: boolean;
 }
 
-export function MerchantCard({ merchantName, domain, offers, isExpanded, onToggle }: MerchantCardProps) {
+export function MerchantCard({ merchantName, domain, offers, isExpanded, onToggle, showSubcategory = true, showDealCategory = true }: MerchantCardProps) {
   const [logoError, setLogoError] = useState(false);
 
   // Get merchant initial for fallback
@@ -79,7 +81,12 @@ export function MerchantCard({ merchantName, domain, offers, isExpanded, onToggl
         <CollapsibleContent>
           <div className="px-4 pb-4 space-y-3">
             {offers.map((offer) => (
-              <OfferCard key={offer.id} offer={offer} />
+              <OfferCard 
+                key={offer.id} 
+                offer={offer} 
+                showSubcategory={showSubcategory}
+                showDealCategory={showDealCategory}
+              />
             ))}
           </div>
         </CollapsibleContent>

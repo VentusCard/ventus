@@ -7,9 +7,11 @@ import { VentusOffer, trackingApi } from '@/lib/ventusApi';
 interface OfferCardProps {
   offer: VentusOffer;
   className?: string;
+  showSubcategory?: boolean;
+  showDealCategory?: boolean;
 }
 
-export function OfferCard({ offer, className }: OfferCardProps) {
+export function OfferCard({ offer, className, showSubcategory = true, showDealCategory = true }: OfferCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const handleViewDeal = async () => {
@@ -42,16 +44,16 @@ export function OfferCard({ offer, className }: OfferCardProps) {
         {/* Tags Row */}
         <div className="flex items-center justify-between mt-2">
           <div className="flex items-center gap-1.5 text-[13px]">
-            {/* Subcategory */}
-            {offer.subcategory && (
+            {/* Subcategory - only show if not filtered */}
+            {showSubcategory && offer.subcategory && (
               <>
                 <span className="text-muted-foreground">{offer.subcategory}</span>
                 <span className="text-muted-foreground">·</span>
               </>
             )}
             
-            {/* Deal Category */}
-            {offer.deal_category && (
+            {/* Deal Category - only show if not filtered */}
+            {showDealCategory && offer.deal_category && (
               <>
                 <span className="text-muted-foreground">{offer.deal_category}</span>
                 <span className="text-muted-foreground">·</span>
@@ -89,7 +91,7 @@ export function OfferCard({ offer, className }: OfferCardProps) {
           {/* View Deal Button */}
           <Button
             onClick={handleViewDeal}
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-3 h-auto"
+            className="w-full bg-primary hover:bg-primary/90 text-white font-semibold py-3 h-auto"
           >
             View Deal
             <ArrowRight className="w-4 h-4 ml-2" />
