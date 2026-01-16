@@ -181,7 +181,7 @@ const Navbar = () => {
               <span className="text-white/60 text-sm">{user.email}</span>
               <Button 
                 onClick={() => navigate(user.source === 'ventus' ? "/app/home" : "/dashboard")}
-                className="bg-[#0064E0] hover:bg-[#0064E0]/90 text-white text-xs px-3 py-1.5 h-auto rounded-md"
+                className="bg-primary hover:bg-primary/90 text-white text-xs px-4 py-2 h-auto rounded-md"
               >
                 Dashboard
               </Button>
