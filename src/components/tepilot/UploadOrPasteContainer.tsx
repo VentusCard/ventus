@@ -35,7 +35,7 @@ export function UploadOrPasteContainer({
         <div className="flex gap-2 mt-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="flex-1 bg-white">
+              <Button variant="default" size="sm" className="flex-1">
                 Load Sample Data
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
@@ -79,11 +79,11 @@ export function UploadOrPasteContainer({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button variant={mode === "paste" ? "default" : "outline"} size="sm" onClick={() => onModeChange("paste")} className="flex-1">
+          <Button variant="outline" size="sm" onClick={() => onModeChange("paste")} className="flex-1">
             <FileText className="w-4 h-4 mr-2" />
             Paste Text
           </Button>
-          <Button variant={mode === "upload" ? "default" : "outline"} size="sm" onClick={() => onModeChange("upload")} className="flex-1">
+          <Button variant="outline" size="sm" onClick={() => onModeChange("upload")} className="flex-1">
             <Upload className="w-4 h-4 mr-2" />
             Upload Files
           </Button>
