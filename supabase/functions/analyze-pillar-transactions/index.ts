@@ -383,7 +383,15 @@ serve(async (req) => {
   }
 
   try {
-    const { pillars, home_zip } = await req.json() as { pillars: PillarInput[]; home_zip?: string };
+    const { pillars, home_zip, customer_context } = await req.json() as { 
+      pillars: PillarInput[]; 
+      home_zip?: string;
+      customer_context?: {
+        income_level?: string;
+        industry?: string;
+        family_status?: string;
+      };
+    };
     
     if (!pillars || pillars.length === 0) {
       return new Response(
@@ -417,8 +425,19 @@ serve(async (req) => {
       })
     }));
 
-    const prompt = `Analyze these customer transactions and infer what they purchased.
+    // Build customer context section for the prompt if available
+    const customerContextSection = customer_context ? `
+CUSTOMER PROFILE:
+- Income Level: ${customer_context.income_level || 'Unknown'}
+- Industry: ${customer_context.industry || 'Unknown'}
+- Family Status: ${customer_context.family_status || 'Unknown'}
+- Home ZIP: ${home_zip || 'Unknown'}
 
+Use this customer profile to create a more accurate, personalized persona that reflects their demographic characteristics and likely lifestyle preferences.
+` : '';
+
+    const prompt = `Analyze these customer transactions and infer what they purchased.
+${customerContextSection}
 INPUT:
 ${JSON.stringify(pillarsSummary, null, 2)}
 
@@ -459,7 +478,7 @@ EXAMPLES:
 ✅ CORRECT: pre_tax $165.00 at TaylorMade → "TaylorMade Tour Response balls ($45) + golf glove ($35) + 2 headcovers ($85) ($165.00 pre-tax)"
 ❌ WRONG: "TaylorMade Stealth Driver ($165 pre-tax) - *Note: seems low for this item*"
 
-TASK 2: Create a customer persona based on all transactions.
+TASK 2: Create a customer persona based on all transactions${customer_context ? ' AND the provided customer profile. Incorporate the income level, industry, and family status into the persona summary and traits.' : '.'}
 
 RESPOND WITH JSON ONLY:
 {
