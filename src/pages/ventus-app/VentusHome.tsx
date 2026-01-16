@@ -7,7 +7,7 @@ import { useVentusAuth } from '@/contexts/VentusAuthContext';
 import { VentusSidebar } from '@/components/ventus-app/VentusSidebar';
 import { SubcategoryChip } from '@/components/ventus-app/SubcategoryChip';
 import { DealCategoryChip } from '@/components/ventus-app/DealCategoryChip';
-import { offersApi, categoriesApi, VentusOffer, VentusCategory, getMerchantLogoUrl, trackingApi } from '@/lib/ventusApi';
+import { offersApi, categoriesApi, profileApi, VentusOffer, VentusCategory, getMerchantLogoUrl, trackingApi } from '@/lib/ventusApi';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { AppStoreBadges } from '@/components/ventus-app/AppStoreBadges';
@@ -31,7 +31,7 @@ const ROTATING_PLACEHOLDERS = [
 
 export default function VentusHome() {
   const navigate = useNavigate();
-  const { user } = useVentusAuth();
+  const { user, setUser } = useVentusAuth();
   const [isLoading, setIsLoading] = useState(true);
   const [offers, setOffers] = useState<VentusOffer[]>([]);
   const [categories, setCategories] = useState<VentusCategory[]>([]);
@@ -63,6 +63,16 @@ export default function VentusHome() {
       ]);
       setOffers(offersData.offers || []);
       setCategories(categoriesData.categories || categoriesData || []);
+      
+      // Fetch profile to get first_name
+      if (user?.id) {
+        try {
+          const profile = await profileApi.getProfile(user.id);
+          setUser({ ...user, ...profile });
+        } catch (error) {
+          console.error('Failed to fetch profile:', error);
+        }
+      }
     } catch (error) {
       console.error('Failed to fetch data:', error);
     } finally {
