@@ -1,10 +1,9 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { FileText, Sparkles, HelpCircle } from "lucide-react";
+import { FileText } from "lucide-react";
+import { DemographicsGenerator } from "./DemographicsGenerator";
+import { ClientProfileData } from "@/types/clientProfile";
 
 interface PasteInputProps {
   value: string;
@@ -12,9 +11,19 @@ interface PasteInputProps {
   onParse: () => void;
   anchorZip: string;
   onAnchorZipChange: (value: string) => void;
+  demographics: ClientProfileData | null;
+  onDemographicsChange: (demographics: ClientProfileData | null) => void;
 }
 
-export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipChange }: PasteInputProps) {
+export function PasteInput({ 
+  value, 
+  onChange, 
+  onParse, 
+  anchorZip, 
+  onAnchorZipChange,
+  demographics,
+  onDemographicsChange
+}: PasteInputProps) {
   const lineCount = value.split("\n").filter(line => line.trim()).length;
 
   return (
@@ -26,32 +35,11 @@ export function PasteInput({ value, onChange, onParse, anchorZip, onAnchorZipCha
         </AlertDescription>
       </Alert>
 
-      <div className="space-y-2">
-        <label className="text-sm font-medium flex items-center gap-1.5 text-slate-900">
-          <Sparkles className="h-3.5 w-3.5 text-blue-600" />
-          Anchor ZIP Code (Optional)
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button type="button" className="inline-flex cursor-help">
-                  <HelpCircle className="h-3.5 w-3.5 text-slate-500" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="text-xs">Used for travel analysis</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </label>
-        <Input
-          type="text"
-          value={anchorZip}
-          onChange={(e) => onAnchorZipChange(e.target.value)}
-          placeholder="e.g., 94102"
-          maxLength={5}
-          className="font-mono bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 focus-visible:ring-slate-400"
-        />
-      </div>
+      <DemographicsGenerator
+        demographics={demographics}
+        onDemographicsChange={onDemographicsChange}
+        onZipChange={onAnchorZipChange}
+      />
 
       <div className="space-y-2">
         <div className="flex justify-between text-sm text-slate-500">

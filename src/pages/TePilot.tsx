@@ -14,6 +14,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { toast } from "sonner";
 import { Transaction, EnrichedTransaction, Correction, Filters } from "@/types/transaction";
+import { ClientProfileData } from "@/types/clientProfile";
 import { UploadOrPasteContainer } from "@/components/tepilot/UploadOrPasteContainer";
 import { PasteInput } from "@/components/tepilot/PasteInput";
 import { FileUploader } from "@/components/tepilot/FileUploader";
@@ -81,6 +82,7 @@ const TePilot = () => {
   const [isLoadingLifestyleSignals, setIsLoadingLifestyleSignals] = useState(false);
   const [selectedSubcategory, setSelectedSubcategory] = useState<{ subcategory: string; pillar: string } | null>(null);
   const [selectedTransaction, setSelectedTransaction] = useState<EnrichedTransaction | null>(null);
+  const [userDemographics, setUserDemographics] = useState<ClientProfileData | null>(null);
   const navigate = useNavigate();
   const handleNavigateToAdvisorConsole = async () => {
     // Ensure analysis runs before navigating if not already done
@@ -92,7 +94,8 @@ const TePilot = () => {
       // Only save when using existing lifestyleSignals state
       sessionStorage.setItem("tepilot_advisor_context", JSON.stringify({
         enrichedTransactions: enrichedTransactions,
-        aiInsights: lifestyleSignals
+        aiInsights: lifestyleSignals,
+        userDemographics: userDemographics
       }));
     }
     navigate('/tepilot/advisor-console');
@@ -177,6 +180,23 @@ const TePilot = () => {
         console.log("[TePilot] Restored user persona");
       } catch (error) {
         console.error("Error restoring user persona:", error);
+      }
+    }
+
+    // Restore user demographics
+    const storedDemographics = sessionStorage.getItem("tepilot_user_demographics");
+    if (storedDemographics) {
+      try {
+        const demographics = JSON.parse(storedDemographics);
+        setUserDemographics(demographics);
+        // Also restore anchor ZIP from demographics
+        const zipMatch = demographics.contact?.address?.match(/\d{5}$/);
+        if (zipMatch) {
+          setAnchorZip(zipMatch[0]);
+        }
+        console.log("[TePilot] Restored user demographics");
+      } catch (error) {
+        console.error("Error restoring user demographics:", error);
       }
     }
   }, []);
@@ -909,12 +929,14 @@ const TePilot = () => {
           sessionStorage.removeItem("tepilot_enriched_transactions");
           sessionStorage.removeItem("tepilot_parsed_transactions");
           sessionStorage.removeItem("tepilot_advisor_context");
+          sessionStorage.removeItem("tepilot_user_demographics");
 
           // Clear all input data
           setRawInput("");
           setUploadedFiles([]);
           setPendingMapping(null);
           setAnchorZip("");
+          setUserDemographics(null);
 
           // Reset filters to default
           setFilters({
@@ -948,7 +970,7 @@ const TePilot = () => {
             setRawInput(data);
             setAnchorZip(zip);
           }}>
-                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} />}
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} />}
               </UploadOrPasteContainer>}
           </TabsContent>
 
