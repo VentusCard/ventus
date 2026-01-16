@@ -427,8 +427,7 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [locationCity, setLocationCity] = useState<string>("San Francisco");
-  // Multi-select state for personalization
-  const [selectedDealIds, setSelectedDealIds] = useState<Set<string>>(new Set());
+  // Removed multi-select - all displayed deals get personalized
   const [localExperiencesExpanded, setLocalExperiencesExpanded] = useState(false);
   const [syntheticLocalDeal, setSyntheticLocalDeal] = useState<BankDeal | null>(null);
   
@@ -637,27 +636,10 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
 
       {/* Available Deals Section Header */}
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <label className="text-sm font-semibold text-slate-700">
-            Available Deals ({isSearchActive ? `${searchResultCount} results` : `${deals.length} from library`})
-          </label>
-          {selectedDealIds.size > 0 && (
-            <Badge variant="default" className="bg-primary text-primary-foreground">
-              {selectedDealIds.size} selected
-            </Badge>
-          )}
-        </div>
+        <label className="text-sm font-semibold text-slate-700">
+          Available Deals ({isSearchActive ? `${searchResultCount} results` : `${deals.length} from library`})
+        </label>
         <div className="flex items-center gap-2">
-          {selectedDealIds.size > 0 && (
-            <Button
-              size="sm"
-              variant="ghost"
-              className="text-xs h-7"
-              onClick={() => setSelectedDealIds(new Set())}
-            >
-              Clear Selection
-            </Button>
-          )}
           {(selectedCategory || isSearchActive) && (
             <Badge variant="outline" className="text-xs">
               {isSearchActive ? `"${searchQuery}"` : `Filtered: ${selectedCategory}`}
@@ -782,55 +764,20 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
               {displayedDeals.map(deal => {
                 const Icon = getPillarIcon(deal.merchantCategory);
                 const isPreviewSelected = selectedDeal?.id === deal.id;
-                const isChecked = selectedDealIds.has(deal.id);
                 const personalizedMsg = personalizeDealMessage(deal, customerProfile);
-                
-                const handleCheckboxClick = (e: React.MouseEvent) => {
-                  e.stopPropagation();
-                  setSelectedDealIds(prev => {
-                    const next = new Set(prev);
-                    if (next.has(deal.id)) {
-                      next.delete(deal.id);
-                    } else {
-                      next.add(deal.id);
-                    }
-                    return next;
-                  });
-                };
                 
                 return (
                   <div
                     key={deal.id}
+                    onClick={() => setSelectedDealId(deal.id)}
                     className={cn(
-                      "p-3 rounded-lg text-left transition-all border relative",
+                      "p-3 rounded-lg text-left transition-all border cursor-pointer",
                       isPreviewSelected
                         ? "bg-primary/10 border-primary shadow-sm"
-                        : isChecked
-                          ? "bg-emerald-50 border-emerald-300"
-                          : "bg-white border-slate-200 hover:border-slate-300"
+                        : "bg-white border-slate-200 hover:border-slate-300"
                     )}
                   >
-                    {/* Checkbox for multi-select */}
-                    <div 
-                      onClick={handleCheckboxClick}
-                      className={cn(
-                        "absolute top-2 right-2 w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-colors",
-                        isChecked 
-                          ? "bg-emerald-500 border-emerald-500" 
-                          : "border-slate-300 hover:border-slate-400"
-                      )}
-                    >
-                      {isChecked && (
-                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-                        </svg>
-                      )}
-                    </div>
-                    
-                    <button
-                      onClick={() => setSelectedDealId(deal.id)}
-                      className="w-full text-left pr-6"
-                    >
+                    <div className="w-full text-left">
                       {/* Top Row: Icon + Merchant + Popularity */}
                       <div className="flex items-center gap-2 mb-1.5">
                         <Icon className={cn("h-3.5 w-3.5 shrink-0", isPreviewSelected ? "text-primary" : "text-slate-400")} />
@@ -874,7 +821,7 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
                           {deal.activationCount.toLocaleString()} active
                         </span>
                       </div>
-                    </button>
+                    </div>
                   </div>
                 );
               })}
@@ -953,13 +900,13 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
         </div>
       </div>
 
-      {/* Personalize Selected Deals Button - Fixed at bottom */}
-      {onPersonalizeDeals && selectedDealIds.size > 0 && (
+      {/* Personalize All Deals Button - Fixed at bottom */}
+      {onPersonalizeDeals && displayedDeals.length > 0 && (
         <div className="pt-4 border-t border-slate-200">
           <Button
             onClick={() => {
-              const selectedDealsData: SelectedDealForPersonalization[] = deals
-                .filter(d => selectedDealIds.has(d.id))
+              const dealsToPersonalize: SelectedDealForPersonalization[] = displayedDeals
+                .slice(0, 30)
                 .map(d => ({
                   id: d.id,
                   merchantName: d.merchantName,
@@ -969,7 +916,7 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
                   dealDescription: d.dealDescription,
                   rewardValue: d.rewardValue,
                 }));
-              onPersonalizeDeals(selectedDealsData, customerProfile);
+              onPersonalizeDeals(dealsToPersonalize, customerProfile);
             }}
             disabled={isPersonalizing}
             className="w-full gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3"
@@ -978,12 +925,12 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
             {isPersonalizing ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                Personalizing {selectedDealIds.size} Deals...
+                Personalizing {Math.min(displayedDeals.length, 30)} Deals...
               </>
             ) : (
               <>
                 <Sparkles className="h-4 w-4" />
-                Personalize {selectedDealIds.size} Selected Deals
+                Personalize {Math.min(displayedDeals.length, 30)} Deals
               </>
             )}
           </Button>
