@@ -568,6 +568,72 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
     return baseDeals;
   }, [selectedCategory, dealsByCategory, filteredDealsByCategory, deals, filteredDeals, isSearchActive]);
 
+  // Auto-personalize all deals on mount when we have deals and transaction data
+  useEffect(() => {
+    const autoPersonalize = async () => {
+      if (displayedDeals.length === 0 || hasPersonalized || isPersonalizing || enrichedTransactions.length === 0) {
+        return;
+      }
+      
+      setIsPersonalizing(true);
+      
+      try {
+        const dealsToPersonalize: SelectedDealForPersonalization[] = displayedDeals
+          .slice(0, 30)
+          .map(d => ({
+            id: d.id,
+            merchantName: d.merchantName,
+            category: d.merchantCategory,
+            subcategory: d.subcategory,
+            dealTitle: d.dealTitle,
+            dealDescription: d.dealDescription,
+            rewardValue: d.rewardValue,
+          }));
+        
+        // Build insights from transactions
+        const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
+        const pillarSpending = enrichedTransactions.reduce((acc, t) => {
+          const pillar = t.pillar || "Other";
+          acc[pillar] = (acc[pillar] || 0) + t.amount;
+          return acc;
+        }, {} as Record<string, number>);
+        const topPillars = Object.entries(pillarSpending)
+          .map(([pillar, spend]) => ({ pillar, spend, percentage: Math.round((spend / totalSpend) * 100) }))
+          .sort((a, b) => b.spend - a.spend)
+          .slice(0, 5);
+        
+        const { data, error } = await supabase.functions.invoke("generate-partner-recommendations", {
+          body: {
+            insights: { totalSpend, topPillars },
+            selectedDeals: dealsToPersonalize,
+            customerProfile,
+          },
+        });
+        
+        if (error) throw error;
+        
+        // Store personalized messages in state
+        const newPersonalized = new Map<string, { message: string; cta: string }>();
+        data.recommendations?.forEach((rec: any) => {
+          newPersonalized.set(rec.deal_id, {
+            message: rec.personalized_message,
+            cta: rec.cta_text,
+          });
+        });
+        setPersonalizedDeals(newPersonalized);
+        setHasPersonalized(true);
+        toast.success(`Auto-personalized ${newPersonalized.size} deals!`);
+      } catch (error) {
+        console.error("Auto-personalization error:", error);
+        // Silent fail for auto-personalization - user can still use manual button
+      } finally {
+        setIsPersonalizing(false);
+      }
+    };
+
+    autoPersonalize();
+  }, [displayedDeals.length, enrichedTransactions.length]); // Only run when deals/transactions first become available
+
   if (!selectedDeal) {
     return (
       <div className="p-8 text-center text-slate-500">
@@ -916,88 +982,25 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
         </div>
       </div>
 
-      {/* Personalize All Deals Button - Fixed at bottom */}
+      {/* Personalization Status - Fixed at bottom */}
       {displayedDeals.length > 0 && (
         <div className="pt-4 border-t border-slate-200">
-          <Button
-            onClick={async () => {
-              setIsPersonalizing(true);
-              toast.info(`Personalizing ${Math.min(displayedDeals.length, 30)} deals...`);
-              
-              try {
-                const dealsToPersonalize: SelectedDealForPersonalization[] = displayedDeals
-                  .slice(0, 30)
-                  .map(d => ({
-                    id: d.id,
-                    merchantName: d.merchantName,
-                    category: d.merchantCategory,
-                    subcategory: d.subcategory,
-                    dealTitle: d.dealTitle,
-                    dealDescription: d.dealDescription,
-                    rewardValue: d.rewardValue,
-                  }));
-                
-                // Build insights from transactions
-                const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
-                const pillarSpending = enrichedTransactions.reduce((acc, t) => {
-                  const pillar = t.pillar || "Other";
-                  acc[pillar] = (acc[pillar] || 0) + t.amount;
-                  return acc;
-                }, {} as Record<string, number>);
-                const topPillars = Object.entries(pillarSpending)
-                  .map(([pillar, spend]) => ({ pillar, spend, percentage: Math.round((spend / totalSpend) * 100) }))
-                  .sort((a, b) => b.spend - a.spend)
-                  .slice(0, 5);
-                
-                const { data, error } = await supabase.functions.invoke("generate-partner-recommendations", {
-                  body: {
-                    insights: { totalSpend, topPillars },
-                    selectedDeals: dealsToPersonalize,
-                    customerProfile,
-                  },
-                });
-                
-                if (error) throw error;
-                
-                // Store personalized messages in state
-                const newPersonalized = new Map<string, { message: string; cta: string }>();
-                data.recommendations?.forEach((rec: any) => {
-                  newPersonalized.set(rec.deal_id, {
-                    message: rec.personalized_message,
-                    cta: rec.cta_text,
-                  });
-                });
-                setPersonalizedDeals(newPersonalized);
-                setHasPersonalized(true);
-                toast.success(`Personalized ${newPersonalized.size} deals!`);
-              } catch (error) {
-                console.error("Personalization error:", error);
-                toast.error("Failed to personalize deals");
-              } finally {
-                setIsPersonalizing(false);
-              }
-            }}
-            disabled={isPersonalizing}
-            className="w-full gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3"
-            size="lg"
-          >
-            {isPersonalizing ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" />
-                Personalizing {Math.min(displayedDeals.length, 30)} Deals...
-              </>
-            ) : hasPersonalized ? (
-              <>
-                <CheckCircle2 className="h-4 w-4" />
-                {personalizedDeals.size} Deals Personalized ✓
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-4 w-4" />
-                Personalize {Math.min(displayedDeals.length, 30)} Deals
-              </>
-            )}
-          </Button>
+          {isPersonalizing ? (
+            <div className="flex items-center justify-center gap-2 py-3 text-violet-600">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              <span className="text-sm font-medium">Personalizing {Math.min(displayedDeals.length, 30)} deals...</span>
+            </div>
+          ) : hasPersonalized ? (
+            <div className="flex items-center justify-center gap-2 py-3 text-emerald-600">
+              <CheckCircle2 className="h-4 w-4" />
+              <span className="text-sm font-medium">{personalizedDeals.size} deals personalized</span>
+            </div>
+          ) : enrichedTransactions.length === 0 ? (
+            <div className="flex items-center justify-center gap-2 py-3 text-slate-400">
+              <Sparkles className="h-4 w-4" />
+              <span className="text-sm">Upload transactions to enable AI personalization</span>
+            </div>
+          ) : null}
         </div>
       )}
     </div>
