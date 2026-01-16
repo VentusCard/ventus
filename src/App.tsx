@@ -37,6 +37,7 @@ import VentusSignupLocation from "./pages/ventus-app/VentusSignupLocation";
 import VentusHome from "./pages/ventus-app/VentusHome";
 import VentusSearch from "./pages/ventus-app/VentusSearch";
 import VentusProfile from "./pages/ventus-app/VentusProfile";
+import VentusForgotPassword from "./pages/ventus-app/VentusForgotPassword";
 
 const queryClient = new QueryClient();
 
@@ -80,6 +81,7 @@ const App = () => (
                 <Route path="signup/sports" element={<VentusSignupSports />} />
                 <Route path="signup/location" element={<VentusSignupLocation />} />
                 <Route path="login" element={<VentusAuth />} />
+                <Route path="forgot-password" element={<VentusForgotPassword />} />
                 <Route path="home" element={<ProtectedRoute><VentusHome /></ProtectedRoute>} />
                 <Route path="search" element={<ProtectedRoute><VentusSearch /></ProtectedRoute>} />
                 <Route path="profile" element={<ProtectedRoute><VentusProfile /></ProtectedRoute>} />

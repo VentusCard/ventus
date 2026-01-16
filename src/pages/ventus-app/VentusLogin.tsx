@@ -69,9 +69,9 @@ export default function VentusLogin() {
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
-                  <a href="#" className="text-sm text-[#0064E0] hover:underline">
+                  <Link to="/app/forgot-password" className="text-sm text-[#0064E0] hover:underline">
                     Forgot password?
-                  </a>
+                  </Link>
                 </div>
                 <div className="relative">
                   <Input
