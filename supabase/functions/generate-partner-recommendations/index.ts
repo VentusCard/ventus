@@ -140,13 +140,12 @@ Generate personalized messaging for each of the ${selectedDeals.length} selected
         "Authorization": `Bearer ${Deno.env.get("LOVABLE_API_KEY")}`,
       },
       body: JSON.stringify({
-        model: "openai/gpt-5-mini",
+        model: "google/gemini-3-flash-preview",
         messages: [
           { role: "system", content: PERSONALIZATION_SYSTEM_PROMPT },
           { role: "user", content: userPrompt }
         ],
         temperature: 0.7,
-        max_tokens: 2000,
       }),
     });
 
