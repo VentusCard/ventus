@@ -35,11 +35,10 @@ import RewardsPipelinePage from "./pages/RewardsPipelinePage";
 import { VentusAuthProvider } from "./contexts/VentusAuthContext";
 import { ProtectedRoute } from "./components/ventus-app/ProtectedRoute";
 import VentusLanding from "./pages/ventus-app/VentusLanding";
-import VentusSignup from "./pages/ventus-app/VentusSignup";
+import VentusAuth from "./pages/ventus-app/VentusAuth";
 import VentusSignupLifestyle from "./pages/ventus-app/VentusSignupLifestyle";
 import VentusSignupSports from "./pages/ventus-app/VentusSignupSports";
 import VentusSignupLocation from "./pages/ventus-app/VentusSignupLocation";
-import VentusLogin from "./pages/ventus-app/VentusLogin";
 import VentusHome from "./pages/ventus-app/VentusHome";
 import VentusSearch from "./pages/ventus-app/VentusSearch";
 import VentusProfile from "./pages/ventus-app/VentusProfile";
@@ -86,11 +85,11 @@ const App = () => (
             <VentusAuthProvider>
               <Routes>
                 <Route index element={<VentusLanding />} />
-                <Route path="signup" element={<VentusSignup />} />
+                <Route path="signup" element={<VentusAuth />} />
                 <Route path="signup/lifestyle" element={<VentusSignupLifestyle />} />
                 <Route path="signup/sports" element={<VentusSignupSports />} />
                 <Route path="signup/location" element={<VentusSignupLocation />} />
-                <Route path="login" element={<VentusLogin />} />
+                <Route path="login" element={<VentusAuth />} />
                 <Route path="home" element={<ProtectedRoute><VentusHome /></ProtectedRoute>} />
                 <Route path="search" element={<ProtectedRoute><VentusSearch /></ProtectedRoute>} />
                 <Route path="profile" element={<ProtectedRoute><VentusProfile /></ProtectedRoute>} />

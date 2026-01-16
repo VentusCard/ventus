@@ -102,9 +102,9 @@ const VentusAI = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {features.map((feature, index) => (
-            <Card key={index} className="p-8 hover:border-primary/40 transition-all duration-300">
-              <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
-                <feature.icon className="h-6 w-6 text-primary" />
+            <Card key={index} className="p-8 bg-[#0064E0]/10 border-[#0064E0]/20 hover:border-[#0064E0]/40 transition-all duration-300">
+              <div className="w-12 h-12 bg-[#0064E0]/20 rounded-xl flex items-center justify-center mb-6">
+                <feature.icon className="h-6 w-6 text-[#0064E0]" />
               </div>
               <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
               <p className="text-muted-foreground leading-relaxed">

@@ -1,17 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, User, LogOut, LayoutDashboard, Tag, Heart } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, Tag, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { User as SupabaseUser } from "@supabase/supabase-js";
 import ventusLogo from "@/assets/ventus-logo.png";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -129,33 +122,22 @@ const Navbar = () => {
         {/* User Menu / Login - Desktop */}
         <div className="hidden md:flex items-center gap-3">
           {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="flex items-center gap-2 bg-white/10 border-white/20 hover:bg-white/20 text-white text-xs md:text-sm px-3 md:px-4">
-                  <User className="h-4 w-4" />
-                  Account
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => navigate("/dashboard")}>
-                  <LayoutDashboard className="h-4 w-4 mr-2" />
-                  Dashboard
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/deals")}>
-                  <Tag className="h-4 w-4 mr-2" />
-                  Find Deals
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/saved-deals")}>
-                  <Heart className="h-4 w-4 mr-2" />
-                  Saved Deals
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleLogout}>
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Logout
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <>
+              <span className="text-white/80 text-sm">{user.email}</span>
+              <Button 
+                onClick={() => navigate("/dashboard")}
+                className="bg-[#0064E0] hover:bg-[#0064E0]/90 text-white text-sm"
+              >
+                Dashboard
+              </Button>
+              <button
+                onClick={handleLogout}
+                className="flex items-center gap-2 text-white/80 hover:text-white text-sm transition-colors"
+              >
+                <LogOut className="h-4 w-4" />
+                Log Out
+              </button>
+            </>
           ) : (
             <>
               <Link to="/app/login">
