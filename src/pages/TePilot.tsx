@@ -28,7 +28,7 @@ import { TravelTimeline } from "@/components/tepilot/insights/TravelTimeline";
 import { PillarExplorer } from "@/components/tepilot/insights/PillarExplorer";
 import { BeforeAfterTransformation } from "@/components/tepilot/insights/BeforeAfterTransformation";
 import { BankwideView } from "@/components/tepilot/insights/BankwideView";
-import { RecommendationsCard } from "@/components/tepilot/RecommendationsCard";
+
 import { RelationshipManagementCard } from "@/components/tepilot/RelationshipManagementCard";
 import { AdvisorConsole } from "@/components/tepilot/advisor-console/AdvisorConsole";
 import { PersonaCard } from "@/components/tepilot/PersonaCard";
@@ -44,7 +44,7 @@ import { PILLAR_COLORS } from "@/lib/sampleData";
 import { SubcategoryTransactionsModal } from "@/components/tepilot/insights/SubcategoryTransactionsModal";
 import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailModal";
 import { TopPillarsAnalysis } from "@/components/tepilot/insights/TopPillarsAnalysis";
-import { DealActivationPreview, SelectedDealForPersonalization } from "@/components/tepilot/insights/DealActivationPreview";
+import { DealActivationPreview } from "@/components/tepilot/insights/DealActivationPreview";
 import { CollapsibleCard } from "@/components/tepilot/insights/CollapsibleCard";
 const CURRENT_VERSION = "V2.5";
 const TePilot = () => {
@@ -353,122 +353,6 @@ const TePilot = () => {
 
   // Extract location context for geo-based deals - always computed at top level
   const locationContext = useMemo(() => extractLocationContext(displayTransactions), [displayTransactions]);
-  // Handler for personalizing selected deals from DealActivationPreview
-  const handlePersonalizeDeals = async (selectedDeals: SelectedDealForPersonalization[], customerProfile: any) => {
-    setIsGeneratingRecommendations(true);
-    toast.info(`Personalizing ${selectedDeals.length} deals...`, { duration: 5000 });
-
-    try {
-      // Build insights from enriched transactions
-      const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
-      const monthlyAverage = totalSpend / 12;
-
-      // Calculate top pillars
-      const pillarSpending = enrichedTransactions.reduce((acc, t) => {
-        const pillar = t.pillar || "Other";
-        acc[pillar] = (acc[pillar] || 0) + t.amount;
-        return acc;
-      }, {} as Record<string, number>);
-      const topPillars = Object.entries(pillarSpending)
-        .map(([pillar, spend]) => ({
-          pillar,
-          spend,
-          percentage: Math.round((spend / totalSpend) * 100),
-        }))
-        .sort((a, b) => b.spend - a.spend)
-        .slice(0, 5);
-
-      // Calculate top merchants
-      const merchantData = enrichedTransactions.reduce((acc, t) => {
-        const merchant = t.merchant_name || "Unknown";
-        if (!acc[merchant]) acc[merchant] = { visits: 0, totalSpend: 0 };
-        acc[merchant].visits += 1;
-        acc[merchant].totalSpend += t.amount;
-        return acc;
-      }, {} as Record<string, { visits: number; totalSpend: number }>);
-      const topMerchants = Object.entries(merchantData)
-        .map(([merchant, data]) => ({
-          merchant,
-          visits: data.visits,
-          totalSpend: Math.round(data.totalSpend),
-        }))
-        .sort((a, b) => b.totalSpend - a.totalSpend)
-        .slice(0, 10);
-
-      // Calculate top subcategories
-      const subcategoryData = enrichedTransactions.reduce((acc, t) => {
-        const subcat = t.subcategory || "Other";
-        if (!acc[subcat]) acc[subcat] = { visits: 0, totalSpend: 0, pillar: t.pillar || "Other" };
-        acc[subcat].visits += 1;
-        acc[subcat].totalSpend += t.amount;
-        return acc;
-      }, {} as Record<string, { visits: number; totalSpend: number; pillar: string }>);
-      const topSubcategories = Object.entries(subcategoryData)
-        .map(([subcategory, data]) => ({
-          subcategory,
-          pillar: data.pillar,
-          visits: data.visits,
-          totalSpend: Math.round(data.totalSpend),
-        }))
-        .sort((a, b) => b.totalSpend - a.totalSpend)
-        .slice(0, 5);
-
-      const insights = {
-        totalSpend: Math.round(totalSpend),
-        monthlyAverage: Math.round(monthlyAverage),
-        topPillars,
-        topMerchants,
-        topSubcategories,
-        segment: {
-          tier: totalSpend > 96000 ? "premium" : totalSpend > 36000 ? "standard" : "basic",
-          lifestyle: topPillars.filter((p) => p.percentage > 15).map((p) => p.pillar),
-        },
-        userPersona: userPersona || null,
-      };
-
-      console.log("[TePilot] Sending to personalization:", {
-        selectedDeals: selectedDeals.length,
-        customerProfile: !!customerProfile,
-        insights: !!insights,
-      });
-
-      const { data, error } = await supabase.functions.invoke("generate-partner-recommendations", {
-        body: {
-          insights,
-          selectedDeals,
-          customerProfile,
-        },
-      });
-
-      if (error) throw error;
-
-      console.log("[TePilot] Received personalized deals:", data);
-
-      const recommendationsWithSubcategories = {
-        ...data,
-        topSubcategories,
-      };
-      setRecommendations(recommendationsWithSubcategories);
-      setRecommendationsLoaded(true);
-      sessionStorage.setItem("tepilot_recommendations", JSON.stringify(recommendationsWithSubcategories));
-      toast.success(`Personalized ${data.recommendations?.length || 0} deals!`);
-    } catch (error) {
-      console.error("[TePilot] Error personalizing deals:", error);
-      toast.error("Failed to personalize deals");
-    } finally {
-      setIsGeneratingRecommendations(false);
-    }
-  };
-
-  const handleGenerateRecommendations = async () => {
-    // This function is now primarily for backward compatibility
-    // The main flow uses handlePersonalizeDeals from DealActivationPreview
-    setIsGeneratingRecommendations(true);
-    toast.info("Please select deals from the Reward Personalization Experience card below, then click 'Personalize Selected Deals'", {
-      duration: 8000
-    });
-    setIsGeneratingRecommendations(false);
-  };
   const fetchLifestyleSignals = async () => {
     if (enrichedTransactions.length === 0) {
       toast.error('No enriched transactions available. Please enrich transactions first.');
@@ -1119,16 +1003,15 @@ const TePilot = () => {
                     "Monthly and annual impact estimates for each opportunity",
                     "Transaction reclassification insights with travel context",
                     "Powers next-gen consumer profile dashboards with personalized experiences"
-                  ]} buttonText={isGeneratingRecommendations ? "Generating..." : "Rewards Personalization Engine"} buttonVariant="ai" onClick={() => {
+                  ]} buttonText="Rewards Personalization Engine" buttonVariant="ai" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error("Please enrich transactions first");
                   return;
                 }
-                // Navigate immediately, run API in background
+                // Navigate to the revenue insights view
                 setInsightType('revenue');
                 setActiveTab('insights');
-                handleGenerateRecommendations();
-              }} disabled={enrichedTransactions.length === 0 || isGeneratingRecommendations} />
+              }} disabled={enrichedTransactions.length === 0} />
 
                   {/* Wealth Management Card */}
                   <PersonaCard icon={Users} title="Wealth Management" valueProposition="Transform transactions into relationship insights" description="Transform transaction patterns into relationship intelligence with AI-detected life events and personalized conversation strategies to deepen engagement and grow assets." keyFeatures={[
@@ -1195,44 +1078,6 @@ const TePilot = () => {
                     console.log("[TePilot] Persona received from analysis");
                   }}
                 />
-                
-                {/* Loading State for Recommendations */}
-                {isGeneratingRecommendations && !recommendations && (
-                  <Card className="overflow-hidden bg-white border-slate-200">
-                    <CardHeader className="cursor-pointer hover:bg-slate-50 transition-colors">
-                      <div className="flex items-center justify-between">
-                        <div className="flex flex-col items-start gap-2">
-                          <CardTitle className="text-2xl text-slate-900">
-                            Example Deal, Rewards and Cross-Sell Opportunities
-                          </CardTitle>
-                          <p className="text-sm text-slate-600">
-                            AI-powered strategic recommendations based on spending patterns
-                          </p>
-                        </div>
-                        <div className="flex items-center gap-4">
-                          <Loader2 className="h-5 w-5 animate-spin text-primary" />
-                          <ChevronDown className="h-5 w-5 text-slate-500" />
-                        </div>
-                      </div>
-                    </CardHeader>
-                  </Card>
-                )}
-                
-                {/* Recommendations Results */}
-                {!isGeneratingRecommendations && recommendations && (
-                  <RecommendationsCard 
-                    recommendations={recommendations.recommendations || []} 
-                    summary={recommendations.summary || {
-                      total_estimated_value: {
-                        monthly: 0,
-                        annual: 0
-                      },
-                      message: "No recommendations available"
-                    }}
-                    isLoading={isGeneratingRecommendations}
-                    hasSucceeded={recommendationsLoaded}
-                  />
-                )}
             
                 {/* Geo-Location Deals Section */}
                 <GeoLocationDealsSection locationContext={locationContext} />
@@ -1250,8 +1095,6 @@ const TePilot = () => {
                 >
                   <DealActivationPreview 
                     enrichedTransactions={enrichedTransactions} 
-                    onPersonalizeDeals={handlePersonalizeDeals}
-                    isPersonalizing={isGeneratingRecommendations}
                   />
                 </CollapsibleCard>
                 

@@ -22,65 +22,38 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
   };
 }
 
-// System prompt for deal personalization (simplified from full deal generation)
-const PERSONALIZATION_SYSTEM_PROMPT = `You are a rewards personalization engine. Your job is to take pre-selected deals from a deal library and generate personalized messaging for each one based on the customer's spending patterns and persona.
+// System prompt for deal personalization - SHORT messages for card display
+const PERSONALIZATION_SYSTEM_PROMPT = `You are a rewards personalization engine. Generate SHORT, punchy personalized messages for deal cards.
 
 ## INPUT
-You will receive:
-1. **selectedDeals**: Array of deals already selected by the user, each with id, merchantName, category, subcategory, dealTitle, dealDescription, rewardValue
-2. **customerProfile**: Customer's spending patterns including topPillars, topMerchants, lifestyleSignals, totalSpend, avgTransactionSize
-3. **insights**: Additional context including topSubcategories, segment info, and optional userPersona
+You receive selectedDeals, customerProfile (topPillars, topMerchants, lifestyleSignals), and insights.
 
 ## OUTPUT
-For each selected deal, generate:
-1. **personalized_message**: A warm, personalized message (40-60 words max) that:
-   - References their specific spending habits or lifestyle
-   - Explains why this deal is perfect for them personally
-   - Uses a warm, companion-like tone (we're here for you)
-   - Avoids corporate speak or generic language
+For each deal, generate:
+1. **personalized_message**: 15-25 words MAX. Punchy, personal, fits in a small card. Reference actual spending when available.
+   Examples:
+   - "Your 12 weekly coffees = 600 bonus points monthly. Start earning now."
+   - "4 trips this year? Earn bonus miles on every flight with Delta."
+   - "Your active lifestyle deserves 10% back on gear at REI."
    
-2. **cta_text**: A dynamic call-to-action (2-5 words) optimized for redemption:
-   - Use action verbs (Claim, Unlock, Start, Fuel, Boost, Save, Grab, Get)
-   - Match the deal category tone
-   - Be specific to the offer type
-   - Examples: "Claim Your Coffee Reward", "Fuel Your Adventure", "Start Earning Today", "Unlock 5x Points", "Grab This Deal"
+2. **cta_text**: 2-5 words, action-oriented. Examples: "Claim Now", "Start Earning", "Grab This Deal"
 
-## PERSONALIZATION RULES
-
-### Message Personalization
-- Reference actual spending data when available (e.g., "Your $400/month at coffee shops...")
-- Connect to lifestyle signals (e.g., "As someone who values quality dining...")
-- Use "we" voice to position as caring partner (e.g., "We noticed...", "We're here to help...")
-- Make them feel seen and understood
-- NO generic descriptions - every message must feel unique to THIS customer
-
-### CTA Optimization for Redemption
-- Match urgency to deal type (limited time = urgent CTAs)
-- Match energy to category:
-  - Travel: "Book Your Escape", "Fuel Your Wanderlust"
-  - Food: "Savor This Deal", "Taste the Savings"
-  - Fitness: "Power Your Workout", "Level Up"
-  - Style: "Upgrade Your Look", "Claim Your Style"
-  - Tech: "Unlock the Upgrade", "Get Connected"
-  - Home: "Transform Your Space", "Make It Yours"
-- Include reward type when impactful: "Grab 10% Back", "Claim 5x Points"
+## RULES
+- Messages MUST be under 25 words - be concise!
+- Reference real spending data when available
+- Use "your" to make it personal
+- No generic descriptions
 
 ## RESPONSE FORMAT
-Return valid JSON with this structure:
+Return valid JSON:
 {
   "recommendations": [
-    {
-      "deal_id": "original_id_from_input",
-      "personalized_message": "Your personalized message here...",
-      "cta_text": "Action Phrase Here"
-    }
+    { "deal_id": "id", "personalized_message": "short message", "cta_text": "CTA" }
   ],
-  "summary": {
-    "message": "X deals personalized based on your lifestyle patterns"
-  }
+  "summary": { "message": "X deals personalized" }
 }
 
-CRITICAL: Return ONLY valid JSON. No markdown, no code blocks, no explanations.`;
+CRITICAL: Return ONLY valid JSON. No markdown, no code blocks.`;
 
 serve(async (req) => {
   const origin = req.headers.get("origin");
