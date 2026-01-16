@@ -44,7 +44,9 @@ const placeholderClientData: ClientProfileData = {
   demographics: {
     age: "XX",
     occupation: "Occupation Title",
-    familyStatus: "Family Status"
+    familyStatus: "Family Status",
+    incomeLevel: "$XXX,XXX",
+    industry: "Industry"
   },
   holdings: {
     deposit: "$XXX,XXX",
