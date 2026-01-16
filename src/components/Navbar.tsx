@@ -1,28 +1,77 @@
 import { useState, useEffect } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Menu, X, LogOut, LayoutDashboard, Tag, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
-import { User as SupabaseUser } from "@supabase/supabase-js";
 import ventusLogo from "@/assets/ventus-logo.png";
+
+interface AuthUser {
+  email: string;
+  source: 'supabase' | 'ventus';
+}
 
 const Navbar = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [user, setUser] = useState<AuthUser | null>(null);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check for Ventus app auth from localStorage
+  const checkVentusAuth = () => {
+    const ventusToken = localStorage.getItem('ventus_token');
+    const ventusUserStr = localStorage.getItem('ventus_user');
+    if (ventusToken && ventusUserStr) {
+      try {
+        const ventusUser = JSON.parse(ventusUserStr);
+        if (ventusUser.email) {
+          setUser({ email: ventusUser.email, source: 'ventus' });
+          return true;
+        }
+      } catch {
+        // Invalid JSON
+      }
+    }
+    setUser(null);
+    return false;
+  };
+
+  // Re-check auth on route changes (for same-tab login/logout)
+  useEffect(() => {
+    checkVentusAuth();
+  }, [location.pathname]);
 
   useEffect(() => {
+    // Check Ventus auth immediately
+    const hasVentusAuth = checkVentusAuth();
+
+    // Also listen for Supabase auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
-        setUser(session?.user ?? null);
+        if (!checkVentusAuth()) {
+          setUser(session?.user ? { email: session.user.email || '', source: 'supabase' } : null);
+        }
       }
     );
 
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setUser(session?.user ?? null);
-    });
+    // Initial Supabase check if no Ventus auth
+    if (!hasVentusAuth) {
+      supabase.auth.getSession().then(({ data: { session } }) => {
+        if (!checkVentusAuth()) {
+          setUser(session?.user ? { email: session.user.email || '', source: 'supabase' } : null);
+        }
+      });
+    }
 
-    return () => subscription.unsubscribe();
+    // Listen for storage changes (for Ventus auth updates from other tabs)
+    const handleStorageChange = () => {
+      checkVentusAuth();
+    };
+    window.addEventListener('storage', handleStorageChange);
+
+    return () => {
+      subscription.unsubscribe();
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
   const scrollToSection = (sectionId: string) => {
@@ -45,7 +94,13 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    if (user?.source === 'ventus') {
+      localStorage.removeItem('ventus_token');
+      localStorage.removeItem('ventus_user');
+      setUser(null);
+    } else {
+      await supabase.auth.signOut();
+    }
     navigate("/smartrewards");
   };
 
