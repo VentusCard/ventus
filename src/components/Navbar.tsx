@@ -196,12 +196,12 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/app/login">
-                <Button variant="ghost" className="text-white/90 hover:text-white hover:bg-white/10 text-xs md:text-sm">
+                <Button variant="ghost" className="text-white/90 hover:text-white hover:bg-white/10 text-xs md:text-xs lg:text-sm px-3 py-1.5 h-auto">
                   Sign In
                 </Button>
               </Link>
               <Link to="/app/signup">
-                <Button className="bg-primary hover:bg-primary/90 text-white text-xs md:text-sm">
+                <Button className="bg-primary hover:bg-primary/90 text-white text-xs md:text-xs lg:text-sm px-4 py-1.5 h-auto">
                   Sign Up
                 </Button>
               </Link>
