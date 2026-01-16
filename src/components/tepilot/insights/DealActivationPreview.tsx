@@ -508,10 +508,21 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
     return deals[0];
   }, [selectedDealId, deals, syntheticLocalDeal]);
 
-  const personalizedMessage = useMemo(() => 
-    selectedDeal ? personalizeDealMessage(selectedDeal, customerProfile) : { headline: '', body: '' },
-    [selectedDeal, customerProfile]
-  );
+  const personalizedMessage = useMemo(() => {
+    if (!selectedDeal) return { headline: '', body: '' };
+    
+    // Check for AI-personalized message first
+    const aiPersonalized = personalizedDeals.get(selectedDeal.id);
+    if (aiPersonalized) {
+      return { 
+        headline: aiPersonalized.message, 
+        body: aiPersonalized.cta 
+      };
+    }
+    
+    // Fallback to template-based personalization
+    return personalizeDealMessage(selectedDeal, customerProfile);
+  }, [selectedDeal, customerProfile, personalizedDeals]);
 
   const dealImpact = useMemo(() => 
     selectedDeal ? calculateDealImpact(selectedDeal, customerProfile) : null,
