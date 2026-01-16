@@ -50,10 +50,10 @@ export function OfferCard({ offer, className }: OfferCardProps) {
               </>
             )}
             
-            {/* Deal Category / Deal Type */}
-            {offer.deal_type && (
+            {/* Deal Category */}
+            {offer.deal_category && (
               <>
-                <span className="text-muted-foreground">{offer.deal_type}</span>
+                <span className="text-muted-foreground">{offer.deal_category}</span>
                 <span className="text-muted-foreground">·</span>
               </>
             )}
@@ -62,7 +62,7 @@ export function OfferCard({ offer, className }: OfferCardProps) {
             {offer.redemption_type && (
               <span className="flex items-center gap-1 text-purple-500">
                 <Globe className="w-3.5 h-3.5" />
-                {offer.redemption_type}
+                {offer.redemption_type.charAt(0).toUpperCase() + offer.redemption_type.slice(1).toLowerCase()}
               </span>
             )}
           </div>
