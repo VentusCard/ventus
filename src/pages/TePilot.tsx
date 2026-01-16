@@ -1053,7 +1053,7 @@ const TePilot = () => {
 
             {insightType === 'revenue' && <div className="space-y-6">
                 <div className="flex items-center justify-between mb-6">
-                  <h2 className="text-2xl font-bold text-slate-900">Revenue Recommendations</h2>
+                  <h2 className="text-2xl font-bold text-slate-900">Intelligent Reward Personalization</h2>
                   <Button variant="outline" className="border-slate-300 text-slate-700 hover:bg-slate-100 hover:text-slate-900" onClick={() => {
                 setActiveTab("insights");
                 setInsightType(null);
