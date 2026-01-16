@@ -14,6 +14,7 @@ interface PasteInputProps {
   demographics: ClientProfileData | null;
   onDemographicsChange: (demographics: ClientProfileData | null) => void;
   isFromSampleData?: boolean;
+  showFormatHint?: boolean;
 }
 
 export function PasteInput({ 
@@ -24,18 +25,21 @@ export function PasteInput({
   onAnchorZipChange,
   demographics,
   onDemographicsChange,
-  isFromSampleData = false
+  isFromSampleData = false,
+  showFormatHint = false
 }: PasteInputProps) {
   const lineCount = value.split("\n").filter(line => line.trim()).length;
 
   return (
     <div className="space-y-4">
-      <Alert className="bg-slate-50 border-slate-200 text-slate-700">
-        <FileText className="h-4 w-4" />
-        <AlertDescription>
-          <strong>Format:</strong> Paste CSV data with headers. Required: transaction_id, merchant_name, description, mcc, amount, date. Optional: zip_code
-        </AlertDescription>
-      </Alert>
+      {showFormatHint && (
+        <Alert className="bg-slate-50 border-slate-200 text-slate-700">
+          <FileText className="h-4 w-4" />
+          <AlertDescription>
+            <strong>Format:</strong> Paste CSV data with headers. Required: transaction_id, merchant_name, description, mcc, amount, date. Optional: zip_code
+          </AlertDescription>
+        </Alert>
+      )}
 
       <DemographicsGenerator
         demographics={demographics}

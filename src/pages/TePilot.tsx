@@ -61,6 +61,7 @@ const TePilot = () => {
     return navState?.activeTab || "upload";
   });
   const [inputMode, setInputMode] = useState<"paste" | "upload">("paste");
+  const [pasteExplicitlySelected, setPasteExplicitlySelected] = useState(false);
   const [rawInput, setRawInput] = useState("");
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [anchorZip, setAnchorZip] = useState("");
@@ -967,14 +968,19 @@ const TePilot = () => {
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">
-            {pendingMapping ? <ColumnMapper detectedColumns={pendingMapping.headers} suggestedMapping={pendingMapping.suggestedMapping} onConfirm={handleMappingConfirm} onCancel={handleMappingCancel} /> : <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={(data, zip, demographics) => {
+            {pendingMapping ? <ColumnMapper detectedColumns={pendingMapping.headers} suggestedMapping={pendingMapping.suggestedMapping} onConfirm={handleMappingConfirm} onCancel={handleMappingCancel} /> : <UploadOrPasteContainer mode={inputMode} onModeChange={(mode) => {
+            setInputMode(mode);
+            if (mode === "paste") {
+              setPasteExplicitlySelected(true);
+            }
+          }} onLoadSample={(data, zip, demographics) => {
             setRawInput(data);
             setAnchorZip(zip);
             setUserDemographics(demographics);
             setIsFromSampleData(true);
             sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(demographics));
           }}>
-                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); setIsFromSampleData(false); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} isFromSampleData={isFromSampleData} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); setIsFromSampleData(false); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} isFromSampleData={isFromSampleData} />}
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); setIsFromSampleData(false); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} isFromSampleData={isFromSampleData} showFormatHint={pasteExplicitlySelected} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); setIsFromSampleData(false); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} isFromSampleData={isFromSampleData} />}
               </UploadOrPasteContainer>}
           </TabsContent>
 
