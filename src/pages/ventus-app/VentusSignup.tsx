@@ -80,6 +80,7 @@ export default function VentusSignup() {
                     onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                     required
                     placeholder="John"
+                    className="hover:border-border"
                   />
                 </div>
                 <div className="space-y-2">
@@ -90,6 +91,7 @@ export default function VentusSignup() {
                     onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                     required
                     placeholder="Doe"
+                    className="hover:border-border"
                   />
                 </div>
               </div>
@@ -103,6 +105,7 @@ export default function VentusSignup() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                   placeholder="john@example.com"
+                  className="hover:border-border"
                 />
               </div>
 
@@ -116,6 +119,7 @@ export default function VentusSignup() {
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
                     placeholder="Min 8 characters"
+                    className="hover:border-border"
                   />
                   <button
                     type="button"
@@ -136,6 +140,7 @@ export default function VentusSignup() {
                   onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                   required
                   placeholder="Re-enter password"
+                  className="hover:border-border"
                 />
               </div>
 
