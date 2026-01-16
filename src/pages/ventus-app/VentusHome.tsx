@@ -326,6 +326,8 @@ export default function VentusHome() {
                   offers={merchant.offers}
                   isExpanded={expandedMerchants.has(merchant.merchantName)}
                   onToggle={() => toggleMerchant(merchant.merchantName)}
+                  showSubcategory={selectedSubcategory === 'All'}
+                  showDealCategory={selectedDealCategory === 'All'}
                 />
               ))
             )}
