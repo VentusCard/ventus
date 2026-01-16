@@ -1,26 +1,17 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Loader2, Search, ArrowRight, ChevronDown, ChevronUp, ExternalLink, Smartphone } from 'lucide-react';
+import { Loader2, Search, Smartphone } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import { useVentusAuth } from '@/contexts/VentusAuthContext';
 import { VentusSidebar } from '@/components/ventus-app/VentusSidebar';
 import { SubcategoryChip } from '@/components/ventus-app/SubcategoryChip';
 import { DealCategoryChip } from '@/components/ventus-app/DealCategoryChip';
-import { offersApi, categoriesApi, profileApi, VentusOffer, VentusCategory, getMerchantLogoUrl, trackingApi } from '@/lib/ventusApi';
-import { Badge } from '@/components/ui/badge';
+import { OfferCard } from '@/components/ventus-app/OfferCard';
+import { offersApi, categoriesApi, profileApi, VentusOffer, VentusCategory } from '@/lib/ventusApi';
 import { Card, CardContent } from '@/components/ui/card';
 import { AppStoreBadges } from '@/components/ventus-app/AppStoreBadges';
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
-import { cn } from '@/lib/utils';
 import { getSubcategoryIcon } from '@/lib/categoryIcons';
-
-interface GroupedMerchant {
-  merchantName: string;
-  domain: string;
-  offers: VentusOffer[];
-  isPartner: boolean;
-}
 
 const ROTATING_PLACEHOLDERS = [
   'Search "basketball shoes under $100"',
@@ -37,7 +28,6 @@ export default function VentusHome() {
   const [categories, setCategories] = useState<VentusCategory[]>([]);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('All');
   const [selectedDealCategory, setSelectedDealCategory] = useState<string>('All');
-  const [expandedMerchants, setExpandedMerchants] = useState<Set<string>>(new Set());
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
   // Debug: log user object to see what's available
@@ -158,8 +148,8 @@ export default function VentusHome() {
     return dealCats.length > 0 ? ['All', ...dealCats] : ['All'];
   }, [offers, selectedSubcategory]);
 
-  // Filter and group offers
-  const groupedMerchants = useMemo(() => {
+  // Filter offers
+  const filteredOffers = useMemo(() => {
     let filtered = offers;
 
     // Filter by subcategory
@@ -175,55 +165,18 @@ export default function VentusHome() {
       );
     }
 
-    // Group by merchant
-    const grouped: Record<string, GroupedMerchant> = {};
-    filtered.forEach((offer) => {
-      const key = offer.merchant_name;
-      if (!grouped[key]) {
-        grouped[key] = {
-          merchantName: offer.merchant_name,
-          domain: offer.domain,
-          offers: [],
-          isPartner: offer.source === 'merchant_offers',
-        };
-      }
-      grouped[key].offers.push(offer);
-      if (offer.source === 'merchant_offers') {
-        grouped[key].isPartner = true;
-      }
-    });
-
-    // Sort: partners first, then by offer count
-    return Object.values(grouped).sort((a, b) => {
-      if (a.isPartner && !b.isPartner) return -1;
-      if (!a.isPartner && b.isPartner) return 1;
-      return b.offers.length - a.offers.length;
+    // Sort: partners first, then alphabetically by merchant
+    return filtered.sort((a, b) => {
+      const aIsPartner = a.source === 'merchant_offers';
+      const bIsPartner = b.source === 'merchant_offers';
+      if (aIsPartner && !bIsPartner) return -1;
+      if (!aIsPartner && bIsPartner) return 1;
+      return a.merchant_name.localeCompare(b.merchant_name);
     });
   }, [offers, selectedSubcategory, selectedDealCategory]);
 
   const handleSearchClick = () => {
     navigate('/app/search');
-  };
-
-  const toggleMerchant = (merchantName: string) => {
-    setExpandedMerchants((prev) => {
-      const next = new Set(prev);
-      if (next.has(merchantName)) {
-        next.delete(merchantName);
-      } else {
-        next.add(merchantName);
-      }
-      return next;
-    });
-  };
-
-  const handleOfferClick = async (offer: VentusOffer) => {
-    try {
-      await trackingApi.trackClick(offer.id);
-    } catch {
-      // Silent fail
-    }
-    window.open(offer.url, '_blank');
   };
 
   if (isLoading) {
@@ -319,9 +272,9 @@ export default function VentusHome() {
             )}
           </div>
 
-          {/* Offers list - stacked */}
+          {/* Offers list - using new OfferCard component */}
           <div className="space-y-4">
-            {groupedMerchants.length === 0 ? (
+            {filteredOffers.length === 0 ? (
               <div className="text-center py-20">
                 <p className="text-muted-foreground text-base">No offers match your filters</p>
                 <p className="text-sm text-muted-foreground mt-2">
@@ -329,114 +282,9 @@ export default function VentusHome() {
                 </p>
               </div>
             ) : (
-              groupedMerchants.map((merchant) => {
-                const isExpanded = expandedMerchants.has(merchant.merchantName);
-                const hasMultipleOffers = merchant.offers.length > 1;
-                
-                return (
-                  <Collapsible
-                    key={merchant.merchantName}
-                    open={isExpanded}
-                    onOpenChange={() => hasMultipleOffers && toggleMerchant(merchant.merchantName)}
-                  >
-                    <div className="bg-card border border-border rounded-xl overflow-hidden hover:border-primary/30 transition-colors">
-                      {/* Main merchant header */}
-                      <CollapsibleTrigger asChild disabled={!hasMultipleOffers}>
-                        <div className={cn(
-                          "flex items-center gap-4 p-5",
-                          hasMultipleOffers && "cursor-pointer"
-                        )}>
-                          {/* Logo */}
-                          <div className="w-14 h-14 rounded-xl bg-white flex items-center justify-center overflow-hidden flex-shrink-0">
-                            <img 
-                              src={getMerchantLogoUrl(merchant.domain)} 
-                              alt={merchant.merchantName}
-                              className="w-10 h-10 object-contain"
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).style.display = 'none';
-                              }}
-                            />
-                          </div>
-
-                          {/* Content */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center gap-2">
-                              <h3 className="text-base font-medium text-foreground truncate">
-                                {merchant.merchantName}
-                              </h3>
-                              {merchant.isPartner && (
-                                <Badge className="bg-primary/10 text-primary text-xs px-2 py-0.5">
-                                  Partner
-                                </Badge>
-                              )}
-                              {hasMultipleOffers && (
-                                <Badge variant="secondary" className="text-xs px-2 py-0.5">
-                                  {merchant.offers.length} deals
-                                </Badge>
-                              )}
-                            </div>
-                            <p className="text-sm text-muted-foreground truncate mt-1">
-                              {merchant.offers[0]?.title}
-                            </p>
-                          </div>
-
-                          {/* Expand/Action */}
-                          {hasMultipleOffers ? (
-                            <div className="flex-shrink-0 text-muted-foreground">
-                              {isExpanded ? (
-                                <ChevronUp className="w-5 h-5" />
-                              ) : (
-                                <ChevronDown className="w-5 h-5" />
-                              )}
-                            </div>
-                          ) : (
-                            <button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                handleOfferClick(merchant.offers[0]);
-                              }}
-                              className="flex items-center gap-1.5 text-sm font-medium text-primary hover:text-primary/80 transition-colors flex-shrink-0"
-                            >
-                              <span>View</span>
-                              <ExternalLink className="w-4 h-4" />
-                            </button>
-                          )}
-                        </div>
-                      </CollapsibleTrigger>
-
-                      {/* Expanded offers list */}
-                      <CollapsibleContent>
-                        <div className="border-t border-border">
-                          {merchant.offers.map((offer, idx) => (
-                            <button
-                              key={offer.id || idx}
-                              onClick={() => handleOfferClick(offer)}
-                              className="w-full flex items-center gap-4 px-5 py-4 hover:bg-muted/50 transition-colors text-left border-b border-border last:border-b-0"
-                            >
-                              <div className="flex-1 min-w-0">
-                                <p className="text-base text-foreground truncate">{offer.title}</p>
-                                {offer.deal_categories && offer.deal_categories.length > 0 && (
-                                  <div className="flex gap-1.5 mt-1.5 flex-wrap">
-                                    {offer.deal_categories.slice(0, 2).map((cat) => (
-                                      <span 
-                                        key={cat} 
-                                        className="text-xs px-2 py-0.5 bg-muted rounded text-muted-foreground"
-                                      >
-                                        {cat}
-                                      </span>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                              <ExternalLink className="w-4 h-4 text-primary flex-shrink-0" />
-                            </button>
-                          ))}
-                        </div>
-                      </CollapsibleContent>
-                    </div>
-                  </Collapsible>
-                );
-              })
+              filteredOffers.map((offer) => (
+                <OfferCard key={offer.id} offer={offer} />
+              ))
             )}
           </div>
 
