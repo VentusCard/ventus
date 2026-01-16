@@ -964,7 +964,7 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
                     className="w-full bg-white hover:bg-rose-50 text-rose-900 font-semibold py-3 rounded-lg transition-all hover:shadow-lg"
                     onClick={() => {}}
                   >
-                    Activate Deal
+                    {personalizedDeals.get(selectedDeal.id)?.cta || "Activate Deal"}
                   </Button>
                 </div>
 
