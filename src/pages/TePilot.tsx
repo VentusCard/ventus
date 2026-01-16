@@ -979,6 +979,7 @@ const TePilot = () => {
             setUserDemographics(demographics);
             setIsFromSampleData(true);
             setPasteExplicitlySelected(false);
+            setInputMode("paste");
             sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(demographics));
           }}>
                 {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); setIsFromSampleData(false); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} isFromSampleData={isFromSampleData} showFormatHint={pasteExplicitlySelected} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); setIsFromSampleData(false); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} isFromSampleData={isFromSampleData} />}
