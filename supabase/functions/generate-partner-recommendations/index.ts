@@ -20,7 +20,7 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
   };
 }
 
-// Dynamic prompt - handles any deal count
+// Dynamic prompt - handles any deal count with privacy guardrails
 const buildSystemPrompt = (dealCount: number) => `You personalize deal cards. Generate SHORT messages (15-25 words max).
 
 You will receive ${dealCount} deals. Return EXACTLY ${dealCount} personalized recs.
@@ -30,12 +30,27 @@ INPUT: deals (id, m=merchant, c=category, r=reward), profile (pillars with spend
 OUTPUT: Valid JSON array with EXACTLY ${dealCount} entries:
 {"recs":[{"id":"deal_id","msg":"short personal message","cta":"2-5 word CTA"},...]}
 
-CRITICAL:
+CRITICAL RULES:
 - Return one rec for EACH deal - match the input count exactly!
 - Under 25 words per message
-- Reference spending from profile when category matches
-- Use "your" for personalization  
 - CTAs: "Claim Now", "Start Earning", "Grab This", etc.
+
+PRIVACY RULES (MANDATORY):
+- NEVER mention specific numbers (transaction counts, visit counts, exact spend amounts)
+- NEVER reference other merchants by name - only personalize based on the CURRENT deal's merchant
+- Use general lifestyle affinity language like "as a foodie", "for active lifestyles", "coffee lover"
+- Reference spending CATEGORIES broadly, not specific amounts or frequencies
+- Keep personalization warm but non-intrusive
+
+GOOD examples:
+- "Perfect for coffee lovers - earn 5% on every visit"
+- "Fuel your active lifestyle with 10% rewards"
+- "A foodie favorite - get $10 off your next order"
+
+BAD examples (NEVER DO):
+- "Your 26 annual coffee stops..." (specific count)
+- "After your Barry's workout..." (mentions other merchant)
+- "Based on your $4,500 dining spend..." (specific amount)
 
 ONLY return valid JSON, no markdown.`;
 
