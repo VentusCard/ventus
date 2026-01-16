@@ -35,7 +35,7 @@ export function UploadOrPasteContainer({
         <div className="flex gap-2 mt-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm" className="flex-1">
+              <Button variant="outline" size="sm" className="flex-1 bg-white">
                 Load Sample Data
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
