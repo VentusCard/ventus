@@ -18,10 +18,19 @@ interface AuthContextType extends AuthState {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const VentusAuthProvider = ({ children }: { children: ReactNode }) => {
-  const [state, setState] = useState<AuthState>({
-    user: null,
-    isLoading: true,
-    isAuthenticated: false,
+  // Initialize state from localStorage immediately to avoid flash
+  const [state, setState] = useState<AuthState>(() => {
+    const cachedUser = localStorage.getItem('ventus_user');
+    const token = localStorage.getItem('ventus_token');
+    if (cachedUser && token) {
+      try {
+        const user = JSON.parse(cachedUser);
+        return { user, isLoading: true, isAuthenticated: true };
+      } catch {
+        // Invalid cached data
+      }
+    }
+    return { user: null, isLoading: true, isAuthenticated: false };
   });
 
   const checkSession = async (): Promise<boolean> => {
@@ -34,6 +43,8 @@ export const VentusAuthProvider = ({ children }: { children: ReactNode }) => {
     try {
       const data = await authApi.getSession();
       setState({ user: data.user, isLoading: false, isAuthenticated: true });
+      // Update cache with fresh data
+      localStorage.setItem('ventus_user', JSON.stringify(data.user));
       return true;
     } catch {
       localStorage.removeItem('ventus_token');
