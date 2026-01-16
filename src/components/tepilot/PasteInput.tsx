@@ -13,6 +13,7 @@ interface PasteInputProps {
   onAnchorZipChange: (value: string) => void;
   demographics: ClientProfileData | null;
   onDemographicsChange: (demographics: ClientProfileData | null) => void;
+  isFromSampleData?: boolean;
 }
 
 export function PasteInput({ 
@@ -22,7 +23,8 @@ export function PasteInput({
   anchorZip, 
   onAnchorZipChange,
   demographics,
-  onDemographicsChange
+  onDemographicsChange,
+  isFromSampleData = false
 }: PasteInputProps) {
   const lineCount = value.split("\n").filter(line => line.trim()).length;
 
@@ -40,6 +42,7 @@ export function PasteInput({
         onDemographicsChange={onDemographicsChange}
         onZipChange={onAnchorZipChange}
         anchorZip={anchorZip}
+        isFromSampleData={isFromSampleData}
       />
 
       <div className="space-y-2">

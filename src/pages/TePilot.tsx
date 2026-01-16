@@ -83,6 +83,7 @@ const TePilot = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState<{ subcategory: string; pillar: string } | null>(null);
   const [selectedTransaction, setSelectedTransaction] = useState<EnrichedTransaction | null>(null);
   const [userDemographics, setUserDemographics] = useState<ClientProfileData | null>(null);
+  const [isFromSampleData, setIsFromSampleData] = useState(false);
   const navigate = useNavigate();
   const handleNavigateToAdvisorConsole = async () => {
     // Ensure analysis runs before navigating if not already done
@@ -970,9 +971,10 @@ const TePilot = () => {
             setRawInput(data);
             setAnchorZip(zip);
             setUserDemographics(demographics);
+            setIsFromSampleData(true);
             sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(demographics));
           }}>
-                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} />}
+                {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); setIsFromSampleData(false); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} isFromSampleData={isFromSampleData} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); setIsFromSampleData(false); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} isFromSampleData={isFromSampleData} />}
               </UploadOrPasteContainer>}
           </TabsContent>
 

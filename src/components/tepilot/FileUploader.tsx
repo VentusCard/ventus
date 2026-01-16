@@ -1,8 +1,7 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, File, X, Scan, MapPin } from "lucide-react";
+import { Upload, File, X, Scan } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { DemographicsGenerator } from "./DemographicsGenerator";
 import { ClientProfileData } from "@/types/clientProfile";
@@ -14,6 +13,7 @@ interface FileUploaderProps {
   onAnchorZipChange: (value: string) => void;
   demographics: ClientProfileData | null;
   onDemographicsChange: (demographics: ClientProfileData | null) => void;
+  isFromSampleData?: boolean;
 }
 
 export function FileUploader({ 
@@ -22,7 +22,8 @@ export function FileUploader({
   anchorZip, 
   onAnchorZipChange,
   demographics,
-  onDemographicsChange
+  onDemographicsChange,
+  isFromSampleData = false
 }: FileUploaderProps) {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -99,6 +100,7 @@ export function FileUploader({
         onDemographicsChange={onDemographicsChange}
         onZipChange={onAnchorZipChange}
         anchorZip={anchorZip}
+        isFromSampleData={isFromSampleData}
       />
 
       <div
