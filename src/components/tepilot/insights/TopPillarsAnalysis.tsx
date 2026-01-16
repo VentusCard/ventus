@@ -55,15 +55,23 @@ interface UserPersona {
   interests: string[];
 }
 
+interface CustomerContext {
+  homeZip?: string;
+  incomeLevel?: string;
+  industry?: string;
+  familyStatus?: string;
+}
+
 interface TopPillarsAnalysisProps {
   transactions: EnrichedTransaction[];
   autoAnalyze?: boolean;
   onPersonaGenerated?: (persona: UserPersona) => void;
+  customerContext?: CustomerContext;
 }
 
 const PILLAR_ICON = "💳";
 
-export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPersonaGenerated }: TopPillarsAnalysisProps) {
+export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPersonaGenerated, customerContext }: TopPillarsAnalysisProps) {
   const [analyzedPillars, setAnalyzedPillars] = useState<AnalyzedPillar[]>([]);
   const [userPersona, setUserPersona] = useState<UserPersona | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -103,8 +111,8 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPerson
     
     try {
       // Prepare data for AI analysis
-      // Find the most common home_zip from transactions for fallback
-      const homeZip = transactions.find(t => t.home_zip)?.home_zip;
+      // Prefer customerContext.homeZip, fallback to transaction-derived ZIP
+      const homeZip = customerContext?.homeZip || transactions.find(t => t.home_zip)?.home_zip;
 
       const pillarsData = pillarAggregates.map(agg => {
         const pillarTransactions = transactions
@@ -128,7 +136,15 @@ export function TopPillarsAnalysis({ transactions, autoAnalyze = false, onPerson
       });
 
       const { data, error } = await supabase.functions.invoke('analyze-pillar-transactions', {
-        body: { pillars: pillarsData, home_zip: homeZip }
+        body: { 
+          pillars: pillarsData, 
+          home_zip: homeZip,
+          customer_context: customerContext ? {
+            income_level: customerContext.incomeLevel,
+            industry: customerContext.industry,
+            family_status: customerContext.familyStatus,
+          } : undefined
+        }
       });
 
       if (error) throw error;

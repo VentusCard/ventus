@@ -1177,7 +1177,13 @@ const TePilot = () => {
                 {/* AI-Powered Top 3 Pillars Analysis - shows immediately */}
                 <TopPillarsAnalysis 
                   transactions={enrichedTransactions} 
-                  autoAnalyze={true} 
+                  autoAnalyze={true}
+                  customerContext={{
+                    homeZip: anchorZip,
+                    incomeLevel: userDemographics?.demographics?.incomeLevel,
+                    industry: userDemographics?.demographics?.industry,
+                    familyStatus: userDemographics?.demographics?.familyStatus,
+                  }}
                   onPersonaGenerated={(persona) => {
                     setUserPersona(persona);
                     console.log("[TePilot] Persona received from analysis");
