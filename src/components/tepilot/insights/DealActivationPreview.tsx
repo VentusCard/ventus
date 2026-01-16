@@ -8,14 +8,15 @@ import {
   UtensilsCrossed, Dumbbell, ShoppingBag, ArrowRight,
   Target, DollarSign, Percent, Users, MapPin, AlertCircle,
   Home, Tv, Cpu, Baby, PawPrint, Wallet, Car, ChevronDown, ChevronUp, ChevronRight,
-  Search, X, Loader2, Globe, Navigation
+  Search, X, Loader2, Globe, Navigation, CheckCircle2
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedTransaction } from "@/types/transaction";
 import { availableDeals as AVAILABLE_DEALS, AvailableDeal, DEAL_CATEGORIES, DealCategory } from "@/lib/availableDealsData";
 import { useSemanticDealSearch } from "@/hooks/useSemanticDealSearch";
 import { useCityDeals } from "@/hooks/useCityDeals";
-
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 // Bank-defined deal format for personalization
 export interface BankDeal {
   id: string;
@@ -418,18 +419,20 @@ export interface SelectedDealForPersonalization {
 
 interface DealActivationPreviewProps {
   enrichedTransactions?: EnrichedTransaction[];
-  onPersonalizeDeals?: (deals: SelectedDealForPersonalization[], customerProfile: DerivedCustomerProfile) => void;
-  isPersonalizing?: boolean;
 }
 
-export function DealActivationPreview({ enrichedTransactions = [], onPersonalizeDeals, isPersonalizing = false }: DealActivationPreviewProps) {
+export function DealActivationPreview({ enrichedTransactions = [] }: DealActivationPreviewProps) {
   const [selectedDealId, setSelectedDealId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [locationCity, setLocationCity] = useState<string>("San Francisco");
-  // Removed multi-select - all displayed deals get personalized
   const [localExperiencesExpanded, setLocalExperiencesExpanded] = useState(false);
   const [syntheticLocalDeal, setSyntheticLocalDeal] = useState<BankDeal | null>(null);
+  
+  // Personalization state
+  const [personalizedDeals, setPersonalizedDeals] = useState<Map<string, { message: string; cta: string }>>(new Map());
+  const [isPersonalizing, setIsPersonalizing] = useState(false);
+  const [hasPersonalized, setHasPersonalized] = useState(false);
   
   // Location-based experiences from edge function
   const { deals: locationDeals, loading: locationLoading } = useCityDeals(locationCity, "entertainment");
@@ -765,6 +768,7 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
                 const Icon = getPillarIcon(deal.merchantCategory);
                 const isPreviewSelected = selectedDeal?.id === deal.id;
                 const personalizedMsg = personalizeDealMessage(deal, customerProfile);
+                const aiPersonalized = personalizedDeals.get(deal.id);
                 
                 return (
                   <div
@@ -774,14 +778,19 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
                       "p-3 rounded-lg text-left transition-all border cursor-pointer",
                       isPreviewSelected
                         ? "bg-primary/10 border-primary shadow-sm"
-                        : "bg-white border-slate-200 hover:border-slate-300"
+                        : aiPersonalized
+                          ? "bg-violet-50/50 border-violet-200 hover:border-violet-300"
+                          : "bg-white border-slate-200 hover:border-slate-300"
                     )}
                   >
                     <div className="w-full text-left">
                       {/* Top Row: Icon + Merchant + Popularity */}
                       <div className="flex items-center gap-2 mb-1.5">
-                        <Icon className={cn("h-3.5 w-3.5 shrink-0", isPreviewSelected ? "text-primary" : "text-slate-400")} />
+                        <Icon className={cn("h-3.5 w-3.5 shrink-0", isPreviewSelected ? "text-primary" : aiPersonalized ? "text-violet-500" : "text-slate-400")} />
                         <span className="text-[11px] text-slate-500 truncate flex-1">{deal.merchantName}</span>
+                        {aiPersonalized && (
+                          <Sparkles className="h-3 w-3 text-violet-500 shrink-0" />
+                        )}
                         <Badge 
                           variant="outline" 
                           className={cn(
@@ -804,22 +813,29 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
                         </Badge>
                       </div>
                       
-                      {/* Personalized Caption */}
+                      {/* Personalized Caption - AI or Template */}
                       <p className={cn(
-                        "text-xs font-medium line-clamp-1 mb-1",
-                        isPreviewSelected ? "text-primary" : "text-slate-700"
+                        "text-xs font-medium mb-1",
+                        aiPersonalized ? "line-clamp-2 italic text-violet-700" : "line-clamp-1",
+                        isPreviewSelected ? "text-primary" : !aiPersonalized && "text-slate-700"
                       )}>
-                        {personalizedMsg.headline}
+                        {aiPersonalized ? `"${aiPersonalized.message}"` : personalizedMsg.headline}
                       </p>
                       
-                      {/* Bottom Row: Reward + Activations */}
+                      {/* Bottom Row: Reward + Activations or CTA */}
                       <div className="flex items-center justify-between">
                         <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-[10px] px-1.5 py-0 h-4">
                           {deal.rewardValue}
                         </Badge>
-                        <span className="text-[9px] text-slate-400">
-                          {deal.activationCount.toLocaleString()} active
-                        </span>
+                        {aiPersonalized ? (
+                          <Badge className="bg-violet-100 text-violet-700 border-violet-200 text-[9px] px-1.5 py-0 h-4">
+                            {aiPersonalized.cta}
+                          </Badge>
+                        ) : (
+                          <span className="text-[9px] text-slate-400">
+                            {deal.activationCount.toLocaleString()} active
+                          </span>
+                        )}
                       </div>
                     </div>
                   </div>
@@ -901,22 +917,65 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
       </div>
 
       {/* Personalize All Deals Button - Fixed at bottom */}
-      {onPersonalizeDeals && displayedDeals.length > 0 && (
+      {displayedDeals.length > 0 && (
         <div className="pt-4 border-t border-slate-200">
           <Button
-            onClick={() => {
-              const dealsToPersonalize: SelectedDealForPersonalization[] = displayedDeals
-                .slice(0, 30)
-                .map(d => ({
-                  id: d.id,
-                  merchantName: d.merchantName,
-                  category: d.merchantCategory,
-                  subcategory: d.subcategory,
-                  dealTitle: d.dealTitle,
-                  dealDescription: d.dealDescription,
-                  rewardValue: d.rewardValue,
-                }));
-              onPersonalizeDeals(dealsToPersonalize, customerProfile);
+            onClick={async () => {
+              setIsPersonalizing(true);
+              toast.info(`Personalizing ${Math.min(displayedDeals.length, 30)} deals...`);
+              
+              try {
+                const dealsToPersonalize: SelectedDealForPersonalization[] = displayedDeals
+                  .slice(0, 30)
+                  .map(d => ({
+                    id: d.id,
+                    merchantName: d.merchantName,
+                    category: d.merchantCategory,
+                    subcategory: d.subcategory,
+                    dealTitle: d.dealTitle,
+                    dealDescription: d.dealDescription,
+                    rewardValue: d.rewardValue,
+                  }));
+                
+                // Build insights from transactions
+                const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
+                const pillarSpending = enrichedTransactions.reduce((acc, t) => {
+                  const pillar = t.pillar || "Other";
+                  acc[pillar] = (acc[pillar] || 0) + t.amount;
+                  return acc;
+                }, {} as Record<string, number>);
+                const topPillars = Object.entries(pillarSpending)
+                  .map(([pillar, spend]) => ({ pillar, spend, percentage: Math.round((spend / totalSpend) * 100) }))
+                  .sort((a, b) => b.spend - a.spend)
+                  .slice(0, 5);
+                
+                const { data, error } = await supabase.functions.invoke("generate-partner-recommendations", {
+                  body: {
+                    insights: { totalSpend, topPillars },
+                    selectedDeals: dealsToPersonalize,
+                    customerProfile,
+                  },
+                });
+                
+                if (error) throw error;
+                
+                // Store personalized messages in state
+                const newPersonalized = new Map<string, { message: string; cta: string }>();
+                data.recommendations?.forEach((rec: any) => {
+                  newPersonalized.set(rec.deal_id, {
+                    message: rec.personalized_message,
+                    cta: rec.cta_text,
+                  });
+                });
+                setPersonalizedDeals(newPersonalized);
+                setHasPersonalized(true);
+                toast.success(`Personalized ${newPersonalized.size} deals!`);
+              } catch (error) {
+                console.error("Personalization error:", error);
+                toast.error("Failed to personalize deals");
+              } finally {
+                setIsPersonalizing(false);
+              }
             }}
             disabled={isPersonalizing}
             className="w-full gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3"
@@ -926,6 +985,11 @@ export function DealActivationPreview({ enrichedTransactions = [], onPersonalize
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
                 Personalizing {Math.min(displayedDeals.length, 30)} Deals...
+              </>
+            ) : hasPersonalized ? (
+              <>
+                <CheckCircle2 className="h-4 w-4" />
+                {personalizedDeals.size} Deals Personalized ✓
               </>
             ) : (
               <>
