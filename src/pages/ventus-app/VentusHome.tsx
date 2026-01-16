@@ -7,11 +7,18 @@ import { useVentusAuth } from '@/contexts/VentusAuthContext';
 import { VentusSidebar } from '@/components/ventus-app/VentusSidebar';
 import { SubcategoryChip } from '@/components/ventus-app/SubcategoryChip';
 import { DealCategoryChip } from '@/components/ventus-app/DealCategoryChip';
-import { OfferCard } from '@/components/ventus-app/OfferCard';
+import { MerchantCard } from '@/components/ventus-app/MerchantCard';
 import { offersApi, categoriesApi, profileApi, VentusOffer, VentusCategory } from '@/lib/ventusApi';
 import { Card, CardContent } from '@/components/ui/card';
 import { AppStoreBadges } from '@/components/ventus-app/AppStoreBadges';
 import { getSubcategoryIcon } from '@/lib/categoryIcons';
+
+interface GroupedMerchant {
+  merchantName: string;
+  domain: string;
+  offers: VentusOffer[];
+  isPartner: boolean;
+}
 
 const ROTATING_PLACEHOLDERS = [
   'Search "basketball shoes under $100"',
@@ -28,6 +35,7 @@ export default function VentusHome() {
   const [categories, setCategories] = useState<VentusCategory[]>([]);
   const [selectedSubcategory, setSelectedSubcategory] = useState<string>('All');
   const [selectedDealCategory, setSelectedDealCategory] = useState<string>('All');
+  const [expandedMerchants, setExpandedMerchants] = useState<Set<string>>(new Set());
   const [placeholderIndex, setPlaceholderIndex] = useState(0);
 
   // Debug: log user object to see what's available
@@ -148,8 +156,8 @@ export default function VentusHome() {
     return dealCats.length > 0 ? ['All', ...dealCats] : ['All'];
   }, [offers, selectedSubcategory]);
 
-  // Filter offers
-  const filteredOffers = useMemo(() => {
+  // Filter and group offers by merchant
+  const groupedMerchants = useMemo(() => {
     let filtered = offers;
 
     // Filter by subcategory
@@ -165,18 +173,46 @@ export default function VentusHome() {
       );
     }
 
-    // Sort: partners first, then alphabetically by merchant
-    return filtered.sort((a, b) => {
-      const aIsPartner = a.source === 'merchant_offers';
-      const bIsPartner = b.source === 'merchant_offers';
-      if (aIsPartner && !bIsPartner) return -1;
-      if (!aIsPartner && bIsPartner) return 1;
-      return a.merchant_name.localeCompare(b.merchant_name);
+    // Group by merchant
+    const grouped: Record<string, GroupedMerchant> = {};
+    filtered.forEach((offer) => {
+      const key = offer.merchant_name;
+      if (!grouped[key]) {
+        grouped[key] = {
+          merchantName: offer.merchant_name,
+          domain: offer.domain,
+          offers: [],
+          isPartner: offer.source === 'merchant_offers',
+        };
+      }
+      grouped[key].offers.push(offer);
+      if (offer.source === 'merchant_offers') {
+        grouped[key].isPartner = true;
+      }
+    });
+
+    // Sort: partners first, then by offer count
+    return Object.values(grouped).sort((a, b) => {
+      if (a.isPartner && !b.isPartner) return -1;
+      if (!a.isPartner && b.isPartner) return 1;
+      return b.offers.length - a.offers.length;
     });
   }, [offers, selectedSubcategory, selectedDealCategory]);
 
   const handleSearchClick = () => {
     navigate('/app/search');
+  };
+
+  const toggleMerchant = (merchantName: string) => {
+    setExpandedMerchants((prev) => {
+      const next = new Set(prev);
+      if (next.has(merchantName)) {
+        next.delete(merchantName);
+      } else {
+        next.add(merchantName);
+      }
+      return next;
+    });
   };
 
   if (isLoading) {
@@ -272,9 +308,9 @@ export default function VentusHome() {
             )}
           </div>
 
-          {/* Offers list - using new OfferCard component */}
+          {/* Merchant grouped offers */}
           <div className="space-y-4">
-            {filteredOffers.length === 0 ? (
+            {groupedMerchants.length === 0 ? (
               <div className="text-center py-20">
                 <p className="text-muted-foreground text-base">No offers match your filters</p>
                 <p className="text-sm text-muted-foreground mt-2">
@@ -282,8 +318,15 @@ export default function VentusHome() {
                 </p>
               </div>
             ) : (
-              filteredOffers.map((offer) => (
-                <OfferCard key={offer.id} offer={offer} />
+              groupedMerchants.map((merchant) => (
+                <MerchantCard
+                  key={merchant.merchantName}
+                  merchantName={merchant.merchantName}
+                  domain={merchant.domain}
+                  offers={merchant.offers}
+                  isExpanded={expandedMerchants.has(merchant.merchantName)}
+                  onToggle={() => toggleMerchant(merchant.merchantName)}
+                />
               ))
             )}
           </div>
