@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Users, RefreshCw, X, HelpCircle, Sparkles, DollarSign, Building2 } from "lucide-react";
-import { generateRandomProfile } from "@/lib/randomProfileGenerator";
+import { Users, X, Sparkles, DollarSign, Building2 } from "lucide-react";
 import { ClientProfileData } from "@/types/clientProfile";
 
 interface DemographicsGeneratorProps {
@@ -16,64 +14,24 @@ export function DemographicsGenerator({
   onDemographicsChange, 
   onZipChange 
 }: DemographicsGeneratorProps) {
-  const [isGenerating, setIsGenerating] = useState(false);
-
-  const handleGenerate = () => {
-    setIsGenerating(true);
-    // Small delay for visual feedback
-    setTimeout(() => {
-      const profile = generateRandomProfile();
-      onDemographicsChange(profile);
-      // Extract ZIP from address (format: "123 Street, City, ST 12345")
-      const zipMatch = profile.contact.address.match(/\d{5}$/);
-      if (zipMatch) {
-        onZipChange(zipMatch[0]);
-      }
-      setIsGenerating(false);
-    }, 150);
-  };
 
   const handleClear = () => {
     onDemographicsChange(null);
     onZipChange("");
   };
 
-
   if (!demographics) {
     return (
       <div className="space-y-2">
         <label className="text-sm font-medium flex items-center gap-1.5 text-slate-900">
           <Sparkles className="h-3.5 w-3.5 text-blue-600" />
-          Customer Context (Optional)
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <button type="button" className="inline-flex cursor-help">
-                  <HelpCircle className="h-3.5 w-3.5 text-slate-500" />
-                </button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="text-xs max-w-xs">
-                  Generate a random customer profile to enhance analysis with demographics, location, and segment data
-                </p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
+          Customer Context
         </label>
-        <Button
-          type="button"
-          variant="outline"
-          onClick={handleGenerate}
-          disabled={isGenerating}
-          className="w-full border-dashed border-slate-300 text-slate-600 hover:bg-slate-50 hover:text-slate-900 hover:border-slate-400"
-        >
-          {isGenerating ? (
-            <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-          ) : (
-            <Users className="h-4 w-4 mr-2" />
-          )}
-          Generate Random Customer Profile
-        </Button>
+        <div className="p-3 bg-slate-50 border border-dashed border-slate-300 rounded-lg text-center">
+          <p className="text-sm text-slate-500">
+            Load a sample dataset above to populate customer context
+          </p>
+        </div>
       </div>
     );
   }
@@ -105,27 +63,8 @@ export function DemographicsGenerator({
           </div>
         </div>
 
-        {/* Actions */}
+        {/* Clear button */}
         <div className="flex items-center gap-1">
-          <TooltipProvider>
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleGenerate}
-                  disabled={isGenerating}
-                  className="h-8 w-8 p-0 text-slate-500 hover:text-slate-900"
-                >
-                  <RefreshCw className={`h-4 w-4 ${isGenerating ? 'animate-spin' : ''}`} />
-                </Button>
-              </TooltipTrigger>
-              <TooltipContent>
-                <p className="text-xs">Regenerate</p>
-              </TooltipContent>
-            </Tooltip>
-          </TooltipProvider>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
