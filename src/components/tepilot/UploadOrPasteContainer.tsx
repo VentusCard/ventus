@@ -26,21 +26,21 @@ export function UploadOrPasteContainer({
 }: UploadOrPasteContainerProps) {
   return <Card className="bg-white border-slate-200">
       <CardHeader>
-        <div className="flex items-center justify-between">
-          <div>
-            <CardTitle>Transaction Enrichment Setup</CardTitle>
-            <CardDescription>
-              Upload files or paste your transaction data to get started
-            </CardDescription>
-          </div>
+        <div>
+          <CardTitle>Transaction Enrichment Setup</CardTitle>
+          <CardDescription>
+            Upload files or paste your transaction data to get started
+          </CardDescription>
+        </div>
+        <div className="flex gap-2 mt-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" className="flex-1">
                 Load Sample Data
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-64 bg-white border-slate-200">
+            <DropdownMenuContent align="start" className="w-64 bg-white border-slate-200">
               <DropdownMenuItem onClick={() => onLoadSample(SAMPLE_CSV, "94102", SAMPLE_CUSTOMER_1)}>
                 <div className="flex flex-col">
                   <span className="font-medium">Dataset 1 (1 month)</span>
@@ -79,8 +79,6 @@ export function UploadOrPasteContainer({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
-        <div className="flex gap-2 mt-4">
           <Button variant={mode === "paste" ? "default" : "outline"} size="sm" onClick={() => onModeChange("paste")} className="flex-1">
             <FileText className="w-4 h-4 mr-2" />
             Paste Text
