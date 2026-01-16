@@ -54,42 +54,24 @@ export function UploadOrPasteContainer({
                 <ChevronDown className="ml-2 h-4 w-4" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-64 bg-white border-slate-200">
+            <DropdownMenuContent align="start" className="w-48 bg-white border-slate-200">
               <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV, "94102", SAMPLE_CUSTOMER_1)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 1 (1 month)</span>
-                  <span className="text-xs text-slate-500">Tech Professional, SF</span>
-                </div>
+                Dataset 1 (1 month)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_SPORTS_WELLNESS, "78701", SAMPLE_CUSTOMER_2)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 2 (1 month)</span>
-                  <span className="text-xs text-slate-500">Software Engineer, Austin</span>
-                </div>
+                Dataset 2 (1 month)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_FOOD_HOME, "60614", SAMPLE_CUSTOMER_3)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 3 (1 month)</span>
-                  <span className="text-xs text-slate-500">Healthcare Director, Chicago</span>
-                </div>
+                Dataset 3 (1 month)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_TRAVEL_FAMILY_12, "94102", SAMPLE_CUSTOMER_4)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 4 (12 months)</span>
-                  <span className="text-xs text-slate-500">Legal Partner, SF</span>
-                </div>
+                Dataset 4 (12 months)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_NYC_SPORTS_HOME_12, "10003", SAMPLE_CUSTOMER_5)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 5 (12 months)</span>
-                  <span className="text-xs text-slate-500">Investment Banker, NYC</span>
-                </div>
+                Dataset 5 (12 months)
               </DropdownMenuItem>
               <DropdownMenuItem onClick={() => handleLoadSample(SAMPLE_CSV_CHICAGO_TENNIS_WELLNESS_12, "60610", SAMPLE_CUSTOMER_6)}>
-                <div className="flex flex-col">
-                  <span className="font-medium">Dataset 6 (12 months)</span>
-                  <span className="text-xs text-slate-500">Tech CTO, Chicago</span>
-                </div>
+                Dataset 6 (12 months)
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
