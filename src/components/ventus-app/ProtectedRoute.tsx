@@ -6,36 +6,8 @@ interface ProtectedRouteProps {
   children: React.ReactNode;
 }
 
-// Helper to determine which onboarding step is incomplete
-const getIncompleteOnboardingStep = (user: { 
-  lifestyle?: string; 
-  subcategories?: string[]; 
-  city?: string; 
-  state?: string; 
-  zipcode?: string;
-} | null): string | null => {
-  if (!user) return null;
-  
-  // Check lifestyle
-  if (!user.lifestyle) {
-    return '/app/signup/lifestyle';
-  }
-  
-  // Check subcategories
-  if (!user.subcategories || user.subcategories.length === 0) {
-    return '/app/signup/sports';
-  }
-  
-  // Check location
-  if (!user.city || !user.state || !user.zipcode) {
-    return '/app/signup/location';
-  }
-  
-  return null; // Onboarding complete
-};
-
 export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated, isLoading, user } = useVentusAuth();
+  const { isAuthenticated, isLoading } = useVentusAuth();
   const location = useLocation();
 
   if (isLoading) {
@@ -48,17 +20,6 @@ export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
   if (!isAuthenticated) {
     return <Navigate to="/app/login" state={{ from: location }} replace />;
-  }
-
-  // Check if user needs to complete onboarding
-  // Don't redirect if already on a signup page
-  const isOnSignupPage = location.pathname.startsWith('/app/signup');
-  
-  if (!isOnSignupPage) {
-    const incompleteStep = getIncompleteOnboardingStep(user);
-    if (incompleteStep) {
-      return <Navigate to={incompleteStep} replace />;
-    }
   }
 
   return <>{children}</>;

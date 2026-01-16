@@ -133,7 +133,7 @@ export default function VentusSignupSports() {
               >
                 {sportEmojis[sport] && <span>{sportEmojis[sport]}</span>}
                 <span className="font-medium whitespace-nowrap">{sport}</span>
-                <Check className={`w-3 h-3 flex-shrink-0 ${isSelected ? 'opacity-100' : 'opacity-0'}`} />
+                {isSelected && <Check className="w-3 h-3 flex-shrink-0" />}
               </button>
             );
           })}
