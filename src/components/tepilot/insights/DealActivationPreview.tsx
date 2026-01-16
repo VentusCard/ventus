@@ -8,7 +8,7 @@ import {
   UtensilsCrossed, Dumbbell, ShoppingBag, ArrowRight,
   Target, DollarSign, Percent, Users, MapPin, AlertCircle,
   Home, Tv, Cpu, Baby, PawPrint, Wallet, Car, ChevronDown, ChevronUp, ChevronRight,
-  Search, X, Loader2, Globe, Navigation, CheckCircle2
+  Search, X, Loader2, Globe, Navigation, CheckCircle2, Palette, Landmark
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import type { EnrichedTransaction } from "@/types/transaction";
@@ -442,14 +442,23 @@ export function DealActivationPreview({ enrichedTransactions = [], personalConte
   const [locationCity, setLocationCity] = useState<string>("San Francisco");
   const [localExperiencesExpanded, setLocalExperiencesExpanded] = useState(false);
   const [syntheticLocalDeal, setSyntheticLocalDeal] = useState<BankDeal | null>(null);
+  const [localCategory, setLocalCategory] = useState<string>("entertainment");
   
   // Personalization state
   const [personalizedDeals, setPersonalizedDeals] = useState<Map<string, { message: string; cta: string }>>(new Map());
   const [isPersonalizing, setIsPersonalizing] = useState(false);
   const [hasPersonalized, setHasPersonalized] = useState(false);
   
-  // Location-based experiences from edge function
-  const { deals: locationDeals, loading: locationLoading } = useCityDeals(locationCity, "entertainment");
+  // Location-based experiences from edge function - now uses selected category
+  const { deals: locationDeals, loading: locationLoading } = useCityDeals(locationCity, localCategory);
+  
+  // Local experience category options
+  const LOCAL_CATEGORIES = [
+    { key: 'entertainment', label: 'Entertainment', icon: Music },
+    { key: 'dining', label: 'Dining', icon: UtensilsCrossed },
+    { key: 'artCulture', label: 'Arts', icon: Palette },
+    { key: 'shopping', label: 'Shopping', icon: ShoppingBag },
+  ];
 
   // Derive customer profile from real transaction data
   const customerProfile = useMemo(() => 
@@ -793,16 +802,16 @@ export function DealActivationPreview({ enrichedTransactions = [], personalConte
             )}
             
             <div className="grid grid-cols-2 gap-2">
-              {/* Local Experiences Card - Double Wide Accordion */}
-              <div className="col-span-2 rounded-lg bg-white border border-slate-200 overflow-hidden">
+              {/* Local Experiences - AI-powered location based deals with category tabs */}
+              <div className="col-span-2 border border-slate-200 rounded-lg overflow-hidden bg-gradient-to-b from-slate-50 to-white">
                 <button
                   onClick={() => setLocalExperiencesExpanded(!localExperiencesExpanded)}
-                  className="w-full p-2.5 flex items-center justify-between text-left hover:bg-slate-50 transition-colors"
+                  className="w-full p-3 flex items-center justify-between text-left hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center gap-2">
-                    <Navigation className="h-4 w-4 text-slate-600" />
-                    <span className="font-medium text-sm text-slate-800">Local Experiences</span>
-                    <Badge variant="outline" className="text-[9px] px-1.5 py-0 border-slate-300">
+                    <Navigation className="h-4 w-4 text-primary" />
+                    <span className="font-semibold text-sm text-slate-800">Local Experiences</span>
+                    <Badge variant="outline" className="text-[9px] px-1.5 py-0.5 border-primary/30 bg-primary/5 text-primary">
                       <MapPin className="h-2.5 w-2.5 mr-0.5" />
                       {locationCity}
                     </Badge>
@@ -815,45 +824,90 @@ export function DealActivationPreview({ enrichedTransactions = [], personalConte
                 </button>
                 
                 {localExperiencesExpanded && (
-                  <div className="px-2.5 pb-2.5 border-t border-slate-100">
+                  <div className="px-3 pb-3 border-t border-slate-100">
+                    {/* Category Pills */}
+                    <div className="flex gap-1.5 py-2.5 overflow-x-auto">
+                      {LOCAL_CATEGORIES.map((cat) => {
+                        const CatIcon = cat.icon;
+                        const isActive = localCategory === cat.key;
+                        return (
+                          <button
+                            key={cat.key}
+                            onClick={() => setLocalCategory(cat.key)}
+                            className={cn(
+                              "flex items-center gap-1.5 px-2.5 py-1.5 rounded-full text-[10px] font-medium transition-all whitespace-nowrap",
+                              isActive
+                                ? "bg-primary text-white shadow-sm"
+                                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                            )}
+                          >
+                            <CatIcon className="h-3 w-3" />
+                            {cat.label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    
+                    {/* Deal List */}
                     {locationLoading ? (
-                      <div className="flex items-center gap-2 py-2">
-                        <Loader2 className="h-3 w-3 animate-spin text-slate-400" />
-                        <span className="text-[10px] text-slate-500">Discovering...</span>
+                      <div className="flex items-center justify-center gap-2 py-4">
+                        <Loader2 className="h-4 w-4 animate-spin text-primary" />
+                        <span className="text-xs text-slate-500">Discovering {LOCAL_CATEGORIES.find(c => c.key === localCategory)?.label.toLowerCase()} deals...</span>
+                      </div>
+                    ) : locationDeals.length === 0 ? (
+                      <div className="flex items-center justify-center py-4 text-xs text-slate-400">
+                        No deals found for this category
                       </div>
                     ) : (
-                      <div className="flex flex-col gap-1 pt-2">
-                        {locationDeals.slice(0, 3).map((deal, idx) => (
-                          <button
-                            key={idx}
-                            onClick={() => {
-                              const syntheticDeal: BankDeal = {
-                                id: `local-${idx}`,
-                                merchantName: deal.merchantExample,
-                                merchantCategory: 'Entertainment & Culture',
-                                dealTitle: deal.type,
-                                dealDescription: `Experience ${deal.type} at ${deal.merchantExample} in ${locationCity}`,
-                                headlineTemplate: `Discover ${deal.type}`,
-                                bodyTemplate: `Enjoy local experiences at ${deal.merchantExample}`,
-                                targetPillars: ['Entertainment & Culture'],
-                                rewardValue: '10% Back',
-                                validityPeriod: '30 days',
-                                subcategory: 'Local Experience',
-                                activationCount: 1200,
-                                popularity: 'popular',
-                              };
-                              setSyntheticLocalDeal(syntheticDeal);
-                              setSelectedDealId(syntheticDeal.id);
-                            }}
-                            className="w-full p-2 bg-slate-50 hover:bg-slate-100 rounded text-left transition-colors border border-slate-100 hover:border-slate-200 flex items-center justify-between"
-                          >
-                            <div>
-                              <p className="text-[10px] font-medium text-slate-700">{deal.type}</p>
-                              <p className="text-[8px] text-slate-500">{deal.merchantExample}</p>
-                            </div>
-                            <ChevronRight className="h-3 w-3 text-slate-400" />
-                          </button>
-                        ))}
+                      <div className="flex flex-col gap-1.5">
+                        {locationDeals.slice(0, 4).map((deal, idx) => {
+                          const categoryLabel = LOCAL_CATEGORIES.find(c => c.key === localCategory)?.label || 'Entertainment';
+                          return (
+                            <button
+                              key={`${localCategory}-${idx}`}
+                              onClick={() => {
+                                const syntheticDeal: BankDeal = {
+                                  id: `local-${localCategory}-${idx}`,
+                                  merchantName: deal.merchantExample,
+                                  merchantCategory: localCategory === 'artCulture' ? 'Entertainment & Culture' 
+                                    : localCategory === 'dining' ? 'Food & Dining' 
+                                    : localCategory === 'shopping' ? 'Style & Beauty'
+                                    : 'Entertainment & Culture',
+                                  dealTitle: deal.type,
+                                  dealDescription: `Experience ${deal.type} at ${deal.merchantExample} in ${locationCity}`,
+                                  headlineTemplate: `Discover ${deal.type} in ${locationCity}`,
+                                  bodyTemplate: `Enjoy exclusive ${categoryLabel.toLowerCase()} experiences at ${deal.merchantExample}`,
+                                  targetPillars: [localCategory === 'artCulture' ? 'Entertainment & Culture' 
+                                    : localCategory === 'dining' ? 'Food & Dining' 
+                                    : localCategory === 'shopping' ? 'Style & Beauty'
+                                    : 'Entertainment & Culture'],
+                                  rewardValue: '10% Back',
+                                  validityPeriod: '30 days',
+                                  subcategory: categoryLabel,
+                                  activationCount: 1200 + (idx * 300),
+                                  popularity: 'popular',
+                                };
+                                setSyntheticLocalDeal(syntheticDeal);
+                                setSelectedDealId(syntheticDeal.id);
+                              }}
+                              className={cn(
+                                "w-full p-2.5 rounded-lg text-left transition-all border flex items-center justify-between",
+                                selectedDealId === `local-${localCategory}-${idx}`
+                                  ? "bg-primary/10 border-primary shadow-sm"
+                                  : "bg-white hover:bg-slate-50 border-slate-100 hover:border-slate-200"
+                              )}
+                            >
+                              <div className="flex-1 min-w-0">
+                                <p className="text-xs font-medium text-slate-700 truncate">{deal.type}</p>
+                                <p className="text-[10px] text-slate-500 truncate">{deal.merchantExample}</p>
+                              </div>
+                              <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-[9px] px-1.5 py-0 h-4 ml-2 shrink-0">
+                                10% Back
+                              </Badge>
+                              <ChevronRight className="h-3 w-3 text-slate-400 ml-1 shrink-0" />
+                            </button>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
