@@ -196,7 +196,7 @@ const Navbar = () => {
           ) : (
             <>
               <Link to="/app/login">
-                <Button variant="ghost" className="text-white hover:text-black hover:bg-white text-xs md:text-xs lg:text-sm px-3 py-1.5 h-auto transition-colors">
+                <Button variant="ghost" className="text-white/90 hover:text-white hover:bg-white/10 text-xs md:text-xs lg:text-sm px-3 py-1.5 h-auto">
                   Sign In
                 </Button>
               </Link>
