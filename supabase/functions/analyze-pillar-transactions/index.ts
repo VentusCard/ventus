@@ -480,6 +480,48 @@ EXAMPLES:
 
 TASK 2: Create a customer persona based on all transactions${customer_context ? ' AND the provided customer profile. Incorporate the income level, industry, and family status into the persona summary and traits.' : '.'}
 
+For "spending_behaviors", ANALYZE THE ACTUAL TRANSACTION DATA to detect specific patterns:
+
+FREQUENCY PATTERNS (analyze transaction dates & counts):
+- "Weekly coffee ritual" (consistent weekly purchases in a category)
+- "Impulse buyer" (irregular, clustered purchases)
+- "Subscription-style spender" (recurring similar amounts)
+- "Seasonal spender" (concentrated in certain time periods)
+
+AMOUNT PATTERNS (analyze transaction amounts):
+- "Premium buyer" (consistently high-value purchases)
+- "Value-conscious shopper" (many smaller transactions)
+- "Big-ticket focused" (fewer, larger purchases)
+- "Micro-transaction heavy" (many small purchases under $20)
+
+CATEGORY PATTERNS (analyze pillar distribution):
+- "Lifestyle-balanced spender" (spread across multiple pillars)
+- "Category-concentrated" (heavy in 1-2 pillars)
+- "Diversified explorer" (many different merchants/categories)
+
+MERCHANT PATTERNS (analyze merchant diversity):
+- "Brand loyal" (repeat purchases at same merchants)
+- "Variety seeker" (wide variety of merchants)
+- "Convenience-driven" (proximity-based choices like local shops)
+
+Generate 3-5 SPECIFIC spending behaviors based on ACTUAL patterns you detect in the transaction data.
+Be specific and evidence-based, not generic.
+
+GOOD spending_behaviors examples:
+- "Weekly coffee ritual ($15-20 range)"
+- "Premium dining preference"
+- "Impulse sports equipment buyer"
+- "Brand-loyal in athletic wear"
+- "Weekend splurger"
+- "Subscription-style recurring purchases"
+- "Value-conscious grocery shopper"
+
+BAD spending_behaviors examples (too generic - NEVER USE):
+- "Spends money regularly"
+- "Makes purchases"
+- "Uses credit card"
+- "Shops at stores"
+
 RESPOND WITH JSON ONLY:
 {
   "analyzed_pillars": [
@@ -498,7 +540,7 @@ RESPOND WITH JSON ONLY:
   "user_persona": {
     "summary": "2-3 sentence lifestyle summary",
     "lifestyle_traits": ["trait1", "trait2", "trait3"],
-    "spending_behaviors": ["behavior1", "behavior2"],
+    "spending_behaviors": ["Weekly coffee ritual", "Premium dining preference", "Brand-loyal in sportswear"],
     "interests": ["interest1", "interest2"]
   }
 }`;
