@@ -279,6 +279,8 @@ export interface VentusOffer {
   subcategory: string;
   deal_category?: string;
   deal_categories?: string[];
+  deal_type?: string;
+  redemption_type?: string;
   updated_at: string;
 }
 
