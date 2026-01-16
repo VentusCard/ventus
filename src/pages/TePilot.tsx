@@ -966,9 +966,11 @@ const TePilot = () => {
           </TabsList>
 
           <TabsContent value="upload" className="space-y-6">
-            {pendingMapping ? <ColumnMapper detectedColumns={pendingMapping.headers} suggestedMapping={pendingMapping.suggestedMapping} onConfirm={handleMappingConfirm} onCancel={handleMappingCancel} /> : <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={(data, zip) => {
+            {pendingMapping ? <ColumnMapper detectedColumns={pendingMapping.headers} suggestedMapping={pendingMapping.suggestedMapping} onConfirm={handleMappingConfirm} onCancel={handleMappingCancel} /> : <UploadOrPasteContainer mode={inputMode} onModeChange={setInputMode} onLoadSample={(data, zip, demographics) => {
             setRawInput(data);
             setAnchorZip(zip);
+            setUserDemographics(demographics);
+            sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(demographics));
           }}>
                 {inputMode === "paste" ? <PasteInput value={rawInput} onChange={setRawInput} onParse={handleParse} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} /> : <FileUploader onFileSelect={setUploadedFiles} onParse={files => handleParse(files)} anchorZip={anchorZip} onAnchorZipChange={setAnchorZip} demographics={userDemographics} onDemographicsChange={(d) => { setUserDemographics(d); if (d) sessionStorage.setItem("tepilot_user_demographics", JSON.stringify(d)); else sessionStorage.removeItem("tepilot_user_demographics"); }} />}
               </UploadOrPasteContainer>}
