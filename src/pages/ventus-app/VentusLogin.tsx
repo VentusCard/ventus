@@ -62,7 +62,7 @@ export default function VentusLogin() {
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   required
                   placeholder="john@example.com"
-                  className="text-white"
+                  className="text-white hover:border-border"
                 />
               </div>
 
@@ -81,7 +81,7 @@ export default function VentusLogin() {
                     onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                     required
                     placeholder="Enter password"
-                    className="text-white"
+                    className="text-white hover:border-border"
                   />
                   <button
                     type="button"
