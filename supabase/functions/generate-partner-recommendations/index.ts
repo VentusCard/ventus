@@ -20,19 +20,22 @@ function getCorsHeaders(origin: string | null): Record<string, string> {
   };
 }
 
-// Optimized prompt - expects slim payload
-const SYSTEM_PROMPT = `You personalize deal cards. Generate SHORT messages (15-25 words max).
+// Dynamic prompt - handles any deal count
+const buildSystemPrompt = (dealCount: number) => `You personalize deal cards. Generate SHORT messages (15-25 words max).
 
-INPUT: deals (id, merchant, cat, reward), profile (pillars with spend, signals)
+You will receive ${dealCount} deals. Return EXACTLY ${dealCount} personalized recs.
 
-OUTPUT JSON:
-{"recs":[{"id":"deal_id","msg":"short personal message","cta":"2-5 word CTA"}]}
+INPUT: deals (id, m=merchant, c=category, r=reward), profile (pillars with spend, signals)
 
-RULES:
+OUTPUT: Valid JSON array with EXACTLY ${dealCount} entries:
+{"recs":[{"id":"deal_id","msg":"short personal message","cta":"2-5 word CTA"},...]}
+
+CRITICAL:
+- Return one rec for EACH deal - match the input count exactly!
 - Under 25 words per message
-- Reference spending patterns when available
-- Use "your" for personalization
-- CTAs: "Claim Now", "Start Earning", etc.
+- Reference spending from profile when category matches
+- Use "your" for personalization  
+- CTAs: "Claim Now", "Start Earning", "Grab This", etc.
 
 ONLY return valid JSON, no markdown.`;
 
@@ -56,8 +59,11 @@ serve(async (req) => {
       );
     }
 
-    // Compact prompt
-    const userPrompt = `Deals:${JSON.stringify(deals)}
+    const dealCount = deals.length;
+
+    // Compact prompt with explicit count
+    const userPrompt = `Personalize ALL ${dealCount} deals. Return exactly ${dealCount} recs.
+Deals:${JSON.stringify(deals)}
 Profile:${profile ? JSON.stringify(profile) : "none"}`;
 
     const response = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -69,7 +75,7 @@ Profile:${profile ? JSON.stringify(profile) : "none"}`;
       body: JSON.stringify({
         model: "google/gemini-3-flash-preview",
         messages: [
-          { role: "system", content: SYSTEM_PROMPT },
+          { role: "system", content: buildSystemPrompt(dealCount) },
           { role: "user", content: userPrompt }
         ],
         temperature: 0.7,
