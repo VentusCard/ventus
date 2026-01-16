@@ -44,7 +44,7 @@ import { PILLAR_COLORS } from "@/lib/sampleData";
 import { SubcategoryTransactionsModal } from "@/components/tepilot/insights/SubcategoryTransactionsModal";
 import { TransactionDetailModal } from "@/components/tepilot/TransactionDetailModal";
 import { TopPillarsAnalysis } from "@/components/tepilot/insights/TopPillarsAnalysis";
-import { DealActivationPreview } from "@/components/tepilot/insights/DealActivationPreview";
+import { DealActivationPreview, SelectedDealForPersonalization } from "@/components/tepilot/insights/DealActivationPreview";
 import { CollapsibleCard } from "@/components/tepilot/insights/CollapsibleCard";
 const CURRENT_VERSION = "V2.5";
 const TePilot = () => {
@@ -353,15 +353,15 @@ const TePilot = () => {
 
   // Extract location context for geo-based deals - always computed at top level
   const locationContext = useMemo(() => extractLocationContext(displayTransactions), [displayTransactions]);
-  const handleGenerateRecommendations = async () => {
+  // Handler for personalizing selected deals from DealActivationPreview
+  const handlePersonalizeDeals = async (selectedDeals: SelectedDealForPersonalization[], customerProfile: any) => {
     setIsGeneratingRecommendations(true);
-    toast.info("Analyzing transactions and generating recommendations...", {
-      duration: 10000
-    });
+    toast.info(`Personalizing ${selectedDeals.length} deals...`, { duration: 5000 });
+
     try {
-      // Aggregate insights from enriched transactions
+      // Build insights from enriched transactions
       const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
-      const monthlyAverage = totalSpend / 12; // Approximate
+      const monthlyAverage = totalSpend / 12;
 
       // Calculate top pillars
       const pillarSpending = enrichedTransactions.reduce((acc, t) => {
@@ -369,99 +369,105 @@ const TePilot = () => {
         acc[pillar] = (acc[pillar] || 0) + t.amount;
         return acc;
       }, {} as Record<string, number>);
-      const topPillars = Object.entries(pillarSpending).map(([pillar, spend]) => ({
-        pillar,
-        spend,
-        percentage: Math.round(spend / totalSpend * 100)
-      })).sort((a, b) => b.spend - a.spend).slice(0, 5);
+      const topPillars = Object.entries(pillarSpending)
+        .map(([pillar, spend]) => ({
+          pillar,
+          spend,
+          percentage: Math.round((spend / totalSpend) * 100),
+        }))
+        .sort((a, b) => b.spend - a.spend)
+        .slice(0, 5);
 
       // Calculate top merchants
       const merchantData = enrichedTransactions.reduce((acc, t) => {
         const merchant = t.merchant_name || "Unknown";
-        if (!acc[merchant]) {
-          acc[merchant] = {
-            visits: 0,
-            totalSpend: 0
-          };
-        }
+        if (!acc[merchant]) acc[merchant] = { visits: 0, totalSpend: 0 };
         acc[merchant].visits += 1;
         acc[merchant].totalSpend += t.amount;
         return acc;
-      }, {} as Record<string, {
-        visits: number;
-        totalSpend: number;
-      }>);
-      const topMerchants = Object.entries(merchantData).map(([merchant, data]) => ({
-        merchant,
-        visits: data.visits,
-        totalSpend: Math.round(data.totalSpend)
-      })).sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 10);
+      }, {} as Record<string, { visits: number; totalSpend: number }>);
+      const topMerchants = Object.entries(merchantData)
+        .map(([merchant, data]) => ({
+          merchant,
+          visits: data.visits,
+          totalSpend: Math.round(data.totalSpend),
+        }))
+        .sort((a, b) => b.totalSpend - a.totalSpend)
+        .slice(0, 10);
 
       // Calculate top subcategories
       const subcategoryData = enrichedTransactions.reduce((acc, t) => {
         const subcat = t.subcategory || "Other";
-        if (!acc[subcat]) {
-          acc[subcat] = {
-            visits: 0,
-            totalSpend: 0,
-            pillar: t.pillar || "Other"
-          };
-        }
+        if (!acc[subcat]) acc[subcat] = { visits: 0, totalSpend: 0, pillar: t.pillar || "Other" };
         acc[subcat].visits += 1;
         acc[subcat].totalSpend += t.amount;
         return acc;
-      }, {} as Record<string, {
-        visits: number;
-        totalSpend: number;
-        pillar: string;
-      }>);
-      const topSubcategories = Object.entries(subcategoryData).map(([subcategory, data]) => ({
-        subcategory,
-        pillar: data.pillar,
-        visits: data.visits,
-        totalSpend: Math.round(data.totalSpend)
-      })).sort((a, b) => b.totalSpend - a.totalSpend).slice(0, 5);
+      }, {} as Record<string, { visits: number; totalSpend: number; pillar: string }>);
+      const topSubcategories = Object.entries(subcategoryData)
+        .map(([subcategory, data]) => ({
+          subcategory,
+          pillar: data.pillar,
+          visits: data.visits,
+          totalSpend: Math.round(data.totalSpend),
+        }))
+        .sort((a, b) => b.totalSpend - a.totalSpend)
+        .slice(0, 5);
 
-      // Determine customer segment
-      const segment = {
-        tier: totalSpend > 96000 ? "premium" : totalSpend > 36000 ? "standard" : "basic",
-        lifestyle: topPillars.filter(p => p.percentage > 15).map(p => p.pillar),
-        spendingVelocity: totalSpend > 120000 ? "high" : totalSpend > 60000 ? "medium" : "low"
-      };
       const insights = {
         totalSpend: Math.round(totalSpend),
         monthlyAverage: Math.round(monthlyAverage),
         topPillars,
         topMerchants,
         topSubcategories,
-        segment,
-        userPersona: userPersona || null
+        segment: {
+          tier: totalSpend > 96000 ? "premium" : totalSpend > 36000 ? "standard" : "basic",
+          lifestyle: topPillars.filter((p) => p.percentage > 15).map((p) => p.pillar),
+        },
+        userPersona: userPersona || null,
       };
-      console.log('Sending insights to generate-partner-recommendations:', insights);
-      const {
-        data,
-        error
-      } = await supabase.functions.invoke('generate-partner-recommendations', {
-        body: {
-          insights
-        }
+
+      console.log("[TePilot] Sending to personalization:", {
+        selectedDeals: selectedDeals.length,
+        customerProfile: !!customerProfile,
+        insights: !!insights,
       });
+
+      const { data, error } = await supabase.functions.invoke("generate-partner-recommendations", {
+        body: {
+          insights,
+          selectedDeals,
+          customerProfile,
+        },
+      });
+
       if (error) throw error;
-      console.log('Received recommendations:', data);
+
+      console.log("[TePilot] Received personalized deals:", data);
+
       const recommendationsWithSubcategories = {
         ...data,
-        topSubcategories
+        topSubcategories,
       };
       setRecommendations(recommendationsWithSubcategories);
       setRecommendationsLoaded(true);
       sessionStorage.setItem("tepilot_recommendations", JSON.stringify(recommendationsWithSubcategories));
-      toast.success("Generated personalized recommendations!");
+      toast.success(`Personalized ${data.recommendations?.length || 0} deals!`);
     } catch (error) {
-      console.error('Error generating recommendations:', error);
-      toast.error("Failed to generate recommendations");
+      console.error("[TePilot] Error personalizing deals:", error);
+      toast.error("Failed to personalize deals");
     } finally {
       setIsGeneratingRecommendations(false);
     }
+  };
+
+  const handleGenerateRecommendations = async () => {
+    // This function is now primarily for backward compatibility
+    // The main flow uses handlePersonalizeDeals from DealActivationPreview
+    setIsGeneratingRecommendations(true);
+    toast.info("Please select deals from the Reward Personalization Experience card below, then click 'Personalize Selected Deals'", {
+      duration: 8000
+    });
+    setIsGeneratingRecommendations(false);
   };
   const fetchLifestyleSignals = async () => {
     if (enrichedTransactions.length === 0) {
@@ -1242,7 +1248,11 @@ const TePilot = () => {
                     </p>
                   }
                 >
-                  <DealActivationPreview enrichedTransactions={enrichedTransactions} />
+                  <DealActivationPreview 
+                    enrichedTransactions={enrichedTransactions} 
+                    onPersonalizeDeals={handlePersonalizeDeals}
+                    isPersonalizing={isGeneratingRecommendations}
+                  />
                 </CollapsibleCard>
                 
                 {/* Subcategory Transactions Modal */}

@@ -405,15 +405,30 @@ function calculateDealImpact(deal: BankDeal, profile: DerivedCustomerProfile): {
   };
 }
 
-interface DealActivationPreviewProps {
-  enrichedTransactions?: EnrichedTransaction[];
+// Selected deal type for personalization
+export interface SelectedDealForPersonalization {
+  id: string;
+  merchantName: string;
+  category: string;
+  subcategory: string;
+  dealTitle: string;
+  dealDescription: string;
+  rewardValue: string;
 }
 
-export function DealActivationPreview({ enrichedTransactions = [] }: DealActivationPreviewProps) {
+interface DealActivationPreviewProps {
+  enrichedTransactions?: EnrichedTransaction[];
+  onPersonalizeDeals?: (deals: SelectedDealForPersonalization[], customerProfile: DerivedCustomerProfile) => void;
+  isPersonalizing?: boolean;
+}
+
+export function DealActivationPreview({ enrichedTransactions = [], onPersonalizeDeals, isPersonalizing = false }: DealActivationPreviewProps) {
   const [selectedDealId, setSelectedDealId] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(new Set());
   const [locationCity, setLocationCity] = useState<string>("San Francisco");
+  // Multi-select state for personalization
+  const [selectedDealIds, setSelectedDealIds] = useState<Set<string>>(new Set());
   const [localExperiencesExpanded, setLocalExperiencesExpanded] = useState(false);
   const [syntheticLocalDeal, setSyntheticLocalDeal] = useState<BankDeal | null>(null);
   
@@ -622,14 +637,33 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
 
       {/* Available Deals Section Header */}
       <div className="flex items-center justify-between">
-        <label className="text-sm font-semibold text-slate-700">
-          Available Deals ({isSearchActive ? `${searchResultCount} results` : `${deals.length} from library`})
-        </label>
-        {(selectedCategory || isSearchActive) && (
-          <Badge variant="outline" className="text-xs">
-            {isSearchActive ? `"${searchQuery}"` : `Filtered: ${selectedCategory}`}
-          </Badge>
-        )}
+        <div className="flex items-center gap-3">
+          <label className="text-sm font-semibold text-slate-700">
+            Available Deals ({isSearchActive ? `${searchResultCount} results` : `${deals.length} from library`})
+          </label>
+          {selectedDealIds.size > 0 && (
+            <Badge variant="default" className="bg-primary text-primary-foreground">
+              {selectedDealIds.size} selected
+            </Badge>
+          )}
+        </div>
+        <div className="flex items-center gap-2">
+          {selectedDealIds.size > 0 && (
+            <Button
+              size="sm"
+              variant="ghost"
+              className="text-xs h-7"
+              onClick={() => setSelectedDealIds(new Set())}
+            >
+              Clear Selection
+            </Button>
+          )}
+          {(selectedCategory || isSearchActive) && (
+            <Badge variant="outline" className="text-xs">
+              {isSearchActive ? `"${searchQuery}"` : `Filtered: ${selectedCategory}`}
+            </Badge>
+          )}
+        </div>
       </div>
 
       {/* Main Content: 2/3 Deal Cards + 1/3 Detail Panel */}
@@ -747,64 +781,101 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
               
               {displayedDeals.map(deal => {
                 const Icon = getPillarIcon(deal.merchantCategory);
-                const isSelected = selectedDeal?.id === deal.id;
+                const isPreviewSelected = selectedDeal?.id === deal.id;
+                const isChecked = selectedDealIds.has(deal.id);
                 const personalizedMsg = personalizeDealMessage(deal, customerProfile);
                 
+                const handleCheckboxClick = (e: React.MouseEvent) => {
+                  e.stopPropagation();
+                  setSelectedDealIds(prev => {
+                    const next = new Set(prev);
+                    if (next.has(deal.id)) {
+                      next.delete(deal.id);
+                    } else {
+                      next.add(deal.id);
+                    }
+                    return next;
+                  });
+                };
+                
                 return (
-                  <button
+                  <div
                     key={deal.id}
-                    onClick={() => setSelectedDealId(deal.id)}
                     className={cn(
-                      "p-3 rounded-lg text-left transition-all border",
-                      isSelected
+                      "p-3 rounded-lg text-left transition-all border relative",
+                      isPreviewSelected
                         ? "bg-primary/10 border-primary shadow-sm"
-                        : "bg-white border-slate-200 hover:border-slate-300"
+                        : isChecked
+                          ? "bg-emerald-50 border-emerald-300"
+                          : "bg-white border-slate-200 hover:border-slate-300"
                     )}
                   >
-                    {/* Top Row: Icon + Merchant + Popularity */}
-                    <div className="flex items-center gap-2 mb-1.5">
-                      <Icon className={cn("h-3.5 w-3.5 shrink-0", isSelected ? "text-primary" : "text-slate-400")} />
-                      <span className="text-[11px] text-slate-500 truncate flex-1">{deal.merchantName}</span>
-                      <Badge 
-                        variant="outline" 
-                        className={cn(
-                          "text-[9px] px-1 py-0 h-4 shrink-0",
-                          deal.merchantCategory === 'Travel & Exploration' && "border-sky-300 bg-sky-50 text-sky-700",
-                          deal.merchantCategory === 'Food & Dining' && "border-orange-300 bg-orange-50 text-orange-700",
-                          deal.merchantCategory === 'Entertainment & Culture' && "border-purple-300 bg-purple-50 text-purple-700",
-                          deal.merchantCategory === 'Sports & Active Living' && "border-emerald-300 bg-emerald-50 text-emerald-700",
-                          deal.merchantCategory === 'Style & Beauty' && "border-pink-300 bg-pink-50 text-pink-700",
-                          deal.merchantCategory === 'Health & Wellness' && "border-teal-300 bg-teal-50 text-teal-700",
-                          deal.merchantCategory === 'Home & Living' && "border-amber-300 bg-amber-50 text-amber-700",
-                          deal.merchantCategory === 'Technology & Digital Life' && "border-indigo-300 bg-indigo-50 text-indigo-700",
-                          deal.merchantCategory === 'Family & Community' && "border-rose-300 bg-rose-50 text-rose-700",
-                          deal.merchantCategory === 'Pets' && "border-lime-300 bg-lime-50 text-lime-700",
-                          deal.merchantCategory === 'Financial & Aspirational' && "border-slate-300 bg-slate-50 text-slate-700",
-                          deal.merchantCategory === 'Automotive' && "border-red-300 bg-red-50 text-red-700"
-                        )}
-                      >
-                        {deal.merchantCategory.split(' ')[0]}
-                      </Badge>
+                    {/* Checkbox for multi-select */}
+                    <div 
+                      onClick={handleCheckboxClick}
+                      className={cn(
+                        "absolute top-2 right-2 w-5 h-5 rounded border-2 flex items-center justify-center cursor-pointer transition-colors",
+                        isChecked 
+                          ? "bg-emerald-500 border-emerald-500" 
+                          : "border-slate-300 hover:border-slate-400"
+                      )}
+                    >
+                      {isChecked && (
+                        <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                        </svg>
+                      )}
                     </div>
                     
-                    {/* Personalized Caption */}
-                    <p className={cn(
-                      "text-xs font-medium line-clamp-1 mb-1",
-                      isSelected ? "text-primary" : "text-slate-700"
-                    )}>
-                      {personalizedMsg.headline}
-                    </p>
-                    
-                    {/* Bottom Row: Reward + Activations */}
-                    <div className="flex items-center justify-between">
-                      <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-[10px] px-1.5 py-0 h-4">
-                        {deal.rewardValue}
-                      </Badge>
-                      <span className="text-[9px] text-slate-400">
-                        {deal.activationCount.toLocaleString()} active
-                      </span>
-                    </div>
-                  </button>
+                    <button
+                      onClick={() => setSelectedDealId(deal.id)}
+                      className="w-full text-left pr-6"
+                    >
+                      {/* Top Row: Icon + Merchant + Popularity */}
+                      <div className="flex items-center gap-2 mb-1.5">
+                        <Icon className={cn("h-3.5 w-3.5 shrink-0", isPreviewSelected ? "text-primary" : "text-slate-400")} />
+                        <span className="text-[11px] text-slate-500 truncate flex-1">{deal.merchantName}</span>
+                        <Badge 
+                          variant="outline" 
+                          className={cn(
+                            "text-[9px] px-1 py-0 h-4 shrink-0",
+                            deal.merchantCategory === 'Travel & Exploration' && "border-sky-300 bg-sky-50 text-sky-700",
+                            deal.merchantCategory === 'Food & Dining' && "border-orange-300 bg-orange-50 text-orange-700",
+                            deal.merchantCategory === 'Entertainment & Culture' && "border-purple-300 bg-purple-50 text-purple-700",
+                            deal.merchantCategory === 'Sports & Active Living' && "border-emerald-300 bg-emerald-50 text-emerald-700",
+                            deal.merchantCategory === 'Style & Beauty' && "border-pink-300 bg-pink-50 text-pink-700",
+                            deal.merchantCategory === 'Health & Wellness' && "border-teal-300 bg-teal-50 text-teal-700",
+                            deal.merchantCategory === 'Home & Living' && "border-amber-300 bg-amber-50 text-amber-700",
+                            deal.merchantCategory === 'Technology & Digital Life' && "border-indigo-300 bg-indigo-50 text-indigo-700",
+                            deal.merchantCategory === 'Family & Community' && "border-rose-300 bg-rose-50 text-rose-700",
+                            deal.merchantCategory === 'Pets' && "border-lime-300 bg-lime-50 text-lime-700",
+                            deal.merchantCategory === 'Financial & Aspirational' && "border-slate-300 bg-slate-50 text-slate-700",
+                            deal.merchantCategory === 'Automotive' && "border-red-300 bg-red-50 text-red-700"
+                          )}
+                        >
+                          {deal.merchantCategory.split(' ')[0]}
+                        </Badge>
+                      </div>
+                      
+                      {/* Personalized Caption */}
+                      <p className={cn(
+                        "text-xs font-medium line-clamp-1 mb-1",
+                        isPreviewSelected ? "text-primary" : "text-slate-700"
+                      )}>
+                        {personalizedMsg.headline}
+                      </p>
+                      
+                      {/* Bottom Row: Reward + Activations */}
+                      <div className="flex items-center justify-between">
+                        <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-[10px] px-1.5 py-0 h-4">
+                          {deal.rewardValue}
+                        </Badge>
+                        <span className="text-[9px] text-slate-400">
+                          {deal.activationCount.toLocaleString()} active
+                        </span>
+                      </div>
+                    </button>
+                  </div>
                 );
               })}
             </div>
@@ -881,6 +952,43 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
           </div>
         </div>
       </div>
+
+      {/* Personalize Selected Deals Button - Fixed at bottom */}
+      {onPersonalizeDeals && selectedDealIds.size > 0 && (
+        <div className="pt-4 border-t border-slate-200">
+          <Button
+            onClick={() => {
+              const selectedDealsData: SelectedDealForPersonalization[] = deals
+                .filter(d => selectedDealIds.has(d.id))
+                .map(d => ({
+                  id: d.id,
+                  merchantName: d.merchantName,
+                  category: d.merchantCategory,
+                  subcategory: d.subcategory,
+                  dealTitle: d.dealTitle,
+                  dealDescription: d.dealDescription,
+                  rewardValue: d.rewardValue,
+                }));
+              onPersonalizeDeals(selectedDealsData, customerProfile);
+            }}
+            disabled={isPersonalizing}
+            className="w-full gap-2 bg-gradient-to-r from-violet-600 to-purple-600 hover:from-violet-700 hover:to-purple-700 text-white font-semibold py-3"
+            size="lg"
+          >
+            {isPersonalizing ? (
+              <>
+                <Loader2 className="h-4 w-4 animate-spin" />
+                Personalizing {selectedDealIds.size} Deals...
+              </>
+            ) : (
+              <>
+                <Sparkles className="h-4 w-4" />
+                Personalize {selectedDealIds.size} Selected Deals
+              </>
+            )}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }
