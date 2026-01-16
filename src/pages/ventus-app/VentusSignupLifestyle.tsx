@@ -100,7 +100,7 @@ export default function VentusSignupLifestyle() {
             <Card
               key={lifestyle.name}
               onClick={() => lifestyle.available && setSelected(lifestyle.name)}
-              className={`p-6 cursor-pointer transition-all relative ${
+              className={`p-6 cursor-pointer transition-all relative bg-background ${
                 !lifestyle.available ? 'opacity-60 cursor-not-allowed' : ''
               } ${
                 selected === lifestyle.name
