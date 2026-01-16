@@ -137,7 +137,7 @@ export default function VentusAuth() {
                 <div className="flex items-center justify-between">
                   <Label htmlFor="password">Password</Label>
                   {mode === 'signin' && (
-                    <Link to="/reset-password" className="text-sm text-[#0064E0] hover:underline">
+                    <Link to="/app/forgot-password" className="text-sm text-[#0064E0] hover:underline">
                       Forgot password?
                     </Link>
                   )}
