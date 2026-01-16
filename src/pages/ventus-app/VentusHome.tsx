@@ -249,7 +249,7 @@ export default function VentusHome() {
           </div>
         </header>
 
-        <div className="px-6 py-5 space-y-5">
+        <div className="px-6 py-5 space-y-5 max-w-6xl">
           {/* App Download CTA */}
           <Card className="bg-card border-border overflow-hidden">
             <CardContent className="p-4">
