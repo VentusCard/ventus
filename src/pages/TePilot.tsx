@@ -32,7 +32,7 @@ import { BankwideView } from "@/components/tepilot/insights/BankwideView";
 import { RelationshipManagementCard } from "@/components/tepilot/RelationshipManagementCard";
 import { AdvisorConsole } from "@/components/tepilot/advisor-console/AdvisorConsole";
 import { PersonaCard } from "@/components/tepilot/PersonaCard";
-import { GeoLocationDealsSection } from "@/components/tepilot/geo-location/GeoLocationDealsSection";
+
 import { ColumnMapper } from "@/components/tepilot/ColumnMapper";
 import { parseFile, parseMultipleFiles, parsePastedText, mapColumnsWithMapping, type MappingResult } from "@/lib/parsers";
 import { applyFilters, applyCorrections } from "@/lib/aggregations";
@@ -1079,8 +1079,6 @@ const TePilot = () => {
                   }}
                 />
             
-                {/* Geo-Location Deals Section */}
-                <GeoLocationDealsSection locationContext={locationContext} />
                 
                 {/* Reward Personalization Experience - Test deals with individual customers */}
                 <CollapsibleCard
