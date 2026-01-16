@@ -175,19 +175,19 @@ const Navbar = () => {
         </div>
         
         {/* User Menu / Login - Desktop */}
-        <div className="hidden md:flex items-center gap-3">
+        <div className="hidden md:flex items-center gap-4">
           {user ? (
             <>
-              <span className="text-white/80 text-sm">{user.email}</span>
+              <span className="text-white/60 text-sm">{user.email}</span>
               <Button 
                 onClick={() => navigate(user.source === 'ventus' ? "/app/home" : "/dashboard")}
-                className="bg-[#0064E0] hover:bg-[#0064E0]/90 text-white text-sm"
+                className="bg-[#0064E0] hover:bg-[#0064E0]/90 text-white text-sm px-5 rounded-md"
               >
                 Dashboard
               </Button>
               <button
                 onClick={handleLogout}
-                className="flex items-center gap-2 text-white/80 hover:text-white text-sm transition-colors"
+                className="flex items-center gap-1.5 text-white/90 hover:text-white text-sm transition-colors"
               >
                 <LogOut className="h-4 w-4" />
                 Log Out
