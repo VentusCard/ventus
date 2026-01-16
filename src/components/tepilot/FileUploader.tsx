@@ -1,24 +1,28 @@
 import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Upload, File, X, Sparkles, HelpCircle, Scan } from "lucide-react";
+import { Upload, File, X, Scan } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { DemographicsGenerator } from "./DemographicsGenerator";
+import { ClientProfileData } from "@/types/clientProfile";
 
 interface FileUploaderProps {
   onFileSelect: (files: File[]) => void;
   onParse: (files?: File[]) => void;
   anchorZip: string;
   onAnchorZipChange: (value: string) => void;
+  demographics: ClientProfileData | null;
+  onDemographicsChange: (demographics: ClientProfileData | null) => void;
 }
 
-export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChange }: FileUploaderProps) {
+export function FileUploader({ 
+  onFileSelect, 
+  onParse, 
+  anchorZip, 
+  onAnchorZipChange,
+  demographics,
+  onDemographicsChange
+}: FileUploaderProps) {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const [isDragging, setIsDragging] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -89,30 +93,11 @@ export function FileUploader({ onFileSelect, onParse, anchorZip, onAnchorZipChan
         </AlertDescription>
       </Alert>
 
-      <TooltipProvider>
-        <div className="space-y-2">
-          <label className="text-sm font-medium flex items-center gap-2 text-slate-900">
-            <Sparkles className="h-4 w-4 text-blue-600" />
-            Anchor ZIP Code (Optional)
-            <Tooltip>
-              <TooltipTrigger asChild>
-                <HelpCircle className="h-4 w-4 text-slate-500 cursor-help" />
-              </TooltipTrigger>
-              <TooltipContent>
-                <p>Used for travel analysis</p>
-              </TooltipContent>
-            </Tooltip>
-          </label>
-          <Input
-            type="text"
-            placeholder="e.g., 94102"
-            value={anchorZip}
-            onChange={(e) => onAnchorZipChange(e.target.value)}
-            maxLength={5}
-            className="font-mono bg-white border-slate-300 text-slate-900 placeholder:text-slate-400 focus-visible:ring-slate-400"
-          />
-        </div>
-      </TooltipProvider>
+      <DemographicsGenerator
+        demographics={demographics}
+        onDemographicsChange={onDemographicsChange}
+        onZipChange={onAnchorZipChange}
+      />
 
       <div
         className={cn(
