@@ -180,7 +180,7 @@ const Navbar = () => {
             <>
               <span className="text-white/80 text-sm">{user.email}</span>
               <Button 
-                onClick={() => navigate("/dashboard")}
+                onClick={() => navigate(user.source === 'ventus' ? "/app/home" : "/dashboard")}
                 className="bg-[#0064E0] hover:bg-[#0064E0]/90 text-white text-sm"
               >
                 Dashboard
@@ -251,7 +251,7 @@ const Navbar = () => {
             {user ? (
               <div className="space-y-2">
                 <Button 
-                  onClick={() => { closeMobileMenu(); navigate("/dashboard"); }}
+                  onClick={() => { closeMobileMenu(); navigate(user.source === 'ventus' ? "/app/home" : "/dashboard"); }}
                   variant="outline"
                   className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
                 >
