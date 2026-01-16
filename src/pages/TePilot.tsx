@@ -1094,7 +1094,11 @@ const TePilot = () => {
                   }
                 >
                   <DealActivationPreview 
-                    enrichedTransactions={enrichedTransactions} 
+                    enrichedTransactions={enrichedTransactions}
+                    personalContext={{
+                      demographics: userDemographics?.demographics,
+                      persona: userPersona
+                    }}
                   />
                 </CollapsibleCard>
                 
