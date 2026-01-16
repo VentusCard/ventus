@@ -173,7 +173,7 @@ const OnboardingFlow = () => {
               </Button>
             </Link>
             <Link to="/app/login">
-              <Button size="lg" variant="outline" className="px-8 py-6 text-lg">
+              <Button size="lg" variant="outline" className="px-8 py-6 text-lg text-white border-white/30 hover:bg-white hover:text-black transition-colors">
                 Sign In
               </Button>
             </Link>
