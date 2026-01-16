@@ -110,7 +110,7 @@ export default function VentusSignupLifestyle() {
             >
               {!lifestyle.available && (
                 <div className="absolute top-2 right-2">
-                  <span className="text-xs bg-muted px-2 py-1 rounded-full flex items-center gap-1">
+                  <span className="text-xs bg-white/20 text-white px-2 py-1 rounded-full flex items-center gap-1">
                     <Lock className="w-3 h-3" />
                     Coming Soon
                   </span>
