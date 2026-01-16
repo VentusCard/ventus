@@ -568,7 +568,7 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
     return baseDeals;
   }, [selectedCategory, dealsByCategory, filteredDealsByCategory, deals, filteredDeals, isSearchActive]);
 
-  // Auto-personalize all deals on mount when we have deals and transaction data
+  // Auto-personalize ALL deals on mount when we have transaction data
   useEffect(() => {
     const autoPersonalize = async () => {
       if (displayedDeals.length === 0 || hasPersonalized || isPersonalizing || enrichedTransactions.length === 0) {
@@ -578,61 +578,53 @@ export function DealActivationPreview({ enrichedTransactions = [] }: DealActivat
       setIsPersonalizing(true);
       
       try {
-        const dealsToPersonalize: SelectedDealForPersonalization[] = displayedDeals
-          .slice(0, 30)
-          .map(d => ({
-            id: d.id,
-            merchantName: d.merchantName,
-            category: d.merchantCategory,
-            subcategory: d.subcategory,
-            dealTitle: d.dealTitle,
-            dealDescription: d.dealDescription,
-            rewardValue: d.rewardValue,
-          }));
-        
-        // Build insights from transactions
-        const totalSpend = enrichedTransactions.reduce((sum, t) => sum + t.amount, 0);
+        // Slim payload: only id, merchant, category, reward (no descriptions/subcategories)
+        const slimDeals = displayedDeals.map(d => ({
+          id: d.id,
+          m: d.merchantName,
+          c: d.merchantCategory,
+          r: d.rewardValue
+        }));
+
+        // Build slim profile: top 3 pillars with spend only
+        const totalSpend = enrichedTransactions.reduce((sum, t) => sum + Math.abs(t.amount), 0);
         const pillarSpending = enrichedTransactions.reduce((acc, t) => {
           const pillar = t.pillar || "Other";
-          acc[pillar] = (acc[pillar] || 0) + t.amount;
+          acc[pillar] = (acc[pillar] || 0) + Math.abs(t.amount);
           return acc;
         }, {} as Record<string, number>);
-        const topPillars = Object.entries(pillarSpending)
-          .map(([pillar, spend]) => ({ pillar, spend, percentage: Math.round((spend / totalSpend) * 100) }))
-          .sort((a, b) => b.spend - a.spend)
-          .slice(0, 5);
+        
+        const slimProfile = {
+          pillars: Object.entries(pillarSpending)
+            .map(([name, spend]) => ({ n: name, s: Math.round(spend) }))
+            .sort((a, b) => b.s - a.s)
+            .slice(0, 3),
+          signals: customerProfile.lifestyleSignals?.slice(0, 3) || []
+        };
         
         const { data, error } = await supabase.functions.invoke("generate-partner-recommendations", {
-          body: {
-            insights: { totalSpend, topPillars },
-            selectedDeals: dealsToPersonalize,
-            customerProfile,
-          },
+          body: { deals: slimDeals, profile: slimProfile, txCount: enrichedTransactions.length },
         });
         
         if (error) throw error;
         
-        // Store personalized messages in state
+        // Store personalized messages
         const newPersonalized = new Map<string, { message: string; cta: string }>();
-        data.recommendations?.forEach((rec: any) => {
-          newPersonalized.set(rec.deal_id, {
-            message: rec.personalized_message,
-            cta: rec.cta_text,
-          });
+        (data.recs || []).forEach((rec: any) => {
+          newPersonalized.set(rec.id, { message: rec.msg, cta: rec.cta });
         });
         setPersonalizedDeals(newPersonalized);
         setHasPersonalized(true);
-        toast.success(`Auto-personalized ${newPersonalized.size} deals!`);
+        toast.success(`Personalized ${newPersonalized.size} of ${displayedDeals.length} deals!`);
       } catch (error) {
         console.error("Auto-personalization error:", error);
-        // Silent fail for auto-personalization - user can still use manual button
       } finally {
         setIsPersonalizing(false);
       }
     };
 
     autoPersonalize();
-  }, [displayedDeals.length, enrichedTransactions.length]); // Only run when deals/transactions first become available
+  }, [displayedDeals.length, enrichedTransactions.length]);
 
   if (!selectedDeal) {
     return (
