@@ -1113,7 +1113,7 @@ const TePilot = () => {
                     "Monthly and annual impact estimates for each opportunity",
                     "Transaction reclassification insights with travel context",
                     "Powers next-gen consumer profile dashboards with personalized experiences"
-                  ]} buttonText={isGeneratingRecommendations ? "Generating..." : "Generate Revenue Opportunities"} buttonVariant="ai" onClick={() => {
+                  ]} buttonText={isGeneratingRecommendations ? "Generating..." : "Rewards Personalization Engine"} buttonVariant="ai" onClick={() => {
                 if (enrichedTransactions.length === 0) {
                   toast.error("Please enrich transactions first");
                   return;
