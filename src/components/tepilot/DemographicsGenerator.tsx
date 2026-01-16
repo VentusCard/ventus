@@ -1,8 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import { Users, RefreshCw, X, HelpCircle, Sparkles, MapPin, Briefcase, Heart } from "lucide-react";
+import { Users, RefreshCw, X, HelpCircle, Sparkles, DollarSign, Building2 } from "lucide-react";
 import { generateRandomProfile } from "@/lib/randomProfileGenerator";
 import { ClientProfileData } from "@/types/clientProfile";
 
@@ -39,14 +38,6 @@ export function DemographicsGenerator({
     onZipChange("");
   };
 
-  const getSegmentColor = (segment: ClientProfileData['segment']) => {
-    switch (segment) {
-      case 'Premium': return 'bg-amber-100 text-amber-800 border-amber-200';
-      case 'Private': return 'bg-purple-100 text-purple-800 border-purple-200';
-      case 'Preferred': return 'bg-blue-100 text-blue-800 border-blue-200';
-      default: return 'bg-slate-100 text-slate-800 border-slate-200';
-    }
-  };
 
   if (!demographics) {
     return (
@@ -87,16 +78,6 @@ export function DemographicsGenerator({
     );
   }
 
-  // Extract ZIP from address
-  const zipMatch = demographics.contact.address.match(/\d{5}$/);
-  const zip = zipMatch ? zipMatch[0] : '';
-  
-  // Extract city/state
-  const addressParts = demographics.contact.address.split(', ');
-  const cityState = addressParts.length >= 2 
-    ? `${addressParts[addressParts.length - 2]}`
-    : '';
-
   return (
     <div className="space-y-2">
       <label className="text-sm font-medium flex items-center gap-1.5 text-slate-900">
@@ -105,35 +86,23 @@ export function DemographicsGenerator({
       </label>
       <div className="flex items-center justify-between p-3 bg-slate-50 border border-slate-200 rounded-lg">
         <div className="flex items-center gap-4 flex-wrap">
-          {/* Name and Age */}
-          <div className="flex items-center gap-2">
-            <Users className="h-4 w-4 text-slate-500" />
-            <span className="font-medium text-slate-900">{demographics.name}</span>
-            <span className="text-slate-500">{demographics.demographics.age}yo</span>
+          {/* Income Level */}
+          <div className="flex items-center gap-1.5 text-slate-700">
+            <DollarSign className="h-3.5 w-3.5 text-green-600" />
+            <span className="text-sm font-medium">{demographics.demographics.incomeLevel}</span>
           </div>
 
-          {/* Occupation */}
-          <div className="flex items-center gap-1.5 text-slate-600">
-            <Briefcase className="h-3.5 w-3.5" />
-            <span className="text-sm">{demographics.demographics.occupation}</span>
+          {/* Industry */}
+          <div className="flex items-center gap-1.5 text-slate-700">
+            <Building2 className="h-3.5 w-3.5 text-blue-600" />
+            <span className="text-sm">{demographics.demographics.industry}</span>
           </div>
 
           {/* Family Status */}
-          <div className="flex items-center gap-1.5 text-slate-600">
-            <Heart className="h-3.5 w-3.5" />
+          <div className="flex items-center gap-1.5 text-slate-700">
+            <Users className="h-3.5 w-3.5 text-purple-600" />
             <span className="text-sm">{demographics.demographics.familyStatus}</span>
           </div>
-
-          {/* Location */}
-          <div className="flex items-center gap-1.5 text-slate-600">
-            <MapPin className="h-3.5 w-3.5" />
-            <span className="text-sm font-mono">{cityState} {zip}</span>
-          </div>
-
-          {/* Segment Badge */}
-          <Badge variant="outline" className={getSegmentColor(demographics.segment)}>
-            {demographics.segment}
-          </Badge>
         </div>
 
         {/* Actions */}
