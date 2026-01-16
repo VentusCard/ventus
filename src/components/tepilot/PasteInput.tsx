@@ -68,7 +68,7 @@ export function PasteInput({
         className="w-full h-[60px]"
         variant="ai"
       >
-        AI Transaction Enrichment
+        Enrichment Preview
       </Button>
     </div>
   );
