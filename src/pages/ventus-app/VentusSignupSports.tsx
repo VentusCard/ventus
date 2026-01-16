@@ -118,21 +118,21 @@ export default function VentusSignupSports() {
           </Badge>
         </div>
 
-        <div className="grid grid-cols-3 gap-2">
+        <div className="flex flex-wrap gap-2 justify-center">
           {subcategories.map((sport) => {
             const isSelected = selected.includes(sport);
             return (
               <button
                 key={sport}
                 onClick={() => toggleSelection(sport)}
-                className={`flex items-center justify-center gap-1.5 px-3 py-2 rounded-full border transition-all text-sm ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-full border transition-all text-sm w-fit ${
                   isSelected
                     ? 'bg-[#0064E0] text-white border-[#0064E0]'
                     : 'bg-card border-border hover:border-[#0064E0]/50'
                 }`}
               >
                 {sportEmojis[sport] && <span>{sportEmojis[sport]}</span>}
-                <span className="font-medium truncate">{sport}</span>
+                <span className="font-medium whitespace-nowrap">{sport}</span>
                 {isSelected && <Check className="w-3 h-3 flex-shrink-0" />}
               </button>
             );
