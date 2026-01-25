@@ -276,7 +276,7 @@ export function AdvisorConsole({
         <div className="flex items-center gap-3">
           <div className="flex items-center gap-2">
             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-xs text-slate-600">AI Active</span>
+            <span className="text-xs text-slate-500">AI Active</span>
           </div>
         </div>
       </div>

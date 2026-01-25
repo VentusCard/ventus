@@ -261,7 +261,7 @@ export function ClientSnapshotPanel({
           <AccordionItem value="holdings" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
-                <Landmark className="w-4 h-4" />
+                <Landmark className="w-4 h-4 text-primary" />
                 <span className="text-sm font-semibold">Holdings Overview</span>
               </div>
             </AccordionTrigger>
@@ -363,7 +363,7 @@ export function ClientSnapshotPanel({
           <AccordionItem value="lifestyle" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
-                <Activity className="w-4 h-4" />
+                <Activity className="w-4 h-4 text-primary" />
                 <span className="text-sm font-semibold">Top Spending Categories</span>
                 {lifestyleSignals.length > 0 && (
                   <Badge variant="secondary" className="ml-auto text-xs">{lifestyleSignals.length}</Badge>
@@ -386,7 +386,7 @@ export function ClientSnapshotPanel({
                       </div>
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-semibold text-slate-700">{formatCurrency(signal.spend)}</span>
-                        <MessageSquare className="w-3 h-3 text-slate-400" />
+                        <MessageSquare className="w-3 h-3 text-slate-500" />
                       </div>
                     </div>
                   );
