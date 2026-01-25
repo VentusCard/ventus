@@ -56,7 +56,7 @@ export function CashFlowChart({ years, costCategories, fundingSources, currentSa
   return (
     <Card>
       <CardHeader className="pb-3">
-        <CardTitle className="text-base flex items-center gap-2">
+        <CardTitle className="text-base text-slate-900 flex items-center gap-2">
           <TrendingUp className="w-5 h-5 text-primary" />
           Cash Flow Projection
         </CardTitle>
