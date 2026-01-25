@@ -908,11 +908,11 @@ export function FinancialTimelineTool({
             <CardContent className="pt-6 space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <Label>Project Name</Label>
-                  <Input value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="e.g., College Education" />
+                  <Label className="text-slate-900">Project Name</Label>
+                  <Input value={projectName} onChange={e => setProjectName(e.target.value)} placeholder="e.g., College Education" className="bg-white text-slate-900" />
                 </div>
                 <div>
-                  <Label>Project Type</Label>
+                  <Label className="text-slate-900">Project Type</Label>
                   <Select value={projectType} onValueChange={value => {
                   const newType = value as keyof typeof projectTypes;
                   setProjectType(newType);
@@ -932,16 +932,16 @@ export function FinancialTimelineTool({
 
               <div className={`grid ${projectType === 'education' ? 'grid-cols-2' : 'grid-cols-3'} gap-4`}>
                 <div>
-                  <Label>Start Year</Label>
-                  <Input type="number" value={startYear} onChange={e => setStartYear(parseInt(e.target.value) || 2026)} />
+                  <Label className="text-slate-900">Start Year</Label>
+                  <Input type="number" value={startYear} onChange={e => setStartYear(parseInt(e.target.value) || 2026)} className="bg-white text-slate-900" />
                 </div>
                 <div>
-                  <Label>Duration: {duration} years</Label>
+                  <Label className="text-slate-900">Duration: {duration} years</Label>
                   <Slider value={[duration]} onValueChange={([v]) => setDuration(v)} min={1} max={10} step={1} className="mt-2" />
                 </div>
                 {projectType !== 'education' && (
                   <div>
-                    <Label>Inflation Rate: {inflationRate}%</Label>
+                    <Label className="text-slate-900">Inflation Rate: {inflationRate}%</Label>
                     <Slider value={[inflationRate]} onValueChange={([v]) => setInflationRate(v)} min={0} max={10} step={0.5} className="mt-2" />
                   </div>
                 )}
@@ -950,12 +950,12 @@ export function FinancialTimelineTool({
               {projectType !== 'education' && (
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <Label>Current Savings</Label>
-                    <Input type="number" value={currentSavings} onChange={e => setCurrentSavings(parseFloat(e.target.value) || 0)} placeholder="$0" />
+                    <Label className="text-slate-900">Current Savings</Label>
+                    <Input type="number" value={currentSavings} onChange={e => setCurrentSavings(parseFloat(e.target.value) || 0)} placeholder="$0" className="bg-white text-slate-900" />
                   </div>
                   <div>
-                    <Label>Monthly Contribution</Label>
-                    <Input type="number" value={monthlyContribution} onChange={e => setMonthlyContribution(parseFloat(e.target.value) || 0)} placeholder="$0" />
+                    <Label className="text-slate-900">Monthly Contribution</Label>
+                    <Input type="number" value={monthlyContribution} onChange={e => setMonthlyContribution(parseFloat(e.target.value) || 0)} placeholder="$0" className="bg-white text-slate-900" />
                   </div>
                 </div>
               )}
@@ -969,14 +969,14 @@ export function FinancialTimelineTool({
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left p-2 font-medium">Cost Category</th>
-                      {years.map(year => <th key={year} className="text-right p-2 font-medium">{year}</th>)}
-                      <th className="text-right p-2 font-medium">Total</th>
+                      <th className="text-left p-2 font-medium text-slate-900">Cost Category</th>
+                      {years.map(year => <th key={year} className="text-right p-2 font-medium text-slate-900">{year}</th>)}
+                      <th className="text-right p-2 font-medium text-slate-900">Total</th>
                     </tr>
                   </thead>
                   <tbody>
                     {costCategories.map(cat => <tr key={cat.id} className="border-b">
-                        <td className="p-2 font-medium">{cat.label}</td>
+                        <td className="p-2 font-medium text-slate-900">{cat.label}</td>
                         {years.map(year => <td key={year} className="p-2">
                             <Input type="number" value={cat.amounts[year] || ''} onChange={e => {
                         const newCategories = costCategories.map(c => {
@@ -992,7 +992,7 @@ export function FinancialTimelineTool({
                           return c;
                         });
                         setCostCategories(newCategories);
-                      }} className="h-8 text-right" placeholder="$0" />
+                      }} className="h-8 text-right bg-white text-slate-900" placeholder="$0" />
                           </td>)}
                         <td className="p-2 text-right font-medium">
                           {formatCurrency(Object.values(cat.amounts).reduce((sum, val) => sum + val, 0))}

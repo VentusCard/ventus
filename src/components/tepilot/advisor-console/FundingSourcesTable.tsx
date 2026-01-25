@@ -99,9 +99,9 @@ export function FundingSourcesTable({ sources, years, projectType, onChange }: F
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b">
-                <th className="text-left p-2 font-medium">Source Type</th>
+                <th className="text-left p-2 font-medium text-slate-900">Source Type</th>
                 {years.map(year => (
-                  <th key={year} className="text-right p-2 font-medium">{year}</th>
+                  <th key={year} className="text-right p-2 font-medium text-slate-900">{year}</th>
                 ))}
                 <th className="w-10"></th>
               </tr>
@@ -128,7 +128,7 @@ export function FundingSourcesTable({ sources, years, projectType, onChange }: F
                         value={source.amounts[year] || ''}
                         onChange={(e) => updateSourceAmount(source.id, year, e.target.value)}
                         placeholder="$0"
-                        className="h-8 text-right"
+                        className="h-8 text-right bg-white text-slate-900"
                       />
                     </td>
                   ))}
@@ -140,7 +140,7 @@ export function FundingSourcesTable({ sources, years, projectType, onChange }: F
                 </tr>
               ))}
               <tr className="font-semibold bg-slate-50">
-                <td className="p-2">Total Funding</td>
+                <td className="p-2 text-slate-900">Total Funding</td>
                 {years.map(year => (
                   <td key={year} className="p-2 text-right text-green-600">
                     {formatCurrency(getTotalForYear(year))}

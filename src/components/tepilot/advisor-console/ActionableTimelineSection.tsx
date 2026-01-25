@@ -43,7 +43,7 @@ export function ActionableTimelineSection({ items, onToggleItem }: ActionableTim
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Calendar className="w-5 h-5 text-primary" />
-            <CardTitle className="text-base">Actionable Timeline</CardTitle>
+            <CardTitle className="text-base text-slate-900">Actionable Timeline</CardTitle>
           </div>
           <Button variant="ghost" size="sm" onClick={copyToClipboard}>
             <Copy className="w-4 h-4 mr-1" />
