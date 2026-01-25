@@ -238,6 +238,9 @@ const TePilot = () => {
       setIsAuthenticated(true);
       sessionStorage.setItem("tepilot_auth", "authenticated");
       toast.success("Access granted");
+    } else if (password === "2025proto") {
+      toast.info("Hint: New year, new password 🎉");
+      setPassword("");
     } else {
       toast.error("Incorrect password");
       setPassword("");
