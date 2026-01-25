@@ -86,7 +86,7 @@ const FinancialPlanningPage = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-white">
+    <div className="flex flex-col h-screen bg-white tepilot-container">
       {/* Top Navigation Bar */}
       <div className="border-b border-slate-200 px-4 py-3 bg-white z-10 shadow-sm flex-shrink-0">
         <div className="flex items-center justify-between max-w-full">
