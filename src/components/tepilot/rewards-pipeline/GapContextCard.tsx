@@ -41,14 +41,14 @@ export function GapContextCard({ opportunity }: GapContextCardProps) {
             <Badge variant="outline" className={cn("text-xs", getPriorityStyles(opportunity.priority))}>
               {opportunity.priority} priority
             </Badge>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs text-muted-foreground">
               {opportunity.merchantPartnerships.length} partnerships
             </Badge>
           </div>
         </div>
         <div className="text-right">
           <div className="text-2xl font-bold text-primary">{formatCurrency(opportunity.totalOpportunityAmount)}</div>
-          <div className="text-sm text-slate-500">addressable revenue</div>
+          <div className="text-sm text-muted-foreground">addressable revenue</div>
         </div>
       </div>
 
