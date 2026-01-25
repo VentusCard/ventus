@@ -99,7 +99,7 @@ export function LifeEventDetailsDialog({
                 </h4>
                 <ul className="space-y-1.5">
                   {event.talking_points.map((point, idx) => (
-                    <li key={idx} className="text-sm text-slate-600 flex items-start gap-2">
+                    <li key={idx} className="text-sm text-slate-700 flex items-start gap-2">
                       <span className="text-primary mt-1">•</span>
                       {point}
                     </li>

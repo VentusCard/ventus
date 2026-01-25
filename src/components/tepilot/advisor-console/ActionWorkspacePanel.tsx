@@ -77,7 +77,7 @@ export function ActionWorkspacePanel({
                 <p className="font-semibold text-slate-900 text-sm">{sampleMeeting.date}</p>
                 <p className="text-xs text-slate-500">{sampleMeeting.time} • {sampleMeeting.duration} min</p>
                 <div className="flex items-center gap-1 mt-1 flex-wrap">
-                  <Users className="w-3 h-3 text-slate-400" />
+                  <Users className="w-3 h-3 text-slate-500" />
                   {sampleMeeting.participants.slice(0, 2).map((p, idx) => <span key={idx} className="text-xs text-slate-500">{p}{idx < 1 ? ',' : ''}</span>)}
                 </div>
               </div>
@@ -102,7 +102,7 @@ export function ActionWorkspacePanel({
                     <Brain className="w-4 h-4 text-primary" />
                     <span className="text-xs font-semibold text-slate-900">Psychological Insights</span>
                   </div>
-                  <ChevronDown className={`w-4 h-4 text-slate-400 transition-transform ${isPsychologyOpen ? 'rotate-180' : ''}`} />
+                  <ChevronDown className={`w-4 h-4 text-slate-500 transition-transform ${isPsychologyOpen ? 'rotate-180' : ''}`} />
                 </button>
               </CollapsibleTrigger>
               <CollapsibleContent className="pt-2">
@@ -115,14 +115,14 @@ export function ActionWorkspacePanel({
                       <li 
                         key={idx} 
                         className={`text-xs ${
-                          !isAssessed ? 'text-slate-400 italic' : 'text-slate-700'
+                          !isAssessed ? 'text-slate-500 italic' : 'text-slate-700'
                         }`}
                       >
                         <div className="flex items-center justify-between mb-0.5">
-                          <span className={`font-medium ${!isAssessed ? 'text-slate-400' : ''}`}>
+                          <span className={`font-medium ${!isAssessed ? 'text-slate-500' : ''}`}>
                             {insight.aspect}
                           </span>
-                          <span className={`text-[10px] ${!isAssessed ? 'text-slate-400' : 'text-slate-500'}`}>
+                          <span className={`text-[10px] ${!isAssessed ? 'text-slate-500' : 'text-slate-500'}`}>
                             {insight.assessment}
                           </span>
                         </div>
@@ -258,7 +258,7 @@ export function ActionWorkspacePanel({
 
                 {completedItems.length > 0 && (
                   <div className="mt-3 pt-2 border-t border-dashed">
-                    <span className="text-xs text-slate-400 mb-1 block">
+                    <span className="text-xs text-slate-500 mb-1 block">
                       Completed ({completedItems.length})
                     </span>
                     <ul className="space-y-1">
