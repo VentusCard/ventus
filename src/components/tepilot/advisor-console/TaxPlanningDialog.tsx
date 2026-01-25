@@ -305,13 +305,13 @@ export function TaxPlanningDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl max-h-[90vh] p-0">
-        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-gradient-to-r from-emerald-50 to-teal-50">
-          <DialogTitle className="flex items-center gap-2 text-xl">
+      <DialogContent className="max-w-4xl max-h-[90vh] p-0 bg-white">
+        <DialogHeader className="px-6 pt-6 pb-4 border-b bg-slate-50">
+          <DialogTitle className="flex items-center gap-2 text-xl text-slate-900">
             <Calculator className="w-6 h-6 text-emerald-600" />
             Tax Planning Analysis
           </DialogTitle>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-sm text-slate-600 mt-1">
             {clientProfile?.name ? `${clientProfile.name} • ` : ""}
             {STATE_TAX_RATES[selectedState]?.name || selectedState} ({stateRate}% state tax)
           </p>
@@ -321,9 +321,9 @@ export function TaxPlanningDialog({
           <div className="p-6 space-y-6">
             {/* State Selection */}
             <div className="flex items-center gap-4">
-              <label className="text-sm font-medium">Filing State:</label>
+              <label className="text-sm font-medium text-slate-900">Filing State:</label>
               <Select value={selectedState} onValueChange={setSelectedState}>
-                <SelectTrigger className="w-[200px]">
+                <SelectTrigger className="w-[200px] bg-white text-slate-900">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent className="max-h-[300px] bg-white">
@@ -346,27 +346,27 @@ export function TaxPlanningDialog({
             {/* P&L Summary */}
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
+                <CardTitle className="text-base text-slate-900 flex items-center gap-2">
                   <DollarSign className="w-4 h-4 text-emerald-600" />
                   Annual P&L Summary
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-4 gap-4">
-                  <div className="text-center p-3 bg-emerald-50 rounded-lg">
-                    <p className="text-xs text-slate-500 mb-1">Gross Income</p>
+                  <div className="text-center p-3 bg-white border border-emerald-200 rounded-lg">
+                    <p className="text-xs text-slate-600 mb-1">Gross Income</p>
                     <p className="text-xl font-bold text-emerald-700">{formatCurrency(annualIncome)}</p>
                   </div>
-                  <div className="text-center p-3 bg-rose-50 rounded-lg">
-                    <p className="text-xs text-slate-500 mb-1">Total Expenses</p>
+                  <div className="text-center p-3 bg-white border border-rose-200 rounded-lg">
+                    <p className="text-xs text-slate-600 mb-1">Total Expenses</p>
                     <p className="text-xl font-bold text-rose-700">{formatCurrency(annualExpenses)}</p>
                   </div>
-                  <div className="text-center p-3 bg-blue-50 rounded-lg">
-                    <p className="text-xs text-slate-500 mb-1">Net Savings</p>
+                  <div className="text-center p-3 bg-white border border-blue-200 rounded-lg">
+                    <p className="text-xs text-slate-600 mb-1">Net Savings</p>
                     <p className="text-xl font-bold text-blue-700">{formatCurrency(netSavings)}</p>
                   </div>
-                  <div className="text-center p-3 bg-purple-50 rounded-lg">
-                    <p className="text-xs text-slate-500 mb-1">Savings Rate</p>
+                  <div className="text-center p-3 bg-white border border-purple-200 rounded-lg">
+                    <p className="text-xs text-slate-600 mb-1">Savings Rate</p>
                     <p className="text-xl font-bold text-purple-700">{savingsRate.toFixed(1)}%</p>
                   </div>
                 </div>
@@ -376,7 +376,7 @@ export function TaxPlanningDialog({
             {/* Tax-Advantaged Accounts */}
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
+                <CardTitle className="text-base text-slate-900 flex items-center gap-2">
                   <PiggyBank className="w-4 h-4 text-emerald-600" />
                   Tax-Advantaged Account Utilization
                 </CardTitle>
@@ -386,8 +386,8 @@ export function TaxPlanningDialog({
                   accountAnalysis.map((account, idx) => (
                     <div key={idx} className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="font-medium">{account.name}</span>
-                        <span className="text-muted-foreground">
+                        <span className="font-medium text-slate-900">{account.name}</span>
+                        <span className="text-slate-600">
                           {formatCurrency(account.current)} / {formatCurrency(account.max)}
                         </span>
                       </div>
@@ -395,7 +395,7 @@ export function TaxPlanningDialog({
                         value={account.utilization} 
                         className="h-2"
                       />
-                      <div className="flex justify-between text-xs text-slate-500">
+                      <div className="flex justify-between text-xs text-slate-600">
                         <span>{account.utilization.toFixed(0)}% utilized</span>
                         {account.remainingRoom > 0 && (
                           <span className="text-emerald-600">
@@ -406,7 +406,7 @@ export function TaxPlanningDialog({
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-slate-500 text-center py-4">
+                  <p className="text-sm text-slate-600 text-center py-4">
                     No tax-advantaged accounts detected. Consider adding 401(k), IRA, or HSA.
                   </p>
                 )}
@@ -416,7 +416,7 @@ export function TaxPlanningDialog({
             {/* Deductible Expenses */}
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
+                <CardTitle className="text-base text-slate-900 flex items-center gap-2">
                   <Receipt className="w-4 h-4 text-emerald-600" />
                   Deductible Expenses Detected
                 </CardTitle>
@@ -425,16 +425,16 @@ export function TaxPlanningDialog({
                 <div className="space-y-3">
                   {deductibleExpenses.charitable > 0 && (
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Charitable Donations</span>
+                      <span className="text-sm text-slate-900">Charitable Donations</span>
                       <Badge variant="outline">{formatCurrency(deductibleExpenses.charitable)}</Badge>
                     </div>
                   )}
                   {deductibleExpenses.medical > 0 && (
                     <div className="flex justify-between items-center">
                       <div>
-                        <span className="text-sm">Medical Expenses</span>
+                        <span className="text-sm text-slate-900">Medical Expenses</span>
                         {deductibleMedical > 0 && (
-                          <p className="text-xs text-muted-foreground">
+                          <p className="text-xs text-slate-600">
                             {formatCurrency(deductibleMedical)} above 7.5% AGI threshold
                           </p>
                         )}
@@ -444,28 +444,28 @@ export function TaxPlanningDialog({
                   )}
                   {deductibleExpenses.mortgageInterest > 0 && (
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Est. Mortgage Interest</span>
+                      <span className="text-sm text-slate-900">Est. Mortgage Interest</span>
                       <Badge variant="outline">{formatCurrency(deductibleExpenses.mortgageInterest)}</Badge>
                     </div>
                   )}
                   {deductibleExpenses.saltDeduction > 0 && (
                     <div className="flex justify-between items-center">
                       <div>
-                        <span className="text-sm">SALT Deduction</span>
-                        <p className="text-xs text-muted-foreground">Capped at $10,000</p>
+                        <span className="text-sm text-slate-900">SALT Deduction</span>
+                        <p className="text-xs text-slate-600">Capped at $10,000</p>
                       </div>
                       <Badge variant="outline">{formatCurrency(deductibleExpenses.saltDeduction)}</Badge>
                     </div>
                   )}
                   {deductibleExpenses.businessExpenses > 0 && (
                     <div className="flex justify-between items-center">
-                      <span className="text-sm">Business Expenses</span>
+                      <span className="text-sm text-slate-900">Business Expenses</span>
                       <Badge variant="outline">{formatCurrency(deductibleExpenses.businessExpenses)}</Badge>
                     </div>
                   )}
                   <Separator />
                   <div className="flex justify-between items-center font-medium">
-                    <span>Total Potential Deductions</span>
+                    <span className="text-slate-900">Total Potential Deductions</span>
                     <Badge className="bg-emerald-100 text-emerald-700">{formatCurrency(totalDeductions)}</Badge>
                   </div>
                 </div>
@@ -473,9 +473,9 @@ export function TaxPlanningDialog({
             </Card>
 
             {/* Tax Liability Estimate */}
-            <Card className="bg-gradient-to-br from-slate-50 to-slate-100">
+            <Card className="bg-white border-slate-200">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
+                <CardTitle className="text-base text-slate-900 flex items-center gap-2">
                   <Building className="w-4 h-4 text-slate-600" />
                   Estimated Tax Liability
                 </CardTitle>
@@ -483,32 +483,32 @@ export function TaxPlanningDialog({
               <CardContent>
                 <div className="grid grid-cols-4 gap-4">
                   <div className="text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Federal Tax</p>
+                    <p className="text-xs text-slate-600 mb-1">Federal Tax</p>
                     <p className="text-lg font-bold text-slate-700">{formatCurrency(federalTax)}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs text-muted-foreground mb-1">State Tax</p>
+                    <p className="text-xs text-slate-600 mb-1">State Tax</p>
                     <p className="text-lg font-bold text-slate-700">{formatCurrency(stateTax)}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Total Tax</p>
+                    <p className="text-xs text-slate-600 mb-1">Total Tax</p>
                     <p className="text-lg font-bold text-slate-900">{formatCurrency(totalTax)}</p>
                   </div>
                   <div className="text-center">
-                    <p className="text-xs text-muted-foreground mb-1">Effective Rate</p>
+                    <p className="text-xs text-slate-600 mb-1">Effective Rate</p>
                     <p className="text-lg font-bold text-slate-900">{effectiveRate.toFixed(1)}%</p>
                   </div>
                 </div>
-                <p className="text-xs text-muted-foreground text-center mt-3">
+                <p className="text-xs text-slate-600 text-center mt-3">
                   Based on taxable income of {formatCurrency(taxableIncome)} after standard deduction
                 </p>
               </CardContent>
             </Card>
 
             {/* Optimization Recommendations */}
-            <Card className="border-emerald-200 bg-emerald-50/50">
+            <Card className="border-slate-200 bg-white">
               <CardHeader className="pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
+                <CardTitle className="text-base text-slate-900 flex items-center gap-2">
                   <Lightbulb className="w-4 h-4 text-amber-500" />
                   Tax Optimization Opportunities
                 </CardTitle>
@@ -517,10 +517,10 @@ export function TaxPlanningDialog({
                 <div className="space-y-3">
                   {optimizations.length > 0 ? (
                     optimizations.map((opt, idx) => (
-                      <div key={idx} className="flex items-start gap-3 p-3 bg-white rounded-lg border">
+                      <div key={idx} className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg border">
                         <Checkbox id={`opt-${idx}`} />
                         <div className="flex-1">
-                          <label htmlFor={`opt-${idx}`} className="text-sm font-medium cursor-pointer">
+                          <label htmlFor={`opt-${idx}`} className="text-sm font-medium text-slate-900 cursor-pointer">
                             {opt.text}
                           </label>
                           {opt.savings > 0 && (
@@ -544,7 +544,7 @@ export function TaxPlanningDialog({
                       </div>
                     ))
                   ) : (
-                    <p className="text-sm text-muted-foreground text-center py-4">
+                    <p className="text-sm text-slate-600 text-center py-4">
                       Tax strategy appears optimized. Consider consulting a tax professional for advanced planning.
                     </p>
                   )}
