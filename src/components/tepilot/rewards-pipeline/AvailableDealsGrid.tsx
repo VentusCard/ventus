@@ -123,7 +123,7 @@ export function AvailableDealsGrid() {
               className={`rounded-full text-xs transition-all ${
                 isSelected 
                   ? 'bg-slate-900 text-white hover:bg-slate-800' 
-                  : 'hover:bg-slate-100'
+                  : 'bg-white text-slate-900 hover:bg-slate-100 border-slate-200'
               }`}
             >
               {categoryConfig && (
