@@ -53,7 +53,7 @@ export function EducationalContentPanel({ education, eventName }: EducationalCon
           <CollapsibleContent>
             <ul className="space-y-2 mb-4">
               {education.map((item, idx) => (
-                <li key={idx} className="text-sm text-slate-500 flex gap-2">
+                <li key={idx} className="text-sm text-slate-700 flex gap-2">
                   <span className="text-primary font-semibold shrink-0">{idx + 1}.</span>
                   <span>{item}</span>
                 </li>
