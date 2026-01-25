@@ -97,7 +97,7 @@ export function AvailableDealsGrid() {
           />
         </div>
         <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
-          <SelectTrigger className="w-full sm:w-48">
+          <SelectTrigger className="w-full sm:w-48 bg-white text-slate-900">
             <SelectValue placeholder="Sort by" />
           </SelectTrigger>
           <SelectContent>
