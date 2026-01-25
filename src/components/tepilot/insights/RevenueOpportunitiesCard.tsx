@@ -370,7 +370,7 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
                       <Badge variant="outline" className={cn("text-xs shrink-0", styles.badge)}>
                         {opportunity.priority}
                       </Badge>
-                      <Badge variant="outline" className="text-xs shrink-0">
+                      <Badge variant="outline" className="text-xs shrink-0 text-muted-foreground">
                         {opportunity.merchantPartnerships.length} partners
                       </Badge>
                     </div>
