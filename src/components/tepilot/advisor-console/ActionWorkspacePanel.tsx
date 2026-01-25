@@ -75,10 +75,10 @@ export function ActionWorkspacePanel({
               </div>
               <div className="flex-1 min-w-0">
                 <p className="font-semibold text-slate-900 text-sm">{sampleMeeting.date}</p>
-                <p className="text-xs text-slate-600">{sampleMeeting.time} • {sampleMeeting.duration} min</p>
+                <p className="text-xs text-slate-500">{sampleMeeting.time} • {sampleMeeting.duration} min</p>
                 <div className="flex items-center gap-1 mt-1 flex-wrap">
                   <Users className="w-3 h-3 text-slate-400" />
-                  {sampleMeeting.participants.slice(0, 2).map((p, idx) => <span key={idx} className="text-xs text-slate-600">{p}{idx < 1 ? ',' : ''}</span>)}
+                  {sampleMeeting.participants.slice(0, 2).map((p, idx) => <span key={idx} className="text-xs text-slate-500">{p}{idx < 1 ? ',' : ''}</span>)}
                 </div>
               </div>
             </div>
@@ -86,7 +86,7 @@ export function ActionWorkspacePanel({
 
           {/* Engagement Health */}
           <div className="flex items-center justify-between px-1 mb-3">
-            <span className="text-xs text-slate-600">Engagement Health</span>
+            <span className="text-xs text-slate-500">Engagement Health</span>
             <div className="flex items-center gap-2">
               <div className={`w-2 h-2 rounded-full ${engagementColor}`} />
               <span className="text-xs font-medium text-slate-900">{engagementText}</span>

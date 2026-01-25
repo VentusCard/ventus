@@ -269,7 +269,7 @@ export function AdvisorConsole({
           Wealth Management Advisor Console{" "}
           <span className="text-primary">Powered by Ventus</span>
         </h1>
-          <p className="text-sm text-slate-600 mt-1">
+          <p className="text-sm text-slate-500 mt-1">
             AI-powered relationship intelligence and client engagement platform
           </p>
         </div>
