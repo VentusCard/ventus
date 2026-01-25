@@ -72,7 +72,7 @@ export function CashFlowChart({ years, costCategories, fundingSources, currentSa
             />
             <Tooltip 
               formatter={(value: any) => formatCurrency(Math.abs(value))}
-              contentStyle={{ backgroundColor: 'hsl(var(--card))', borderColor: 'hsl(var(--border))' }}
+              contentStyle={{ backgroundColor: '#ffffff', borderColor: '#e2e8f0' }}
             />
             <Legend />
             <ReferenceLine y={0} stroke="hsl(var(--border))" strokeWidth={2} />
