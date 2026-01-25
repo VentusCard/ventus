@@ -451,7 +451,7 @@ export function FinancialPlanner({
                   type="number"
                   value={projectionYears}
                   onChange={(e) => setProjectionYears(Math.max(10, Math.min(50, parseInt(e.target.value) || 30)))}
-                  className="w-16 h-8"
+                  className="w-16 h-8 bg-white text-slate-900"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -461,7 +461,7 @@ export function FinancialPlanner({
                   step="0.5"
                   value={expectedReturn}
                   onChange={(e) => setExpectedReturn(Math.max(0, Math.min(15, parseFloat(e.target.value) || 6)))}
-                  className="w-16 h-8"
+                  className="w-16 h-8 bg-white text-slate-900"
                 />
               </div>
               <div className="flex items-center gap-2">
@@ -471,7 +471,7 @@ export function FinancialPlanner({
                   step="0.5"
                   value={inflationRate}
                   onChange={(e) => setInflationRate(Math.max(0, Math.min(10, parseFloat(e.target.value) || 3)))}
-                  className="w-16 h-8"
+                  className="w-16 h-8 bg-white text-slate-900"
                 />
               </div>
             </div>
