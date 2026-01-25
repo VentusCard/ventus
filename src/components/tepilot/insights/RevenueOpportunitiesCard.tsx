@@ -379,7 +379,7 @@ export function RevenueOpportunitiesCard({ opportunities }: RevenueOpportunities
                       <TooltipProvider>
                         <UITooltip>
                           <TooltipTrigger asChild>
-                            <span className="font-bold cursor-help underline decoration-dotted decoration-muted-foreground/50 underline-offset-2 text-foreground">
+                            <span className="font-bold cursor-help underline decoration-dotted decoration-muted-foreground/50 underline-offset-2 text-slate-900 dark:text-slate-100">
                               {formatCurrency(opportunity.totalOpportunityAmount)} addressable revenue
                             </span>
                           </TooltipTrigger>
