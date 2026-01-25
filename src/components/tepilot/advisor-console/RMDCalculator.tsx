@@ -138,13 +138,13 @@ export function RMDCalculator({ clientAge, taxAdvantagedAccounts }: RMDCalculato
         <div className="grid grid-cols-2 gap-4">
           <div>
             <Label className="text-sm">Client Age</Label>
-            <div className="mt-1 h-10 flex items-center px-3 bg-slate-200 rounded-md font-medium">
+            <div className="mt-1 h-10 flex items-center px-3 bg-white border border-slate-200 rounded-md font-medium text-slate-900">
               {clientAge} years old
             </div>
           </div>
           <div>
             <Label className="text-sm">Distribution Period</Label>
-            <div className="mt-1 h-10 flex items-center px-3 bg-slate-200 rounded-md font-medium">
+            <div className="mt-1 h-10 flex items-center px-3 bg-white border border-slate-200 rounded-md font-medium text-slate-900">
               {calculations.distributionPeriod > 0 ? `${calculations.distributionPeriod.toFixed(1)} years` : 'N/A (under 73)'}
             </div>
           </div>
@@ -157,7 +157,7 @@ export function RMDCalculator({ clientAge, taxAdvantagedAccounts }: RMDCalculato
             <span className="text-xs text-slate-500">Synced from Tax-Advantaged Accounts</span>
           </div>
           {calculations.accountRMDs.map((account, idx) => (
-            <div key={idx} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+            <div key={idx} className="flex items-center justify-between p-3 bg-white border border-slate-200 rounded-lg">
               <div>
                 <span className="text-sm font-medium">{account.label}</span>
                 <p className="text-xs text-slate-500">Balance: {formatCurrency(account.currentBalance)}</p>
