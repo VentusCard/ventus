@@ -1,8 +1,6 @@
-
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
 const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -84,8 +82,6 @@ const Footer = () => {
           
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
