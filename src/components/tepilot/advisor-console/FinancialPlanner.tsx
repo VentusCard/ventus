@@ -377,7 +377,7 @@ export function FinancialPlanner({
             Back to Console
           </Button>
         </div>
-        <h1 className="text-2xl font-bold">Long-Term Financial Planning</h1>
+        <h1 className="text-2xl font-bold text-slate-900">Long-Term Financial Planning</h1>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" onClick={handleExportPDF}>
             <FileDown className="w-4 h-4 mr-2" />

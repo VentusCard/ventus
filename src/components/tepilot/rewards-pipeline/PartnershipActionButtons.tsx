@@ -83,12 +83,12 @@ Consumer Rewards Team`;
 
       {/* Draft Pitch Modal */}
       <Dialog open={showPitchModal} onOpenChange={setShowPitchModal}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-white">
           <DialogHeader>
             <DialogTitle>Draft Pitch Email - {pitch.merchantName}</DialogTitle>
           </DialogHeader>
           <div className="space-y-4">
-            <div className="p-4 bg-muted/50 rounded-lg">
+            <div className="p-4 bg-slate-50 rounded-lg">
               <pre className="whitespace-pre-wrap text-sm font-mono">{generatePitchEmail()}</pre>
             </div>
           </div>
@@ -104,7 +104,7 @@ Consumer Rewards Team`;
 
       {/* Log Contact Modal */}
       <Dialog open={showContactModal} onOpenChange={setShowContactModal}>
-        <DialogContent>
+        <DialogContent className="bg-white">
           <DialogHeader>
             <DialogTitle>Log Contact - {pitch.merchantName}</DialogTitle>
           </DialogHeader>
@@ -112,7 +112,7 @@ Consumer Rewards Team`;
             <div className="space-y-2">
               <Label>Contact Type</Label>
               <Select value={contactType} onValueChange={(v) => setContactType(v as typeof contactType)}>
-                <SelectTrigger>
+                <SelectTrigger className="bg-white text-slate-900">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -150,6 +150,7 @@ Consumer Rewards Team`;
                 value={contactSummary}
                 onChange={(e) => setContactSummary(e.target.value)}
                 rows={4}
+                className="bg-white text-slate-900"
               />
             </div>
           </div>
