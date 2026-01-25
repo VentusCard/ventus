@@ -879,7 +879,7 @@ export function FinancialTimelineTool({
   // Funding gap = what's still needed
   const fundingGap = totalCosts - totalFunding;
   return <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto bg-white">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Lightbulb className="w-5 h-5" />
@@ -889,7 +889,7 @@ export function FinancialTimelineTool({
 
         <div className="space-y-6">
           {/* AI Pre-fill Banner */}
-          {detectedEvent?.financial_projection && <Card className="bg-primary/5 border-primary/20">
+          {detectedEvent?.financial_projection && <Card className="bg-slate-50 border-slate-200">
               <CardContent className="pt-4">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-primary" />
@@ -918,7 +918,7 @@ export function FinancialTimelineTool({
                   setProjectType(newType);
                   loadTemplate(newType);
                 }}>
-                    <SelectTrigger>
+                    <SelectTrigger className="bg-white text-slate-900">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -998,7 +998,7 @@ export function FinancialTimelineTool({
                           {formatCurrency(Object.values(cat.amounts).reduce((sum, val) => sum + val, 0))}
                         </td>
                       </tr>)}
-                    <tr className="font-semibold bg-muted/30">
+                    <tr className="font-semibold bg-slate-100">
                       <td className="p-2">Total Costs</td>
                       {years.map((year, idx) => <td key={year} className="p-2 text-right text-red-600">
                           {formatCurrency(totalCostsByYear[idx])}
@@ -1017,7 +1017,7 @@ export function FinancialTimelineTool({
           <FundingSourcesTable sources={fundingSources} years={fundingYears} projectType={projectType} onChange={setFundingSources} />
 
           {/* Funding Gap Indicator */}
-          {fundingGap !== 0 && <Card className={fundingGap > 0 ? "border-red-600 bg-red-50 dark:bg-red-950/20" : "border-green-600 bg-green-50 dark:bg-green-950/20"}>
+          {fundingGap !== 0 && <Card className={fundingGap > 0 ? "border-red-300 bg-red-50" : "border-green-300 bg-green-50"}>
               <CardContent className="pt-4">
                 <p className="text-sm font-medium">
                   {fundingGap > 0 ? "⚠️ Funding Gap:" : "✓ Funding Surplus:"} {formatCurrency(Math.abs(fundingGap))}

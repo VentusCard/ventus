@@ -111,7 +111,7 @@ export function FundingSourcesTable({ sources, years, projectType, onChange }: F
                 <tr key={source.id} className="border-b hover:bg-slate-50">
                   <td className="p-2">
                     <Select value={source.type} onValueChange={(value) => updateSourceType(source.id, value as FundingSource["type"])}>
-                      <SelectTrigger className="w-[180px] h-8">
+                      <SelectTrigger className="w-[180px] h-8 bg-white text-slate-900">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
