@@ -17,14 +17,9 @@ import Gallery from "./pages/Gallery";
 import Privacy from "./pages/Privacy";
 import TermsOfService from "./pages/TermsOfService";
 import VentusAI from "./pages/VentusAI";
-import TePilot from "./pages/TePilot";
 import NotFound from "./pages/NotFound";
 import AppDownload from "./pages/AppDownload";
 import Archive from "./pages/Archive";
-import RecommendationsPage from "./pages/RecommendationsPage";
-import AdvisorConsolePage from "./pages/AdvisorConsolePage";
-import FinancialPlanningPage from "./pages/FinancialPlanningPage";
-import RewardsPipelinePage from "./pages/RewardsPipelinePage";
 
 // Ventus Web App imports
 import { VentusAuthProvider } from "./contexts/VentusAuthContext";
@@ -63,11 +58,6 @@ const App = () => (
           <Route path="/ventus-ai" element={<VentusAI />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<TermsOfService />} />
-          <Route path="/tepilot" element={<TePilot />} />
-          <Route path="/tepilot/recommendations" element={<RecommendationsPage />} />
-          <Route path="/tepilot/advisor-console" element={<AdvisorConsolePage />} />
-          <Route path="/tepilot/financial-planning" element={<FinancialPlanningPage />} />
-          <Route path="/tepilot/rewards-pipeline" element={<RewardsPipelinePage />} />
           <Route path="/download" element={<AppDownload />} />
           <Route path="/archive" element={<Archive />} />
 
