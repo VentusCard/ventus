@@ -93,7 +93,7 @@ export function AvailableDealsGrid() {
             placeholder="Search deals, merchants..."
             value={searchQuery}
             onChange={(e) => handleSearchChange(e.target.value)}
-            className="pl-10"
+            className="pl-10 bg-white text-slate-900"
           />
         </div>
         <Select value={sortBy} onValueChange={(value: any) => setSortBy(value)}>
