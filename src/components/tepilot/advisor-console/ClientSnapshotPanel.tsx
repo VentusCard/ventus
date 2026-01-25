@@ -161,22 +161,22 @@ export function ClientSnapshotPanel({
               <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
                 <div className="flex items-center gap-2">
                   <TrendingUp className="w-4 h-4 text-primary" />
-                  <span className="text-sm font-semibold">Transaction Overview</span>
+                  <span className="text-sm font-semibold text-slate-900">Transaction Overview</span>
                   <Badge variant="secondary" className="ml-auto text-xs">{advisorContext.overview.totalTransactions} txns</Badge>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="px-4 pb-3">
                 <div className="space-y-2 text-xs">
                   <div className="flex items-center justify-between py-2 border-b">
-                    <span className="text-slate-500">Total Spend</span>
+                    <span className="text-primary">Total Spend</span>
                     <span className="font-semibold text-slate-700">{formatCurrency(advisorContext.overview.totalSpend)}</span>
                   </div>
                   <div className="flex items-center justify-between py-2 border-b">
-                    <span className="text-slate-500">Avg. Transaction</span>
+                    <span className="text-primary">Avg. Transaction</span>
                     <span className="font-semibold text-slate-700">{formatCurrency(advisorContext.overview.avgTransactionAmount)}</span>
                   </div>
                   <div className="flex items-center justify-between py-2">
-                    <span className="text-slate-500">Date Range</span>
+                    <span className="text-primary">Date Range</span>
                     <span className="font-semibold text-slate-700">
                       {advisorContext.overview.dateRange.start} - {advisorContext.overview.dateRange.end}
                     </span>
@@ -191,7 +191,7 @@ export function ClientSnapshotPanel({
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
                 <Sparkles className={`w-4 h-4 text-primary ${isLoadingInsights ? 'animate-pulse' : ''}`} />
-                <span className="text-sm font-semibold">Detected Life Events</span>
+                <span className="text-sm font-semibold text-slate-900">Detected Life Events</span>
                 {isLoadingInsights ? (
                   <Badge variant="secondary" className="ml-auto text-xs animate-pulse bg-primary/10 text-primary">
                     Analyzing...
@@ -262,13 +262,13 @@ export function ClientSnapshotPanel({
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
                 <Landmark className="w-4 h-4 text-primary" />
-                <span className="text-sm font-semibold">Holdings Overview</span>
+                <span className="text-sm font-semibold text-slate-900">Holdings Overview</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-2 text-xs">
                 <div className="flex items-center justify-between py-2 border-b">
-                  <span className="flex items-center text-slate-500">
+                  <span className="flex items-center text-primary">
                     <Landmark className="w-3 h-3 mr-2" />
                     Deposits
                   </span>
@@ -291,7 +291,7 @@ export function ClientSnapshotPanel({
                   </div>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b">
-                  <span className="flex items-center text-slate-500">
+                  <span className="flex items-center text-primary">
                     <CreditCard className="w-3 h-3 mr-2" />
                     Credit
                   </span>
@@ -314,7 +314,7 @@ export function ClientSnapshotPanel({
                   </div>
                 </div>
                 <div className="flex items-center justify-between py-2 border-b">
-                  <span className="flex items-center text-slate-500">
+                  <span className="flex items-center text-primary">
                     <Home className="w-3 h-3 mr-2" />
                     Mortgage
                   </span>
@@ -333,7 +333,7 @@ export function ClientSnapshotPanel({
                   </div>
                 </div>
                 <div className="flex items-center justify-between py-2">
-                  <span className="flex items-center text-slate-500">
+                  <span className="flex items-center text-primary">
                     <TrendingUp className="w-3 h-3 mr-2" />
                     Investments
                   </span>
@@ -364,7 +364,7 @@ export function ClientSnapshotPanel({
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
                 <Activity className="w-4 h-4 text-primary" />
-                <span className="text-sm font-semibold">Top Spending Categories</span>
+                <span className="text-sm font-semibold text-slate-900">Top Spending Categories</span>
                 {lifestyleSignals.length > 0 && (
                   <Badge variant="secondary" className="ml-auto text-xs">{lifestyleSignals.length}</Badge>
                 )}
