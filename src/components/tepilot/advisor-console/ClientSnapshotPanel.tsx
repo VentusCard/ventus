@@ -401,26 +401,26 @@ export function ClientSnapshotPanel({
           <AccordionItem value="compliance" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
-                <AlertCircle className="w-4 h-4" />
-                <span className="text-sm font-semibold">Compliance & Risk</span>
+                <AlertCircle className="w-4 h-4 text-primary" />
+                <span className="text-sm font-semibold text-slate-900">Compliance & Risk</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
               <div className="space-y-2 text-xs">
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-500">KYC Status</span>
+                  <span className="text-primary">KYC Status</span>
                   <Badge variant="outline">{displayData.compliance.kycStatus}</Badge>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-500">Last Review</span>
+                  <span className="text-primary">Last Review</span>
                   <span className="text-slate-700">{displayData.compliance.lastReview}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-500">Next Review</span>
+                  <span className="text-primary">Next Review</span>
                   <span className="text-slate-700">{displayData.compliance.nextReview}</span>
                 </div>
                 <div className="flex justify-between py-1">
-                  <span className="text-slate-500">Risk Profile</span>
+                  <span className="text-primary">Risk Profile</span>
                   <span className="text-slate-700">{displayData.compliance.riskProfile}</span>
                 </div>
               </div>
@@ -431,8 +431,8 @@ export function ClientSnapshotPanel({
           <AccordionItem value="milestones" className="bg-white rounded-lg border">
             <AccordionTrigger className="px-4 hover:no-underline hover:bg-slate-50">
               <div className="flex items-center gap-2">
-                <TrendingUp className="w-4 h-4" />
-                <span className="text-sm font-semibold">Relationship Milestones</span>
+                <TrendingUp className="w-4 h-4 text-primary" />
+                <span className="text-sm font-semibold text-slate-900">Relationship Milestones</span>
               </div>
             </AccordionTrigger>
             <AccordionContent className="px-4 pb-3">
@@ -440,7 +440,7 @@ export function ClientSnapshotPanel({
                 {displayData.milestones.map((milestone, idx) => (
                   <div key={idx} className="text-xs border-l-2 border-primary pl-3">
                     <div className="font-semibold text-slate-700">{milestone.event}</div>
-                    <div className="text-slate-500 mt-1">{milestone.date}</div>
+                    <div className="text-primary mt-1">{milestone.date}</div>
                   </div>
                 ))}
               </div>
