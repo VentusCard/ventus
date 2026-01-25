@@ -261,7 +261,7 @@ export function AdvisorConsole({
   };
 
   return (
-    <div className="flex flex-col w-full h-full bg-white">
+    <div className="flex flex-col w-full h-full bg-white tepilot-container">
       {/* Header with BofA/Merrill/Ventus branding */}
       <div className="border-b px-4 py-3 flex items-center justify-between bg-gradient-to-r from-white to-slate-50 flex-shrink-0">
         <div>
