@@ -86,7 +86,7 @@ export function PipelineHeader({
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium">Filter by Gap:</span>
             <Select value={selectedGapId || 'all'} onValueChange={v => onGapChange(v === 'all' ? null : v)}>
-              <SelectTrigger className="w-[280px]">
+              <SelectTrigger className="w-[280px] bg-white text-slate-900">
                 <SelectValue placeholder="All Gaps" />
               </SelectTrigger>
               <SelectContent>

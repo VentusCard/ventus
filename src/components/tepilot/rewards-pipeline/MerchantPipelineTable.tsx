@@ -189,8 +189,8 @@ export function MerchantPipelineTable({ opportunities, filterOpportunityId }: Me
                       value={status.status} 
                       onValueChange={(v) => updateStatus(item.pitch.merchantName, item.opportunityId, v as PipelineStage)}
                     >
-                      <SelectTrigger className="w-[140px] h-8">
-                        <SelectValue>
+                    <SelectTrigger className="w-[140px] h-8 bg-white text-slate-900">
+                      <SelectValue>
                           <PipelineStatusBadge status={status.status} />
                         </SelectValue>
                       </SelectTrigger>
@@ -236,7 +236,7 @@ export function MerchantPipelineTable({ opportunities, filterOpportunityId }: Me
 
       {/* Merchant Detail Dialog */}
       <Dialog open={!!selectedMerchant} onOpenChange={() => setSelectedMerchant(null)}>
-        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto bg-white">
           {selectedMerchant && (
             <>
               <DialogHeader>
