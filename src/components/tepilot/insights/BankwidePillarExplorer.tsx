@@ -107,7 +107,7 @@ export function BankwidePillarExplorer({ filters }: BankwidePillarExplorerProps)
         type="single" 
         value={viewMode} 
         onValueChange={(val) => val && setViewMode(val as 'grid' | 'chart')}
-        className="border rounded-lg p-1"
+        className="border border-slate-200 rounded-lg p-1 bg-white"
         onClick={(e) => e.stopPropagation()}
       >
         <ToggleGroupItem value="grid" className="gap-2 px-3 data-[state=on]:bg-primary data-[state=on]:text-primary-foreground">
@@ -171,7 +171,7 @@ export function BankwidePillarExplorer({ filters }: BankwidePillarExplorerProps)
                   dataKey="value" 
                   position="top" 
                   formatter={(value: number) => `${value.toFixed(1)}%`}
-                  style={{ fill: 'hsl(var(--foreground))', fontSize: '12px', fontWeight: '500' }}
+                  style={{ fill: '#1e293b', fontSize: '12px', fontWeight: '500' }}
                 />
               </Bar>
             </BarChart>
@@ -240,7 +240,7 @@ export function BankwidePillarExplorer({ filters }: BankwidePillarExplorerProps)
 
             {/* Expanded Details Panel */}
             {selectedPillarData && (
-              <div className="mt-6 p-6 rounded-lg border-2 border-primary/30 bg-primary/5 animate-fade-in">
+              <div className="mt-6 p-6 rounded-lg border-2 border-slate-200 bg-slate-50 animate-fade-in">
                 <div className="flex items-center justify-between mb-6">
                   <div>
                     <h3 className="text-xl font-bold" style={{ color: selectedPillarData.color }}>

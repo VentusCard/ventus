@@ -43,7 +43,7 @@ export function ResultsTable({ transactions, currentPhase = "idle", statusMessag
         </CardHeader>
         <CardContent>
           {currentPhase === "classification" && transactions.length > 0 && (
-            <div className="mb-4 p-3 bg-blue-500/10 border border-blue-500/20 rounded-lg">
+            <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
               <div className="flex items-center gap-2 text-sm text-blue-700">
                 <Loader2 className="w-4 h-4 animate-spin" />
                 <span className="font-medium">{statusMessage}</span>
