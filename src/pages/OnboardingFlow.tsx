@@ -158,7 +158,7 @@ const OnboardingFlow = () => {
       <Navbar />
       
       {/* Hero Section - Full Height */}
-      <section className="min-h-screen flex flex-col items-center justify-center px-4 md:px-8">
+      <section className="min-h-[70vh] flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
             <span className="text-foreground">Discover Your</span>
