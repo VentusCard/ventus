@@ -166,7 +166,7 @@ const OnboardingFlow = () => {
             <span className="italic font-light text-muted-foreground">Ventus Smart Rewards</span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-            Most cards reward categories. Ventus rewards you. Set your goals and earn cross-category rewards with personalized deals.
+            Most cards reward fixed categories. Ventus rewards you. Set your goals and earn cross-category rewards with Ventus Card.
           </p>
           
           {/* Get Started button */}
