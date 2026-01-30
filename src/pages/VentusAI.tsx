@@ -4,13 +4,9 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { Brain, Target, TrendingUp, Zap, Shield, ArrowRight, Sparkles, ChevronDown } from "lucide-react";
+import { motion } from "framer-motion";
 
 const VentusAI = () => {
-  // Auto-scroll disabled per user request
-  const scrollToChat = () => {
-    // Scroll functionality disabled
-  };
-
   const features = [{
     icon: Brain,
     title: "Intelligent Analysis",
@@ -35,24 +31,6 @@ const VentusAI = () => {
     icon: Sparkles,
     title: "AI Shopping",
     description: "Secures eligible deals and completes wishlist items purchases with your permission"
-  }];
-
-  const steps = [{
-    step: "1",
-    title: "Connect Your Data",
-    description: "Securely link your financial accounts to give Ventus AI insight into your spending patterns"
-  }, {
-    step: "2",
-    title: "AI Analysis",
-    description: "Our AI analyzes your transactions, categories, and preferences to understand your lifestyle"
-  }, {
-    step: "3",
-    title: "Personalized Strategy",
-    description: "Receive a customized reward optimization strategy tailored specifically to your spending habits"
-  }, {
-    step: "4",
-    title: "Continuous Optimization",
-    description: "Ventus AI continuously learns and adapts, ensuring you're always maximizing your rewards"
   }];
 
   return (
@@ -92,25 +70,36 @@ const VentusAI = () => {
       </section>
 
       {/* What Ventus AI Does Section */}
-      <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-16">
+      <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto border-t border-border/50">
+        <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Our Suite of Advanced AI Tools</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
             Powerful capabilities that put the right deals in front of you at the right time.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {features.map((feature, index) => (
-            <Card key={index} className="p-8 bg-[#0064E0]/10 border-[#0064E0]/20 hover:border-[#0064E0]/40 transition-all duration-300">
-              <div className="w-12 h-12 bg-[#0064E0]/20 rounded-xl flex items-center justify-center mb-6">
-                <feature.icon className="h-6 w-6 text-[#0064E0]" />
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ 
+                duration: 0.5, 
+                delay: index * 0.1,
+                ease: [0.25, 0.46, 0.45, 0.94]
+              }}
+              className="p-6 rounded-xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300"
+            >
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                <feature.icon className="h-6 w-6 text-primary" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-3">{feature.title}</h3>
+              <h3 className="text-xl font-semibold text-foreground mb-2">{feature.title}</h3>
               <p className="text-muted-foreground leading-relaxed">
                 {feature.description}
               </p>
-            </Card>
+            </motion.div>
           ))}
         </div>
       </section>
@@ -123,8 +112,8 @@ const VentusAI = () => {
 
 
       {/* CTA Section */}
-      <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto text-center">
-        <Card className="max-w-4xl mx-auto p-12 md:p-16 bg-card border border-border/50 shadow-lg">
+      <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto text-center border-t border-border/50">
+        <Card className="max-w-4xl mx-auto p-8 md:p-12 bg-card border border-border/50 shadow-lg">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Ready to Maximize Your Rewards?
           </h2>
