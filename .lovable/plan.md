@@ -1,102 +1,160 @@
 
-# Move Progress Bar Above Navigation Buttons
+# Add Animations to Hero Content
 
-## Current Layout (lines 222-259)
+## Overview
 
-```text
-┌─────────────────────────────┐
-│      Progress Bar           │  ← Currently at top (lines 223-235)
-│      (1) ─── (2) ─── (3)    │
-├─────────────────────────────┤
-│                             │
-│      Step Content           │  ← Step 1, 2, or 3 content (lines 237-244)
-│      (areas of interest)    │
-│                             │
-├─────────────────────────────┤
-│   [Back]          [Next]    │  ← Navigation buttons (lines 246-259)
-└─────────────────────────────┘
-```
+Adding staggered entrance animations to the `/smartrewards` hero section to create a polished, engaging first impression. The animations will cascade from top to bottom with increasing delays.
 
-## Proposed Layout
+---
+
+## Animation Strategy
 
 ```text
-┌─────────────────────────────┐
-│                             │
-│      Step Content           │  ← Step 1, 2, or 3 content
-│      (areas of interest)    │
-│                             │
-├─────────────────────────────┤
-│      Progress Bar           │  ← Move to here (between content and buttons)
-│      (1) ─── (2) ─── (3)    │
-├─────────────────────────────┤
-│   [Back]          [Next]    │  ← Navigation buttons stay at bottom
-└─────────────────────────────┘
+┌──────────────────────────────────────────────┐
+│                                              │
+│   "One Card. Your Lifestyle."     ← 0ms     │
+│   "5x Rewards on Everything..."   ← 150ms   │
+│   Description text                ← 300ms   │
+│                                              │
+│   ┌─────┐  ┌─────┐  ┌─────┐                 │
+│   │Card1│  │Card2│  │Card3│       ← 450ms   │
+│   └─────┘  └─────┘  └─────┘         (staggered)
+│                                              │
+│   Social proof text               ← 750ms   │
+│                                              │
+│   [ See How It Works ]            ← 900ms   │
+│                                              │
+└──────────────────────────────────────────────┘
 ```
 
 ---
 
-## Changes Required
+## Available Animations
 
-**File:** `src/pages/OnboardingFlow.tsx`
+From `tailwind.config.ts`, these animations are already configured:
 
-### Step 1: Remove Progress Bar from Current Position (lines 222-235)
+| Animation | Effect | Duration |
+|-----------|--------|----------|
+| `animate-unleashed` | Scale + fade up | 1.2s |
+| `animate-fadeUpSoft` | Fade + slide up | 0.4s |
+| `animate-shimmer` | Brightness pulse | 3s infinite |
+| `animate-premium-glow` | Box shadow pulse | 3s infinite |
 
-Delete the entire progress section wrapper:
+**Recommended:** Use `animate-fadeUpSoft` for entrance animations (0.4s is snappy and professional).
+
+---
+
+## Implementation Details
+
+### File: `src/pages/OnboardingFlow.tsx`
+
+### 1. Add CSS Animation Delay Utilities (inline styles)
+
+Since Tailwind doesn't have built-in animation-delay utilities, we'll use inline styles for staggered delays.
+
+### 2. Hero Content Changes (lines 162-216)
+
+#### H1 - Main Headline (line 163)
 ```tsx
-{/* Progress Section */}
-<div className="mb-4 md:mb-6 lg:mb-8">
-  {/* Step Progress Bar */}
-  <div className="flex items-center justify-center mb-4 md:mb-6 lg:mb-8 overflow-x-auto pt-2 pb-2 md:pt-4 md:pb-4 px-4 md:px-8">
-    ...
-  </div>
-</div>
+// Current:
+<h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground">
+
+// Proposed:
+<h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground animate-fadeUpSoft opacity-0" 
+    style={{ animationDelay: '0ms', animationFillMode: 'forwards' }}>
 ```
 
-### Step 2: Insert Progress Bar Between Step Content and Navigation (after line 244, before line 246)
-
-Add the progress bar with adjusted spacing (no bottom margin needed since navigation buttons follow):
-
+#### Tagline (line 166)
 ```tsx
-{/* Step Content */}
-<div className="bg-card/80 md:border ...">
-  {renderStep()}
-</div>
+// Current:
+<p className="text-lg md:text-xl lg:text-2xl font-semibold text-primary mb-2 md:mb-3 lg:mb-4">
 
-{/* Progress Bar - Between content and navigation */}
-<div className="flex items-center justify-center overflow-x-auto pt-2 pb-2 md:pt-4 md:pb-4 px-4 md:px-8 mb-4 md:mb-6">
-  {Array.from({ length: totalSteps }, (_, i) => i + 1).map(stepNumber => (
-    <div key={stepNumber} className="flex items-center">
-      <div className={`h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-all duration-300 flex-shrink-0 ${
-        step > stepNumber 
-          ? 'bg-primary text-white' 
-          : step === stepNumber 
-            ? 'bg-primary text-white ring-4 ring-primary/30' 
-            : 'bg-muted text-muted-foreground border-2 border-border'
-      }`}>
-        {step > stepNumber ? <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5" /> : stepNumber}
-      </div>
-      {stepNumber < totalSteps && (
-        <div className={`h-0.5 md:h-1 w-12 md:w-20 lg:w-32 transition-all duration-300 flex-shrink-0 ${
-          step > stepNumber ? 'bg-primary' : 'bg-border'
-        }`}></div>
-      )}
-    </div>
-  ))}
-</div>
+// Proposed:
+<p className="text-lg md:text-xl lg:text-2xl font-semibold text-primary mb-2 md:mb-3 lg:mb-4 animate-fadeUpSoft opacity-0"
+   style={{ animationDelay: '150ms', animationFillMode: 'forwards' }}>
+```
 
-{/* Navigation */}
-<div className="flex justify-between items-center max-w-2xl mx-auto">
-  ...
-</div>
+#### Description (line 169)
+```tsx
+// Current:
+<p className="text-sm md:text-base lg:text-lg text-muted-foreground mb-4 md:mb-6 lg:mb-8 lg:whitespace-nowrap">
+
+// Proposed:
+<p className="text-sm md:text-base lg:text-lg text-muted-foreground mb-4 md:mb-6 lg:mb-8 lg:whitespace-nowrap animate-fadeUpSoft opacity-0"
+   style={{ animationDelay: '300ms', animationFillMode: 'forwards' }}>
+```
+
+#### Feature Cards Container (line 174)
+```tsx
+// Current:
+<div className="flex flex-col md:grid md:grid-cols-3 gap-2 md:gap-5 mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto px-2 md:px-0">
+
+// Proposed:
+<div className="flex flex-col md:grid md:grid-cols-3 gap-2 md:gap-5 mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto px-2 md:px-0">
+```
+
+#### Individual Feature Cards (lines 175, 184, 193) - Staggered
+```tsx
+// Card 1 (line 175):
+<div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+     style={{ animationDelay: '450ms', animationFillMode: 'forwards' }}>
+
+// Card 2 (line 184):
+<div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+     style={{ animationDelay: '550ms', animationFillMode: 'forwards' }}>
+
+// Card 3 (line 193):
+<div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+     style={{ animationDelay: '650ms', animationFillMode: 'forwards' }}>
+```
+
+#### Social Proof (line 205)
+```tsx
+// Current:
+<p className="text-xs text-muted-foreground mb-2 md:mb-4">
+
+// Proposed:
+<p className="text-xs text-muted-foreground mb-2 md:mb-4 animate-fadeUpSoft opacity-0"
+   style={{ animationDelay: '750ms', animationFillMode: 'forwards' }}>
+```
+
+#### CTA Button Container (line 210)
+```tsx
+// Current:
+<div className="flex justify-center">
+
+// Proposed:
+<div className="flex justify-center animate-fadeUpSoft opacity-0"
+     style={{ animationDelay: '900ms', animationFillMode: 'forwards' }}>
 ```
 
 ---
 
-## Summary
+## Animation Timeline Summary
 
-- Remove the progress bar from lines 222-235
-- Insert it between the step content (line 244) and navigation buttons (line 246)
-- Adjust margins: add `mb-4 md:mb-6` to provide spacing before the navigation buttons
-- The step content card margin changes from `mb-4 md:mb-6 lg:mb-8` to `mb-4 md:mb-6` since the progress bar now sits below it
+| Element | Delay | Duration | Total Time |
+|---------|-------|----------|------------|
+| H1 "One Card..." | 0ms | 400ms | 400ms |
+| Tagline "5x Rewards..." | 150ms | 400ms | 550ms |
+| Description | 300ms | 400ms | 700ms |
+| Card 1 | 450ms | 400ms | 850ms |
+| Card 2 | 550ms | 400ms | 950ms |
+| Card 3 | 650ms | 400ms | 1050ms |
+| Social proof | 750ms | 400ms | 1150ms |
+| CTA Button | 900ms | 400ms | 1300ms |
 
-**File to modify:** `src/pages/OnboardingFlow.tsx`
+Full animation sequence completes in ~1.3 seconds - snappy but elegant.
+
+---
+
+## Technical Notes
+
+- Using `opacity-0` as initial state, with `animationFillMode: 'forwards'` to retain final state
+- The `animate-fadeUpSoft` animation includes opacity transition (0 → 1) and translateY (20px → 0)
+- Respects `prefers-reduced-motion` via existing CSS media query in `animations.css`
+
+---
+
+## File to Modify
+
+- `src/pages/OnboardingFlow.tsx` (lines 163-215) - Add animation classes and inline delay styles
