@@ -1,91 +1,117 @@
 
-# Add Glass Transition Effect to SmartRewards Cards
+# Apply Glass Transition Effect Across the Site
 
 ## Overview
-Add a glassmorphism transition effect to the "How It Works" cards on the /smartrewards page. When users hover over the cards, they'll transition from solid to a premium glass appearance.
+Apply the `.glass-transition-card` class to create a consistent glass transition effect on hover across all interactive cards throughout the site. This will unify the premium visual aesthetic.
 
-## Current State
-The three cards currently have:
-- Solid `bg-card` background
-- `border border-border/50`
-- Hover: `scale-[1.02]`, `shadow-lg`, `shadow-primary/10`, `border-primary/30`
+## Cards to Update
 
-## Implementation
+### 1. VentusAI Page - Feature Cards
+**File:** `src/pages/VentusAI.tsx` (lines 83-103)
 
-### Add Glass Transition CSS Class
-Add a new utility class in `src/styles/components.css` that creates a smooth glass transition on hover:
-
-```css
-/* Glass transition effect for cards */
-.glass-transition-card {
-  position: relative;
-  background: hsl(var(--card));
-  border: 1px solid hsl(var(--border) / 0.5);
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.glass-transition-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background: linear-gradient(
-    135deg,
-    hsl(var(--primary) / 0.08) 0%,
-    hsl(var(--primary) / 0.03) 50%,
-    transparent 100%
-  );
-  opacity: 0;
-  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  pointer-events: none;
-}
-
-.glass-transition-card:hover {
-  background: hsl(var(--card) / 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-color: hsl(var(--primary) / 0.3);
-  box-shadow: 
-    0 8px 32px hsl(var(--primary) / 0.15),
-    0 4px 16px hsl(var(--background) / 0.1),
-    inset 0 1px 0 hsl(255 255 255 / 0.1);
-  transform: scale(1.02) translateY(-2px);
-}
-
-.glass-transition-card:hover::before {
-  opacity: 1;
-}
+**Current classes:**
+```
+p-6 rounded-xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300
 ```
 
-### Update OnboardingFlow.tsx Cards
-Replace the current hover classes on the three cards with the new glass transition class:
-
-**Lines 178, 188, 198** - Update each card's className:
-
-**Before:**
+**New classes:**
 ```
-bg-card border border-border/50 animate-fadeUpSoft opacity-0 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30
+glass-transition-card p-6 rounded-xl
 ```
 
-**After:**
+Six feature cards will receive the glass effect.
+
+---
+
+### 2. VentusAI Page - CTA Card
+**File:** `src/pages/VentusAI.tsx` (line 116)
+
+**Current classes:**
 ```
-glass-transition-card rounded-xl animate-fadeUpSoft opacity-0
+max-w-4xl mx-auto p-8 md:p-12 bg-card border border-border/50 shadow-lg
 ```
 
-## Effect Description
-- **Idle state**: Solid card background matching the current theme
-- **Hover transition**: 
-  - Background becomes semi-transparent (70% opacity)
-  - Backdrop blur activates (20px blur)
-  - Subtle gradient overlay fades in
-  - Border gains primary color glow
-  - Card lifts slightly with scale and translateY
-  - Premium shadow appears
-- **Smooth 0.4s cubic-bezier easing** for fluid feel
+**New classes:**
+```
+glass-transition-card max-w-4xl mx-auto p-8 md:p-12
+```
+
+---
+
+### 3. Benefits Page - Pricing Tier Cards
+**File:** `src/components/Benefits.tsx` (lines 65-87)
+
+**Current classes:**
+```
+bg-card border-border [+ highlighted ring styles]
+```
+
+**New classes:**
+```
+glass-transition-card [+ highlighted ring styles]
+```
+
+Three pricing tier cards will receive the effect.
+
+---
+
+### 4. Partners Page - Tool Cards
+**File:** `src/components/partners/PartnerToolsSection.tsx` (lines 176-228)
+
+**Current classes:**
+```
+group hover:shadow-xl transition-all duration-500 border-border bg-card hover:scale-[1.02] animate-fade-in overflow-hidden relative
+```
+
+**New classes:**
+```
+glass-transition-card group animate-fade-in overflow-hidden relative
+```
+
+Six partner tool cards will receive the effect.
+
+---
+
+### 5. JoinWaitlist Page - Form Card
+**File:** `src/pages/JoinWaitlist.tsx` (line 116)
+
+**Current classes:**
+```
+bg-card border-border overflow-hidden mx-2 md:mx-0 rounded-xl
+```
+
+**New classes:**
+```
+glass-transition-card overflow-hidden mx-2 md:mx-0 rounded-xl
+```
+
+---
+
+## Technical Summary
+
+| Page | Component | Cards Count |
+|------|-----------|-------------|
+| `/ventus-ai` | Feature grid | 6 |
+| `/ventus-ai` | CTA section | 1 |
+| `/benefits` | Pricing tiers | 3 |
+| `/partners` | Tool cards | 6 |
+| `/waitlist` | Form card | 1 |
+| **Total** | | **17 cards** |
 
 ## Files to Modify
 
 | File | Change |
 |------|--------|
-| `src/styles/components.css` | Add `.glass-transition-card` class with hover states |
-| `src/pages/OnboardingFlow.tsx` | Apply new class to three "How It Works" cards |
+| `src/pages/VentusAI.tsx` | Apply class to 6 feature cards + 1 CTA card |
+| `src/components/Benefits.tsx` | Apply class to 3 pricing tier cards |
+| `src/components/partners/PartnerToolsSection.tsx` | Apply class to 6 tool cards |
+| `src/pages/JoinWaitlist.tsx` | Apply class to form card |
+
+## Effect Behavior
+All cards will share the same premium glass transition:
+- Smooth 0.4s transition on hover
+- Semi-transparent background with 20px blur
+- Subtle gradient overlay fade-in
+- Primary color border glow
+- Slight lift with scale and translateY
+- Premium shadow appearance
