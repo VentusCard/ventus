@@ -73,7 +73,7 @@ const VentusAI = () => {
       <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto border-t border-border/50">
         <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Your Lifestyle, Understood</h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-xl text-muted-foreground">
             We learn what matters to you, then put the right rewards in your hands at the perfect moment.
           </p>
         </div>
