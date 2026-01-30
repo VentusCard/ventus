@@ -29,9 +29,9 @@ const AboutUs = () => {
       <Navbar />
       
       {/* Story Content Section */}
-      <section className="pt-32 pb-20 px-4 md:px-8">
+      <section className="pt-24 pb-12 px-4 md:px-8">
         <div className="max-w-4xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-foreground leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
             Our <span className="italic font-light text-muted-foreground">Story</span>
           </h1>
           
@@ -56,16 +56,16 @@ const AboutUs = () => {
       </section>
 
       {/* Values Section */}
-      <section className="py-20 px-4 md:px-8 border-t border-border/50">
+      <section className="py-12 px-4 md:px-8 border-t border-border/50">
         <div className="max-w-6xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">What drives us</p>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
               Our Values
             </h2>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {values.map((value, index) => (
               <motion.div 
                 key={index}
@@ -77,9 +77,9 @@ const AboutUs = () => {
                   delay: index * 0.1,
                   ease: [0.25, 0.46, 0.45, 0.94]
                 }}
-                className="p-8 rounded-2xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default"
+                className="p-6 rounded-2xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default"
               >
-                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
+                <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-4">
                   <value.icon className="h-7 w-7 text-primary" />
                 </div>
                 <h3 className="text-xl font-semibold text-foreground mb-3">{value.title}</h3>
@@ -91,12 +91,12 @@ const AboutUs = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 md:px-8 border-t border-border/50">
+      <section className="py-12 px-4 md:px-8 border-t border-border/50">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
             Ready to Experience Ventus?
           </h2>
-          <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
             Discover how Ventus Card can transform your spending into personalized rewards that align with your lifestyle.
           </p>
           <Link to="/smartrewards">
