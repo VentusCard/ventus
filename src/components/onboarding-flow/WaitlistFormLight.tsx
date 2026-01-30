@@ -215,8 +215,8 @@ const WaitlistFormLight = ({ onboardingData }: WaitlistFormLightProps) => {
   return (
     <>
     <Card className="overflow-hidden md:border md:border-border/60 shadow-lg bg-card">
-      <div className="h-2 bg-gradient-to-r from-primary to-primary/70"></div>
-      <CardContent className="p-4 md:p-8">
+      <div className="h-1.5 md:h-2 bg-gradient-to-r from-primary to-primary/70"></div>
+      <CardContent className="p-3 md:p-6 lg:p-8">
         <h3 className="font-display text-lg md:text-2xl font-bold mb-4 flex items-center gap-3 text-foreground">
           <div className="p-2 bg-primary/10 rounded-xl flex-shrink-0">
             <Sparkles className="text-primary" size={20} />
@@ -227,7 +227,7 @@ const WaitlistFormLight = ({ onboardingData }: WaitlistFormLightProps) => {
           Be the first to experience Ventus. We're launching soon—exclusively for eligible U.S. customers, starting with our waitlist.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
           <div className="form-field">
             <label className="block text-sm md:text-base font-medium mb-2 text-foreground">
               First Name

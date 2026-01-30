@@ -158,51 +158,57 @@ const OnboardingFlow = () => {
       <Navbar />
       
       {/* Hero Section with How It Works */}
-      <section className="py-12 md:py-20 lg:py-24 flex flex-col items-center justify-center px-4 md:px-8">
+      <section className="py-8 md:py-12 lg:py-24 flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-4 text-foreground">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground">
             One Card. Your Lifestyle.
           </h1>
-          <p className="text-xl md:text-2xl font-semibold text-primary mb-4">
+          <p className="text-lg md:text-xl lg:text-2xl font-semibold text-primary mb-2 md:mb-3 lg:mb-4">
             5x Rewards on Everything That Matches Your Life
           </p>
-          <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 lg:whitespace-nowrap">
+          <p className="text-sm md:text-base lg:text-lg text-muted-foreground mb-4 md:mb-6 lg:mb-8 lg:whitespace-nowrap">
             Stop juggling cards. Ventus Card gives you 5x on every purchase that fits your holistic lifestyle automatically and intelligently.
           </p>
           
-          {/* How It Works - 3 Column Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 mb-8 max-w-4xl mx-auto px-2 md:px-0">
-            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl bg-card border border-border/50">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3">
-                <Target className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+          {/* How It Works - 3 Column Grid - Horizontal on mobile */}
+          <div className="flex flex-col md:grid md:grid-cols-3 gap-2 md:gap-5 mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto px-2 md:px-0">
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
+                <Target className="w-4 h-4 md:w-6 md:h-6 text-primary" />
               </div>
-              <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">Choose Your Goal</h3>
-              <p className="text-muted-foreground text-xs md:text-sm">Sports, wellness, pets, gaming & more</p>
+              <div className="flex-1 md:flex-none text-left md:text-center">
+                <h3 className="text-sm md:text-base font-semibold text-foreground">Choose Your Goal</h3>
+                <p className="text-muted-foreground text-xs md:text-sm">Sports, wellness, pets, gaming & more</p>
+              </div>
             </div>
-            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl bg-card border border-border/50">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3">
-                <Brain className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
+                <Brain className="w-4 h-4 md:w-6 md:h-6 text-primary" />
               </div>
-              <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">AI Matches & Finds Deals</h3>
-              <p className="text-muted-foreground text-xs md:text-sm">Spots rewards and surfaces deals across 1000s of merchants</p>
+              <div className="flex-1 md:flex-none text-left md:text-center">
+                <h3 className="text-sm md:text-base font-semibold text-foreground">AI Matches & Finds Deals</h3>
+                <p className="text-muted-foreground text-xs md:text-sm">Spots rewards and surfaces deals across 1000s of merchants</p>
+              </div>
             </div>
-            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl bg-card border border-border/50">
-              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3">
-                <Gift className="w-5 h-5 md:w-6 md:h-6 text-primary" />
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
+                <Gift className="w-4 h-4 md:w-6 md:h-6 text-primary" />
               </div>
-              <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">Earn & Save More</h3>
-              <p className="text-muted-foreground text-xs md:text-sm">5x rewards plus money-saving deals you'd miss</p>
+              <div className="flex-1 md:flex-none text-left md:text-center">
+                <h3 className="text-sm md:text-base font-semibold text-foreground">Earn & Save More</h3>
+                <p className="text-muted-foreground text-xs md:text-sm">5x rewards plus money-saving deals you'd miss</p>
+              </div>
             </div>
           </div>
           
           {/* Social Proof */}
-          <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
+          <p className="text-xs text-muted-foreground mb-2 md:mb-4">
             Join 1,500+ early adopters • Limited access
           </p>
           
           {/* CTA Button */}
           <div className="flex justify-center">
-            <Button size="lg" className="px-8 py-6 text-lg" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
+            <Button size="default" className="px-6 py-4 md:px-8 md:py-6 text-base md:text-lg" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
             behavior: 'smooth'
           })}>
               See How It Works
@@ -212,24 +218,24 @@ const OnboardingFlow = () => {
       </section>
       
       <div className="flex-grow" id="onboarding-content">
-        <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-8 md:py-16 pb-6">
+        <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-4 md:py-8 lg:py-16 pb-4 md:pb-6">
           {/* Progress Section */}
-          <div className="mb-8">
+          <div className="mb-4 md:mb-6 lg:mb-8">
             {/* Step Progress Bar */}
-            <div className="flex items-center justify-center mb-8 overflow-x-auto pt-4 pb-4 px-4 md:px-8">
+            <div className="flex items-center justify-center mb-4 md:mb-6 lg:mb-8 overflow-x-auto pt-2 pb-2 md:pt-4 md:pb-4 px-4 md:px-8">
               {Array.from({
               length: totalSteps
             }, (_, i) => i + 1).map(stepNumber => <div key={stepNumber} className="flex items-center">
-                  <div className={`h-10 w-10 md:h-12 md:w-12 rounded-full flex items-center justify-center text-sm font-semibold transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-primary text-white' : step === stepNumber ? 'bg-primary text-white ring-4 ring-primary/30' : 'bg-muted text-muted-foreground border-2 border-border'}`}>
-                    {step > stepNumber ? <CheckCircle2 className="h-4 w-4 md:h-5 md:w-5" /> : stepNumber}
+                  <div className={`h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-primary text-white' : step === stepNumber ? 'bg-primary text-white ring-4 ring-primary/30' : 'bg-muted text-muted-foreground border-2 border-border'}`}>
+                    {step > stepNumber ? <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5" /> : stepNumber}
                   </div>
-                  {stepNumber < totalSteps && <div className={`h-1 w-16 md:w-24 lg:w-32 transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-primary' : 'bg-border'}`}></div>}
+                  {stepNumber < totalSteps && <div className={`h-0.5 md:h-1 w-12 md:w-20 lg:w-32 transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-primary' : 'bg-border'}`}></div>}
                 </div>)}
             </div>
           </div>
           
           {/* Step Content */}
-          <div className="bg-card/80 md:border md:border-border/60 rounded-xl backdrop-blur-sm p-4 md:p-8 mb-6 md:mb-8 transition-all duration-300" id="onboarding-step-content" style={{
+          <div className="bg-card/80 md:border md:border-border/60 rounded-xl backdrop-blur-sm p-3 md:p-6 lg:p-8 mb-4 md:mb-6 lg:mb-8 transition-all duration-300" id="onboarding-step-content" style={{
           touchAction: 'manipulation',
           pointerEvents: 'auto',
           WebkitTapHighlightColor: 'transparent'

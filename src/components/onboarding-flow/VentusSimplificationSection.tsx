@@ -27,48 +27,48 @@ const VentusSimplificationSection = () => {
     title: "Real-Time Adaptation",
     description: "Automatically adjusts to new merchants and better reward opportunities"
   }];
-  return <div className="mb-6">
-      <div className="text-center mb-8">
-        <h3 className="font-display text-2xl md:text-3xl font-bold mb-4 text-white">
+  return <div className="mb-4 md:mb-6">
+      <div className="text-center mb-4 md:mb-6 lg:mb-8">
+        <h3 className="font-display text-lg md:text-2xl lg:text-3xl font-bold mb-2 md:mb-4 text-white">
           Powered by Ventus AI
         </h3>
-        <p className="text-lg text-white/80 w-full">
+        <p className="text-sm md:text-base lg:text-lg text-white/80 w-full">
           Experience the future of rewards with AI that works behind the scenes to maximize your benefits automatically.
         </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-8">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 lg:gap-6 mb-4 md:mb-6 lg:mb-8">
         {aiFeatures.map((feature, index) => {
           const Icon = feature.icon;
           return (
-            <Card key={index} className="premium-card p-4 md:p-6">
+            <Card key={index} className="premium-card p-3 md:p-4 lg:p-6">
               <CardContent className="p-0">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-blue-500/20 rounded-lg">
-                    <Icon className="h-6 w-6 text-blue-400" />
+                <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
+                  <div className="p-1.5 md:p-2 bg-blue-500/20 rounded-lg">
+                    <Icon className="h-5 w-5 md:h-6 md:w-6 text-blue-400" />
                   </div>
-                  <h4 className="font-semibold text-lg text-white">{feature.title}</h4>
+                  <h4 className="font-semibold text-base md:text-lg text-white">{feature.title}</h4>
                 </div>
-                <p className="text-white/70">{feature.description}</p>
+                <p className="text-sm md:text-base text-white/70">{feature.description}</p>
               </CardContent>
             </Card>
           );
         })}
       </div>
 
-      <div className="grid md:grid-cols-3 gap-3 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-2 md:gap-4 lg:gap-6">
         {simplicityBenefits.map((benefit, index) => {
           const Icon = benefit.icon;
           return (
-            <Card key={index} className="premium-card p-4 md:p-6">
+            <Card key={index} className="premium-card p-3 md:p-4 lg:p-6">
               <CardContent className="p-0">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="p-2 bg-green-500/20 rounded-lg">
-                    <Icon className="h-6 w-6 text-green-400" />
+                <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
+                  <div className="p-1.5 md:p-2 bg-green-500/20 rounded-lg">
+                    <Icon className="h-5 w-5 md:h-6 md:w-6 text-green-400" />
                   </div>
-                  <h4 className="font-semibold text-lg text-white">{benefit.title}</h4>
+                  <h4 className="font-semibold text-base md:text-lg text-white">{benefit.title}</h4>
                 </div>
-                <p className="text-white/70">{benefit.description}</p>
+                <p className="text-sm md:text-base text-white/70">{benefit.description}</p>
               </CardContent>
             </Card>
           );
