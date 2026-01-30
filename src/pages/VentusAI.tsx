@@ -10,7 +10,7 @@ const VentusAI = () => {
   const features = [{
     icon: Brain,
     title: "Lifestyle Intelligence",
-    description: "We see beyond transactions to understand your passions—whether you're a weekend golfer, a coffee enthusiast, or a travel adventurer."
+    description: "We see beyond transactions to understand your passions, whether you're a weekend golfer, a coffee enthusiast, or a travel adventurer."
   }, {
     icon: Sparkles,
     title: "Rewards That Feel Personal",
@@ -18,15 +18,15 @@ const VentusAI = () => {
   }, {
     icon: Target,
     title: "Deals That Make Sense",
-    description: "Our AI connects related merchants intelligently—golf courses with equipment stores, coffee shops with bakeries—so you never miss a relevant reward."
+    description: "Our AI connects related merchants intelligently, like golf courses with equipment stores and coffee shops with bakeries, so you never miss a relevant reward."
   }, {
     icon: MapPin,
     title: "Rewards Wherever You Go",
-    description: "From your neighborhood spots to new cities you're exploring, we surface local deals that match your lifestyle—at home or on the road."
+    description: "From your neighborhood spots to new cities you're exploring, we surface local deals that match your lifestyle, at home or on the road."
   }, {
     icon: TrendingUp,
     title: "Savings Before You Ask",
-    description: "We notice your patterns and surface rewards proactively—alerting you to deals at merchants you love before you even think to look."
+    description: "We notice your patterns and surface rewards proactively, alerting you to deals at merchants you love before you even think to look."
   }, {
     icon: Shield,
     title: "Your Data, Protected",
@@ -74,7 +74,7 @@ const VentusAI = () => {
         <div className="text-center mb-10">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Your Lifestyle, Understood</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            We learn what matters to you—then put the right rewards in your hands at the perfect moment.
+            We learn what matters to you, then put the right rewards in your hands at the perfect moment.
           </p>
         </div>
 
