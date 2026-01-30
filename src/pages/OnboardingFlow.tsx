@@ -175,7 +175,7 @@ const OnboardingFlow = () => {
           
           {/* How It Works - 3 Column Grid - Horizontal on mobile */}
           <div className="flex flex-col md:grid md:grid-cols-3 gap-2 md:gap-5 mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto px-2 md:px-0">
-            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30"
                  style={{ animationDelay: '450ms', animationFillMode: 'forwards' }}>
               <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
                 <Target className="w-4 h-4 md:w-6 md:h-6 text-primary" />
@@ -185,7 +185,7 @@ const OnboardingFlow = () => {
                 <p className="text-muted-foreground text-xs md:text-sm">Sports, wellness, pets, gaming & more</p>
               </div>
             </div>
-            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30"
                  style={{ animationDelay: '550ms', animationFillMode: 'forwards' }}>
               <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
                 <Brain className="w-4 h-4 md:w-6 md:h-6 text-primary" />
@@ -195,7 +195,7 @@ const OnboardingFlow = () => {
                 <p className="text-muted-foreground text-xs md:text-sm">Spots rewards and surfaces deals across 1000s of merchants</p>
               </div>
             </div>
-            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30"
                  style={{ animationDelay: '650ms', animationFillMode: 'forwards' }}>
               <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
                 <Gift className="w-4 h-4 md:w-6 md:h-6 text-primary" />
