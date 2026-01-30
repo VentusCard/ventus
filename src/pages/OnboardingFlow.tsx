@@ -3,12 +3,11 @@ import { useNavigate, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, CheckCircle2, ChevronDown } from "lucide-react";
+import { ArrowLeft, ArrowRight, CheckCircle2, Target, Brain, Gift } from "lucide-react";
 import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
 import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
 import WaitlistFormLight from "@/components/onboarding-flow/WaitlistFormLight";
-import HowItWorksQuickView from "@/components/onboarding-flow/HowItWorksQuickView";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
@@ -158,22 +157,46 @@ const OnboardingFlow = () => {
   return <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="min-h-[70vh] flex flex-col items-center justify-center px-4 md:px-8">
+      {/* Hero Section with How It Works */}
+      <section className="py-16 md:py-24 flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-foreground">
             One Card. Your Lifestyle.
           </h1>
-          <p className="text-2xl md:text-3xl font-semibold text-primary mb-6">
+          <p className="text-xl md:text-2xl font-semibold text-primary mb-4">
             5x Rewards on Everything That Matches Your Life
           </p>
-          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-            Traditional cards make you juggle multiple cards and remember categories. 
-            Ventus AI finds every purchase that fits your life and gives you 5x—automatically.
+          <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+            Stop juggling cards. Ventus AI gives you 5x on every purchase that fits your lifestyle—automatically.
           </p>
           
+          {/* How It Works - 3 Column Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 max-w-4xl mx-auto">
+            <div className="flex flex-col items-center text-center p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+                <Target className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-base font-semibold text-foreground mb-1">Choose Your Goal</h3>
+              <p className="text-muted-foreground text-sm">Sports, wellness, pets, gaming & more</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+                <Brain className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-base font-semibold text-foreground mb-1">AI Does The Work</h3>
+              <p className="text-muted-foreground text-sm">Matches purchases across 1000s of merchants</p>
+            </div>
+            <div className="flex flex-col items-center text-center p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
+                <Gift className="w-6 h-6 text-primary" />
+              </div>
+              <h3 className="text-base font-semibold text-foreground mb-1">Earn More</h3>
+              <p className="text-muted-foreground text-sm">5x on purchases other cards miss</p>
+            </div>
+          </div>
+          
           {/* CTA Button */}
-          <div className="flex justify-center mb-4">
+          <div className="flex justify-center mb-3">
             <Button size="lg" className="px-8 py-6 text-lg" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
             behavior: 'smooth'
           })}>
@@ -182,20 +205,11 @@ const OnboardingFlow = () => {
           </div>
           
           {/* Social Proof */}
-          <p className="text-sm text-muted-foreground mb-6">
-            Join 2,500+ early adopters • Limited early access
+          <p className="text-sm text-muted-foreground">
+            Join 1,500+ early adopters • Limited access
           </p>
-          
-          <button className="p-3 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
-          behavior: 'smooth'
-        })}>
-            <ChevronDown className="w-6 h-6" />
-          </button>
         </div>
       </section>
-      
-      {/* How It Works Quick View */}
-      <HowItWorksQuickView />
       
       <div className="flex-grow" id="onboarding-content">
         <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-8 md:py-16 pb-6">
