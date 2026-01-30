@@ -30,12 +30,12 @@ const AboutUs = () => {
       
       {/* Story Content Section */}
       <section className="pt-24 pb-12 px-4 md:px-8">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
             Our <span className="italic font-light text-muted-foreground">Story</span>
           </h1>
           
-          <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+          <div className="space-y-6 text-xl text-muted-foreground leading-relaxed">
             <p>
               Ventus was born out of a simple frustration: juggling multiple credit cards to chase rewards and still missing out.
             </p>
