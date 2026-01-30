@@ -1,84 +1,91 @@
 
-# Update AI Tools Section Content
+# Add Glass Transition Effect to SmartRewards Cards
 
 ## Overview
-Complete rewrite of the AI Tools section to align with Ventus branding positioning while using warm, consumer-friendly language that emphasizes lifestyle benefits and includes new feature capabilities.
+Add a glassmorphism transition effect to the "How It Works" cards on the /smartrewards page. When users hover over the cards, they'll transition from solid to a premium glass appearance.
 
 ## Current State
-The section has 6 generic AI feature cards:
-- Intelligent Analysis
-- Personalized Recommendations
-- Real-time Optimization
-- Instant Insights
-- Secure & Private
-- AI Shopping
+The three cards currently have:
+- Solid `bg-card` background
+- `border border-border/50`
+- Hover: `scale-[1.02]`, `shadow-lg`, `shadow-primary/10`, `border-primary/30`
 
-## Updated Content Plan
+## Implementation
 
-### Section Header
-**Current:**
-- Title: "Our Suite of Advanced AI Tools"
-- Subtitle: "Powerful capabilities that put the right deals in front of you at the right time."
+### Add Glass Transition CSS Class
+Add a new utility class in `src/styles/components.css` that creates a smooth glass transition on hover:
 
-**Updated:**
-- Title: "Your Lifestyle, Understood"
-- Subtitle: "We learn what matters to you—then put the right rewards in your hands at the perfect moment."
+```css
+/* Glass transition effect for cards */
+.glass-transition-card {
+  position: relative;
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border) / 0.5);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-### New Feature Cards (6 total)
+.glass-transition-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    hsl(var(--primary) / 0.08) 0%,
+    hsl(var(--primary) / 0.03) 50%,
+    transparent 100%
+  );
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
 
-#### 1. Lifestyle Intelligence
-- **Icon**: Brain
-- **Title**: "Lifestyle Intelligence"
-- **Description**: "We see beyond transactions to understand your passions—whether you're a weekend golfer, a coffee enthusiast, or a travel adventurer."
+.glass-transition-card:hover {
+  background: hsl(var(--card) / 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-color: hsl(var(--primary) / 0.3);
+  box-shadow: 
+    0 8px 32px hsl(var(--primary) / 0.15),
+    0 4px 16px hsl(var(--background) / 0.1),
+    inset 0 1px 0 hsl(255 255 255 / 0.1);
+  transform: scale(1.02) translateY(-2px);
+}
 
-#### 2. Personalized Rewards
-- **Icon**: Sparkles (swap from Target for more warmth)
-- **Title**: "Rewards That Feel Personal"
-- **Description**: "Every deal recommendation connects to how you actually live, not generic categories. Your gym visits, your favorite restaurants, your travel style."
-
-#### 3. Semantic Deal Matching
-- **Icon**: Target
-- **Title**: "Deals That Make Sense"
-- **Description**: "Our AI connects related merchants intelligently—golf courses with equipment stores, coffee shops with bakeries—so you never miss a relevant reward."
-
-#### 4. Location-Aware Experiences
-- **Icon**: MapPin (new icon)
-- **Title**: "Rewards Wherever You Go"
-- **Description**: "From your neighborhood spots to new cities you're exploring, we surface local deals that match your lifestyle—at home or on the road."
-
-#### 5. Proactive Savings
-- **Icon**: TrendingUp
-- **Title**: "Savings Before You Ask"
-- **Description**: "We notice your patterns and surface rewards proactively—alerting you to deals at merchants you love before you even think to look."
-
-#### 6. Privacy-First AI
-- **Icon**: Shield
-- **Title**: "Your Data, Protected"
-- **Description**: "All personalization happens with enterprise-grade security. We understand your lifestyle without ever sharing your specifics."
-
-## Technical Changes
-
-### File: `src/pages/VentusAI.tsx`
-
-**1. Update icons import** (line 6):
-```tsx
-import { Brain, Target, TrendingUp, Shield, ArrowRight, Sparkles, ChevronDown, MapPin } from "lucide-react";
+.glass-transition-card:hover::before {
+  opacity: 1;
+}
 ```
-- Remove: `Zap`
-- Add: `MapPin`
 
-**2. Replace features array** (lines 10-34):
-Complete replacement with new content following the card structure above.
+### Update OnboardingFlow.tsx Cards
+Replace the current hover classes on the three cards with the new glass transition class:
 
-**3. Update section header** (lines 74-78):
-- New title: "Your Lifestyle, Understood"
-- New subtitle: "We learn what matters to you—then put the right rewards in your hands at the perfect moment."
+**Lines 178, 188, 198** - Update each card's className:
 
-## Content Alignment
+**Before:**
+```
+bg-card border border-border/50 animate-fadeUpSoft opacity-0 transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-primary/10 hover:border-primary/30
+```
 
-This update follows the branding guidelines:
-- Uses warm "we" voice ("We see...", "We learn...", "We notice...")
-- Focuses on lifestyle benefits rather than technical capabilities
-- Avoids business jargon (no "maximize", "optimize", "algorithms")
-- Connects features to real lifestyle scenarios (golf, coffee, travel)
-- Aligns with Ventus positioning on semantic intelligence and lifestyle personalization
+**After:**
+```
+glass-transition-card rounded-xl animate-fadeUpSoft opacity-0
+```
+
+## Effect Description
+- **Idle state**: Solid card background matching the current theme
+- **Hover transition**: 
+  - Background becomes semi-transparent (70% opacity)
+  - Backdrop blur activates (20px blur)
+  - Subtle gradient overlay fades in
+  - Border gains primary color glow
+  - Card lifts slightly with scale and translateY
+  - Premium shadow appears
+- **Smooth 0.4s cubic-bezier easing** for fluid feel
+
+## Files to Modify
+
+| File | Change |
+|------|--------|
+| `src/styles/components.css` | Add `.glass-transition-card` class with hover states |
+| `src/pages/OnboardingFlow.tsx` | Apply new class to three "How It Works" cards |
