@@ -1,80 +1,33 @@
 
-# Add Free Alternative Font for Hero Headline
+# Reduce Hero Section Bottom Spacing
 
-## Overview
+## Current Issue
 
-Adding **Orbitron** as a free Google Font alternative to Horizon. Orbitron has the same geometric, futuristic, all-caps aesthetic that matches logo typography.
+The hero section has large bottom padding values creating excessive empty space:
+- Mobile: `pb-8` (32px)
+- Tablet: `md:pb-12` (48px)  
+- Desktop: `lg:pb-24` (96px)
 
----
+## Proposed Changes
 
-## Font Comparison
+**File:** `src/pages/OnboardingFlow.tsx` (line 161)
 
-| Font | Style | Best For |
-|------|-------|----------|
-| **Orbitron** ✓ | Futuristic, geometric, squared | Logo-style headlines |
-| Rajdhani | Modern, clean, lighter | Body/subheadings |
-| Michroma | Futuristic, condensed | Compact displays |
-
-**Recommendation:** Orbitron - closest match to Horizon's geometric, squared letterforms.
-
----
-
-## Implementation
-
-### Step 1: Add Google Font Import
-
-**File:** `index.html`
-
-Add Orbitron to the existing Google Fonts link:
-```html
-<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Orbitron:wght@400;500;600;700;800;900&family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-```
-
-### Step 2: Register in Tailwind Config
-
-**File:** `tailwind.config.ts`
-
-Add `logo` font family:
-```typescript
-fontFamily: {
-  sans: ['"Rubik"', 'system-ui', '-apple-system', 'sans-serif'],
-  display: ['"Rubik"', 'system-ui', 'sans-serif'],
-  logo: ['"Orbitron"', 'system-ui', 'sans-serif'],  // NEW
-  mono: ['"DM Mono"', 'SF Mono', 'Monaco', 'monospace'],
-},
-```
-
-### Step 3: Apply to Hero Headline
-
-**File:** `src/pages/OnboardingFlow.tsx` (line 160)
+### Change
 
 ```tsx
 // Current:
-<h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground animate-fadeUpSoft opacity-0"
+<section className="pt-16 pb-8 md:pt-20 md:pb-12 lg:pt-28 lg:pb-24 flex flex-col items-center justify-center px-4 md:px-8">
 
 // Proposed:
-<h1 className="font-logo text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground animate-fadeUpSoft opacity-0 tracking-wider"
+<section className="pt-16 pb-4 md:pt-20 md:pb-6 lg:pt-28 lg:pb-8 flex flex-col items-center justify-center px-4 md:px-8">
 ```
 
----
+### Spacing Reduction
 
-## Visual Result
+| Breakpoint | Current | New | Reduction |
+|------------|---------|-----|-----------|
+| Mobile | `pb-8` (32px) | `pb-4` (16px) | 50% |
+| Tablet | `md:pb-12` (48px) | `md:pb-6` (24px) | 50% |
+| Desktop | `lg:pb-24` (96px) | `lg:pb-8` (32px) | 67% |
 
-```text
-Before (Rubik):
-  One Card. Your Lifestyle.
-
-After (Orbitron):
-  ONE CARD. YOUR LIFESTYLE.
-  ▲ Geometric, squared letterforms
-  ▲ Futuristic tech aesthetic
-  ▲ Matches logo style
-```
-
----
-
-## Files to Modify
-
-1. `index.html` - Add Orbitron to Google Fonts import
-2. `tailwind.config.ts` - Add `font-logo` family mapping
-3. `src/pages/OnboardingFlow.tsx` - Apply `font-logo` and `tracking-wider` to H1
+This will tighten the gap between the hero content and the onboarding flow section below while maintaining proportional spacing across screen sizes.
