@@ -8,6 +8,7 @@ import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
 import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
 import WaitlistFormLight from "@/components/onboarding-flow/WaitlistFormLight";
+import HowItWorksQuickView from "@/components/onboarding-flow/HowItWorksQuickView";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 export type LifestyleGoal = "sports" | "wellness" | "pets" | "gamers" | "creatives" | "homeowners";
@@ -157,34 +158,44 @@ const OnboardingFlow = () => {
   return <div className="min-h-screen flex flex-col bg-background">
       <Navbar />
       
-      {/* Hero Section - Full Height */}
+      {/* Hero Section */}
       <section className="min-h-[70vh] flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
-            <span className="text-foreground">Discover Your</span>
-            <br />
-            <span className="italic font-light text-muted-foreground">Ventus Smart Rewards</span>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground">
+            One Card. Your Lifestyle.
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-            Most cards reward fixed categories. Ventus rewards you. Set your goals and earn cross-category rewards with Ventus Card.
+          <p className="text-2xl md:text-3xl font-semibold text-primary mb-6">
+            5x Rewards on Everything That Matches Your Life
+          </p>
+          <p className="text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
+            Traditional cards make you juggle multiple cards and remember categories. 
+            Ventus AI finds every purchase that fits your life and gives you 5x—automatically.
           </p>
           
-          {/* Get Started button */}
-          <div className="flex justify-center mb-8">
+          {/* CTA Button */}
+          <div className="flex justify-center mb-4">
             <Button size="lg" className="px-8 py-6 text-lg" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
             behavior: 'smooth'
           })}>
-              Get Started
+              See How It Works
             </Button>
           </div>
           
-          <button className="mt-4 p-3 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
+          {/* Social Proof */}
+          <p className="text-sm text-muted-foreground mb-6">
+            Join 2,500+ early adopters • Limited early access
+          </p>
+          
+          <button className="p-3 rounded-full text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
           behavior: 'smooth'
         })}>
             <ChevronDown className="w-6 h-6" />
           </button>
         </div>
       </section>
+      
+      {/* How It Works Quick View */}
+      <HowItWorksQuickView />
       
       <div className="flex-grow" id="onboarding-content">
         <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-8 md:py-16 pb-6">
