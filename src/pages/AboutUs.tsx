@@ -35,7 +35,7 @@ const AboutUs = () => {
             Our <span className="italic font-light text-muted-foreground">Story</span>
           </h1>
           
-          <div className="space-y-6 text-xl text-muted-foreground leading-relaxed">
+          <div className="space-y-6 text-2xl text-muted-foreground leading-relaxed">
             <p>
               Ventus was born out of a simple frustration: juggling multiple credit cards to chase rewards and still missing out.
             </p>
