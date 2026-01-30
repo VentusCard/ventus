@@ -20,9 +20,10 @@ export default {
 		},
 		extend: {
 		// Font Families - DM Sans as primary
-			fontFamily: {
+		fontFamily: {
 				sans: ['"Rubik"', 'system-ui', '-apple-system', 'sans-serif'],
 				display: ['"Rubik"', 'system-ui', 'sans-serif'],
+				logo: ['"Orbitron"', 'system-ui', 'sans-serif'],
 				mono: ['"DM Mono"', 'SF Mono', 'Monaco', 'monospace'],
 			},
 
