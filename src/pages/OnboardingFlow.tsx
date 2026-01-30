@@ -158,45 +158,45 @@ const OnboardingFlow = () => {
       <Navbar />
       
       {/* Hero Section with How It Works */}
-      <section className="py-16 md:py-24 flex flex-col items-center justify-center px-4 md:px-8">
+      <section className="py-12 md:py-20 lg:py-24 flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-foreground">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-3 md:mb-4 text-foreground">
             One Card. Your Lifestyle.
           </h1>
           <p className="text-xl md:text-2xl font-semibold text-primary mb-4">
             5x Rewards on Everything That Matches Your Life
           </p>
-          <p className="text-base md:text-lg text-muted-foreground mb-8 md:whitespace-nowrap">
+          <p className="text-base md:text-lg text-muted-foreground mb-6 md:mb-8 lg:whitespace-nowrap">
             Stop juggling cards. Ventus Card gives you 5x on every purchase that fits your holistic lifestyle automatically and intelligently.
           </p>
           
           {/* How It Works - 3 Column Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10 max-w-4xl mx-auto">
-            <div className="flex flex-col items-center text-center p-5 rounded-xl bg-card border border-border/50">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                <Target className="w-6 h-6 text-primary" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-5 mb-8 max-w-4xl mx-auto px-2 md:px-0">
+            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3">
+                <Target className="w-5 h-5 md:w-6 md:h-6 text-primary" />
               </div>
-              <h3 className="text-base font-semibold text-foreground mb-1">Choose Your Goal</h3>
-              <p className="text-muted-foreground text-sm">Sports, wellness, pets, gaming & more</p>
+              <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">Choose Your Goal</h3>
+              <p className="text-muted-foreground text-xs md:text-sm">Sports, wellness, pets, gaming & more</p>
             </div>
-            <div className="flex flex-col items-center text-center p-5 rounded-xl bg-card border border-border/50">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                <Brain className="w-6 h-6 text-primary" />
+            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3">
+                <Brain className="w-5 h-5 md:w-6 md:h-6 text-primary" />
               </div>
-              <h3 className="text-base font-semibold text-foreground mb-1">AI Matches & Finds Deals</h3>
-              <p className="text-muted-foreground text-sm">Spots rewards and surfaces deals across 1000s of merchants</p>
+              <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">AI Matches & Finds Deals</h3>
+              <p className="text-muted-foreground text-xs md:text-sm">Spots rewards and surfaces deals across 1000s of merchants</p>
             </div>
-            <div className="flex flex-col items-center text-center p-5 rounded-xl bg-card border border-border/50">
-              <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
-                <Gift className="w-6 h-6 text-primary" />
+            <div className="flex flex-col items-center text-center p-4 md:p-5 rounded-xl bg-card border border-border/50">
+              <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center mb-2 md:mb-3">
+                <Gift className="w-5 h-5 md:w-6 md:h-6 text-primary" />
               </div>
-              <h3 className="text-base font-semibold text-foreground mb-1">Earn & Save More</h3>
-              <p className="text-muted-foreground text-sm">5x rewards plus money-saving deals you'd miss</p>
+              <h3 className="text-sm md:text-base font-semibold text-foreground mb-1">Earn & Save More</h3>
+              <p className="text-muted-foreground text-xs md:text-sm">5x rewards plus money-saving deals you'd miss</p>
             </div>
           </div>
           
           {/* Social Proof */}
-          <p className="text-sm text-muted-foreground mb-4">
+          <p className="text-xs md:text-sm text-muted-foreground mb-3 md:mb-4">
             Join 1,500+ early adopters • Limited access
           </p>
           
