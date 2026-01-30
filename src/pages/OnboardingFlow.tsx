@@ -166,8 +166,8 @@ const OnboardingFlow = () => {
           <p className="text-xl md:text-2xl font-semibold text-primary mb-4">
             5x Rewards on Everything That Matches Your Life
           </p>
-          <p className="text-base md:text-lg text-muted-foreground mb-8 max-w-3xl mx-auto">
-            Stop juggling cards. Ventus AI gives you 5x on every purchase that fits your lifestyle—automatically.
+          <p className="text-base md:text-lg text-muted-foreground mb-8 whitespace-nowrap">
+            Stop juggling cards. Ventus Card gives you 5x on every purchase that fits your holistic lifestyle automatically and intelligently.
           </p>
           
           {/* How It Works - 3 Column Grid */}
