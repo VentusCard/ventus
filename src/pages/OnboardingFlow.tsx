@@ -195,19 +195,19 @@ const OnboardingFlow = () => {
             </div>
           </div>
           
+          {/* Social Proof */}
+          <p className="text-sm text-muted-foreground mb-4">
+            Join 1,500+ early adopters • Limited access
+          </p>
+          
           {/* CTA Button */}
-          <div className="flex justify-center mb-3">
+          <div className="flex justify-center">
             <Button size="lg" className="px-8 py-6 text-lg" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
             behavior: 'smooth'
           })}>
               See How It Works
             </Button>
           </div>
-          
-          {/* Social Proof */}
-          <p className="text-sm text-muted-foreground">
-            Join 1,500+ early adopters • Limited access
-          </p>
         </div>
       </section>
       
