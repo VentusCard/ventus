@@ -1,60 +1,26 @@
 
-# Remove Hero Section & Integrate Content into Story Section
+# Decrease White Space on About Page
 
 ## Overview
-Remove the separate hero section from the About page and incorporate the "Our Story" heading and introductory text directly into the main Story Content section for a cleaner, more streamlined layout.
+Reduce the vertical spacing throughout the About page for a more compact, content-dense layout.
 
 ## Changes
 
-### 1. Remove Hero Section (Lines 31-51)
-Delete the entire hero section including:
-- The `min-h-[70vh]` container
-- The "Our Story" heading
-- The introductory paragraph
-- The scroll indicator button
+### 1. Story Content Section (Line 32)
+- Reduce top padding: `pt-32` → `pt-24`
+- Reduce bottom padding: `pb-20` → `pb-12`
+- Reduce heading margin: `mb-8` → `mb-6`
 
-### 2. Update Story Content Section
-Modify the Story Content section to:
-- Add proper top padding to account for the navbar (`pt-32`)
-- Add "Our Story" as the section heading with the same styling hierarchy
-- Move the introductory text as the first paragraph
-- Keep existing story paragraphs in their current order
+### 2. Values Section (Lines 59-61)
+- Reduce vertical padding: `py-20` → `py-12`
+- Reduce header bottom margin: `mb-16` → `mb-10`
+- Reduce card grid gap: `gap-8` → `gap-6`
+- Reduce card internal padding: `p-8` → `p-6`
+- Reduce icon container margin: `mb-6` → `mb-4`
 
-### 3. Clean Up Imports
-Remove the unused `ChevronDown` import since the scroll indicator will no longer be needed.
+### 3. CTA Section (Lines 94-99)
+- Reduce vertical padding: `py-20` → `py-12`
+- Reduce button top margin: `mb-10` → `mb-8`
 
 ## Result
-The About page will have a more compact, content-focused layout where the story flows naturally from the heading through all paragraphs without the large hero section taking up viewport space.
-
----
-
-## Technical Details
-
-**File to modify:** `src/pages/AboutUs.tsx`
-
-**Before structure:**
-```
-Navbar
-Hero Section (min-h-[70vh]) - "Our Story" heading + intro
-Story Content Section - remaining paragraphs
-Values Section
-CTA Section
-Footer
-```
-
-**After structure:**
-```
-Navbar
-Story Content Section (with pt-32) - "Our Story" heading + ALL paragraphs including intro
-Values Section
-CTA Section
-Footer
-```
-
-**Updated Story Content section will include:**
-1. Section heading: "Our Story"
-2. Intro paragraph: "Ventus was born out of a simple frustration..."
-3. Paragraph 2: "The cofounders, longtime friends..."
-4. Paragraph 3: "As everyday spenders..."
-5. Paragraph 4: "That is why we built Ventus..."
-6. Paragraph 5: "Ventus takes the hassle out..."
+A more compact page layout with tighter spacing between sections and elements, while still maintaining visual hierarchy and readability.
