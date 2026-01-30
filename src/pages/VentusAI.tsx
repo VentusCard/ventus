@@ -3,34 +3,34 @@ import { Card } from "@/components/ui/card";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { Brain, Target, TrendingUp, Zap, Shield, ArrowRight, Sparkles, ChevronDown } from "lucide-react";
+import { Brain, Target, TrendingUp, Shield, ArrowRight, Sparkles, ChevronDown, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
 const VentusAI = () => {
   const features = [{
     icon: Brain,
-    title: "Intelligent Analysis",
-    description: "AI analyzes your spending patterns and lifestyle preferences to identify the best reward opportunities"
-  }, {
-    icon: Target,
-    title: "Personalized Recommendations",
-    description: "Get tailored suggestions for maximizing rewards based on your unique spending habits"
-  }, {
-    icon: TrendingUp,
-    title: "Real-time Optimization",
-    description: "Continuous learning and adaptation to ensure you're always earning maximum rewards"
-  }, {
-    icon: Zap,
-    title: "Instant Insights",
-    description: "Quick answers to your reward questions and immediate optimization suggestions"
-  }, {
-    icon: Shield,
-    title: "Secure & Private",
-    description: "Your financial data is protected with enterprise-grade security and privacy measures"
+    title: "Lifestyle Intelligence",
+    description: "We see beyond transactions to understand your passions—whether you're a weekend golfer, a coffee enthusiast, or a travel adventurer."
   }, {
     icon: Sparkles,
-    title: "AI Shopping",
-    description: "Secures eligible deals and completes wishlist items purchases with your permission"
+    title: "Rewards That Feel Personal",
+    description: "Every deal recommendation connects to how you actually live, not generic categories. Your gym visits, your favorite restaurants, your travel style."
+  }, {
+    icon: Target,
+    title: "Deals That Make Sense",
+    description: "Our AI connects related merchants intelligently—golf courses with equipment stores, coffee shops with bakeries—so you never miss a relevant reward."
+  }, {
+    icon: MapPin,
+    title: "Rewards Wherever You Go",
+    description: "From your neighborhood spots to new cities you're exploring, we surface local deals that match your lifestyle—at home or on the road."
+  }, {
+    icon: TrendingUp,
+    title: "Savings Before You Ask",
+    description: "We notice your patterns and surface rewards proactively—alerting you to deals at merchants you love before you even think to look."
+  }, {
+    icon: Shield,
+    title: "Your Data, Protected",
+    description: "All personalization happens with enterprise-grade security. We understand your lifestyle without ever sharing your specifics."
   }];
 
   return (
@@ -72,9 +72,9 @@ const VentusAI = () => {
       {/* What Ventus AI Does Section */}
       <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto border-t border-border/50">
         <div className="text-center mb-10">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Our Suite of Advanced AI Tools</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Your Lifestyle, Understood</h2>
           <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            Powerful capabilities that put the right deals in front of you at the right time.
+            We learn what matters to you—then put the right rewards in your hands at the perfect moment.
           </p>
         </div>
 
