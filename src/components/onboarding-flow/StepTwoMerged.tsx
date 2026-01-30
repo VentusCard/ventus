@@ -36,13 +36,13 @@ const StepTwoMerged = ({
   const relevantCategories = selectedSubcategories.filter(sub => selectedDeals[sub]);
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-3 md:space-y-4 lg:space-y-6">
       {/* Header Section */}
-      <div className="mb-8">
-        <h2 className="font-display text-xl md:text-3xl font-bold mb-4 text-white">
+      <div className="mb-4 md:mb-6 lg:mb-8">
+        <h2 className="font-display text-lg md:text-xl lg:text-3xl font-bold mb-2 md:mb-4 text-white">
           Your Personalized Smart Rewards System
         </h2>
-        <p className="text-base md:text-xl text-white/80 mb-6">
+        <p className="text-sm md:text-base lg:text-xl text-white/80 mb-3 md:mb-6">
           See how Ventus combines your selected categories into one intelligent card that automatically maximizes your rewards.
         </p>
       </div>
@@ -55,8 +55,8 @@ const StepTwoMerged = ({
       <VentusSimplificationSection />
 
       {/* Example Deals Section */}
-      <div className="mt-6">
-        <h2 className="font-display text-xl md:text-3xl font-bold mb-6 text-white">
+      <div className="mt-4 md:mt-6">
+        <h2 className="font-display text-lg md:text-xl lg:text-3xl font-bold mb-4 md:mb-6 text-white">
           Exclusive Deals for {getDisplayTitle(selectedGoal)}
         </h2>
         

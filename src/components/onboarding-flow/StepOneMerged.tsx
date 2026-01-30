@@ -258,10 +258,10 @@ const StepOneMerged = ({
     }
   };
   return <div>
-      <h2 className="font-display text-lg md:text-2xl font-bold mb-3">What would you like your Ventus Card to reward you on?</h2>
-      <p className="text-base text-slate-600 mb-6">Select one category to earn personalized smart rewards from Ventus. </p>
+      <h2 className="font-display text-base md:text-lg lg:text-2xl font-bold mb-2 md:mb-3">What would you like your Ventus Card to reward you on?</h2>
+      <p className="text-sm md:text-base text-slate-600 mb-4 md:mb-6">Select one category to earn personalized smart rewards from Ventus.</p>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4 mb-6 items-stretch">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 lg:gap-4 mb-4 md:mb-6 items-stretch">
         {goalOptions.map(option => {
         const isDisabled = disabledGoals.includes(option.id);
         const getCardStyles = () => {
@@ -291,7 +291,7 @@ const StepOneMerged = ({
           const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-blue-400 bg-slate-500/50 scale-105 shadow-blue-500/20 shadow-2xl' : 'shadow-lg';
           return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
         };
-        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[280px] h-full ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
+        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[220px] md:min-h-[260px] lg:min-h-[280px] h-full ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
               <CardContent className={`p-5 h-full flex flex-col bg-gradient-to-br rounded-lg ${
                 option.id === 'sports' 
                   ? 'from-blue-500/60 to-blue-600/60' 
@@ -332,16 +332,16 @@ const StepOneMerged = ({
         pointerEvents: 'auto',
         WebkitTapHighlightColor: 'transparent'
       }}>
-            <h3 className="font-display text-lg md:text-2xl font-bold mb-4 text-white">
+            <h3 className="font-display text-base md:text-lg lg:text-2xl font-bold mb-2 md:mb-4 text-white">
               Pick up to 3 areas you're interested in receiving deals and offers.
             </h3>
-            <p className="text-base md:text-xl text-white/80 mb-6">
+            <p className="text-sm md:text-base lg:text-xl text-white/80 mb-4 md:mb-6">
               No pressure, you can add more when Ventus launches!
             </p>
 
             {selectedSubcategories.length >= 3}
 
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-3 mb-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-1.5 md:gap-2 lg:gap-3 mb-4 md:mb-6">
               {subcategories.map(subcategory => <button key={subcategory} onClick={() => toggleSubcategory(subcategory)} className={`p-3 rounded-xl border-2 text-center transition-all duration-300 hover:scale-105 touch-manipulation min-h-[48px] ${selectedSubcategories.includes(subcategory) ? 'border-blue-400 bg-gradient-to-br from-blue-500/60 to-blue-600/60 text-white shadow-lg ring-2 ring-blue-500/40' : 'border-slate-500/50 bg-gradient-to-br from-slate-600/20 to-slate-700/20 text-slate-300 hover:border-slate-400 hover:from-slate-500/30 hover:to-slate-600/30 shadow-md'}`} style={{
             touchAction: 'manipulation',
             pointerEvents: 'auto',

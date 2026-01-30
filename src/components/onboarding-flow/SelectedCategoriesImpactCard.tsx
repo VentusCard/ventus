@@ -21,22 +21,22 @@ const SelectedCategoriesImpactCard = ({
     if (cardName.includes('Grocery')) return 'bg-green-500';
     return 'bg-gray-500'; // fallback
   };
-  return <Card className="premium-card bg-gradient-to-r from-blue-500/20 to-blue-600/10 border-0 md:border md:border-blue-400/30 mb-4 md:mb-6">
-      <CardContent className="p-3 md:p-6">
-        <div className="flex items-center gap-3 mb-3 md:mb-4">
-          <div className="p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
-            <CreditCard className="h-5 w-5 md:h-6 md:w-6 text-white" />
+  return <Card className="premium-card bg-gradient-to-r from-blue-500/20 to-blue-600/10 border-0 md:border md:border-blue-400/30 mb-3 md:mb-4 lg:mb-6">
+      <CardContent className="p-2.5 md:p-4 lg:p-6">
+        <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3 lg:mb-4">
+          <div className="p-1.5 md:p-2 bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg">
+            <CreditCard className="h-4 w-4 md:h-5 md:w-5 lg:h-6 lg:w-6 text-white" />
           </div>
-          <h3 className="font-display text-xl md:text-2xl font-bold text-blue-300 leading-tight">No more memorizing categories and juggling cards</h3>
+          <h3 className="font-display text-base md:text-xl lg:text-2xl font-bold text-blue-300 leading-tight">No more memorizing categories and juggling cards</h3>
         </div>
         
-        <p className="text-white/80 mb-4 md:mb-6 text-base md:text-lg leading-relaxed">
+        <p className="text-white/80 mb-3 md:mb-4 lg:mb-6 text-sm md:text-base lg:text-lg leading-relaxed">
           Traditional credit cards force you to juggle multiple cards for different purchase types. 
           <br />
           Ventus automatically gives you <strong className="text-white">5x rewards on ALL related purchases</strong> with one intelligent card:
         </p>
 
-        <div className="space-y-3 md:space-y-4">
+        <div className="space-y-2 md:space-y-3 lg:space-y-4">
           {scenarios.map((scenario, index) => <div key={index} className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-2 md:p-3 bg-slate-800/50 rounded-lg border border-slate-600/50 gap-2 sm:gap-4">
               <span className="text-white font-medium text-sm md:text-base leading-relaxed">
                 {scenario.subcategory}
