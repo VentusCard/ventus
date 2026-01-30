@@ -64,7 +64,7 @@ const Benefits = () => {
           {benefitTiers.map((tier, index) => (
             <Card 
               key={index} 
-              className={`bg-card border-border ${tier.highlighted ? 'relative ring-1 ring-primary/50 shadow-lg' : ''}`}
+              className={`glass-transition-card ${tier.highlighted ? 'relative ring-1 ring-primary/50 shadow-lg' : ''}`}
             >
               <CardHeader className={`pb-4 ${tier.highlighted ? 'pt-8' : 'pt-6'}`}>
                 <CardTitle className="font-display text-xl text-foreground">{tier.name}</CardTitle>

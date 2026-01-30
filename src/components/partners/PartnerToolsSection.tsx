@@ -175,7 +175,7 @@ const PartnerToolsSection = () => {
             
             return <Card 
               key={index} 
-              className="group hover:shadow-xl transition-all duration-500 border-border bg-card hover:scale-[1.02] animate-fade-in overflow-hidden relative"
+              className="glass-transition-card group animate-fade-in overflow-hidden relative"
               onMouseEnter={() => handleMouseEnter(index)}
               onMouseLeave={() => handleMouseLeave(index)}
               onTouchStart={(e) => onTouchStart(e, index)}

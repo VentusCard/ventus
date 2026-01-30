@@ -90,7 +90,7 @@ const VentusAI = () => {
                 delay: index * 0.1,
                 ease: [0.25, 0.46, 0.45, 0.94]
               }}
-              className="p-6 rounded-xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300"
+              className="glass-transition-card p-6 rounded-xl"
             >
               <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
                 <feature.icon className="h-6 w-6 text-primary" />
@@ -113,7 +113,7 @@ const VentusAI = () => {
 
       {/* CTA Section */}
       <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto text-center border-t border-border/50">
-        <Card className="max-w-4xl mx-auto p-8 md:p-12 bg-card border border-border/50 shadow-lg">
+        <Card className="glass-transition-card max-w-4xl mx-auto p-8 md:p-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Ready to Maximize Your Rewards?
           </h2>
