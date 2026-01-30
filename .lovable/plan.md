@@ -1,76 +1,84 @@
 
-# Ventus AI Page Improvements
+# Update AI Tools Section Content
 
 ## Overview
-Align the Ventus AI page with the design patterns established on other pages (AboutUs, OnboardingFlow), including motion animations, compressed layouts, and consistent theming.
+Complete rewrite of the AI Tools section to align with Ventus branding positioning while using warm, consumer-friendly language that emphasizes lifestyle benefits and includes new feature capabilities.
 
-## Planned Changes
+## Current State
+The section has 6 generic AI feature cards:
+- Intelligent Analysis
+- Personalized Recommendations
+- Real-time Optimization
+- Instant Insights
+- Secure & Private
+- AI Shopping
 
-### 1. Add Framer Motion Animations
-- Import `motion` from `framer-motion`
-- Add scroll-triggered fade-in animations to feature cards with staggered delays
-- Smooth entrance animations for better user engagement
+## Updated Content Plan
 
-### 2. Update Feature Cards Styling
-**Current:** Hardcoded blue colors (`bg-[#0064E0]/10`)
-**Updated:** Use theme tokens for consistency
-- Background: `bg-secondary/30` or `bg-primary/10`
-- Border: `border-border/50` with `hover:border-primary/30`
-- Add hover effects: `hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10`
-- Reduce padding from `p-8` to `p-6` for more compact layout
-- Use `text-primary` for icon colors instead of hardcoded blue
+### Section Header
+**Current:**
+- Title: "Our Suite of Advanced AI Tools"
+- Subtitle: "Powerful capabilities that put the right deals in front of you at the right time."
 
-### 3. Compress Section Spacing
-- Reduce "AI Tools" section padding from `py-24` to `py-16`
-- Reduce header margins from `mb-16` to `mb-10`
-- Tighten the features grid gap from `gap-6` to `gap-4`
+**Updated:**
+- Title: "Your Lifestyle, Understood"
+- Subtitle: "We learn what matters to you—then put the right rewards in your hands at the perfect moment."
 
-### 4. Add Section Dividers
-- Add `border-t border-border/50` between major sections for visual separation (matching AboutUs pattern)
+### New Feature Cards (6 total)
 
-### 5. Enhance CTA Section
-- Reduce padding from `py-24` to `py-16`
-- Card padding from `p-12 md:p-16` to `p-8 md:p-12`
-- Add section divider above CTA
+#### 1. Lifestyle Intelligence
+- **Icon**: Brain
+- **Title**: "Lifestyle Intelligence"
+- **Description**: "We see beyond transactions to understand your passions—whether you're a weekend golfer, a coffee enthusiast, or a travel adventurer."
 
-### 6. Remove Unused Code
-- Remove the unused `steps` array (since How It Works section is commented out)
-- Clean up the disabled `scrollToChat` function
+#### 2. Personalized Rewards
+- **Icon**: Sparkles (swap from Target for more warmth)
+- **Title**: "Rewards That Feel Personal"
+- **Description**: "Every deal recommendation connects to how you actually live, not generic categories. Your gym visits, your favorite restaurants, your travel style."
 
-## Technical Details
+#### 3. Semantic Deal Matching
+- **Icon**: Target
+- **Title**: "Deals That Make Sense"
+- **Description**: "Our AI connects related merchants intelligently—golf courses with equipment stores, coffee shops with bakeries—so you never miss a relevant reward."
 
-**File to modify:** `src/pages/VentusAI.tsx`
+#### 4. Location-Aware Experiences
+- **Icon**: MapPin (new icon)
+- **Title**: "Rewards Wherever You Go"
+- **Description**: "From your neighborhood spots to new cities you're exploring, we surface local deals that match your lifestyle—at home or on the road."
 
-**New imports:**
-```typescript
-import { motion } from "framer-motion";
-```
+#### 5. Proactive Savings
+- **Icon**: TrendingUp
+- **Title**: "Savings Before You Ask"
+- **Description**: "We notice your patterns and surface rewards proactively—alerting you to deals at merchants you love before you even think to look."
 
-**Feature card animation pattern:**
+#### 6. Privacy-First AI
+- **Icon**: Shield
+- **Title**: "Your Data, Protected"
+- **Description**: "All personalization happens with enterprise-grade security. We understand your lifestyle without ever sharing your specifics."
+
+## Technical Changes
+
+### File: `src/pages/VentusAI.tsx`
+
+**1. Update icons import** (line 6):
 ```tsx
-<motion.div
-  initial={{ opacity: 0, y: 30 }}
-  whileInView={{ opacity: 1, y: 0 }}
-  viewport={{ once: true, margin: "-50px" }}
-  transition={{ 
-    duration: 0.5, 
-    delay: index * 0.1,
-    ease: [0.25, 0.46, 0.45, 0.94]
-  }}
->
+import { Brain, Target, TrendingUp, Shield, ArrowRight, Sparkles, ChevronDown, MapPin } from "lucide-react";
 ```
+- Remove: `Zap`
+- Add: `MapPin`
 
-**Updated card classes:**
-```tsx
-className="p-6 rounded-xl bg-secondary/30 border border-border/50 
-           hover:border-primary/30 hover:scale-[1.02] 
-           hover:shadow-xl hover:shadow-primary/10 
-           transition-all duration-300"
-```
+**2. Replace features array** (lines 10-34):
+Complete replacement with new content following the card structure above.
 
-## Visual Result
-- More cohesive look matching AboutUs and OnboardingFlow pages
-- Smoother animations on scroll
-- More compact, professional layout
-- Consistent hover interactions
-- Better visual hierarchy with section dividers
+**3. Update section header** (lines 74-78):
+- New title: "Your Lifestyle, Understood"
+- New subtitle: "We learn what matters to you—then put the right rewards in your hands at the perfect moment."
+
+## Content Alignment
+
+This update follows the branding guidelines:
+- Uses warm "we" voice ("We see...", "We learn...", "We notice...")
+- Focuses on lifestyle benefits rather than technical capabilities
+- Avoids business jargon (no "maximize", "optimize", "algorithms")
+- Connects features to real lifestyle scenarios (golf, coffee, travel)
+- Aligns with Ventus positioning on semantic intelligence and lifestyle personalization
