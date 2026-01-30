@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, ArrowRight, CheckCircle2, Target, Brain, Gift } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowDown, CheckCircle2, Target, Brain, Gift } from "lucide-react";
 import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
 import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
@@ -216,7 +216,7 @@ const OnboardingFlow = () => {
           {/* CTA Button */}
           <div className="flex justify-center animate-fadeUpSoft opacity-0"
                style={{ animationDelay: '900ms', animationFillMode: 'forwards' }}>
-            <Button size="default" className="px-6 py-4 md:px-8 md:py-6 text-base md:text-lg" onClick={() => {
+            <Button size="default" className="group px-6 py-4 md:px-8 md:py-6 text-base md:text-lg flex flex-col items-center gap-1" onClick={() => {
               const target = document.getElementById('onboarding-content');
               if (target) {
                 const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
@@ -238,7 +238,8 @@ const OnboardingFlow = () => {
                 requestAnimationFrame(animation);
               }
             }}>
-              See How It Works
+              <span>See How It Works</span>
+              <ArrowDown className="h-4 w-4 animate-bounce" />
             </Button>
           </div>
         </div>
