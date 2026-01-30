@@ -216,9 +216,28 @@ const OnboardingFlow = () => {
           {/* CTA Button */}
           <div className="flex justify-center animate-fadeUpSoft opacity-0"
                style={{ animationDelay: '900ms', animationFillMode: 'forwards' }}>
-            <Button size="default" className="px-6 py-4 md:px-8 md:py-6 text-base md:text-lg" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
-            behavior: 'smooth'
-          })}>
+            <Button size="default" className="px-6 py-4 md:px-8 md:py-6 text-base md:text-lg" onClick={() => {
+              const target = document.getElementById('onboarding-content');
+              if (target) {
+                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
+                const startPosition = window.pageYOffset;
+                const distance = targetPosition - startPosition;
+                const duration = 800;
+                let start: number | null = null;
+                
+                const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+                
+                const animation = (currentTime: number) => {
+                  if (start === null) start = currentTime;
+                  const timeElapsed = currentTime - start;
+                  const progress = Math.min(timeElapsed / duration, 1);
+                  window.scrollTo(0, startPosition + distance * easeInOutCubic(progress));
+                  if (timeElapsed < duration) requestAnimationFrame(animation);
+                };
+                
+                requestAnimationFrame(animation);
+              }
+            }}>
               See How It Works
             </Button>
           </div>
