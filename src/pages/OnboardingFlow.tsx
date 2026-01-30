@@ -245,7 +245,7 @@ const OnboardingFlow = () => {
       </section>
       
       <div className="flex-grow" id="onboarding-content">
-        <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-4 md:py-8 lg:py-16 pb-4 md:pb-6">
+        <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 pt-2 md:pt-4 lg:pt-8 pb-4 md:pb-6">
           {/* Step Content */}
           <div className="bg-card/80 md:border md:border-border/60 rounded-xl backdrop-blur-sm p-3 md:p-6 lg:p-8 mb-4 md:mb-6 transition-all duration-300" id="onboarding-step-content" style={{
           touchAction: 'manipulation',
