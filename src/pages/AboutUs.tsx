@@ -1,4 +1,4 @@
-import { Users, Target, Award, Heart, ChevronDown } from "lucide-react";
+import { Users, Target, Award, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -28,32 +28,17 @@ const AboutUs = () => {
     <div className="min-h-screen bg-background relative overflow-hidden">
       <Navbar />
       
-      {/* Hero Section */}
-      <section className="relative min-h-[70vh] flex items-center pt-20 border-b border-border/50">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
+      {/* Story Content Section */}
+      <section className="pt-32 pb-20 px-4 md:px-8">
+        <div className="max-w-4xl mx-auto">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8 text-foreground leading-tight">
             Our <span className="italic font-light text-muted-foreground">Story</span>
           </h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-            Ventus was born out of a simple frustration: juggling multiple credit cards to chase rewards and still missing out.
-          </p>
-          
-          {/* Scroll indicator */}
-          <button 
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-            className="mt-8 animate-fade-in"
-            aria-label="Scroll down"
-          >
-            <ChevronDown className="h-6 w-6 text-muted-foreground/60 hover:text-muted-foreground transition-colors" />
-          </button>
-        </div>
-      </section>
-
-      {/* Story Content Section */}
-      <section className="py-20 px-4 md:px-8">
-        <div className="max-w-4xl mx-auto">
           <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
+            <p>
+              Ventus was born out of a simple frustration: juggling multiple credit cards to chase rewards and still missing out.
+            </p>
             <p>
               The cofounders, longtime friends and self proclaimed wallet nerds, kept asking the same question: why isn't there a card that is smart, easy and actually adapts to how we actually live.
             </p>
