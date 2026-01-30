@@ -183,15 +183,15 @@ const OnboardingFlow = () => {
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
                 <Brain className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="text-base font-semibold text-foreground mb-1">AI Does The Work</h3>
-              <p className="text-muted-foreground text-sm">Matches purchases across 1000s of merchants</p>
+              <h3 className="text-base font-semibold text-foreground mb-1">AI Matches & Finds Deals</h3>
+              <p className="text-muted-foreground text-sm">Spots rewards and surfaces deals across 1000s of merchants</p>
             </div>
             <div className="flex flex-col items-center text-center p-5 rounded-xl bg-card border border-border/50">
               <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mb-3">
                 <Gift className="w-6 h-6 text-primary" />
               </div>
-              <h3 className="text-base font-semibold text-foreground mb-1">Earn More</h3>
-              <p className="text-muted-foreground text-sm">5x on purchases other cards miss</p>
+              <h3 className="text-base font-semibold text-foreground mb-1">Earn & Save More</h3>
+              <p className="text-muted-foreground text-sm">5x rewards plus money-saving deals you'd miss</p>
             </div>
           </div>
           
