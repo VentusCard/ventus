@@ -160,19 +160,23 @@ const OnboardingFlow = () => {
       {/* Hero Section with How It Works */}
       <section className="pt-16 pb-8 md:pt-20 md:pb-12 lg:pt-28 lg:pb-24 flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground">
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground animate-fadeUpSoft opacity-0"
+              style={{ animationDelay: '0ms', animationFillMode: 'forwards' }}>
             One Card. Your Lifestyle.
           </h1>
-          <p className="text-lg md:text-xl lg:text-2xl font-semibold text-primary mb-2 md:mb-3 lg:mb-4">
+          <p className="text-lg md:text-xl lg:text-2xl font-semibold text-primary mb-2 md:mb-3 lg:mb-4 animate-fadeUpSoft opacity-0"
+             style={{ animationDelay: '150ms', animationFillMode: 'forwards' }}>
             5x Rewards on Everything That Matches Your Life
           </p>
-          <p className="text-sm md:text-base lg:text-lg text-muted-foreground mb-4 md:mb-6 lg:mb-8 lg:whitespace-nowrap">
+          <p className="text-sm md:text-base lg:text-lg text-muted-foreground mb-4 md:mb-6 lg:mb-8 lg:whitespace-nowrap animate-fadeUpSoft opacity-0"
+             style={{ animationDelay: '300ms', animationFillMode: 'forwards' }}>
             Stop juggling cards. Ventus Card gives you 5x on every purchase that fits your holistic lifestyle automatically and intelligently.
           </p>
           
           {/* How It Works - 3 Column Grid - Horizontal on mobile */}
           <div className="flex flex-col md:grid md:grid-cols-3 gap-2 md:gap-5 mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto px-2 md:px-0">
-            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50">
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+                 style={{ animationDelay: '450ms', animationFillMode: 'forwards' }}>
               <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
                 <Target className="w-4 h-4 md:w-6 md:h-6 text-primary" />
               </div>
@@ -181,7 +185,8 @@ const OnboardingFlow = () => {
                 <p className="text-muted-foreground text-xs md:text-sm">Sports, wellness, pets, gaming & more</p>
               </div>
             </div>
-            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50">
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+                 style={{ animationDelay: '550ms', animationFillMode: 'forwards' }}>
               <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
                 <Brain className="w-4 h-4 md:w-6 md:h-6 text-primary" />
               </div>
@@ -190,7 +195,8 @@ const OnboardingFlow = () => {
                 <p className="text-muted-foreground text-xs md:text-sm">Spots rewards and surfaces deals across 1000s of merchants</p>
               </div>
             </div>
-            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50">
+            <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 rounded-xl bg-card border border-border/50 animate-fadeUpSoft opacity-0"
+                 style={{ animationDelay: '650ms', animationFillMode: 'forwards' }}>
               <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
                 <Gift className="w-4 h-4 md:w-6 md:h-6 text-primary" />
               </div>
@@ -202,12 +208,14 @@ const OnboardingFlow = () => {
           </div>
           
           {/* Social Proof */}
-          <p className="text-xs text-muted-foreground mb-2 md:mb-4">
+          <p className="text-xs text-muted-foreground mb-2 md:mb-4 animate-fadeUpSoft opacity-0"
+             style={{ animationDelay: '750ms', animationFillMode: 'forwards' }}>
             Join 1,500+ early adopters • Limited access
           </p>
           
           {/* CTA Button */}
-          <div className="flex justify-center">
+          <div className="flex justify-center animate-fadeUpSoft opacity-0"
+               style={{ animationDelay: '900ms', animationFillMode: 'forwards' }}>
             <Button size="default" className="px-6 py-4 md:px-8 md:py-6 text-base md:text-lg" onClick={() => document.getElementById('onboarding-content')?.scrollIntoView({
             behavior: 'smooth'
           })}>
