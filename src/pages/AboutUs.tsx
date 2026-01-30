@@ -83,7 +83,7 @@ const AboutUs = () => {
             {values.map((value, index) => (
               <div 
                 key={index} 
-                className="p-8 rounded-2xl bg-secondary/30 border border-border/50 hover:border-primary/30 transition-all duration-300"
+                className="p-8 rounded-2xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default"
               >
                 <div className="w-14 h-14 bg-primary/10 rounded-xl flex items-center justify-center mb-6">
                   <value.icon className="h-7 w-7 text-primary" />
