@@ -28,7 +28,7 @@ const AboutUs = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex items-center pt-20">
+      <section className="relative min-h-[70vh] flex items-center pt-20">
         <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
             Our <span className="italic font-light text-muted-foreground">Story</span>
