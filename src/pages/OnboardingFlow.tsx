@@ -219,28 +219,35 @@ const OnboardingFlow = () => {
       
       <div className="flex-grow" id="onboarding-content">
         <div className="max-w-7xl mx-auto px-3 md:px-6 lg:px-8 py-4 md:py-8 lg:py-16 pb-4 md:pb-6">
-          {/* Progress Section */}
-          <div className="mb-4 md:mb-6 lg:mb-8">
-            {/* Step Progress Bar */}
-            <div className="flex items-center justify-center mb-4 md:mb-6 lg:mb-8 overflow-x-auto pt-2 pb-2 md:pt-4 md:pb-4 px-4 md:px-8">
-              {Array.from({
-              length: totalSteps
-            }, (_, i) => i + 1).map(stepNumber => <div key={stepNumber} className="flex items-center">
-                  <div className={`h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-primary text-white' : step === stepNumber ? 'bg-primary text-white ring-4 ring-primary/30' : 'bg-muted text-muted-foreground border-2 border-border'}`}>
-                    {step > stepNumber ? <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5" /> : stepNumber}
-                  </div>
-                  {stepNumber < totalSteps && <div className={`h-0.5 md:h-1 w-12 md:w-20 lg:w-32 transition-all duration-300 flex-shrink-0 ${step > stepNumber ? 'bg-primary' : 'bg-border'}`}></div>}
-                </div>)}
-            </div>
-          </div>
-          
           {/* Step Content */}
-          <div className="bg-card/80 md:border md:border-border/60 rounded-xl backdrop-blur-sm p-3 md:p-6 lg:p-8 mb-4 md:mb-6 lg:mb-8 transition-all duration-300" id="onboarding-step-content" style={{
+          <div className="bg-card/80 md:border md:border-border/60 rounded-xl backdrop-blur-sm p-3 md:p-6 lg:p-8 mb-4 md:mb-6 transition-all duration-300" id="onboarding-step-content" style={{
           touchAction: 'manipulation',
           pointerEvents: 'auto',
           WebkitTapHighlightColor: 'transparent'
         }}>
             {renderStep()}
+          </div>
+          
+          {/* Progress Bar - Between content and navigation */}
+          <div className="flex items-center justify-center overflow-x-auto pt-2 pb-2 md:pt-4 md:pb-4 px-4 md:px-8 mb-4 md:mb-6">
+            {Array.from({ length: totalSteps }, (_, i) => i + 1).map(stepNumber => (
+              <div key={stepNumber} className="flex items-center">
+                <div className={`h-8 w-8 md:h-10 md:w-10 lg:h-12 lg:w-12 rounded-full flex items-center justify-center text-xs md:text-sm font-semibold transition-all duration-300 flex-shrink-0 ${
+                  step > stepNumber 
+                    ? 'bg-primary text-white' 
+                    : step === stepNumber 
+                      ? 'bg-primary text-white ring-4 ring-primary/30' 
+                      : 'bg-muted text-muted-foreground border-2 border-border'
+                }`}>
+                  {step > stepNumber ? <CheckCircle2 className="h-3 w-3 md:h-4 md:w-4 lg:h-5 lg:w-5" /> : stepNumber}
+                </div>
+                {stepNumber < totalSteps && (
+                  <div className={`h-0.5 md:h-1 w-12 md:w-20 lg:w-32 transition-all duration-300 flex-shrink-0 ${
+                    step > stepNumber ? 'bg-primary' : 'bg-border'
+                  }`}></div>
+                )}
+              </div>
+            ))}
           </div>
           
           {/* Navigation */}
