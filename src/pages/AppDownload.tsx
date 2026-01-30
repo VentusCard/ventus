@@ -1,4 +1,4 @@
-import { Apple, PlayIcon, Sparkles, Shield, Zap } from "lucide-react";
+import { Apple, PlayIcon, Sparkles, Shield, Zap, Gift } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -6,9 +6,10 @@ import appScreensPreview from "@/assets/app-screens-preview.png";
 
 const AppDownload = () => {
   const features = [
-    { icon: Sparkles, label: "AI-Powered Deals" },
-    { icon: Shield, label: "Secure & Private" },
-    { icon: Zap, label: "Real-time Savings" },
+    { icon: Sparkles, label: "Smart Matching" },
+    { icon: Zap, label: "Instant Alerts" },
+    { icon: Shield, label: "Bank-Level Security" },
+    { icon: Gift, label: "Exclusive Offers" },
   ];
 
   return (
@@ -28,15 +29,14 @@ const AppDownload = () => {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
             <div className="order-2 lg:order-1 text-center lg:text-left">
-              <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Ventus helps you to</p>
+              <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Your AI-Powered Deal Hunter</p>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
-                Discover Your{" "}
-                <span className="text-primary">Deals</span>
+                Never Miss a Deal Again
               </h1>
               
               <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                Your intelligent deals co-pilot, powered by AI that delivers personalized recommendations and live search across the web. Save smarter, effortlessly.
+                Ventus scans thousands of merchants in real-time, matching deals to your lifestyle and spending patterns. Get personalized recommendations, instant alerts, and exclusive offers—all in one app.
               </p>
 
               {/* Feature pills */}
