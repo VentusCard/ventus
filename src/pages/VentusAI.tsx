@@ -46,7 +46,7 @@ const VentusAI = () => {
             <br />
             <span className="italic font-light text-muted-foreground">Rewards Partner</span>
           </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed">
             Harness the power of AI to maximize your rewards and unlock personalized deals with zero complexity.
           </p>
           <Link to="/app">
