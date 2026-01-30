@@ -158,7 +158,7 @@ const OnboardingFlow = () => {
       <Navbar />
       
       {/* Hero Section with How It Works */}
-      <section className="py-8 md:py-12 lg:py-24 flex flex-col items-center justify-center px-4 md:px-8">
+      <section className="pt-16 pb-8 md:pt-20 md:pb-12 lg:pt-28 lg:pb-24 flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground">
             One Card. Your Lifestyle.
