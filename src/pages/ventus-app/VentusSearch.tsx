@@ -196,8 +196,8 @@ export default function VentusSearch() {
         {/* Header */}
         <div className="border-b border-border bg-card/80 backdrop-blur-sm px-8 py-6">
           <div>
-            <h1 className="text-2xl font-semibold text-foreground">Ventus AI</h1>
-            <p className="text-sm text-muted-foreground mt-1">Find deals across all merchants</p>
+            <h1 className="text-section text-foreground">Ventus AI</h1>
+            <p className="text-caption text-muted-foreground mt-1">Find deals across all merchants</p>
           </div>
         </div>
 
@@ -214,10 +214,10 @@ export default function VentusSearch() {
                   <div className="w-16 h-16 bg-gradient-to-br from-[#0064E0]/20 to-[#0064E0]/10 rounded-full flex items-center justify-center mb-4">
                     <Search className="w-7 h-7 text-[#0064E0]" />
                   </div>
-                  <h2 className="text-xl font-semibold text-foreground mb-2">
+                  <h2 className="text-subsection text-foreground mb-2">
                     Find Your Perfect Deal
                   </h2>
-                  <p className="text-muted-foreground text-sm text-center mb-8 max-w-sm">
+                  <p className="text-caption text-muted-foreground text-center mb-8 max-w-sm">
                     Search for products and I'll find the best prices for you
                   </p>
 
@@ -257,14 +257,14 @@ export default function VentusSearch() {
                         {isUser ? (
                           <div className="flex justify-end">
                             <div className="max-w-[85%] rounded-2xl rounded-br-sm px-4 py-3 bg-[#0064E0]">
-                              <p className="text-base whitespace-pre-wrap text-white">
+                              <p className="text-body whitespace-pre-wrap text-white">
                                 {message.content}
                               </p>
                             </div>
                           </div>
                         ) : message.products && message.products.length > 0 ? (
                           <>
-                            <p className="text-base text-muted-foreground mb-3">
+                            <p className="text-body text-muted-foreground mb-3">
                               {message.content}
                             </p>
                             <div className="space-y-2">
@@ -275,7 +275,7 @@ export default function VentusSearch() {
                           </>
                         ) : (
                           <div className="flex justify-start">
-                            <div className="max-w-[85%] rounded-2xl rounded-bl-sm px-4 py-3 bg-muted">
+                            <div className="max-w-[85%] rounded-2xl rounded-bl-sm px-4 py-3 bg-muted text-body">
                               <div className="text-base text-white [&_p]:my-1 [&_p:first-child]:mt-0 [&_p:last-child]:mb-0 [&_ul]:my-2 [&_ul]:pl-4 [&_ul]:list-disc [&_ol]:my-2 [&_ol]:pl-4 [&_ol]:list-decimal [&_li]:my-0.5 [&_strong]:font-bold [&_em]:italic [&_code]:bg-white/20 [&_code]:px-1 [&_code]:rounded">
                                 <ReactMarkdown>{message.content}</ReactMarkdown>
                               </div>
@@ -290,7 +290,7 @@ export default function VentusSearch() {
                     <div className="flex justify-start">
                       <div className="bg-muted rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-2">
                         <Loader2 className="w-4 h-4 animate-spin text-[#0064E0]" />
-                        <span className="text-sm text-muted-foreground">Searching for deals...</span>
+                        <span className="text-caption text-muted-foreground">Searching for deals...</span>
                       </div>
                     </div>
                   )}
