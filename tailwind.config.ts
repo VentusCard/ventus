@@ -18,26 +18,13 @@ export default {
 				'2xl': '1400px'
 			}
 		},
-	extend: {
-	// Font Families - DM Sans as primary
-		fontFamily: {
-			sans: ['"Rubik"', 'system-ui', '-apple-system', 'sans-serif'],
-			display: ['"Rubik"', 'system-ui', 'sans-serif'],
-			mono: ['"DM Mono"', 'SF Mono', 'Monaco', 'monospace'],
-		},
-
-		// Typography Scale for Authenticated Users
-		fontSize: {
-			'hero': ['3.5rem', { lineHeight: '1.1', fontWeight: '600', letterSpacing: '-0.02em' }],
-			'section': ['2.5rem', { lineHeight: '1.2', fontWeight: '600', letterSpacing: '-0.02em' }],
-			'subsection': ['1.75rem', { lineHeight: '1.3', fontWeight: '500', letterSpacing: '-0.02em' }],
-			'component': ['1.375rem', { lineHeight: '1.4', fontWeight: '500', letterSpacing: '-0.02em' }],
-			'label': ['1.125rem', { lineHeight: '1.4', fontWeight: '500' }],
-			'small-label': ['1rem', { lineHeight: '1.4', fontWeight: '500' }],
-			'body': ['1rem', { lineHeight: '1.6', fontWeight: '400' }],
-			'caption': ['0.875rem', { lineHeight: '1.5', fontWeight: '400' }],
-			'button': ['0.875rem', { lineHeight: '1', fontWeight: '500' }],
-		},
+		extend: {
+		// Font Families - DM Sans as primary
+			fontFamily: {
+				sans: ['"Rubik"', 'system-ui', '-apple-system', 'sans-serif'],
+				display: ['"Rubik"', 'system-ui', 'sans-serif'],
+				mono: ['"DM Mono"', 'SF Mono', 'Monaco', 'monospace'],
+			},
 
 			// Background Images & Gradients
 			backgroundImage: {

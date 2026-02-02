@@ -231,10 +231,10 @@ export default function VentusHome() {
         {/* Header */}
         <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
           <div className="px-8 py-6">
-            <h1 className="text-component text-foreground">
+            <h1 className="text-2xl font-semibold text-foreground">
               Welcome, {user?.first_name || 'there'}
             </h1>
-            <p className="text-caption text-muted-foreground mt-1">Here's your personalized offers</p>
+            <p className="text-sm text-muted-foreground mt-1">Here's your personalized offers</p>
           </div>
         </header>
 
@@ -247,8 +247,8 @@ export default function VentusHome() {
                   <Smartphone className="w-6 h-6 text-primary" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-label text-foreground">Get the Ventus App</h3>
-                  <p className="text-caption text-muted-foreground">Wishlist, notifications & more</p>
+                  <h3 className="font-medium text-foreground text-base">Get the Ventus App</h3>
+                  <p className="text-sm text-muted-foreground">Wishlist, notifications & more</p>
                 </div>
                 <AppStoreBadges compact />
               </div>
@@ -270,7 +270,7 @@ export default function VentusHome() {
 
           {/* Browse by Sport */}
           <div className="space-y-4">
-            <h2 className="text-small-label text-muted-foreground uppercase tracking-wide">Browse by Sport</h2>
+            <h2 className="text-sm font-medium text-muted-foreground uppercase tracking-wide">Browse by Sport</h2>
             <ScrollArea className="w-full whitespace-nowrap">
               <div className="flex gap-3 pb-2">
                 {subcategoryOptions.map((opt) => (
@@ -312,8 +312,8 @@ export default function VentusHome() {
           <div className="space-y-4">
             {groupedMerchants.length === 0 ? (
               <div className="text-center py-20">
-                <p className="text-body text-muted-foreground">No offers match your filters</p>
-                <p className="text-caption text-muted-foreground mt-2">
+                <p className="text-muted-foreground text-base">No offers match your filters</p>
+                <p className="text-sm text-muted-foreground mt-2">
                   Try adjusting your filters
                 </p>
               </div>

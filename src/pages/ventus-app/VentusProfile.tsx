@@ -173,8 +173,8 @@ export default function VentusProfile() {
         {/* Header */}
         <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
           <div className="px-8 py-6">
-            <h1 className="text-component text-foreground">Profile Settings</h1>
-            <p className="text-caption text-muted-foreground mt-1">Manage your account and preferences</p>
+            <h1 className="text-2xl font-semibold text-foreground">Profile Settings</h1>
+            <p className="text-sm text-muted-foreground mt-1">Manage your account and preferences</p>
           </div>
         </header>
 
@@ -191,8 +191,8 @@ export default function VentusProfile() {
                 <Trophy className="w-6 h-6 text-white" />
               </div>
               <div className="flex-1">
-                <h3 className="text-label text-white">Sports Enthusiast</h3>
-                <p className="text-caption text-white/80">
+                <h3 className="font-semibold text-base">Sports Enthusiast</h3>
+                <p className="text-sm text-white/80">
                   {selectedSubcategories.length > 0 
                     ? `Following ${selectedSubcategories.length} sport${selectedSubcategories.length > 1 ? 's' : ''}: ${selectedSubcategories.join(', ')}`
                     : 'Select your favorite sports to get personalized deals'}
@@ -211,8 +211,8 @@ export default function VentusProfile() {
                 <Book className="w-5 h-5 text-primary" />
               </div>
               <div className="flex-1">
-                <h3 className="text-small-label text-foreground">Our Story</h3>
-                <p className="text-caption text-muted-foreground">Learn about Ventus and our mission</p>
+                <h3 className="font-medium text-foreground text-sm">Our Story</h3>
+                <p className="text-xs text-muted-foreground">Learn about Ventus and our mission</p>
               </div>
               <ExternalLink className="w-4 h-4 text-muted-foreground" />
             </CardContent>
@@ -225,7 +225,7 @@ export default function VentusProfile() {
               <AccordionTrigger className="hover:no-underline py-3">
                 <div className="flex items-center gap-3">
                   <User className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-small-label">Personal Information</span>
+                  <span className="text-sm font-medium">Personal Information</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="space-y-3 pt-1 pb-4">
@@ -254,7 +254,7 @@ export default function VentusProfile() {
               <AccordionTrigger className="hover:no-underline py-3">
                 <div className="flex items-center gap-3">
                   <MapPin className="w-4 h-4 text-muted-foreground" />
-                  <span className="text-small-label">Location</span>
+                  <span className="text-sm font-medium">Location</span>
                 </div>
               </AccordionTrigger>
               <AccordionContent className="space-y-3 pt-1 pb-4">
@@ -302,8 +302,8 @@ export default function VentusProfile() {
                 <DialogTrigger asChild>
                   <button className="w-full flex items-center justify-between py-2">
                     <div>
-                      <p className="text-small-label text-foreground text-left">Your Sports</p>
-                      <p className="text-caption text-muted-foreground text-left">
+                      <p className="text-sm font-medium text-foreground text-left">Your Sports</p>
+                      <p className="text-xs text-muted-foreground text-left">
                         General, {selectedSubcategories.join(', ')}
                       </p>
                     </div>
@@ -412,10 +412,10 @@ export default function VentusProfile() {
             <CardContent className="p-5">
               <div className="flex items-center gap-4">
                 <div className="flex-1">
-                <h3 className="text-label text-foreground mb-1">
+                  <h3 className="font-semibold text-foreground text-sm mb-1">
                     Get the Ventus App
                   </h3>
-                  <p className="text-caption text-muted-foreground mb-3">
+                  <p className="text-xs text-muted-foreground mb-3">
                     Wishlist, notifications & location-based deals
                   </p>
                   <AppStoreBadges />
