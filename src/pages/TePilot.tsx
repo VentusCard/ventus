@@ -49,33 +49,8 @@ import { DealActivationPreview } from "@/components/tepilot/insights/DealActivat
 import { CollapsibleCard } from "@/components/tepilot/insights/CollapsibleCard";
 const CURRENT_VERSION = "V2.5";
 const TePilot = () => {
+  // All hooks must be called before any conditional returns
   const { isDesktop } = useDeviceType();
-
-  // Desktop-only gate - check before password authentication
-  if (!isDesktop) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
-        <div className="text-center space-y-6 max-w-md">
-          <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
-            <Monitor className="w-10 h-10 text-primary" />
-          </div>
-          <div className="space-y-3">
-            <h1 className="text-2xl font-bold text-white">Desktop Experience Required</h1>
-            <p className="text-slate-300 leading-relaxed">
-              TEPilot's advanced analytics dashboard features interactive data visualizations, 
-              multi-step workflows, and detailed reporting tools that require a larger screen 
-              for the best experience.
-            </p>
-            <p className="text-slate-400 text-sm">
-              Please switch to a desktop or laptop computer to access the full Transaction 
-              Enrichment Pilot toolkit.
-            </p>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   const [password, setPassword] = useState("");
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const location = useLocation();
@@ -447,6 +422,31 @@ const TePilot = () => {
       setIsLoadingLifestyleSignals(false);
     }
   };
+  // Desktop-only gate - check before password authentication
+  if (!isDesktop) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
+        <div className="text-center space-y-6 max-w-md">
+          <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
+            <Monitor className="w-10 h-10 text-primary" />
+          </div>
+          <div className="space-y-3">
+            <h1 className="text-2xl font-bold text-white">Desktop Experience Required</h1>
+            <p className="text-slate-300 leading-relaxed">
+              TEPilot's advanced analytics dashboard features interactive data visualizations, 
+              multi-step workflows, and detailed reporting tools that require a larger screen 
+              for the best experience.
+            </p>
+            <p className="text-slate-400 text-sm">
+              Please switch to a desktop or laptop computer to access the full Transaction 
+              Enrichment Pilot toolkit.
+            </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   if (!isAuthenticated) {
     return <div className="min-h-screen flex items-center justify-center bg-white p-4 tepilot-container">
         <Card className="w-full max-w-6xl bg-white border-slate-200">
