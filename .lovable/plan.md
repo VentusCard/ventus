@@ -1,117 +1,59 @@
 
-# Apply Glass Transition Effect Across the Site
+# Desktop-Only Check for /tepilot - Before Password Gate
 
 ## Overview
-Apply the `.glass-transition-card` class to create a consistent glass transition effect on hover across all interactive cards throughout the site. This will unify the premium visual aesthetic.
+Add a device check as the **first render gate** in the TePilot component, so users on mobile or tablet devices see the "Desktop Experience Required" message immediately when the page loads, before even seeing the password prompt.
 
-## Cards to Update
+## Implementation
 
-### 1. VentusAI Page - Feature Cards
-**File:** `src/pages/VentusAI.tsx` (lines 83-103)
+### File to Modify
+`src/pages/TePilot.tsx`
 
-**Current classes:**
-```
-p-6 rounded-xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300
-```
+### Changes
 
-**New classes:**
-```
-glass-transition-card p-6 rounded-xl
-```
+1. **Import the device detection hook**
+   Add `useDeviceType` from `@/hooks/use-mobile` to the imports
 
-Six feature cards will receive the glass effect.
+2. **Import Monitor icon**
+   Add `Monitor` to the lucide-react imports (line 12)
 
----
+3. **Add desktop check as first gate**
+   Inside the component (around line 50), call the hook and add a return statement before any other logic:
 
-### 2. VentusAI Page - CTA Card
-**File:** `src/pages/VentusAI.tsx` (line 116)
+   ```tsx
+   const { isDesktop } = useDeviceType();
 
-**Current classes:**
-```
-max-w-4xl mx-auto p-8 md:p-12 bg-card border border-border/50 shadow-lg
-```
+   // Desktop-only gate - check before password authentication
+   if (!isDesktop) {
+     return (
+       <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center p-6">
+         <div className="text-center space-y-6 max-w-md">
+           <div className="w-20 h-20 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto">
+             <Monitor className="w-10 h-10 text-primary" />
+           </div>
+           <div className="space-y-3">
+             <h1 className="text-2xl font-bold text-white">Desktop Experience Required</h1>
+             <p className="text-slate-300 leading-relaxed">
+               TEPilot's advanced analytics dashboard features interactive data visualizations, 
+               multi-step workflows, and detailed reporting tools that require a larger screen 
+               for the best experience.
+             </p>
+             <p className="text-slate-400 text-sm">
+               Please switch to a desktop or laptop computer to access the full Transaction 
+               Enrichment Pilot toolkit.
+             </p>
+           </div>
+         </div>
+       </div>
+     );
+   }
+   ```
 
-**New classes:**
-```
-glass-transition-card max-w-4xl mx-auto p-8 md:p-12
-```
+### Technical Details
 
----
+**Placement**: The desktop check will be added right after the state declarations begin (after line 50-51) but before the `useEffect` hooks and any conditional rendering logic. This ensures:
+- The check runs on every render
+- It returns early before the password form or any other content is shown
+- Mobile/tablet users never see the password prompt
 
-### 3. Benefits Page - Pricing Tier Cards
-**File:** `src/components/Benefits.tsx` (lines 65-87)
-
-**Current classes:**
-```
-bg-card border-border [+ highlighted ring styles]
-```
-
-**New classes:**
-```
-glass-transition-card [+ highlighted ring styles]
-```
-
-Three pricing tier cards will receive the effect.
-
----
-
-### 4. Partners Page - Tool Cards
-**File:** `src/components/partners/PartnerToolsSection.tsx` (lines 176-228)
-
-**Current classes:**
-```
-group hover:shadow-xl transition-all duration-500 border-border bg-card hover:scale-[1.02] animate-fade-in overflow-hidden relative
-```
-
-**New classes:**
-```
-glass-transition-card group animate-fade-in overflow-hidden relative
-```
-
-Six partner tool cards will receive the effect.
-
----
-
-### 5. JoinWaitlist Page - Form Card
-**File:** `src/pages/JoinWaitlist.tsx` (line 116)
-
-**Current classes:**
-```
-bg-card border-border overflow-hidden mx-2 md:mx-0 rounded-xl
-```
-
-**New classes:**
-```
-glass-transition-card overflow-hidden mx-2 md:mx-0 rounded-xl
-```
-
----
-
-## Technical Summary
-
-| Page | Component | Cards Count |
-|------|-----------|-------------|
-| `/ventus-ai` | Feature grid | 6 |
-| `/ventus-ai` | CTA section | 1 |
-| `/benefits` | Pricing tiers | 3 |
-| `/partners` | Tool cards | 6 |
-| `/waitlist` | Form card | 1 |
-| **Total** | | **17 cards** |
-
-## Files to Modify
-
-| File | Change |
-|------|--------|
-| `src/pages/VentusAI.tsx` | Apply class to 6 feature cards + 1 CTA card |
-| `src/components/Benefits.tsx` | Apply class to 3 pricing tier cards |
-| `src/components/partners/PartnerToolsSection.tsx` | Apply class to 6 tool cards |
-| `src/pages/JoinWaitlist.tsx` | Apply class to form card |
-
-## Effect Behavior
-All cards will share the same premium glass transition:
-- Smooth 0.4s transition on hover
-- Semi-transparent background with 20px blur
-- Subtle gradient overlay fade-in
-- Primary color border glow
-- Slight lift with scale and translateY
-- Premium shadow appearance
+**Breakpoint**: Uses the existing `useDeviceType` hook which defines desktop as screen width >= 1024px. Users on screens smaller than this will see the informative message.
