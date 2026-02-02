@@ -214,7 +214,7 @@ export default function VentusSearch() {
                   <div className="w-16 h-16 bg-gradient-to-br from-[#0064E0]/20 to-[#0064E0]/10 rounded-full flex items-center justify-center mb-4">
                     <Search className="w-7 h-7 text-[#0064E0]" />
                   </div>
-                  <h2 className="text-subsection text-foreground mb-2">
+                  <h2 className="text-component text-foreground mb-2">
                     Find Your Perfect Deal
                   </h2>
                   <p className="text-caption text-muted-foreground text-center mb-8 max-w-sm">
