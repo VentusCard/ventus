@@ -63,7 +63,7 @@ export const VentusSidebar = ({ children }: VentusSidebarProps) => {
         </div>
 
         {/* Navigation */}
-        <nav className="flex-1 p-2 space-y-1">
+        <nav className="flex-1 p-2 pt-4 space-y-1">
           {navItems.map(({ path, icon: Icon, label }) => {
             const isActive = location.pathname === path;
             return (
@@ -72,7 +72,7 @@ export const VentusSidebar = ({ children }: VentusSidebarProps) => {
                 to={path}
                 title={label}
                 className={cn(
-                  "flex items-center gap-3 px-3 h-10 rounded-lg transition-colors",
+                  "flex items-center gap-3 px-2.5 h-9 rounded-lg transition-colors",
                   collapsed && "justify-center px-0",
                   isActive 
                     ? "bg-sidebar-accent text-primary" 
