@@ -173,7 +173,7 @@ export default function VentusProfile() {
         {/* Header */}
         <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-30">
           <div className="px-8 py-6">
-            <h1 className="text-section text-foreground">Profile Settings</h1>
+            <h1 className="text-component text-foreground">Profile Settings</h1>
             <p className="text-caption text-muted-foreground mt-1">Manage your account and preferences</p>
           </div>
         </header>
