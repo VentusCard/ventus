@@ -457,6 +457,14 @@ export const exampleDeals = {
       "Local green home workshops, sustainability expos, and utility rebate assistance",
       "Bundle deals on complete home energy efficiency upgrade packages",
       "Priority access to renewable energy incentive programs and sustainable home design consultations"
+    ],
+    "Cleaning and Organization": [
+      "Extra cashback on vacuums, storage systems, and organizational tools",
+      "Extra points on professional cleaning services and home organization consultations",
+      "Free storage bin set or cleaning supply starter kit with qualifying purchase",
+      "Local professional organizer partnerships and decluttering workshop discounts",
+      "Bundle deals on complete home organization and deep cleaning packages",
+      "VIP access to celebrity organizer consultations and exclusive home transformation experiences"
     ]
   }
 };

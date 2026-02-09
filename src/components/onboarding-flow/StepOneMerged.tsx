@@ -183,7 +183,7 @@ const subcategoryData: Record<LifestyleGoal, string[]> = {
   pets: ["Dog Essentials", "Cat Essentials", "Small Pets (Birds, Fish, Reptiles)", "Pet Food and Nutrition", "Grooming and Health", "Pet Training and Behavior", "Pet Toys and Entertainment", "Pet Insurance and Emergency Care", "Pet Travel and Boarding"],
   gamers: ["PC Gaming", "Console Gaming", "Mobile Gaming", "Esports and Streaming", "Gaming Accessories", "VR and AR Gaming", "Retro and Collectible Gaming", "Game Development", "Gaming Nutrition and Lifestyle"],
   creatives: ["Photography", "Music Production", "Art Supplies", "Writing Tools", "Online Creative Classes", "Video and Film Production", "Graphic Design", "Crafting and DIY", "Creative Community and Events"],
-  homeowners: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services", "Home Security and Safety", "Kitchen and Appliances", "Energy and Sustainability"]
+  homeowners: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services", "Home Security and Safety", "Kitchen and Appliances", "Energy and Sustainability", "Cleaning and Organization"]
 };
 const goalTitles: Record<LifestyleGoal, string> = {
   sports: "Sports",
