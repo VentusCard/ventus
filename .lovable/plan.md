@@ -1,46 +1,70 @@
 
 
-# Unlock Gamers, Creatives, and Homeowners on /smartrewards
+# Deepen Content for Gamers, Creatives, and Homeowners
 
-## Problem
-The `StepOneMerged` component explicitly disables "gamers", "creatives", and "homeowners" via a `disabledGoals` array. This causes:
-- Grey/washed-out appearance with `opacity-50`, `grayscale`, and `cursor-not-allowed`
-- Click handler blocked (`!isDisabled && onSelectGoal(...)`)
-- Subcategories hidden for disabled goals
-- Badge text overridden to "Coming Later"
+## What Needs Fixing
 
-## Solution
-Remove all disabling logic so all 6 cards are fully interactive, while keeping the Year One cards visually distinguished with grey/muted styling (no gradient, just a subtle grey card look) to maintain hierarchy.
+The Year Two pillars have noticeably less content depth compared to the first three. Here is the gap analysis:
 
-## Technical Changes
+### 1. Subcategories (biggest gap)
+- Sports has 12, Wellness has 9, Pets has 9
+- Gamers has 5, Creatives has 5, Homeowners has 5
+- **Fix**: Expand each to 8-9 subcategories
+
+### 2. Example Deals per subcategory
+- First 3 pillars have 6 deals each (including a premium VIP-tier deal)
+- Last 3 pillars have only 5 deals each
+- **Fix**: Add a 6th VIP/exclusive deal to every subcategory in gamers, creatives, and homeowners
+
+### 3. Item descriptions in CategoryData
+- First 3 pillars use descriptive items ("Gym memberships and fitness gear", "Recovery tools")
+- Last 3 pillars use single-word items ("Games", "Hardware", "Subscriptions")
+- **Fix**: Expand item descriptions to be more specific and compelling
+
+## Changes
 
 ### File: `src/components/onboarding-flow/StepOneMerged.tsx`
 
-1. **Remove the `disabledGoals` array** (line 203)
-   - Delete: `const disabledGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];`
+Update `subcategoryData` for the 3 pillars:
 
-2. **Remove all `isDisabled` checks throughout the component**:
-   - Line 235: Remove `!disabledGoals.includes(selectedGoal)` from scroll useEffect
-   - Line 245: Remove `!disabledGoals.includes(selectedGoal)` from subcategories variable
-   - Line 266: Remove `const isDisabled = disabledGoals.includes(option.id);`
-   - Line 294: Change `!isDisabled && onSelectGoal(option.id)` to just `onSelectGoal(option.id)`
-   - Line 329: Remove `!disabledGoals.includes(selectedGoal)` condition
+**Gamers** (5 to 9):
+- PC Gaming, Console Gaming, Mobile Gaming, Esports and Streaming, Gaming Accessories
+- ADD: VR and AR Gaming, Retro and Collectible Gaming, Game Development, Gaming Nutrition and Lifestyle
 
-3. **Update `getCardStyles()` function** (lines 267-293):
-   - Remove the disabled branch (lines 268-270)
-   - Give "Year One" cards (gamers, creatives, homeowners) a grey-toned styling instead of the blue gradients used by the first 3:
-     ```
-     bg-gradient-to-br from-slate-800/80 to-slate-900/90 border border-slate-600/60
-     ```
-   - They still get hover effects, selection ring, and scale -- just grey instead of blue
+**Creatives** (5 to 9):
+- Photography, Music Production, Art Supplies, Writing Tools, Online Creative Classes
+- ADD: Video and Film Production, Graphic Design, Crafting and DIY, Creative Community and Events
 
-4. **Update CardContent gradient** (lines 295-301):
-   - Add a grey gradient for Year One cards instead of blue
+**Homeowners** (5 to 8):
+- Home Improvement, Smart Home Tech, Furniture and Decor, Gardening and Outdoors, Home Services
+- ADD: Home Security and Safety, Kitchen and Appliances, Energy and Sustainability
 
-5. **Update badge logic** (lines 313-315):
-   - Remove the `isDisabled` ternary; show the actual `option.availability` text for all cards
-   - "Year One" badge keeps an orange or slate style to signal future availability
+### File: `src/components/onboarding/step-three/ExampleDealsData.ts`
 
-6. **Update text color logic** (lines 305, 308):
-   - Remove `isDisabled` conditionals; all cards use white text
+Add a 6th VIP-tier deal to all existing gamers/creatives/homeowners subcategories, plus add deal arrays for the new subcategories. Example additions:
+
+- PC Gaming: "Exclusive early access to game launches and private developer Q&A sessions"
+- Photography: "VIP passes to photography exhibitions and masterclass sessions with renowned photographers"
+- Home Improvement: "Priority access to contractor networks and exclusive DIY workshop experiences"
+
+### File: `src/components/onboarding-flow/CategoryDataConstants.ts`
+
+1. **Expand item descriptions** for existing gamers/creatives/homeowners entries (e.g., "Games" becomes "PC games and digital downloads", "Hardware" becomes "GPUs, monitors, and peripherals")
+2. **Add `categoryData` entries** for all new subcategories with 5 items each, matching the detail level of Sports/Wellness/Pets
+
+### File: `src/pages/ventus-rewards/data.ts`
+
+Update the `lifestyleOptions` subcategories array and the `getExamplePurchases` purchase map to match the new subcategory names, keeping this file in sync with the onboarding flow.
+
+## Summary of Content Parity After Changes
+
+```text
+                Subcategories    Deals/sub    Item detail
+Sports          12               6            Descriptive
+Wellness         9               6            Descriptive
+Pets             9               6            Descriptive
+Gamers         5 -> 9            5 -> 6       Single word -> Descriptive
+Creatives      5 -> 9            5 -> 6       Single word -> Descriptive
+Homeowners     5 -> 8            5 -> 6       Single word -> Descriptive
+```
 
