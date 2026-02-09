@@ -1,34 +1,46 @@
 
 
-# Fix Coloring on /partners Page
+# Unlock Gamers, Creatives, and Homeowners on /smartrewards
 
-## Issues Identified
-1. **Glass-transition-card hover effect** -- The tool cards use `glass-transition-card` which transitions to a white/glassy appearance on hover (`hsl(0 0% 100% / 0.08)` background with white borders), creating a jarring contrast against the dark theme
-2. **Section background consistency** -- The hero and tools sections use the default `bg-background` but the sections themselves don't explicitly set backgrounds, potentially causing subtle inconsistencies
+## Problem
+The `StepOneMerged` component explicitly disables "gamers", "creatives", and "homeowners" via a `disabledGoals` array. This causes:
+- Grey/washed-out appearance with `opacity-50`, `grayscale`, and `cursor-not-allowed`
+- Click handler blocked (`!isDisabled && onSelectGoal(...)`)
+- Subcategories hidden for disabled goals
+- Badge text overridden to "Coming Later"
 
-## Changes
+## Solution
+Remove all disabling logic so all 6 cards are fully interactive, while keeping the Year One cards visually distinguished with grey/muted styling (no gradient, just a subtle grey card look) to maintain hierarchy.
 
-### 1. PartnerToolsSection.tsx
-- Replace `glass-transition-card` on the tool cards with a dark-theme-consistent hover effect using Tailwind classes directly (e.g., `bg-card border-border hover:border-primary/30 transition-all duration-300`)
-- This keeps hover feedback without the white glass effect
+## Technical Changes
 
-### 2. PartnerHero.tsx
-- Ensure the hero section explicitly uses `bg-background` for consistency
+### File: `src/components/onboarding-flow/StepOneMerged.tsx`
 
-### 3. Partners.tsx
-- Add `bg-background` to the wrapper div to ensure the entire page has a consistent base color
+1. **Remove the `disabledGoals` array** (line 203)
+   - Delete: `const disabledGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];`
 
-## Technical Details
+2. **Remove all `isDisabled` checks throughout the component**:
+   - Line 235: Remove `!disabledGoals.includes(selectedGoal)` from scroll useEffect
+   - Line 245: Remove `!disabledGoals.includes(selectedGoal)` from subcategories variable
+   - Line 266: Remove `const isDisabled = disabledGoals.includes(option.id);`
+   - Line 294: Change `!isDisabled && onSelectGoal(option.id)` to just `onSelectGoal(option.id)`
+   - Line 329: Remove `!disabledGoals.includes(selectedGoal)` condition
 
-**PartnerToolsSection.tsx (line 178)**
-Change the Card className from:
-```
-glass-transition-card group animate-fade-in overflow-hidden relative
-```
-to:
-```
-bg-card border-border hover:border-primary/30 transition-all duration-300 group animate-fade-in overflow-hidden relative
-```
+3. **Update `getCardStyles()` function** (lines 267-293):
+   - Remove the disabled branch (lines 268-270)
+   - Give "Year One" cards (gamers, creatives, homeowners) a grey-toned styling instead of the blue gradients used by the first 3:
+     ```
+     bg-gradient-to-br from-slate-800/80 to-slate-900/90 border border-slate-600/60
+     ```
+   - They still get hover effects, selection ring, and scale -- just grey instead of blue
 
-This removes the white glass hover effect and replaces it with a subtle blue border glow on hover that matches the dark theme's primary color accent.
+4. **Update CardContent gradient** (lines 295-301):
+   - Add a grey gradient for Year One cards instead of blue
+
+5. **Update badge logic** (lines 313-315):
+   - Remove the `isDisabled` ternary; show the actual `option.availability` text for all cards
+   - "Year One" badge keeps an orange or slate style to signal future availability
+
+6. **Update text color logic** (lines 305, 308):
+   - Remove `isDisabled` conditionals; all cards use white text
 
