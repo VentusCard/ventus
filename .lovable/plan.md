@@ -1,34 +1,42 @@
 
 
-# Fix Coloring on /partners Page
+# Enhance `/app` Landing Page
 
-## Issues Identified
-1. **Glass-transition-card hover effect** -- The tool cards use `glass-transition-card` which transitions to a white/glassy appearance on hover (`hsl(0 0% 100% / 0.08)` background with white borders), creating a jarring contrast against the dark theme
-2. **Section background consistency** -- The hero and tools sections use the default `bg-background` but the sections themselves don't explicitly set backgrounds, potentially causing subtle inconsistencies
+## Summary
+Update `src/pages/ventus-app/VentusLanding.tsx` to position the app as a deals aggregator built as the first step toward the Ventus Card. Frame it as "we built this so you can start saving now."
 
-## Changes
+## Changes (single file: `VentusLanding.tsx`)
 
-### 1. PartnerToolsSection.tsx
-- Replace `glass-transition-card` on the tool cards with a dark-theme-consistent hover effect using Tailwind classes directly (e.g., `bg-card border-border hover:border-primary/30 transition-all duration-300`)
-- This keeps hover feedback without the white glass effect
+### A. Hero Copy Updates
+- Tagline: "Ventus helps you to" becomes **"Start saving before the card"**
+- Subtitle rewritten: "We built the Ventus app so you can start discovering deals today. AI-powered, organized by your lifestyle -- and when the Ventus Card launches, everything connects."
+- Feature pills updated: "AI-Powered Deals", "Cross-Category Deals", "Weekly Curated Finds"
 
-### 2. PartnerHero.tsx
-- Ensure the hero section explicitly uses `bg-background` for consistency
+### B. New Section: "How It Works" (below hero)
+3-column grid:
+1. **Pick Your Sports** -- Tell us what you love. We organize deals around your lifestyle.
+2. **Everything in One Place** -- All deals from every merchant for your sport, in one feed.
+3. **AI Search + Weekly Finds** -- Chat with our AI to find specific deals, or get a weekly digest.
 
-### 3. Partners.tsx
-- Add `bg-background` to the wrapper div to ensure the entire page has a consistent base color
+### C. New Section: "The Ventus Journey" (below How It Works)
+3-step roadmap connecting app to card:
+1. **Now: The App** -- Discover cross-category deals organized by your interests.
+2. **Soon: The Card** -- Your spending unlocks personalized deals tied to your lifestyle.
+3. **Together** -- The app learns what you love. The card rewards you for it.
+
+Subtle connecting line between steps, framer-motion scroll animations.
 
 ## Technical Details
 
-**PartnerToolsSection.tsx (line 178)**
-Change the Card className from:
-```
-glass-transition-card group animate-fade-in overflow-hidden relative
-```
-to:
-```
-bg-card border-border hover:border-primary/30 transition-all duration-300 group animate-fade-in overflow-hidden relative
-```
+### Single file modified
+`src/pages/ventus-app/VentusLanding.tsx`
 
-This removes the white glass hover effect and replaces it with a subtle blue border glow on hover that matches the dark theme's primary color accent.
+### Implementation
+- Import `motion` from `framer-motion` and additional lucide icons (Target, LayoutGrid, Bot, CreditCard, Layers)
+- Update hero text and feature pills array
+- Add two new `<section>` elements between the hero closing and `<Footer />`
+- Use existing design tokens: bg-background, bg-card, text-foreground, text-muted-foreground, border-border, text-primary
+- Responsive: 1-col mobile, 3-col desktop (grid-cols-1 md:grid-cols-3)
+- framer-motion `whileInView` fade-in for scroll animations
+- No new files or dependencies
 
