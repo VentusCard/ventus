@@ -74,7 +74,7 @@ const Hero = () => {
   };
 
   return (
-    <div id="hero" className="relative text-white flex items-center justify-center overflow-hidden min-h-screen pt-20">
+    <div id="hero" className="relative text-white flex items-center justify-center overflow-hidden min-h-screen pt-20 bg-black">
       {/* Seamless gradient overlay for smooth transition to footer */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent via-background/80 to-background z-0 pointer-events-none"></div>
       
