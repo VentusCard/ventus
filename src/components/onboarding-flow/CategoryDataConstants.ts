@@ -1294,6 +1294,27 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
       item: "EV charger installation and green certifications",
       card: "General Cashback Card",
       color: "bg-gray-500"
+    }],
+    "Cleaning and Organization": [{
+      item: "Robot vacuums, steam cleaners, and mops",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Closet systems and shelving units",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Storage bins, labels, and containers",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Professional organizing consultations",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Eco-friendly cleaning products and refills",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
     }]
   }
 };

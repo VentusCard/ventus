@@ -52,7 +52,7 @@ export const lifestyleOptions: LifestyleOption[] = [
     description: "Improvement, Smart Tech, Security, Kitchen & Sustainability",
     year: "Year Two",
     icon: "🏠",
-    subcategories: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services", "Home Security and Safety", "Kitchen and Appliances", "Energy and Sustainability"],
+    subcategories: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services", "Home Security and Safety", "Kitchen and Appliances", "Energy and Sustainability", "Cleaning and Organization"],
     merchants: ["Home Depot", "Lowe's", "Wayfair", "Best Buy"]
   }
 ];
@@ -339,6 +339,12 @@ export const getExamplePurchases = (goal: LifestyleGoal, subcategory: string): E
         { category: "Energy Audits & Green Certifications", cardType: "General Card", cardColor: "bg-gray-500" },
         { category: "Eco-Friendly Dining Experiences", cardType: "Dining Card", cardColor: "bg-red-500" },
         { category: "Eco Cleaning & Green Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Cleaning and Organization": [
+        { category: "Vacuums & Cleaning Devices", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Professional Organizing Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Post-Declutter Celebration Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Eco Cleaning Products & Refills", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ]
     }
   };
