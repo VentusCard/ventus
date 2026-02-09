@@ -746,321 +746,552 @@ export const categoryData: Record<LifestyleGoal, Record<string, Array<{
   },
   gamers: {
     "PC Gaming": [{
-      item: "Games",
+      item: "PC games and digital downloads",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Hardware",
+      item: "GPUs, monitors, and peripherals",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Bundles",
+      item: "Game bundles and season passes",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Software",
+      item: "Anti-virus and optimization software",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Subscriptions",
+      item: "Cloud gaming and launcher subscriptions",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Console Gaming": [{
-      item: "Consoles/accessories",
+      item: "Consoles, controllers, and charging docks",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Digital store purchases",
+      item: "Digital storefront game purchases",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Game passes",
+      item: "Xbox Game Pass and PlayStation Plus",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "In-game currencies",
+      item: "In-game currency and DLC packs",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Bundle deals",
+      item: "Console + game starter bundles",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }],
     "Mobile Gaming": [{
-      item: "In-app purchases",
+      item: "In-app purchases and battle passes",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Game passes",
+      item: "Apple Arcade and Google Play Pass",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Accessories",
+      item: "Mobile controllers and cooling fans",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Cloud gaming",
+      item: "Cloud gaming subscriptions",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "App Store credits",
+      item: "App Store and Play Store gift cards",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Esports and Streaming": [{
-      item: "Subscriptions",
+      item: "Twitch and YouTube Gaming subscriptions",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Merch",
+      item: "Team jerseys and esports merchandise",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Event tickets",
+      item: "Tournament entry fees and event tickets",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Coaching",
+      item: "Pro-level coaching and replay analysis",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Streaming equipment",
+      item: "Capture cards, webcams, and streaming mics",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }],
     "Gaming Accessories": [{
-      item: "Keyboards, mice, headsets",
+      item: "Mechanical keyboards, mice, and headsets",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Chairs, mounts",
+      item: "Gaming chairs, desks, and monitor arms",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "RGB lighting",
+      item: "RGB lighting strips and ambient lighting",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Desk setups",
+      item: "Cable management and desk organization",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Custom gear",
+      item: "Custom keycaps and artisan peripherals",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
+    }],
+    "VR and AR Gaming": [{
+      item: "VR headsets and motion controllers",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "VR game libraries and experience passes",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Haptic suits and feedback accessories",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Room-scale tracking sensors and mats",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "AR glasses and mixed reality devices",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }],
+    "Retro and Collectible Gaming": [{
+      item: "Retro consoles and cartridge collections",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Game grading and preservation services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Collector edition figures and art books",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Vintage arcade cabinets and reproductions",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Display cases and protective storage",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }],
+    "Game Development": [{
+      item: "Unity and Unreal Engine marketplace assets",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Development hardware and testing devices",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Sound design libraries and music licensing",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Game dev courses and bootcamp enrollments",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Server hosting and publishing platform fees",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Gaming Nutrition and Lifestyle": [{
+      item: "Gaming energy drinks and focus supplements",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Blue-light glasses and ergonomic wrist rests",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Healthy gamer snack boxes and meal prep kits",
+      card: "4x with Grocery Card",
+      color: "bg-green-500"
+    }, {
+      item: "Posture correctors and standing desk converters",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Gamer wellness coaching and eye care services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
     }]
   },
   creatives: {
     "Photography": [{
-      item: "Cameras/lenses",
+      item: "Cameras, lenses, and tripods",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Software subscriptions",
+      item: "Lightroom and Capture One subscriptions",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Storage/media",
+      item: "Memory cards, drives, and cloud storage",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Studio gear",
+      item: "Studio lighting, backdrops, and reflectors",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Courses",
+      item: "Photography workshops and online courses",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Music Production": [{
-      item: "Software",
+      item: "DAW software and plugin subscriptions",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Instruments",
+      item: "MIDI controllers, keyboards, and instruments",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Plugins",
+      item: "Sample packs, loops, and preset libraries",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Audio gear",
+      item: "Studio monitors, audio interfaces, and mics",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Licensing",
+      item: "Music distribution and licensing services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Art Supplies": [{
-      item: "Supplies/tools",
+      item: "Premium paints, brushes, and canvas",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Digital tablets",
+      item: "Drawing tablets and digital styluses",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Art store purchases",
+      item: "Art store supplies and specialty materials",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Subscription boxes",
+      item: "Monthly art supply subscription boxes",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Printing",
+      item: "Professional printing and framing services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Writing Tools": [{
-      item: "Writing software",
+      item: "Scrivener, Grammarly, and writing software",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Journals/notebooks",
+      item: "Premium journals, notebooks, and fountain pens",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Writing courses",
+      item: "Writing workshops and critique group fees",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Publishing tools",
+      item: "Self-publishing tools and ISBN registration",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Retreats",
+      item: "Writer retreat bookings and residency fees",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Online Creative Classes": [{
-      item: "Subscriptions",
+      item: "Skillshare and MasterClass subscriptions",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Workshops",
+      item: "Live virtual workshops and bootcamps",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Certifications",
+      item: "Professional certification programs",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Course bundles",
+      item: "Multi-course creative learning bundles",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Platforms",
+      item: "Domestika, Coursera, and Udemy enrollments",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Video and Film Production": [{
+      item: "Cinema cameras, gimbals, and drones",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "DaVinci Resolve and Final Cut Pro licenses",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Stock footage and sound effects libraries",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Lighting rigs, boom mics, and audio recorders",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Film festival submissions and distribution fees",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Graphic Design": [{
+      item: "Design tablets, styluses, and calibration tools",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Adobe Creative Cloud and Figma subscriptions",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Font licensing and premium icon libraries",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Color-accurate monitors and print proofing",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Design conference tickets and portfolio hosting",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Crafting and DIY": [{
+      item: "Crafting tools, fabric, and specialty materials",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Cricut, sewing machines, and cutting tools",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Monthly craft subscription boxes",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Maker space memberships and studio rentals",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Etsy seller tools and craft fair booth fees",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Creative Community and Events": [{
+      item: "Art exhibition and festival tickets",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Creative co-working space memberships",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Portfolio hosting and networking platforms",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Open studio night supplies and event materials",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Creative mentorship and community programs",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }]
   },
   homeowners: {
     "Home Improvement": [{
-      item: "Tools/hardware",
+      item: "Power tools, lumber, and hardware",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Contractor services",
+      item: "Contractor and handyman services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Paint/flooring",
+      item: "Paint, flooring, and tile materials",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "In-store purchases",
+      item: "Home Depot and Lowe's in-store purchases",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Permits/inspections",
+      item: "Permits, inspections, and design plans",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }],
     "Smart Home Tech": [{
-      item: "Devices",
+      item: "Smart thermostats, speakers, and displays",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Subscriptions",
+      item: "Home automation platform subscriptions",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Installations",
+      item: "Professional installation and setup services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Sensors",
+      item: "Smart sensors, plugs, and light bulbs",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Bundles",
+      item: "Complete smart home starter bundles",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }],
     "Furniture and Decor": [{
-      item: "Furniture",
+      item: "Sofas, dining sets, and bedroom collections",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Lighting/decor",
+      item: "Lamps, wall art, and decorative accents",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Mattresses",
+      item: "Premium mattresses and bedding sets",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Delivery/assembly",
+      item: "Delivery, assembly, and installation services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Local decor",
+      item: "Local artisan and boutique décor shops",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }],
     "Gardening and Outdoors": [{
-      item: "Tools/seeds",
+      item: "Garden tools, planters, and raised beds",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Compost/irrigation",
+      item: "Compost, soil, and irrigation systems",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Outdoor furniture",
+      item: "Patio furniture and outdoor entertaining",
       card: "Shopping Cashback Card",
       color: "bg-blue-500"
     }, {
-      item: "Landscaping",
+      item: "Landscaping design and lawn care services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Seasonal plants",
+      item: "Seasonal plants, seeds, and bulbs",
       card: "4x with Grocery Card",
       color: "bg-green-500"
     }],
     "Home Services": [{
-      item: "Cleaning",
+      item: "Professional cleaning and maid services",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "HVAC maintenance",
+      item: "HVAC maintenance and tune-up plans",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Pest control",
+      item: "Pest control and termite treatment",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Handyman",
+      item: "Plumbing, electrical, and handyman visits",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }, {
-      item: "Warranties",
+      item: "Home warranty and protection plans",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Home Security and Safety": [{
+      item: "Security cameras, doorbells, and smart locks",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Professional monitoring subscriptions",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Smoke detectors and carbon monoxide alarms",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Home safety inspections and assessments",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Emergency kits and fire safety equipment",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }],
+    "Kitchen and Appliances": [{
+      item: "Major appliances and installation services",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Premium cookware, knives, and kitchen tools",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Small appliances and countertop gadgets",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Kitchen remodel materials and countertops",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Cooking classes and culinary experiences",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }],
+    "Energy and Sustainability": [{
+      item: "Solar panels and home battery systems",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Energy-efficient appliances and upgrades",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "Home energy audits and insulation services",
+      card: "General Cashback Card",
+      color: "bg-gray-500"
+    }, {
+      item: "Smart thermostats and energy monitors",
+      card: "Shopping Cashback Card",
+      color: "bg-blue-500"
+    }, {
+      item: "EV charger installation and green certifications",
       card: "General Cashback Card",
       color: "bg-gray-500"
     }]

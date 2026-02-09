@@ -31,28 +31,28 @@ export const lifestyleOptions: LifestyleOption[] = [
   {
     id: "gamers",
     title: "Gamers",
-    description: "PC, Console, Mobile & Esports",
+    description: "PC, Console, Mobile, VR, Esports & Retro Gaming",
     year: "Year Two",
     icon: "🎮",
-    subcategories: ["PC", "Console", "Mobile", "Esports", "Accessories"],
+    subcategories: ["PC Gaming", "Console Gaming", "Mobile Gaming", "Esports and Streaming", "Gaming Accessories", "VR and AR Gaming", "Retro and Collectible Gaming", "Game Development", "Gaming Nutrition and Lifestyle"],
     merchants: ["Steam", "PlayStation", "Best Buy", "Razer"]
   },
   {
     id: "creatives",
     title: "Creatives",
-    description: "Photography, Music, Art & Writing",
+    description: "Photography, Music, Art, Video, Design & Crafting",
     year: "Year Two",
     icon: "🎨",
-    subcategories: ["Photography", "Music Production", "Art Supplies"],
+    subcategories: ["Photography", "Music Production", "Art Supplies", "Writing Tools", "Online Creative Classes", "Video and Film Production", "Graphic Design", "Crafting and DIY", "Creative Community and Events"],
     merchants: ["Adobe", "B&H Photo", "Guitar Center", "Blick Art"]
   },
   {
     id: "homeowners",
     title: "Homeowners",
-    description: "Smart Tech, Improvement & Furniture",
+    description: "Improvement, Smart Tech, Security, Kitchen & Sustainability",
     year: "Year Two",
     icon: "🏠",
-    subcategories: ["Smart Tech", "Home Improvement", "Furniture", "Services"],
+    subcategories: ["Home Improvement", "Smart Home Tech", "Furniture and Decor", "Gardening and Outdoors", "Home Services", "Home Security and Safety", "Kitchen and Appliances", "Energy and Sustainability"],
     merchants: ["Home Depot", "Lowe's", "Wayfair", "Best Buy"]
   }
 ];
@@ -180,81 +180,165 @@ export const getExamplePurchases = (goal: LifestyleGoal, subcategory: string): E
       ]
     },
     gamers: {
-      "PC": [
-        { category: "PC Components", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Gaming Software", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Gaming Cafés", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Energy Drinks", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "PC Gaming": [
+        { category: "PC Games & Digital Downloads", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "GPUs & Gaming Monitors", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Gaming Cafés & LAN Events", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Energy Drinks & Snacks", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Console": [
-        { category: "Console Games", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Gaming Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Gaming Lounges", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Gaming Snacks", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Console Gaming": [
+        { category: "Consoles & Controllers", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Game Passes & Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Gaming Lounge Visits", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Gaming Snack Boxes", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Mobile": [
-        { category: "Mobile Accessories", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Mobile Game Purchases", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Mobile Gaming Events", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Portable Snacks", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Mobile Gaming": [
+        { category: "Mobile Controllers & Accessories", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "In-App Purchases & Passes", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Mobile Gaming Pop-Up Events", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Portable Snacks & Drinks", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Esports": [
-        { category: "Gaming Peripherals", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Tournament Fees", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Competition Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Performance Foods", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Esports and Streaming": [
+        { category: "Streaming Gear & Capture Cards", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Tournament Entry & Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Watch Party Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Performance Energy Supplements", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Accessories": [
-        { category: "Gaming Chairs & Desks", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Setup Services", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Setup Celebration", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Gaming Fuel", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Gaming Accessories": [
+        { category: "Keyboards, Mice & Headsets", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Desk Setup & Cable Management", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Setup Celebration Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Gaming Fuel & Snacks", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "VR and AR Gaming": [
+        { category: "VR Headsets & Controllers", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "VR Game Libraries & Experiences", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "VR Arcade Sessions", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Comfort Snacks & Hydration", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Retro and Collectible Gaming": [
+        { category: "Retro Consoles & Cartridges", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Grading & Preservation Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Retro Gaming Expo Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Collector Display Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Game Development": [
+        { category: "Dev Tools & Asset Packs", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Engine Subscriptions & Hosting", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Game Jam Meetup Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Developer Fuel & Snacks", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Gaming Nutrition and Lifestyle": [
+        { category: "Ergonomic Gear & Blue-Light Glasses", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Wellness Coaching & Eye Care", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Healthy Gaming Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Energy Drinks & Focus Supplements", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ]
     },
     creatives: {
       "Photography": [
-        { category: "Camera Equipment", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Photo Editing Software", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Client Meetings", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Photography Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+        { category: "Cameras, Lenses & Tripods", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Editing Software Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Client Meeting Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Photography Supplies & Media", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
       "Music Production": [
-        { category: "Audio Equipment", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Music Software", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Creative Meetings", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Studio Snacks", cardType: "Grocery Card", cardColor: "bg-green-500" }
+        { category: "Audio Interfaces & Studio Monitors", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "DAW & Plugin Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Creative Session Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Studio Snacks & Beverages", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
       "Art Supplies": [
-        { category: "Painting & Drawing Supplies", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Art Classes", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Gallery Openings", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Creative Fuel", cardType: "Grocery Card", cardColor: "bg-green-500" }
+        { category: "Paints, Brushes & Canvas", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Art Classes & Workshops", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Gallery Opening Events", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Creative Fuel & Materials", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Writing Tools": [
+        { category: "Writing Software & Journals", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Publishing & Critique Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Author Event Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Writing Retreat Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Online Creative Classes": [
+        { category: "Course Enrollments & Memberships", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Platform Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Co-Learning Group Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Study Snacks & Beverages", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Video and Film Production": [
+        { category: "Cameras, Gimbals & Drones", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Editing Software & Stock Footage", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Film Crew Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "On-Set Craft Services", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Graphic Design": [
+        { category: "Design Tablets & Monitors", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Adobe CC & Font Licensing", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Design Meetup Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Office Snacks & Coffee", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Crafting and DIY": [
+        { category: "Crafting Tools & Materials", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Maker Space Memberships", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Craft Fair Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Crafting Supplies & Kits", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Creative Community and Events": [
+        { category: "Event Tickets & Art Passes", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Co-Working & Portfolio Platforms", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Networking Event Dining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Event Catering & Refreshments", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ]
     },
     homeowners: {
-      "Smart Tech": [
-        { category: "Smart Home Devices", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Installation Services", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Tech Setup Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+      "Home Improvement": [
+        { category: "Power Tools & Lumber", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Contractor & Design Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Project Day Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Home Maintenance Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Smart Home Tech": [
+        { category: "Smart Thermostats & Speakers", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Automation Platform Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Tech Setup Celebration Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
         { category: "Tech Cleaning Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Home Improvement": [
-        { category: "Tools & Materials", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Contractor Services", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Project Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Home Maintenance", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Furniture and Decor": [
+        { category: "Sofas, Dining Sets & Beds", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Delivery & Assembly Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Housewarming Dinner Parties", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Home Essential Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Furniture": [
-        { category: "Home Furniture", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Delivery Services", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Housewarming Dinners", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Home Essentials", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Gardening and Outdoors": [
+        { category: "Garden Tools & Planters", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Landscaping & Lawn Services", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Outdoor BBQ & Entertaining", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Seeds, Plants & Soil", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ],
-      "Services": [
-        { category: "Home Service Tools", cardType: "Shopping Card", cardColor: "bg-blue-500" },
-        { category: "Professional Services", cardType: "General Card", cardColor: "bg-gray-500" },
-        { category: "Service Provider Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
-        { category: "Service Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      "Home Services": [
+        { category: "Cleaning & Repair Tools", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Professional Service Plans", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Service Provider Appreciation Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Maintenance Cleaning Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Home Security and Safety": [
+        { category: "Security Cameras & Smart Locks", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Monitoring Subscriptions", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Installation Day Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Emergency Kits & Safety Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Kitchen and Appliances": [
+        { category: "Major Appliances & Cookware", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Installation & Cooking Classes", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Kitchen Testing & Tasting Meals", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Gourmet Ingredients & Spices", cardType: "Grocery Card", cardColor: "bg-green-500" }
+      ],
+      "Energy and Sustainability": [
+        { category: "Solar Panels & Battery Systems", cardType: "Shopping Card", cardColor: "bg-blue-500" },
+        { category: "Energy Audits & Green Certifications", cardType: "General Card", cardColor: "bg-gray-500" },
+        { category: "Eco-Friendly Dining Experiences", cardType: "Dining Card", cardColor: "bg-red-500" },
+        { category: "Eco Cleaning & Green Supplies", cardType: "Grocery Card", cardColor: "bg-green-500" }
       ]
     }
   };
