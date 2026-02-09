@@ -34,7 +34,7 @@ const AppDownload = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen glass-page-bg relative overflow-hidden">
       <Navbar />
       
       {/* Hero Section */}

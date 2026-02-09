@@ -10,7 +10,7 @@ interface ComparisonSectionProps {
 
 const ComparisonSection = ({ selectedGoal, selectedSubcategories }: ComparisonSectionProps) => {
   return (
-    <section id="comparison-section" className="py-16 bg-slate-900">
+    <section id="comparison-section" className="py-16 glass-section">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-white">
@@ -36,7 +36,7 @@ const ComparisonSection = ({ selectedGoal, selectedSubcategories }: ComparisonSe
               {selectedSubcategories.map((subcategory) => {
                 const examplePurchases = getExamplePurchases(selectedGoal, subcategory);
                 return (
-                  <div key={subcategory} className="bg-slate-800 rounded-lg p-6 border border-red-700">
+                  <div key={subcategory} className="glass-card rounded-lg p-6 border border-red-700">
                     <h4 className="font-bold text-lg text-white mb-4">{subcategory}</h4>
                     <div className="space-y-3">
                       {examplePurchases.map((purchase, index) => (
@@ -79,7 +79,7 @@ const ComparisonSection = ({ selectedGoal, selectedSubcategories }: ComparisonSe
               {selectedSubcategories.map((subcategory) => {
                 const examplePurchases = getExamplePurchases(selectedGoal, subcategory);
                 return (
-                  <div key={subcategory} className="bg-slate-800 rounded-lg p-6 border border-green-600">
+                  <div key={subcategory} className="glass-card rounded-lg p-6 border border-green-600">
                     <h4 className="font-bold text-lg text-white mb-4">{subcategory}</h4>
                     <div className="space-y-3">
                       {examplePurchases.map((purchase, index) => (
@@ -107,21 +107,21 @@ const ComparisonSection = ({ selectedGoal, selectedSubcategories }: ComparisonSe
 
         {/* Key Benefits */}
         <div className="grid md:grid-cols-3 gap-6 mt-12 mb-8">
-          <div className="text-center p-6 bg-slate-800 rounded-lg shadow-md border border-slate-700">
+          <div className="text-center p-6 glass-card rounded-lg shadow-md border border-border/50">
             <div className="w-12 h-12 bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
               <CreditCard className="h-6 w-6 text-blue-300" />
             </div>
             <h3 className="font-bold text-lg mb-2 text-white">One Card Replaces Multiple</h3>
             <p className="text-slate-300">No more juggling 3+ specialized cards</p>
           </div>
-          <div className="text-center p-6 bg-slate-800 rounded-lg shadow-md border border-slate-700">
+          <div className="text-center p-6 glass-card rounded-lg shadow-md border border-border/50">
             <div className="w-12 h-12 bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
               <Zap className="h-6 w-6 text-green-300" />
             </div>
             <h3 className="font-bold text-lg mb-2 text-white">5x Points Automatically</h3>
             <p className="text-slate-300">No mental math or category tracking</p>
           </div>
-          <div className="text-center p-6 bg-slate-800 rounded-lg shadow-md border border-slate-700">
+          <div className="text-center p-6 glass-card rounded-lg shadow-md border border-border/50">
             <div className="w-12 h-12 bg-purple-900 rounded-full flex items-center justify-center mx-auto mb-4">
               <Target className="h-6 w-6 text-purple-300" />
             </div>

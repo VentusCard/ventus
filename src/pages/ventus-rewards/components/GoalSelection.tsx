@@ -10,7 +10,7 @@ interface GoalSelectionProps {
 
 const GoalSelection = ({ lifestyleOptions, selectedGoal, onGoalSelect }: GoalSelectionProps) => {
   return (
-    <section id="goal-selection" className="pt-0 pb-16 bg-slate-900">
+    <section id="goal-selection" className="pt-0 pb-16 glass-section">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 text-white">
@@ -28,8 +28,8 @@ const GoalSelection = ({ lifestyleOptions, selectedGoal, onGoalSelect }: GoalSel
               onClick={() => onGoalSelect(option.id)}
               className={`relative p-6 rounded-xl border-2 cursor-pointer transition-all duration-300 hover:shadow-lg ${
                 selectedGoal === option.id
-                  ? 'border-blue-500 bg-blue-900/30 shadow-lg scale-105'
-                  : 'border-slate-700 bg-slate-800 hover:border-blue-400'
+                  ? 'border-blue-500 bg-blue-900/30 shadow-lg scale-105 backdrop-blur-sm'
+                  : 'glass-card border-border/50 hover:border-blue-400'
               }`}
             >
               <div className="text-center">

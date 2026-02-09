@@ -5,7 +5,7 @@ import Benefits from "@/components/Benefits";
 
 const BenefitsPage = () => {
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen glass-page-bg relative overflow-hidden">
       <div className="relative z-10">
         <Navbar />
         

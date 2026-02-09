@@ -25,7 +25,7 @@ const AboutUs = () => {
   }];
 
   return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+    <div className="min-h-screen glass-page-bg relative overflow-hidden">
       <Navbar />
       
       {/* Story Content Section */}
@@ -77,7 +77,7 @@ const AboutUs = () => {
                   delay: index * 0.1,
                   ease: [0.25, 0.46, 0.45, 0.94]
                 }}
-                className="p-4 rounded-xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default"
+                className="p-4 rounded-xl glass-card border border-border/30 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default"
               >
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
                   <value.icon className="h-6 w-6 text-primary" />

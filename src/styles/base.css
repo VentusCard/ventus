@@ -177,4 +177,28 @@
   .dark-card-hover:hover {
     @apply border-border;
   }
+
+  /* Glassmorphism page background */
+  .glass-page-bg {
+    position: relative;
+    background: hsl(220 50% 8%);
+  }
+
+  .glass-page-bg::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(ellipse 600px 600px at 15% 20%, hsl(217 91% 30% / 0.15) 0%, transparent 70%),
+      radial-gradient(ellipse 500px 500px at 85% 60%, hsl(260 60% 30% / 0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 400px 400px at 50% 80%, hsl(200 80% 25% / 0.1) 0%, transparent 70%);
+    animation: gradient-shift 18s ease-in-out infinite;
+  }
+
+  .glass-page-bg > * {
+    position: relative;
+    z-index: 1;
+  }
 }
