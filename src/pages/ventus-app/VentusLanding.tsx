@@ -1,14 +1,27 @@
-import { Apple, PlayIcon, Sparkles, Shield, Zap } from "lucide-react";
+import { Apple, PlayIcon, Sparkles, Shield, Zap, Target, LayoutGrid, Bot, CreditCard, Layers } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import appScreensPreview from "@/assets/app-screens-preview.png";
+import { motion } from "framer-motion";
 
 export default function VentusLanding() {
   const features = [
     { icon: Sparkles, label: "AI-Powered Deals" },
-    { icon: Shield, label: "Secure & Private" },
-    { icon: Zap, label: "Real-time Savings" },
+    { icon: LayoutGrid, label: "Cross-Category Deals" },
+    { icon: Zap, label: "Weekly Curated Finds" },
+  ];
+
+  const howItWorks = [
+    { icon: Target, title: "Pick Your Sports", description: "Tell us what you love. We organize the deal universe around your lifestyle." },
+    { icon: LayoutGrid, title: "Everything in One Place", description: "All deals from every merchant for your sport, in one feed." },
+    { icon: Bot, title: "AI Search + Weekly Finds", description: "Chat with our AI to find specific deals, or get a weekly digest." },
+  ];
+
+  const journey = [
+    { step: "Now", title: "The App", description: "Discover cross-category deals organized by your interests.", icon: Sparkles },
+    { step: "Soon", title: "The Ventus Card", description: "Your spending unlocks personalized deals tied to your lifestyle.", icon: CreditCard },
+    { step: "Together", title: "Smarter Rewards", description: "The app learns what you love. The card rewards you for it.", icon: Layers },
   ];
 
   return (
@@ -27,7 +40,7 @@ export default function VentusLanding() {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
             <div className="order-2 lg:order-1 text-center lg:text-left">
-              <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Ventus helps you to</p>
+              <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Start saving before the card</p>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
                 Discover Your{" "}
@@ -35,7 +48,7 @@ export default function VentusLanding() {
               </h1>
               
               <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                Your intelligent deals co-pilot, powered by AI that delivers personalized recommendations and live search across the web. Save smarter, effortlessly.
+                We built the Ventus app so you can start discovering deals today. AI-powered, organized by your lifestyle — and when the Ventus Card launches, everything connects.
               </p>
 
               {/* Feature pills */}
@@ -97,6 +110,81 @@ export default function VentusLanding() {
         </div>
         
         <div className="absolute bottom-0 left-0 right-0 h-px bg-border/50"></div>
+      </section>
+
+      {/* How It Works */}
+      <section className="py-20 relative">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-14"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">How It Works</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">Three steps to smarter savings, built around what you actually care about.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {howItWorks.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.4, delay: index * 0.1 }}
+                className="relative text-center p-6"
+              >
+                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5">
+                  <item.icon className="w-6 h-6 text-primary" />
+                </div>
+                <span className="absolute top-4 right-4 text-xs font-bold text-muted-foreground/40">{String(index + 1).padStart(2, "0")}</span>
+                <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* The Ventus Journey */}
+      <section className="py-20 relative">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.5 }}
+            className="text-center mb-14"
+          >
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">The Ventus Journey</h2>
+            <p className="text-muted-foreground max-w-xl mx-auto">From deals discovery to a fully connected rewards ecosystem.</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+            {/* Connecting line (desktop) */}
+            <div className="hidden md:block absolute top-[3.5rem] left-[16%] right-[16%] h-px bg-border/60" />
+
+            {journey.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.4, delay: index * 0.15 }}
+                className="relative text-center p-6 rounded-xl border border-border/40 bg-card/50"
+              >
+                <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-5 relative z-10">
+                  <item.icon className="w-6 h-6 text-primary" />
+                </div>
+                <span className="text-xs font-bold text-primary uppercase tracking-wider mb-1 block">{item.step}</span>
+                <h3 className="text-lg font-semibold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
       </section>
 
       <Footer />
