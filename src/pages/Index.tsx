@@ -44,7 +44,7 @@ const Index = () => {
   }, []);
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen glass-page-bg">
       <Navbar />
       <main className="flex flex-col">
         <Hero />

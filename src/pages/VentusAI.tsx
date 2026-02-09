@@ -34,7 +34,7 @@ const VentusAI = () => {
   }];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen glass-page-bg">
       <Navbar />
       
       {/* Hero Section - Full Height */}

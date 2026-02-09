@@ -5,7 +5,7 @@ import PartnerToolsSection from "@/components/partners/PartnerToolsSection";
 
 const Partners = () => {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen glass-page-bg">
       <Navbar />
       <div className="w-full">
         <PartnerHero />
