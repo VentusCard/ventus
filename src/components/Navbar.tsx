@@ -105,7 +105,7 @@ const Navbar = () => {
   };
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/30">
+    <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border/50">
       <div className="flex h-12 md:h-14 lg:h-16 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
         {/* Logo/Brand */}
         <div className="flex items-center flex-1 md:flex-initial">

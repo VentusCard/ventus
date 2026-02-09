@@ -58,7 +58,7 @@ ${name}
   };
 
   return (
-    <div className="min-h-screen glass-page-bg relative overflow-hidden">
+    <div className="min-h-screen bg-background relative overflow-hidden">
       <Navbar />
       
       {/* Hero Section */}

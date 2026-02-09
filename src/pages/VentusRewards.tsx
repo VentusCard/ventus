@@ -45,7 +45,7 @@ const VentusRewards = () => {
   };
 
   return (
-    <div className="min-h-screen glass-page-bg">
+    <div className="min-h-screen bg-background">
       <Navbar />
       
       <HeroSection />

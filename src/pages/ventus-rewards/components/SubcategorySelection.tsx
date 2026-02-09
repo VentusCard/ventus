@@ -19,7 +19,7 @@ const SubcategorySelection = ({
   if (!selectedOption) return null;
 
   return (
-    <section id="subcategories-section" className="py-16 glass-section">
+    <section id="subcategories-section" className="py-16 bg-slate-900">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="text-center mb-12">
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
@@ -38,7 +38,7 @@ const SubcategorySelection = ({
               className={`p-4 rounded-xl border-2 text-center transition-all duration-300 backdrop-blur-sm transform hover:scale-105 ${
                 selectedSubcategories.includes(subcategory)
                   ? 'border-blue-500 bg-gradient-to-br from-blue-900/50 to-blue-800/50 text-blue-200 shadow-premium'
-                  : 'glass-card border-border/50 text-slate-200 hover:border-blue-400 hover:shadow-premium'
+                  : 'border-slate-700 bg-slate-800/80 text-slate-200 hover:border-blue-400 hover:bg-slate-700 shadow-metallic hover:shadow-premium'
               }`}
             >
               <div className="font-medium">{subcategory}</div>
