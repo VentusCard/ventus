@@ -199,8 +199,7 @@ const StepOneMerged = ({
   onSelectGoal,
   onSelectSubcategories
 }: StepOneMergedProps) => {
-  // Define disabled goal categories
-  const disabledGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];
+  const yearOneGoals: LifestyleGoal[] = ["gamers", "creatives", "homeowners"];
   const subcategorySectionRef = useRef<HTMLDivElement>(null);
   const hasScrolledRef = useRef<LifestyleGoal | null>(null);
 
@@ -232,7 +231,7 @@ const StepOneMerged = ({
 
   // Auto-scroll to subcategory section when goal is selected (only once per goal)
   useEffect(() => {
-    if (selectedGoal && !disabledGoals.includes(selectedGoal) && subcategorySectionRef.current) {
+    if (selectedGoal && subcategorySectionRef.current) {
       // Only scroll if this is a new goal selection or first time selecting this goal
       if (hasScrolledRef.current !== selectedGoal) {
         hasScrolledRef.current = selectedGoal;
@@ -241,8 +240,8 @@ const StepOneMerged = ({
         }, 150);
       }
     }
-  }, [selectedGoal, disabledGoals]);
-  const subcategories = selectedGoal && !disabledGoals.includes(selectedGoal) ? subcategoryData[selectedGoal] || [] : [];
+  }, [selectedGoal]);
+  const subcategories = selectedGoal ? subcategoryData[selectedGoal] || [] : [];
   const toggleSubcategory = (subcategory: string) => {
     if (selectedSubcategories.includes(subcategory)) {
       // Remove subcategory if already selected
@@ -263,60 +262,54 @@ const StepOneMerged = ({
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 lg:gap-4 mb-4 md:mb-6 items-stretch">
         {goalOptions.map(option => {
-        const isDisabled = disabledGoals.includes(option.id);
+        const isYearOne = yearOneGoals.includes(option.id);
         const getCardStyles = () => {
-          if (isDisabled) {
-            return 'bg-slate-600/30 border border-slate-500/50 opacity-50 cursor-not-allowed grayscale';
-          }
-
-          // Dark blue gradients for Sports, Wellness, and Pet Owners
           if (option.id === 'sports') {
-            // Available First - Very dark blue gradient
             const baseStyles = 'bg-gradient-to-br from-blue-950/85 to-slate-900/90 border border-blue-700/80';
             const hoverStyles = 'hover:from-blue-900/90 hover:to-slate-800/95 hover:border-blue-600/85';
             const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-blue-400 scale-105 shadow-blue-500/30 shadow-2xl' : 'shadow-lg';
             return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
           }
           if (option.id === 'wellness' || option.id === 'pets') {
-            // Available Soon - Dark blue-tinted gradient (distinct from grey disabled cards)
             const baseStyles = 'bg-gradient-to-br from-blue-950/85 to-blue-900/90 border border-blue-800/70';
             const hoverStyles = 'hover:from-blue-900/90 hover:to-blue-800/95 hover:border-blue-700/80';
             const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-blue-500 scale-105 shadow-blue-400/20 shadow-2xl' : 'shadow-lg';
             return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
           }
-
-          // Default styling for other categories
-          const baseStyles = 'bg-slate-600/30 border border-slate-500/50';
-          const hoverStyles = 'hover:bg-slate-500/40 hover:brightness-110';
-          const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-blue-400 bg-slate-500/50 scale-105 shadow-blue-500/20 shadow-2xl' : 'shadow-lg';
+          // Year One cards - grey/slate styling
+          const baseStyles = 'bg-gradient-to-br from-slate-800/80 to-slate-900/90 border border-slate-600/60';
+          const hoverStyles = 'hover:from-slate-700/85 hover:to-slate-800/95 hover:border-slate-500/70';
+          const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-slate-400 scale-105 shadow-slate-500/20 shadow-2xl' : 'shadow-lg';
           return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
         };
-        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[220px] md:min-h-[260px] lg:min-h-[280px] h-full ${getCardStyles()}`} onClick={() => !isDisabled && onSelectGoal(option.id)}>
+        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[220px] md:min-h-[260px] lg:min-h-[280px] h-full ${getCardStyles()}`} onClick={() => onSelectGoal(option.id)}>
               <CardContent className={`p-5 h-full flex flex-col bg-gradient-to-br rounded-lg ${
                 option.id === 'sports' 
                   ? 'from-blue-500/60 to-blue-600/60' 
                   : (option.id === 'wellness' || option.id === 'pets')
                   ? 'from-slate-700/40 to-slate-800/30'
+                  : isYearOne
+                  ? 'from-slate-600/30 to-slate-700/20'
                   : 'from-blue-500/30 to-blue-600/20'
               }`}>
                 <div className="text-center flex-1 flex flex-col justify-between">
                   <div>
                     <div className="text-4xl md:text-5xl mb-4 mt-2 transform transition-transform duration-300" style={{textShadow: 'none', WebkitTextStroke: '0', WebkitFontSmoothing: 'antialiased', fontVariantEmoji: 'normal'}}>{option.icon}</div>
-                     <h3 className={`font-display text-base md:text-xl font-bold mb-3 ${isDisabled ? 'text-slate-500' : 'text-white'}`}>
+                     <h3 className="font-display text-base md:text-xl font-bold mb-3 text-white">
                         {option.title}
                       </h3>
-                      <p className={`mb-4 text-xs md:text-base ${isDisabled ? 'text-slate-600' : 'text-white/70'}`}>
+                      <p className="mb-4 text-xs md:text-base text-white/70">
                         {option.description}
                       </p>
                   </div>
                   <div className="mt-auto">
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${isDisabled ? "bg-slate-700 text-slate-500" : option.year === "Available First" ? "bg-green-500/20 text-green-400" : option.year === "Available Soon" ? "bg-blue-500/20 text-blue-400" : "bg-orange-500/20 text-orange-400"}`}>
-                      {isDisabled ? "Coming Later" : option.availability}
+                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${option.year === "Available First" ? "bg-green-500/20 text-green-400" : option.year === "Available Soon" ? "bg-blue-500/20 text-blue-400" : "bg-slate-500/20 text-slate-400"}`}>
+                      {option.availability}
                     </span>
                   </div>
                 </div>
                 
-                {selectedGoal === option.id && !isDisabled && <div className="absolute top-3 right-3">
+                {selectedGoal === option.id && <div className="absolute top-3 right-3">
                     <div className="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center shadow-lg ring-2 ring-blue-400/50">
                       <Check className="h-4 w-4 text-white" />
                     </div>
@@ -326,7 +319,7 @@ const StepOneMerged = ({
       })}
       </div>
 
-      {selectedGoal && !disabledGoals.includes(selectedGoal) && <>
+      {selectedGoal && <>
           <div ref={subcategorySectionRef} className="touch-manipulation" style={{
         touchAction: 'manipulation',
         pointerEvents: 'auto',
