@@ -1,28 +1,33 @@
 
 
-# Replace Double Auth Buttons with Single "Get Started" Dropdown
+# Add Email Subscribe to Footer (Google Sheets Integration)
 
-## Change
+## Overview
+Replace the "Get in Touch" column's static "Contact Us" button with a compact email input + subscribe button that submits to the **same Google Apps Script endpoint** used by the waitlist forms on `/smartrewards` and `/join-waitlist`.
 
-Replace the two desktop buttons ("Sign In" + "Sign Up") with a single **"Get Started"** dropdown button. When clicked, it expands to show:
+## What Changes
 
-- **Sign up for Ventus Card** -- navigates to `/smartrewards`
-- **Sign in to Ventus Rewards** -- navigates to `/app/login`
-
-The mobile menu keeps its current stacked layout.
+### Footer "Get in Touch" column becomes "Stay Updated"
+- Heading: "Stay Updated"
+- Subtitle: "Get the latest on Ventus Card"
+- Inline email input + "Subscribe" button (compact, fits the column)
+- "Contact Us" link preserved below
+- Toast feedback on success/error
+- No database table needed -- emails go directly to the existing Google Sheet
 
 ## Technical Details
 
-### File: `src/components/Navbar.tsx`
-
-1. Add imports for `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem` from `@/components/ui/dropdown-menu`, and `ChevronDown` from `lucide-react`
-
-2. Replace the logged-out desktop block (the two Link/Button pairs for Sign In and Sign Up) with a single `DropdownMenu`:
-   - Trigger: primary-styled button labeled **"Get Started"** with a `ChevronDown` icon
-   - Two menu items:
-     - "Sign up for Ventus Card" → navigates to `/smartrewards`
-     - "Sign in to Ventus Rewards" → navigates to `/app/login`
-   - Dropdown content styled with solid dark background (`bg-slate-900 border-slate-700`) to prevent transparency issues
-
-3. Mobile menu: update the "Sign Up" button to also point to `/smartrewards` for consistency
+### File: `src/components/Footer.tsx`
+- Add imports: `useState` from React, `Input` from UI, `useToast`, `z` from zod
+- Replace lines 69-77 (the "Get in Touch" div content) with:
+  - "Stay Updated" heading
+  - Small subtitle text
+  - A `form` with a `flex` row containing an `Input` (email, `h-9 text-sm`) and a `Button` ("Subscribe", `size="sm"`)
+  - A "Contact Us" `Link` below the form
+- On submit:
+  - Validate email with zod (`z.string().trim().email().max(255)`)
+  - POST to `https://script.google.com/macros/s/AKfycbxi7ANbqg5kkeS-WCDE7MewaNl3rSI84d9Ql4BVqXzxCz75HttUogAQBAXMOUT1VLfQ/exec` with `email` and `source: "footer"` fields (using `FormData`, matching the existing waitlist form pattern)
+  - Show success toast, reset input
+  - Show error toast on failure
+- No changes to the other three columns or grid layout
 
