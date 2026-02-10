@@ -247,7 +247,7 @@ const Navbar = () => {
             onClick={closeMobileMenu}
             className="block text-white/90 hover:text-white font-medium text-lg py-3 px-2 transition-all duration-300 border-b border-white/10 hover:bg-white/5 rounded"
           >
-            Download App
+            Free Deals App
           </Link>
           
           {/* Mobile User Menu */}
