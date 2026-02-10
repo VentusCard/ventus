@@ -38,7 +38,7 @@ const AppDownload = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20">
+      <section className="relative min-h-[85vh] flex items-center pt-20">
         {/* Background elements - simplified, less AI-generated look */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Subtle gradient blobs */}
