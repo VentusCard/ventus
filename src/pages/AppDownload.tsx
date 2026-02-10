@@ -105,11 +105,11 @@ const AppDownload = () => {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4">
-                Free Deals, Matched to Your Lifestyle
+                Pick Your Sport. We Find Every Deal.
               </h1>
 
               <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0">
-                AI finds personalized offers from thousands of brands. Free forever.
+                Choose a sport you love, like golf, tennis, or running, and Ventus instantly pulls together deals on equipment, apparel, accessories, and more. All in one place, all free.
               </p>
 
               <DownloadButtons />
