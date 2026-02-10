@@ -95,6 +95,27 @@ const AboutUs = () => {
         </div>
       </section>
 
+      {/* Email Subscribe Section */}
+      <section className="py-8 px-4 md:px-8 border-t border-border/50">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-lg font-medium text-foreground mb-3">Stay in the loop</p>
+          <form onSubmit={handleSubscribe} className="flex justify-center gap-2">
+            <Input
+              type="email"
+              placeholder="Your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-10 max-w-xs bg-white text-slate-900 placeholder:text-slate-400"
+              maxLength={255}
+              required
+            />
+            <Button type="submit" size="sm" disabled={isSubmitting} className="h-10 shrink-0">
+              {isSubmitting ? "..." : "Subscribe"}
+            </Button>
+          </form>
+        </div>
+      </section>
+
       {/* Values Section */}
       <section className="py-8 px-4 md:px-8 border-t border-border/50">
         <div className="max-w-6xl mx-auto">
