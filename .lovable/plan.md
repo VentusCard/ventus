@@ -1,56 +1,42 @@
 
-
-# Remake /app Page -- App Store Style, Clean, Social Proof
+# Update /app Page Copy to Reflect Actual App Experience
 
 ## Overview
-Rebuild the page from scratch with an App Store listing feel: clean white space, prominent app screenshots, star ratings, user counts, concise feature bullets, and clear download CTAs. The page will be minimal yet trust-heavy.
+Rewrite the page copy to accurately describe what Ventus does today: it is sports-focused, lets you pick a sport (e.g., Golf), then finds deals across every subcategory (balls, clubs, accessories, apparel) in one place. It also highlights two key features: the AI bot that keeps a wishlist and hunts for specific deals on demand, and the Ventus team's hand-curated "Interesting Finds."
 
-## Page Structure (top to bottom)
+## Changes (all in `src/pages/AppDownload.tsx`)
 
-### 1. Navbar (unchanged)
+### 1. Hero Section
+- **Headline**: "Pick Your Sport. We Find Every Deal."
+- **Subtitle**: "Choose a sport you love, like golf, tennis, or running, and Ventus instantly pulls together deals on equipment, apparel, accessories, and more. All in one place, all free."
 
-### 2. Hero Section
-- **Left side**: Clean, minimal text stack
-  - Small app icon placeholder + "Ventus" app name + star rating (4.8 stars, styled inline)
-  - Headline: **"Free Deals, Matched to Your Lifestyle"**
-  - One-line subtitle: "AI finds personalized offers from thousands of brands. Free forever."
-  - Download buttons (App Store + Google Play, existing dark style)
-  - Trust line: "No credit card required"
-- **Right side**: App screenshots image (existing asset, slightly smaller)
-- Height: `min-h-[85vh]` per project standard
+### 2. Social Proof Bar
+- Update labels to be more specific:
+  - "4.8" / "App Store Rating"
+  - "10,000+" / "Deals Across Every Sport"
+  - "100%" / "Free, No Catches"
 
-### 3. Social Proof Bar
-- Horizontal strip with 3 stats in a row, centered
-  - "4.8 Star Rating" | "10,000+ Deals" | "100% Free"
-- Clean dividers between items, subtle background
+### 3. How It Works (rewrite all 3 steps)
+- **Step 1 -- "Pick Your Sport"**: "Select a sport like Golf, Tennis, Running, or Fitness. Ventus organizes everything around the sports you care about."
+- **Step 2 -- "See Deals Across Every Subcategory"**: "Picked Golf? We find deals on balls, clubs, bags, gloves, apparel, and accessories, all from top brands, organized in one feed."
+- **Step 3 -- "Wishlist It or Browse Curated Finds"**: "Add items to your wishlist and our AI bot hunts for deals on exactly what you want. Plus, the Ventus team hand-picks 'Interesting Finds' you might love."
 
-### 4. How It Works (3 steps, kept but restyled)
-- Keep the existing 3 steps content (Pick Passions, AI Curates, All in One Place)
-- Restyle as a horizontal numbered list with small icons, more compact than current cards
-- Clean white cards with subtle shadows instead of backdrop-blur
+### 4. Feature Highlights (rewrite all 4)
+- **AI Wishlist Bot** (replaces Smart Matching): "Add any item to your wishlist, like a new driver or running shoes, and our AI bot scans for the best deals and alerts you when it finds one."
+- **Interesting Finds** (replaces Exclusive Offers): "Our team hand-curates standout deals and hidden gems across sports categories, so you never miss something great."
+- **Every Subcategory Covered** (replaces Instant Alerts): "From balls and clubs to apparel and accessories, Ventus covers every corner of your sport so you do not have to search multiple sites."
+- **Free and Private** (replaces Bank-Level Security): "No subscriptions, no hidden fees, no selling your data. Ventus is 100% free and your information stays yours."
 
-### 5. Feature Highlights
-- Reuse the 4 feature items (Smart Matching, Instant Alerts, Bank-Level Security, Exclusive Offers)
-- Display as a 2x2 grid of minimal cards with icon + title + short description
-- Scroll-triggered fade-in animations per project standard
+### 5. Section Subtitles
+- How It Works: "From download to deals in under a minute"
+- Why Ventus: "Built for people who love their sport and love a good deal"
 
-### 6. Final CTA Section
-- Centered block: "Ready to save?" + download buttons repeated
-- Trust line below
-
-### 7. Footer (unchanged)
+### 6. Final CTA
+- Headline: "Your Sport. Your Deals. One App."
+- Subtitle: "Download Ventus and let AI find every deal across your favorite sport, or tell it exactly what you are looking for."
 
 ## Technical Details
-
-### File: `src/pages/AppDownload.tsx`
-- Full rewrite of the component
-- Add `Star` icon import from lucide-react
-- Add `motion` import from framer-motion for scroll animations
-- Keep existing imports: Navbar, Footer, appScreensPreview, Button
-- Keep existing App Store / Google Play URLs
-- Structure as 5 sections: Hero, Social Proof Bar, How It Works, Features Grid, Final CTA
-- Use project conventions: `max-w-7xl`, `px-4 md:px-8`, Tailwind utilities
-- Follow spacing standard: `py-12 md:py-16` for sections
-- Scroll-triggered animations using framer-motion `whileInView` with staggered delays
-
-### No other files changed
+- Only `src/pages/AppDownload.tsx` is modified
+- All changes are text/copy updates within existing data arrays and JSX strings
+- No layout, structural, or styling changes
+- Icon swaps: replace `Zap` usage in features with a `Heart` or `Search` icon for the Wishlist Bot card, and keep `Gift` for Interesting Finds (import adjustments as needed from lucide-react)
