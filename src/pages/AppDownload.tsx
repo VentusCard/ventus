@@ -47,9 +47,9 @@ const DownloadButtons = () => (
 
 const AppDownload = () => {
   const stats = [
-    { label: "Star Rating", value: "4.8", icon: Star },
-    { label: "Deals Available", value: "10,000+", icon: Gift },
-    { label: "Free Forever", value: "100%", icon: Zap },
+    { label: "App Store Rating", value: "4.8", icon: Star },
+    { label: "Deals Across Every Sport", value: "10,000+", icon: Gift },
+    { label: "Free, No Catches", value: "100%", icon: Shield },
   ];
 
   const steps = [
