@@ -1,9 +1,49 @@
+import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Mail, Phone, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const emailSchema = z.string().trim().email("Please enter a valid email").max(255);
+
 const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = emailSchema.safeParse(email);
+    if (!result.success) {
+      toast({ title: "Invalid email", description: result.error.errors[0].message, variant: "destructive" });
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("email", result.data);
+      formData.append("source", "footer");
+      const response = await fetch("https://script.google.com/macros/s/AKfycbxi7ANbqg5kkeS-WCDE7MewaNl3rSI84d9Ql4BVqXzxCz75HttUogAQBAXMOUT1VLfQ/exec", {
+        method: "POST",
+        body: formData,
+      });
+      const text = await response.text();
+      if (response.ok || text.toLowerCase().includes("success")) {
+        toast({ title: "You're subscribed!", description: "We'll keep you updated on Ventus Card." });
+        setEmail("");
+      } else {
+        throw new Error("Submission failed");
+      }
+    } catch {
+      toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
   
   const handleJoinWaitlistClick = (e: React.MouseEvent) => {
     e.preventDefault();
