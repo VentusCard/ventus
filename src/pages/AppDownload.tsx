@@ -38,7 +38,7 @@ const AppDownload = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center pt-20">
+      <section className="relative min-h-[85vh] flex items-center pt-20">
         {/* Background elements - simplified, less AI-generated look */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           {/* Subtle gradient blobs */}
@@ -50,31 +50,18 @@ const AppDownload = () => {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
             <div className="order-2 lg:order-1 text-center lg:text-left">
-              <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Your AI-Powered Deal Hunter</p>
+              <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Your Free AI Deal Finder</p>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
-                Never Miss a Deal Again
+                Free Deals, Matched to You
               </h1>
               
               <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                Ventus scans thousands of merchants in real-time, matching deals to your lifestyle and spending patterns. Get personalized recommendations, instant alerts, and exclusive offers—all in one app.
+                AI finds personalized deals from thousands of brands, matched to your lifestyle. Free forever.
               </p>
 
-              {/* Feature pills */}
-              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-10">
-                {features.map((feature, index) => (
-                  <div 
-                    key={index}
-                    className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full border border-border/50"
-                  >
-                    <feature.icon className="w-4 h-4 text-primary" />
-                    <span className="text-sm text-muted-foreground">{feature.label}</span>
-                  </div>
-                ))}
-              </div>
-
               {/* Download Buttons - Blackish blue style */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-8">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start mb-3">
                 <Button 
                   size="lg" 
                   className="h-auto w-full sm:w-auto px-6 py-3 text-base bg-[#1a1f3c] hover:bg-[#252b4d] text-white rounded-xl flex items-center gap-3 border border-white/10"
@@ -104,6 +91,21 @@ const AppDownload = () => {
                 </Button>
               </div>
 
+              <p className="text-sm text-muted-foreground mb-10 text-center lg:text-left">No credit card required</p>
+
+              {/* Feature pills */}
+              <div className="flex flex-wrap gap-3 justify-center lg:justify-start mb-8">
+                {features.map((feature, index) => (
+                  <div 
+                    key={index}
+                    className="flex items-center gap-2 px-4 py-2 bg-secondary/50 rounded-full border border-border/50"
+                  >
+                    <feature.icon className="w-4 h-4 text-primary" />
+                    <span className="text-sm text-muted-foreground">{feature.label}</span>
+                  </div>
+                ))}
+              </div>
+
             </div>
 
             {/* Right Content - App Screens Preview */}
@@ -125,7 +127,7 @@ const AppDownload = () => {
       </section>
 
       {/* How It Works Section */}
-      <section className="py-16 md:py-20 bg-secondary/30">
+      <section className="py-12 md:py-16 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
