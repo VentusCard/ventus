@@ -96,7 +96,7 @@ const AppDownload = () => {
                   <Sparkles className="w-5 h-5 text-primary" />
                 </div>
                 <span className="font-semibold text-foreground">Ventus</span>
-                <div className="flex items-center gap-1 text-amber-500">
+                <div className="flex items-center gap-1 text-primary">
                   {[...Array(5)].map((_, i) => (
                     <Star key={i} className="w-3.5 h-3.5 fill-current" />
                   ))}
