@@ -75,7 +75,7 @@ const App = () => (
           <Route path="/app/*" element={
             <VentusAuthProvider>
               <Routes>
-                <Route index element={<VentusLanding />} />
+                <Route index element={<AppDownload />} />
                 <Route path="signup" element={<VentusAuth />} />
                 <Route path="signup/lifestyle" element={<VentusSignupLifestyle />} />
                 <Route path="signup/sports" element={<VentusSignupSports />} />
