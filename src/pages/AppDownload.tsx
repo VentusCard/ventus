@@ -222,8 +222,8 @@ const AppDownload = () => {
             viewport={{ once: true }}
             custom={0}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Ready to save?</h2>
-            <p className="text-muted-foreground mb-8">Download Ventus and start getting deals matched to your lifestyle.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Your Sport. Your Deals. One App.</h2>
+            <p className="text-muted-foreground mb-8">Download Ventus and let AI find every deal across your favorite sport, or tell it exactly what you are looking for.</p>
             <div className="flex justify-center">
               <DownloadButtons />
             </div>
