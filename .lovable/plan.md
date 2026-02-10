@@ -1,43 +1,56 @@
 
 
-# Redesign /app Page for First-Time Visitor Conversion (Keep All Elements)
+# Remake /app Page -- App Store Style, Clean, Social Proof
 
 ## Overview
-Restructure the existing page for clarity and conversion without removing any content. All current elements stay -- hero copy, feature pills, download buttons, app screenshots, How It Works section, and Footer. The focus is on reordering, tightening copy, and improving visual hierarchy so the download action is unmissable.
+Rebuild the page from scratch with an App Store listing feel: clean white space, prominent app screenshots, star ratings, user counts, concise feature bullets, and clear download CTAs. The page will be minimal yet trust-heavy.
 
-## What Changes
+## Page Structure (top to bottom)
 
-### 1. Hero copy -- punchier, scannable
-- Shorten the headline to **"Free Deals, Matched to You"**
-- Replace the long paragraph with a concise single-line value prop: **"AI finds personalized deals from thousands of brands, matched to your lifestyle. Free forever."**
-- Keep the eyebrow text but update to **"Your Free AI Deal Finder"**
+### 1. Navbar (unchanged)
 
-### 2. Reorder hero content for faster conversion
-- Move download buttons **above** the feature pills so the primary CTA is higher on the page
-- Add a small trust line below the buttons: "No credit card required"
-- Feature pills remain below the buttons as supporting proof points
+### 2. Hero Section
+- **Left side**: Clean, minimal text stack
+  - Small app icon placeholder + "Ventus" app name + star rating (4.8 stars, styled inline)
+  - Headline: **"Free Deals, Matched to Your Lifestyle"**
+  - One-line subtitle: "AI finds personalized offers from thousands of brands. Free forever."
+  - Download buttons (App Store + Google Play, existing dark style)
+  - Trust line: "No credit card required"
+- **Right side**: App screenshots image (existing asset, slightly smaller)
+- Height: `min-h-[85vh]` per project standard
 
-### 3. Hero height optimization
-- Change `min-h-screen` to `min-h-[85vh]` so the How It Works section peeks above the fold, inviting scroll
-- Follows the existing landing-page-visual-flow-standard from project memory
+### 3. Social Proof Bar
+- Horizontal strip with 3 stats in a row, centered
+  - "4.8 Star Rating" | "10,000+ Deals" | "100% Free"
+- Clean dividers between items, subtle background
 
-### 4. How It Works -- stays, gets tighter
-- Keep the full 3-card grid section
-- Reduce section padding from `py-16 md:py-20` to `py-12 md:py-16` per the spacing-and-density standard
-- Keep all card content, titles, and descriptions as-is
+### 4. How It Works (3 steps, kept but restyled)
+- Keep the existing 3 steps content (Pick Passions, AI Curates, All in One Place)
+- Restyle as a horizontal numbered list with small icons, more compact than current cards
+- Clean white cards with subtle shadows instead of backdrop-blur
 
-### 5. Footer stays
-- No changes to the Footer component
+### 5. Feature Highlights
+- Reuse the 4 feature items (Smart Matching, Instant Alerts, Bank-Level Security, Exclusive Offers)
+- Display as a 2x2 grid of minimal cards with icon + title + short description
+- Scroll-triggered fade-in animations per project standard
+
+### 6. Final CTA Section
+- Centered block: "Ready to save?" + download buttons repeated
+- Trust line below
+
+### 7. Footer (unchanged)
 
 ## Technical Details
 
 ### File: `src/pages/AppDownload.tsx`
-- Update eyebrow text (line 53)
-- Update h1 text (lines 55-57)
-- Update paragraph text (lines 59-61)
-- Move download buttons div (lines 77-105) above the feature pills div (lines 64-74)
-- Add a trust line `<p>` ("No credit card required") below the download buttons
-- Change hero section `min-h-screen` to `min-h-[85vh]` (line 41)
-- Reduce How It Works section padding (line 128)
+- Full rewrite of the component
+- Add `Star` icon import from lucide-react
+- Add `motion` import from framer-motion for scroll animations
+- Keep existing imports: Navbar, Footer, appScreensPreview, Button
+- Keep existing App Store / Google Play URLs
+- Structure as 5 sections: Hero, Social Proof Bar, How It Works, Features Grid, Final CTA
+- Use project conventions: `max-w-7xl`, `px-4 md:px-8`, Tailwind utilities
+- Follow spacing standard: `py-12 md:py-16` for sections
+- Scroll-triggered animations using framer-motion `whileInView` with staggered delays
 
 ### No other files changed
