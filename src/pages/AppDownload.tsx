@@ -157,7 +157,7 @@ const AppDownload = () => {
               <img
                 src={appScreensPreview}
                 alt="Ventus App Screenshots"
-                className="w-full max-w-md lg:max-w-lg h-auto object-contain"
+                className="w-full max-w-lg lg:max-w-xl h-auto object-contain"
               />
             </motion.div>
           </div>
