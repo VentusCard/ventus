@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, LayoutDashboard, Tag, Heart } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, Tag, Heart, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import ventusLogo from "@/assets/ventus-logo.png";
