@@ -1,33 +1,29 @@
 
 
-# Add Email Subscribe to Footer (Google Sheets Integration)
+# Add Email Subscribe Section to /about Page
 
 ## Overview
-Replace the "Get in Touch" column's static "Contact Us" button with a compact email input + subscribe button that submits to the **same Google Apps Script endpoint** used by the waitlist forms on `/smartrewards` and `/join-waitlist`.
+Add a compact email subscription section directly above the "What drives us / Our Values" section on the About page, using the same Google Sheets integration pattern already in the Footer.
 
 ## What Changes
 
-### Footer "Get in Touch" column becomes "Stay Updated"
-- Heading: "Stay Updated"
-- Subtitle: "Get the latest on Ventus Card"
-- Inline email input + "Subscribe" button (compact, fits the column)
-- "Contact Us" link preserved below
-- Toast feedback on success/error
-- No database table needed -- emails go directly to the existing Google Sheet
+### New section between "Our Story" content and "Our Values"
+- A short, centered section with a one-line prompt (e.g., "Stay in the loop") and an inline email input + "Subscribe" button
+- Same Google Apps Script POST endpoint, FormData pattern, zod validation, and toast feedback as the Footer
+- Styled to match the page's compact density standard (minimal vertical padding, border-t separator)
+- Source field set to `"about"` to distinguish from footer subscriptions in the Google Sheet
 
 ## Technical Details
 
-### File: `src/components/Footer.tsx`
-- Add imports: `useState` from React, `Input` from UI, `useToast`, `z` from zod
-- Replace lines 69-77 (the "Get in Touch" div content) with:
-  - "Stay Updated" heading
-  - Small subtitle text
-  - A `form` with a `flex` row containing an `Input` (email, `h-9 text-sm`) and a `Button` ("Subscribe", `size="sm"`)
-  - A "Contact Us" `Link` below the form
-- On submit:
-  - Validate email with zod (`z.string().trim().email().max(255)`)
-  - POST to `https://script.google.com/macros/s/AKfycbxi7ANbqg5kkeS-WCDE7MewaNl3rSI84d9Ql4BVqXzxCz75HttUogAQBAXMOUT1VLfQ/exec` with `email` and `source: "footer"` fields (using `FormData`, matching the existing waitlist form pattern)
-  - Show success toast, reset input
-  - Show error toast on failure
-- No changes to the other three columns or grid layout
+### File: `src/pages/AboutUs.tsx`
+- Add imports: `useState`, `Input`, `Button`, `useToast`, `z` from zod
+- Insert a new `section` between the Story section (ending ~line 54) and the Values section (starting ~line 57)
+- Section layout:
+  - `py-8 px-4 md:px-8 border-t border-border/50` (matches existing separators)
+  - `max-w-3xl mx-auto text-center`
+  - Short heading text
+  - Inline `form` with `flex justify-center gap-2`: white-bg `Input` (email, `h-10 max-w-xs`) + `Button` ("Subscribe", `size="sm"`)
+- Submit handler: identical pattern to Footer -- zod validate, POST FormData with `email` + `source: "about"`, toast on success/error
+
+### No other files changed
 
