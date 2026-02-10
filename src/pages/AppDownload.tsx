@@ -50,14 +50,14 @@ const AppDownload = () => {
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left Content */}
             <div className="order-2 lg:order-1 text-center lg:text-left">
-              <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Your AI-Powered Deal Hunter</p>
+              <p className="text-primary font-medium mb-4 tracking-wide uppercase text-sm">Your Free AI Deal Finder</p>
               
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
-                Never Miss a Deal Again
+                Free Deals, Matched to You
               </h1>
               
               <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                Ventus scans thousands of merchants in real-time, matching deals to your lifestyle and spending patterns. Get personalized recommendations, instant alerts, and exclusive offers—all in one app.
+                AI finds personalized deals from thousands of brands, matched to your lifestyle. Free forever.
               </p>
 
               {/* Feature pills */}
