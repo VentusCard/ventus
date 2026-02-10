@@ -56,20 +56,20 @@ const AppDownload = () => {
     {
       icon: Target,
       step: "1",
-      title: "Pick Your Passions",
-      description: "Choose lifestyle categories like Tennis, Golf, Fitness, or Wellness—tell us what you love.",
+      title: "Pick Your Sport",
+      description: "Select a sport like Golf, Tennis, Running, or Fitness. Ventus organizes everything around the sports you care about.",
     },
     {
-      icon: Sparkles,
+      icon: LayoutGrid,
       step: "2",
-      title: "AI Curates Your Deals",
-      description: "Ventus matches thousands of offers to your interests—equipment, apparel, experiences, and more.",
+      title: "See Deals Across Every Subcategory",
+      description: "Picked Golf? We find deals on balls, clubs, bags, gloves, apparel, and accessories, all from top brands, organized in one feed.",
     },
     {
-      icon: Gift,
+      icon: Heart,
       step: "3",
-      title: "All Your Deals, One Place",
-      description: "No more searching. Get personalized offers from top brands delivered straight to you.",
+      title: "Wishlist It or Browse Curated Finds",
+      description: "Add items to your wishlist and our AI bot hunts for deals on exactly what you want. Plus, the Ventus team hand-picks 'Interesting Finds' you might love.",
     },
   ];
 
