@@ -113,7 +113,7 @@ const VentusAI = () => {
 
       {/* CTA Section */}
       <section className="py-16 px-4 md:px-8 max-w-7xl mx-auto text-center border-t border-border/50">
-        <Card className="glass-transition-card max-w-4xl mx-auto p-8 md:p-12">
+        <Card className="glass-transition-card max-w-4xl mx-auto p-8 md:p-12 !bg-[hsl(var(--card))]">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Ready to Maximize Your Rewards?
           </h2>
