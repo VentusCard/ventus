@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Menu, X, LogOut, LayoutDashboard, Tag, Heart } from "lucide-react";
+import { Menu, X, LogOut, LayoutDashboard, Tag, Heart, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/integrations/supabase/client";
 import ventusLogo from "@/assets/ventus-logo.png";
 
@@ -194,18 +195,21 @@ const Navbar = () => {
               </button>
             </>
           ) : (
-            <>
-              <Link to="/app/login">
-                <Button variant="ghost" className="text-white/90 hover:text-white hover:bg-white/10 text-xs md:text-xs lg:text-sm px-3 py-1.5 h-auto">
-                  Sign In
-                </Button>
-              </Link>
-              <Link to="/app/signup">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
                 <Button className="bg-primary hover:bg-primary/90 text-white text-xs md:text-xs lg:text-sm px-4 py-1.5 h-auto">
-                  Sign Up
+                  Get Started <ChevronDown className="ml-1 h-3.5 w-3.5" />
                 </Button>
-              </Link>
-            </>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-slate-900 border-slate-700 text-white z-50">
+                <DropdownMenuItem onClick={() => navigate("/smartrewards")} className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                  Sign up for Ventus Card
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate("/app/login")} className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
+                  Sign in to Ventus Rewards
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </div>
@@ -293,7 +297,7 @@ const Navbar = () => {
                     Sign In
                   </Button>
                 </Link>
-                <Link to="/app/signup" onClick={closeMobileMenu}>
+                <Link to="/smartrewards" onClick={closeMobileMenu}>
                   <Button 
                     className="w-full bg-primary hover:bg-primary/90 text-white"
                   >
