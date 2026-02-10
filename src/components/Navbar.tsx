@@ -297,7 +297,7 @@ const Navbar = () => {
                     Sign In
                   </Button>
                 </Link>
-                <Link to="/app/signup" onClick={closeMobileMenu}>
+                <Link to="/smartrewards" onClick={closeMobileMenu}>
                   <Button 
                     className="w-full bg-primary hover:bg-primary/90 text-white"
                   >
