@@ -1,70 +1,28 @@
 
 
-# Deepen Content for Gamers, Creatives, and Homeowners
+# Replace Double Auth Buttons with Single "Get Started" Dropdown
 
-## What Needs Fixing
+## Change
 
-The Year Two pillars have noticeably less content depth compared to the first three. Here is the gap analysis:
+Replace the two desktop buttons ("Sign In" + "Sign Up") with a single **"Get Started"** dropdown button. When clicked, it expands to show:
 
-### 1. Subcategories (biggest gap)
-- Sports has 12, Wellness has 9, Pets has 9
-- Gamers has 5, Creatives has 5, Homeowners has 5
-- **Fix**: Expand each to 8-9 subcategories
+- **Sign up for Ventus Card** -- navigates to `/smartrewards`
+- **Sign in to Ventus Rewards** -- navigates to `/app/login`
 
-### 2. Example Deals per subcategory
-- First 3 pillars have 6 deals each (including a premium VIP-tier deal)
-- Last 3 pillars have only 5 deals each
-- **Fix**: Add a 6th VIP/exclusive deal to every subcategory in gamers, creatives, and homeowners
+The mobile menu keeps its current stacked layout.
 
-### 3. Item descriptions in CategoryData
-- First 3 pillars use descriptive items ("Gym memberships and fitness gear", "Recovery tools")
-- Last 3 pillars use single-word items ("Games", "Hardware", "Subscriptions")
-- **Fix**: Expand item descriptions to be more specific and compelling
+## Technical Details
 
-## Changes
+### File: `src/components/Navbar.tsx`
 
-### File: `src/components/onboarding-flow/StepOneMerged.tsx`
+1. Add imports for `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`, `DropdownMenuItem` from `@/components/ui/dropdown-menu`, and `ChevronDown` from `lucide-react`
 
-Update `subcategoryData` for the 3 pillars:
+2. Replace the logged-out desktop block (the two Link/Button pairs for Sign In and Sign Up) with a single `DropdownMenu`:
+   - Trigger: primary-styled button labeled **"Get Started"** with a `ChevronDown` icon
+   - Two menu items:
+     - "Sign up for Ventus Card" → navigates to `/smartrewards`
+     - "Sign in to Ventus Rewards" → navigates to `/app/login`
+   - Dropdown content styled with solid dark background (`bg-slate-900 border-slate-700`) to prevent transparency issues
 
-**Gamers** (5 to 9):
-- PC Gaming, Console Gaming, Mobile Gaming, Esports and Streaming, Gaming Accessories
-- ADD: VR and AR Gaming, Retro and Collectible Gaming, Game Development, Gaming Nutrition and Lifestyle
-
-**Creatives** (5 to 9):
-- Photography, Music Production, Art Supplies, Writing Tools, Online Creative Classes
-- ADD: Video and Film Production, Graphic Design, Crafting and DIY, Creative Community and Events
-
-**Homeowners** (5 to 8):
-- Home Improvement, Smart Home Tech, Furniture and Decor, Gardening and Outdoors, Home Services
-- ADD: Home Security and Safety, Kitchen and Appliances, Energy and Sustainability
-
-### File: `src/components/onboarding/step-three/ExampleDealsData.ts`
-
-Add a 6th VIP-tier deal to all existing gamers/creatives/homeowners subcategories, plus add deal arrays for the new subcategories. Example additions:
-
-- PC Gaming: "Exclusive early access to game launches and private developer Q&A sessions"
-- Photography: "VIP passes to photography exhibitions and masterclass sessions with renowned photographers"
-- Home Improvement: "Priority access to contractor networks and exclusive DIY workshop experiences"
-
-### File: `src/components/onboarding-flow/CategoryDataConstants.ts`
-
-1. **Expand item descriptions** for existing gamers/creatives/homeowners entries (e.g., "Games" becomes "PC games and digital downloads", "Hardware" becomes "GPUs, monitors, and peripherals")
-2. **Add `categoryData` entries** for all new subcategories with 5 items each, matching the detail level of Sports/Wellness/Pets
-
-### File: `src/pages/ventus-rewards/data.ts`
-
-Update the `lifestyleOptions` subcategories array and the `getExamplePurchases` purchase map to match the new subcategory names, keeping this file in sync with the onboarding flow.
-
-## Summary of Content Parity After Changes
-
-```text
-                Subcategories    Deals/sub    Item detail
-Sports          12               6            Descriptive
-Wellness         9               6            Descriptive
-Pets             9               6            Descriptive
-Gamers         5 -> 9            5 -> 6       Single word -> Descriptive
-Creatives      5 -> 9            5 -> 6       Single word -> Descriptive
-Homeowners     5 -> 8            5 -> 6       Single word -> Descriptive
-```
+3. Mobile menu: update the "Sign Up" button to also point to `/smartrewards` for consistency
 
