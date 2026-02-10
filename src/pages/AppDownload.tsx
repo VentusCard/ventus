@@ -1,4 +1,4 @@
-import { Apple, PlayIcon, Sparkles, Shield, Zap, Gift, Target, Star } from "lucide-react";
+import { Apple, PlayIcon, Sparkles, Shield, Heart, Gift, Target, Star, LayoutGrid, Lock } from "lucide-react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -47,37 +47,37 @@ const DownloadButtons = () => (
 
 const AppDownload = () => {
   const stats = [
-    { label: "Star Rating", value: "4.8", icon: Star },
-    { label: "Deals Available", value: "10,000+", icon: Gift },
-    { label: "Free Forever", value: "100%", icon: Zap },
+    { label: "App Store Rating", value: "4.8", icon: Star },
+    { label: "Deals Across Every Sport", value: "10,000+", icon: Gift },
+    { label: "Free, No Catches", value: "100%", icon: Shield },
   ];
 
   const steps = [
     {
       icon: Target,
       step: "1",
-      title: "Pick Your Passions",
-      description: "Choose lifestyle categories like Tennis, Golf, Fitness, or Wellness—tell us what you love.",
+      title: "Pick Your Sport",
+      description: "Select a sport like Golf, Tennis, Running, or Fitness. Ventus organizes everything around the sports you care about.",
     },
     {
-      icon: Sparkles,
+      icon: LayoutGrid,
       step: "2",
-      title: "AI Curates Your Deals",
-      description: "Ventus matches thousands of offers to your interests—equipment, apparel, experiences, and more.",
+      title: "See Deals Across Every Subcategory",
+      description: "Picked Golf? We find deals on balls, clubs, bags, gloves, apparel, and accessories, all from top brands, organized in one feed.",
     },
     {
-      icon: Gift,
+      icon: Heart,
       step: "3",
-      title: "All Your Deals, One Place",
-      description: "No more searching. Get personalized offers from top brands delivered straight to you.",
+      title: "Wishlist It or Browse Curated Finds",
+      description: "Add items to your wishlist and our AI bot hunts for deals on exactly what you want. Plus, the Ventus team hand-picks 'Interesting Finds' you might love.",
     },
   ];
 
   const features = [
-    { icon: Sparkles, title: "Smart Matching", description: "AI learns your lifestyle and surfaces the deals that actually matter to you." },
-    { icon: Zap, title: "Instant Alerts", description: "Get notified the moment a new deal drops in your favorite categories." },
-    { icon: Shield, title: "Bank-Level Security", description: "Your data is encrypted and protected with enterprise-grade security." },
-    { icon: Gift, title: "Exclusive Offers", description: "Access deals you won't find anywhere else, curated just for you." },
+    { icon: Heart, title: "AI Wishlist Bot", description: "Add any item to your wishlist, like a new driver or running shoes, and our AI bot scans for the best deals and alerts you when it finds one." },
+    { icon: LayoutGrid, title: "Every Subcategory Covered", description: "From balls and clubs to apparel and accessories, Ventus covers every corner of your sport so you do not have to search multiple sites." },
+    { icon: Lock, title: "Free and Private", description: "No subscriptions, no hidden fees, no selling your data. Ventus is 100% free and your information stays yours." },
+    { icon: Gift, title: "Interesting Finds", description: "Our team hand-curates standout deals and hidden gems across sports categories, so you never miss something great." },
   ];
 
   return (
@@ -105,11 +105,11 @@ const AppDownload = () => {
               </div>
 
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4">
-                Free Deals, Matched to Your Lifestyle
+                Pick Your Sport. We Find Every Deal.
               </h1>
 
               <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0">
-                AI finds personalized offers from thousands of brands. Free forever.
+                Choose a sport you love, like golf, tennis, or running, and Ventus instantly pulls together deals on equipment, apparel, accessories, and more. All in one place, all free.
               </p>
 
               <DownloadButtons />
@@ -156,7 +156,7 @@ const AppDownload = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">How It Works</h2>
-            <p className="text-muted-foreground">Get personalized deals in 3 simple steps</p>
+            <p className="text-muted-foreground">From download to deals in under a minute</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-6">
@@ -189,7 +189,7 @@ const AppDownload = () => {
         <div className="max-w-7xl mx-auto px-4 md:px-8">
           <div className="text-center mb-10">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Why Ventus</h2>
-            <p className="text-muted-foreground">Everything you need, nothing you don't</p>
+            <p className="text-muted-foreground">Built for people who love their sport and love a good deal</p>
           </div>
 
           <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
@@ -222,8 +222,8 @@ const AppDownload = () => {
             viewport={{ once: true }}
             custom={0}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Ready to save?</h2>
-            <p className="text-muted-foreground mb-8">Download Ventus and start getting deals matched to your lifestyle.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Your Sport. Your Deals. One App.</h2>
+            <p className="text-muted-foreground mb-8">Download Ventus and let AI find every deal across your favorite sport, or tell it exactly what you are looking for.</p>
             <div className="flex justify-center">
               <DownloadButtons />
             </div>
