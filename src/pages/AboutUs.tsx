@@ -1,9 +1,15 @@
+import { useState } from "react";
 import { Users, Target, Award, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+
+const emailSchema = z.string().trim().email("Please enter a valid email").max(255);
 
 const AboutUs = () => {
   const values = [{
