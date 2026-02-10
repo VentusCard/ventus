@@ -1,11 +1,51 @@
+import { useState } from "react";
 import { Users, Target, Award, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useToast } from "@/hooks/use-toast";
+import { z } from "zod";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
+const emailSchema = z.string().trim().email("Please enter a valid email").max(255);
+
 const AboutUs = () => {
+  const { toast } = useToast();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const result = emailSchema.safeParse(email);
+    if (!result.success) {
+      toast({ title: "Invalid email", description: result.error.errors[0].message, variant: "destructive" });
+      return;
+    }
+    setIsSubmitting(true);
+    try {
+      const formData = new FormData();
+      formData.append("email", result.data);
+      formData.append("source", "about");
+      const response = await fetch("https://script.google.com/macros/s/AKfycbxi7ANbqg5kkeS-WCDE7MewaNl3rSI84d9Ql4BVqXzxCz75HttUogAQBAXMOUT1VLfQ/exec", {
+        method: "POST",
+        body: formData,
+      });
+      const text = await response.text();
+      if (response.ok || text.toLowerCase().includes("success")) {
+        toast({ title: "You're subscribed!", description: "We'll keep you updated on Ventus Card." });
+        setEmail("");
+      } else {
+        throw new Error("Submission failed");
+      }
+    } catch {
+      toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const values = [{
     icon: Target,
     title: "Our Mission",
@@ -52,6 +92,27 @@ const AboutUs = () => {
               Ventus takes the hassle out of rewards and gives you a card that feels holistic, personal, and built around the way you actually live.
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* Email Subscribe Section */}
+      <section className="py-8 px-4 md:px-8 border-t border-border/50">
+        <div className="max-w-3xl mx-auto text-center">
+          <p className="text-lg font-medium text-foreground mb-3">Stay in the loop</p>
+          <form onSubmit={handleSubscribe} className="flex justify-center gap-2">
+            <Input
+              type="email"
+              placeholder="Your email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="h-10 max-w-xs bg-white text-slate-900 placeholder:text-slate-400"
+              maxLength={255}
+              required
+            />
+            <Button type="submit" size="sm" disabled={isSubmitting} className="h-10 shrink-0">
+              {isSubmitting ? "..." : "Subscribe"}
+            </Button>
+          </form>
         </div>
       </section>
 
