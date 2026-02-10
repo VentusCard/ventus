@@ -21,8 +21,8 @@ export default {
 		extend: {
 		// Font Families - DM Sans as primary
 			fontFamily: {
-				sans: ['"Manrope"', 'system-ui', '-apple-system', 'sans-serif'],
-				display: ['"Manrope"', 'system-ui', 'sans-serif'],
+				sans: ['"Outfit"', 'system-ui', '-apple-system', 'sans-serif'],
+				display: ['"Outfit"', 'system-ui', 'sans-serif'],
 				mono: ['"DM Mono"', 'SF Mono', 'Monaco', 'monospace'],
 			},
 
