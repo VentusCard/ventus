@@ -122,6 +122,12 @@ const Footer = () => {
                 {isSubmitting ? "..." : "Subscribe"}
               </Button>
             </form>
+            <p className="text-muted-foreground text-sm mb-2">
+              Have questions? We're here to help.
+            </p>
+            <Link to="/contact" className="block text-muted-foreground hover:text-foreground transition-colors text-sm">
+              Contact Us
+            </Link>
           </div>
         </div>
 
