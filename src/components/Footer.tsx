@@ -105,14 +105,28 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Get in Touch */}
+          {/* Stay Updated */}
           <div>
-            <h4 className="text-lg font-semibold mb-4 text-foreground">Get in Touch</h4>
-            <p className="text-muted-foreground text-sm mb-4">
-              Have questions? We're here to help.
+            <h4 className="text-lg font-semibold mb-4 text-foreground">Stay Updated</h4>
+            <p className="text-muted-foreground text-sm mb-3">
+              Get the latest on Ventus Card
             </p>
-            <Link to="/contact">
-              <Button size="sm">Contact Us</Button>
+            <form onSubmit={handleSubscribe} className="flex gap-2 mb-3">
+              <Input
+                type="email"
+                placeholder="Your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="h-9 text-sm"
+                maxLength={255}
+                required
+              />
+              <Button type="submit" size="sm" disabled={isSubmitting} className="h-9 shrink-0">
+                {isSubmitting ? "..." : "Subscribe"}
+              </Button>
+            </form>
+            <Link to="/contact" className="text-muted-foreground hover:text-foreground transition-colors text-sm">
+              Contact Us
             </Link>
           </div>
         </div>
