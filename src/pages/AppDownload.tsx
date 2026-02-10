@@ -74,10 +74,10 @@ const AppDownload = () => {
   ];
 
   const features = [
-    { icon: Sparkles, title: "Smart Matching", description: "AI learns your lifestyle and surfaces the deals that actually matter to you." },
-    { icon: Zap, title: "Instant Alerts", description: "Get notified the moment a new deal drops in your favorite categories." },
-    { icon: Shield, title: "Bank-Level Security", description: "Your data is encrypted and protected with enterprise-grade security." },
-    { icon: Gift, title: "Exclusive Offers", description: "Access deals you won't find anywhere else, curated just for you." },
+    { icon: Heart, title: "AI Wishlist Bot", description: "Add any item to your wishlist, like a new driver or running shoes, and our AI bot scans for the best deals and alerts you when it finds one." },
+    { icon: LayoutGrid, title: "Every Subcategory Covered", description: "From balls and clubs to apparel and accessories, Ventus covers every corner of your sport so you do not have to search multiple sites." },
+    { icon: Lock, title: "Free and Private", description: "No subscriptions, no hidden fees, no selling your data. Ventus is 100% free and your information stays yours." },
+    { icon: Gift, title: "Interesting Finds", description: "Our team hand-curates standout deals and hidden gems across sports categories, so you never miss something great." },
   ];
 
   return (
