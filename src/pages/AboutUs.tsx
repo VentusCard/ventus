@@ -8,19 +8,22 @@ import { useToast } from "@/hooks/use-toast";
 import { z } from "zod";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
 const emailSchema = z.string().trim().email("Please enter a valid email").max(255);
-
 const AboutUs = () => {
-  const { toast } = useToast();
+  const {
+    toast
+  } = useToast();
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleSubscribe = async (e: React.FormEvent) => {
     e.preventDefault();
     const result = emailSchema.safeParse(email);
     if (!result.success) {
-      toast({ title: "Invalid email", description: result.error.errors[0].message, variant: "destructive" });
+      toast({
+        title: "Invalid email",
+        description: result.error.errors[0].message,
+        variant: "destructive"
+      });
       return;
     }
     setIsSubmitting(true);
@@ -30,22 +33,28 @@ const AboutUs = () => {
       formData.append("source", "about");
       const response = await fetch("https://script.google.com/macros/s/AKfycbxi7ANbqg5kkeS-WCDE7MewaNl3rSI84d9Ql4BVqXzxCz75HttUogAQBAXMOUT1VLfQ/exec", {
         method: "POST",
-        body: formData,
+        body: formData
       });
       const text = await response.text();
       if (response.ok || text.toLowerCase().includes("success")) {
-        toast({ title: "You're subscribed!", description: "We'll keep you updated on Ventus Card." });
+        toast({
+          title: "You're subscribed!",
+          description: "We'll keep you updated on Ventus Card."
+        });
         setEmail("");
       } else {
         throw new Error("Submission failed");
       }
     } catch {
-      toast({ title: "Something went wrong", description: "Please try again later.", variant: "destructive" });
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive"
+      });
     } finally {
       setIsSubmitting(false);
     }
   };
-
   const values = [{
     icon: Target,
     title: "Our Mission",
@@ -63,9 +72,7 @@ const AboutUs = () => {
     title: "Our Community",
     description: "Building a community of conscious consumers who want their spending to reflect their values and aspirations."
   }];
-
-  return (
-    <div className="min-h-screen bg-background relative overflow-hidden">
+  return <div className="min-h-screen bg-background relative overflow-hidden">
       <Navbar />
       
       {/* Story Content Section */}
@@ -98,17 +105,9 @@ const AboutUs = () => {
       {/* Email Subscribe Section */}
       <section className="py-6 px-4 md:px-8 border-t border-border/50">
         <div className="max-w-3xl mx-auto flex items-center justify-center gap-3">
-          <p className="text-sm font-medium text-muted-foreground shrink-0">Stay in the loop</p>
+          <p className="font-medium text-muted-foreground shrink-0 text-2xl">Stay in the loop</p>
           <form onSubmit={handleSubscribe} className="flex gap-2">
-            <Input
-              type="email"
-              placeholder="Your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="h-9 w-48 bg-white text-slate-900 placeholder:text-slate-400 text-sm"
-              maxLength={255}
-              required
-            />
+            <Input type="email" placeholder="Your email" value={email} onChange={e => setEmail(e.target.value)} className="h-9 w-48 bg-white text-slate-900 placeholder:text-slate-400 text-sm" maxLength={255} required />
             <Button type="submit" size="sm" disabled={isSubmitting} className="h-9 shrink-0">
               {isSubmitting ? "..." : "Subscribe"}
             </Button>
@@ -127,26 +126,26 @@ const AboutUs = () => {
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {values.map((value, index) => (
-              <motion.div 
-                key={index}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ 
-                  duration: 0.5, 
-                  delay: index * 0.1,
-                  ease: [0.25, 0.46, 0.45, 0.94]
-                }}
-                className="p-4 rounded-xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default"
-              >
+            {values.map((value, index) => <motion.div key={index} initial={{
+            opacity: 0,
+            y: 30
+          }} whileInView={{
+            opacity: 1,
+            y: 0
+          }} viewport={{
+            once: true,
+            margin: "-50px"
+          }} transition={{
+            duration: 0.5,
+            delay: index * 0.1,
+            ease: [0.25, 0.46, 0.45, 0.94]
+          }} className="p-4 rounded-xl bg-secondary/30 border border-border/50 hover:border-primary/30 hover:scale-[1.02] hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 cursor-default">
                 <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-3">
                   <value.icon className="h-6 w-6 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold text-foreground mb-2">{value.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{value.description}</p>
-              </motion.div>
-            ))}
+              </motion.div>)}
           </div>
         </div>
       </section>
@@ -169,8 +168,6 @@ const AboutUs = () => {
       </section>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default AboutUs;
