@@ -7,6 +7,30 @@ import appScreensPreview from "@/assets/app-screens-preview.png";
 const IOS_URL = "https://apps.apple.com/us/app/ventus-smart-rewards/id6754831937";
 const ANDROID_URL = "https://play.google.com/store/apps/details?id=com.ventuscard.ventus";
 
+const staggerContainer = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.15 } },
+};
+
+const staggerItem = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0, 0, 0.2, 1] as const } },
+};
+
+const fadeInRight = {
+  hidden: { opacity: 0, x: 40, scale: 0.95 },
+  visible: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.7, ease: [0, 0, 0.2, 1] as const } },
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.9 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: { delay: i * 0.1, duration: 0.5, ease: [0, 0, 0.2, 1] as const },
+  }),
+};
+
 const fadeUp = {
   hidden: { opacity: 0, y: 20 },
   visible: (i: number) => ({
@@ -22,7 +46,7 @@ const DownloadButtons = () => (
       href={IOS_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-foreground text-background rounded-xl hover:opacity-90 transition-opacity"
+      className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-foreground text-background rounded-xl hover:opacity-90 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 transition-all duration-200"
     >
       <Apple className="w-6 h-6" />
       <div className="text-left">
@@ -34,7 +58,7 @@ const DownloadButtons = () => (
       href={ANDROID_URL}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-foreground text-background rounded-xl hover:opacity-90 transition-opacity"
+      className="inline-flex items-center gap-2.5 px-5 py-2.5 bg-foreground text-background rounded-xl hover:opacity-90 hover:scale-105 hover:shadow-lg hover:shadow-primary/20 transition-all duration-200"
     >
       <PlayIcon className="w-6 h-6" />
       <div className="text-left">
@@ -88,10 +112,15 @@ const AppDownload = () => {
       <section className="min-h-[85vh] flex items-center pt-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8 w-full">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
-            {/* Left */}
-            <div className="order-2 lg:order-1 text-center lg:text-left">
+            {/* Left - Staggered entrance */}
+            <motion.div
+              className="order-2 lg:order-1 text-center lg:text-left"
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+            >
               {/* App badge + rating */}
-              <div className="flex items-center gap-3 justify-center lg:justify-start mb-6">
+              <motion.div variants={staggerItem} className="flex items-center gap-3 justify-center lg:justify-start mb-6">
                 <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
                   <Sparkles className="w-5 h-5 text-primary" />
                 </div>
@@ -102,28 +131,35 @@ const AppDownload = () => {
                   ))}
                   <span className="text-xs text-muted-foreground ml-1">4.8</span>
                 </div>
-              </div>
+              </motion.div>
 
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4">
+              <motion.h1 variants={staggerItem} className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground leading-tight mb-4">
                 Pick Your Sport. We Find Every Deal.
-              </h1>
+              </motion.h1>
 
-              <p className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0">
+              <motion.p variants={staggerItem} className="text-lg text-muted-foreground mb-8 max-w-lg mx-auto lg:mx-0">
                 Choose a sport you love, like golf, tennis, or running, and Ventus instantly pulls together deals on equipment, apparel, accessories, and more. All in one place, all free.
-              </p>
+              </motion.p>
 
-              <DownloadButtons />
-              <p className="text-sm text-muted-foreground mt-3">No credit card required</p>
-            </div>
+              <motion.div variants={staggerItem}>
+                <DownloadButtons />
+                <p className="text-sm text-muted-foreground mt-3">No credit card required</p>
+              </motion.div>
+            </motion.div>
 
-            {/* Right */}
-            <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+            {/* Right - Float + entrance from right */}
+            <motion.div
+              className="order-1 lg:order-2 flex justify-center lg:justify-end"
+              variants={fadeInRight}
+              initial="hidden"
+              animate="visible"
+            >
               <img
                 src={appScreensPreview}
                 alt="Ventus App Screenshots"
-                className="w-full max-w-md lg:max-w-lg h-auto object-contain"
+                className="w-full max-w-md lg:max-w-lg h-auto object-contain animate-float"
               />
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -135,8 +171,8 @@ const AppDownload = () => {
             {stats.map((stat, i) => (
               <motion.div
                 key={i}
-                className="flex flex-col items-center py-8 gap-1"
-                variants={fadeUp}
+                className="flex flex-col items-center py-10 gap-1 hover:scale-105 transition-transform duration-200 cursor-default"
+                variants={scaleIn}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
@@ -152,58 +188,98 @@ const AppDownload = () => {
       </section>
 
       {/* How It Works */}
-      <section className="py-12 md:py-16">
+      <section className="py-14 md:py-20">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">How It Works</h2>
-            <p className="text-muted-foreground">From download to deals in under a minute</p>
+          <div className="text-center mb-12">
+            <motion.h2
+              className="text-3xl md:text-4xl font-bold text-foreground mb-3"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              How It Works
+            </motion.h2>
+            <motion.p
+              className="text-muted-foreground"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              From download to deals in under a minute
+            </motion.p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-6">
-            {steps.map((step, i) => (
-              <motion.div
-                key={i}
-                className="relative bg-card rounded-2xl p-6 border border-border shadow-sm text-center"
-                variants={fadeUp}
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true }}
-                custom={i}
-              >
-                <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-sm font-bold w-7 h-7 rounded-full flex items-center justify-center">
-                  {step.step}
-                </div>
-                <div className="w-12 h-12 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center">
-                  <step.icon className="w-6 h-6 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
-              </motion.div>
-            ))}
+          {/* Cards with connecting line */}
+          <div className="relative">
+            {/* Connecting line (md+ only) */}
+            <div className="hidden md:block absolute top-1/2 left-[15%] right-[15%] h-px border-t-2 border-dashed border-primary/20 -translate-y-1/2 z-0" />
+
+            <div className="relative z-10 grid md:grid-cols-3 gap-8">
+              {steps.map((step, i) => (
+                <motion.div
+                  key={i}
+                  className="group relative glass-transition-card !bg-[hsl(var(--card))] rounded-2xl p-8 text-center"
+                  variants={fadeUp}
+                  initial="hidden"
+                  whileInView="visible"
+                  viewport={{ once: true }}
+                  custom={i}
+                >
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-sm font-bold w-7 h-7 rounded-full flex items-center justify-center">
+                    {step.step}
+                  </div>
+                  <div className="w-14 h-14 mx-auto mb-4 bg-primary/10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
+                    <step.icon className="w-7 h-7 text-primary" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{step.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{step.description}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
 
       {/* Feature Highlights */}
-      <section className="py-12 md:py-16 bg-secondary/30">
+      <section className="py-14 md:py-20 bg-secondary/30">
         <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-10">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Why Ventus</h2>
-            <p className="text-muted-foreground">Built for people who love their sport and love a good deal</p>
+          <div className="text-center mb-12">
+            <motion.h2
+              className="text-3xl md:text-4xl font-bold text-foreground mb-3"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              Why Ventus
+            </motion.h2>
+            <motion.p
+              className="text-muted-foreground"
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+            >
+              Built for people who love their sport and love a good deal
+            </motion.p>
           </div>
 
-          <div className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto">
+          <div className="grid sm:grid-cols-2 gap-8">
             {features.map((feature, i) => (
               <motion.div
                 key={i}
-                className="bg-card rounded-2xl p-6 border border-border shadow-sm"
+                className="group glass-transition-card !bg-[hsl(var(--card))] rounded-2xl p-8"
                 variants={fadeUp}
                 initial="hidden"
                 whileInView="visible"
                 viewport={{ once: true }}
                 custom={i}
               >
-                <feature.icon className="w-8 h-8 text-primary mb-3" />
+                <div className="w-12 h-12 bg-primary/10 rounded-xl flex items-center justify-center mb-4 group-hover:animate-premium-glow transition-all duration-300">
+                  <feature.icon className="w-6 h-6 text-primary" />
+                </div>
                 <h3 className="font-semibold text-foreground mb-1">{feature.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{feature.description}</p>
               </motion.div>
@@ -213,21 +289,27 @@ const AppDownload = () => {
       </section>
 
       {/* Final CTA */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 text-center">
+      <section className="py-20 md:py-28">
+        <div className="max-w-7xl mx-auto px-4 md:px-8">
           <motion.div
+            className="relative overflow-hidden glass-transition-card !bg-[hsl(var(--card))] rounded-2xl p-10 md:p-16 text-center animate-premium-glow"
             variants={fadeUp}
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true }}
             custom={0}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-3">Your Sport. Your Deals. One App.</h2>
-            <p className="text-muted-foreground mb-8">Download Ventus and let AI find every deal across your favorite sport, or tell it exactly what you are looking for.</p>
-            <div className="flex justify-center">
-              <DownloadButtons />
+            {/* Gradient orb */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+
+            <div className="relative z-10">
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-4">Your Sport. Your Deals. One App.</h2>
+              <p className="text-muted-foreground mb-8 max-w-xl mx-auto">Download Ventus and let AI find every deal across your favorite sport, or tell it exactly what you are looking for.</p>
+              <div className="flex justify-center">
+                <DownloadButtons />
+              </div>
+              <p className="text-sm text-muted-foreground mt-3">No credit card required</p>
             </div>
-            <p className="text-sm text-muted-foreground mt-3">No credit card required</p>
           </motion.div>
         </div>
       </section>
