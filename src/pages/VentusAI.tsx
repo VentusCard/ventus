@@ -122,7 +122,7 @@ const VentusAI = () => {
           </p>
           <Link to="/app">
             <Button size="lg" className="px-10 py-6 text-lg rounded-full">
-              Try Ventus AI
+              Try Free Ventus AI Deal Finder App
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </Link>
