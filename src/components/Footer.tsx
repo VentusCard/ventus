@@ -109,7 +109,7 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4 text-foreground">Stay Updated</h4>
             <p className="text-muted-foreground text-sm mb-4">
-              Have questions? We're here to help.
+              Get the latest on Ventus Card
             </p>
             <Link to="/contact" className="block text-muted-foreground hover:text-foreground transition-colors text-sm mb-4">
               Contact Us
