@@ -104,10 +104,9 @@ const Navbar = () => {
     }
     navigate("/smartrewards");
   };
-  const isLightPage = ['/privacy', '/terms'].includes(location.pathname);
 
   return (
-    <div className={`fixed top-0 left-0 right-0 z-50 backdrop-blur-md ${isLightPage ? 'bg-white/95 shadow-sm' : 'bg-background/95'}`}>
+    <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md">
       <div className="flex h-12 md:h-14 lg:h-16 items-center justify-between px-4 md:px-8 max-w-7xl mx-auto">
         {/* Logo/Brand */}
         <div className="flex items-center flex-1 md:flex-initial">
@@ -124,38 +123,38 @@ const Navbar = () => {
         <div className="hidden md:flex items-center space-x-3 md:space-x-4 lg:space-x-8">
           <Link 
             to="/about"
-            className={`${isLightPage ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'} font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group`}
+            className="text-white/90 hover:text-white font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group"
           >
             <span className="relative">
               About Us
-              <span className={`absolute -bottom-1 left-1/2 w-0 h-0.5 ${isLightPage ? 'bg-slate-900' : 'bg-white'} transition-all duration-300 group-hover:w-full group-hover:left-0`}></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
           <Link 
             to="/smartrewards"
-            className={`${isLightPage ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'} font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group`}
+            className="text-white/90 hover:text-white font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group"
           >
             <span className="relative">
               Smart Rewards
-              <span className={`absolute -bottom-1 left-1/2 w-0 h-0.5 ${isLightPage ? 'bg-slate-900' : 'bg-white'} transition-all duration-300 group-hover:w-full group-hover:left-0`}></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
           <Link 
             to="/ventus-ai"
-            className={`${isLightPage ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'} font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group`}
+            className="text-white/90 hover:text-white font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group"
           >
             <span className="relative">
               Ventus AI
-              <span className={`absolute -bottom-1 left-1/2 w-0 h-0.5 ${isLightPage ? 'bg-slate-900' : 'bg-white'} transition-all duration-300 group-hover:w-full group-hover:left-0`}></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
           <Link 
             to="/app"
-            className={`${isLightPage ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'} font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group`}
+            className="text-white/90 hover:text-white font-medium text-xs md:text-xs lg:text-sm transition-all duration-300 px-2 md:px-2 lg:px-3 group"
           >
             <span className="relative">
               Free Deals App
-              <span className={`absolute -bottom-1 left-1/2 w-0 h-0.5 ${isLightPage ? 'bg-slate-900' : 'bg-white'} transition-all duration-300 group-hover:w-full group-hover:left-0`}></span>
+              <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-white transition-all duration-300 group-hover:w-full group-hover:left-0"></span>
             </span>
           </Link>
         </div>
@@ -164,7 +163,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center justify-end pr-2">
           <button
             onClick={toggleMobileMenu}
-            className={`${isLightPage ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'} flex items-center justify-end w-16 h-12 pr-2 transition-colors duration-300 z-50 relative`}
+            className="text-white/90 hover:text-white flex items-center justify-end w-16 h-12 pr-2 transition-colors duration-300 z-50 relative"
             aria-label="Toggle mobile menu"
             type="button"
           >
@@ -180,7 +179,7 @@ const Navbar = () => {
         <div className="hidden md:flex items-center gap-4">
           {user ? (
             <>
-              <span className={`${isLightPage ? 'text-slate-500' : 'text-white/60'} text-sm`}>{user.email}</span>
+              <span className="text-white/60 text-sm">{user.email}</span>
               <Button 
                 onClick={() => navigate(user.source === 'ventus' ? "/app/home" : "/dashboard")}
                 className="bg-primary hover:bg-primary/90 text-white text-xs md:text-xs lg:text-sm px-4 py-2 h-auto rounded-md"
@@ -189,7 +188,7 @@ const Navbar = () => {
               </Button>
               <button
                 onClick={handleLogout}
-                className={`flex items-center gap-1.5 ${isLightPage ? 'text-slate-700 hover:text-slate-900' : 'text-white/90 hover:text-white'} text-sm transition-colors`}
+                className="flex items-center gap-1.5 text-white/90 hover:text-white text-sm transition-colors"
               >
                 <LogOut className="h-4 w-4" />
                 Log Out
