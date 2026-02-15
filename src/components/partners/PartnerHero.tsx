@@ -3,7 +3,7 @@ import { ExternalLink, ChevronDown } from "lucide-react";
 
 const PartnerHero = () => {
   return (
-    <section className="relative min-h-[95vh] flex flex-col items-center justify-center pt-24 pb-16 px-4 md:px-8 bg-background">
+    <section className="relative min-h-[95vh] flex flex-col items-center justify-center pt-32 md:pt-36 lg:pt-44 pb-16 px-4 md:px-8 bg-background">
       <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
         <h1 className="font-display text-4xl sm:text-5xl md:text-6xl font-bold mb-6 text-foreground leading-tight">
           Partner with <span className="italic font-light text-muted-foreground">Ventus</span>

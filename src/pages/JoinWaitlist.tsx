@@ -87,7 +87,7 @@ const JoinWaitlist = () => {
       <Navbar />
       
       {/* Hero Section */}
-      <section className="relative min-h-[95vh] flex items-center pt-20">
+      <section className="relative min-h-[95vh] flex items-center pt-32 md:pt-36 lg:pt-44">
         <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
             Be Among the <span className="italic font-light text-muted-foreground">First</span>
