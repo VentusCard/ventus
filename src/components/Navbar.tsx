@@ -195,21 +195,9 @@ const Navbar = () => {
               </button>
             </>
           ) : (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button className="bg-primary hover:bg-primary/90 text-white text-xs md:text-xs lg:text-sm px-4 py-1.5 h-auto">
-                  Get Started <ChevronDown className="ml-1 h-3.5 w-3.5" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-slate-900 border-slate-700 text-white z-50">
-                <DropdownMenuItem onClick={() => navigate("/smartrewards")} className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                  Sign up for Ventus Card
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate("/app/login")} className="cursor-pointer hover:bg-white/10 focus:bg-white/10 focus:text-white">
-                  Sign in to Ventus Rewards
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <Button onClick={() => navigate("/smartrewards")} className="bg-primary hover:bg-primary/90 text-white text-xs md:text-xs lg:text-sm px-4 py-1.5 h-auto">
+              Get Started
+            </Button>
           )}
         </div>
       </div>
@@ -289,14 +277,6 @@ const Navbar = () => {
               </div>
             ) : (
               <div className="space-y-2">
-                <Link to="/app/login" onClick={closeMobileMenu}>
-                  <Button 
-                    variant="outline"
-                    className="w-full bg-white/10 border-white/20 text-white hover:bg-white/20"
-                  >
-                    Sign In
-                  </Button>
-                </Link>
                 <Link to="/smartrewards" onClick={closeMobileMenu}>
                   <Button 
                     className="w-full bg-primary hover:bg-primary/90 text-white"
