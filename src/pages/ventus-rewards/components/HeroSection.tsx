@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
+import { motion } from "framer-motion";
 
 const HeroSection = () => {
   return (
@@ -25,21 +25,41 @@ const HeroSection = () => {
       
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         <div className="text-center space-y-4">
-          <h1 className="font-display text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-blue-100 to-slate-200 bg-clip-text text-transparent drop-shadow-sm">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="font-display text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-white via-blue-100 to-slate-200 bg-clip-text text-transparent drop-shadow-sm"
+          >
             Ventus Rewards
-          </h1>
-          <div className="inline-block p-1 bg-gradient-to-r from-blue-500/20 to-slate-400/20 rounded-2xl backdrop-blur-sm border border-white/10 mb-4">
+          </motion.h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="inline-block p-1 bg-gradient-to-r from-blue-500/20 to-slate-400/20 rounded-2xl backdrop-blur-sm border border-white/10 mb-4"
+          >
             <p className="text-xl md:text-2xl max-w-4xl mx-auto text-blue-100 px-6 py-1.5 bg-black/20 rounded-xl backdrop-blur-sm">
               One card. 5x rewards. All your lifestyle spending.
             </p>
-          </div>
-          <p className="text-lg max-w-3xl mx-auto text-slate-300 leading-relaxed font-light mb-4">
+          </motion.div>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-lg max-w-3xl mx-auto text-slate-300 leading-relaxed font-light mb-4"
+          >
             Discover how Ventus simplifies and amplifies rewards across all your spending — 
             eliminating the need to juggle multiple cards.
-          </p>
+          </motion.p>
           
           {/* Get Started / Sign In buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-3">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="flex flex-col sm:flex-row gap-4 justify-center mb-3"
+          >
             <Link to="/app/signup">
               <Button size="lg" className="bg-primary hover:bg-primary/90 text-white px-8">
                 Get Started Free
@@ -50,7 +70,7 @@ const HeroSection = () => {
                 Sign In
               </Button>
             </Link>
-          </div>
+          </motion.div>
           
         </div>
       </div>

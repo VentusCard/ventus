@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Benefits from "@/components/Benefits";
@@ -11,13 +12,23 @@ const BenefitsPage = () => {
         {/* Hero Section */}
         <section className="relative min-h-[95vh] flex items-center pt-32 md:pt-36 lg:pt-44">
           <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center flex flex-col items-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight"
+            >
               Choose Your <span className="italic font-light text-muted-foreground">Benefits</span>
-            </h1>
+            </motion.h1>
             
-            <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+              className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            >
               One card, three tiers—designed to grow with your lifestyle
-            </p>
+            </motion.p>
           </div>
           
           {/* Subtle bottom line separator */}

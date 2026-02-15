@@ -5,6 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Mail, User, Target } from "lucide-react";
+import { motion } from "framer-motion";
 import { useToast } from "@/hooks/use-toast";
 
 const categories = [
@@ -89,20 +90,36 @@ const JoinWaitlist = () => {
       {/* Hero Section */}
       <section className="relative min-h-[95vh] flex items-center pt-32 md:pt-36 lg:pt-44">
         <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight"
+          >
             Be Among the <span className="italic font-light text-muted-foreground">First</span>
-          </h1>
+          </motion.h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+          >
             Join thousands of others waiting for the personalized credit card that adapts to your lifestyle.
-          </p>
+          </motion.p>
         </div>
         
         {/* Subtle bottom line separator */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
       </section>
 
-      <section className="pt-24 pb-12 md:pb-20 px-3 md:px-6">
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="pt-24 pb-12 md:pb-20 px-3 md:px-6"
+      >
         <div className="max-w-2xl mx-auto">
           <Card className="glass-transition-card overflow-hidden mx-2 md:mx-0 rounded-xl">
             <CardHeader className="text-center pb-4 md:pb-6 px-4 md:px-8 pt-6 md:pt-8">
@@ -228,7 +245,7 @@ const JoinWaitlist = () => {
             </CardContent>
           </Card>
         </div>
-      </section>
+      </motion.section>
 
       <Footer />
     </div>

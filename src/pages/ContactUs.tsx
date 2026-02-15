@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Mail, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -64,13 +65,23 @@ ${name}
       {/* Hero Section */}
       <section className="relative min-h-[95vh] flex items-center pt-32 md:pt-36 lg:pt-44">
         <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center flex flex-col items-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight"
+          >
             Contact <span className="italic font-light text-muted-foreground">Us</span>
-          </h1>
+          </motion.h1>
           
-          <p className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+          >
             Have questions about Ventus Card? We're here to help. Reach out to our team and we'll get back to you as soon as possible.
-          </p>
+          </motion.p>
         </div>
         
         {/* Subtle bottom line separator */}
@@ -78,7 +89,13 @@ ${name}
       </section>
 
       {/* Contact Form */}
-      <div className="px-4 md:px-8 pt-12 md:pt-16 pb-12 md:pb-16">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+        className="px-4 md:px-8 pt-12 md:pt-16 pb-12 md:pb-16"
+      >
         <div className={`mx-auto relative ${isMobile ? 'max-w-full' : 'max-w-2xl'}`}>
           <Card className="bg-card border-border">
             <CardHeader className="text-center p-4 md:p-6">
@@ -164,7 +181,7 @@ ${name}
             </div>
           )}
         </div>
-      </div>
+      </motion.div>
 
       <Footer />
     </div>
