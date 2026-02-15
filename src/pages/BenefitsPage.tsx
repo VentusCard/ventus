@@ -10,7 +10,7 @@ const BenefitsPage = () => {
         <Navbar />
         
         {/* Hero Section */}
-        <section className="relative min-h-[95vh] flex items-center pt-32 md:pt-36 lg:pt-44">
+        <section className="relative flex items-center pt-32 md:pt-36 lg:pt-44 pb-16">
           <div className="max-w-4xl mx-auto px-4 md:px-8 w-full relative z-10 text-center flex flex-col items-center">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}

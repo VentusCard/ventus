@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const PartnerHero = () => {
   return (
-    <section className="relative min-h-[95vh] flex flex-col items-center justify-center pt-32 md:pt-36 lg:pt-44 pb-16 px-4 md:px-8 bg-background">
+    <section className="relative flex flex-col items-center justify-center pt-32 md:pt-36 lg:pt-44 pb-16 px-4 md:px-8 bg-background">
       <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
