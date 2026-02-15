@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+
 
 const HeroSection = () => {
   return (
@@ -52,14 +52,6 @@ const HeroSection = () => {
             </Link>
           </div>
           
-          {/* Scroll indicator */}
-          <button 
-            onClick={() => document.getElementById('goal-selection')?.scrollIntoView({ behavior: 'smooth' })}
-            className="animate-bounce mt-1"
-            aria-label="Scroll down"
-          >
-            <ChevronDown className="h-6 w-6 text-slate-400 hover:text-white transition-colors" />
-          </button>
         </div>
       </div>
       
