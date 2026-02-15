@@ -158,7 +158,7 @@ const OnboardingFlow = () => {
       <Navbar />
       
       {/* Hero Section with How It Works */}
-      <section className="pt-36 pb-12 md:pt-44 md:pb-16 lg:pt-56 lg:pb-20 flex flex-col items-center justify-center px-4 md:px-8">
+      <section className="pt-32 pb-12 md:pt-40 md:pb-14 lg:pt-52 lg:pb-18 flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
           <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-5 lg:mb-6 text-foreground animate-fadeUpSoft opacity-0"
               style={{ animationDelay: '0ms', animationFillMode: 'forwards' }}>
