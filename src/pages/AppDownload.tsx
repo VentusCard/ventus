@@ -109,7 +109,7 @@ const AppDownload = () => {
       <Navbar />
 
       {/* Hero */}
-      <section className="min-h-[90vh] flex items-center pt-24">
+      <section className="min-h-[90vh] flex items-center pt-32 md:pt-36 lg:pt-44">
         <div className="max-w-7xl mx-auto px-4 md:px-8 w-full">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
             {/* Left - Staggered entrance */}
