@@ -38,7 +38,7 @@ const VentusAI = () => {
       <Navbar />
       
       {/* Hero Section - Full Height */}
-      <section className="relative min-h-[45vh] flex flex-col items-center justify-center px-4 md:px-8 pt-36 md:pt-40 lg:pt-44 pb-20">
+      <section className="relative min-h-[45vh] flex flex-col items-center justify-center px-4 md:px-8 pt-40 md:pt-48 lg:pt-56 pb-24">
         <div className="text-center max-w-5xl mx-auto flex flex-col items-center">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
             <span className="text-foreground">Ventus AI:</span>{" "}
