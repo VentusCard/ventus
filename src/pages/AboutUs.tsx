@@ -76,7 +76,7 @@ const AboutUs = () => {
       <Navbar />
       
       {/* Story Content Section */}
-      <section className="pt-24 pb-12 px-4 md:px-8">
+      <section className="pt-36 md:pt-40 lg:pt-44 pb-16 px-4 md:px-8">
         <div className="max-w-5xl mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
             Our <span className="italic font-light text-muted-foreground">Story</span>
