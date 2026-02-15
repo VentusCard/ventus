@@ -78,11 +78,21 @@ const AboutUs = () => {
       {/* Story Content Section */}
       <section className="pt-36 md:pt-40 lg:pt-44 pb-16 px-4 md:px-8">
         <div className="max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 text-foreground leading-tight"
+          >
             Our <span className="italic font-light text-muted-foreground">Story</span>
-          </h1>
+          </motion.h1>
           
-          <div className="space-y-6 text-2xl text-muted-foreground leading-relaxed">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="space-y-6 text-2xl text-muted-foreground leading-relaxed"
+          >
             <p>
               Ventus was born out of a simple frustration: juggling multiple credit cards to chase rewards and still missing out.
             </p>
@@ -98,7 +108,7 @@ const AboutUs = () => {
             <p>
               Ventus takes the hassle out of rewards and gives you a card that feels holistic, personal, and built around the way you actually live.
             </p>
-          </div>
+          </motion.div>
         </div>
       </section>
 

@@ -40,20 +40,36 @@ const VentusAI = () => {
       {/* Hero Section - Full Height */}
       <section className="relative min-h-[45vh] flex flex-col items-center justify-center px-4 md:px-8 pt-36 md:pt-44 lg:pt-52 pb-28">
         <div className="text-center max-w-5xl mx-auto flex flex-col items-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8"
+          >
             <span className="text-foreground">Ventus AI:</span>{" "}
             <span className="italic font-light text-muted-foreground">Your Intelligent</span>
             <br />
             <span className="italic font-light text-muted-foreground">Rewards Partner</span>
-          </h1>
-          <p className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed">
+          </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+            className="text-xl md:text-2xl text-muted-foreground mb-10 leading-relaxed"
+          >
             Harness the power of AI to maximize your rewards and unlock personalized deals with zero complexity.
-          </p>
-          <Link to="/app">
-            <Button size="lg" className="px-10 py-6 text-lg rounded-full">
-              Get Started
-            </Button>
-          </Link>
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+          >
+            <Link to="/app">
+              <Button size="lg" className="px-10 py-6 text-lg rounded-full">
+                Get Started
+              </Button>
+            </Link>
+          </motion.div>
         </div>
         {/* Subtle bottom line separator */}
         <div className="absolute bottom-0 left-0 right-0 h-px bg-white/10"></div>
