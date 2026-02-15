@@ -158,23 +158,23 @@ const OnboardingFlow = () => {
       <Navbar />
       
       {/* Hero Section with How It Works */}
-      <section className="pt-20 pb-6 md:pt-24 md:pb-8 lg:pt-32 lg:pb-12 flex flex-col items-center justify-center px-4 md:px-8">
+      <section className="pt-28 pb-10 md:pt-36 md:pb-14 lg:pt-44 lg:pb-16 flex flex-col items-center justify-center px-4 md:px-8">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-2 md:mb-3 lg:mb-4 text-foreground animate-fadeUpSoft opacity-0"
+          <h1 className="text-3xl md:text-5xl lg:text-6xl font-bold mb-4 md:mb-5 lg:mb-6 text-foreground animate-fadeUpSoft opacity-0"
               style={{ animationDelay: '0ms', animationFillMode: 'forwards' }}>
             One Card. Your Lifestyle.
           </h1>
-          <p className="text-lg md:text-xl lg:text-2xl font-semibold text-primary mb-2 md:mb-3 lg:mb-4 animate-fadeUpSoft opacity-0"
+          <p className="text-lg md:text-xl lg:text-2xl font-semibold text-primary mb-4 md:mb-5 lg:mb-6 animate-fadeUpSoft opacity-0"
              style={{ animationDelay: '150ms', animationFillMode: 'forwards' }}>
             5x Rewards on Everything That Matches Your Life
           </p>
-          <p className="text-sm md:text-base lg:text-lg text-muted-foreground mb-4 md:mb-6 lg:mb-8 lg:whitespace-nowrap animate-fadeUpSoft opacity-0"
+          <p className="text-sm md:text-base lg:text-lg text-muted-foreground mb-8 md:mb-10 lg:mb-12 lg:whitespace-nowrap animate-fadeUpSoft opacity-0"
              style={{ animationDelay: '300ms', animationFillMode: 'forwards' }}>
             Stop juggling cards. Ventus Card gives you 5x on every purchase that fits your holistic lifestyle automatically and intelligently.
           </p>
           
           {/* How It Works - 3 Column Grid - Horizontal on mobile */}
-          <div className="flex flex-col md:grid md:grid-cols-3 gap-2 md:gap-5 mb-4 md:mb-6 lg:mb-8 max-w-4xl mx-auto px-2 md:px-0">
+          <div className="flex flex-col md:grid md:grid-cols-3 gap-3 md:gap-6 mb-6 md:mb-10 lg:mb-12 max-w-4xl mx-auto px-2 md:px-0">
             <div className="flex flex-row md:flex-col items-center md:text-center gap-3 md:gap-0 p-3 md:p-5 glass-transition-card rounded-xl animate-fadeUpSoft opacity-0"
                  style={{ animationDelay: '450ms', animationFillMode: 'forwards' }}>
               <div className="w-8 h-8 md:w-12 md:h-12 rounded-full bg-primary/10 flex items-center justify-center md:mb-3 flex-shrink-0">
