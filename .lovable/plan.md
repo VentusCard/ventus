@@ -1,27 +1,18 @@
 
 
-## Make Pillars Display as 3x2 Grid on Mobile
+## Change Pillar Grid to 2x3 on Mobile
 
-**Problem:** The 6 lifestyle goal pillars currently stack into a single column on mobile (`grid-cols-1`), requiring excessive scrolling. The user wants them displayed as a 3-column, 2-row grid on all screen sizes.
+**Goal:** Switch the 6 lifestyle pillars from the current 3-column layout to a 2-column, 3-row grid on mobile. This gives each card more horizontal space to display descriptions and details.
 
-**Fix (single file: `src/components/onboarding-flow/StepOneMerged.tsx`, line 237):**
+**Changes (single file: `src/components/onboarding-flow/StepOneMerged.tsx`):**
 
-Change the grid class from:
-```
-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3
-```
-to:
-```
-grid grid-cols-3
-```
+1. **Grid class** (line 237): Change `grid-cols-3` to `grid-cols-2 md:grid-cols-3` -- 2 columns on mobile, 3 on tablet+
+2. **Restore description visibility**: Remove the `hidden md:block` from the description paragraph so it shows on mobile again (since cards now have enough width)
+3. **Slightly increase mobile text sizes** back up since cards are wider:
+   - Icons: `text-2xl` -> `text-3xl`
+   - Titles: `text-xs` -> `text-sm`
+   - Description: restore with `text-[10px]` on mobile
+   - Badges: keep current compact sizing
 
-This makes all 6 pillars render in a consistent 3x2 layout across all breakpoints.
+All changes are CSS class tweaks in one file.
 
-**Additional adjustments needed on the same line/cards to ensure the smaller mobile cards look good:**
-
-- Reduce gap on mobile: `gap-1.5 md:gap-3 lg:gap-4`
-- Reduce card min-height for mobile: change `min-h-[220px]` to `min-h-[140px]` (line 259)
-- Reduce card padding on mobile: adjust `p-5` to `p-2 md:p-5` (line 260 area)
-- Scale down text sizes inside cards for mobile so labels and icons fit in the narrower cells
-
-All changes are in one file (`StepOneMerged.tsx`) and are purely CSS class adjustments.
