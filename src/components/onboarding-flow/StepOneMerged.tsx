@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { LifestyleGoal } from "@/pages/OnboardingFlow";
 import { Check } from "lucide-react";
 import { useRef, useEffect } from "react";
+import { smoothScrollTo } from "@/utils/smoothScroll";
 interface StepOneMergedProps {
   selectedGoal: LifestyleGoal | null;
   selectedSubcategories: string[];
@@ -203,41 +204,14 @@ const StepOneMerged = ({
   const subcategorySectionRef = useRef<HTMLDivElement>(null);
   const hasScrolledRef = useRef<LifestyleGoal | null>(null);
 
-  // Custom slow scroll function
-  const slowScrollTo = (element: HTMLElement) => {
-    const startPosition = window.pageYOffset;
-    const targetPosition = element.getBoundingClientRect().top + window.pageYOffset - 20; // 20px offset from top
-    const distance = targetPosition - startPosition;
-    const duration = 1200; // 1.2 seconds for slower scroll
-    let start: number | null = null;
-
-    const animation = (currentTime: number) => {
-      if (start === null) start = currentTime;
-      const timeElapsed = currentTime - start;
-      const progress = Math.min(timeElapsed / duration, 1);
-      
-      // Easing function for smoother animation
-      const ease = 1 - Math.pow(1 - progress, 3); // Ease-out cubic
-      
-      window.scrollTo(0, startPosition + (distance * ease));
-      
-      if (timeElapsed < duration) {
-        requestAnimationFrame(animation);
-      }
-    };
-
-    requestAnimationFrame(animation);
-  };
-
   // Auto-scroll to subcategory section when goal is selected (only once per goal)
   useEffect(() => {
     if (selectedGoal && subcategorySectionRef.current) {
-      // Only scroll if this is a new goal selection or first time selecting this goal
       if (hasScrolledRef.current !== selectedGoal) {
         hasScrolledRef.current = selectedGoal;
         setTimeout(() => {
-          slowScrollTo(subcategorySectionRef.current!);
-        }, 150);
+          smoothScrollTo(subcategorySectionRef.current!, { duration: 500 });
+        }, 100);
       }
     }
   }, [selectedGoal]);
