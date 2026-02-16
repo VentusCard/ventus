@@ -234,7 +234,7 @@ const StepOneMerged = ({
       <h2 className="font-display text-base md:text-lg lg:text-2xl font-bold mb-2 md:mb-3">What would you like your Ventus Card to reward you on?</h2>
       <p className="text-sm md:text-base text-slate-600 mb-4 md:mb-6">Select one category to earn personalized smart rewards from Ventus.</p>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 md:gap-3 lg:gap-4 mb-4 md:mb-6 items-stretch">
+      <div className="grid grid-cols-3 gap-1.5 md:gap-3 lg:gap-4 mb-4 md:mb-6 items-stretch">
         {goalOptions.map(option => {
         const isYearOne = yearOneGoals.includes(option.id);
         const getCardStyles = () => {
@@ -256,8 +256,8 @@ const StepOneMerged = ({
           const selectedStyles = selectedGoal === option.id ? 'ring-2 ring-slate-400 scale-105 shadow-slate-500/20 shadow-2xl' : 'shadow-lg';
           return `${baseStyles} ${hoverStyles} ${selectedStyles} cursor-pointer hover:scale-110 hover:shadow-2xl`;
         };
-        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[220px] md:min-h-[260px] lg:min-h-[280px] h-full ${getCardStyles()}`} onClick={() => onSelectGoal(option.id)}>
-              <CardContent className={`p-5 h-full flex flex-col bg-gradient-to-br rounded-lg ${
+        return <Card key={option.id} className={`backdrop-blur-sm transition-all duration-300 min-h-[140px] md:min-h-[260px] lg:min-h-[280px] h-full ${getCardStyles()}`} onClick={() => onSelectGoal(option.id)}>
+               <CardContent className={`p-2 md:p-5 h-full flex flex-col bg-gradient-to-br rounded-lg ${
                 option.id === 'sports' 
                   ? 'from-blue-500/60 to-blue-600/60' 
                   : (option.id === 'wellness' || option.id === 'pets')
@@ -268,16 +268,16 @@ const StepOneMerged = ({
               }`}>
                 <div className="text-center flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="text-4xl md:text-5xl mb-4 mt-2 transform transition-transform duration-300" style={{textShadow: 'none', WebkitTextStroke: '0', WebkitFontSmoothing: 'antialiased', fontVariantEmoji: 'normal'}}>{option.icon}</div>
-                     <h3 className="font-display text-base md:text-xl font-bold mb-3 text-white">
+                    <div className="text-2xl md:text-5xl mb-1 md:mb-4 mt-1 md:mt-2 transform transition-transform duration-300" style={{textShadow: 'none', WebkitTextStroke: '0', WebkitFontSmoothing: 'antialiased', fontVariantEmoji: 'normal'}}>{option.icon}</div>
+                     <h3 className="font-display text-xs md:text-xl font-bold mb-1 md:mb-3 text-white">
                         {option.title}
                       </h3>
-                      <p className="mb-4 text-xs md:text-base text-white/70">
+                      <p className="mb-1 md:mb-4 text-[10px] md:text-base text-white/70 hidden md:block">
                         {option.description}
                       </p>
                   </div>
                   <div className="mt-auto">
-                    <span className={`inline-block px-3 py-1 rounded-full text-xs font-medium ${option.year === "Available First" ? "bg-green-500/20 text-green-400" : option.year === "Available Soon" ? "bg-blue-500/20 text-blue-400" : "bg-slate-500/20 text-slate-400"}`}>
+                    <span className={`inline-block px-1.5 md:px-3 py-0.5 md:py-1 rounded-full text-[9px] md:text-xs font-medium ${option.year === "Available First" ? "bg-green-500/20 text-green-400" : option.year === "Available Soon" ? "bg-blue-500/20 text-blue-400" : "bg-slate-500/20 text-slate-400"}`}>
                       {option.availability}
                     </span>
                   </div>
