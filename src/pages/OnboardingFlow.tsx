@@ -4,6 +4,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, CheckCircle2, Target, Brain, Gift } from "lucide-react";
+import { smoothScrollTo } from "@/utils/smoothScroll";
 import StepOneMerged from "@/components/onboarding-flow/StepOneMerged";
 import StepTwoMerged from "@/components/onboarding-flow/StepTwoMerged";
 import StepFourSpendingInput from "@/components/onboarding-flow/StepFourSpendingInput";
@@ -47,9 +48,10 @@ const OnboardingFlow = () => {
       navigate("/ventus-ai");
     } else {
       setStep(prev => prev + 1);
-      document.getElementById('onboarding-content')?.scrollIntoView({
-        behavior: 'smooth'
-      });
+      setTimeout(() => {
+        const target = document.getElementById('onboarding-step-content');
+        if (target) smoothScrollTo(target);
+      }, 50);
     }
   };
   const handleCompleteOnboarding = async () => {
@@ -98,9 +100,10 @@ const OnboardingFlow = () => {
   };
   const goToPreviousStep = () => {
     setStep(prev => Math.max(prev - 1, 1));
-    document.getElementById('onboarding-content')?.scrollIntoView({
-      behavior: 'smooth'
-    });
+    setTimeout(() => {
+      const target = document.getElementById('onboarding-step-content');
+      if (target) smoothScrollTo(target);
+    }, 50);
   };
   const updateOnboardingData = (data: Partial<OnboardingFlowData>) => {
     setOnboardingData(prev => ({
@@ -217,26 +220,8 @@ const OnboardingFlow = () => {
           <div className="flex justify-center animate-fadeUpSoft opacity-0"
                style={{ animationDelay: '900ms', animationFillMode: 'forwards' }}>
             <Button size="default" className="px-6 py-4 md:px-8 md:py-6 text-base md:text-lg" onClick={() => {
-              const target = document.getElementById('onboarding-content');
-              if (target) {
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset;
-                const startPosition = window.pageYOffset;
-                const distance = targetPosition - startPosition;
-                const duration = 800;
-                let start: number | null = null;
-                
-                const easeInOutCubic = (t: number) => t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-                
-                const animation = (currentTime: number) => {
-                  if (start === null) start = currentTime;
-                  const timeElapsed = currentTime - start;
-                  const progress = Math.min(timeElapsed / duration, 1);
-                  window.scrollTo(0, startPosition + distance * easeInOutCubic(progress));
-                  if (timeElapsed < duration) requestAnimationFrame(animation);
-                };
-                
-                requestAnimationFrame(animation);
-              }
+              const target = document.getElementById('onboarding-step-content');
+              if (target) smoothScrollTo(target);
             }}>
               See How It Works
             </Button>
