@@ -234,7 +234,7 @@ const StepOneMerged = ({
       <h2 className="font-display text-base md:text-lg lg:text-2xl font-bold mb-2 md:mb-3">What would you like your Ventus Card to reward you on?</h2>
       <p className="text-sm md:text-base text-slate-600 mb-4 md:mb-6">Select one category to earn personalized smart rewards from Ventus.</p>
       
-      <div className="grid grid-cols-3 gap-1.5 md:gap-3 lg:gap-4 mb-4 md:mb-6 items-stretch">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-1.5 md:gap-3 lg:gap-4 mb-4 md:mb-6 items-stretch">
         {goalOptions.map(option => {
         const isYearOne = yearOneGoals.includes(option.id);
         const getCardStyles = () => {
@@ -268,11 +268,11 @@ const StepOneMerged = ({
               }`}>
                 <div className="text-center flex-1 flex flex-col justify-between">
                   <div>
-                    <div className="text-2xl md:text-5xl mb-1 md:mb-4 mt-1 md:mt-2 transform transition-transform duration-300" style={{textShadow: 'none', WebkitTextStroke: '0', WebkitFontSmoothing: 'antialiased', fontVariantEmoji: 'normal'}}>{option.icon}</div>
-                     <h3 className="font-display text-xs md:text-xl font-bold mb-1 md:mb-3 text-white">
+                    <div className="text-3xl md:text-5xl mb-1 md:mb-4 mt-1 md:mt-2 transform transition-transform duration-300" style={{textShadow: 'none', WebkitTextStroke: '0', WebkitFontSmoothing: 'antialiased', fontVariantEmoji: 'normal'}}>{option.icon}</div>
+                     <h3 className="font-display text-sm md:text-xl font-bold mb-1 md:mb-3 text-white">
                         {option.title}
                       </h3>
-                      <p className="mb-1 md:mb-4 text-[10px] md:text-base text-white/70 hidden md:block">
+                      <p className="mb-1 md:mb-4 text-[10px] md:text-base text-white/70">
                         {option.description}
                       </p>
                   </div>
