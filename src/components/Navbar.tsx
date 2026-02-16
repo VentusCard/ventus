@@ -163,7 +163,7 @@ const Navbar = () => {
         <div className="md:hidden flex items-center justify-end pr-2">
           <button
             onClick={toggleMobileMenu}
-            className="text-white/90 hover:text-white flex items-center justify-end w-16 h-12 pr-2 transition-colors duration-300 z-50 relative"
+            className={`${isMobileMenuOpen ? 'text-white' : 'text-white/90 hover:text-white'} flex items-center justify-end w-16 h-12 pr-2 transition-colors duration-300 z-50 relative`}
             aria-label="Toggle mobile menu"
             type="button"
           >
@@ -203,7 +203,7 @@ const Navbar = () => {
       </div>
       
       {/* Mobile Menu Overlay */}
-      <div className={`md:hidden absolute top-full left-0 right-0 bg-background/98 backdrop-blur-lg border-b border-border/50 transition-all duration-300 ease-in-out ${
+      <div className={`md:hidden absolute top-full left-0 right-0 z-40 bg-background backdrop-blur-lg border-b border-border/50 transition-all duration-300 ease-in-out ${
         isMobileMenuOpen 
           ? 'opacity-100 visible translate-y-0' 
           : 'opacity-0 invisible -translate-y-2'
